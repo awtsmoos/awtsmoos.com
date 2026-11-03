@@ -20,6 +20,7 @@ import {
 import { makeHTMLFromComment } from "/heichelos/post/comments/render/core.js";
 import { registerFork } from "/heichelos/post/comments/render/ai/structure.js";
 import { initAuthorFilter, isAuthorHidden } from "./authorFilter.js";
+import { routeSeriesId } from "./commentSection/payload.js";
 
 // STATE
 var activeVerse = null;
@@ -98,26 +99,40 @@ async function getCommentatorList() {
     const vs = activeVerse ?? "root";
     try {
         const res = await getCommentsByAlias({
-            seriesId: window.post.parentSeriesId,
+            seriesId: routeSeriesId(),
             postId: window.post.id,
             heichelId: window.post.heichel.id,
             fromCache: false,
             get: { verseSection: vs, map: true }
         });
         return Array.isArray(res) ? res :[];
-    } catch(e) { return[]; }
+    } catch(e) {
+        // A failed load is not an empty thread. Returning [] here used to
+        // render "No insights manifest here yet." over live comments.
+        console.warn("B\"H commentator list could not load.", e);
+        return null;
+    }
 }
 
 export async function makeCommentatorList(parentEl, rootTabObj) {
+    // Fetch BEFORE clearing the panel: a failed refresh must never wipe a
+    // thread that is already on screen and replace it with an empty state.
+    const aliases = await getCommentatorList();
+    if (aliases === null) {
+        if (parentEl.querySelector(".comment-content, .awtsmoos-insight-list-wrap, [data-cid]")) {
+            return;
+        }
+        parentEl.innerHTML = `<div class="awtsmoos-empty-placeholder">Comments could not be loaded. Please try again.</div>`;
+        return;
+    }
     parentEl.innerHTML = "";
-    
+
     // 1. Transcription Portal
     const writingWrap = document.createElement("div");
     parentEl.appendChild(writingWrap);
     new CommentSection(writingWrap);
 
     // 2. Author Filter Panel (NEW - with clickable profiles and toggles)
-    const aliases = await getCommentatorList();
     if (aliases.length === 0) {
         parentEl.innerHTML += `<div class="awtsmoos-empty-placeholder">No insights manifest here yet.</div>`;
         return;

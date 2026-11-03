@@ -57,3 +57,39 @@ export function renderCommunityRetry(container, retry) {
 	state.append(message, button);
 	container.append(state);
 }
+
+/**
+ * Appends a compact retry banner WITHOUT clearing the container. For a
+ * failed REFRESH over an already-rendered thread: the visible comments
+ * stay on screen and the failure is a small banner, never a blank panel.
+ * @param {HTMLElement} container Panel content container.
+ * @param {Function} retry Async retry callback.
+ */
+export function renderCommunityRetryBanner(container, retry) {
+	if (!container) {
+		return;
+	}
+	if (container.querySelector('.awtsmoos-community-error-banner')) {
+		return;
+	}
+	const banner = document.createElement('div');
+	banner.className = 'awtsmoos-community-error-banner';
+	banner.setAttribute('role', 'alert');
+	const message = document.createElement('span');
+	message.textContent = 'Couldn\u2019t refresh comments.';
+	const button = document.createElement('button');
+	button.type = 'button';
+	button.className = 'awtsmoos-community-retry';
+	button.textContent = 'Retry';
+	button.addEventListener('click', async () => {
+		button.disabled = true;
+		try {
+			await retry();
+			banner.remove();
+		} catch {
+			button.disabled = false;
+		}
+	});
+	banner.append(message, button);
+	container.prepend(banner);
+}

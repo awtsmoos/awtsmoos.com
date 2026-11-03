@@ -119,6 +119,38 @@ export async function loadThreadHistory(threadId, page = 1) {
     }
 }
 
+/**
+ * Marks every loaded incoming message of one thread as read on the
+ * server and clears the thread's unread flag locally, so opening a
+ * conversation is what makes its unread state go away. Failures are
+ * logged and swallowed: a read-receipt problem must never block the
+ * conversation itself from opening.
+ */
+export async function markThreadRead(threadId) {
+    if (!state.alias || !threadId) return 0;
+    const messages = state.threads[threadId] || [];
+    let marked = 0;
+    for (const message of messages) {
+        const id = message.id || message.uid;
+        if (!id || message.direction === 'outgoing' || message.read === true || message.isRead === true) continue;
+        try {
+            await jsonFetch(`${API_BASE}/get/${encodeURIComponent(id)}/read?aliasId=${encodeURIComponent(state.alias)}`);
+            message.read = true;
+            marked++;
+        } catch (error) {
+            console.error('Mail mark-read failed:', error);
+        }
+    }
+    const snippet = state.snippets.find(entry => entry.correspondent === threadId);
+    if (snippet && (snippet.unread || snippet.isUnread || snippet.read === false)) {
+        snippet.unread = false;
+        snippet.isUnread = false;
+        snippet.read = true;
+        notify('snippets', state.snippets);
+    }
+    return marked;
+}
+
 export async function sendMessageApi(recipient, subject, content) {
     if (!state.alias) throw new Error('Choose an alias before sending.');
     if (!String(content || '').trim()) throw new Error('Message body is empty.');

@@ -30,7 +30,11 @@ function refreshVerifiedComplement(allocator) {
 	const previousVersion = allocator._freeListVersion || 0;
 	const previousCursor = allocator.cursor;
 	const available = allocationLeases.subtract(report.free || [], allocator._allocationLeases);
-	allocator.freeList = adoptComplement(coalesceFreeRanges(available, allocator.cursor), allocator.cursor);
+	// Db-phase2: the fresh complement subsumes both provenance pools;
+	// adoption drops (dust/overflow) are deposited into the deferred
+	// spill by adoptComplement instead of being dropped permanently.
+	allocator.clearDerivedPools();
+	allocator.freeList = adoptComplement(coalesceFreeRanges(available, allocator.cursor), allocator.cursor, allocator);
 	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);
@@ -49,18 +53,35 @@ function refreshVerifiedComplement(allocator) {
  * Shapes a coalesced complement for adoption (E7): sub-64 B dust is
  * dropped, the cursor-touching range is always kept (tail truncation),
  * and beyond MAX_ADOPTED_RANGES the smallest ranges are dropped.
+ * Db-phase2: when `sink` (an allocator) is given, dropped ranges are
+ * DEPOSITED into its deferred spill (rangeTrust.js) with their drop
+ * kind instead of being dropped permanently — their freedom was proven
+ * by the verify that produced this complement, so they stay available
+ * for later validated reuse and are counted in free-space telemetry.
  * @param {Array<object>} coalesced - Sorted coalesced complement.
  * @param {number} cursor - Allocator cursor at adoption time.
+ * @param {object} [sink] - Allocator receiving deferred drops.
  * @returns {Array<object>} Sorted ranges ready to become the free list.
  */
-function adoptComplement(coalesced, cursor) {
-	const usable = coalesced.filter(range => range.length >= MIN_REUSE_RANGE
-		|| range.offset + range.length === cursor);
+function adoptComplement(coalesced, cursor, sink) {
+	const usable = [];
+	for (const range of coalesced) {
+		if (range.length >= MIN_REUSE_RANGE || range.offset + range.length === cursor) {
+			usable.push(range);
+		} else if (sink) {
+			sink.depositDeferredRange(range, 'dust');
+		}
+	}
 	if (usable.length <= MAX_ADOPTED_RANGES) return usable;
 	const bySize = [...usable].sort((a, b) => b.length - a.length);
 	const keep = new Set(bySize.slice(0, MAX_ADOPTED_RANGES - 1).map(range => range.offset));
 	if (usable.length) keep.add(usable[usable.length - 1].offset);
-	return usable.filter(range => keep.has(range.offset));
+	const adopted = [];
+	for (const range of usable) {
+		if (keep.has(range.offset)) adopted.push(range);
+		else if (sink) sink.depositDeferredRange(range, 'overflow');
+	}
+	return adopted;
 }
 function shouldRefresh(allocator) {
 	const database = allocator.db;

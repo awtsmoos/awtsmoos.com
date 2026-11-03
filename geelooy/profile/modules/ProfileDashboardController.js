@@ -9,6 +9,7 @@
  */
 import { announceProfile, one, setStat } from './dom.js';
 import { getAliasDetails, getDefaultAlias } from './api.js';
+import { listFollowers } from '/scripts/awtsmoos/social/profile/api.js';
 import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
 import { renderProfilePosts, loadPostsForAlias } from './posts.js';
@@ -19,6 +20,16 @@ import { renderHeichelos } from './heichelos.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
 import { bindTabs } from './tabs.js';
 import { setAliases, state } from './state.js';
+
+/**
+ * The shell session's alias, or "" when the shell has no signed-in
+ * session. Placeholder visitor values do not count as a session.
+ */
+function shellSessionAlias() {
+	const value = String(window.curAlias || '').trim();
+	if (!value) return '';
+	return ['seeker', 'anonymous', 'guest'].includes(value.toLowerCase()) ? '' : value;
+}
 
 /** Tab keys with lazy content loaders. Loaded once per tab via the tabs module. */
 const TAB_LOADERS = {
@@ -93,15 +104,34 @@ export class ProfileDashboardController {
 			}
 		};
 		try {
-			const [posts, comments, series] = await Promise.all([
+			const [posts, comments, series, followers] = await Promise.all([
 				countAll(loadPostsForAlias),
 				countAll(loadCommentsForAlias),
-				countAll(loadSeriesForAlias)
+				countAll(loadSeriesForAlias),
+				this.countFollowers(aliases)
 			]);
 			if (posts != null) setStat('posts', String(posts));
 			if (comments != null) setStat('comments', String(comments));
 			if (series != null) setStat('series', String(series));
+			if (followers != null) setStat('followers', String(followers));
 		} catch { /* stats are best-effort; tabs set them on load too */ }
+	}
+
+	/**
+	 * Counts followers across every alias from the same follow store the
+	 * rest of the site reads. Returns null when the read fails so the
+	 * stat keeps its previous value instead of inventing a number.
+	 */
+	async countFollowers(aliases) {
+		try {
+			const lists = await Promise.all(aliases.map(async (alias) => {
+				const followers = await listFollowers('alias', alias.id);
+				return Array.isArray(followers) ? followers.length : 0;
+			}));
+			return lists.reduce((sum, n) => sum + n, 0);
+		} catch {
+			return null;
+		}
 	}
 
 	/** Fills the hero with the default alias identity (name, handle, avatar letter). */
@@ -146,7 +176,13 @@ export class ProfileDashboardController {
 
 	renderFailure(error) {
 		const message = error.message || 'Could not load profile.';
-		if (/not logged in|sign in/i.test(message)) {
+		// The page header's session comes from the shell's single alias
+		// source (window.curAlias). A load failure whose text merely
+		// mentions signing in must not flip this page to the signed-out
+		// card while that source still shows a signed-in alias — only a
+		// genuinely session-less visit gets the sign-in card; a signed-in
+		// visitor gets the honest error instead.
+		if (/not logged in|sign in/i.test(message) && !shellSessionAlias()) {
 			this.showSignedOut();
 			return;
 		}

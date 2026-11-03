@@ -28,13 +28,16 @@ function textFromAny(value) {
 	}
 	const extracted = extractCommentText(value);
 	const parts = [extracted.title, ...extracted.paragraphs].filter(Boolean);
-	return parts.length ? parts.join("\n") : JSON.stringify(value);
+	// No raw-record dump: stringifying the whole comment is how internal
+	// ids surfaced as if they were the comment's text.
+	return parts.join("\n");
 }
 
 /** Returns copy-ready text from any supported comment/source record shape. */
 export function copyTextOf(comment) {
 	const dayuh = parseDayuh(comment?.dayuh);
 	return textFromAny(comment?.content)
+		|| textFromAny(comment?.sections)
 		|| textFromAny(dayuh.content)
 		|| textFromAny(dayuh.sections)
 		|| textFromAny(comment);

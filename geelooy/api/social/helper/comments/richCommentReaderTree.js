@@ -8,6 +8,7 @@
 
 const paths = require('./richCommentPaths.js');
 const access = require('./richCommentAccess.js');
+const { storedCount } = require('./richCommentCount.js');
 
 	const { array, integer, context, expandReplies } = require("./richCommentReaderCore.js");
 
@@ -42,7 +43,7 @@ async function getTree({ $i, heichelId, postId, verseSection = '', subsectionId 
 			if (out.length >= limit) { hasMore = cursor + 1 < source.ids.length; break; }
 		}
 	}
-	return { success: out, meta: { index: source.index, candidateIds: source.ids.length, returnedRootComments: out.length, offset, limit, hasMore, maxDepth, replyLimit, ...stats } };
+	return { success: out, meta: { index: source.index, candidateIds: source.ids.length, returnedRootComments: out.length, offset, limit, hasMore, maxDepth, replyLimit, commentCount: storedCount({ $i, heichelId, postId }), ...stats } };
 }
 
 async function getReplies({ $i, heichelId, postId, commentId, includeDeleted = false, offset = 0, limit = 50, maxDepth = 5, replyLimit = 50 }) {

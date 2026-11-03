@@ -10,11 +10,30 @@ import {
 	coordinateToDayuh
 } from "/heichelos/post/comments/state/commentCoordinate.js";
 
+/**
+ * Resolves the series this post is actually being read under. The URL route
+ * is authoritative: pages can render a post whose `window.post.parentSeriesId`
+ * is stale or defaulted (a public post read outside its series used to store
+ * its comments with seriesId "root" even when the series was "simulation").
+ * Falls back to the loaded post record, then to "root".
+ */
+export function routeSeriesId() {
+	const match = String(location?.pathname || "").match(/\/series\/([^/]+)\//);
+	if (match) {
+		try {
+			return decodeURIComponent(match[1]);
+		} catch {
+			return match[1];
+		}
+	}
+	return window.post?.parentSeriesId || window.series?.id || "root";
+}
+
 export function currentCoordinate(owner) {
 	if (owner?.scopeMode === "root") {
 		return normalizeCommentCoordinate({
 			heichelId: window.post?.heichel?.id,
-			seriesId: window.post?.parentSeriesId,
+			seriesId: routeSeriesId(),
 			postId: window.post?.id,
 			parentType: "post",
 			parentId: window.post?.id,
@@ -25,7 +44,7 @@ export function currentCoordinate(owner) {
 	const params = new URLSearchParams(location.search);
 	return normalizeCommentCoordinate({
 		heichelId: window.post?.heichel?.id,
-		seriesId: window.post?.parentSeriesId,
+		seriesId: routeSeriesId(),
 		postId: window.post?.id,
 		parentType: "post",
 		parentId: window.post?.id,
@@ -63,13 +82,16 @@ export function buildSubmission({ activeAlias, content, coordinate, images, titl
 		dayuh,
 		body: new URLSearchParams({
 			aliasId: activeAlias,
-			seriesId: window.post?.parentSeriesId || "root",
+			seriesId: routeSeriesId(),
 			content,
 			verseSection: coordinate.verseSection ?? "root",
 			subsectionId: coordinate.subSection ?? coordinate.sub ?? "",
 			assets: JSON.stringify(assets),
 			sections: JSON.stringify(sections),
-			links: JSON.stringify(dayuh.links || [])
+			links: JSON.stringify(dayuh.links || []),
+			// The dayuh carries the authored title and coordinate; without
+			// this field they never reached the server and were lost.
+			dayuh: JSON.stringify(dayuh)
 		})
 	};
 }

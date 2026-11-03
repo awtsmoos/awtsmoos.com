@@ -9,7 +9,7 @@
  */
 
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
-import { openModal } from '../modal.js';
+import { openModal, openPostEdit } from '../modal.js';
 
 let currentMenuVessel = null;
 let currentTrigger = null;
@@ -74,8 +74,12 @@ function getMenuBlueprint(item, navigator) {
 }
 
 function openEditModal(editKind, item, navigator) {
+	if (item.type !== 'series') {
+		void openPostEdit(item, navigator);
+		return;
+	}
 	openModal(editKind, navigator, {
-		mode: item.type === 'series' ? 'edit' : 'create',
+		mode: 'edit',
 		seriesId: item.id,
 		inputId: item.id,
 		title: item.title || '',

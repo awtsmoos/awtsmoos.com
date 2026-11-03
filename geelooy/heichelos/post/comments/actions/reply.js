@@ -10,7 +10,7 @@
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { createWysiwygEditor } from "/heichelos/post/logic/wysiwyg.js";
-import { extractCommentText } from "../logic/unroller.js";
+import { routeSeriesId } from "../../commentSection/payload.js";
 
 function getActiveAlias() {
     const alias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";
@@ -26,25 +26,6 @@ function parseDayuh(dayuh) {
 
 function authorOf(comment) {
     return comment?.author || comment?.aliasId || comment?.owner || "unknown";
-}
-
-function textFromAny(value) {
-    if (!value) return "";
-    if (typeof value === "string") return value;
-    if (typeof value === "number" || typeof value === "boolean") return String(value);
-    if (Array.isArray(value)) return value.map(textFromAny).filter(Boolean).join("\n");
-    const extracted = extractCommentText(value);
-    const parts = [extracted.title, ...extracted.paragraphs].filter(Boolean);
-    return parts.length ? parts.join("\n") : JSON.stringify(value);
-}
-
-function commentText(comment) {
-    const dayuh = parseDayuh(comment?.dayuh);
-    return textFromAny(comment?.content) || textFromAny(dayuh.content) || textFromAny(dayuh.text) || textFromAny(dayuh.sections) || textFromAny(comment);
-}
-
-function snippetFor(comment) {
-    return commentText(comment).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 90) || "Media content";
 }
 
 function makeReplyHeader(originalComment, replyContainer) {
@@ -119,15 +100,17 @@ function dayuhForReply(originalComment, title, sections) {
     return dayuh;
 }
 
-async function refreshAfterReply({ activeAlias, dayuh, commentId, content }) {
+async function refreshAfterReply({ activeAlias, dayuh, commentId, content, skipThreadRefresh = false }) {
     const payload = {
         aliasId: activeAlias,
         verseSection: dayuh.verseSection,
         commentId,
         newCommentData: { id: commentId, author: activeAlias, content, dayuh }
     };
-    if (window.awtsmoosConductor?.handleNewComment) await window.awtsmoosConductor.handleNewComment(payload);
-    else if (window.commentLogic?.handleNewComment) await window.commentLogic.handleNewComment(payload);
+    if (!skipThreadRefresh) {
+        if (window.awtsmoosConductor?.handleNewComment) await window.awtsmoosConductor.handleNewComment(payload);
+        else if (window.commentLogic?.handleNewComment) await window.commentLogic.handleNewComment(payload);
+    }
     if (window.refreshSidebarComments) await window.refreshSidebarComments();
     try {
         const inline = await import("/heichelos/post/comments/logic/inlineManifest.js");
@@ -136,19 +119,58 @@ async function refreshAfterReply({ activeAlias, dayuh, commentId, content }) {
     } catch (_) {}
 }
 
+const REPLY_TIMEOUT_MS = 45000;
+
 async function postReply({ activeAlias, content, dayuh }) {
-    const response = await fetch(`/api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/`, {
-        method: "POST",
-        body: new URLSearchParams({
-            aliasId: activeAlias,
-            seriesId: window.post.parentSeriesId,
-            content,
-            dayuh: JSON.stringify(dayuh)
-        })
-    });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), REPLY_TIMEOUT_MS);
+    let response;
+    try {
+        response = await fetch(`/api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/`, {
+            method: "POST",
+            body: new URLSearchParams({
+                aliasId: activeAlias,
+                // The series coordinate comes from the route the post is
+                // actually read under, not a window global default.
+                seriesId: routeSeriesId(),
+                content,
+                dayuh: JSON.stringify(dayuh)
+            }),
+            signal: controller.signal
+        });
+    } catch (error) {
+        if (error?.name === "AbortError") {
+            const timeout = new Error("The server took too long to answer. Your reply may still have posted — check the thread before reposting.");
+            timeout.code = "COMMENT_SUBMIT_TIMEOUT";
+            throw timeout;
+        }
+        throw error;
+    } finally {
+        clearTimeout(timer);
+    }
     const res = await response.json();
     if (!(res?.success || res?.status === "success" || res?.ok)) throw new Error(res?.error?.message || res?.error || "Unknown Server Error");
     return res.details?.id || res.success?.id || res.id || res.postId || res.commentId;
+}
+
+function showReplyError(replyContainer, error) {
+    let line = replyContainer.querySelector(".awtsmoos-reply-error");
+    if (!line) {
+        line = document.createElement("div");
+        line.className = "awtsmoos-reply-error";
+        line.setAttribute("role", "alert");
+        replyContainer.appendChild(line);
+    }
+    line.textContent = String(error?.message || error || "Reply failed.");
+    line.hidden = false;
+}
+
+function hideReplyError(replyContainer) {
+    const line = replyContainer.querySelector(".awtsmoos-reply-error");
+    if (line) {
+        line.hidden = true;
+        line.textContent = "";
+    }
 }
 
 export function handleReply(originalComment, containerElement) {
@@ -170,25 +192,65 @@ export function handleReply(originalComment, containerElement) {
 
     replyContainer.append(makeReplyHeader(originalComment, replyContainer), titleInput, editorWrapper, sectionWrap, submitBtn);
     submitBtn.onclick = async () => {
-        const html = sourceArea?.style.display !== "none" ? sourceArea.value : contentArea.innerHTML;
-        const text = contentArea.innerText.trim() || String(sourceArea?.value || "").replace(/<[^>]*>/g, "").trim();
-        const title = titleInput.value.trim();
-        const sections = sectionValues(sectionList);
-        if (!text && !title && !sections.length && !contentArea.querySelector("img")) return;
+        if (submitBtn.disabled) return;
+        // Gather everything BEFORE disabling anything: reading the editor
+        // after the button was disabled used to be able to throw and leave
+        // the composer wedged in its disabled state with no error shown.
+        let html, text, title, sections;
+        try {
+            html = sourceArea?.style.display !== "none" ? sourceArea.value : contentArea.innerHTML;
+            text = contentArea.innerText.trim() || String(sourceArea?.value || "").replace(/<[^>]*>/g, "").trim();
+            title = titleInput.value.trim();
+            sections = sectionValues(sectionList);
+        } catch (error) {
+            showReplyError(replyContainer, error);
+            return;
+        }
+        if (!text && !title && !sections.length && !contentArea.querySelector("img")) {
+            showReplyError(replyContainer, new Error("Write a reply first — nothing was sent."));
+            return;
+        }
+        // The stored body is the author's own text, nothing else. The reply
+        // relationship travels in dayuh.replyToId; the old code prepended a
+        // markdown quote + parent snippet INTO the stored content, which is
+        // how replies ended up displaying as raw internal markup.
+        const dayuh = dayuhForReply(originalComment, title, sections);
+        hideReplyError(replyContainer);
         submitBtn.disabled = true;
         submitBtn.innerText = "Transmitting...";
-        const dayuh = dayuhForReply(originalComment, title, sections);
-        const quote = `> [Reply to @${authorOf(originalComment)}](#comment-${originalComment.id}): ${snippetFor(originalComment)}...`;
-        const replyContent = `${quote}\n\n${html}`;
         try {
-            const commentId = await postReply({ activeAlias, content: replyContent, dayuh });
+            const commentId = await postReply({ activeAlias, content: html, dayuh });
+            // Show the new reply in place when possible instead of
+            // depending on a full thread refetch surviving a slow server.
+            let inserted = false;
+            try {
+                const { createCommentCard } = await import("/heichelos/post/social/CommentCard.js");
+                const card = await createCommentCard({
+                    id: commentId,
+                    author: activeAlias,
+                    aliasId: activeAlias,
+                    content: html,
+                    dayuh,
+                    createdAt: Date.now(),
+                    replies: []
+                });
+                if (card) {
+                    containerElement.appendChild(card);
+                    inserted = true;
+                }
+            } catch (_) {}
             replyContainer.remove();
-            await refreshAfterReply({ activeAlias, dayuh, commentId, content: replyContent });
+            await refreshAfterReply({ activeAlias, dayuh, commentId, content: html, skipThreadRefresh: inserted });
         } catch (error) {
             console.error("B\"H - Reply Error:", error);
-            alert("Failed: " + error.message);
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Transmit Reply";
+            showReplyError(replyContainer, error);
+        } finally {
+            // The composer (and its drafted text) survives failures; the
+            // button always returns to a usable state.
+            if (submitBtn.isConnected) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Transmit Reply";
+            }
         }
     };
 

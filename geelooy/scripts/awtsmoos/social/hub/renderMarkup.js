@@ -44,7 +44,14 @@ function inputSectionMarkup() {
 }
 
 function railMarkup() {
-	const tabs = panelTabs.map(tabMarkup).join("");
+	// The Developer chamber inspects contracts and route health; it is
+	// not offered to signed-out visitors. Signed-in accounts keep it
+	// exactly as before. (state.alias is the shell session alias —
+	// empty when signed out.)
+	const tabs = panelTabs
+		.filter(([key]) => key !== "developer" || Boolean(state.alias))
+		.map(tabMarkup)
+		.join("");
 	return `<aside class="hub-rail">
 		<div class="hub-rail-head"><div class="hub-seal">B"H</div><div class="hub-rail-copy"><h1>Social Observatory</h1><p>Explore widely. Act deliberately.</p></div></div>
 		<nav class="hub-rail-tabs" aria-label="Social sections">${tabs}</nav>

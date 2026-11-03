@@ -96,7 +96,12 @@ async function publicFeedAliasIds({ $i, query = {}, now = Date.now() }) {
 		pageSize: MAX_FEED_ALIASES,
 		requestedPage,
 		bucket: utcHourBucket(now),
-		loadPage: (page, pageSize) => publicAliasIds({ $i, page, pageSize })
+		// Feed windows walk aliases most-recently-modified first, so the
+		// rotating window starts from the site's living edge instead of
+		// an alphabetical slice whose newest activity can be weeks old.
+		// (People browsing keeps its own alphabetical order; only the
+		// feed's alias selection is recency-ordered.)
+		loadPage: (page, pageSize) => publicAliasIds({ $i, page, pageSize, sortBy: 'modifiedBy', order: 'desc' })
 	});
 }
 

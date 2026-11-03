@@ -11,7 +11,7 @@ import { createButtons, setSubmitText } from "./commentSection/actions.js";
 import { clearEditor, getEditorHtml } from "./commentSection/editorValue.js";
 import { createEditorInterface, createInitialButton } from "./commentSection/editorUi.js";
 import { createImageUploadControls, updateGallery } from "./commentSection/media.js";
-import { showSubmitError, submitComment } from "./commentSection/submit.js";
+import { submitComment } from "./commentSection/submit.js";
 
 export class CommentSection {
     imgResults = [];
@@ -33,6 +33,11 @@ export class CommentSection {
         createEditorInterface(this);
         createImageUploadControls(this);
         createButtons(this);
+        this.errorLine = document.createElement("div");
+        this.errorLine.className = "awtsmoos-comment-error";
+        this.errorLine.setAttribute("role", "alert");
+        this.errorLine.hidden = true;
+        this.addCommentArea.appendChild(this.errorLine);
         this.closeEditorSurface();
         if (this.options.autoReveal && window.curAlias) this.revealEditor();
     }
@@ -49,7 +54,7 @@ export class CommentSection {
     /** Hides all non-button fields before the user opens the altar. */
     closeEditorSurface() {
         this.addCommentArea.classList.remove("is-editor-open");
-        [this.scopeRow, this.titleInput, this.editorWrapper, this.sectionList, this.addSectionBtn, this.mediaTrigger, this.galleryContainer, this.buttonContainer]
+        [this.scopeRow, this.titleInput, this.editorWrapper, this.sectionList, this.addSectionBtn, this.mediaTrigger, this.galleryContainer, this.buttonContainer, this.errorLine]
             .filter(Boolean)
             .forEach(node => { node.hidden = true; });
         if (this.btn) this.btn.hidden = false;
@@ -81,10 +86,27 @@ export class CommentSection {
         this.closeEditorSurface();
     }
 
+    /** Shows an error inside the composer; the drafted text is never cleared on failure. */
+    showError(message) {
+        if (!this.errorLine) return;
+        this.errorLine.textContent = String(message?.message || message || "Something went wrong.");
+        this.errorLine.hidden = false;
+    }
+
+    /** Clears the inline composer error. */
+    hideError() {
+        if (!this.errorLine) return;
+        this.errorLine.textContent = "";
+        this.errorLine.hidden = true;
+    }
+
     /** Sends the current comment to the Heichel API. */
     async submitComment() {
+        if (this.isSubmitting) return;
         let content = getEditorHtml(this.commentBox);
         if (this.sourceArea && this.sourceArea.style.display !== "none") content = this.sourceArea.value;
+        this.hideError();
+        this.isSubmitting = true;
         setSubmitText(this.submitBtn, "...Transmitting...");
         this.submitBtn.disabled = true;
         try {
@@ -92,10 +114,16 @@ export class CommentSection {
             this.resetForm();
         } catch (error) {
             console.error("B\"H - Transmission failed:", error);
-            await showSubmitError(error);
+            // The error surfaces in the composer itself. Awaiting a modal
+            // prompt here used to be able to wedge the button in its
+            // disabled "Transmitting" state indefinitely.
+            this.showError(error);
         } finally {
+            // Whatever happened, the button always comes back; the draft
+            // text is preserved on failure so syncSubmitState re-enables it.
+            this.isSubmitting = false;
             setSubmitText(this.submitBtn, "Transmit");
-            this.submitBtn.disabled = false;
+            if (this.submitBtn) this.submitBtn.disabled = false;
             this.syncSubmitState();
         }
     }

@@ -26,23 +26,44 @@ export class QuickActions {
 				});
 			});
 		}
-		this.root.getElementById('openExactInteraction').addEventListener('click', () => {
-			location.hash = '#interact';
-		});
+		// The home panel is one of several surfaces; when it is not the
+		// mounted one this element legitimately does not exist, and an
+		// unguarded dereference aborts the whole initialization chain.
+		const interact = this.find('openExactInteraction');
+		if (interact) {
+			interact.addEventListener('click', () => {
+				location.hash = '#interact';
+			});
+		}
+	}
+
+	/** Resolves one element by id under the surface root, or null. */
+	find(id) {
+		if (typeof this.root.getElementById === 'function') {
+			return this.root.getElementById(id);
+		}
+		return this.root.querySelector(`#${id}`);
 	}
 
 	render(snapshot) {
-		const aliasId = encodeURIComponent(snapshot.identity.aliasId || '');
-		const target = snapshot.comment.target;
+		const aliasId = encodeURIComponent(snapshot?.identity?.aliasId || '');
+		// A snapshot without a comment section is normal (nothing is
+		// being commented on yet); it must not abort this render or
+		// every surface step scheduled after it.
+		const target = snapshot?.comment?.target || {};
 		const heichelId = encodeURIComponent(target.heichelId || '');
 		const seriesId = encodeURIComponent(target.seriesId || 'root');
-		this.root.getElementById('quickPost').href =
-			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}`;
-		this.root.getElementById('quickQuestion').href =
-			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}&kind=question`;
-		this.root.getElementById('quickReview').href =
-			`/heichel-review/?alias=${aliasId}&heichel=${heichelId}`;
-		this.root.getElementById('quickReference').href =
-			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}`;
+		const setHref = (id, href) => {
+			const link = this.find(id);
+			if (link) link.href = href;
+		};
+		setHref('quickPost',
+			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}`);
+		setHref('quickQuestion',
+			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}&kind=question`);
+		setHref('quickReview',
+			`/heichel-review/?alias=${aliasId}&heichel=${heichelId}`);
+		setHref('quickReference',
+			`/social-composer/?alias=${aliasId}&heichel=${heichelId}&series=${seriesId}`);
 	}
 }

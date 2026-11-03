@@ -91,4 +91,9 @@ function beginOnce() {
 
 safely('feature-styles', () => armReaderFeatureStyles());
 safely('shell-controls', () => awakenReaderShellControls());
+safely('owner-actions', () => {
+	void import('./owner/PostOwnerActions.js?v=owner-actions-001')
+		.then(({ initPostOwnerActions }) => initPostOwnerActions())
+		.catch(() => { /* owner actions are an enhancement; the reader stands without them */ });
+});
 queueMicrotask(() => void beginOnce());

@@ -15,6 +15,10 @@ export const modalSession = {
 	type: null,
 	mode: 'create',
 	seriesId: null,
+	postId: null,
+	parentSeriesId: null,
+	contentSeeded: false,
+	seededContent: '',
 	navigator: null,
 	listenersBound: false
 };
@@ -35,10 +39,14 @@ export function beginModalSession(type, navigator, options = {}) {
 	modalSession.type = type;
 	modalSession.mode = options.mode || 'create';
 	modalSession.seriesId = options.seriesId || null;
+	modalSession.postId = options.postId || null;
+	modalSession.parentSeriesId = options.parentSeriesId || null;
+	modalSession.contentSeeded = !!options.contentSeeded;
+	modalSession.seededContent = options.description || '';
 	modalSession.navigator = navigator;
 	const contentType = options.contentType || 'post';
 	setText(modalElement('modalTitle'), modalSession.mode === 'edit'
-		? 'Edit Series'
+		? (type === 'series' ? 'Edit Series' : 'Edit Post')
 		: `Create New ${creationLabel(type, contentType)}`);
 	setValue(modalElement('modalTitleInput'), options.title);
 	setValue(modalElement('modalDescTextarea'), options.description);
@@ -62,6 +70,10 @@ export function resetModalSession() {
 	modalSession.type = null;
 	modalSession.mode = 'create';
 	modalSession.seriesId = null;
+	modalSession.postId = null;
+	modalSession.parentSeriesId = null;
+	modalSession.contentSeeded = false;
+	modalSession.seededContent = '';
 }
 
 /** @description Toggles all historical open/hidden classes and accessible state together; the Awtsmoos gives one truth to visibility while Awtsmoos.com avoids class drift. @param {boolean} isOpen - Whether the modal should be visible. @returns {void} */

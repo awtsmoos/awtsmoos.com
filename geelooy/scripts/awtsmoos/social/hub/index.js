@@ -13,7 +13,7 @@ import { createLiveActions } from "./liveActions.js";
 import { createOperationRunner } from "./operationRunner.js";
 import { allKeys, groupKeys } from "./requestPlan.js";
 import { render } from "./render.js";
-import { setError, state } from "./state.js";
+import { reconcileSessionAlias, setError, state } from "./state.js";
 import { mountPresenceBadge } from "../live/presenceBadge.js";
 
 const root = document.getElementById("BH_SOCIAL_HUB");
@@ -53,10 +53,16 @@ const liveActions = createLiveActions({
 
 if (root) {
 	window.addEventListener("BH_SOCIAL_SOCKET", repaint);
-	mountPresenceBadge({
-		aliasId: state.alias || "ikar",
-		channel: pageChannel()
-	});
+	// Presence is announced only for a real signed-in session. A
+	// signed-out visitor is a guest: no badge, no "live" presence
+	// under anybody's name.
+	reconcileSessionAlias();
+	if (state.alias) {
+		mountPresenceBadge({
+			aliasId: state.alias,
+			channel: pageChannel()
+		});
+	}
 	repaint();
 	void runActive();
 }

@@ -18,7 +18,8 @@ async function compileFullDeletionTasksForSingleSeries({
 	heichelId, 
 	seriesId, 
 	parentBreadcrumb,
-	deleteSelf = true
+	deleteSelf = true,
+	postSink = null
 }) {
     const tasks = [];
     const db = $i.db;
@@ -39,6 +40,13 @@ async function compileFullDeletionTasksForSingleSeries({
     if (postsData && typeof postsData === 'object' && crumbPath) {
         for (const [postId, postData] of Object.entries(postsData)) {
             if (!postData || !postData.author) continue;
+
+            // Optional collection for callers that must also cascade stores
+            // the job tasks cannot reach (the rich comment store is keyed by
+            // heichel + post and lives outside this database's task paths).
+            if (Array.isArray(postSink)) {
+                postSink.push({ heichelId, seriesId, postId, author: postData.author });
+            }
 
             const postTrackingPath = `${sp}/aliases/${postData.author}/postsSubmitted/inHeichel/${heichelId}/seriesChain/${crumbPath}`;
             tasks.push({
@@ -79,7 +87,7 @@ async function compileFullDeletionTasksForSingleSeries({
         const subSeriesIds = await db.get(seriesSubSeriesPath(heichelId, seriesId));
         if (Array.isArray(subSeriesIds) && subSeriesIds.length > 0) {
             const childTaskPromises = subSeriesIds.map(subId => 
-                compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId: subId, parentBreadcrumb: currentBreadcrumb })
+                compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId: subId, parentBreadcrumb: currentBreadcrumb, postSink })
             );
             const childTasksNested = await Promise.all(childTaskPromises);
             tasks.push(...childTasksNested.flat());

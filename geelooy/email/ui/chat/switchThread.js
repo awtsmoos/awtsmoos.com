@@ -8,10 +8,23 @@
  * Awtsmoos.com lets history, rendering, and mobile lifecycle meet without becoming entwined.
  * This module opens one Mail thread; navigation callers may preserve browser history during restoration.
  */
-import { loadThreadHistory } from '../../network.js';
+import { loadThreadHistory, markThreadRead } from '../../network.js';
 import { notify, state } from '../../store.js';
 import { renderMessages } from './messages.js';
 import { chatState } from './state.js';
+
+/**
+ * Resolves the message container. The UI registry can hold a node from
+ * an earlier layout render that is no longer in the document; trusting
+ * it silently stranded thread opens on the landing state. A registry
+ * node counts only while connected — otherwise fall back to the live
+ * message river element in the document.
+ */
+function liveMessageContainer(ui) {
+	const registered = ui.getHtml('msgContainer');
+	if (registered && document.contains(registered)) return registered;
+	return document.querySelector('.messages-scroll');
+}
 
 /**
  * Opens one Mail thread and renders its current history.
@@ -22,7 +35,7 @@ import { chatState } from './state.js';
  * @returns {Promise<void>}
  */
 export async function switchThread(ui, threadId, displayName, options = {}) {
-	const messages = ui.getHtml('msgContainer');
+	const messages = liveMessageContainer(ui);
 	if (!messages || !threadId) {
 		console.warn("switchThread: cannot open thread; missing msgContainer or threadId", { hasMessages: Boolean(messages), threadId });
 		return;
@@ -45,6 +58,9 @@ export async function switchThread(ui, threadId, displayName, options = {}) {
 		const threadMessages = state.threads[threadId] || [];
 		renderMessages(threadId, threadMessages);
 		publishSuggestions(threadMessages);
+		// Opening the conversation is the read event: persist it and
+		// clear the sidebar's unread marker for this thread.
+		void markThreadRead(threadId);
 	} catch (error) {
 		renderLoadError(messages, error, () => switchThread(ui, threadId, displayName, options));
 	} finally {

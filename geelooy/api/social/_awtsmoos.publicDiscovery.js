@@ -55,11 +55,49 @@ async function discoveryAliases($i, query) {
 	return explicit.length ? explicit : publicFeedAliasIds({ $i, query });
 }
 
+function feedItemKey(item) {
+	return `${item?.kind || 'post'}:${item?.id || item?.source?.id || item?.source?.postId || ''}`;
+}
+
+/**
+ * Merges two activity streams into one newest-first stream, keeping the
+ * first occurrence of each item. Discover is a site-wide surface: a
+ * viewer-scoped request (the viewer's own circle) must still surface
+ * the site's newest public activity, or it silently freezes on
+ * whatever the viewer's circle last did.
+ */
+function mergeFeedItems(primary, secondary, cap) {
+	const seen = new Set();
+	const merged = [];
+	for (const item of [...primary, ...secondary]) {
+		const key = feedItemKey(item);
+		if (key.endsWith(':') || seen.has(key)) continue;
+		seen.add(key);
+		merged.push(item);
+	}
+	merged.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+	return merged.slice(0, cap);
+}
+
 async function feedResponse($i, userid) {
 	const query = getQuery($i);
-	const aliases = await discoveryAliases($i, query);
+	const explicit = csv(query.aliases);
+	const aliases = explicit.length ? explicit : await publicFeedAliasIds({ $i, query });
 	const viewerAliasId = await viewerAlias($i, userid, query);
-	return latestPage({ $i, items: await profileFeed({ $i, aliases, query }), query, viewerAliasId });
+	let items = await profileFeed({ $i, aliases, query });
+	if (explicit.length) {
+		// Viewer-scoped discovery: fold in the newest public activity so
+		// the surface reads the same live stream the public feed reads,
+		// not only the viewer's follow circle.
+		const publicAliases = await publicFeedAliasIds({ $i, query });
+		const extra = publicAliases.filter(aliasId => !aliases.includes(aliasId));
+		if (extra.length) {
+			const publicItems = await profileFeed({ $i, aliases: extra, query });
+			const cap = Math.max(50, Number(query.limit || 25) * 4);
+			items = mergeFeedItems(items, publicItems, cap);
+		}
+	}
+	return latestPage({ $i, items, query, viewerAliasId });
 }
 
 async function trendingResponse($i, userid) {

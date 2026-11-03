@@ -26,9 +26,30 @@ export async function mountDiscussion(viewport) {
 			thread.appendChild(await createCommentCard(comment));
 		}
 	} catch (error) {
-		thread.appendChild(emptyState(error?.message || "Discussion could not be loaded."));
+		// A failed load is NOT an empty thread: show an honest error state
+		// with a retry, never the calm "be the first" empty message.
+		thread.appendChild(errorState(error?.message || "Discussion could not be loaded.", viewport));
 	}
 	return section;
+}
+
+/**
+ * Appends one freshly created comment to the mounted discussion thread
+ * without refetching the tree. Returns false when no discussion is
+ * mounted (or the comment is already there), so callers can fall back to
+ * their refresh paths.
+ */
+export async function appendDiscussionComment(comment) {
+	const thread = document.querySelector("#awtsmoos-social-discussion .awtsmoos-social-thread");
+	if (!thread || !comment?.id) {
+		return false;
+	}
+	if (thread.querySelector(`[id="social-comment-${comment.id}"]`)) {
+		return true;
+	}
+	thread.querySelector(".awtsmoos-social-empty")?.remove();
+	thread.appendChild(await createCommentCard({ replies: [], ...comment }));
+	return true;
 }
 
 function discussionSection() {
@@ -50,12 +71,25 @@ function discussionSection() {
 }
 
 async function fetchCommentTree() {
-	const response = await fetch(`${apiRoot()}/comment-tree`);
-	const data = await response.json();
-	if (!response.ok) {
-		throw new Error(data?.error?.message || "Discussion could not be loaded.");
+	// One bounded retry: a single slow read must not present as a broken
+	// discussion on an otherwise healthy thread.
+	let lastError = null;
+	for (let attempt = 1; attempt <= 2; attempt++) {
+		try {
+			const response = await fetch(`${apiRoot()}/comment-tree`);
+			const data = await response.json();
+			if (!response.ok) {
+				throw new Error(data?.error?.message || "Discussion could not be loaded.");
+			}
+			return Array.isArray(data?.success) ? data.success : [];
+		} catch (error) {
+			lastError = error;
+			if (attempt < 2) {
+				await new Promise(resolve => setTimeout(resolve, 600));
+			}
+		}
 	}
-	return Array.isArray(data?.success) ? data.success : [];
+	throw lastError || new Error("Discussion could not be loaded.");
 }
 
 function emptyState(text = "Be the first to open a new line of thought.") {
@@ -63,6 +97,20 @@ function emptyState(text = "Be the first to open a new line of thought.") {
 	empty.className = "awtsmoos-social-empty";
 	empty.textContent = text;
 	return empty;
+}
+
+function errorState(text, viewport) {
+	const wrap = document.createElement("div");
+	wrap.className = "awtsmoos-social-error";
+	const message = document.createElement("p");
+	message.textContent = text;
+	const retry = document.createElement("button");
+	retry.type = "button";
+	retry.className = "btn awtsmoos-social-retry";
+	retry.textContent = "Retry";
+	retry.addEventListener("click", () => mountDiscussion(viewport));
+	wrap.append(message, retry);
+	return wrap;
 }
 
 function apiRoot() {

@@ -54,9 +54,12 @@ function treeUrl({ verse, offset = 0 }) {
 	return `/api/social/heichelos/${encodeURIComponent(current.heichelId)}/posts/${encodeURIComponent(current.postId)}/comment-tree?${query}`;
 }
 
-async function readPage(url) {
+const PAGE_TIMEOUT_MS = 20000;
+const PAGE_ATTEMPTS = 3;
+
+async function readPageOnce(url) {
 	const controller = new AbortController();
-	const timer = setTimeout(() => controller.abort(), 8000);
+	const timer = setTimeout(() => controller.abort(), PAGE_TIMEOUT_MS);
 	try {
 		const response = await fetch(url, {
 			cache: "no-store",
@@ -69,6 +72,28 @@ async function readPage(url) {
 	} finally {
 		clearTimeout(timer);
 	}
+}
+
+async function readPage(url) {
+	// A single slow packed-store read used to abort at 8s and propagate as
+	// a failure that callers rendered as an EMPTY thread. The read now gets
+	// bounded retries with backoff, and only a genuinely exhausted read
+	// surfaces as an error — never as "no comments".
+	let lastError = null;
+	for (let attempt = 1; attempt <= PAGE_ATTEMPTS; attempt++) {
+		try {
+			return await readPageOnce(url);
+		} catch (error) {
+			lastError = error;
+			if (attempt < PAGE_ATTEMPTS) {
+				await new Promise(resolve => setTimeout(resolve, 500 * attempt + Math.random() * 250));
+			}
+		}
+	}
+	const failure = new Error(lastError?.message || "Comment tree could not be loaded.");
+	failure.code = "COMMENT_TREE_LOAD_FAILED";
+	failure.cause = lastError;
+	throw failure;
 }
 
 export async function readTree(verse) {

@@ -34,3 +34,24 @@ export async function checkOwnership(aliasId, heichelId) {
 export async function getEditors(heichelId) {
     return AwtsmoosRequest.fetch(`${BASE_API_URL}heichelos/${heichelId}/editors`);
 }
+
+/** Renames a heichel and/or updates its description through the canonical PUT. */
+export async function updateHeichelDetails({ heichelId, aliasId, name, description }) {
+    const body = { aliasId };
+    if (typeof name === 'string') body.newName = name;
+    if (typeof description === 'string') body.newDescription = description;
+    return AwtsmoosRequest.send(
+        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}`,
+        'PUT',
+        new URLSearchParams(body)
+    );
+}
+
+/** Deletes a whole heichel through the canonical DELETE (creator-gated server-side). */
+export async function deleteHeichel({ heichelId, aliasId }) {
+    return AwtsmoosRequest.send(
+        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}`,
+        'DELETE',
+        new URLSearchParams({ aliasId })
+    );
+}

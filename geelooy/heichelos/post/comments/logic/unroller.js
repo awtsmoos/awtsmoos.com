@@ -10,7 +10,7 @@
  * the only revelation. The crown remains a crown; the body remains a body.
  */
 
-const BODY_KEYS = ["text", "paragraphs", "body", "plain", "html", "message", "description", "content"];
+const BODY_KEYS = ["text", "paragraphs", "body", "plain", "html", "message", "description", "sections", "content"];
 const TITLE_KEYS = ["title", "name", "subject", "header"];
 const META_KEYS = ["id", "author", "aliasId", "owner", "dayuh", "replyToId", "verseSection"];
 
@@ -77,6 +77,34 @@ function firstBodyParagraphs(content) {
     return [];
 }
 
+const LEGACY_REPLY_QUOTE = /^>\s*\[Reply to @[^\]]*\]\(#comment-[^)]*\):?\s*/;
+
+/**
+ * Cleans the reply-quote shell older clients baked INTO stored comment
+ * bodies (`> [Reply to @x](#comment-<id>): <parent snippet>...`). When the
+ * author's own text follows the quote after a blank line, only that text
+ * remains; when the quote is all the record holds, the snippet survives as
+ * plain prose with the markdown shell removed — the best text available.
+ * @param {string} text Stored body text.
+ * @returns {string} Human-readable text.
+ */
+export function cleanLegacyReplyQuote(text) {
+    if (typeof text !== "string" || !text) return text || "";
+    let out = text;
+    // Replies to replies stacked several shells; peel them one at a time.
+    while (LEGACY_REPLY_QUOTE.test(out)) {
+        const rest = out.replace(LEGACY_REPLY_QUOTE, "");
+        const splitAt = rest.search(/\n\s*\n/);
+        if (splitAt >= 0) {
+            out = rest.slice(splitAt).replace(/^\s+/, "");
+            continue;
+        }
+        out = rest.replace(/\.\.\.$/, "").trim();
+        break;
+    }
+    return out;
+}
+
 function unrollMap(target) {
     const unrolledSparks = [];
     Object.values(target).forEach(value => {
@@ -110,16 +138,17 @@ export function unrollApiResponse(response) {
 export function extractCommentText(content) {
     const result = { title: "", paragraphs: [] };
     if (!content) return result;
-    if (typeof content === "string") return { title: "", paragraphs: [content] };
-    if (Array.isArray(content)) return { title: "", paragraphs: asParagraphs(content) };
+    if (typeof content === "string") return { title: "", paragraphs: [cleanLegacyReplyQuote(content)].filter(Boolean) };
+    if (Array.isArray(content)) return { title: "", paragraphs: asParagraphs(content).map(cleanLegacyReplyQuote).filter(Boolean) };
     if (typeof content !== "object") return { title: "", paragraphs: [String(content)] };
     result.title = firstTitle(content);
     result.paragraphs = firstBodyParagraphs(content);
     if (!result.paragraphs.length) {
         result.paragraphs = Object.entries(content)
-            .filter(([key]) => !TITLE_KEYS.includes(key))
+            .filter(([key]) => !TITLE_KEYS.includes(key) && !META_KEYS.includes(key))
             .map(([, value]) => normalizeParagraph(value))
             .filter(Boolean);
     }
+    result.paragraphs = result.paragraphs.map(cleanLegacyReplyQuote).filter(Boolean);
     return result;
 }

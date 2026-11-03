@@ -19,6 +19,42 @@ export function openModal(type, navigator, options = {}) {
 	beginModalSession(type, navigator, options);
 }
 
+/**
+ * Opens the modal as a true post editor. List cards only carry truncated
+ * summaries, so the full post record is fetched first and the body field is
+ * seeded from the stored body alone; when the post has no plain-text body
+ * (its content lives in structured sections) the session is marked
+ * unseeded and the submit path will then only send the title, never an
+ * invented body. A failed fetch reports honestly and opens nothing.
+ */
+export async function openPostEdit(item, navigator) {
+	const { appState } = await import('./state.js');
+	const { getPost } = await import('./api/posts.js');
+	const parentSeriesId = item.parentId || appState.currentSeries || 'root';
+	let full = null;
+	try {
+		const res = await getPost(appState.heichelId, parentSeriesId, item.id);
+		full = res?.success || res;
+	} catch (e) { /* handled below as an honest failure */ }
+	if (!full || full.error || !full.id && !full.title) {
+		const { notify } = await import('./ui.js');
+		notify('Could not load this post for editing. Nothing was changed.', 'error');
+		return;
+	}
+	const seeded = typeof full.content === 'string' && full.content.length > 0;
+	openModal('post', navigator, {
+		mode: 'edit',
+		postId: item.id,
+		parentSeriesId,
+		seriesId: parentSeriesId,
+		inputId: item.id,
+		title: full.title || item.title || '',
+		description: seeded ? full.content : '',
+		contentType: item.contentType || 'post',
+		contentSeeded: seeded
+	});
+}
+
 /** @description Closes and resets the modal through one session covenant; the Awtsmoos dissolves temporary state while Awtsmoos.com restores reusable form controls. @returns {void} */
 export function closeModal() {
 	resetModalSession();

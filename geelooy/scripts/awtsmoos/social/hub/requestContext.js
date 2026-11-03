@@ -12,12 +12,16 @@
 import { state } from "./state.js";
 
 export function requestContext() {
-	const alias = state.alias || "ikar";
+	// The acting alias is the signed-in session alias or nobody. A
+	// library default may fill the browse TARGET, never the actor:
+	// defaulting the actor to a real alias made signed-out visitors
+	// appear to act (and announce presence) as that user.
+	const alias = state.alias || "";
 	return {
 		alias,
-		targetAlias: state.targetAlias || alias,
+		targetAlias: state.targetAlias || alias || "ikar",
 		query: state.query || alias,
-		channel: `alias:${alias}`
+		channel: `alias:${alias || "guest"}`
 	};
 }
 

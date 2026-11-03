@@ -16,7 +16,8 @@ import {
 import { makeCommentatorList as renderCommentatorList } from './panel/rendering.js';
 import {
 	communityHeader,
-	renderCommunityRetry
+	renderCommunityRetry,
+	renderCommunityRetryBanner
 } from './panel/communityState.js?v=community-panel-003';
 import {
 	openCommunityAliasThread,
@@ -44,10 +45,22 @@ async function renderRootCommunity(parent, fresh = false) {
 	} catch (error) {
 		console.warn('B"H community panel could not load.', error);
 		updateHeaderState('error');
-		renderCommunityRetry(parent, async () => {
+		// A failed REFRESH must never blank a thread that is already on
+		// screen: keep the visible comments and offer a small retry banner.
+		// Only a first-load failure (nothing rendered yet) gets the full
+		// replacing retry state.
+		const retry = async () => {
 			clearSidebarCommentCache();
 			await renderRootCommunity(parent, true);
-		});
+		};
+		const hasVisibleThread = Boolean(
+			parent.querySelector('.awtsmoos-students-page, .sidebar-comment-list, .comment-content')
+		);
+		if (hasVisibleThread) {
+			renderCommunityRetryBanner(parent, retry);
+		} else {
+			renderCommunityRetry(parent, retry);
+		}
 		return [];
 	}
 }

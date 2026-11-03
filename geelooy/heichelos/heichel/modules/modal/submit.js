@@ -26,6 +26,13 @@ export async function submitModal(event) {
 	const label = creationLabel(modalSession.type, form.contentType);
 	notify(`${modalSession.mode === 'edit' ? 'Saving' : 'Creating'} ${label.toLowerCase()}...`, 'info');
 	try {
+		if (modalSession.mode === 'edit' && modalSession.type === 'post' && modalSession.postId) {
+			await updatePost(form);
+			notify('Post updated successfully!', 'success');
+			resetModalSession();
+			await modalSession.navigator.loadContent(appState.currentSeries);
+			return;
+		}
 		if (modalSession.mode === 'edit' && modalSession.seriesId) {
 			await updateSeries(form);
 			notify('Series updated successfully!', 'success');
@@ -63,6 +70,38 @@ function updateSeries(form) {
 		title: form.title,
 		description: form.description
 	});
+}
+
+/**
+ * Updates the post being edited through the canonical series-scoped PUT.
+ * The body is sent only when it was seeded from the stored post body and
+ * the author actually changed it: posts whose body lives in structured
+ * sections keep that body untouched, and an emptied body field is refused
+ * here with the reason, because the server by design never clears a body
+ * on an empty value.
+ */
+async function updatePost(form) {
+	let content;
+	if (modalSession.contentSeeded) {
+		if (form.description !== modalSession.seededContent) {
+			if (!form.description) {
+				throw new Error('An empty body cannot be saved — the existing body text is kept. Add text, or cancel to leave the post unchanged.');
+			}
+			content = form.description;
+		}
+	}
+	const response = await api.editPost({
+		heichelId: appState.heichelId,
+		seriesId: modalSession.parentSeriesId || appState.currentSeries,
+		postId: modalSession.postId,
+		aliasId: window.curAlias,
+		title: form.title,
+		content
+	});
+	if (response?.error) {
+		throw new Error(response.error?.details || response.error?.message || response.error?.code || 'The server refused this edit.');
+	}
+	return response;
 }
 
 /** @description Chooses the exact existing creation API for question, answer, post, or series; the Awtsmoos reveals each content form while Awtsmoos.com avoids one giant conditional inside event wiring. @param {Object} form - Normalized modal form values. @returns {Promise<*>} Existing creation API response. */

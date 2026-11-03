@@ -77,7 +77,7 @@ function openInitialTarget(ui) {
   } else if (toAlias) openComposeTo(ui, toAlias);
 }
 
-function normalizeThreadId(threadId) { return normalizeAlias(threadId).replace(/@/g, '_at_'); }
+export function normalizeThreadId(threadId) { return normalizeAlias(threadId).replace(/@/g, '_at_'); }
 function openComposeTo(ui, toAlias) {
   const modal = ui.getHtml('composeModal');
   const to = ui.getHtml('newTo');

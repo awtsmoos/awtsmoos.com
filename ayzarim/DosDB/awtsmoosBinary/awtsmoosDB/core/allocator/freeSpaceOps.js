@@ -6,6 +6,15 @@
  * @chapter Verified Hollows Are Reused Without Rejudging Pure Growth Forever
  * @description Reuses trusted gaps and requests a whole-graph court only when
  * discovery is still needed or ownership has actually been retired.
+ *
+ * Db-phase2: when the gated free list cannot serve in verified mode,
+ * allocation falls to the provenance pools (rangeTrust.js) — deferred
+ * complement spill first, then ranges this process freed while the
+ * gate was closed — each candidate re-validated locally at reuse time.
+ * A free() the gate cannot yet judge is recorded in BOTH the durable
+ * pending ledger and the session pool, so the space is reusable this
+ * session without waiting for the whole-graph walk, and is never lost
+ * if the process dies first.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
@@ -17,6 +26,7 @@ const cursorState = require('./cursorState.js');
 const persistence = require('./freeListPersistence.js');
 const retirementQueue = require('./retirementQueue.js');
 const pendingFreeList = require('./pendingFreeList.js');
+const rangeTrust = require('./rangeTrust.js');
 const { hasCompleteComplement, trustAllocation, requestInitialComplement } = require('./complementTrust.js');
 
 function allocate(allocator, size) {
@@ -42,6 +52,17 @@ function allocate(allocator, size) {
 			return selected.location;
 		}
 	}
+	if (allocator.db.options?.reuseFreedSpace === 'verified') {
+		// Db-phase2: provenance pools serve without the whole-graph
+		// gate — complement-deferred spill, then this session's frees.
+		// Every candidate is re-validated at reuse (rangeTrust.js); a
+		// refused candidate is quarantined, never handed out.
+		const proven = rangeTrust.takeProvenRange(allocator, size);
+		if (proven) {
+			requestInitialComplement(allocator, completeBefore);
+			return proven;
+		}
+	}
 	const location = { offset: allocator.cursor, length: size };
 	allocator.cursor += size;
 	requestInitialComplement(allocator, completeBefore);
@@ -54,6 +75,10 @@ function free(allocator, offset, length) {
 	const mode = allocator.db.options?.reuseFreedSpace;
 	if (mode === 'verified' && !ensureVerified(allocator)) {
 		// Db-hardening: record the free as pending; never drop it.
+		// Db-phase2: the same range also enters the session pool, so it
+		// can serve this process's allocations (after per-range
+		// validation) without waiting for a successful verify.
+		rangeTrust.recordSessionFree(allocator, offset, length);
 		return pendingFreeList.record(allocator, offset, length);
 	}
 	if (allocator.db.pager?.isBatching === true) {

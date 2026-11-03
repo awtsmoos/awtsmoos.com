@@ -76,10 +76,15 @@ function stat(key, label) {
 }
 
 function actionsRow(actions) {
+	const heichelId = pendingHeichelIdentity().heichelId;
+	const composerHref = heichelId
+		? `/social-composer/?heichel=${encodeURIComponent(heichelId)}&series=root`
+		: '/social-composer/';
 	return box('heichel-profile-actions', [
 		button('Follow', 'Follow this Heichel', actions.toggleHeichelFollow, {
 			class: 'heichel-profile-action heichel-profile-action--primary'
 		}, 'heichelFollowButton'),
+		link(composerHref, 'Create post', 'heichel-profile-action'),
 		link('/email', 'Message', 'heichel-profile-action'),
 		button('•••', 'More Heichel actions', actions.openHeichelMenu, {
 			class: 'heichel-profile-action heichel-profile-action--more'

@@ -7,12 +7,14 @@ const { indexAliasComment } = require("./aliasCommentIndex.js");
 const access = require("./richCommentAccess.js");
 const {
 	contextOf,
+	dayuhCarriesBody,
 	freshId,
 	hasBody,
 	legacyDayuh
 } = require("./richCommentMutationInput.js");
 const { ensureCommentOwner } = require("./richCommentOwnership.js");
 const paths = require("./richCommentPaths.js");
+const { adjustPostCommentCount } = require("./richCommentCount.js");
 const { mutationBlock } = require("./richCommentPolicy.js");
 const {
 	normalizeCommentBody,
@@ -46,7 +48,7 @@ async function createComment({
 	const legacy = legacyDayuh(source);
 	const reserved = mutationBlock({ dayuh: legacy });
 	if (reserved) return reserved;
-	if (!hasBody(body, legacy)) {
+	if (!hasBody(body, dayuhCarriesBody(legacy) ? legacy : null)) {
 		return er({
 			code: "EMPTY_COMMENT",
 			message: "Comment content is required."
@@ -75,23 +77,48 @@ async function createComment({
 	};
 	comment.url = uniqueCommentUrl(comment);
 	const context = contextOf(heichelId, postId, comment);
-	access.write($i, paths.commentPath(context), comment);
-	access.write(
-		$i,
-		paths.uniquePath({ commentId: comment.id }),
-		{ heichelId, postId, seriesId }
-	);
-	await indexAliasComment({ $i, comment });
+	// Integration (edit/delete block): every main-store set of this create
+	// — the comment record, the unique-URL pointer, and the parent/root,
+	// verse, and optional subsection index updates (flush points 1-2 and
+	// 4-6 of the comments pack's §7 map) — lands as ONE PackedStore
+	// writeMany: one FS3 batch, one seal save, one durable flush, instead
+	// of up to five per-set flush cycles. The index lists are computed
+	// with the exact read-modify-write rule writeIndex() uses (append the
+	// id when absent); the index reads do not depend on the record sets,
+	// so computing them before the group applies cannot change results.
+	// The counter's own meta write (point 7) stays in
+	// adjustPostCommentCount below: its first-touch recount reads the
+	// indexes, which have landed by the time it runs.
 	const parentPath = parentId
 		? paths.childIndexPath(
 			access.context(heichelId, postId, { commentId: parentId })
 		)
 		: paths.rootChildrenPath(context);
-	access.writeIndex($i, parentPath, comment.id);
-	access.writeIndex($i, paths.verseIndexPath(context), comment.id);
+	const withCommentId = target => {
+		const list = access.array(access.read($i, target, []));
+		if (!list.includes(comment.id)) list.push(comment.id);
+		return list;
+	};
+	const versePath = paths.verseIndexPath(context);
+	const mainStoreSets = [
+		[paths.commentPath(context), comment],
+		[
+			paths.uniquePath({ commentId: comment.id }),
+			{ heichelId, postId, seriesId }
+		],
+		[parentPath, withCommentId(parentPath)],
+		[versePath, withCommentId(versePath)]
+	];
 	if (comment.subsectionId) {
-		access.writeIndex($i, paths.subsectionIndexPath(context), comment.id);
+		const subsectionPath = paths.subsectionIndexPath(context);
+		mainStoreSets.push([subsectionPath, withCommentId(subsectionPath)]);
 	}
+	access.writeMany($i, mainStoreSets);
+	// Flush point 3 of the §7 map: the alias index is a SEPARATE packed
+	// store with its own single flush — it stays outside the group,
+	// exactly as before.
+	await indexAliasComment({ $i, comment });
+	await adjustPostCommentCount({ $i, heichelId, postId, delta: 1 });
 	return { success: comment };
 }
 

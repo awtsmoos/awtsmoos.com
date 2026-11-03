@@ -37,6 +37,23 @@ function cleanSection(section, index = 0) {
 	};
 }
 
+function parseDayuhLoose(value) {
+	if (!value) return null;
+	if (typeof value === 'object') return value;
+	try {
+		return JSON.parse(value) || null;
+	} catch {
+		return null;
+	}
+}
+
+function sectionText(sections) {
+	return sections
+		.map(section => section.content || section.html || '')
+		.filter(Boolean)
+		.join('\n\n');
+}
+
 function normalizeCommentBody(body = {}) {
 	const assets = array(body.assets || body.attachments)
 		.map(cleanAsset)
@@ -52,8 +69,31 @@ function normalizeCommentBody(body = {}) {
 		.map(cleanSection)
 		.filter(section => section.content || section.assets.length || section.links.length)
 		.slice(0, 24);
+	// The flat body is the shape every reader and renderer consumes. Some
+	// composers (the section composer, legacy dayuh clients) deliver the
+	// author's words only inside sections[] or dayuh while the flat content
+	// field stays empty; those records used to render as an empty card.
+	// Promote the authored text into the flat body so a stored comment
+	// always carries its words in the canonical field. Sections are kept
+	// intact alongside for section-aware renderers.
+	let content = text(body.content || body.text || '', 8000);
+	if (!content) {
+		content = text(sectionText(sections), 8000);
+	}
+	if (!content) {
+		const dayuh = parseDayuhLoose(body.dayuh ?? body.legacyDayuh);
+		if (dayuh) {
+			content = text(dayuh.content || dayuh.text || '', 8000);
+			if (!content) {
+				const dayuhSections = array(dayuh.sections || dayuh.commentSections)
+					.map(cleanSection)
+					.filter(section => section.content || section.assets.length || section.links.length);
+				content = text(sectionText(dayuhSections), 8000);
+			}
+		}
+	}
 	return {
-		content: text(body.content || body.text || '', 8000),
+		content,
 		audioNoteText: text(body.audioNoteText || body.transcript || '', 2000),
 		verseSection: text(first(body.verseSection, first(body.verseId, 'root')), 100),
 		subsectionId: text(first(body.subsectionId, first(body.segmentId, '')), 100),

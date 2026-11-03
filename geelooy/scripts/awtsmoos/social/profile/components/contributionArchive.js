@@ -12,6 +12,7 @@ import { el, emptyCard } from "../dom.js";
 import { contributionRecords } from "../archive/ContributionRecord.js";
 import { ContributionGroups } from "../archive/ContributionGroups.js";
 import { archiveControls } from "./archiveControls.js";
+import { postOwnerMenu, isOwnProfile } from "./postOwnerMenu.js";
 
 /**
  * Renders the alias contribution archive and its grouping controls.
@@ -72,10 +73,25 @@ function groupNode(group, depth, open) {
 }
 
 function recordCard(record) {
-	const tag = record.route === "#" ? "article" : "a";
-	const attrs = record.route === "#" ? {} : { href: record.route };
+	// On the viewer's own profile, post rows gain owner actions; the row
+	// then renders as an article with an explicit open link instead of one
+	// big anchor, so the action buttons are valid interactive structure.
+	const ownPost = record.kind === "post" && record.route !== "#" && isOwnProfile()
+		? postOwnerMenu({
+			heichelId: record.heichelId,
+			seriesId: record.seriesId,
+			postId: record.postId,
+			title: record.title,
+			route: record.route
+		})
+		: null;
+	const tag = record.route === "#" || ownPost ? "article" : "a";
+	const attrs = tag === "a" ? { href: record.route } : {};
 	const date = record.date ? record.date.toLocaleString() : "Date unavailable";
-	return el(tag, { className: `profile-contribution-card ${record.kind}`, attrs }, [
+	const footerTail = ownPost
+		? el("a", { text: "Open in context →", attrs: { href: record.route } })
+		: el("strong", { text: record.route === "#" ? "Context unavailable" : "Open in context →" });
+	const card = el(tag, { className: `profile-contribution-card ${record.kind}`, attrs }, [
 		el("div", { className: "profile-contribution-card-top" }, [
 			el("span", { className: "profile-contribution-kind", text: record.kind === "comment" ? "Comment" : "Post" }),
 			el("time", { text: date })
@@ -85,7 +101,9 @@ function recordCard(record) {
 		el("footer", {}, [
 			el("span", { text: record.heichelName }),
 			el("span", { text: record.category }),
-			el("strong", { text: record.route === "#" ? "Context unavailable" : "Open in context →" })
+			footerTail
 		])
 	]);
+	if (ownPost) card.append(ownPost);
+	return card;
 }

@@ -6,6 +6,7 @@ const { indexAliasComment } = require("./aliasCommentIndex.js");
 const { isCanonicalSource, immutableSourceError } = require("./richCommentPolicy.js");
 const paths = require("./richCommentPaths.js");
 const access = require("./richCommentAccess.js");
+const { adjustPostCommentCount } = require("./richCommentCount.js");
 
 /**
  * @file Bounded deletion for native community discussion.
@@ -27,6 +28,7 @@ async function deleteOne({ $i, heichelId, postId, commentId, reason = "deleted" 
 		};
 	}
 	let deleted = comment.deleted ? 0 : 1;
+	const ownDeletion = deleted;
 	const protectedIds = [];
 	const children = access.array(
 		access.read(
@@ -57,6 +59,9 @@ async function deleteOne({ $i, heichelId, postId, commentId, reason = "deleted" 
 		paths.commentPath(access.context(heichelId, postId, { commentId })),
 		tombstone
 	);
+	if (ownDeletion) {
+		await adjustPostCommentCount({ $i, heichelId, postId, delta: -1 });
+	}
 	await indexAliasComment({ $i, comment: tombstone });
 	access.removeIndex(
 		$i,

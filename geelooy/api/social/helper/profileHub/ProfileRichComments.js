@@ -49,7 +49,10 @@ function publicComment(comment) {
 function commentPointerCount({ $i, aliasId }) {
 	try {
 		return (allFor($i, aliasId) || []).length;
-	} catch {
+	} catch (error) {
+		// A failed count used to vanish silently; the caller still gets
+		// null (unknown), but the failure is now visible in server logs.
+		console.error(`ProfileRichComments: pointer count failed for alias "${aliasId}":`, error);
 		return null;
 	}
 }
@@ -62,13 +65,35 @@ async function richCommentsByAlias({ $i, aliasId, limit = 120 }) {
 		// is the only bound (sanity-guarded at 5000).
 		.slice(0, Math.min(Number(limit || 120), 5000));
 	const output = [];
+	let dropped = 0;
 	for (let start = 0; start < pointers.length; start += HYDRATE_WIDTH) {
 		const batch = pointers.slice(start, start + HYDRATE_WIDTH);
 		const hydrated = await Promise.all(batch.map(async pointer => {
-			const got = await getCommentByUnique({ $i, commentId: pointer.commentId });
-			return got?.success && !got.success.deleted ? publicComment(got.success) : null;
+			let got = null;
+			try {
+				got = await getCommentByUnique({ $i, commentId: pointer.commentId });
+			} catch (error) {
+				// One unreadable comment must not sink the whole list,
+				// but it must not disappear quietly either: the pointer
+				// exists in the alias index while its body could not be
+				// read, and that gap is exactly what operators need.
+				console.error(`ProfileRichComments: hydration failed for alias "${aliasId}", comment "${pointer.commentId}":`, error);
+				dropped++;
+				return null;
+			}
+			if (!got?.success) {
+				console.warn(`ProfileRichComments: pointer without a readable comment for alias "${aliasId}", comment "${pointer.commentId}" (store answered ${got?.error?.code || 'no success payload'}).`);
+				dropped++;
+				return null;
+			}
+			// Deleted comments are filtered by design; that is the one
+			// drop that is not an error and stays quiet.
+			return got.success.deleted ? null : publicComment(got.success);
 		}));
 		for (const comment of hydrated) if (comment) output.push(comment);
+	}
+	if (dropped) {
+		console.warn(`ProfileRichComments: alias "${aliasId}" has ${pointers.length} indexed pointers; ${dropped} could not be hydrated and were omitted from the rendered list. The pointer count remains the honest total.`);
 	}
 	return output;
 }

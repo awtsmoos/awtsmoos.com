@@ -23,9 +23,20 @@ export function renderHeichelWorldState({
 	ownsIt = false,
 	currentSeries = 'root'
 } = {}) {
+	// Counts describe the whole Heichel, not only the series currently
+	// on screen: when the loaded series view is empty but the Heichel
+	// record itself carries totals, the record wins over a misleading
+	// zero. (A series view that does hold posts keeps its own count —
+	// the larger of the two is the truthful floor either way.)
 	const counts = {
-		posts: count(content.posts),
-		series: count(content.subSeries),
+		posts: Math.max(
+			count(content.posts),
+			count(heichel.postCount ?? heichel.postsCount ?? heichel.teachingsCount)
+		),
+		series: Math.max(
+			count(content.subSeries),
+			count(heichel.seriesCount ?? heichel.subSeriesCount)
+		),
 		followers: count(heichel.followers || heichel.members || heichel.subscribers),
 		mode: ownsIt ? 'owner' : 'visitor',
 		currentSeries

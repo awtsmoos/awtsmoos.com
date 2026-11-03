@@ -30,6 +30,11 @@ export function beginOwnershipCheck(navigator) {
 			await navigator.loadContent(
 				appState.currentSeries || 'root'
 			);
+			// Owner-only heichel settings (rename + danger-zone delete) mount
+			// lazily so visitor mode never carries the surface at all.
+			import('../ui/heichel-settings.js')
+				.then(({ mountHeichelSettings }) => mountHeichelSettings())
+				.catch(() => { /* settings are an owner enhancement, never a gate on reading */ });
 			return true;
 		})
 		.catch(error => {

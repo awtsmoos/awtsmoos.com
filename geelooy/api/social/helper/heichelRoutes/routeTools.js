@@ -52,6 +52,23 @@ function makeHeichelRouteTools(deps) {
     if (!aliasId) return awtsmoosError({ code: 'NO_ALIAS', message: 'aliasId is required to delete a Heichel.' });
     const owns = await verifyHeichelAuthority({ heichelId, aliasId, $i });
     if (!owns) return awtsmoosError({ code: 'NO_HEICHEL_AUTHORITY', message: 'This alias cannot delete this Heichel.', details: { aliasId, heichelId } });
+    // Whole-heichel deletion is categorically more destructive than the
+    // edits heichel authority normally grants: it removes every series,
+    // post, and comment and every membership in the heichel. When the
+    // heichel record names its creator, only that creator may delete it;
+    // other editors keep their ordinary editing powers but not this one.
+    // Records without a named creator fall back to the authority check
+    // above, preserving the historical behavior for legacy heichelos.
+    try {
+      const heichel = await getHeichel({ heichelId, $i, er });
+      if (heichel && !heichel.error && heichel.author && heichel.author !== aliasId) {
+        return awtsmoosError({
+          code: 'HEICHEL_DELETE_CREATOR_ONLY',
+          message: 'Only the alias that created this Heichel can delete it. Editors can edit its contents but cannot delete the whole Heichel.',
+          details: { aliasId, heichelId }
+        });
+      }
+    } catch (e) { /* an unreadable record falls back to the authority check */ }
     return await deleteHeichel({ $i, heichelId, aliasId, er });
   }
   return { detailedHeichelList, heichelDetailsByIds, createHeichelForAlias, deleteHeichelForAlias };

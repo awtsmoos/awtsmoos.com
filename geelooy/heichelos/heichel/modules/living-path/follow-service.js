@@ -31,7 +31,17 @@ export async function toggleFollow(aliasId, type, id) {
 	const active = await readFollowState(aliasId, type, id);
 	if (active) await unfollowEntity(aliasId, type, id);
 	else await followEntity(aliasId, type, id);
-	return !active;
+	// A mutation call that returns without throwing is not proof the
+	// relationship changed: re-read the stored follows and report only
+	// the state the server actually holds now. If the stored state did
+	// not move, surface the failure instead of painting a false toggle.
+	const confirmed = await readFollowState(aliasId, type, id);
+	if (confirmed === active) {
+		throw new Error(active
+			? 'The server did not remove this follow. Please try again.'
+			: 'The server did not save this follow. Please try again.');
+	}
+	return confirmed;
 }
 
 /** Rejects the temporary visitor aliases used during initial boot. */

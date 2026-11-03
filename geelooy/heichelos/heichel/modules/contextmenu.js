@@ -3,7 +3,7 @@
 //- Logic for the actions context menu, restoring the missing feature.
 import {notify} from './ui.js';
 import {appState} from '../state.js';
-import { openModal } from './modal.js';
+import { openModal, openPostEdit } from './modal.js';
 // Added import for appState
 
 let currentMenu = null;
@@ -37,7 +37,9 @@ export function showContextMenu(iconElement, item, navigator) {
 
     const actions = {
         'Delete': () => navigatorInstance.deleteSingleItem(item),
-        'Edit': () => openModal(item.type === 'series' ? 'series' : 'post', navigatorInstance, { mode: item.type === 'series' ? 'edit' : 'create', seriesId: item.id, inputId: item.id, title: item.title || '', description: item.description || item.content || '', contentType: item.contentType || 'post' }),
+        'Edit': () => item.type === 'series'
+            ? openModal('series', navigatorInstance, { mode: 'edit', seriesId: item.id, inputId: item.id, title: item.title || '', description: item.description || item.content || '', contentType: item.contentType || 'post' })
+            : openPostEdit(item, navigatorInstance),
         'Share': shareAction
     };
     

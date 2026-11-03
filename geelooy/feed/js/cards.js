@@ -443,12 +443,19 @@ function reactionChipHtml(emoji, n) {
 	return `<button type="button" class="feed-react-chip" data-react-chip="${escapeAttr(id)}" aria-label="${escapeAttr(t('card.reactCountAria', { count: formatCount(n), name: REACTION_NAMES[id] || 'reactions' }))}">${emojiImg(id)}<span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
 }
 
+/** Total reactions across every kind — the card's like count. */
+function reactionTotal(summary) {
+	return Object.values(summary?.counts || {}).reduce((sum, n) => sum + Number(n || 0), 0);
+}
+
 function reactionGroupHtml(item) {
 	const summary = initialReactionSummary(item);
 	const viewer = summary.viewerEmoji;
+	const total = reactionTotal(summary);
 	const face = viewer ? emojiImg(viewer, 'feed-react-face') : icon('like');
 	return `<div class="feed-react-wrap" data-react-wrap data-picker-open="0">
 		<button type="button" class="feed-ic-btn feed-react-btn${viewer ? ' is-active' : ''}" data-react-toggle aria-haspopup="menu" aria-expanded="false" aria-pressed="${viewer ? 'true' : 'false'}" aria-label="${escapeAttr(viewer ? t('card.reactAriaChange', { name: REACTION_NAMES[viewer] || viewer }) : t('card.reactAria'))}">${face}<span class="feed-ic-btn-label">${viewer ? t('card.reacted') : t('card.react')}</span></button>
+		<span class="feed-react-total" data-react-total aria-label="${escapeAttr(t('card.reactCountAria', { count: formatCount(total), name: 'reactions' }))}">${total > 0 ? formatCount(total) : ''}</span>
 		<div class="feed-react-picker" data-react-picker hidden role="menu" aria-label="Choose a reaction">
 			${YARMULKE_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e.id === viewer}" data-react-emoji="${escapeAttr(e.id)}" aria-label="React ${escapeAttr(e.name)}" title="${escapeAttr(e.name)}">${emojiVideo(e.id)}${emojiImg(e.id)}</button>`).join('')}
 		</div>
@@ -535,6 +542,14 @@ function createReactionControl(item, opts = {}) {
 		});
 		const top = wrap.querySelector('[data-react-top]');
 		if (top) top.innerHTML = topReactions(state.summary).map(([e, n]) => reactionChipHtml(e, n)).join('');
+		// The numeric total lives beside the toggle in every state —
+		// liked or not, hydrated or not — so a post's count never
+		// depends on which summary path happened to run.
+		const totalEl = wrap.querySelector('[data-react-total]');
+		if (totalEl) {
+			const total = reactionTotal(state.summary);
+			totalEl.textContent = total > 0 ? formatCount(total) : '';
+		}
 	}
 
 	function noteFailure(wrap, message) {
@@ -662,7 +677,17 @@ function createReactionControl(item, opts = {}) {
 		try {
 			const server = await persist(nextEmoji);
 			if (server && typeof server.counts === 'object') {
-				state.summary = { counts: server.counts || {}, viewerEmoji: String(server.viewerEmoji || '') };
+				// Adopt server counts through the same normalization the
+				// hydrate path uses; raw server keys (legacy unicode
+				// emoji, kind strings) otherwise split one reaction into
+				// two buckets and the displayed total double-counts or
+				// vanishes depending on which path rendered last.
+				const counts = {};
+				for (const [k, v] of Object.entries(server.counts || {})) {
+					const id = normalizeReactionId(k);
+					if (id) counts[id] = (counts[id] || 0) + Number(v || 0);
+				}
+				state.summary = { counts, viewerEmoji: normalizeReactionId(server.viewerEmoji), reactors: state.summary.reactors };
 				render(wrap);
 			}
 			opts.onReaction?.(item, nextEmoji || null, !!nextEmoji);

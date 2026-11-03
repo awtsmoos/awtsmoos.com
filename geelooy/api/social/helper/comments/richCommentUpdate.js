@@ -48,7 +48,9 @@ async function updateComment({
 		...got.success,
 		updatedAt: Date.now()
 	};
-	if ("content" in source || "text" in source) {
+	if ("content" in source || "text" in source || "sections" in source || "commentSections" in source) {
+		// normalizeCommentBody promotes section-carried text into the flat
+		// body, so a sections-only edit also refreshes the canonical field.
 		next.content = normalized.content;
 	}
 	if ("assets" in source || "attachments" in source) {

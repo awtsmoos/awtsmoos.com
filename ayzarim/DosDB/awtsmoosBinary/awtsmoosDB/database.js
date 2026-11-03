@@ -758,6 +758,7 @@ class AwtsmoosDB {
       ...stats,
       freeBytes,
       freeRanges: (this.allocator.freeList || []).length,
+      freeSpace: this.allocator.freeSpaceStats(),
       memory: this.memoryStats()
     };
   }
@@ -956,9 +957,13 @@ class AwtsmoosDB {
       // (same shaping as the idle refresh). Adopting the raw complement
       // here made the free-list seal outgrow its vessel and append,
       // growing the physical file inside gc().
+      // Db-phase2: gc's complement adoption subsumes the provenance
+      // pools, and its shaping drops are deferred (not dropped).
+      this.allocator.clearDerivedPools();
       this.allocator.freeList = adoptComplement(
         coalesceFreeRanges(report.free || [], this.allocator.cursor),
-        this.allocator.cursor
+        this.allocator.cursor,
+        this.allocator
       );
       this.allocator._mergeFreeList();
       this.allocator._absorbTrailingGaps();

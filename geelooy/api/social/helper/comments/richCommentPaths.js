@@ -25,6 +25,7 @@ function childIndexPath(context) { return `${commentFolder(context)}/children`; 
 function verseIndexPath(context) { return `${postRoot(context)}/byVerse/${coordinate(context.verseSection)}`; }
 function subsectionIndexPath(context) { return `${postRoot(context)}/bySubsection/${coordinate(context.subsectionId)}`; }
 function uniquePath(context) { return `${sp}/commentUrls/${context.commentId}`; }
+function postMetaPath(context) { return `${postRoot(context)}/meta`; }
 
 module.exports = {
 	childIndexPath,
@@ -32,6 +33,7 @@ module.exports = {
 	commentPath,
 	commentsRoot,
 	coordinate,
+	postMetaPath,
 	postRoot,
 	rootChildrenPath,
 	subsectionIndexPath,

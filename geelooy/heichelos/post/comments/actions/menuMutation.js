@@ -2,8 +2,8 @@
 //Boruch Hashem
 //Blessed be He
 
-import { deleteComment, editComment } from "/scripts/awtsmoos/api/utils.js";
 import { parseDayuh, copyTextOf } from "./menuText.js";
+import { routeSeriesId } from "../../commentSection/payload.js";
 
 /**
  * @module CommentMenuMutation
@@ -17,7 +17,7 @@ function mutationContext(comment) {
 		heichelId: window.post.heichel.id,
 		parentType: "post",
 		parentId: window.post.id,
-		seriesId: window.series?.id || window.post.parentSeriesId,
+		seriesId: routeSeriesId(),
 		postId: window.post.id,
 		aliasId: comment?.author || comment?.aliasId || window.curAlias,
 		commentId: comment?.id,
@@ -43,27 +43,41 @@ async function refreshWorld() {
 	} catch {}
 }
 
+/**
+ * Calls the canonical rich comment route directly. The legacy utils
+ * helpers this replaces swallowed network failures and returned an empty
+ * array, which the menu then treated as success — edits and deletes
+ * appeared to work while nothing happened server-side. Here every
+ * failure throws with the server's own message.
+ */
+async function canonicalCommentRequest(context, method, fields) {
+	const url = `/api/social/heichelos/${encodeURIComponent(context.heichelId)}/posts/${encodeURIComponent(context.postId)}/comments/${encodeURIComponent(context.commentId)}`;
+	const response = await fetch(url, { method, body: new URLSearchParams(fields) });
+	let res = null;
+	try {
+		res = await response.json();
+	} catch {}
+	if (!response.ok || !res || res.error) {
+		throw new Error(res?.error?.message || res?.error || `Comment request failed (${response.status}).`);
+	}
+	return res;
+}
+
 /** Edits one ordinary community comment and refreshes all visible manifestations. */
 export async function editCommunityComment(comment) {
 	const context = mutationContext(comment);
 	const current = copyTextOf(comment);
 	const next = prompt("Edit this comment", current);
 	if (next === null || next === current) return;
-	const response = await editComment({
-		heichelId: context.heichelId,
-		parentType: context.parentType,
-		parentId: context.parentId,
-		seriesId: context.seriesId,
-		postId: context.postId,
+	const fields = {
 		aliasId: context.aliasId,
-		commentId: context.commentId,
 		content: next,
-		dayuh: context.dayuh,
-		get: { verseSection: context.verseSection }
-	});
-	if (response?.error) {
-		throw new Error(response.error?.message || response.error);
+		seriesId: context.seriesId
+	};
+	if (context.dayuh && Object.keys(context.dayuh).length) {
+		fields.dayuh = JSON.stringify(context.dayuh);
 	}
+	await canonicalCommentRequest(context, "PUT", fields);
 	await refreshWorld();
 }
 
@@ -71,17 +85,9 @@ export async function editCommunityComment(comment) {
 export async function deleteCommunityComment(comment) {
 	if (!confirm("B\"H - Delete this community comment?")) return;
 	const context = mutationContext(comment);
-	const response = await deleteComment({
-		...context,
-		get: { verseSection: context.verseSection }
-	});
-	if (response?.error) {
-		throw new Error(response.error?.message || response.error);
-	}
-	if (response?.success) {
-		document.querySelectorAll(
-			`[data-cid="${CSS.escape(String(comment.id))}"]`
-		).forEach(node => node.remove());
-	}
+	await canonicalCommentRequest(context, "DELETE", { aliasId: context.aliasId });
+	document.querySelectorAll(
+		`[data-cid="${CSS.escape(String(comment.id))}"]`
+	).forEach(node => node.remove());
 	await refreshWorld();
 }

@@ -39,9 +39,21 @@ function actionBlueprint(action, navigator) {
 	};
 	const selected = actions[action];
 	if (!selected) return null;
+	// The Heichel profile header already renders the page's primary
+	// Follow control; offering a second Follow button in the empty
+	// state reads as a duplicate. When the header control is on the
+	// page, the empty state keeps its message and drops its Follow
+	// action (series following stays available from the Series tab
+	// and card menus).
+	if (action === 'follow-series'
+		&& document.querySelector('[data-heichel-profile] .heichel-profile-action--primary')) {
+		return null;
+	}
+	const attr = { type: 'button', class: 'living-path-empty-action' };
+	if (action === 'follow-series') attr['data-follow-series-button'] = 'true';
 	return {
 		tag: 'button',
-		attr: { type: 'button', class: 'living-path-empty-action' },
+		attr,
 		children: [selected[0]],
 		events: { click: selected[1] }
 	};

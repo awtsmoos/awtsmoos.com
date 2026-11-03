@@ -8,6 +8,7 @@ const { er } = require("./general.js");
 const { verifyHeichelAuthority } = require("./heichel.js");
 const { seriesSubSeriesPath } = require("./seriesPaths.js");
 const { compileFullDeletionTasksForSingleSeries } = require("./seriesDelete.js");
+const { deleteAllRichCommentsForPost } = require("./comments/richCommentCascade.js");
 
 // 
 
@@ -43,12 +44,17 @@ async function deleteSeriesFromHeichel({$i,
         }
 
         // Step 3: Recursively compile all cleanup tasks for the series and its descendants.
+        // The sink collects every post encountered so the rich comment store
+        // (keyed by heichel + post, unreachable from job task paths) can be
+        // cascaded for the same posts in step 5.
+        const postSink = [];
         var contentCleanupTasks = await compileFullDeletionTasksForSingleSeries({
             $i,
             heichelId,
             seriesId,
             deleteSelf,
-            parentBreadcrumb // Provide the starting context
+            parentBreadcrumb, // Provide the starting context
+            postSink
         });
         
         if(deleteSelf) {
@@ -63,11 +69,30 @@ async function deleteSeriesFromHeichel({$i,
             requestedBy: aliasId
         });
         
+        // Step 5: Cascade the rich comment store for every collected post.
+        // Failure-isolated per post: the deletion job is already queued, and
+        // a comment-store problem must not unqueue it.
+        const richComments = { posts: 0, deleted: 0, protected: 0, failed: 0 };
+        for (const entry of postSink) {
+            richComments.posts++;
+            try {
+                const result = await deleteAllRichCommentsForPost({
+                    $i, heichelId, postId: entry.postId, reason: "series-deleted"
+                });
+                richComments.deleted += result.deleted || 0;
+                richComments.protected += (result.protected || []).length;
+            } catch (e5) {
+                richComments.failed++;
+                console.error(`Rich comment cascade failed for post ${entry.postId} of deleted series ${seriesId}:`, e5);
+            }
+        }
+
         return { 
             success: { 
                 message: "Series deletion has been queued. All content and references will be removed shortly.",
                 jobId: jobId ,
-                deleteSelf
+                deleteSelf,
+                richComments
             } 
         };
     } catch (e) {

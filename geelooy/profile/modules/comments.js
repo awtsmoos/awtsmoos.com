@@ -9,6 +9,7 @@
 import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
+import { postRouteFor } from "./postRoute.js";
 import { state } from "./state.js";
 
 /** Builds one comment card linking to the post it was made on. */
@@ -16,7 +17,7 @@ function commentCard(comment = {}) {
 	const text = cleanText(comment.body || comment.text || comment.content || "");
 	const postId = comment.postId || comment.post_id || comment.entityId || "";
 	const postTitle = cleanText(comment.postTitle || comment.post_title || postId || "a post");
-	const url = postId ? `/heichelos/ikar/post/${encodeURIComponent(postId)}` : "";
+	const url = postRouteFor({ ...comment, postId });
 	const card = document.createElement("article");
 	card.className = "social-comment-card";
 	const quote = document.createElement("p");

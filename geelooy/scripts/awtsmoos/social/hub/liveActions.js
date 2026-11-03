@@ -35,7 +35,7 @@ export function createLiveActions(context) {
 
 function connectWithContext({ state, repaint }) {
 	connectSocialSocket({
-		alias: state.alias || "ikar",
+		alias: state.alias || "",
 		channel: aliasChannel(state)
 	});
 	repaint();
@@ -53,7 +53,7 @@ async function publishWithContext({ state, repaint, onError }) {
 		return false;
 	}
 	const published = publishSocialSocket({
-		alias: state.alias || "ikar",
+		alias: state.alias || "",
 		channel: aliasChannel(state),
 		text: state.query || "B'H hub spark"
 	});
@@ -88,5 +88,5 @@ function delay(milliseconds) {
 }
 
 function aliasChannel(state) {
-	return `alias:${state.alias || "ikar"}`;
+	return `alias:${state.alias || "guest"}`;
 }

@@ -8,13 +8,14 @@
 import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
+import { postRouteFor } from "./postRoute.js";
 import { state } from "./state.js";
 
 /** Builds one post card linking to the live post. */
 function postCard(post = {}) {
 	const id = cleanText(post.id || post.postId || "");
 	const title = cleanText(post.title || post.heading || id || "Untitled post");
-	const url = post.url || (id ? `/heichelos/ikar/post/${encodeURIComponent(id)}` : "");
+	const url = postRouteFor(post);
 	const card = document.createElement("article");
 	card.className = "social-post-card";
 	const link = document.createElement("a");

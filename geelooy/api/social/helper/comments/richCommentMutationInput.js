@@ -35,6 +35,23 @@ function hasBody(body, legacy) {
 	);
 }
 
+/**
+ * True only when a legacy dayuh carries actual authored words. A dayuh that
+ * holds nothing but coordinate/title metadata (the section composer now
+ * always sends one) must not satisfy the empty-body check on its own.
+ */
+function dayuhCarriesBody(legacy) {
+	if (!legacy || typeof legacy !== "object") return false;
+	return Boolean(
+		legacy.content
+		|| legacy.text
+		|| legacy.html
+		|| legacy.message
+		|| (Array.isArray(legacy.sections) && legacy.sections.length)
+		|| (Array.isArray(legacy.conversation) && legacy.conversation.length)
+	);
+}
+
 function contextOf(heichelId, postId, comment) {
 	return access.context(heichelId, postId, {
 		commentId: comment.id,
@@ -49,6 +66,7 @@ function freshId(aliasId) {
 
 module.exports = {
 	contextOf,
+	dayuhCarriesBody,
 	freshId,
 	hasBody,
 	legacyDayuh

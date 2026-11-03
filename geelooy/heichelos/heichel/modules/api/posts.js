@@ -46,3 +46,26 @@ export async function createPost({ heichelId, seriesId = 'root', aliasId, title,
         new URLSearchParams({ aliasId, title, content, dayuh })
     );
 }
+
+/** Fetches one full post record (the summaries endpoint truncates bodies). */
+export async function getPost(heichelId, seriesId, postId) {
+    return AwtsmoosRequest.fetch(
+        `${BASE_API_URL}heichelos/${seg(heichelId)}/series/${seg(seriesId)}/post/${seg(postId)}`
+    );
+}
+
+/**
+ * Edits one post through the canonical series-scoped PUT. The server only
+ * applies non-empty fields, and callers pass content only when it was
+ * genuinely seeded from the stored body and actually changed.
+ */
+export async function editPost({ heichelId, seriesId = 'root', postId, aliasId, title, content }) {
+    const body = { aliasId };
+    if (title) body.newTitle = title;
+    if (content) body.newContent = content;
+    return AwtsmoosRequest.send(
+        `${BASE_API_URL}heichelos/${seg(heichelId)}/series/${seg(seriesId)}/post/${seg(postId)}`,
+        'PUT',
+        new URLSearchParams(body)
+    );
+}

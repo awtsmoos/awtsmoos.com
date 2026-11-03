@@ -82,7 +82,35 @@ function extractRootText(data) {
 function extractBodyData(data) {
     const fromContent = extractCommentText(data?.content);
     const fromDayuhContent = extractCommentText(data?.dayuh?.content);
-    return [fromDayuhContent, extractDayuhText(data), extractRootText(data)].reduce(mergeText, fromContent);
+    // The canonical store keeps sections at the TOP level of the record;
+    // section-composer comments carry their whole body there while the
+    // flat content stays empty. They are a body source of last resort.
+    const fromSections = extractCommentText(data?.sections);
+    const fromDayuhSections = extractCommentText(data?.dayuh?.sections);
+    return [fromDayuhContent, extractDayuhText(data), extractRootText(data), fromSections, fromDayuhSections].reduce(mergeText, fromContent);
+}
+
+/**
+ * Sections from BOTH homes of the record (canonical top level and legacy
+ * dayuh), deduplicated against each other and against paragraphs the body
+ * extraction already rendered, so nothing is shown twice.
+ */
+function mergedSections(data, renderedParagraphs) {
+    const rendered = new Set((renderedParagraphs || []).map(paragraph => compactText(paragraph)).filter(Boolean));
+    const seen = new Set();
+    const out = [];
+    for (const list of [data?.sections, data?.dayuh?.sections]) {
+        if (!Array.isArray(list)) continue;
+        for (const section of list) {
+            const inner = extractCommentText(section);
+            const key = compactText([inner.title, ...inner.paragraphs].join(" "));
+            if (!key || seen.has(key)) continue;
+            if (rendered.has(compactText(inner.paragraphs.join(" ")))) continue;
+            seen.add(key);
+            out.push(section);
+        }
+    }
+    return out;
 }
 
 function knownTitles(data) {
@@ -116,7 +144,7 @@ export function scribeStandardInsight(parentElement, data) {
     const includeTitles = !shouldHideTitle(parentElement, data);
 
     appendTitledSection(parentElement, activeTitle, paragraphs, includeTitles);
-    appendExtraSections(parentElement, data.dayuh?.sections, includeTitles);
+    appendExtraSections(parentElement, mergedSections(data, paragraphs), includeTitles);
     ensureVisibleBody(parentElement, data);
 
     if (data.dayuh?.images) addImageGallery(data.dayuh.images, parentElement);

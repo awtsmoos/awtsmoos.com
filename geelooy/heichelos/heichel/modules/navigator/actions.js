@@ -22,7 +22,15 @@ export async function handleDelete(navigator, itemsInput, clear = false) {
     if (!items.length) return;
     
     const label = clear ? "Purify (Clear)" : "Return to Void (Delete)";
-    if (!confirm(`Are you certain you wish to ${label} these ${items.length} sparks?`)) return;
+    const named = items.length === 1
+        ? `"${items[0].title || items[0].id}"`
+        : `these ${items.length} sparks`;
+    const cascadeNote = !clear && items.some(i => i.type === 'post')
+        ? ' Its comments will be removed too.'
+        : (!clear && items.some(i => i.type === 'series')
+            ? ' Everything inside it — posts and their comments — will be removed too.'
+            : '');
+    if (!confirm(`Are you certain you wish to ${label} ${named}?${cascadeNote} This cannot be undone.`)) return;
     
     ui.notify(`Processing ${label}...`, 'info');
 

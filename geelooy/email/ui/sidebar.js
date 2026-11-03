@@ -9,6 +9,7 @@
  * threads synchronized without rebuilding a second identity universe.
  */
 import {
+	normalizeThreadId,
 	setMailSenderCategory,
 	setMailView,
 	subscribe
@@ -103,6 +104,12 @@ function updateSenderCategory(category) {
 
 function openThread(thread, displayName) {
 	FX.playSound?.('hover');
-	switchChat(uiRef, thread.correspondent || thread.from || thread.to, displayName);
+	// Snippets, the deep-link opener, and the history loader all key a
+	// thread by its canonical id (alias normalized, "@" written as
+	// "_at_"). Passing the raw correspondent here opened a different
+	// key than the rest of the app reads, so the pane never matched
+	// the thread the visitor clicked.
+	const raw = thread.correspondent || thread.from || thread.to;
+	switchChat(uiRef, raw ? normalizeThreadId(raw) : raw, displayName);
 	renderThreadList();
 }

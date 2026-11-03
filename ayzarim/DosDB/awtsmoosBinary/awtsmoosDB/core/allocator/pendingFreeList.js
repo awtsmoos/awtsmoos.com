@@ -22,6 +22,7 @@ const fs = require('fs');
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
 const { bumpFreeListVersion } = require('./freeListVersion.js');
 const validateFreeRanges = require('./freeRangeValidation.js');
+const rangeTrust = require('./rangeTrust.js');
 
 /**
  * Ledger file path for an allocator's shard.
@@ -109,6 +110,9 @@ function persist(allocator) {
 		allocator.pendingFreeList = pending.filter(
 			range => !adopted.has(`${range.offset}:${range.length}`));
 		persist(allocator);
+		// Db-phase2: survivors now live in the free list; prune any
+		// provenance-pool entries they cover (one-pool invariant).
+		rangeTrust.prunePoolsAgainstFreeList(allocator);
 	}
 	return {
 		promotedRanges: survivors.length,

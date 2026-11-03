@@ -43,9 +43,9 @@ export function revealChesedHomePanel() {
 			<details class="homeActionsDisclosure">
 				<summary class="homeDisclosureSummary"><strong>More actions</strong><span>Question · Heichel · review · comment</span></summary>
 				<div class="quickActionGrid" aria-label="More social actions">
-					<a id="quickQuestion" data-quick-action="new-question">Ask question</a>
-					<a id="quickReference" data-quick-action="add-to-heichel">Add to Heichel</a>
-					<a id="quickReview" data-quick-action="review-center">Review center</a>
+					<a id="quickQuestion" data-quick-action="new-question" href="/social-composer/?kind=question">Ask question</a>
+					<a id="quickReference" data-quick-action="add-to-heichel" href="/social-composer/">Add to Heichel</a>
+					<a id="quickReview" data-quick-action="review-center" href="/heichel-review/">Review center</a>
 					<button id="openExactInteraction" type="button">Comment here</button>
 				</div>
 			</details>

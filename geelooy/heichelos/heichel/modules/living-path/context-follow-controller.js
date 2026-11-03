@@ -44,6 +44,7 @@ export class LivingPathContextFollowController {
 				'series',
 				target
 			);
+			this.paintSeries(active);
 			notify(
 				active ? 'Series followed.' : 'Series unfollowed.',
 				'success'
@@ -64,14 +65,48 @@ export class LivingPathContextFollowController {
 		} catch {
 			this.paint(false);
 		}
+		try {
+			const target = `${appState.heichelId}/${appState.currentSeries}`;
+			const seriesActive = await readFollowState(
+				window.curAlias,
+				'series',
+				target
+			);
+			this.paintSeries(seriesActive);
+		} catch {
+			this.paintSeries(false);
+		}
 	}
 
 	paint(active) {
-		const button = DOMElements.heichelFollowButton;
+		const button = this.liveHeichelButton();
 		if (!button) {
 			return;
 		}
 		button.textContent = active ? 'Following' : 'Follow';
 		button.setAttribute('aria-pressed', String(active));
+	}
+
+	paintSeries(active) {
+		document
+			.querySelectorAll('[data-follow-series-button]')
+			.forEach(button => {
+				button.textContent = active ? 'Following series' : 'Follow series';
+				button.setAttribute('aria-pressed', String(active));
+			});
+	}
+
+	/**
+	 * The registry entry can point at a node from an earlier render that
+	 * is no longer in the document; painting that node changes nothing
+	 * the visitor can see. Prefer the registry node only while it is
+	 * connected, otherwise resolve the live header button from the DOM.
+	 */
+	liveHeichelButton() {
+		const registered = DOMElements.heichelFollowButton;
+		if (registered && document.contains(registered)) return registered;
+		return document.querySelector(
+			'[data-heichel-profile] .heichel-profile-action--primary'
+		);
 	}
 }

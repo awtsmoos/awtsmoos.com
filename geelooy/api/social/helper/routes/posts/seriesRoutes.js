@@ -73,6 +73,12 @@ function createSeriesPostRoutes({ $i, userid }) {
 			return deletePostFromSeries({ $i, heichelId: vars.heichel, seriesId: vars.series, postId: vars.post, userid });
 		},
 		'/heichelos/:heichel/series/:series/post/:post/delete': async vars => {
+			// This suffix route used to run the deletion on ANY HTTP method
+			// (including GET). deletePostFromSeries verifies the acting
+			// alias internally (session ownership + heichel authority);
+			// the route now also requires a mutation method, matching the
+			// canonical DELETE route above.
+			if (!isMethod($i, 'DELETE') && !isMethod($i, 'POST')) return er({ code: 'METHOD_NOT_ALLOWED' });
 			return deletePostFromSeries({ $i, heichelId: vars.heichel, seriesId: vars.series, postId: vars.post, userid });
 		},
 		'/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal': async vars => {

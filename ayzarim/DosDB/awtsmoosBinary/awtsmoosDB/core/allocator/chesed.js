@@ -10,6 +10,12 @@
  * metadata, verified complement, transaction retirement, and temporary external
  * body leases. The Awtsmoos keeps every chamber guarded until durable ownership
  * or verified absence has been revealed.
+ *
+ * Db-phase2 additions: provenance pools for incremental reuse
+ * (rangeTrust.js) — `_sessionFreeList` holds ranges this process freed
+ * while the verified gate was closed, `_deferredFreeList` holds
+ * complement-proven ranges the adoption shaping had to defer — plus
+ * free-space telemetry via freeSpaceStats().
  */
 
 const cursorState = require('./cursorState.js');
@@ -18,6 +24,8 @@ const persistence = require('./freeListPersistence.js');
 const refreshVerifiedComplement = require('./reachableComplement.js');
 const retirementQueue = require('./retirementQueue.js');
 const allocationLeases = require('./allocationLeases.js');
+const rangeTrust = require('./rangeTrust.js');
+const freeSpaceStats = require('./freeSpaceStats.js');
 
 class AllocatorChesed {
 	constructor(pager) {
@@ -41,6 +49,11 @@ class AllocatorChesed {
 		this.rejectedRetiredRanges = [];
 		this.reuseVerification = { state: 'not-checked', ok: null };
 		this.rejectedFreeList = [];
+		// Db-phase2: provenance pools + drop/refusal counters. A range
+		// lives in exactly one pool at a time (rangeTrust.js).
+		this._sessionFreeList = [];
+		this._deferredFreeList = [];
+		this._freeSpaceCounters = null;
 	}
 
 	init() { return cursorState.initialize(this); }
@@ -69,6 +82,9 @@ class AllocatorChesed {
 	_mergeFreeList() { return this.mergeFreeList(); }
 	_absorbTrailingGaps() { return this.absorbTrailingGaps(); }
 	flushCursor() { return cursorState.flush(this); }
+	freeSpaceStats() { return freeSpaceStats(this); }
+	depositDeferredRange(range, kind) { return rangeTrust.depositDeferred(this, range, kind); }
+	clearDerivedPools() { return rangeTrust.clearDerivedPools(this); }
 
 	save(value) {
 		if (!this.db.primitiveSaver) {

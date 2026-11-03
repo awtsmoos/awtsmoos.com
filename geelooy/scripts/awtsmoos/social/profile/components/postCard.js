@@ -9,11 +9,13 @@
  * Awtsmoos.com reveals Heichel, series, structure, and opening motion in one readable style.
  */
 import { el } from "../dom.js";
+import { profileState } from "../state.js";
+import { postOwnerMenu, isOwnProfile } from "./postOwnerMenu.js";
 
 /** @param {object} post Public post record. @returns {HTMLElement} Rich post destination card. */
 export function postCard(post) {
 	const route = `/heichelos/${encodeURIComponent(post.heichelId || "")}/series/${encodeURIComponent(post.seriesId || "root")}/${encodeURIComponent(post.postId || post.id || "")}`;
-	return el("a", { className: "profile-post-card profile-context-card", attrs: { href: route } }, [
+	const card = el("a", { className: "profile-post-card profile-context-card", attrs: { href: route } }, [
 		el("header", { className: "profile-context-path" }, [
 			contextToken("♜", post.heichelName || post.heichelId || "Heichel"),
 			contextToken("▱", post.seriesName || post.seriesId || "Root series")
@@ -29,6 +31,20 @@ export function postCard(post) {
 			el("strong", { text: "Read post →" })
 		])
 	]);
+	// Owner actions live outside the anchor so the card stays valid
+	// interactive structure: shown only for the viewer's own posts.
+	const viewer = profileState.viewerAliasId;
+	const ownsPost = !!viewer && (post.author ? post.author === viewer : isOwnProfile());
+	if (!ownsPost) return card;
+	const menu = postOwnerMenu({
+		heichelId: post.heichelId,
+		seriesId: post.seriesId || "root",
+		postId: post.postId || post.id,
+		title: post.title || post.postTitle || "",
+		route
+	});
+	if (!menu) return card;
+	return el("div", { className: "profile-post-card-wrap" }, [card, menu]);
 }
 
 function contextToken(icon, text) {

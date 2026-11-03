@@ -14,7 +14,9 @@
  * logical read cache. Any mutation through this wrapper clears the cache, so a
  * reader who asks the same question twice receives the same already-revealed
  * light instantly, instead of forcing the database to perform Maaseh Bereishis
- * all over again.
+ * all over again. Entries expire after a bounded TTL and the cache is
+ * size-capped (see finalReadCacheConfig), so reads changed outside this
+ * wrapper cannot stay stale forever and the cache cannot grow unbounded.
  */
 
 const fsRegular = require("fs");
@@ -41,6 +43,40 @@ function finalReadCache() {
   if (!globalThis.__awtsmoosDosDbFinalReadCache) globalThis.__awtsmoosDosDbFinalReadCache = new Map();
   return globalThis.__awtsmoosDosDbFinalReadCache;
 }
+// Read-cache safety bounds (write-path patch P1): entries used to live
+// forever and the map grew without bound, so a value changed outside this
+// wrapper (another process, a manual edit, a restore) was served stale
+// indefinitely and long-lived processes accumulated one promise per
+// distinct read forever. Each entry now carries its insertion time and is
+// dropped once it is older than the TTL; the map is capped with
+// oldest-first eviction. Both knobs are read from the environment on every
+// access so operators (and tests) can retune without a restart:
+//   AWTSMOOS_DOSDB_CACHE_TTL_MS      default 30000. 0 disables reuse
+//                                    (every read re-runs its producer);
+//                                    invalid/negative falls back to 30000.
+//   AWTSMOOS_DOSDB_CACHE_MAX_ENTRIES default 1000. 0 means unbounded
+//                                    (the pre-patch behaviour, opt-out
+//                                    only); invalid/negative -> 1000.
+const FINAL_READ_CACHE_DEFAULT_TTL_MS = 30000;
+const FINAL_READ_CACHE_DEFAULT_MAX_ENTRIES = 1000;
+function finalReadCacheConfig() {
+  const ttlRaw = Number.parseInt(process.env.AWTSMOOS_DOSDB_CACHE_TTL_MS, 10);
+  const maxRaw = Number.parseInt(process.env.AWTSMOOS_DOSDB_CACHE_MAX_ENTRIES, 10);
+  return {
+    ttlMs: Number.isFinite(ttlRaw) && ttlRaw >= 0 ? ttlRaw : FINAL_READ_CACHE_DEFAULT_TTL_MS,
+    maxEntries: Number.isFinite(maxRaw) && maxRaw >= 0 ? maxRaw : FINAL_READ_CACHE_DEFAULT_MAX_ENTRIES
+  };
+}
+// Entries are stored as { promise, at }. A bare promise found in the map
+// (seeded by older code before this shape existed) is still honoured for
+// that access and simply never expires/evicts by age.
+function cacheEntryPromise(entry) {
+  if (entry && typeof entry === "object" && "promise" in entry) return entry.promise;
+  return entry;
+}
+function cacheEntryExpired(entry, now, ttlMs) {
+  return !!(entry && typeof entry === "object" && "at" in entry && now - entry.at >= ttlMs);
+}
 function stableOptions(options) {
   try { return JSON.stringify(options || {}); } catch { return "{}"; }
 }
@@ -49,15 +85,67 @@ function finalReadKey(directory, method, id, options) {
 }
 function cachedPromise(key, producer) {
   const cache = finalReadCache();
-  if (cache.has(key)) return cache.get(key);
-  const promise = Promise.resolve().then(producer).catch(error => {
+  const { ttlMs, maxEntries } = finalReadCacheConfig();
+  const now = Date.now();
+  const existing = cache.get(key);
+  if (existing !== undefined) {
+    if (!cacheEntryExpired(existing, now, ttlMs)) return cacheEntryPromise(existing);
     cache.delete(key);
+  }
+  // Drop expired entries on insert so dead weight cannot crowd out the
+  // size bound below; live entries keep their insertion order.
+  for (const [otherKey, otherEntry] of cache) {
+    if (cacheEntryExpired(otherEntry, now, ttlMs)) cache.delete(otherKey);
+  }
+  const promise = Promise.resolve().then(producer).catch(error => {
+    // Preserve the historical "a failed read removes its own key" rule,
+    // but only evict if the map still holds THIS promise (a newer entry
+    // for the same key may have replaced it after expiry/eviction).
+    const current = cache.get(key);
+    if (current !== undefined && cacheEntryPromise(current) === promise) cache.delete(key);
     throw error;
   });
-  cache.set(key, promise);
+  cache.set(key, { promise, at: now });
+  if (maxEntries > 0) {
+    // Map iteration order is insertion order: evict oldest first.
+    while (cache.size > maxEntries) {
+      const oldest = cache.keys().next();
+      if (oldest.done) break;
+      cache.delete(oldest.value);
+    }
+  }
   return promise;
 }
 function clearFinalReadCache() { finalReadCache().clear(); }
+// Per-key invalidation (write-path patch P4): a mutation used to clear
+// the ENTIRE cache, so one write evicted every unrelated hot read in the
+// process. Every cached read in this wrapper is addressed by a single id
+// path, and a mutation of id X can only change reads whose id is X
+// itself, an ancestor of X (listings/values that include X), or a
+// descendant of X (recursive delete/rename of a subtree) — so evicting
+// exactly the segment-wise prefix-overlapping keys for the same
+// directory preserves read semantics while keeping unrelated entries.
+// Segment-aware comparison matters: "fam2/x" must survive a write to
+// "fam/a" even though the strings share a prefix. Escape hatch: set
+// AWTSMOOS_DOSDB_CACHE_INVALIDATION=full to restore whole-cache clears.
+function normalizeCacheId(id) {
+  return String(id || "").replace(/\\/g, "/").replace(/^\/+/, "").replace(/\/+$/, "");
+}
+function cacheIdsOverlap(a, b) {
+  if (!a || !b) return true;
+  return a === b || a.startsWith(b + "/") || b.startsWith(a + "/");
+}
+function invalidateFinalReadCacheFor(directory, ...ids) {
+  if (process.env.AWTSMOOS_DOSDB_CACHE_INVALIDATION === "full") { clearFinalReadCache(); return; }
+  const targets = ids.map(normalizeCacheId);
+  if (!targets.length || targets.some(target => !target)) { clearFinalReadCache(); return; }
+  const cache = finalReadCache();
+  for (const key of [...cache.keys()]) {
+    const parts = key.split("\u0001");
+    if (parts.length < 3 || parts[0] !== directory) continue;
+    if (targets.some(target => cacheIdsOverlap(target, normalizeCacheId(parts[2])))) cache.delete(key);
+  }
+}
 
 function isSocialCommentPath(id) {
   return /^\/?social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(String(id || "").replace(/\\/g, "/").replace(/^\/+/, ""));
@@ -158,19 +246,19 @@ class DosDB {
     });
 
     this.write = async (id, record, opts = {}) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const routed = await this.__awtsmoosDbFsRouter.maybe("write", id, record, opts);
       return maybeResult(routed) ? routed : legacy.write(id, record, opts);
     };
 
     this.delete = async (id, recursive = false) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const routed = await this.__awtsmoosDbFsRouter.maybe("delete", id, recursive);
       return maybeResult(routed) ? routed : legacy.delete(id, recursive);
     };
 
     this.rename = async (oldId, newId) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, oldId, newId);
       const routed = await this.__awtsmoosDbFsRouter.maybe("rename", oldId, newId);
       return maybeResult(routed) ? routed : legacy.rename(oldId, newId);
     };
@@ -182,8 +270,27 @@ class DosDB {
       if (comparison.broken) return comparison.legacyKeys;
       let directKeys = maybeResult(comparison.routedKeys) ? comparison.routedKeys : undefined;
       if (isSocialCommentPath(id)) return directKeys || [];
+      if (directKeys === undefined && Array.isArray(comparison.legacyKeys)) {
+        // B"H QA db-phase2 (2026-11-03): routedLooksLikeBrokenCollection
+        // already enumerated the legacy keys for this exact id; asking
+        // legacy.getObjectKeys again below would repeat the full
+        // directory enumeration for an identical result.
+        directKeys = comparison.legacyKeys;
+      }
       let directValue;
-      try { directValue = await legacy.get(id); } catch (_error) { directValue = undefined; }
+      try {
+        // B"H QA db-phase2 (2026-11-03): bounded probe. When the key
+        // list is longer than one directory page (10), the only facts
+        // taken from legacy.get below are "is it an array" and its
+        // length (the P4 page-vs-collection decision) — a stored-array
+        // or dynamic-record value is unaffected by sort order, and a
+        // directory page is 10 long under either sort, so probing with
+        // the alphabetical page (which stats only the page entries
+        // instead of the whole directory) cannot change the outcome.
+        directValue = (Array.isArray(directKeys) && directKeys.length > 10)
+          ? await legacy.get(id, { sortBy: "alphabetical", pageSize: 10, propertyMap: null, arrayFilter: null })
+          : await legacy.get(id);
+      } catch (_error) { directValue = undefined; }
       if (directKeys === undefined) {
         try { directKeys = await legacy.getObjectKeys(id); }
         catch (_error) { directKeys = undefined; }
@@ -215,7 +322,7 @@ class DosDB {
     });
 
     this.syncKeyInObj = async (id, key, value = true) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.syncKeyInObj(id, key, value);
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
@@ -223,7 +330,7 @@ class DosDB {
     };
 
     this.syncKeyInArray = async (id, value) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       if (isSocialCommentPath(id)) {
         const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInArray", id, value);
         return maybeResult(routed) ? routed : { success: { skippedSocialCommentPath: true, id, value } };
@@ -235,14 +342,14 @@ class DosDB {
         const serialized = awtsmoosBinary.serializeJSON(arr);
         await fs.mkdir(path.dirname(sidecar.path), { recursive: true });
         await fs.writeFile(sidecar.path, serialized);
-        clearFinalReadCache();
+        invalidateFinalReadCacheFor(this.directory, id);
         return { success: { written: sidecar.path, serialized: serialized.length, inputArray: arr, appended: value } };
       }
       return { success: { written: sidecar.path, inputArray: arr, alreadyPresent: value } };
     };
 
     this.appendToObj = async (id, payload = {}) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.appendToObj(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToObj", id, payload);
@@ -250,7 +357,7 @@ class DosDB {
     };
 
     this.updateEntry = async (id, payload = {}) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.updateEntry(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("updateEntry", id, payload);
@@ -258,7 +365,7 @@ class DosDB {
     };
 
     this.appendToArrayAtKey = async (id, payload = {}) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.appendToArrayAtKey(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToArrayAtKey", id, payload);
@@ -266,7 +373,7 @@ class DosDB {
     };
 
     this.setObjectKey = async (id, key, value) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.setObjectKey(id, key, value);
       const routed = await this.__awtsmoosDbFsRouter.maybe("setObjectKey", id, key, value);
@@ -291,7 +398,7 @@ class DosDB {
     });
 
     this.deleteObjectKey = async (id, key) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const arrayInfo = await (legacy.getArrayAtPath ? legacy.getArrayAtPath(id) : this.getArrayAtPath(id)).catch(() => null);
       const directArray = await legacy.get(id).catch(() => null);
       const candidateArray = Array.isArray(arrayInfo?.success) && arrayInfo.success.length
@@ -310,7 +417,7 @@ class DosDB {
             ? arrayInfo.myPath
             : path.join(this.directory, ...cleanParts) + ".awtsmoosJSON";
           await fs.writeFile(sidecarPath, serialized);
-          clearFinalReadCache();
+          invalidateFinalReadCacheFor(this.directory, id);
           return { success: { written: sidecarPath, serialized: serialized.length, inputArray: filtered, removed: key } };
         }
       }
@@ -321,7 +428,7 @@ class DosDB {
     };
 
     this.deleteEntry = async (id, key) => {
-      clearFinalReadCache();
+      invalidateFinalReadCacheFor(this.directory, id);
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return legacy.deleteEntry(id, key);
       const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
@@ -384,5 +491,6 @@ DosDB.AwtsmoosDB = AwtsmoosDB;
 DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) { return createAwtsmoosDb(filePath, options, null); };
 DosDB.createAwtsmoosDb = DosDB.awtsmoosDb;
 DosDB.clearFinalReadCache = clearFinalReadCache;
+DosDB.invalidateFinalReadCacheFor = invalidateFinalReadCacheFor;
 
 module.exports = DosDB;

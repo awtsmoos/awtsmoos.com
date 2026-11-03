@@ -1,0 +1,31 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+Social fix pack (2026-11-03): Quantum Mail lives at /email/; /mail was a
+bare 404 even though people naturally type it. This doorway forwards
+there, preserving any query string (for example a ?thread= deep link)
+and fragment.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos Mail — Awtsmoos</title>
+	<meta http-equiv="refresh" content="0;url=/email/">
+	<link rel="canonical" href="/email/">
+	<script>
+		const destination = new URL('/email/', location.origin);
+		destination.search = location.search;
+		destination.hash = location.hash;
+		location.replace(destination);
+	</script>
+</head>
+<body>
+	<main>
+		<h1>Awtsmoos Mail</h1>
+		<p>Mail continues at its home address.</p>
+		<a href="/email/">Open Awtsmoos Mail</a>
+	</main>
+</body>
+</html>

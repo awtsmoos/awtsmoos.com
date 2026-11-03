@@ -14,9 +14,24 @@ const packed = require('./richDb/PackedStore.js');
 function array(value) { return Array.isArray(value) ? value : []; }
 function context(heichelId, postId, extra = {}) { return { heichelId, postId, ...extra }; }
 function read($i, target, fallback = null) {
-	try { return packed.read($i, target, fallback); } catch { return fallback; }
+	try { return packed.read($i, target, fallback); } catch (error) {
+		// A store fault must never again present site-wide as "there are no
+		// comments" with zero diagnostics: log the failing target before
+		// degrading to the caller's fallback.
+		console.error(`B"H [richCommentAccess] read failed for ${target}:`, error?.message || error);
+		return fallback;
+	}
 }
 function write($i, target, value) { return packed.write($i, target, value); }
+// Passthrough for PackedStore.batch (write-path patch P3): wraps a group
+// of write/writeIndex calls on this store in one deferred-flush batch.
+// Usage: await access.batch($i, async () => { ...writes... }).
+function batch($i, fn) { return packed.batch($i, fn); }
+// Passthrough for PackedStore.writeMany (db-phase2 integration): applies
+// a group of [target, value] sets on this store as one FS3 batch — one
+// manifest commit and one durable flush for the whole group.
+// Usage: access.writeMany($i, [[target, value], ...]).
+function writeMany($i, entries) { return packed.writeMany($i, entries); }
 
 function writeIndex($i, target, value) {
 	const list = array(read($i, target, []));
@@ -100,11 +115,13 @@ function getCommentByUnique({ $i, commentId }) {
 
 module.exports = {
 	array,
+	batch,
 	context,
 	getComment,
 	getCommentByUnique,
 	read,
 	removeIndex,
 	write,
-	writeIndex
+	writeIndex,
+	writeMany
 };

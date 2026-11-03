@@ -14,6 +14,7 @@ const store = require('./store');
 const { ensureDir } = require('./dir');
 const read = require('./read');
 const writeOps = require('./write');
+const writeManyOps = require('./writeMany');
 const deleteOps = require('./delete');
 const moveOps = require('./move');
 const statOps = require('./stat');
@@ -65,6 +66,7 @@ class VirtualFs {
 	cat(filePath, options = {}) { this.ready(); return read.cat(this, filePath, options); }
 	readRange(filePath, offset = 0, length) { this.ready(); return read.readRange(this, filePath, offset, length); }
 	write(filePath, value) { this.assertWritable('write'); this.ready(); return writeOps.write(this, filePath, value); }
+	writeMany(entries, options = {}) { this.assertWritable('writeMany'); this.ready(); return writeManyOps.writeMany(this, entries, options); }
 	append(filePath, value) { this.assertWritable('append'); this.ready(); return writeOps.append(this, filePath, value); }
 	writeRange(filePath, offset, value) { this.assertWritable('writeRange'); this.ready(); return writeOps.writeRange(this, filePath, offset, value); }
 	rm(filePath, options = {}) { this.assertWritable('rm'); this.ready(); return deleteOps.rm(this, filePath, options); }

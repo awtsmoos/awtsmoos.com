@@ -2,7 +2,26 @@
 /** Legacy single-comment/reply routes now delegate to the dedicated rich store. */
 const compat = require('../richCompatibility.js');
 const store = require('../richCommentStore.js');
-const { er, methodIs } = require('./utils.js');
+const postRef = require('../postRefComment.js');
+const { er, methodIs, getUserId } = require('./utils.js');
+
+// Same identity resolution as the canonical rich routes: the verified
+// session user, or the platform OAuth bearer — never a client-claimed field.
+function bearerUserId($i) {
+	try {
+		const { readBearer } = require('../../../../oauth/core/tokenReader.js');
+		const resolved = readBearer($i);
+		if (!resolved?.ok) return null;
+		const entry = resolved.entry || {};
+		return entry.userId ? String(entry.userId) : null;
+	} catch {
+		return null;
+	}
+}
+
+function sessionUser($i, userid) {
+	return getUserId($i, userid) || bearerUserId($i);
+}
 
 module.exports = ({ $i, userid }) => ({
 	'/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/atAlias/:alias/atVerseSection/:verseSection': async v => {
@@ -55,6 +74,19 @@ module.exports = ({ $i, userid }) => ({
 			});
 		}
 		if (methodIs($i, 'DELETE')) {
+			// This legacy doorway used to delete any comment with no
+			// ownership check at any level. It now carries the canonical
+			// gate: only the comment's author or an admin may delete.
+			const authz = await postRef.authorizeCommentDelete({
+				$i,
+				userid: sessionUser($i, userid),
+				heichelId: v.heichel,
+				postId,
+				commentId: v.comment
+			});
+			if (!authz) {
+				return er({ code: 'NOT_AUTHORIZED', message: 'Only the comment author or admin may delete a comment.' });
+			}
 			return { success: await store.deleteOne({ $i, heichelId: v.heichel, postId, commentId: v.comment, reason: 'legacy-comment-delete' }) };
 		}
 		return er({ message: 'Method Not Allowed', code: 405 });
