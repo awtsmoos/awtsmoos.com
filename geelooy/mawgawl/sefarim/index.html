@@ -38,13 +38,14 @@ Awtsmoos Library Search — simple, professional, one clear vessel.
 			<p class="search-kicker">Awtsmoos Library</p>
 			<h1 id="search-title">Search the sources.</h1>
 			<p class="search-sub">Ask in Hebrew or English — every answer carries its exact coordinates.</p>
+			<p class="search-sub">Looking for an encyclopedia article? <a href="/heichelos/ikar/series/encyclopedia">Browse the Living Library encyclopedia (2,073 articles)</a>.</p>
 		</header>
 
 		<form id="searchForm" class="search-form" role="search" action="/mawgawl/sefarim" method="get">
 			<div class="search-bar">
 				<label class="search-input-wrap" for="query">
 					<span class="visually-hidden">Question or Hebrew word or phrase</span>
-					<img class="gicon gicon--sm gicon--search" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78" alt="" aria-hidden="true" loading="lazy">
+					<img class="gicon gicon--sm gicon--search" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78" alt="" aria-hidden="true" loading="lazy" onerror="this.hidden=true">
 					<input id="query" name="q" type="search" required autocomplete="off" placeholder="What does the source say about…?">
 				</label>
 				<button class="search-submit" type="submit">
@@ -69,11 +70,11 @@ Awtsmoos Library Search — simple, professional, one clear vessel.
 		</form>
 
 		<nav class="search-scopes" aria-label="Search scopes">
-			<a class="search-scope is-active" href="/mawgawl/sefarim/" aria-current="page"><img class="gicon gicon--xs gicon--book" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-book.webp?v=89fce054b2" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Sources</span></a>
-			<a class="search-scope" href="/heichelos"><img class="gicon gicon--xs gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Heichelos</span></a>
-			<a class="search-scope" href="/social-hub/"><img class="gicon gicon--xs gicon--edit" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-edit.webp?v=4a58469fca" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Posts</span></a>
-			<a class="search-scope" href="/profile/"><img class="gicon gicon--xs gicon--users" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Aliases</span></a>
-			<a class="search-scope" href="/heichelos/ikar?view=series"><img class="gicon gicon--xs gicon--layers" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-layers.webp?v=0aeef9a4c9" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Series</span></a>
+			<a class="search-scope is-active" href="/mawgawl/sefarim/" aria-current="page"><img class="gicon gicon--xs gicon--book" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-book.webp?v=89fce054b2" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18" onerror="this.hidden=true"><span>Sources</span></a>
+			<a class="search-scope" href="/heichelos"><img class="gicon gicon--xs gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18" onerror="this.hidden=true"><span>Heichelos</span></a>
+			<a class="search-scope" href="/social-hub/"><img class="gicon gicon--xs gicon--edit" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-edit.webp?v=4a58469fca" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18" onerror="this.hidden=true"><span>Posts</span></a>
+			<a class="search-scope" href="/profile/"><img class="gicon gicon--xs gicon--users" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18" onerror="this.hidden=true"><span>Aliases</span></a>
+			<a class="search-scope" href="/heichelos/ikar?view=series"><img class="gicon gicon--xs gicon--layers" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-layers.webp?v=0aeef9a4c9" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18" onerror="this.hidden=true"><span>Series</span></a>
 		</nav>
 
 		<section class="search-results-region" aria-labelledby="results-title">
@@ -84,7 +85,7 @@ Awtsmoos Library Search — simple, professional, one clear vessel.
 			<p id="status" class="search-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
 			<div id="results" class="search-results" aria-live="polite" aria-label="Search results">
 				<article class="library-empty library-empty-intro">
-					<img class="gicon gicon--lg gicon--search" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78" alt="" aria-hidden="true" loading="lazy" decoding="async" width="40" height="40">
+					<img class="gicon gicon--lg gicon--search" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78" alt="" aria-hidden="true" loading="lazy" decoding="async" width="40" height="40" onerror="this.hidden=true">
 					<div><strong>Begin with a phrase, question, or teaching.</strong><p>The library answers from its live persisted index.</p></div>
 				</article>
 			</div>

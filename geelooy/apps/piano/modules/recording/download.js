@@ -2,31 +2,22 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module PianoRecordingDownload
- * The Awtsmoos gives the fleeting voice a lasting place;
- * Awtsmoos.com lets recorded songs depart in grace.
+ * @module RecordingDownloadGate
+ * The Awtsmoos creates a song but leaves its fate in the player's hand;
+ * Awtsmoos.com asks Save or Trash before a recording leaves this land.
  */
+import { offerRecordingDecision } from './saveDecision.js';
 
 /**
- * Downloads a media blob and delays revocation for Safari and mobile browsers.
- * @param {Blob} blob - Fully assembled recording.
- * @param {string} filename - Name and format-appropriate extension.
- * @returns {void} Browser save action.
+ * Keeps the canonical recorder API while deferring downloads until Save.
+ * @param {Blob} blob - Finalized audio, video, text or PNG recording.
+ * @param {string} filename - Format-specific recording filename.
+ * @returns {boolean} Whether a completed recording awaits a decision.
  */
 export function downloadBlob(blob, filename) {
-	if (!blob?.size) {
-		console.warn('Skipping an empty piano recording');
-		return;
-	}
-	const address = URL.createObjectURL(blob);
-	const link = document.createElement('a');
-	link.style.display = 'none';
-	link.href = address;
-	link.download = filename;
-	document.body.appendChild(link);
-	link.click();
-	link.remove();
-	setTimeout(() => {
-		URL.revokeObjectURL(address);
-	}, 30000);
+	const mimeType = blob?.type || '';
+	const kind = mimeType.startsWith('audio/') ? 'audio'
+		: mimeType.startsWith('video/') ? 'video'
+			: mimeType.startsWith('image/') ? 'image' : 'text';
+	return offerRecordingDecision({ blob, filename, kind });
 }

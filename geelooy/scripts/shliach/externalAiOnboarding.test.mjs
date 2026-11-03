@@ -3,12 +3,10 @@
 // Blessed is He
 
 /**
- * @file Proves the Shliach newcomer flow explains and wires external-AI connection safely.
- * @description
- * The Awtsmoos lets a beautiful gate remain truthful under inspection;
- * Awtsmoos.com proves every prompt, route, capability check, and motion escape before celebration.
+ * @file Tests the Shliach copy-once doorway for every lawful external AI.
+ * The Awtsmoos renews each permission; Awtsmoos.com proves the UI cannot
+ * promise a machine or OAuth method that the agent has not discovered.
  */
-
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -18,11 +16,12 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
 
+/** Reads the exact shipped bytes of an onboarding component. */
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
 }
 
-test("main page offers a first-class external AI doorway without breaking Shliach", () => {
+test("main page exposes a copyable external-AI prompt", () => {
 	const html = source("Shliach/index.html");
 	assert.match(html, /id="connect-ai"/);
 	assert.match(html, /data-external-ai-guide/);
@@ -32,18 +31,27 @@ test("main page offers a first-class external AI doorway without breaking Shliac
 	assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
 });
 
-test("external prompt discovers published auth and never hard-codes tunnel identity", () => {
+test("copied prompt includes real client setup and GET-only authorization", () => {
 	const prompt = source("scripts/shliach/ExternalAiPrompt.js");
-	assert.match(prompt, /\/api\/oauth\/metadata/);
-	assert.match(prompt, /client_id=external-agent/);
-	assert.match(prompt, /\/api\/oauth\/device-authorization/);
-	assert.match(prompt, /\/api\/tunnel\/control\/my-device/);
-	assert.match(prompt, /routeReference/);
-	assert.match(prompt, /Do not ask me for or hard-code a friendly tunnel name/);
-	assert.match(prompt, /Never ask me to paste access tokens/);
+	for (const required of [
+		"/api/oauth/metadata", "client_id=external-agent", "/api/oauth/device-authorization",
+		"/api/tunnel/control/my-device", "routeReference", "humanChoiceRequired=true",
+		"Never ask me to paste access tokens", "muse mcp login awtsmoos",
+		"/api/tunnel/control/mcp", "GET-only", "curl -fsSL", "irm https://awtsmoos.com",
+		"missionVisibilityList", "missionVisibilityReport", "bounded backoff", "502/503/504"
+	]) {
+		assert.ok(prompt.includes(required), `missing onboarding guidance: ${required}`);
+	}
+	assert.doesNotMatch(prompt, /POST to \/api\/oauth\/device-authorization/);
 });
 
-test("interactive panel explains the full live connection path and direct tools", () => {
+test("alias redirects typo to the canonical connection section", () => {
+	const html = source("shloach/index.html");
+	assert.match(html, /\/Shliach\/#connect-ai/);
+	assert.match(html, /rel="canonical" href="https:\/\/awtsmoos.com\/Shliach\/"/);
+});
+
+test("interactive panel explains the live connection path", () => {
 	const panel = source("scripts/shliach/ExternalAiPanel.js");
 	for (const marker of ["Your AI", "OAuth", "Account", "my-device", "Tunnel", "Project"]) {
 		assert.match(panel, new RegExp(marker));
@@ -54,7 +62,7 @@ test("interactive panel explains the full live connection path and direct tools"
 	assert.match(panel, /href="\/os"/);
 });
 
-test("capability UI trusts live OAuth metadata and keeps motion accessible", () => {
+test("capability UI checks live metadata and reduced-motion support", () => {
 	const metadata = source("scripts/shliach/ConnectionMetadata.js");
 	const cssIndex = source("style/shliach/index.css");
 	const motion = source("style/shliach/connection-motion.css");

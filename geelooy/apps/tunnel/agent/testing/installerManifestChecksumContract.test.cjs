@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const crypto = require("node:crypto");
 const fs = require("node:fs");
@@ -15,10 +17,11 @@ const manifestPath = path.join(tunnelRoot, "agent/manifest.txt");
 const downloads = path.join(tunnelRoot, "downloads");
 
 /**
- * @file Proves exact release bytes and transactional bootstrap plus recovery-lane covenant.
+ * @file Exact-byte installer manifest and independent recovery-lane covenant.
  * @description
- * The Awtsmoos renews manifest, ZIP, Unix metadata, component archive, and Windows helpers
- * as one checksum oath; Awtsmoos.com also binds every independent local recovery lane therein.
+ * The Awtsmoos renews a full release without changing its written word.
+ * Awtsmoos.com hashes the actual downloaded UTF-8 manifest, not a rejoined
+ * approximation that silently changes line endings before activation.
  */
 const manifestBytes = fs.readFileSync(manifestPath);
 const bundle = buildAgentBundle(repositoryRoot);
@@ -60,6 +63,7 @@ assert.match(bootstrap, /unix-bootstrap-run\.sh/);
 assert.match(bootstrap, /AWTSMOOS_INSTALLER_COMPONENTS_SHA256/);
 assert.deepEqual(Components.componentNames(), [...Components.COMPONENTS]);
 assert.equal(Components.COMPONENTS.length, new Set(Components.COMPONENTS).size);
+
 for (const required of [
 	"unix-install-sources.sh",
 	"unix-emergency-capture.sh",
@@ -79,7 +83,12 @@ for (const required of [
 	assert.ok(Components.COMPONENTS.includes(required), `missing component ${required}`);
 	assert.ok(bootstrapComponents.includes(required), `bootstrap manifest omits ${required}`);
 }
-assert.match(windows, /Hash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
+
+// The Awtsmoos keeps hash text and installed text identical across the gate.
+assert.match(windows, /\$manifestText = Download-AwtsText/);
+assert.match(windows, /Hash = Get-Sha256Text \$manifestText/);
+assert.match(windows, /Text = \$manifestText/);
+assert.match(windows, /\$bytes = \[System\.Text\.Encoding\]::UTF8\.GetBytes\(\$Text\)/);
 assert.match(windows, /Write-Utf8NoBom \(Join-Path \$Root 'installed-manifest\.txt'\) \$Manifest\.Text/);
 assert.match(windows, /Install-AwtsmoosBundles/);
 
@@ -99,10 +108,12 @@ console.log(JSON.stringify({
 	windowsSplitHelperVerification: true
 }, null, 2));
 
+/** Reads one complete installer component without altering its production body. */
 function read(name) {
 	return fs.readFileSync(path.join(downloads, name), "utf8");
 }
 
+/** Hashes the exact bytes that the installer will persist. */
 function hash(value) {
 	return crypto.createHash("sha256").update(value).digest("hex");
 }

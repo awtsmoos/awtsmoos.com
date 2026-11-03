@@ -3,113 +3,100 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarDom
- * @description
- * Malchus keeps essential edits near the thumb while the Awtsmoos remains beyond button, hierarchy, and screen.
- * Awtsmoos.com leaves WAV, Play, Split, Delete, history, and zoom in first sight, while clip fades and alternate tools fold beneath the waveform's light.
+ * The Awtsmoos gives the musician the music first, with every extra tool nearby;
+ * Awtsmoos.com keeps WAV and zoom in sight while clip color and optional tools wait in the hidden sky.
  */
-
 import { createMultitrackClipMixDom } from './multitrackClipMixDom.js';
+import { createTimelineNavigation } from './multitrackTimelineNavigation.js';
 
-/** Builds the compact mobile-first multitrack toolbar and secondary tool drawer. */
+const ESSENTIAL_ACTIONS = new Set([
+	'import', 'play', 'split', 'delete', 'downloadWav', 'fit', 'zoomOut', 'zoomIn'
+]);
+
+/** @returns {Object} Compact audio editor toolbar with prominent WAV and zoom controls. */
 export function createMultitrackToolbarDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-toolbar';
-	const primary = document.createElement('div');
-	primary.className = 'multitrack-toolbar-primary';
+	const essentials = document.createElement('div');
+	essentials.className = 'multitrack-essential-tools';
+	const advanced = document.createElement('details');
+	advanced.className = 'multitrack-extra-tools';
+	const summary = document.createElement('summary');
+	summary.textContent = 'More · Clip mix · WebM · Record';
+	const advancedGrid = document.createElement('div');
+	advancedGrid.className = 'multitrack-extra-grid';
+	advanced.append(summary, advancedGrid);
 	const buttons = new Map();
-	primarySpecs().forEach((spec) => primary.appendChild(createButton(spec, buttons)));
-	const drawer = createSecondaryDrawer(buttons);
+	for (const [action, text, label] of specifications()) {
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.dataset.multitrackAction = action;
+		button.className = `multitrack-tool ${action === 'import' ? 'multitrack-tool-primary' : ''}`;
+		button.textContent = text;
+		button.setAttribute('aria-label', label);
+		buttons.set(action, button);
+		(ESSENTIAL_ACTIONS.has(action) ? essentials : advancedGrid).appendChild(button);
+	}
+	const navigation = createTimelineNavigation();
+	const clipMix = createMultitrackClipMixDom();
+	advancedGrid.append(navigation.root, clipMix);
+	const preferences = document.createElement('div');
+	preferences.className = 'multitrack-edit-preferences';
+	const snap = createSnapSelect();
+	preferences.appendChild(snap.root);
+	const ripple = document.createElement('label');
+	ripple.className = 'multitrack-ripple-toggle';
+	const checkbox = document.createElement('input');
+	checkbox.type = 'checkbox';
+	checkbox.checked = true;
+	checkbox.setAttribute('aria-label', 'Close gaps when deleting audio');
+	ripple.append(checkbox, document.createTextNode(' Close gaps'));
+	preferences.appendChild(ripple);
 	const fileInput = document.createElement('input');
 	fileInput.type = 'file';
 	fileInput.accept = 'audio/*';
 	fileInput.multiple = true;
 	fileInput.className = 'multitrack-file-input';
-	fileInput.setAttribute('aria-label', 'Import audio layers');
-	root.append(primary, drawer.root, fileInput);
+	root.append(essentials, preferences, advanced, fileInput);
 	return {
-		root,
-		buttons,
-		snapSelect: drawer.snapSelect,
-		rippleInput: drawer.rippleInput,
-		magnetInput: drawer.magnetInput,
-		fileInput
+		root, buttons, snapSelect: snap.select, rippleCheckbox: checkbox,
+		fileInput, playheadInput: navigation.playheadInput, overview: navigation.overview, clipMix
 	};
 }
 
-function primarySpecs() {
+function specifications() {
 	return [
-		['import', '＋ Audio', 'Import audio layer', 'multitrack-tool-primary'],
-		['play-toggle', '▶ Play', 'Play multitrack mix'],
-		['split', '✂ Split', 'Split selected clip at playhead'],
-		['delete', '⌫ Delete', 'Delete selected clip'],
-		['download-wav', '↓ Download WAV', 'Download finished song as WAV', 'multitrack-tool-download'],
-		['undo', '↶', 'Undo last edit'],
-		['redo', '↷', 'Redo last edit'],
-		['zoomOut', '−', 'Zoom timeline out'],
-		['zoomIn', '+', 'Zoom timeline in'],
-		['fit', 'Fit', 'Fit complete song in timeline']
+		['import', '＋ Add', 'Import audio clips'],
+		['play', '▶ Play', 'Play or stop edited audio'],
+		['split', '✂ Cut', 'Cut at playhead'],
+		['delete', '⌫ Delete', 'Delete selected audio'],
+		['downloadWav', '↓ Download finished WAV', 'Download finished song as WAV audio'],
+		['fit', '⇤ Fit', 'Fit song around playhead'],
+		['zoomOut', '− Zoom', 'Zoom out around playhead'],
+		['zoomIn', '+ Zoom', 'Zoom in around playhead'],
+		['downloadWebm', '↓ WebM · compact', 'Optional compressed WebM/Opus audio download'],
+		['punch', '● Record', 'Record from playhead'],
+		['duplicate', '⧉ Copy', 'Duplicate clip'],
+		['repeat', '↻ Repeat', 'Repeat clip four times'],
+		['ratchet', '⚡ Ratchet', 'Ratchet audio']
 	];
-}
-
-function createSecondaryDrawer(buttons) {
-	const root = document.createElement('details');
-	root.className = 'multitrack-tools-drawer';
-	const summary = document.createElement('summary');
-	summary.textContent = 'More tools';
-	const body = document.createElement('div');
-	body.className = 'multitrack-tools-secondary';
-	secondarySpecs().forEach((spec) => body.appendChild(createButton(spec, buttons)));
-	const clipMix = createMultitrackClipMixDom();
-	const snap = createSnapSelect();
-	const ripple = createToggle('Ripple delete', true);
-	const magnet = createToggle('Magnetic snap', true);
-	body.append(clipMix, snap.root, ripple.root, magnet.root);
-	root.append(summary, body);
-	return {
-		root,
-		snapSelect: snap.select,
-		rippleInput: ripple.input,
-		magnetInput: magnet.input
-	};
-}
-
-function secondarySpecs() {
-	return [
-		['duplicate', '⧉ Copy', 'Duplicate selected clip'],
-		['repeat', '↻ Repeat ×4', 'Repeat selected clip four times'],
-		['ratchet', '⚡ Ratchet Drop', 'Create shrinking repeat build and drop'],
-		['download-webm', '↓ Download WebM Audio', 'Download finished song as WebM audio']
-	];
-}
-
-function createButton([action, text, label, className = ''], buttons) {
-	const button = document.createElement('button');
-	button.type = 'button';
-	button.className = `multitrack-tool ${className}`.trim();
-	button.dataset.multitrackAction = action;
-	button.textContent = text;
-	button.setAttribute('aria-label', label);
-	buttons.set(action, button);
-	return button;
 }
 
 function createSnapSelect() {
 	const root = document.createElement('label');
 	root.className = 'multitrack-snap';
-	root.appendChild(Object.assign(document.createElement('span'), { textContent: 'Beat snap' }));
+	root.textContent = 'Snap ';
 	const select = document.createElement('select');
-	[['0', 'Off'], ['1', '1/4'], ['0.5', '1/8'], ['0.25', '1/16'], ['0.125', '1/32']]
-		.forEach(([value, text]) => select.appendChild(new Option(text, value)));
+	for (const [value, label] of [
+		['0', 'Off'], ['1', '1/4'], ['0.5', '1/8'],
+		['0.25', '1/16'], ['0.125', '1/32']
+	]) {
+		const option = document.createElement('option');
+		option.value = value;
+		option.textContent = label;
+		select.appendChild(option);
+	}
+	select.value = '0.25';
 	root.appendChild(select);
 	return { root, select };
-}
-
-function createToggle(text, checked) {
-	const root = document.createElement('label');
-	root.className = 'multitrack-toggle';
-	const input = document.createElement('input');
-	input.type = 'checkbox';
-	input.checked = checked;
-	root.append(input, document.createTextNode(text));
-	return { root, input };
 }

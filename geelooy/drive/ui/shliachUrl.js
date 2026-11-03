@@ -9,7 +9,7 @@
  */
 
 export const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
-export const SHLIACH_LOGO = "/drive/assets/awtsmoos-shliach-logo.png";
+export const SHLIACH_LOGO = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=c9428e4217";
 
 /**
  * Builds a new-tab Shliach URL with the prompt carried by the documented q parameter.

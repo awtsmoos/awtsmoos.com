@@ -1,15 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 "use strict";
 
 /**
- * @file Hosts the stateless Streamable HTTP JSON-RPC edge for Awtsmoos MCP.
+ * @file Stateless OAuth-protected Streamable HTTP JSON-RPC gateway.
  * @description
- * The Awtsmoos sends each request complete, with no hidden session chain;
- * Awtsmoos.com authenticates the audience first, then lets JSON-RPC explain.
- * One POST may discover, list, or call, while every bearer stays resource-bound.
+ * The Awtsmoos creates the gate and every messenger anew.
+ * Before Awtsmoos.com explains which methods may cross this boundary,
+ * it must first reveal the protected resource to an unauthenticated caller.
+ * Muse and every lawful client must receive the Bearer challenge on GET
+ * as well as POST, yet an authenticated GET still has no JSON-RPC license.
  */
 
 const Auth = require("./auth.js");
@@ -38,8 +40,20 @@ function requestMethod($i) {
 	return String($i.request?.method || $i.method || "POST").toUpperCase();
 }
 
-/** Handles one authenticated MCP request without allocating server-side session state. */
+/**
+ * Challenges callers before method or body validation and then dispatches
+ * only authorized POST messages to the stateless JSON-RPC protocol.
+ */
 async function handleMcp($i) {
+	const authorization = Auth.authorize($i);
+	if (!authorization.ok) {
+		return Transport.json(
+			$i,
+			rpcError(null, -32000, "OAuth bearer authorization required."),
+			authorization.status,
+			authorization.headers
+		);
+	}
 	if (requestMethod($i) !== "POST") {
 		Respond.setHeader($i, "Allow", "POST");
 		return Transport.json($i, rpcError(null, -32600, "MCP requires POST."), 405, { Allow: "POST" });
@@ -52,15 +66,6 @@ async function handleMcp($i) {
 	}
 	if (!message || message.jsonrpc !== "2.0" || !message.method) {
 		return Transport.json($i, rpcError(message?.id, -32600, "Invalid JSON-RPC request."), 400);
-	}
-	const authorization = Auth.authorize($i);
-	if (!authorization.ok) {
-		return Transport.json(
-			$i,
-			rpcError(message.id, -32000, "OAuth bearer authorization required."),
-			authorization.status,
-			authorization.headers
-		);
 	}
 	if (message.id === undefined && message.method === "notifications/initialized") {
 		return Transport.empty(202);

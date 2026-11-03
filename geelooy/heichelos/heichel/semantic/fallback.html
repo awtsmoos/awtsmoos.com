@@ -13,7 +13,7 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		return String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 	}
 	if (!cover) return "";
-	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></div>';
+	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" onerror="this.closest(\'.heichel-series-cover-hero\').hidden=true;"></div>';
 	</script>?>
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
@@ -43,7 +43,9 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		var bag = typeof discovery === "object" && discovery ? discovery : null;
 		var links = bag && Array.isArray(bag.links) ? bag.links : [];
 		function esc(value) {
-			return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+			// B"H 2026-10-29: decode any pre-escaped entities first so titles
+			// arriving with &#39; etc. are not double-escaped into visible text.
+			return String(value || "").replace(/&quot;/g, '"').replace(/&#39;|&#x27;/gi, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 		}
 		return links.map(function renderDiscoveryLink(item) {
 			if (!item || !item.path) return "";

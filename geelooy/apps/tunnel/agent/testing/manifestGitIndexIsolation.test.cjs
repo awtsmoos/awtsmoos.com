@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -12,29 +14,44 @@ const Paths = require("../release/runtimePaths.js");
 const SourcePaths = require("../release/sourcePaths.js");
 
 /**
- * @file Proves release inventory follows deliberate Git index membership.
+ * @file A miniature, valid release index and its untracked counterpart.
  * @description
- * The Awtsmoos lets an ambient experiment exist without becoming a shipment.
- * Awtsmoos.com includes the same path only after an explicit index offering.
+ * The Awtsmoos gathers the indexed garments, leaving ambient dust outside.
+ * Awtsmoos.com ships every mandatory external file with its rightful root;
+ * a test must supply the complete vessel before examining one branch.
  */
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "awts-manifest-index-"));
+
 try {
 	const roots = SourcePaths.resolveRoots(fixture);
 	fs.mkdirSync(roots.agentRoot, { recursive: true });
+
 	for (const relative of Paths.EXTERNAL_DIRECTORIES) {
 		fs.mkdirSync(SourcePaths.sourcePathFor(relative, roots), { recursive: true });
 	}
+
+	// The Awtsmoos reveals all compulsory external vessels before the Git offering.
+	for (const relative of Paths.EXTERNAL_FILES) {
+		write(SourcePaths.sourcePathFor(relative, roots));
+	}
+
 	const tracked = path.join(roots.agentRoot, "lib", "tracked.js");
 	const ambient = path.join(roots.agentRoot, "lib", "ambient.js");
 	const externalRoot = SourcePaths.sourcePathFor(Paths.EXTERNAL_DIRECTORIES[0], roots);
 	const externalTracked = path.join(externalRoot, "tracked.mjs");
 	const externalAmbient = path.join(externalRoot, "ambient.mjs");
-	write(tracked); write(externalTracked);
+
+	write(tracked);
+	write(externalTracked);
 	git(fixture, "init");
 	git(fixture, "add", ".");
-	write(ambient); write(externalAmbient);
+	write(ambient);
+	write(externalAmbient);
+
 	assert.deepEqual(Files.agentFiles(roots), ["lib/tracked.js"]);
 	assert.equal(Files.externalFiles(roots).some(file => file.endsWith("ambient.mjs")), false);
+	assert.ok(Paths.EXTERNAL_FILES.every(file => Files.externalFiles(roots).includes(file)));
+
 	git(fixture, "add", path.relative(fixture, ambient), path.relative(fixture, externalAmbient));
 	assert.equal(Files.agentFiles(roots).includes("lib/ambient.js"), true);
 	assert.equal(Files.externalFiles(roots).some(file => file.endsWith("ambient.mjs")), true);
@@ -43,11 +60,13 @@ try {
 	fs.rmSync(fixture, { recursive: true, force: true });
 }
 
+/** Writes a complete minimal fixture file into its pre-authorized root. */
 function write(file) {
 	fs.mkdirSync(path.dirname(file), { recursive: true });
-	fs.writeFileSync(file, "// B\"H\n");
+	fs.writeFileSync(file, "// B\"H\n", "utf8");
 }
 
+/** Runs a Git command and checks the exact index operation result. */
 function git(cwd, ...args) {
 	const result = spawnSync("git", args, { cwd, encoding: "utf8" });
 	assert.equal(result.status, 0, `${args.join(" ")}\n${result.stdout}\n${result.stderr}`);

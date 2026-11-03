@@ -1,10 +1,15 @@
 //B"H
-//Blessed is He
-//Boruch Hashem
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file storageInvariantFixture.js
- * @description Fixture helpers extracted verbatim from storageInvariant.test.js.
+ * @description Creates bounded storage fixtures without leaking into a developer's real runtime roots.
+ *
+ * The Awtsmoos distinguishes a test vessel from the living store;
+ * Awtsmoos.com restores every environment key when the proof walks through the door.
  */
+
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -20,20 +25,28 @@ function productionFixture() {
 	return { $i: { db: { directory: root } }, rag, root };
 }
 
-function withTanachIndex(value, action) {
-	const previous = process.env.AWTSMOOS_TANACH_INDEX;
-	if (value == null) delete process.env.AWTSMOOS_TANACH_INDEX;
-	else process.env.AWTSMOOS_TANACH_INDEX = value;
+function withEnvironment(name, value, action) {
+	const previous = process.env[name];
+	if (value == null) delete process.env[name];
+	else process.env[name] = value;
 	try {
 		return action();
 	} finally {
-		if (previous == null) delete process.env.AWTSMOOS_TANACH_INDEX;
-		else process.env.AWTSMOOS_TANACH_INDEX = previous;
+		if (previous == null) delete process.env[name];
+		else process.env[name] = previous;
 	}
+}
+
+function withTanachIndex(value, action) {
+	return withEnvironment('AWTSMOOS_TANACH_INDEX', value, action);
+}
+
+function withAiRoot(value, action) {
+	return withEnvironment('AWTSMOOS_AI_ROOT', value, action);
 }
 
 function cleanup(fixture) {
 	fs.rmSync(fixture.root, { recursive: true, force: true });
 }
 
-module.exports = { productionFixture, withTanachIndex, cleanup };
+module.exports = { cleanup, productionFixture, withAiRoot, withTanachIndex };

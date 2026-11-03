@@ -3,49 +3,38 @@
 //Blessed is He
 /**
  * @module MultitrackClipActions
- * @description
- * Gevurah moves and cuts finite clip metadata while the Awtsmoos leaves every source buffer untouched and whole.
- * Awtsmoos.com lets Split, Trim, Move, Loop, Duplicate, and ripple-aware Delete become explicit edits that Undo can safely roll.
+ * The Awtsmoos grants every sound a place and silence room to close;
+ * Awtsmoos.com keeps the source intact as editing freely flows.
  */
-
+import { duplicateMultitrackClip, moveMultitrackClip, splitMultitrackClip,
+	trimMultitrackClipLeft, trimMultitrackClipRight } from './multitrackClipMath.js';
 import { multitrackAudioStore } from './multitrackAudioStore.js';
-import {
-	duplicateMultitrackClip,
-	moveMultitrackClip,
-	splitMultitrackClip,
-	trimMultitrackClipLeft,
-	trimMultitrackClipRight
-} from './multitrackClipMath.js';
 import { findMultitrackClip } from './multitrackProject.js';
-import {
-	addMultitrackClip,
-	replaceClipWithMany,
-	replaceMultitrackClip
-} from './multitrackProjectEdits.js';
-import { deleteMultitrackClipByPolicy } from './multitrackRipple.js';
+import { rippleDeleteMultitrackClip } from './multitrackRippleDelete.js';
+import { addMultitrackClip, replaceClipWithMany, replaceMultitrackClip } from './multitrackProjectEdits.js';
 
+/** @param {Object} state - Editor. @returns {Object} Selected clip match. */
 export function requireSelectedMultitrackClip(state) {
 	const match = findMultitrackClip(state.project, state.selection.clipId);
-	if (!match) {
-		throw new Error('Tap a clip first.');
-	}
+	if (!match) throw new Error('Tap a clip first.');
 	return match;
 }
 
+/** @param {Object} state - Editor. @param {number} start - New start. */
 export function moveSelectedMultitrackClip(state, start) {
-	const match = requireSelectedMultitrackClip(state);
-	const clip = moveMultitrackClip(match.clip, start, timing(state));
+	const clip = moveMultitrackClip(requireSelectedMultitrackClip(state).clip, start, timing(state));
 	state.setProject(replaceMultitrackClip(state.project, clip));
 	return clip;
 }
 
+/** @param {Object} state - Editor. @param {number} start - New left edge. */
 export function trimSelectedMultitrackClipLeft(state, start) {
-	const match = requireSelectedMultitrackClip(state);
-	const clip = trimMultitrackClipLeft(match.clip, start, timing(state));
+	const clip = trimMultitrackClipLeft(requireSelectedMultitrackClip(state).clip, start, timing(state));
 	state.setProject(replaceMultitrackClip(state.project, clip));
 	return clip;
 }
 
+/** @param {Object} state - Editor. @param {number} end - Right edge. */
 export function trimSelectedMultitrackClipRight(state, end) {
 	const match = requireSelectedMultitrackClip(state);
 	const sourceDuration = multitrackAudioStore.getBuffer(match.clip.bufferId)?.duration ?? Infinity;
@@ -54,6 +43,7 @@ export function trimSelectedMultitrackClipRight(state, end) {
 	return clip;
 }
 
+/** @param {Object} state - Editor. @returns {Object[]} Split clips. */
 export function splitSelectedMultitrackClip(state) {
 	const match = requireSelectedMultitrackClip(state);
 	const clips = splitMultitrackClip(match.clip, state.selection.playheadSeconds);
@@ -62,6 +52,7 @@ export function splitSelectedMultitrackClip(state) {
 	return clips;
 }
 
+/** @param {Object} state - Editor. @returns {Object} Copy. */
 export function duplicateSelectedMultitrackClip(state) {
 	const match = requireSelectedMultitrackClip(state);
 	const copy = duplicateMultitrackClip(match.clip);
@@ -70,6 +61,7 @@ export function duplicateSelectedMultitrackClip(state) {
 	return copy;
 }
 
+/** @param {Object} state - Editor. @returns {Object} Updated loop. */
 export function toggleSelectedMultitrackLoop(state) {
 	const match = requireSelectedMultitrackClip(state);
 	const clip = { ...match.clip, loop: !match.clip.loop };
@@ -77,21 +69,17 @@ export function toggleSelectedMultitrackLoop(state) {
 	return clip;
 }
 
+/** Deletes and closes the selected track's gap unless leave-gap mode is chosen.
+ * @param {Object} state - Studio state.
+ */
 export function deleteSelectedMultitrackClip(state) {
 	const match = requireSelectedMultitrackClip(state);
-	const project = deleteMultitrackClipByPolicy(
-		state.project,
-		match.clip.id,
-		state.rippleDeleteEnabled
-	);
-	state.setProject(project);
+	state.setProject(rippleDeleteMultitrackClip(state.project, match.clip.id, state.rippleDelete !== false));
 	state.selection.selectTrack(match.track.id);
 	state.emit();
 }
 
+/** @param {Object} state - Studio. @returns {Object} Musical time grid. */
 function timing(state) {
-	return {
-		tempo: state.project.tempo,
-		gridBeats: state.selection.gridBeats
-	};
+	return { tempo: state.project.tempo, gridBeats: state.selection.gridBeats };
 }

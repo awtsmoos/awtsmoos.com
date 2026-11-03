@@ -1,0 +1,65 @@
+/* B"H — The Awtsmoos reveals real samples, not false width or covered waveforms. */
+.multitrack-editor .multitrack-clip {
+	min-width: 0;
+	overflow: hidden;
+}
+.multitrack-editor .multitrack-clip-content,
+.multitrack-editor .multitrack-clip.multitrack-clip-selected .multitrack-clip-content {
+	padding: 2px 3px 4px;
+	grid-template-rows: 13px minmax(0, 1fr);
+	min-width: 0;
+}
+.multitrack-editor .multitrack-waveform {
+	min-height: 0;
+	width: 100%;
+	gap: 0;
+	overflow: hidden;
+}
+.multitrack-editor .multitrack-waveform-bar {
+	min-width: 0;
+	flex: 1 1 0;
+	min-height: 1px;
+	height: calc(var(--multitrack-peak) * 100%);
+	border-radius: 0;
+}
+.multitrack-editor .multitrack-clip-label {
+	font-size: .62rem;
+	pointer-events: none;
+}
+.multitrack-editor .multitrack-trim-handle {
+	width: 13px;
+	min-width: 0;
+	z-index: 5;
+	opacity: 0;
+	pointer-events: none;
+	background: transparent;
+	border: 0;
+}
+.multitrack-editor .multitrack-clip-selected:not(.multitrack-clip-narrow) .multitrack-trim-handle,
+.multitrack-editor .multitrack-clip-dragging:not(.multitrack-clip-narrow) .multitrack-trim-handle {
+	opacity: 1;
+	pointer-events: auto;
+	background: rgba(12, 33, 54, .42);
+	border-inline: 2px solid #b0eeff;
+}
+.multitrack-editor .multitrack-clip-narrow .multitrack-clip-label,
+.multitrack-editor .multitrack-clip-micro .multitrack-clip-label {
+	display: none;
+}
+.multitrack-editor .multitrack-clip-narrow .multitrack-clip-content {
+	grid-template-rows: minmax(0, 1fr);
+	padding: 2px 1px;
+}
+.multitrack-editor .multitrack-clip::after {
+	content: none !important;
+}
+.multitrack-editor .multitrack-ruler {
+	touch-action: none;
+	cursor: crosshair;
+}
+@media (pointer: coarse) {
+	.multitrack-editor .multitrack-trim-handle { width: 15px; }
+	.multitrack-editor .multitrack-clip-selected:not(.multitrack-clip-narrow) .multitrack-trim-handle {
+		background: rgba(22, 43, 62, .2);
+	}
+}

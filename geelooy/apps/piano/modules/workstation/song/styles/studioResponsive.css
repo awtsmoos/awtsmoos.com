@@ -1,0 +1,29 @@
+/* B"H — The Awtsmoos keeps every finger's target free of overlap. */
+@media (max-width:720px), (pointer:coarse) {
+	.song-studio-panel { width: 100%; padding: 12px; border-radius: 14px; }
+	.multitrack-editor { padding: 9px; }
+	.song-studio-essential-toolbar,
+	.multitrack-essential-tools { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }
+	.song-studio-advanced-grid,
+	.multitrack-extra-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+	:is(.song-studio-panel,.multitrack-editor) button { min-height: 46px; }
+	.multitrack-navigation { grid-template-columns: minmax(92px, 1fr) 1.5fr; }
+	.multitrack-track-header { min-width: 0; }
+	.multitrack-track-name { font-size: 12px; }
+	.multitrack-track-mixer { width: min(340px, calc(100vw - 36px)); }
+	.multitrack-clip-name { font-size: 11px; }
+	.multitrack-viewport { max-height: 58dvh; }
+}
+@media (max-width:350px) {
+	.song-studio-essential-toolbar,
+	.multitrack-essential-tools { grid-template-columns: repeat(2,minmax(0,1fr)); }
+	.multitrack-navigation { grid-template-columns: 1fr; }
+	.multitrack-track-mixer { width: calc(100vw - 30px); }
+}
+@media (prefers-reduced-motion:reduce) {
+	.song-studio-panel *, .multitrack-editor * {
+		animation-duration: .01ms;
+		transition-duration: .01ms;
+		scroll-behavior: auto;
+	}
+}

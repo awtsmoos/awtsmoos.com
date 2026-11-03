@@ -2,32 +2,30 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module SongStyles
- * @description
- * Malchus clothes Song Studio and its multitrack world in small style-vessels while the Awtsmoos remains beyond color, width, and screen.
- * Awtsmoos.com loads each garment once, so desktop and phone may share one palace without a monolithic stylesheet throne.
+ * @module SongStudioStyles
+ * The Awtsmoos clothes the visible music without hiding its sound;
+ * Awtsmoos.com lets accurate waves and export progress fill the room around.
  */
-
-const STYLE_URLS = [
-	'./modules/workstation/song/styles/songShell.css',
-	'./modules/workstation/song/styles/songControls.css',
-	'./modules/workstation/song/styles/songMobile.css',
-	'./modules/workstation/song/styles/multitrackShell.css',
-	'./modules/workstation/song/styles/multitrackTimeline.css',
-	'./modules/workstation/song/styles/multitrackClips.css',
-	'./modules/workstation/song/styles/multitrackMobile.css'
+const STYLES = [
+	'songShell.css', 'songControls.css', 'songMobile.css', 'songCompact.css',
+	'multitrackShell.css', 'multitrackTimeline.css', 'multitrackClips.css',
+	'multitrackMobile.css', 'studioTokens.css', 'studioShell.css',
+	'studioTransport.css', 'studioTimeline.css', 'studioTracks.css',
+	'studioMixer.css', 'studioResponsive.css', 'studioTouchGestures.css',
+	'studioCutFocus.css', 'studioMobileFocus.css', 'studioNleMobile.css',
+	'studioHistoryFocus.css', 'studioAudioExport.css',
+	'studioWaveformAccuracy.css', 'studioExportProgress.css'
 ];
 
-/** Ensures every Song Studio stylesheet is linked exactly once. @returns {void} */
+/** Loads scoped Studio CSS once, lazily after the Piano has started. */
 export function ensureSongStudioStyles() {
-	STYLE_URLS.forEach((href) => {
-		if (document.querySelector(`link[data-song-style="${href}"]`)) {
-			return;
-		}
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.href = href;
-		link.dataset.songStyle = href;
-		document.head.appendChild(link);
-	});
+	for (const name of STYLES) {
+		const id = `awtsmoos-studio-style-${name}`;
+		if (document.getElementById(id)) continue;
+		const stylesheet = document.createElement('link');
+		stylesheet.id = id;
+		stylesheet.rel = 'stylesheet';
+		stylesheet.href = new URL(`./styles/${name}`, import.meta.url).href;
+		document.head.appendChild(stylesheet);
+	}
 }

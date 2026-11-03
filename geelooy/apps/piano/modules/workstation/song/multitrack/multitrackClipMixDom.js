@@ -20,7 +20,6 @@ const FIELD_SPECS = [
 export function createMultitrackClipMixDom() {
 	const root = document.createElement('div');
 	root.className = 'multitrack-clip-mix';
-	root.style.display = 'contents';
 	FIELD_SPECS.forEach(([field, label, minimum, maximum, step]) => {
 		const wrapper = document.createElement('label');
 		wrapper.className = 'multitrack-snap';

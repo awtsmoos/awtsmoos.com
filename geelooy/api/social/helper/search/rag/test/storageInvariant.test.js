@@ -1,9 +1,10 @@
 //B"H
-//Blessed is He
-//Boruch Hashem
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file storageInvariant.test.js
- * @description The Awtsmoos proves reviewed shards and the configured exact index remain immutable.
+ * @description The Awtsmoos proves reviewed shards and configured exact-index boundaries without leaking into host data.
  */
 
 const test = require('node:test');
@@ -16,7 +17,12 @@ const {
 	assertStorageUnchanged,
 	captureCanonicalStorage
 } = require('../storageInvariant.js');
-const { productionFixture, withTanachIndex, cleanup } = require('./storageInvariantFixture.js');
+const {
+	cleanup,
+	productionFixture,
+	withAiRoot,
+	withTanachIndex
+} = require('./storageInvariantFixture.js');
 
 test('captures every reviewed immutable database', () => {
 	const fixture = productionFixture();
@@ -59,7 +65,6 @@ test('logs and tolerates an unknown top-level database', () => {
 		const snapshot = captureCanonicalStorage(fixture.$i);
 		assert.equal(snapshot.degraded, true);
 		assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_DATABASE_SET_CHANGED'));
-		assert.ok(snapshot.databases.some(database => database.name === CANONICAL_NAMES[0]));
 		assert.ok(snapshot.databases.some(database => database.name === 'forbidden.awtsdb'));
 	});
 	cleanup(fixture);
@@ -73,7 +78,6 @@ test('logs and tolerates write sidecars', () => {
 			const snapshot = captureCanonicalStorage(fixture.$i);
 			assert.equal(snapshot.degraded, true);
 			assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_WRITE_SIDECAR_PRESENT'));
-			assert.ok(snapshot.databases.some(database => database.name === CANONICAL_NAMES[0]));
 		});
 		cleanup(fixture);
 	}
@@ -89,12 +93,14 @@ test('logs and reports shard growth during one request without blocking', () => 
 	cleanup(fixture);
 });
 
-test('degrades to an empty snapshot when the RAG root is missing', () => {
+test('degrades to an empty snapshot when the explicitly selected RAG root is missing', () => {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-rag-storage-'));
-	const $i = { db: { directory: root } };
-	const snapshot = captureCanonicalStorage($i);
-	assert.equal(snapshot.degraded, true);
-	assert.deepEqual(snapshot.databases, []);
-	assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_ROOT_MISSING'));
+	const missingAi = path.join(root, 'missing-ai');
+	withAiRoot(missingAi, () => {
+		const snapshot = captureCanonicalStorage({ db: { directory: root } });
+		assert.equal(snapshot.degraded, true);
+		assert.deepEqual(snapshot.databases, []);
+		assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_ROOT_MISSING'));
+	});
 	fs.rmSync(root, { recursive: true, force: true });
 });

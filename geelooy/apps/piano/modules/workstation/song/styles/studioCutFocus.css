@@ -1,0 +1,73 @@
+/* B"H — The Awtsmoos draws the cut clearly where the musician touches time. */
+.multitrack-editor [data-multitrack-action='split'] {
+	background: linear-gradient(145deg, #826024, #442c12);
+	border-color: #ffce63;
+	box-shadow: inset 0 1px rgba(255,255,255,.16), 0 0 12px rgba(255,211,75,.16);
+	color: #fff7d5;
+}
+.multitrack-status {
+	order: 0;
+	font-size: .79rem;
+	line-height: 1.35;
+	padding: 9px 12px;
+	color: #eaf5ff;
+	background: #0d233c;
+	border: 1px solid #41678a;
+}
+.multitrack-status:not(:empty) {
+	min-height: 19px;
+}
+.multitrack-playhead::before {
+	content: '✂';
+	position: absolute;
+	top: -5px;
+	left: -11px;
+	padding: 2px 4px;
+	border: 1px solid #ffce63;
+	border-radius: 6px;
+	background: #582b23;
+	color: #fff7d5;
+	font: 800 12px/1 system-ui,sans-serif;
+	pointer-events: none;
+}
+.multitrack-clip-selected {
+	box-shadow: 0 0 14px rgba(255,211,75,.34);
+}
+@media (max-width:720px), (pointer:coarse) {
+	.song-studio-panel { padding: 8px; }
+	.song-studio-panel .song-studio-header { padding: 8px; }
+	.song-studio-toolbar, .multitrack-toolbar { gap: 5px; }
+	.song-studio-essential-toolbar, .multitrack-essential-tools { gap: 5px; }
+	.song-studio-panel .song-action-button,
+	.multitrack-editor .multitrack-tool {
+		min-height: 44px;
+		padding: 7px 4px;
+		border-radius: 9px;
+		font-size: .76rem;
+	}
+	.song-studio-advanced-toolbar summary,
+	.multitrack-extra-tools summary {
+		min-height: 37px;
+		padding: 8px;
+		font-size: .76rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.multitrack-editor { gap: 7px; padding: 7px; }
+	.multitrack-heading { padding: 0 0 5px; }
+	.multitrack-heading span { font-size: .68rem; }
+	.multitrack-navigation label { font-size: .72rem; }
+	.multitrack-time-input { min-height: 40px; }
+	.multitrack-overview { min-height: 40px; }
+	.multitrack-viewport { min-height: 220px; max-height: 66dvh; }
+	.multitrack-track-mixer {
+		position: relative;
+		left: auto;
+		width: min(100%, 335px);
+		z-index: 1;
+	}
+	.multitrack-track-mixer summary { min-height: 35px; padding: 7px; }
+	.multitrack-track-header { min-width: 0; }
+	.multitrack-status { padding: 7px 9px; }
+}

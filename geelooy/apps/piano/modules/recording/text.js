@@ -1,36 +1,49 @@
-﻿/* B"H
-Plain text note capture: a small scroll of names like A1 C3 F#4, nothing hidden.
-*/
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module TextRecording
+ * The Awtsmoos creates each note as a word upon the page;
+ * Awtsmoos.com lets its singer keep or release that little stage.
+ */
 import { elements } from '../ui.js';
 import { recordingState } from './state.js';
 import { downloadBlob } from './download.js';
 
+/** Starts or stops note-text capture with explicit Save/Trash confirmation. */
 export function toggleTextRecording() {
-    const btn = elements.recordTextButton;
-    if (recordingState.isTextRecording) {
-        stopTextRecording(btn);
-        return;
-    }
-    recordingState.textNotes = [];
-    recordingState.isTextRecording = true;
-    if (btn) {
-        btn.textContent = 'Done Text';
-        btn.classList.add('recording');
-    }
+	const button = elements.recordTextButton;
+	if (recordingState.isTextRecording) {
+		stopTextRecording(button);
+		return;
+	}
+	recordingState.textNotes = [];
+	recordingState.isTextRecording = true;
+	if (button) {
+		button.textContent = 'Done Text';
+		button.classList.add('recording');
+	}
 }
 
+/** @param {string} noteName - Played pitch. */
 export function logTextNote(noteName) {
-    if (!recordingState.isTextRecording) return;
-    recordingState.textNotes.push(String(noteName).trim());
+	if (!recordingState.isTextRecording) {
+		return;
+	}
+	recordingState.textNotes.push(String(noteName).trim());
 }
 
-function stopTextRecording(btn) {
-    recordingState.isTextRecording = false;
-    const text = recordingState.textNotes.join(' ');
-    if (btn) {
-        btn.textContent = 'Record Text';
-        btn.classList.remove('recording');
-    }
-    if (navigator.clipboard && text) navigator.clipboard.writeText(text).catch(() => {});
-    downloadBlob(new Blob([text + '\n'], { type: 'text/plain' }), `BH-Notes-${Date.now()}.txt`);
+/** @param {HTMLElement|null} button - Text capture control. */
+function stopTextRecording(button) {
+	recordingState.isTextRecording = false;
+	const text = recordingState.textNotes.join(' ');
+	if (button) {
+		button.textContent = 'Record Text';
+		button.classList.remove('recording');
+	}
+	if (!text.trim()) {
+		return;
+	}
+	const blob = new Blob([`${text}\n`], { type: 'text/plain' });
+	downloadBlob(blob, `BH-Notes-${Date.now()}.txt`);
 }

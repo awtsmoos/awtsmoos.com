@@ -27,6 +27,9 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	transition: transform 180ms ease, filter 180ms ease;
 	width: 100%;
 }
+.shliach-spotlight-image[hidden] {
+	display: none;
+}
 .shliach-spotlight-media-fallback {
 	align-items: center;
 	color: #dbe9ff;

@@ -1,63 +1,44 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
 /**
  * @module MultitrackWorkstation
- * @description
- * Keter joins project truth, viewport, gestures, transport clock, and export while the Awtsmoos remains beyond layer and editor.
- * Awtsmoos.com lets each smaller vessel meet at one mount, so mobile fingers, audible time, and finished audio share one ordered center without becoming a monolith.
+ * The Awtsmoos keeps each instrument visible as pinch and playback flow.
  */
-
 import { bindMultitrackPointerEvents } from './multitrackPointerEvents.js';
 import { renderMultitrackProject } from './multitrackRender.js';
+import { bindMultitrackPlayheadTicker } from './multitrackPlayheadTicker.js';
+import { bindMultitrackScrollbar } from './multitrackScrollbar.js';
+import { bindMultitrackRulerSeek } from './multitrackRulerSeek.js';
+import { bindMultitrackPinchZoom } from './multitrackPinchZoom.js';
+import { bindMultitrackHistoryControls } from './multitrackHistoryControls.js';
 import { multitrackStudioState } from './multitrackState.js';
 import { createMultitrackTimelineDom } from './multitrackTimelineDom.js';
 import { bindMultitrackToolbarEvents } from './multitrackToolbarEvents.js';
-import { createMultitrackTransportClock } from './multitrackTransportClock.js';
 import { bindMultitrackTrackEvents } from './multitrackTrackEvents.js';
-import { createMultitrackViewportController } from './multitrackViewportController.js';
-import { bindMultitrackViewportGestures } from './multitrackViewportGestures.js';
 
 let workstation = null;
 
-/** Mounts the generic multitrack editor into Song Studio exactly once. */
+/** Mounts the complete audio editor with recording, zoom and download controls. */
 export function initMultitrackWorkstation(songDom, songState) {
-	if (workstation) {
-		return workstation;
-	}
+	if (workstation) return workstation;
 	const dom = createMultitrackTimelineDom();
 	const editorRoom = songDom.editor.closest('.song-studio-editor-room');
 	songDom.panel.insertBefore(dom.root, editorRoom);
-	const state = multitrackStudioState;
-	const viewportController = createMultitrackViewportController(dom, state);
-	bindMultitrackPointerEvents(dom, state);
-	bindMultitrackViewportGestures(dom, state, viewportController);
-	bindMultitrackTrackEvents(dom, state, (error) => {
-		state.setStatus(`Multitrack: ${error?.message || 'Track error'}`);
+	bindMultitrackPointerEvents(dom, multitrackStudioState);
+	bindMultitrackRulerSeek(dom, multitrackStudioState);
+	bindMultitrackPinchZoom(dom, multitrackStudioState);
+	bindMultitrackTrackEvents(dom, multitrackStudioState, error =>
+		multitrackStudioState.setStatus(error?.message || 'Audio action failed.'));
+	bindMultitrackToolbarEvents(dom, multitrackStudioState, {
+		get ratchetSettings() { return { ...songState.ratchet }; }
 	});
-	bindMultitrackToolbarEvents(dom, state, {
-		viewportController,
-		get ratchetSettings() {
-			return { ...songState.ratchet };
-		}
-	});
-	state.subscribe(() => renderMultitrackProject(dom, state));
-	renderMultitrackProject(dom, state);
-	const destroyClock = createMultitrackTransportClock(
-		dom,
-		state,
-		viewportController
-	);
-	workstation = {
-		dom,
-		state,
-		viewportController,
-		destroyClock
-	};
+	bindMultitrackScrollbar(dom);
+	bindMultitrackHistoryControls(dom, multitrackStudioState);
+	multitrackStudioState.subscribe(() => renderMultitrackProject(dom, multitrackStudioState));
+	bindMultitrackPlayheadTicker(dom, multitrackStudioState);
+	renderMultitrackProject(dom, multitrackStudioState);
+	workstation = { dom, state: multitrackStudioState };
 	return workstation;
 }
 
-/** Returns mounted multitrack editor handles. */
-export function getMultitrackWorkstation() {
-	return workstation;
-}
+/** @returns {Object|null} Current Studio instance. */
+export function getMultitrackWorkstation() { return workstation; }

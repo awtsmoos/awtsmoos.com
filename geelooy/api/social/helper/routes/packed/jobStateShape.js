@@ -12,6 +12,11 @@
 /**
  * Shape a live import job for status and durable persistence.
  * Large transient maps and batches stay in memory while resumable ids remain.
+ * Runtime timer handles are never durable state: _watchdogTimer (setInterval)
+ * and _killTimer (setTimeout) are circular Timeout objects, and spreading
+ * them into this shape made JSON.stringify throw inside checkpointAsync,
+ * failing every job that reached its 5th post (Oct 28, 2026, R01 dry-run).
+ * They are stripped here so the shape is always serializable.
  */
 function jobStateShape(job) {
 	const {
@@ -21,6 +26,8 @@ function jobStateShape(job) {
 		seriesAdds,
 		packedBatch,
 		backlinkQueue,
+		_watchdogTimer,
+		_killTimer,
 		...rest
 	} = job || {};
 	return {

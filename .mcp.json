@@ -1,0 +1,10 @@
+{
+	"mcpServers": {
+		"awtsmoos": {
+			"type": "streamable-http",
+			"url": "https://awtsmoos.com/api/tunnel/control/mcp",
+			"enabled": true,
+			"required": false
+		}
+	}
+}

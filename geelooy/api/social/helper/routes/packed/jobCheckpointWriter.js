@@ -14,7 +14,17 @@ const pendingWrites = new WeakMap();
 function checkpointAsync($i, job) {
 	if (pendingWrites.has(job)) return pendingWrites.get(job);
 	if (job.status !== 'running') return Promise.resolve();
-	const body = JSON.stringify(jobStateShape(job));
+	// A checkpoint is best-effort progress, never a reason to fail a job:
+	// serialization happens here, outside the file-write try/catch below,
+	// and a stringify throw used to propagate through runWorker and mark
+	// the whole job failed (Oct 28, 2026, R01 dry-run, 5th post). Fail
+	// the checkpoint silently instead; terminal state is written separately.
+	let body;
+	try {
+		body = JSON.stringify(jobStateShape(job));
+	} catch (_) {
+		return Promise.resolve();
+	}
 	const write = (async () => {
 		try {
 			const directory = jobStateDir($i);

@@ -3,115 +3,107 @@
 //Blessed is He
 /**
  * @module MultitrackPlayback
- * @description
- * Netzach binds disposable voices to one honest AudioContext clock while the Awtsmoos remains beyond beginning, seeking, and end.
- * Awtsmoos.com lets the playhead ask the same clock the ear obeys, wrapping browser timers so finite receivers never break the living thread.
+ * The Awtsmoos renews each instant while voices cross their measure;
+ * Awtsmoos.com reads the real audio clock, not an illusion of time.
  */
-
 import { AudioState } from '../../../audio.js';
 import { multitrackAudioStore } from './multitrackAudioStore.js';
 import { scheduleMultitrackProject } from './multitrackPlaybackSchedule.js';
 import { multitrackProjectDuration } from './multitrackProject.js';
 
+/** Coordinates Web Audio sources, timers and truthful playback position. */
 export class MultitrackPlaybackNetzach {
 	constructor(dependencies = {}) {
 		this.audioStore = dependencies.audioStore || multitrackAudioStore;
 		this.setTimer = dependencies.setTimer || ((callback, delay) => setTimeout(callback, delay));
-		this.clearTimer = dependencies.clearTimer || ((timer) => clearTimeout(timer));
+		this.clearTimer = dependencies.clearTimer || ((identifier) => clearTimeout(identifier));
 		this.voices = [];
 		this.outputs = [];
 		this.finishTimer = null;
 		this.playing = false;
 		this.stateListener = null;
-		this.startedContextTime = 0;
-		this.startedOffset = 0;
-		this.projectDuration = 0;
+		this.context = null;
+		this.clockStart = 0;
+		this.startPosition = 0;
+		this.position = 0;
+		this.endPosition = 0;
 	}
 
+	/** @param {Object} project - Song. @param {number} offsetSeconds - Start time. @param {Function|null} onState - Listener. */
 	async play(project, offsetSeconds = 0, onState = null) {
 		this.stop(false);
-		this.stateListener = onState || this.stateListener;
+		this.stateListener = onState;
 		const context = AudioState.context;
 		if (!context || !AudioState.masterGain) {
-			throw new Error('Start the Piano audio engine before playing multitrack audio.');
+			throw new Error('Start the Piano audio engine before playing audio.');
 		}
-		if (context.state === 'suspended') {
-			await context.resume();
-		}
+		if (context.state === 'suspended') await context.resume();
+		const offset = Math.max(0, Number(offsetSeconds) || 0);
 		const duration = multitrackProjectDuration(project);
-		const offset = clamp(Number(offsetSeconds) || 0, 0, duration);
+		this.position = offset;
 		if (offset >= duration) {
-			this.emit(false, duration, true);
+			this.emit(false, offset);
 			return false;
 		}
 		const runtime = scheduleMultitrackProject({
-			project,
-			context,
-			destination: AudioState.masterGain,
-			offset,
-			audioStore: this.audioStore
+			project, context, destination: AudioState.masterGain,
+			offset, audioStore: this.audioStore
 		});
 		this.voices = runtime.voices;
 		this.outputs = runtime.outputs;
+		this.context = context;
+		this.clockStart = context.currentTime;
+		this.startPosition = offset;
+		this.endPosition = duration;
 		this.playing = this.voices.length > 0;
-		this.startedContextTime = context.currentTime;
-		this.startedOffset = offset;
-		this.projectDuration = duration;
-		this.emit(this.playing, offset, false);
-		if (this.playing) {
-			this.armNaturalFinish(duration - offset);
-		}
+		this.emit(this.playing, offset);
+		if (this.playing) this.armNaturalFinish(duration - offset);
 		return this.playing;
 	}
 
+	/** @returns {number} Precise position driven by Web Audio time. */
+	getPosition() {
+		if (!this.playing || !this.context) return this.position;
+		return Math.min(this.endPosition, this.startPosition +
+			Math.max(0, this.context.currentTime - this.clockStart));
+	}
+
+	/** @param {boolean} notify - Notify transport subscriber. */
 	stop(notify = true) {
-		const position = this.position();
+		this.position = this.getPosition();
 		this.clearNaturalFinish();
-		this.voices.forEach((voice) => voice?.stop());
+		this.voices.forEach((voice) => {
+			try { voice?.stop(); } catch (error) { console.warn('Stopping audio source', error); }
+		});
 		this.outputs.forEach((output) => output.disconnect());
 		this.voices = [];
 		this.outputs = [];
 		this.playing = false;
-		if (notify) {
-			this.emit(false, position, false);
-		}
-		return position;
+		this.context = null;
+		if (notify) this.emit(false, this.position);
 	}
 
-	isPlaying() {
-		return this.playing;
-	}
+	/** @returns {boolean} True while audio is playing. */
+	isPlaying() { return this.playing; }
 
-	position() {
-		if (!this.playing || !AudioState.context) {
-			return this.startedOffset;
-		}
-		const elapsed = AudioState.context.currentTime - this.startedContextTime;
-		return clamp(this.startedOffset + elapsed, 0, this.projectDuration);
-	}
-
+	/** @param {number} seconds - Remaining duration. */
 	armNaturalFinish(seconds) {
 		this.finishTimer = this.setTimer(() => {
 			this.stop(false);
-			this.startedOffset = this.projectDuration;
-			this.emit(false, this.projectDuration, true);
+			this.position = this.endPosition;
+			this.emit(false, this.position);
 		}, Math.max(0, seconds * 1000 + 40));
 	}
 
+	/** Clears scheduled finish without calling unbound native browser methods. */
 	clearNaturalFinish() {
-		if (this.finishTimer !== null) {
-			this.clearTimer(this.finishTimer);
-			this.finishTimer = null;
-		}
+		if (this.finishTimer === null) return;
+		this.clearTimer(this.finishTimer);
+		this.finishTimer = null;
 	}
 
-	emit(playing, offsetSeconds, completed) {
-		this.stateListener?.({ playing, offsetSeconds, completed });
-	}
-}
-
-function clamp(value, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, value));
+	/** @param {boolean} playing - Transport flag. @param {number} offsetSeconds - Song time. */
+	emit(playing, offsetSeconds) { this.stateListener?.({ playing, offsetSeconds }); }
 }
 
 export const multitrackPlayback = new MultitrackPlaybackNetzach();

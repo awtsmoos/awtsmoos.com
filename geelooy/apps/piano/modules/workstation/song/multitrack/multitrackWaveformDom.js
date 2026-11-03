@@ -3,68 +3,40 @@
 //Blessed is He
 /**
  * @module MultitrackWaveformDom
- * @description
- * Binah turns only audible sampled motion into visible peaks while the Awtsmoos remains beyond wave, eye, and sound.
- * Awtsmoos.com keys each finite picture by source window, so trimming a clip renews its waveform instead of showing stale hidden ground.
+ * The Awtsmoos grants each clip a waveform proportional to its visible length;
+ * Awtsmoos.com preserves a quiet voice and its stronger stereo strength.
  */
-
 import { multitrackAudioStore } from './multitrackAudioStore.js';
-import { extractMultitrackWaveformPeaks } from './multitrackWaveform.js';
+import { extractVisibleClipPeaks, waveformPeakCount } from './multitrackClipWaveformPeaks.js';
 
-const peakCache = new Map();
-const PEAK_BUCKETS = 56;
+const cache = new Map();
 
-/** Creates compact waveform bars for the audible window of one clip. */
-export function createMultitrackWaveformDom(clip) {
+/** @param {Object} clip - Audible time range. @param {number} zoom - Pixels per second. @returns {HTMLElement} Waveform. */
+export function createMultitrackWaveformDom(clip, zoom = 72) {
 	const root = document.createElement('div');
 	root.className = 'multitrack-waveform';
-	const peaks = waveformPeaks(clip);
-	if (peaks.length === 0) {
-		root.classList.add('multitrack-waveform-empty');
-		return root;
+	const peaks = getPeaks(clip, waveformPeakCount(clip, zoom));
+	if (!peaks.length) root.classList.add('multitrack-waveform-empty');
+	for (const peak of peaks) {
+		const bar = document.createElement('span');
+		bar.className = 'multitrack-waveform-bar';
+		bar.style.setProperty('--multitrack-peak', String(Math.max(.015, peak)));
+		root.appendChild(bar);
 	}
-	peaks.forEach((peak) => root.appendChild(createPeakBar(peak)));
 	return root;
 }
 
-/** Clears every cached trim-window belonging to one runtime buffer. */
+/** @param {string} bufferId - Source buffer replaced or changed. */
 export function invalidateMultitrackWaveform(bufferId) {
-	const prefix = `${bufferId}:`;
-	for (const key of peakCache.keys()) {
-		if (key.startsWith(prefix)) {
-			peakCache.delete(key);
-		}
-	}
+	for (const key of cache.keys()) if (key.startsWith(`${bufferId}:`)) cache.delete(key);
 }
 
-function waveformPeaks(clip) {
-	const key = waveformCacheKey(clip);
-	if (peakCache.has(key)) {
-		return peakCache.get(key);
-	}
-	const buffer = multitrackAudioStore.getBuffer(clip.bufferId);
-	const peaks = extractMultitrackWaveformPeaks(
-		buffer,
-		PEAK_BUCKETS,
-		clip.sourceOffset,
-		clip.duration
-	);
-	peakCache.set(key, peaks);
+/** @param {Object} clip - Clip metadata. @param {number} count - Waveform resolution. */
+function getPeaks(clip, count) {
+	const key = `${clip.bufferId}:${clip.sourceOffset}:${clip.duration}:${Boolean(clip.loop)}:${count}`;
+	if (cache.has(key)) return cache.get(key);
+	const peaks = extractVisibleClipPeaks(multitrackAudioStore.getBuffer(clip.bufferId), clip, count);
+	if (cache.size >= 900) cache.clear();
+	cache.set(key, peaks);
 	return peaks;
-}
-
-function waveformCacheKey(clip) {
-	return [
-		clip.bufferId,
-		Number(clip.sourceOffset || 0).toFixed(6),
-		Number(clip.duration || 0).toFixed(6),
-		PEAK_BUCKETS
-	].join(':');
-}
-
-function createPeakBar(peak) {
-	const bar = document.createElement('span');
-	bar.className = 'multitrack-waveform-bar';
-	bar.style.setProperty('--multitrack-peak', String(Math.max(0.04, peak)));
-	return bar;
 }

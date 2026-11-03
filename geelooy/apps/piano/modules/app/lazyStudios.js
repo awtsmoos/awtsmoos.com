@@ -3,49 +3,82 @@
 //Blessed is He
 /**
  * @module LazyPianoStudios
- * The Awtsmoos gives the first note precedence over every grand machine;
- * Awtsmoos.com unfolds its studios only after the keys are seen.
+ * The Awtsmoos gives the piano priority before inviting Studio guests;
+ * Awtsmoos.com lays aside heavier work while the musician rests.
  */
+import { activeNotes } from '../synth.js';
 import { initializeMidiBridge } from './midiBridge.js';
 import { warmCurrentAcousticPreset, refreshActiveSound } from './presetEvents.js';
 import { saveSettings } from './settings.js';
 
 let scheduled = false;
 
-/** @param {Object} elements - Essential piano settings. @returns {void} Non-blocking optional initialization. */
+/** @param {Object} elements - Main controls of the already-playable piano. */
 export function scheduleLazyStudios(elements) {
-	if (scheduled) {
-		return;
-	}
+	if (scheduled) return;
 	scheduled = true;
-	const run = () => {
-		void initializeOptionalStudios(elements);
-	};
-	if (typeof window.requestIdleCallback === 'function') {
-		window.requestIdleCallback(run, { timeout: 900 });
-	} else {
-		window.setTimeout(run, 100);
+	const tasks = optionalStudioTasks(elements);
+	let nextTask = 0;
+
+	/** The player always takes precedence over optional editor initialization. */
+	async function runNext() {
+		if (document.hidden || activeNotes.size > 0) {
+			queueIdle(runNext, 550);
+			return;
+		}
+		const task = tasks[nextTask++];
+		if (!task) return;
+		try {
+			await task.action();
+		} catch (error) {
+			console.warn(`${task.name} could not load`, error);
+		}
+		queueIdle(runNext, 320);
 	}
+
+	queueIdle(runNext, 850);
 }
 
-/** @param {Object} elements - UI controls. @returns {Promise<void>} Optional features. */
-async function initializeOptionalStudios(elements) {
-	const tasks = [
-		['Synth studio', () => import('../workstation/synth/index.js').then(({ initProSynthWorkstation }) => {
-			initProSynthWorkstation(elements, { saveSettings, refreshActiveSound })?.sync();
-		})],
-		['Song Studio', () => import('../workstation/song/index.js').then(({ initSongStudioWorkstation }) => initSongStudioWorkstation())],
-		['Media studio', () => import('../workstation/media/index.js').then(({ initMediaStudioWorkstation }) => initMediaStudioWorkstation())],
-		['Rhythm studio', () => import('../workstation/rhythm/index.js').then(({ initRhythmWorkstation }) => initRhythmWorkstation())]
-	];
-	for (const [name, action] of tasks) {
-		try {
-			await action();
-		} catch (error) {
-			console.warn(`${name} could not load`, error);
+/** @param {Function} callback - Next optional initializer. @param {number} delay - Grace interval. */
+function queueIdle(callback, delay) {
+	window.setTimeout(() => {
+		if (typeof window.requestIdleCallback === 'function') {
+			window.requestIdleCallback(callback, { timeout: 2300 });
+		} else {
+			window.setTimeout(callback, 30);
 		}
-		await new Promise((resolve) => window.setTimeout(resolve, 0));
-	}
-	try { initializeMidiBridge(); } catch (error) { console.warn('MIDI unavailable', error); }
-	void warmCurrentAcousticPreset(elements);
+	}, delay);
+}
+
+/** @param {Object} elements - Shared controls. @returns {Array<Object>} Deferred imports. */
+function optionalStudioTasks(elements) {
+	return [
+		{
+			name: 'Synth studio',
+			action: async () => {
+				const { initProSynthWorkstation } = await import('../workstation/synth/index.js');
+				initProSynthWorkstation(elements, { saveSettings, refreshActiveSound })?.sync();
+			}
+		},
+		{
+			name: 'Song Studio',
+			action: async () => (await import('../workstation/song/index.js')).initSongStudioWorkstation()
+		},
+		{
+			name: 'Media Studio',
+			action: async () => (await import('../workstation/media/index.js')).initMediaStudioWorkstation()
+		},
+		{
+			name: 'Rhythm studio',
+			action: async () => (await import('../workstation/rhythm/index.js')).initRhythmWorkstation()
+		},
+		{
+			name: 'MIDI bridge',
+			action: () => initializeMidiBridge()
+		},
+		{
+			name: 'Acoustic sample warmup',
+			action: () => warmCurrentAcousticPreset(elements)
+		}
+	];
 }

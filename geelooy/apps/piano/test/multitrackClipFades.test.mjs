@@ -5,7 +5,7 @@
  * @file multitrackClipFades.test.mjs
  * @description
  * Tiferes tests finite fades and their memory while the Awtsmoos remains beyond loudness, edge, duration, before, and after.
- * Awtsmoos.com proves user fade choices and structural cuts both survive canonical project history without changing the hidden song.
+ * Awtsmoos.com proves user fade choices and structural cuts survive the current history vessel without changing the hidden song.
  */
 
 import assert from 'node:assert/strict';
@@ -42,12 +42,8 @@ test('clip envelope evaluates gain at fade head, body, and tail', () => {
 
 test('trim, split, and duplicate retain envelope lineage metadata', () => {
 	const clip = createMultitrackClip({
-		id: 'fade-clip',
-		bufferId: 'buffer',
-		sourceOffset: 2,
-		duration: 4,
-		fadeIn: 1,
-		fadeOut: 0.5
+		id: 'fade-clip', bufferId: 'buffer', sourceOffset: 2,
+		duration: 4, fadeIn: 1, fadeOut: 0.5
 	});
 	const leftTrim = trimMultitrackClipLeft(clip, 1, { gridBeats: 0 });
 	assert.deepEqual([leftTrim.duration, leftTrim.fadeInOffset], [3, 1]);
@@ -60,35 +56,36 @@ test('trim, split, and duplicate retain envelope lineage metadata', () => {
 	assert.deepEqual([copy.fadeInOffset, copy.fadeOutOffset, copy.gain], [2, 0, 1]);
 });
 
-test('explicit fade edit reanchors its edge and remains undoable', () => {
-	const state = new MultitrackStudioDaas();
-	state.setProject(createMultitrackProject({
-		tracks: [{ id: 'track', clips: [{
-			id: 'clip', bufferId: 'buffer', duration: 2, fadeIn: 1, fadeInOffset: 0.5
-		}] }]
-	}), { recordHistory: false });
-	state.selection.selectClip('track', 'clip');
+test('explicit fade edit reanchors its edge and travels through current Undo and Redo', () => {
+	const state = stateWithFadeClip({ fadeIn: 1, fadeInOffset: 0.5 });
 	updateSelectedMultitrackClipMix(state, 'fadeIn', 0.25);
 	assert.equal(state.project.tracks[0].clips[0].fadeInOffset, 0);
 	assert.equal(state.project.tracks[0].clips[0].fadeIn, 0.25);
-	state.undo();
+	assert.equal(state.travelHistory('undo'), true);
 	assert.equal(state.project.tracks[0].clips[0].fadeInOffset, 0.5);
-	state.redo();
+	assert.equal(state.travelHistory('redo'), true);
 	assert.equal(state.project.tracks[0].clips[0].fadeIn, 0.25);
 });
 
-test('structural split and inherited fades travel through Undo and Redo', () => {
-	const state = new MultitrackStudioDaas();
-	state.setProject(createMultitrackProject({
-		tracks: [{ id: 'track', clips: [{ id: 'clip', bufferId: 'buffer', duration: 2, fadeIn: 1 }] }]
-	}), { recordHistory: false });
-	state.selection.selectClip('track', 'clip');
+test('structural split and inherited fades travel through current Undo and Redo', () => {
+	const state = stateWithFadeClip({ fadeIn: 1 });
 	state.setPlayhead(0.5);
 	splitSelectedMultitrackClip(state);
 	assert.equal(state.project.tracks[0].clips.length, 2);
 	assert.equal(state.project.tracks[0].clips[1].fadeInOffset, 0.5);
-	state.undo();
+	assert.equal(state.travelHistory('undo'), true);
 	assert.equal(state.project.tracks[0].clips.length, 1);
-	state.redo();
+	assert.equal(state.travelHistory('redo'), true);
 	assert.equal(state.project.tracks[0].clips.length, 2);
 });
+
+function stateWithFadeClip(overrides) {
+	const state = new MultitrackStudioDaas();
+	state.setProject(createMultitrackProject({
+		tracks: [{ id: 'track', clips: [{
+			id: 'clip', bufferId: 'buffer', duration: 2, ...overrides
+		}] }]
+	}));
+	state.selectClip('track', 'clip');
+	return state;
+}

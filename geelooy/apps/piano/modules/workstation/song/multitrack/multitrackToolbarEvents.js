@@ -3,19 +3,20 @@
 //Blessed is He
 /**
  * @module MultitrackToolbarEvents
- * @description
- * Yesod receives each compact control while the Awtsmoos remains beyond tap, chooser, checkbox, and measured fade.
- * Awtsmoos.com routes finite gestures into explicit project actions, keeping WAV truthful, WebM guarded, and clip mix edits visible to Undo's shade.
+ * The Awtsmoos lets the mix leave as sound while each chosen clip may softly rise and fall;
+ * Awtsmoos.com keeps every finite control inside one history, one scheduler, and one truthful call.
  */
-
 import { updateSelectedMultitrackClipMix } from './multitrackClipMixActions.js';
-import { isMultitrackWebmSupported } from './multitrackExportActions.js';
 import { importMultitrackFiles } from './multitrackImportActions.js';
 import { runMultitrackToolbarAction } from './multitrackToolbarActions.js';
+import { fitMultitrackSong } from './multitrackTimelineOperations.js';
+import { zoomAtPlayhead } from './multitrackViewportGeometry.js';
+import { downloadMultitrackMix } from './multitrackMixDownload.js';
+import { toggleMultitrackPunchIn } from './multitrackPunchIn.js';
+import { bindMultitrackScrubActions } from './multitrackScrubActions.js';
 
-/** Binds import, edit, clip-mix, transport, export, zoom, history, and snap controls. */
+/** Wires one playing transport, clip mix, and separate audio download paths. */
 export function bindMultitrackToolbarEvents(dom, state, context = {}) {
-	configureWebmButton(dom);
 	dom.buttons.forEach((button, action) => {
 		button.addEventListener('click', async () => {
 			if (action === 'import') {
@@ -23,57 +24,54 @@ export function bindMultitrackToolbarEvents(dom, state, context = {}) {
 				dom.fileInput.click();
 				return;
 			}
-			await safelyRun(() => runMultitrackToolbarAction(action, state, context), state);
+			await safelyRun(async () => {
+				if (action === 'downloadWav') await downloadMultitrackMix('wav', state);
+				else if (action === 'downloadWebm') await downloadMultitrackMix('webm', state);
+				else if (action === 'fit') fitMultitrackSong(dom, state);
+				else if (action === 'punch') await toggleMultitrackPunchIn(state, button);
+				else if (action === 'zoomIn' || action === 'zoomOut') {
+					const ratio = action === 'zoomIn' ? 1.35 : 1 / 1.35;
+					zoomAtPlayhead(dom, state, state.selection.pixelsPerSecond * ratio);
+				} else {
+					await runMultitrackToolbarAction(
+						action === 'play' && state.playing ? 'stop' : action,
+						state,
+						context
+					);
+				}
+			}, state);
 		});
 	});
 	dom.fileInput.addEventListener('change', async () => {
 		await safelyRun(() => importMultitrackFiles(dom.fileInput.files, state), state);
 	});
-	bindClipMixInputs(dom, state);
-	bindPolicyInputs(dom, state);
-}
-
-function bindClipMixInputs(dom, state) {
-	dom.root.querySelectorAll('[data-multitrack-clip-mix]').forEach((input) => {
-		input.addEventListener('change', async () => {
-			const field = input.dataset.multitrackClipMix;
-			await safelyRun(() => updateSelectedMultitrackClipMix(state, field, input.value), state);
-		});
+	dom.clipMix.addEventListener('change', async (event) => {
+		const field = event.target?.dataset?.multitrackClipMix;
+		if (!field) return;
+		await safelyRun(() => updateSelectedMultitrackClipMix(
+			state,
+			field,
+			Number(event.target.value)
+		), state);
 	});
-}
-
-function bindPolicyInputs(dom, state) {
 	dom.snapSelect.addEventListener('change', () => {
 		state.setGridBeats(Number(dom.snapSelect.value));
-		state.setStatus(state.selection.gridBeats > 0
-			? `Beat snap · ${state.selection.gridBeats} beat`
-			: 'Beat snap off · magnetic snap remains independent.');
+		state.setStatus(state.selection.gridBeats ? 'Magnetic snapping enabled.' : 'Snap off · free placement.');
 	});
-	dom.rippleInput.addEventListener('change', () => {
-		state.setRippleDelete(dom.rippleInput.checked);
-		state.setStatus(dom.rippleInput.checked
-			? 'Ripple delete on · deleted clip gaps close.'
-			: 'Preserve gaps on · deleted clip space remains.');
+	dom.rippleCheckbox.addEventListener('change', () => {
+		state.rippleDelete = dom.rippleCheckbox.checked;
+		state.setStatus(state.rippleDelete ? 'Delete closes gaps.' : 'Delete leaves gaps.');
 	});
-	dom.magnetInput.addEventListener('change', () => {
-		state.setMagneticSnap(dom.magnetInput.checked);
-		state.setStatus(dom.magnetInput.checked ? 'Magnetic clip snapping on.' : 'Magnetic clip snapping off.');
-	});
+	bindMultitrackScrubActions(dom, state, error =>
+		state.setStatus(`Multitrack: ${error?.message || 'Could not seek audio'}`));
 }
 
-function configureWebmButton(dom) {
-	const button = dom.buttons.get('download-webm');
-	if (!button || isMultitrackWebmSupported()) {
-		return;
-	}
-	button.disabled = true;
-	button.title = 'This browser does not support WebM audio recording. Download WAV is available.';
-}
-
+/** Reports errors from rendering, downloading and other async tools. */
 async function safelyRun(action, state) {
 	try {
 		await action();
 	} catch (error) {
+		console.error('Multitrack audio action failed', error);
 		state.setStatus(`Multitrack: ${error?.message || 'Unknown editor error'}`);
 	}
 }

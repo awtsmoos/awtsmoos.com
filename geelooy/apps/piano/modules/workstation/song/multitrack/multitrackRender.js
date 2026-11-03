@@ -3,89 +3,85 @@
 //Blessed is He
 /**
  * @module MultitrackRender
- * @description
- * Hod reflects project truth into ruler, lanes, clip tools, transport, and status while the Awtsmoos remains beyond every visual measure.
- * Awtsmoos.com rebuilds structural vessels only when needed and lets the red playhead travel lightly, keeping audible time aligned without repainting the night.
+ * The Awtsmoos gives ruler and playhead one origin upon the same scale;
+ * Awtsmoos.com keeps the selected clip mix truthful while little fragments remain exactly as long as their tale.
  */
-
-import { syncMultitrackClipMixDom } from './multitrackClipMixDom.js';
-import { multitrackProjectDuration } from './multitrackProject.js';
 import { createMultitrackTrackDom } from './multitrackTrackDom.js';
+import { syncMultitrackClipMixDom } from './multitrackClipMixDom.js';
+import { songDuration } from './multitrackTimelineOperations.js';
+import { updateMultitrackScrollbar } from './multitrackScrollbar.js';
 
-const MINIMUM_TIMELINE_SECONDS = 12;
-const TRAILING_SECONDS = 4;
-
-/** Renders the structural multitrack project from current state. */
+/** @param {Object} dom - Editing surface. @param {Object} state - Editor state. */
 export function renderMultitrackProject(dom, state) {
-	const seconds = Math.max(
-		MINIMUM_TIMELINE_SECONDS,
-		multitrackProjectDuration(state.project) + TRAILING_SECONDS
-	);
-	const laneWidth = seconds * state.selection.pixelsPerSecond;
-	dom.timeline.style.width = `calc(var(--multitrack-header-width) + ${laneWidth}px)`;
-	renderRuler(dom.ruler, seconds, state.selection.pixelsPerSecond);
+	const seconds = songDuration(state);
+	const scale = state.selection.pixelsPerSecond;
+	const width = seconds * scale;
+	dom.timeline.style.width = `calc(var(--multitrack-header-width) + ${width}px)`;
+	renderRuler(dom.ruler, seconds, scale);
 	dom.tracks.replaceChildren();
-	state.project.tracks.forEach((track) => {
-		dom.tracks.appendChild(createMultitrackTrackDom(track, state.selection, laneWidth).root);
-	});
+	dom.inspectorList.replaceChildren();
+	for (const track of state.project.tracks) {
+		const view = createMultitrackTrackDom(track, state.selection, width);
+		dom.tracks.appendChild(view.root);
+		const row = document.createElement('div');
+		row.className = 'multitrack-track-settings';
+		row.dataset.trackId = track.id;
+		row.appendChild(view.mixer);
+		dom.inspectorList.appendChild(row);
+	}
+	dom.playhead.style.left = `calc(var(--multitrack-header-width) + ${state.selection.playheadSeconds * scale}px)`;
 	dom.status.textContent = state.status;
 	dom.snapSelect.value = String(state.selection.gridBeats);
-	dom.rippleInput.checked = state.rippleDeleteEnabled;
-	dom.magnetInput.checked = state.magneticSnapEnabled;
-	syncMultitrackClipMixDom(dom.root, state);
-	renderToolbarState(dom, state);
-	renderMultitrackPlayhead(dom, state);
-}
-
-/** Updates only the red playhead and current-time display. */
-export function renderMultitrackPlayhead(dom, state) {
-	const seconds = state.selection.playheadSeconds;
-	dom.playhead.style.left = `calc(var(--multitrack-header-width) + ${seconds * state.selection.pixelsPerSecond}px)`;
-	dom.timeDisplay.textContent = formatMultitrackTime(seconds);
-}
-
-/** Updates one actively dragged clip without rebuilding pointer-captured DOM. */
-export function renderMultitrackGestureClip(element, clip, pixelsPerSecond) {
-	element.style.left = `${clip.timelineStart * pixelsPerSecond}px`;
-	element.style.width = `${Math.max(0, clip.duration * pixelsPerSecond)}px`;
-	const timing = element.querySelector('.multitrack-clip-timing');
-	if (timing) {
-		timing.textContent = `${clip.duration.toFixed(2)}s`;
+	if (dom.rippleCheckbox) dom.rippleCheckbox.checked = state.rippleDelete !== false;
+	if (document.activeElement !== dom.playheadInput) {
+		dom.playheadInput.value = state.selection.playheadSeconds.toFixed(2);
 	}
+	dom.overview.max = String(seconds);
+	if (document.activeElement !== dom.overview) {
+		dom.overview.value = String(Math.min(seconds, state.selection.playheadSeconds));
+	}
+	syncMultitrackClipMixDom(dom.clipMix, state);
+	renderTransportButtons(dom, state);
+	updateMultitrackScrollbar(dom);
+	if (dom.horizontalScroll) requestAnimationFrame(() => updateMultitrackScrollbar(dom));
 }
 
-function renderRuler(root, seconds, pixelsPerSecond) {
-	root.replaceChildren();
-	const step = Math.max(1, Math.ceil(seconds / 120), pixelsPerSecond < 44 ? 2 : 1);
-	for (let second = 0; second <= seconds; second += step) {
+/** @param {HTMLElement} element - Active clip. @param {Object} clip - Updated placement. @param {number} scale - Zoom. */
+export function renderMultitrackGestureClip(element, clip, scale) {
+	const width = Math.max(.5, clip.duration * scale);
+	element.style.left = `${clip.timelineStart * scale}px`;
+	element.style.width = `${width}px`;
+	element.classList.toggle('multitrack-clip-narrow', width < 44);
+	element.classList.toggle('multitrack-clip-micro', width < 7);
+	const timing = element.querySelector('.multitrack-clip-timing');
+	if (timing) timing.textContent = `${clip.duration.toFixed(2)}s`;
+}
+
+/** @param {HTMLElement} ruler - Time ruler. @param {number} seconds - Duration. @param {number} scale - Zoom. */
+function renderRuler(ruler, seconds, scale) {
+	ruler.replaceChildren();
+	const every = scale > 80 ? 1 : scale > 30 ? 2 : scale > 12 ? 5 : 10;
+	for (let second = 0; second <= seconds && ruler.childElementCount < 240; second += every) {
 		const mark = document.createElement('span');
 		mark.className = 'multitrack-ruler-mark';
-		mark.style.left = `calc(var(--multitrack-header-width) + ${second * pixelsPerSecond}px)`;
-		mark.textContent = formatMultitrackTime(second);
-		root.appendChild(mark);
+		mark.style.left = `calc(var(--multitrack-header-width) + ${second * scale}px)`;
+		mark.textContent = formatTime(second);
+		ruler.appendChild(mark);
 	}
 }
 
-function renderToolbarState(dom, state) {
-	const play = dom.buttons.get('play-toggle');
-	if (play) {
-		play.disabled = state.project.tracks.length === 0;
-		play.textContent = state.playing ? '■ Stop' : '▶ Play';
-		play.setAttribute('aria-label', state.playing ? 'Stop multitrack mix' : 'Play multitrack mix');
-	}
-	const undo = dom.buttons.get('undo');
-	const redo = dom.buttons.get('redo');
-	if (undo) {
-		undo.disabled = !state.history.canUndo;
-	}
-	if (redo) {
-		redo.disabled = !state.history.canRedo;
-	}
+/** @param {Object} dom - Transport buttons. @param {Object} state - Playback status. */
+function renderTransportButtons(dom, state) {
+	const play = dom.buttons.get('play');
+	if (!play) return;
+	play.disabled = !state.playing && state.project.tracks.length === 0;
+	play.textContent = state.playing ? '■ Stop' : '▶ Play';
+	play.setAttribute('aria-label', state.playing ? 'Stop audio playback' : 'Play edited song');
 }
 
-export function formatMultitrackTime(seconds) {
-	const whole = Math.max(0, Number(seconds) || 0);
-	const minutes = Math.floor(whole / 60);
-	const remainder = whole - minutes * 60;
-	return `${minutes}:${remainder.toFixed(2).padStart(5, '0')}`;
+/** @param {number} seconds - Song time. @returns {string} Readable ruler label. */
+function formatTime(seconds) {
+	return seconds >= 60
+		? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
+		: `${Math.floor(seconds)}s`;
 }

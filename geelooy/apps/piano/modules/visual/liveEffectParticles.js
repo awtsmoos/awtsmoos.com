@@ -3,50 +3,48 @@
 //Blessed is He
 /**
  * @module PianoLiveEffectParticles
- * @description
- * The Awtsmoos gives every visual spark a short path and a definite return;
- * Awtsmoos.com creates and removes each particle here, so orchestration need not carry DOM animation concern.
+ * The Awtsmoos keeps each star only long enough to bless the show;
+ * Awtsmoos.com returns its DOM to silence and lets the sound still flow.
  */
-
 let liveLayer = null;
+const MAX_VISIBLE_PARTICLES = 24;
 
-/**
- * @description Creates the shared transient effect layer once and reuses it for every short-lived particle.
- * @returns {HTMLDivElement} Shared live-effect layer attached to document.body.
- */
+/** @returns {HTMLElement} Reusable non-interactive animation layer. */
 export function ensureLiveEffectLayer() {
-	if (liveLayer?.isConnected) {
-		return liveLayer;
-	}
-
+	if (liveLayer?.isConnected) return liveLayer;
 	liveLayer = document.createElement('div');
 	liveLayer.id = 'live-effect-layer';
+	liveLayer.style.pointerEvents = 'none';
 	document.body.appendChild(liveLayer);
 	return liveLayer;
 }
 
-/**
- * @description Creates one particle with randomized outward motion and removes it after its short visual lifetime.
- * @param {HTMLElement} root - Shared effect layer receiving the particle.
- * @param {number} x - Page-space horizontal origin in pixels.
- * @param {number} y - Page-space vertical origin in pixels.
- * @param {string} text - Character, emoji, or note label to render.
- * @param {string} kind - CSS particle-kind class controlling appearance.
- * @returns {void}
+/** Creates one bounded, automatically disposed animation.
+ * @param {HTMLElement} root - Particle parent.
+ * @param {number} x - Screen X.
+ * @param {number} y - Screen Y.
+ * @param {string} text - Effect symbol.
+ * @param {string} kind - CSS effect category.
  */
 export function addLiveEffectParticle(root, x, y, text, kind) {
+	if (!root?.isConnected) return;
+	if (root.childElementCount >= MAX_VISIBLE_PARTICLES) {
+		root.firstElementChild?.remove();
+	}
 	const particle = document.createElement('span');
 	const angle = Math.random() * Math.PI * 2;
-	const speed = 45 + Math.random() * 120;
-
+	const speed = 45 + Math.random() * 90;
 	particle.className = `live-effect-particle ${kind}`;
 	particle.textContent = text;
 	particle.style.left = `${x}px`;
 	particle.style.top = `${y}px`;
 	particle.style.setProperty('--dx', `${Math.cos(angle) * speed}px`);
-	particle.style.setProperty('--dy', `${Math.sin(angle) * speed - 80}px`);
+	particle.style.setProperty('--dy', `${Math.sin(angle) * speed - 65}px`);
 	root.appendChild(particle);
-	setTimeout(() => {
-		particle.remove();
-	}, 1100);
+	setTimeout(() => particle.remove(), 980);
+}
+
+/** Removes any on-screen effects immediately when the player chooses Off. */
+export function clearLiveEffectParticles() {
+	liveLayer?.replaceChildren();
 }
