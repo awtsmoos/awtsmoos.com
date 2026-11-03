@@ -15,17 +15,19 @@ import { startMitzvahWorldPostPlayExperience } from './MitzvahWorldPostPlayExper
 
 const FAST_AUTHORITY = {
 	authorityDiscoveryMs: 150,
+	authorityLaunchLimitMs: 5000,
 	authorityLimitMs: 5000,
 	authorityPollMs: 10
 };
 
 /** Returns a post-play harness whose starter records the authority it was handed. */
-function makeAuthorityHarness(runtime) {
+function makeAuthorityHarness(runtime, { activation = true } = {}) {
 	const record = { starts: 0, authorityAtStart: null };
 	const diagnostics = {
 		rendererHydrationPromise: Promise.resolve({ ready: true }),
 		runtime
 	};
+	if (activation) diagnostics.activatePostPlayable = () => null;
 	const dependencies = {
 		...FAST_AUTHORITY,
 		startDirectExperience: async current => {
@@ -39,14 +41,17 @@ function makeAuthorityHarness(runtime) {
 	return { diagnostics, dependencies, environment: { setTimeout }, record };
 }
 
+/** Simulates post-control hydration landing the inventory store. */
+function landAuthority(diagnostics) {
+	diagnostics.runtime.bus = { on: () => () => {} };
+	diagnostics.runtime.inventoryStore = { snapshot: () => ({}) };
+	diagnostics.postControlHydrationStage = 'ready';
+}
+
 test('late inventory authority reaches the direct experience starter', async () => {
 	const harness = makeAuthorityHarness({});
 	harness.diagnostics.postControlHydrationStage = 'loading-module';
-	setTimeout(() => {
-		harness.diagnostics.runtime.bus = { on: () => () => {} };
-		harness.diagnostics.runtime.inventoryStore = { snapshot: () => ({}) };
-		harness.diagnostics.postControlHydrationStage = 'ready';
-	}, 150);
+	setTimeout(() => landAuthority(harness.diagnostics), 150);
 	const result = await startMitzvahWorldPostPlayExperience(
 		harness.diagnostics,
 		harness.environment,
@@ -56,6 +61,26 @@ test('late inventory authority reaches the direct experience starter', async () 
 	assert.equal(harness.record.starts, 1);
 	assert.equal(harness.record.authorityAtStart, true);
 	assert.equal(harness.diagnostics.directExperienceGate, 'renderer-settled');
+	assert.equal(
+		harness.diagnostics.directExperienceAuthorityGate,
+		'authority-ready'
+	);
+});
+
+test('authority landing after a slow launch still reaches the starter', async () => {
+	const harness = makeAuthorityHarness({});
+	setTimeout(() => {
+		harness.diagnostics.playableEvidence = { ready: true };
+		harness.diagnostics.postControlHydrationStage = 'loading-module';
+	}, 600);
+	setTimeout(() => landAuthority(harness.diagnostics), 900);
+	await startMitzvahWorldPostPlayExperience(
+		harness.diagnostics,
+		harness.environment,
+		harness.dependencies
+	);
+	assert.equal(harness.record.starts, 1);
+	assert.equal(harness.record.authorityAtStart, true);
 	assert.equal(
 		harness.diagnostics.directExperienceAuthorityGate,
 		'authority-ready'
@@ -82,7 +107,7 @@ test('authority present from the first frame adds no wait', async () => {
 });
 
 test('authority that never registers still starts, honestly labelled', async () => {
-	const harness = makeAuthorityHarness({});
+	const harness = makeAuthorityHarness({}, { activation: false });
 	const beganAt = Date.now();
 	await startMitzvahWorldPostPlayExperience(
 		harness.diagnostics,
@@ -102,6 +127,7 @@ test('degraded post-control ends the authority wait at once', async () => {
 	const harness = makeAuthorityHarness({});
 	harness.diagnostics.postControlHydrationStage = 'degraded';
 	harness.dependencies.authorityDiscoveryMs = 8000;
+	harness.dependencies.authorityLaunchLimitMs = 9000;
 	harness.dependencies.authorityLimitMs = 9000;
 	const beganAt = Date.now();
 	await startMitzvahWorldPostPlayExperience(
