@@ -184,10 +184,19 @@ class DosDB {
       if (isSocialCommentPath(id)) return directKeys || [];
       let directValue;
       try { directValue = await legacy.get(id); } catch (_error) { directValue = undefined; }
-      if (Array.isArray(directValue)) return directValue;
       if (directKeys === undefined) {
         try { directKeys = await legacy.getObjectKeys(id); }
         catch (_error) { directKeys = undefined; }
+      }
+      if (Array.isArray(directValue)) {
+        // B"H QA fix P4 (2026-11-03): legacy.get() on a directory-backed
+        // collection returns only the first page (pageSize 10), so an
+        // array value SHORTER than the enumerated key list is a page,
+        // not the collection itself - the keys win. A complete stored
+        // array (length >= key count) keeps the historical
+        // values-as-keys behavior for array-valued records.
+        if (Array.isArray(directKeys) && directKeys.length > directValue.length) return directKeys;
+        return directValue;
       }
       if (Array.isArray(directKeys) && directKeys.length) return directKeys;
       if (directValue && typeof directValue === "object" && !Buffer.isBuffer(directValue)) return Object.keys(directValue);
