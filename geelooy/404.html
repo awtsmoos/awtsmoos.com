@@ -1,0 +1,119 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every doorway; even a path that ends reveals the way home.
+Branded 404 for Awtsmoos.com (QA fix P2): served by nginx error_page so a
+wrong or dead route never shows the bare server page again.
+-->
+<!doctype html>
+<html lang="en" data-geelooy-route="not-found">
+<head>
+	<meta charset="utf-8">
+	<script>
+		/* B"H — set data-theme before paint, same contract as the homepage. */
+		(function() {
+			try {
+				var t = localStorage.getItem('awtsmoos-theme');
+				document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+			} catch (e) {
+				document.documentElement.setAttribute('data-theme', 'light');
+			}
+		})();
+	</script>
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="This Awtsmoos page could not be found. Return home, search the Living Library, or open the encyclopedia, games and apps.">
+	<meta name="theme-color" content="#f7f1e3">
+	<title>Page not found — Awtsmoos</title>
+	<style>
+		:root{
+			--bg:#f7f1e3; --panel:#fffdf6; --ink:#2e2417; --muted:#6d5c40;
+			--accent:#8a6d3b; --accent-ink:#ffffff; --line:#e3d5b8;
+		}
+		[data-theme="dark"]{
+			--bg:#171310; --panel:#221c16; --ink:#f3ead6; --muted:#c4b28c;
+			--accent:#d9b36a; --accent-ink:#241b0d; --line:#453723;
+		}
+		*{box-sizing:border-box}
+		body{
+			margin:0; min-height:100vh; background:var(--bg); color:var(--ink);
+			font-family:Georgia,'Times New Roman',serif;
+			display:flex; flex-direction:column; align-items:center;
+			padding:24px 16px 40px;
+		}
+		.brand{
+			display:flex; align-items:center; gap:12px; text-decoration:none;
+			color:var(--ink); min-height:44px;
+		}
+		.brand-mark{
+			width:44px; height:44px; border-radius:50%;
+			background:var(--accent); color:var(--accent-ink);
+			display:flex; align-items:center; justify-content:center;
+			font-size:26px; line-height:1;
+		}
+		.brand strong{font-size:22px; letter-spacing:.02em}
+		.brand small{display:block; color:var(--muted); font-size:12px}
+		main{
+			max-width:640px; width:100%; text-align:center; margin-top:6vh;
+			background:var(--panel); border:1px solid var(--line);
+			border-radius:18px; padding:36px 28px 30px;
+		}
+		.code{
+			font-size:64px; margin:0; color:var(--accent); line-height:1;
+			font-weight:700;
+		}
+		h1{font-size:26px; margin:10px 0 8px}
+		p{color:var(--muted); margin:0 0 20px; line-height:1.55}
+		form{display:flex; gap:8px; margin:0 0 22px}
+		input[type="search"]{
+			flex:1; min-height:48px; padding:10px 14px; font-size:16px;
+			border:1px solid var(--line); border-radius:12px;
+			background:var(--bg); color:var(--ink); min-width:0;
+		}
+		button{
+			min-height:48px; min-width:48px; padding:10px 18px; font-size:16px;
+			border:0; border-radius:12px; cursor:pointer;
+			background:var(--accent); color:var(--accent-ink);
+			font-family:inherit;
+		}
+		nav{
+			display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+			gap:10px;
+		}
+		nav a{
+			display:flex; align-items:center; justify-content:center;
+			min-height:48px; padding:10px; border:1px solid var(--line);
+			border-radius:12px; color:var(--ink); text-decoration:none;
+			background:var(--bg); font-size:16px;
+		}
+		nav a:hover, nav a:focus{border-color:var(--accent)}
+		footer{margin-top:26px; color:var(--muted); font-size:13px; text-align:center}
+		footer a{color:var(--accent)}
+	</style>
+</head>
+<body data-geelooy-route="not-found">
+	<a class="brand" href="/" aria-label="Awtsmoos home">
+		<span class="brand-mark" aria-hidden="true">א</span>
+		<span><strong>Awtsmoos</strong><small>Torah · Create · Give · Build</small></span>
+	</a>
+	<main>
+		<p class="code" aria-hidden="true">404</p>
+		<h1>This page could not be found</h1>
+		<p>The address may be mistyped, the page may have moved, or it may not have been created yet. Nothing is lost — every doorway below is open.</p>
+		<form action="/mawgawl/sefarim/" method="get" role="search">
+			<input type="search" name="q" placeholder="Search the Living Library…" aria-label="Search the Living Library">
+			<button type="submit">Search</button>
+		</form>
+		<nav aria-label="Main sections">
+			<a href="/">Home</a>
+			<a href="/heichelos/ikar">Torah Library</a>
+			<a href="/encyclopedia/">Encyclopedia</a>
+			<a href="/games/">Games</a>
+			<a href="/apps/">Apps</a>
+			<a href="/about">About</a>
+		</nav>
+	</main>
+	<footer>
+		Awtsmoos — Torah, Creation &amp; Living Worlds · <a href="/contact/">Contact</a>
+	</footer>
+</body>
+</html>
