@@ -54302,12 +54302,12 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_oy3caa = {
+	const __awtsmoosDefault_ij3c54 = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_oy3caa;
+	__exports.default = __awtsmoosDefault_ij3c54;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
