@@ -14,8 +14,13 @@
 import {
 	buildMovieProject,
 	CAMERA_PRESETS,
-	movieMakerUrl
+	movieMakerUrl,
+	PRESET_IDS,
+	validateMovieProject
 } from './MovieProjectBuilder.js';
+import {
+	normalizeStudioMovie
+} from '../state/StudioDocumentModel.js';
 
 function el(tag, attrs, children) {
 	const node = document.createElement(tag);
@@ -81,6 +86,14 @@ export function mountMoviePanel(container, context = {}) {
 	let shotCounter = 0;
 	let busy = false;
 	let unsubscribe = null;
+	// Key of the object the author last chose in the new-shot target select.
+	// Held in JS (not only in the DOM) so state notifications that rebuild
+	// the option lists can never silently reset the choice to the first object.
+	let chosenTargetKey = '';
+	// Signature of the movie slot as last written to / read from the document,
+	// so document sync adopts external changes (load, new, undo) without
+	// fighting the panel's own persistence writes.
+	let syncedMovieSignature = '';
 
 	const root = el('section', { class: 'mitzvah-movie-studio', 'aria-label': 'Movie Studio' }, [
 		el('h2', { text: 'Movie Studio', style: { margin: '0 0 4px' } }),
@@ -97,7 +110,7 @@ export function mountMoviePanel(container, context = {}) {
 		'aria-label': 'Movie title',
 		style: { width: '100%', boxSizing: 'border-box', padding: '6px 8px', marginBottom: '12px' }
 	});
-	titleInput.addEventListener('input', () => validateNow());
+	titleInput.addEventListener('input', () => { persistMovie(); validateNow(); });
 	root.appendChild(el('label', { style: { display: 'block', fontWeight: 'bold', marginBottom: '4px' } }, [
 		document.createTextNode('Movie title'),
 		titleInput
@@ -121,6 +134,7 @@ export function mountMoviePanel(container, context = {}) {
 		presetSelect, targetSelect, durationInput, speakerInput, textInput, addButton
 	]);
 	root.appendChild(addRow);
+	targetSelect.addEventListener('change', () => { chosenTargetKey = targetSelect.value; });
 
 	// Shot list.
 	root.appendChild(el('h3', { text: 'Shots', style: { margin: '8px 0 6px' } }));
@@ -155,8 +169,25 @@ export function mountMoviePanel(container, context = {}) {
 	const renderButton = el('button', { type: 'button', text: 'Render Movie (WebM)', style: buttonStyle(), onclick: () => openInMaker(true) });
 	const copyButton = el('button', { type: 'button', text: 'Copy Project JSON', style: buttonStyle(), onclick: () => copyProject() });
 	const downloadButton = el('button', { type: 'button', text: 'Download project.json', style: buttonStyle(), onclick: () => downloadProject() });
+	const importFileInput = el('input', {
+		type: 'file',
+		accept: 'application/json,.json',
+		'aria-label': 'Import a Movie Maker project JSON file',
+		style: { display: 'none' }
+	});
+	importFileInput.addEventListener('change', () => {
+		const file = importFileInput.files && importFileInput.files[0];
+		importFileInput.value = '';
+		if (file) void importProjectFile(file);
+	});
+	const importButton = el('button', {
+		type: 'button',
+		text: 'Import project JSON',
+		style: buttonStyle(),
+		onclick: () => importFileInput.click()
+	});
 	const buttonRow = el('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } }, [
-		openButton, renderButton, copyButton, downloadButton
+		openButton, renderButton, copyButton, downloadButton, importButton, importFileInput
 	]);
 	root.appendChild(buttonRow);
 	container.appendChild(root);
@@ -177,10 +208,79 @@ export function mountMoviePanel(container, context = {}) {
 		return null;
 	}
 
-	function objectLabels() {
+	function objectOptions() {
 		const documentState = readDocument();
 		if (!documentState) return [];
-		return documentState.objects.map((object) => String(object.label || 'Object'));
+		return documentState.objects.map((object) => ({
+			id: String(object.id || ''),
+			label: String(object.label || 'Object')
+		}));
+	}
+
+	// Select options are keyed by object id (labels repeat and can be
+	// renamed; ids cannot). Objects without an id fall back to a label key.
+	function targetKey(option) {
+		return option.id ? `id:${option.id}` : `label:${option.label}`;
+	}
+
+	function objectForKey(key) {
+		const options = objectOptions();
+		return options.find((option) => targetKey(option) === key) || null;
+	}
+
+	function keyForShot(shot) {
+		const options = objectOptions();
+		if (shot.targetId) {
+			const byId = options.find((option) => option.id === shot.targetId);
+			if (byId) return targetKey(byId);
+		}
+		if (shot.targetLabel) {
+			const byLabel = options.find((option) => option.label === shot.targetLabel)
+				|| options.find((option) => option.label.toLowerCase() === shot.targetLabel.toLowerCase());
+			if (byLabel) return targetKey(byLabel);
+		}
+		return options.length > 0 ? targetKey(options[0]) : '';
+	}
+
+	// --- Movie persistence: the shot list lives in the document's movie slot,
+	// so Save / Load / storage round-trips carry it with the world. ---
+
+	function readMovie() {
+		const documentState = readDocument();
+		return normalizeStudioMovie(documentState ? documentState.movie : undefined);
+	}
+
+	function movieSignature(movie) {
+		return JSON.stringify(movie);
+	}
+
+	function persistMovie() {
+		if (!state || typeof state.updateMovie !== 'function') return;
+		const slot = normalizeStudioMovie({
+			shotCounter,
+			shots: JSON.parse(JSON.stringify(shots)),
+			title: titleInput.value
+		});
+		const signature = movieSignature(slot);
+		if (signature === syncedMovieSignature) return;
+		syncedMovieSignature = signature;
+		state.updateMovie(slot);
+	}
+
+	function syncMovieFromDocument() {
+		const movie = readMovie();
+		const signature = movieSignature(movie);
+		if (signature === syncedMovieSignature) return;
+		syncedMovieSignature = signature;
+		shots.length = 0;
+		for (const shot of movie.shots) {
+			shots.push(JSON.parse(JSON.stringify(shot)));
+		}
+		shotCounter = movie.shotCounter;
+		if (document.activeElement !== titleInput) {
+			titleInput.value = movie.title;
+		}
+		renderShots();
 	}
 
 	function movieTitle() {
@@ -191,51 +291,51 @@ export function mountMoviePanel(container, context = {}) {
 		return 'Untitled Mitzvah Movie';
 	}
 
+	function fillTargetSelect(select, preferredKey) {
+		const options = objectOptions();
+		select.innerHTML = '';
+		if (options.length === 0) {
+			select.appendChild(el('option', { value: '', text: 'No studio objects yet' }));
+			select.disabled = true;
+			return '';
+		}
+		select.disabled = false;
+		for (const option of options) {
+			select.appendChild(el('option', { value: targetKey(option), text: option.label }));
+		}
+		const keys = options.map(targetKey);
+		const chosen = keys.includes(preferredKey) ? preferredKey : keys[0];
+		select.value = chosen;
+		return chosen;
+	}
+
 	function refreshTargetOptions() {
-		const labels = objectLabels();
+		// Per-shot selects re-derive their value from the shot record itself,
+		// so a rebuild can never drift a row away from its stored target.
 		for (const select of root.querySelectorAll('select[data-role="shot-target"]')) {
-			const current = select.value;
-			select.innerHTML = '';
-			if (labels.length === 0) {
-				select.appendChild(el('option', { value: '', text: 'No studio objects yet' }));
-				select.disabled = true;
-				continue;
-			}
-			select.disabled = false;
-			for (const label of labels) {
-				select.appendChild(el('option', { value: label, text: label }));
-			}
-			if (labels.includes(current)) select.value = current;
+			const shot = shots.find((candidate) => candidate.id === select.dataset.shotId);
+			fillTargetSelect(select, shot ? keyForShot(shot) : select.value);
 		}
-		// New-shot form target select.
-		const currentNew = targetSelect.value;
-		targetSelect.innerHTML = '';
-		if (labels.length === 0) {
-			targetSelect.appendChild(el('option', { value: '', text: 'No studio objects yet' }));
-			targetSelect.disabled = true;
-		} else {
-			targetSelect.disabled = false;
-			for (const label of labels) {
-				targetSelect.appendChild(el('option', { value: label, text: label }));
-			}
-			if (labels.includes(currentNew)) targetSelect.value = currentNew;
-		}
+		// New-shot form: preserve the author's choice held in JS state.
+		chosenTargetKey = fillTargetSelect(targetSelect, chosenTargetKey || targetSelect.value);
 	}
 
 	function addShot() {
 		shotCounter += 1;
-		const labels = objectLabels();
+		const target = objectForKey(targetSelect.value || chosenTargetKey) || objectOptions()[0] || null;
 		shots.push({
 			id: `shot-${shotCounter}`,
 			title: `Shot ${shotCounter}`,
 			preset: presetSelect.value || 'static',
 			durationSec: parseDuration(durationInput.value),
-			targetLabel: targetSelect.value || labels[0] || '',
+			targetId: target ? target.id : '',
+			targetLabel: target ? target.label : '',
 			dialogue: { speaker: speakerInput.value.trim(), text: textInput.value.trim() },
 			cameraOffset: 1
 		});
 		speakerInput.value = '';
 		textInput.value = '';
+		persistMovie();
 		renderShots();
 		announce(`Shot ${shotCounter} added.`);
 	}
@@ -249,6 +349,7 @@ export function mountMoviePanel(container, context = {}) {
 		const index = shots.findIndex((shot) => shot.id === id);
 		if (index >= 0) {
 			const removed = shots.splice(index, 1)[0];
+			persistMovie();
 			renderShots();
 			announce(`Removed ${removed.title}.`);
 		}
@@ -267,7 +368,7 @@ export function mountMoviePanel(container, context = {}) {
 
 	function buildShotRow(shot) {
 		const titleField = el('input', { type: 'text', value: shot.title, 'aria-label': 'Shot title', style: { width: '110px' } });
-		titleField.addEventListener('input', () => { shot.title = titleField.value; renderTimeline(); validateNow(); });
+		titleField.addEventListener('input', () => { shot.title = titleField.value; persistMovie(); renderTimeline(); validateNow(); });
 
 		const presetField = el('select', { 'aria-label': 'Camera preset' },
 			CAMERA_PRESETS.map((preset) => el('option', {
@@ -276,24 +377,34 @@ export function mountMoviePanel(container, context = {}) {
 				title: preset.description,
 				...(preset.id === shot.preset ? { selected: 'selected' } : {})
 			})));
-		presetField.addEventListener('change', () => { shot.preset = presetField.value; renderTimeline(); validateNow(); });
+		presetField.addEventListener('change', () => { shot.preset = presetField.value; persistMovie(); renderTimeline(); validateNow(); });
 
-		const targetField = el('select', { 'aria-label': 'Shot target', 'data-role': 'shot-target' });
-		targetField.addEventListener('change', () => { shot.targetLabel = targetField.value; validateNow(); });
+		const targetField = el('select', { 'aria-label': 'Shot target', 'data-role': 'shot-target', 'data-shot-id': shot.id });
+		targetField.addEventListener('change', () => {
+			const target = objectForKey(targetField.value);
+			shot.targetId = target ? target.id : '';
+			shot.targetLabel = target ? target.label : '';
+			persistMovie();
+			validateNow();
+		});
 
 		const durationField = el('input', { type: 'number', min: '0.5', step: '0.5', value: String(shot.durationSec), 'aria-label': 'Duration in seconds', style: { width: '64px' } });
-		durationField.addEventListener('input', () => { shot.durationSec = parseDuration(durationField.value); renderTimeline(); validateNow(); });
+		durationField.addEventListener('input', () => { shot.durationSec = parseDuration(durationField.value); persistMovie(); renderTimeline(); validateNow(); });
 
 		const speakerField = el('input', { type: 'text', value: shot.dialogue.speaker, placeholder: 'Speaker', 'aria-label': 'Dialogue speaker', style: { width: '96px' } });
-		speakerField.addEventListener('input', () => { shot.dialogue.speaker = speakerField.value; validateNow(); });
+		speakerField.addEventListener('input', () => { shot.dialogue.speaker = speakerField.value; persistMovie(); validateNow(); });
 
 		const textField = el('input', { type: 'text', value: shot.dialogue.text, placeholder: 'Dialogue line (optional)', 'aria-label': 'Dialogue text', style: { flex: '1', minWidth: '120px' } });
-		textField.addEventListener('input', () => { shot.dialogue.text = textField.value; validateNow(); });
+		textField.addEventListener('input', () => { shot.dialogue.text = textField.value; persistMovie(); validateNow(); });
 
-		const offsetField = el('input', { type: 'number', min: '0.25', max: '3', step: '0.1', value: String(shot.cameraOffset || 1), 'aria-label': 'Camera distance multiplier', title: 'Camera distance multiplier', style: { width: '56px' } });
+		// step="any": with min 0.25 and step 0.1 the default value 1 was never
+		// step-valid (0.25, 0.35, …, 0.95, 1.05), so assistive tech flagged
+		// every row invalid. The builder clamps the offset to 0.25–3 anyway.
+		const offsetField = el('input', { type: 'number', min: '0.25', max: '3', step: 'any', value: String(shot.cameraOffset || 1), 'aria-label': 'Camera distance multiplier', title: 'Camera distance multiplier', style: { width: '56px' } });
 		offsetField.addEventListener('input', () => {
 			const parsed = Number(offsetField.value);
 			shot.cameraOffset = Number.isFinite(parsed) ? parsed : 1;
+			persistMovie();
 			validateNow();
 		});
 
@@ -314,12 +425,15 @@ export function mountMoviePanel(container, context = {}) {
 			el('strong', { text: shot.id, style: { minWidth: '48px' } }),
 			titleField, presetField, targetField, durationField, speakerField, textField, offsetField, removeButton
 		]);
-		// Seed the target select for this row, then restore the shot's choice.
+		// Seed the target select for this row from the shot's stored target,
+		// repairing the record to the resolved object (id first, label as the
+		// legacy fallback) so what the row shows is what the build will aim at.
 		refreshTargetOptions();
-		targetField.value = shot.targetLabel;
-		if (!objectLabels().includes(shot.targetLabel)) {
-			shot.targetLabel = objectLabels()[0] || '';
-			targetField.value = shot.targetLabel;
+		const resolved = objectForKey(keyForShot(shot));
+		if (resolved) {
+			shot.targetId = resolved.id;
+			shot.targetLabel = resolved.label;
+			targetField.value = targetKey(resolved);
 		}
 		return row;
 	}
@@ -469,12 +583,94 @@ export function mountMoviePanel(container, context = {}) {
 		});
 	}
 
+	// Rebuilds an editable shot list from a Movie Maker project document
+	// (the shape Download project.json produces). Camera clips define the
+	// shots; scene-clip labels and dialogue cues are matched back by start
+	// time. Shot targets and camera offsets are baked into the project's
+	// geometry and cannot be recovered, so imported shots start untargeted
+	// (the row repair aims them at the first object) with offset 1.
+	function shotsFromProject(project) {
+		const tracks = Array.isArray(project.tracks) ? project.tracks : [];
+		const clipsOf = (type) => {
+			const track = tracks.find((candidate) => candidate && candidate.type === type);
+			return track && Array.isArray(track.clips) ? [...track.clips] : [];
+		};
+		const cameraClips = clipsOf('camera').sort((a, b) => Number(a.start) - Number(b.start));
+		const sceneClips = clipsOf('scene');
+		const dialogueClips = clipsOf('dialogue');
+		return cameraClips.map((clip, index) => {
+			const start = Number(clip.start) || 0;
+			const duration = Number(clip.duration) || 0;
+			const sceneClip = sceneClips.find((candidate) => Math.abs(Number(candidate.start) - start) < 0.01);
+			const dialogue = dialogueClips.find((candidate) => {
+				const cueStart = Number(candidate.start);
+				return cueStart >= start && cueStart < start + duration;
+			});
+			const clipId = String(clip.id || '');
+			return {
+				id: clipId.endsWith('-camera') ? clipId.slice(0, -'-camera'.length) : `shot-${index + 1}`,
+				title: index > 0 && sceneClip && sceneClip.label ? String(sceneClip.label) : `Shot ${index + 1}`,
+				preset: PRESET_IDS.includes(clip.shot) ? clip.shot : 'static',
+				durationSec: duration > 0 ? duration : 5,
+				targetId: '',
+				targetLabel: '',
+				dialogue: {
+					speaker: dialogue ? String(dialogue.speaker || '') : '',
+					text: dialogue ? String(dialogue.text || '') : ''
+				},
+				cameraOffset: 1
+			};
+		});
+	}
+
+	async function importProjectFile(file) {
+		try {
+			const parsed = JSON.parse(await file.text());
+			if (parsed && parsed.protocol === 'awtsmoos-movie-v1') {
+				showError(new Error('That file is a canonical movie. Load it in the Movie Data Studio panel (Data tab) — this panel imports Movie Maker project files.'));
+				return;
+			}
+			if (parsed && parsed.format === 'awtsmoos.world.v1') {
+				showError(new Error('That file is a Studio world document. Use the toolbar Import button to load it.'));
+				return;
+			}
+			const errors = validateMovieProject(parsed);
+			if (errors.length > 0) {
+				showError(new Error(`That file is not a valid Movie Maker project: ${errors.join(' ')}`));
+				return;
+			}
+			const imported = shotsFromProject(parsed);
+			if (imported.length === 0) {
+				showError(new Error('That project has no camera clips to rebuild shots from.'));
+				return;
+			}
+			shots.length = 0;
+			for (const shot of imported) shots.push(shot);
+			shotCounter = imported.reduce((highest, shot) => {
+				const match = /^shot-(\d+)$/.exec(shot.id);
+				return match ? Math.max(highest, Number(match[1])) : highest;
+			}, imported.length);
+			titleInput.value = String(parsed.title || '');
+			errorBox.style.display = 'none';
+			errorBox.textContent = '';
+			persistMovie();
+			renderShots();
+			announce(`Imported ${imported.length} shot${imported.length === 1 ? '' : 's'} from ${file.name}. Shot targets and camera offsets are not stored in project files, so they were reset.`);
+		} catch (error) {
+			showError(error instanceof SyntaxError
+				? new Error(`That file is not valid JSON: ${error.message}`)
+				: error);
+		}
+	}
+
+	syncMovieFromDocument();
 	refreshTargetOptions();
 	renderTimeline();
 	validateNow();
 
 	if (state && typeof state.subscribe === 'function') {
 		unsubscribe = state.subscribe(() => {
+			syncMovieFromDocument();
 			refreshTargetOptions();
 			renderTimeline();
 			validateNow();

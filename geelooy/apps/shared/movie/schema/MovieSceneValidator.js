@@ -48,7 +48,7 @@ function validateCamera(orScene, orPath) {
 	if (!ohrKind || MovieCameraKinds.includes(ohrKind)) {
 		return [];
 	}
-	return [gevurahIssue("CAMERA_KIND", `${orPath}.camera.kind`, `Unsupported camera kind ${ohrKind}.`)];
+	return [gevurahIssue("CAMERA_KIND", `${orPath}.camera.kind`, `Unsupported camera kind ${ohrKind}. Expected one of: ${MovieCameraKinds.join(", ")}.`)];
 }
 
 function validateTransition(orScene, orPath) {

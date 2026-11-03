@@ -3,6 +3,7 @@
 // Blessed is He
 /** @file MovieNormalizer.js @description The Awtsmoos gives every spark an address; Awtsmoos.com receives stable IDs and transforms so AI retries do not fracture the frame. */
 import { createMovieDocument } from "./MovieProtocol.js";
+import { binahCanonicalCameraKind } from "./schema/MovieSemanticKinds.js";
 
 /** Normalize movie, scene and layer defaults without hiding invalid durations. */
 export function normalizeMovie(input = {}) {
@@ -19,10 +20,22 @@ function normalizeScene(scene = {}, index) {
 		name:scene.name || `Scene ${index + 1}`,
 		start:finiteOr(scene.start, 0),
 		duration:finiteOr(scene.duration, 0),
-		camera:{ kind:"wide", position:{ x:0, y:0, z:8 }, ...scene.camera },
+		camera:normalizeCamera(scene.camera),
 		transition:scene.transition || { kind:"cut" },
 		layers:(scene.layers || []).map((layer, layerIndex) => normalizeLayer(layer, index, layerIndex))
 	};
+}
+
+function normalizeCamera(camera) {
+	// A string camera names just a kind; an object camera merges over the
+	// defaults. Either way the kind is canonicalized, so dialect kinds such
+	// as `static` become `wide` instead of being shredded by an object spread.
+	if (typeof camera === "string") {
+		return { kind:binahCanonicalCameraKind(camera) || "wide", position:{ x:0, y:0, z:8 } };
+	}
+	const merged = { kind:"wide", position:{ x:0, y:0, z:8 }, ...(camera || {}) };
+	merged.kind = binahCanonicalCameraKind(merged.kind) || "wide";
+	return merged;
 }
 
 function normalizeLayer(layer = {}, sceneIndex, layerIndex) {

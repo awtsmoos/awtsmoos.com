@@ -48,7 +48,8 @@ const ACTOR_IDS = Object.freeze(['player', 'npc']);
  * @property {string} title Shot title shown on the scene track and timeline.
  * @property {string} preset One of the CAMERA_PRESETS ids.
  * @property {number} durationSec Shot length in seconds, must be > 0.
- * @property {string} targetLabel Label of the studio document object the shot is aimed at.
+ * @property {string} [targetId] Stable id of the studio document object the shot is aimed at; preferred over the label.
+ * @property {string} targetLabel Label of the studio document object the shot is aimed at; fallback when no id matches.
  * @property {{speaker: string, text: string}} [dialogue] Optional timed subtitle line.
  * @property {number} [cameraOffset] Multiplier for the camera distance, default 1.
  */
@@ -192,6 +193,15 @@ function mapSpeakers(shots) {
 }
 
 function resolveTarget(objects, shot) {
+	// Prefer the stable object id: labels can repeat across objects and can
+	// be renamed, so an id-keyed shot keeps aiming at the object its author
+	// picked. Label matching remains as the fallback for projects saved
+	// before shots carried ids.
+	const wantedId = String(shot.targetId || '');
+	if (wantedId) {
+		const byId = objects.find((object) => String(object.id) === wantedId);
+		if (byId) return byId;
+	}
 	const wanted = String(shot.targetLabel || '').trim();
 	const exact = objects.find((object) => String(object.label) === wanted);
 	if (exact) return exact;
@@ -199,7 +209,7 @@ function resolveTarget(objects, shot) {
 	const fuzzy = objects.find((object) => String(object.label).toLowerCase() === lowered);
 	if (fuzzy) return fuzzy;
 	const available = objects.map((object) => `"${object.label}"`).join(', ') || '(none)';
-	throw new Error(`Shot "${shot.id}" targets unknown label "${shot.targetLabel}". Available studio object labels: ${available}.`);
+	throw new Error(`Shot "${shot.id}" targets unknown object "${shot.targetLabel}"${wantedId ? ` (id ${wantedId})` : ''}. Available studio object labels: ${available}.`);
 }
 
 function dialogueCueTiming(shotStart, shotDuration, text) {

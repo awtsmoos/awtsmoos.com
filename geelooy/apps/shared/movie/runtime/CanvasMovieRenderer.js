@@ -39,9 +39,29 @@ export class CanvasMovieRenderer {
 		this.context.fillStyle = "#070b18";
 		this.context.fillRect(0, 0, width, height);
 		if (!frame.scene) return frame;
+		this.paintSceneBackground(frame, viewport);
 		this.paintLayers(frame, viewport);
 		this.paintSceneTransition(frame, viewport);
 		return frame;
+	}
+
+	/**
+	 * Paints the scene's own background over the base void fill, before any
+	 * layer. Backgrounds arrive either as a plain color string or as an
+	 * object carrying a color under one of its naming variants; anything
+	 * else leaves the base fill in place.
+	 */
+	paintSceneBackground(frame, viewport) {
+		const background = frame.scene.background;
+		let color = "";
+		if (typeof background === "string") {
+			color = background.trim();
+		} else if (background && typeof background === "object") {
+			color = String(background.color || background.fill || background.value || background.css || "").trim();
+		}
+		if (!color) return;
+		this.context.fillStyle = color;
+		this.context.fillRect(0, 0, viewport.width, viewport.height);
 	}
 
 	paintLayers(frame, viewport) {

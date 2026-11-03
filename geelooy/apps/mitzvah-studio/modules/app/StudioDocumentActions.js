@@ -52,6 +52,10 @@ export class StudioDocumentActions {
 	}
 
 	newDocument() {
+		if (this.isPopulated() && !this.confirmReset()) {
+			this.announce('New world cancelled; current work kept.');
+			return;
+		}
 		const name = globalThis.prompt?.(
 			'World name',
 			'Untitled Mitzvah World'
@@ -62,9 +66,28 @@ export class StudioDocumentActions {
 		}
 	}
 
+	/** @returns {boolean} True when the current document holds work worth protecting. */
+	isPopulated() {
+		const documentState = this.state.snapshot().document;
+		const shots = documentState.movie && Array.isArray(documentState.movie.shots)
+			? documentState.movie.shots
+			: [];
+		return documentState.objects.length > 0 || shots.length > 0;
+	}
+
+	/** @returns {boolean} True when resetting is confirmed or no confirm UI exists. */
+	confirmReset() {
+		if (typeof globalThis.confirm !== 'function') {
+			return true;
+		}
+		return globalThis.confirm(
+			'Start a new world? The current world and its movie shots will be replaced. Save first if you want to keep them.'
+		);
+	}
+
 	saveDocument() {
 		this.storage.save(this.state.snapshot().document);
-		this.announce('World saved locally.');
+		this.announce('World and movie saved locally.');
 	}
 
 	loadDocument(explicit = false) {

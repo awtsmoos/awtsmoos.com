@@ -24,7 +24,12 @@ export function mountMovieExportPanel(host, state, options = {}, status) {
 			const result = typeof options.onExport === 'function'
 				? await options.onExport({ movie: snapshot.movie, profile: profiles[profileId], target, projection: snapshot.projection })
 				: snapshot.projection;
-			status(result ? 'Export/handoff prepared.' : 'Canonical movie data is ready for an app exporter.');
+			// A host exporter may return its own completion message (for
+			// example naming the file it actually downloaded); show it
+			// verbatim instead of the generic prepared line.
+			status(typeof result === 'string' && result
+				? result
+				: result ? 'Export/handoff prepared.' : 'Canonical movie data is ready for an app exporter.');
 		} catch (error) {
 			status(`Export error: ${error.message}`);
 		}

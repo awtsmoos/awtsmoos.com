@@ -72,6 +72,28 @@ export const MovieTransitionKind = Object.freeze({
 
 export const MovieLayerKinds = Object.freeze(Object.values(MovieLayerKind));
 export const MovieCameraKinds = Object.freeze(Object.values(MovieCameraKind));
+
+/**
+ * Dialect camera kinds that canonicalize onto a canonical kind at load or
+ * migration time. App dialects (for example the Mitzvah Studio game presets)
+ * author `static`; validation stays strict against MovieCameraKinds, and the
+ * aliasing happens here, in one place, before validation runs.
+ */
+export const MovieCameraKindAliases = Object.freeze({
+	[MovieCameraKind.WIDE]: MovieCameraKind.WIDE,
+	static: MovieCameraKind.WIDE
+});
+
+/**
+ * Maps a camera kind from any dialect onto its canonical kind.
+ * @param {*} kind Candidate camera kind.
+ * @returns {string} Canonical kind, or the trimmed lower-cased input when unknown.
+ */
+export function binahCanonicalCameraKind(kind) {
+	const normalized = String(kind ?? '').trim().toLowerCase();
+	if (!normalized) return '';
+	return MovieCameraKindAliases[normalized] || normalized;
+}
 export const MovieTransitionKinds = Object.freeze(Object.values(MovieTransitionKind));
 
 /** Returns the broad semantic family used for adapter capability negotiation. */

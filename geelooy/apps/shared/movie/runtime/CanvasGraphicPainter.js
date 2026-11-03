@@ -15,6 +15,11 @@ export function paintGraphicLayer(context, layer, frame, viewport) {
 	if (layer.kind === MovieLayerKind.PATH_2D) paintPath(context, layer, viewport);
 	if (layer.kind === MovieLayerKind.CHART) paintCanonicalChart(context, layer, frame, viewport);
 	if (layer.kind === MovieLayerKind.TEXT) paintText(context, layer, viewport);
+	// Captions, dialogue, and narration carry their copy in content.text just
+	// like text layers; without a painter they rendered as nothing at all.
+	if (layer.kind === MovieLayerKind.CAPTION) paintText(context, layer, viewport);
+	if (layer.kind === MovieLayerKind.DIALOGUE) paintText(context, layer, viewport);
+	if (layer.kind === MovieLayerKind.NARRATION) paintText(context, layer, viewport);
 	if (layer.kind === MovieLayerKind.OVERLAY) paintOverlay(context, layer, frame, viewport);
 }
 

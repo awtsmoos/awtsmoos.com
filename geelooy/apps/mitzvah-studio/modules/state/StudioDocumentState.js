@@ -11,7 +11,8 @@
 
 import {
 	createStudioDocument,
-	normalizeStudioDocument
+	normalizeStudioDocument,
+	normalizeStudioMovie
 } from './StudioDocumentModel.js';
 import { StudioDocumentLifecycle } from './StudioDocumentLifecycle.js';
 import { StudioDocumentMutations } from './StudioDocumentMutations.js';
@@ -60,6 +61,22 @@ export class StudioDocumentState {
 
 	load(documentState) {
 		this.document = this.lifecycle.load(documentState);
+		this.publish();
+	}
+
+	/**
+	 * Replaces only the movie slot of the current document and publishes.
+	 * Movie edits are document data (they save and load with the world) but
+	 * are not world-object mutations, so they do not enter the undo ledger;
+	 * the next world commit snapshots the document — movie included — as
+	 * usual, keeping history snapshots whole.
+	 * @param {object} movie Candidate movie slot.
+	 */
+	updateMovie(movie) {
+		this.document = {
+			...this.document,
+			movie: normalizeStudioMovie(movie)
+		};
 		this.publish();
 	}
 
