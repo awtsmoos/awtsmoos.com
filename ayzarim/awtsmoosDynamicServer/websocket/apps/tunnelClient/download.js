@@ -25,9 +25,12 @@ async function begin(server, client, input) {
 	}
 	const proof = await Native.send(server, identity, route,
 		"fileTransferSourceProof", { path: input.sourcePath });
-	if (!Number.isSafeInteger(proof.totalBytes) || proof.totalBytes < 0 ||
-		proof.totalBytes > Limits.MAX_FILE_BYTES ||
+	const totalBytes = Number.isSafeInteger(proof.totalBytes) ?
+		proof.totalBytes : proof.bytes;
+	if (!Number.isSafeInteger(totalBytes) || totalBytes < 0 ||
+		totalBytes > Limits.MAX_FILE_BYTES ||
 		!/^[a-f0-9]{64}$/.test(proof.sha256 || "")) throw Error("DEVICE_SOURCE_INVALID");
+	proof.totalBytes = totalBytes;
 	const vault = Storage.vault(server);
 	Storage.availableSpace(vault, proof.totalBytes);
 	const reserved = vault.begin({ owner: identity.accountId, tunnel: route,
