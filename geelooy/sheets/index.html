@@ -1,0 +1,29 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+QA fix P3 (2026-11-03): this app lives under /apps/; this root path is the
+doorway the apps hub long advertised, kept honest as a redirect instead of a 404.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos Sheets — Awtsmoos</title>
+	<meta http-equiv="refresh" content="0;url=/apps/sheets/">
+	<link rel="canonical" href="/apps/sheets/">
+	<script>
+		const destination = new URL('/apps/sheets/', location.origin);
+		destination.search = location.search;
+		destination.hash = location.hash;
+		location.replace(destination);
+	</script>
+</head>
+<body>
+	<main>
+		<h1>Awtsmoos Sheets</h1>
+		<p>This path continues into the spreadsheet workbook studio.</p>
+		<a href="/apps/sheets/">Open Awtsmoos Sheets</a>
+	</main>
+</body>
+</html>
