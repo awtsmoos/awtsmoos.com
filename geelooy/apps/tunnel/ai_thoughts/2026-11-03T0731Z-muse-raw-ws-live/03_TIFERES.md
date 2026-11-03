@@ -1,0 +1,9 @@
+B"H — Boruch Hashem — Blessed is He
+# Phase III: Tiferes / exact release and rollback plan
+The Awtsmoos divides unproven rumor from measured light; publish only when bytes and permissions are right.
+
+30 additional corrections: guard account revocation; guard scope changes; no bearer in URL; reject bad token at upgrade; prove CLIENT_ACK; prove wrong-user denial; prove upload scope; prove download scope; no wildcard routes; exact 1MiB native limit; reject binary before hello; reject unknown transfer; cumulative ACK after vault fsync; avoid write retries; prefer node drain events; close cleanup; 30s bounded waits; reject partial header write; test 10MiB source; interruption after 4MiB; exact resume; end-to-end SHA; atomic device finalization; reject invalid SHA; fail closed on missing vault storage; test quota; existing device protocol regression; public doc fields; rollback branch; running-process provenance; inspect remote after push.
+
+Files planned: cherry-pick full 54c5a3371 candidate commit (35 paths) into this isolated release branch, full rewrite existing `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelClient/writer.js` to correct backpressure, add `externalClientWriterDrain.test.cjs`, and small safety modules if contract verification reveals mismatches. New archival plan files 01-03 and verification/rollout reports under this time folder. Do not edit source elsewhere; tests may create files only under scoped test temp root.
+
+Validation: syntax all changed JS; comprehensive tunnel-client test suites; WebSocket terminal frame/mission tests; public 200 routes; git diff --check; test real OAuth bearer without device credential; 10MiB cross-device uploads/downloads with hashes; compare GET Base64; capture exact exit code and source SHA. Proceed live only from clean tested git history and rollback branch, with user-requested deployment authority but never blind restart or forced reset of co-workers' changes.

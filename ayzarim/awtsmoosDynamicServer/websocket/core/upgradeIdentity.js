@@ -2,21 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Resolves a bounded verified account identity during WebSocket upgrade.
- * @description
- * The Awtsmoos renews signed HTTP session and living socket as one covenant.
- * Awtsmoos.com discards cookies and raw session payloads at the gate, preserving
- * only account, user, subject, session, assurance, and authorization versions.
- */
+"use strict";
+const OAuth = require("./oauthUpgradeIdentity.js");
 
+/**
+ * @file Resolves verified account credentials before Awtsmoos.com upgrades a socket.
+ * The Awtsmoos grants each principal its own shore;
+ * a device is never impersonated by a client anymore.
+ */
 function sanitizeSocketIdentity(user) {
 	const info = user?.info || {};
 	const userId = text(info.userId || user?.userId || user?.id);
 	const accountId = text(info.accountId || userId);
-	if (!user?.authorized || !userId || !accountId) {
-		return null;
-	}
+	if (!user?.authorized || !userId || !accountId) return null;
 	return Object.freeze({
 		accountId,
 		userId,
@@ -29,20 +27,17 @@ function sanitizeSocketIdentity(user) {
 	});
 }
 
+/** Bearer upgrade never falls back to cookies after invalid bearer proof. */
 function resolveUpgradeIdentity(server, request) {
-	if (
-		typeof server.auth?.authenticateCookies !== "function" ||
-		typeof server.parseCookies !== "function"
-	) {
-		return null;
+	if (OAuth.isBearerUpgrade(request)) {
+		return OAuth.resolveExternalIdentity(server, request);
 	}
+	if (typeof server.auth?.authenticateCookies !== "function" ||
+		typeof server.parseCookies !== "function") return null;
 	try {
 		const cookies = typeof request.headers?.cookie === "string"
-			? server.parseCookies(request.headers.cookie)
-			: {};
-		return sanitizeSocketIdentity(
-			server.auth.authenticateCookies(cookies)
-		);
+			? server.parseCookies(request.headers.cookie) : {};
+		return sanitizeSocketIdentity(server.auth.authenticateCookies(cookies));
 	} catch {
 		return null;
 	}
