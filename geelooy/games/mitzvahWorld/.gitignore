@@ -44,3 +44,8 @@ ai_thoughts/**/*[Dd][Ee][Bb][Uu][Gg]*
 .ai-thoughts/**/*.gz
 .ai-thoughts/**/*[Ss][Cc][Rr][Ee][Ee][Nn][Ss][Hh][Oo][Tt]*
 .ai-thoughts/**/*[Dd][Ee][Bb][Uu][Gg]*
+
+# PWA manifest icons are shipped product assets, not generated scratch:
+# the repo-wide image ignores target build byproducts, but the icons
+# referenced by manifest.webmanifest must be tracked so deploys carry them.
+!icons/*.png
