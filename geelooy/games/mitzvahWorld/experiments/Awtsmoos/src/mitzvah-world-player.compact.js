@@ -1457,7 +1457,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1t561yg = {
+	const __awtsmoosDefault_96zbx = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -1470,7 +1470,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1t561yg;
+	__exports.default = __awtsmoosDefault_96zbx;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -3200,12 +3200,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_kf8zo7 = {
+	const __awtsmoosDefault_8xt7gs = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_kf8zo7;
+	__exports.default = __awtsmoosDefault_8xt7gs;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -3217,29 +3217,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file RemoteModelRecords.js
-	 * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
+	 * @description Records byte counts and SHA-256 identity for the one canonical Mitzvah World GLB (the Chossid); every other model is procedural by owner design.
 	 * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
 	 * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
 	 */
 
 	const REMOTE_MODEL_RECORDS = Object.freeze({
 		'player/chossid.glb': record(2027368, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48'),
-		'reference-world/Axe_Small.glb': record(48868, 'ea26a8cdf24937ba2cd24148b3c684c59abc5208bef6c96ddca8fb00ed30ddd6'),
-		'reference-world/Book.glb': record(11684, '3f6d8148030077aa95b035ca4d7f5ad589483806416fbd9b75546f49b5cce4c1'),
-		'reference-world/Bush_Large_Flowers.glb': record(26788, 'cdb6c9e558a3c9b3a42eafbc2f3580767cea8b79be625bfdd41369080b468bf6'),
-		'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
-		'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
-		'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
-		'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
-		'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
-		'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),
-		'reference-world/Sheep.glb': record(293680, '5da91ccae57ada6213ec6818760c37d47f2ce071fad6a5bb7426283439c71319'),
-		'reference-world/Shield.glb': record(24056, '1f40b4233612d8a00f1ec4c49d45c3f339af1b000adc10eff5bf36fbd8563f67'),
-		'reference-world/Snake.glb': record(240884, 'edb074cc77ddac859245231cf17d5d76d5ec82e888af76a44a4e1b36d713b927'),
-		'reference-world/Snake_Angry.glb': record(249908, 'c8f3a3bf3f1510596fd41d2be61aec55b7bd95ec35c4988b6eaf546795aaa128'),
-		'reference-world/Spider.glb': record(505420, '541bd562b079790137b23c47304aa6904dbe1969a293cc271e056b25d4eb404a'),
-		'reference-world/Sword.glb': record(42640, '034c89782e21e22cfcb4de6e710026647df747e0e54c5a47c2c945f512eaecc2'),
-		'reference-world/WoodenStaff.glb': record(12652, '3bfba08a3426be1c873f49a85aef21c3fc670514218b606941d232ab5f2aad16')
 	});
 
 
@@ -4820,7 +4804,21 @@ const __awtsmoosModule_0 = Object.create(null);
 			return;
 		}
 		const panel = document.getElementById(FAILURE_ID) || createPanel(document);
-		panel.textContent = failureMessage(milestone);
+		panel.textContent = '';
+		const message = document.createElement('div');
+		message.textContent = failureMessage(milestone);
+		panel.appendChild(message);
+		if (milestone.failureMessage) {
+			const plain = document.createElement('div');
+			plain.textContent = milestone.failureMessage;
+			panel.appendChild(plain);
+		}
+		const retry = document.createElement('button');
+		retry.type = 'button';
+		retry.textContent = 'Try again';
+		retry.style.cssText = 'margin-top:8px;padding:6px 12px;border-radius:8px;border:1px solid #ffb4a8;background:#2a1212;color:#fff;font:600 13px system-ui,sans-serif;cursor:pointer';
+		retry.addEventListener('click', () => environment.location?.reload?.());
+		panel.appendChild(retry);
 	}
 
 
@@ -4852,7 +4850,11 @@ const __awtsmoosModule_0 = Object.create(null);
 		const url = milestone.resourceUrl || 'no resource URL';
 		const stage = milestone.importerStage || 'runtime';
 		const status = milestone.resourceStatus ?? 'unknown status';
-		return `Essential boot failed: ${milestone.label}. ${milestone.failureCode}; ${Math.round(milestone.elapsedMilliseconds)} ms; ${url}; ${status}; ${stage}.`;
+		const detail = `${milestone.failureCode}; ${Math.round(milestone.elapsedMilliseconds)} ms; ${url}; ${status}; ${stage}.`;
+		if (milestone.failureCode === 'CANONICAL_CHOSSID_GLB_LOAD_FAILED') {
+			return `The Chossid model (chossid.glb) could not be loaded, so the world cannot start yet. ${detail}`;
+		}
+		return `Essential boot failed: ${milestone.label}. ${detail}`;
 	}
 
 	/**
@@ -5069,6 +5071,10 @@ const __awtsmoosModule_0 = Object.create(null);
 			const record = this.requireRecord(name);
 			if (isEssentialTerminal(record.status)) return this.snapshot();
 			const now = readMitzvahWorldEssentialTime(this.environment);
+			if (!details.resourceUrl) {
+				const donor = [...this.records.values()].find(candidate => candidate !== record && candidate.resourceUrl);
+				if (donor) details = { ...details, resourceStatus: details.resourceStatus ?? donor.resourceStatus ?? null, resourceUrl: donor.resourceUrl };
+			}
 			applyEssentialDetails(record, details);
 			record.status = details.status || 'failed';
 			record.failureCode = details.failureCode || 'ESSENTIAL_BOOT_FAILURE';
