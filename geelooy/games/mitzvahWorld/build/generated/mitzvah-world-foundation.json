@@ -5,7 +5,6 @@
 	"moduleCount": 1,
 	"modules": [],
 	"name": "foundation",
-<<<<<<< HEAD
 	"outputBytes": 1555157,
 	"outputHash": "476af619506184d68ace0ccf09856ce448db6fdf92d1d2c4fe8677e2c324c4e7",
 	"preserveDynamicImports": false,
@@ -24,26 +23,6 @@
 			"bytes": 1555157,
 			"encoding": "identity",
 			"sha256": "476af619506184d68ace0ccf09856ce448db6fdf92d1d2c4fe8677e2c324c4e7"
-=======
-	"outputBytes": 1550498,
-	"outputHash": "dcaeb338d4b01080be7dba14299692f47c0bc3dbd0ed3e79f90f2eddd13af477",
-	"preserveDynamicImports": false,
-	"representations": {
-		"brotli": {
-			"bytes": 282807,
-			"encoding": "br",
-			"sha256": "f2a147b51a1430481b3679527d5590c5a496c491a5c677ac3f19506fd0697178"
-		},
-		"gzip": {
-			"bytes": 360459,
-			"encoding": "gzip",
-			"sha256": "5428d0606fce9556e6237e8d6622b66a354007cce92ec84fc563776ad2e9084b"
-		},
-		"identity": {
-			"bytes": 1550498,
-			"encoding": "identity",
-			"sha256": "dcaeb338d4b01080be7dba14299692f47c0bc3dbd0ed3e79f90f2eddd13af477"
->>>>>>> origin/main
 		}
 	}
 }

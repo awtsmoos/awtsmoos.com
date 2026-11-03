@@ -5,7 +5,6 @@
 	"moduleCount": 1,
 	"modules": [],
 	"name": "world",
-<<<<<<< HEAD
 	"outputBytes": 3716937,
 	"outputHash": "dbe5a4d5c072de2cfc67454d4b330d91e2d2b175aa2ccd74a7026122b759bf78",
 	"preserveDynamicImports": true,
@@ -24,26 +23,6 @@
 			"bytes": 3716937,
 			"encoding": "identity",
 			"sha256": "dbe5a4d5c072de2cfc67454d4b330d91e2d2b175aa2ccd74a7026122b759bf78"
-=======
-	"outputBytes": 3711799,
-	"outputHash": "ae64e04730c1d9592ad37b55fbc70583caa70440d2e8b26fddd084b25a3ed8d6",
-	"preserveDynamicImports": true,
-	"representations": {
-		"brotli": {
-			"bytes": 626078,
-			"encoding": "br",
-			"sha256": "f62012600fbdbbad946c4863eea5845bae2889b2facfce5764b7878895c9ceef"
-		},
-		"gzip": {
-			"bytes": 797806,
-			"encoding": "gzip",
-			"sha256": "b10414c510bfd931a29652615085fe84e426bb33887bfb40a8a6b273d95f68d4"
-		},
-		"identity": {
-			"bytes": 3711799,
-			"encoding": "identity",
-			"sha256": "ae64e04730c1d9592ad37b55fbc70583caa70440d2e8b26fddd084b25a3ed8d6"
->>>>>>> origin/main
 		}
 	},
 	"splitFrom": "world"
