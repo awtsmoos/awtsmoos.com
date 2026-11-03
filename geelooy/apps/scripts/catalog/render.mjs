@@ -75,11 +75,17 @@ function searchableText(app) {
 	].join(" ").toLowerCase();
 }
 
+/** @param {string} href Catalog href ("./x", "x", or "/x"). @returns {string} Absolute URL resolved against the Apps root, so a card points at its real app no matter which page renders the catalog (QA fix P3: relative hrefs used to resolve against the host page and 404 outside /apps/). */
+function resolveAppHref(href) {
+	const base = new URL("/apps/", globalThis.location?.origin || "https://awtsmoos.com");
+	return new URL(String(href), base).href;
+}
+
 /** @param {object} app Immutable app record. @returns {HTMLAnchorElement} Accessible app card. */
 export function renderAppCard(app) {
 	const card = document.createElement("a");
 	card.className = "g-card g-app-card";
-	card.href = app.href;
+	card.href = resolveAppHref(app.href);
 	card.dataset.appCard = "";
 	card.dataset.appId = app.id;
 	card.dataset.category = app.categories.join(" ");

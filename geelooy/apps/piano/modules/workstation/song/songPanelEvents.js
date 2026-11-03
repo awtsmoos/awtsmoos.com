@@ -5,7 +5,7 @@
  */
 import { bindSongFieldEvents } from './songPanelFieldEvents.js';
 import { normalizeSongDocument, remixSongDocument, restoreRawSongDocument } from './songPanelDocumentActions.js';
-import { chooseSongFile, exportSongFile, importSongFile } from './songPanelFileActions.js';
+import { chooseSongFile, exportEditableSongNoteText, importSongFile } from './songPanelFileActions.js';
 import { playSongDocument, stopSongTransport, toggleSongRecording } from './songPanelTransportActions.js';
 import { renderSongDocument, setSongPanelOpen } from './songPanelView.js';
 import { downloadMultitrackMix } from './multitrack/multitrackMixDownload.js';
@@ -22,7 +22,7 @@ export function bindSongPanelEvents(dom, state) {
 		upload: () => chooseSongFile(dom),
 		download: () => downloadMultitrackMix('wav'),
 		downloadWebm: () => downloadMultitrackMix('webm'),
-		downloadText: () => exportSongFile(state, dom),
+		downloadText: () => exportEditableSongNoteText(state, dom),
 		normalize: () => normalizeSongDocument(state, dom),
 		remix: () => remixSongDocument(state, dom),
 		restore: () => restoreRawSongDocument(state, dom)
