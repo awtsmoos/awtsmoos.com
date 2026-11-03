@@ -9,12 +9,14 @@
  * merely because its promise has not yet descended. Observe the living state; let truth, not timing, gleam.
  */
 
+import { waitForPresentationAuthority } from './MitzvahWorldPresentationAuthorityGate.js';
+
 const DIRECT_EXPERIENCE_URL =
 	'./MitzvahWorldDirectExperience.js?compact=true&v=20260821-retractable-command-capsule-01';
 const RENDERER_REGISTRATION_LIMIT_MS = 3000;
 const RENDERER_REGISTRATION_POLL_MS = 32;
 
-/** Starts optional presentation once the active renderer is settled, disabled, or truly unavailable. */
+/** Starts optional presentation once the renderer and the presentation authority are settled. */
 export function startMitzvahWorldPostPlayExperience(
 	diagnostics,
 	environment = globalThis,
@@ -26,8 +28,15 @@ export function startMitzvahWorldPostPlayExperience(
 	diagnostics.directExperienceStage = 'waiting-renderer';
 	const starter = dependencies.startDirectExperience || startDirectExperience;
 	const promise = waitForRendererSettlement(diagnostics, environment)
-		.then(gate => {
+		.then(async gate => {
 			diagnostics.directExperienceGate = gate;
+			diagnostics.directExperienceStage = 'waiting-authority';
+			diagnostics.directExperienceAuthorityGate =
+				await waitForPresentationAuthority(
+					diagnostics,
+					environment,
+					dependencies
+				);
 			diagnostics.directExperienceStage = 'loading';
 			return starter(diagnostics, environment);
 		})
