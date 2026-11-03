@@ -20,7 +20,7 @@ async function run() {
 	const send = async (_server, owner, destination, payload) => {
 		assert.equal(owner, identity.accountId);
 		assert.equal(destination, route);
-		if (payload.action === "files") {
+		if (payload.action === "fileTransferSourceProof") {
 			submitted += 1;
 			assert.equal(payload.operation, "fileTransferSourceProof");
 			assert.ok(payload.controlRequestId);
@@ -29,7 +29,7 @@ async function run() {
 				status: 202, retryAfterMs: 10 };
 		}
 		assert.equal(payload.action, "retryAction");
-		assert.equal(payload.requestedAction, "files");
+		assert.equal(payload.requestedAction, "fileTransferSourceProof");
 		assert.equal(payload.controlRequestId, originalId);
 		assert.equal(payload.originalPayload, undefined);
 		observed += 1;
@@ -47,7 +47,7 @@ async function run() {
 	let thrownInitial = 0;
 	let observationCalls = 0;
 	const disconnected = async (_server, _owner, _route, payload) => {
-		if (payload.action === "files") {
+		if (payload.action === "fileTransferDownloadBinary") {
 			thrownInitial += 1;
 			throw Error("RemoteDisconnected");
 		}
@@ -62,7 +62,7 @@ async function run() {
 	assert.equal(observationCalls, 1);
 	let failedPolls = 0;
 	const unknown = async (_server, _owner, _route, payload) => {
-		if (payload.action === "files") {
+		if (payload.action === "fileTransferSourceProof") {
 			return { ok: true, pending: true, retryAfterMs: 10 };
 		}
 		failedPolls += 1;

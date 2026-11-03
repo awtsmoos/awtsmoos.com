@@ -85,7 +85,7 @@ async function commit(server, client, input) {
 			overwrite: input.overwrite === true
 		});
 	if (!device.performed || device.bytes !== entry.totalBytes ||
-		device.sha256 !== entry.sha256) throw Error("DEVICE_SHA_MISMATCH");
+		device.sha256 !== entry.sha256) { console.log("WS_COMMIT_CMP", JSON.stringify({p: device.performed, b: device.bytes, s: device.sha256, eb: entry.totalBytes, es: entry.sha256, keys: Object.keys(device).slice(0, 60)})); throw Error("DEVICE_SHA_MISMATCH"); }
 	entry.committed = { transferId: entry.transferId, path: entry.path,
 		bytes: entry.totalBytes, sha256: entry.sha256 };
 	client.send({ type: "UPLOAD_COMMITTED", ...entry.committed });

@@ -19,7 +19,8 @@ async function send(server, identity, route, operation, params,
 	if (!allowed.includes(operation)) throw Error("DEVICE_OPERATION_DENIED");
 	if (!identity?.accountId || !route) throw Error("AUTH_REQUIRED");
 	const payload = Scheduler.attach({
-		action: "files",
+		action: operation,
+		executionAction: operation,
 		operation,
 		...params,
 		autoPreview: false,
