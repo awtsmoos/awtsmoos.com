@@ -52,14 +52,20 @@ async function searchShard(shard, queryVector, limit, options = {}) {
 	if (shard.indexType === 'flat-f32') return searchFlatShard(shard, queryVector, limit);
 	const parts = shard.parts || [shard];
 	if (parts.length === 1) return searchPhysical(parts[0], queryVector, limit);
+	// The lane's public clock, less a reserve for merging and hydration, is
+	// the parts' cutoff: parts that finish inside it answer partially and
+	// honestly rather than sinking the whole lane past the deadline.
+	const partsDeadlineAt = Number(options.deadlineAt) > 0
+		? Math.max(0, Math.floor(Number(options.deadlineAt)) - 750)
+		: 0;
 	if (options.useWorkerPool !== false) {
 		try {
-			return await searchParallelParts(parts, queryVector, limit);
+			return await searchParallelParts(parts, queryVector, limit, undefined, partsDeadlineAt);
 		} catch (error) {
 			if (error.code !== 'INDEX_WORKER_UNAVAILABLE') throw error;
 		}
 	}
-	return searchMultipart(parts, part => searchPhysical(part, queryVector, limit), limit);
+	return searchMultipart(parts, part => searchPhysical(part, queryVector, limit), limit, partsDeadlineAt);
 }
 
 /** Executes one authoritative persisted nearest-neighbor lookup. */

@@ -103,7 +103,7 @@ function clone(value) {
 	}
 }
 
-/** Reuses only persisted source hits; unpersisted results never qualify for caching. */
+/** Reuses only persisted source hits; unpersisted and partial results never qualify for caching. */
 async function searchCachedSource(options, execute) {
 	const key = sourceKey(options);
 	const saved = entries.get(key);
@@ -120,7 +120,7 @@ async function searchCachedSource(options, execute) {
 	inflight.set(key, promise);
 	try {
 		const result = await promise;
-		if (result?.index?.persisted === true) {
+		if (result?.index?.persisted === true && result?.index?.partial !== true) {
 			entries.set(key, { createdAt: Date.now(), value: clone(result) });
 			while (entries.size > MAX_ENTRIES) entries.delete(entries.keys().next().value);
 		}

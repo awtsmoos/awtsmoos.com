@@ -23,15 +23,31 @@ function yieldToEventLoop() {
  * @param {number} limit Global top-k limit.
  * @returns {Promise<object>} Merged persisted-HNSW search result.
  */
-async function searchMultipart(parts, searchPart, limit) {
+async function searchMultipart(parts, searchPart, limit, deadlineAt = 0) {
 	const results = [];
 	for (let index = 0; index < parts.length; index += 1) {
+		if (index > 0 && deadlineAt && Date.now() >= deadlineAt) break;
 		results.push(searchPart(parts[index], index));
 		if (index < parts.length - 1) {
 			await yieldToEventLoop();
 		}
 	}
-	return mergeResults(results, limit);
+	if (!results.length) {
+		throw Object.assign(
+			new Error('No persisted index part answered before the lane deadline.'),
+			{ code: 'INDEX_PARTS_DEADLINE' }
+		);
+	}
+	const merged = mergeResults(results, limit);
+	if (results.length < parts.length) {
+		merged.index = {
+			...merged.index,
+			partial: true,
+			partsCompleted: results.length,
+			partsTotal: parts.length
+		};
+	}
+	return merged;
 }
 
 /**

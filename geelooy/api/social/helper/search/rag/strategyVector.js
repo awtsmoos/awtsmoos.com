@@ -38,7 +38,8 @@ async function vectorSource(options) {
 			limit,
 			embedder: embedding.embedder
 		}, () => searchShard(options.shard, embedding.vector, limit, {
-			requireIndexed: options.requireIndexed === true
+			requireIndexed: options.requireIndexed === true,
+			deadlineAt: Number(options.libraryDeadlineAt) || 0
 		}));
 	});
 	options.timings.sourceCacheHit = source.sourceCacheHit === true;
