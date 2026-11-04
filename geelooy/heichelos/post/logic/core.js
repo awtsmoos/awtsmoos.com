@@ -111,8 +111,11 @@ async function loadInitial() {
     window.breadcrumb = breadcrumb;
 
     if (document.querySelector("title")) {
-        const seriesName = series?.prateem?.name || "Revelation";
-        document.title = `${seriesName} | ${post.title || 'Untitled'}`;
+        const humanize = (v) => String(v || '').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/\w/g, (c) => c.toUpperCase());
+        const rawSeries = series?.prateem?.displayName || series?.prateem?.title || series?.title || series?.prateem?.name || series?.name || seriesId || 'Revelation';
+        const seriesName = /[A-Z_]|^[a-z]+[A-Z]/.test(rawSeries) && !rawSeries.includes(' ') ? humanize(rawSeries) : rawSeries;
+        const postTitle = post.title || 'Untitled';
+        document.title = `${postTitle} | ${seriesName} | Awtsmoos`;
     }
     
     return { 
