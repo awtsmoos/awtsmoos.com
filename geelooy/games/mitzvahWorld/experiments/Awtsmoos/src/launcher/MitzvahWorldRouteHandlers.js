@@ -9,6 +9,7 @@
  */
 
 import { navigateToDirectWorld } from './MitzvahWorldDirectRoute.js?v=20260722-direct-world-01';
+import { beginMitzvahWorldFirstPlayCustody } from '../app/MitzvahWorldEssentialBoot.js';
 
 const VILLAGE_MOVIE_URL = './movies/projects/reference-village-60s.json';
 
@@ -21,7 +22,18 @@ export function createMitzvahWorldRouteHandlers(context) {
 		realtimeUrl,
 		revealHosts
 	} = context;
+	const beginWorldEntryCustody = () => {
+		try {
+			beginMitzvahWorldFirstPlayCustody(environment);
+		} catch (error) {
+			environment?.console?.warn?.(
+				'B"H MitzvahWorld essential-gate custody failed; continuing world entry.',
+				error
+			);
+		}
+	};
 	const openSinglePlayer = async (selection = {}) => {
+		beginWorldEntryCustody();
 		revealHosts(hosts, true);
 		return modes.singlePlayer(hosts, {
 			onProgress: selection.onProgress,
@@ -31,6 +43,7 @@ export function createMitzvahWorldRouteHandlers(context) {
 		});
 	};
 	const openMultiplayer = async (selection = {}) => {
+		beginWorldEntryCustody();
 		revealHosts(hosts, true);
 		return modes.multiplayer(hosts, {
 			displayName: selection.playerName
@@ -60,6 +73,7 @@ export function createMitzvahWorldRouteHandlers(context) {
 		return modes.platform(hosts);
 	};
 	const openMovie = async (movieSearch = parameters.toString()) => {
+		beginWorldEntryCustody();
 		revealHosts(hosts, true);
 		const search = movieSearch.startsWith('?') ? movieSearch : `?${movieSearch}`;
 		return modes.movie(hosts, { search });

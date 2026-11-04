@@ -13,6 +13,7 @@
 export const WEBGL_UNAVAILABLE_CODE = 'WEBGL_UNAVAILABLE';
 const CONTEXT_ATTEMPTS = Object.freeze(['webgl', 'experimental-webgl']);
 const CAPABILITY_KEY = 'AwtsmoosMitzvahWorldWebGlCapability';
+const SOFTWARE_RENDERER_PATTERN = /swiftshader|llvmpipe|softpipe|software rasterizer|basic render driver/i;
 
 /**
  * Synchronously probes WebGL on a scratch canvas and releases the probe context.
@@ -60,6 +61,7 @@ export function probeMitzvahWorldWebGlCapability(environment = globalThis) {
 	if (!context) {
 		return unsupported('context-unavailable', detectedAtMs, environment, lastError, elapsedMs);
 	}
+	const rendererEvidence = readRendererEvidence(context);
 	releaseProbeContext(context);
 	return Object.freeze({
 		code: 'WEBGL_AVAILABLE',
@@ -69,8 +71,35 @@ export function probeMitzvahWorldWebGlCapability(environment = globalThis) {
 		devicePixelRatio: Number(environment?.devicePixelRatio) || 1,
 		elapsedMs,
 		message: `WebGL capability confirmed (${contextName}).`,
+		renderer: rendererEvidence.renderer,
+		softwareRenderer: rendererEvidence.softwareRenderer,
 		supported: true
 	});
+}
+
+/**
+ * Reads the renderer's self-reported name from the live probe context and classifies
+ * software rasterizers. Prefers the unmasked debug name; falls back to the standard
+ * RENDERER parameter. Never throws: an unreadable name is honest absence, not failure.
+ */
+function readRendererEvidence(context) {
+	let renderer = null;
+	try {
+		const extension = context.getExtension?.('WEBGL_debug_renderer_info');
+		if (extension) {
+			renderer = context.getParameter?.(extension.UNMASKED_RENDERER_WEBGL) ?? null;
+		}
+	} catch {}
+	if (!renderer) {
+		try {
+			renderer = context.getParameter?.(context.RENDERER) ?? null;
+		} catch {}
+	}
+	const name = typeof renderer === 'string' && renderer ? renderer : null;
+	return {
+		renderer: name,
+		softwareRenderer: name ? SOFTWARE_RENDERER_PATTERN.test(name) : false
+	};
 }
 
 /** Remembers probe evidence so later stages never pay for a second probe context. */
@@ -113,6 +142,8 @@ function unsupported(reason, detectedAtMs, environment, error, elapsedMs = 0) {
 		errorName: error?.name || 'ContextUnavailable',
 		message: 'Mitzvah World requires WebGL to play.',
 		reason,
+		renderer: null,
+		softwareRenderer: false,
 		supported: false
 	});
 }
@@ -129,6 +160,8 @@ function unknown(reason, detectedAtMs, environment) {
 		errorName: null,
 		message: 'WebGL capability could not be probed in this environment.',
 		reason,
+		renderer: null,
+		softwareRenderer: false,
 		supported: null
 	});
 }

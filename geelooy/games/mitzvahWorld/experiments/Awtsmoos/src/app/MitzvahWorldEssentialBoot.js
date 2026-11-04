@@ -38,8 +38,28 @@ export function restartMitzvahWorldEssentialBoot(environment = globalThis) {
 	const entryEvidence = readEntryEvidence(previous) || { importerStage: RESTART_ENTRY_STAGE };
 	previous?.cancelWatchdog?.();
 	dismissMitzvahWorldEssentialFailure(environment);
-	installLedger(environment, new MitzvahWorldEssentialLedger(environment));
-	return completeMitzvahWorldEssentialMilestone(environment, CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED, entryEvidence);
+	const ledger = new MitzvahWorldEssentialLedger(environment);
+	ledger.firstPlayLaunchBegun = true;
+	installLedger(environment, ledger);
+	return completeMitzvahWorldEssentialMilestone(
+		environment,
+		CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED,
+		entryEvidence
+	);
+}
+
+/**
+ * Begins the guarded first-play gate for a launch that truly boots a world — a direct
+ * world, movie, or mission-movie route that never passed a menu click. Idempotent:
+ * when a launch already restarted the gate (the menu launch task runs first), the
+ * living ledger is left untouched, so a route handler can never reset clocks a
+ * launch is already honestly using. The chooser itself needs no such state: train 2's
+ * frame proof plus late healing already guards menu idle on the living ledger.
+ */
+export function beginMitzvahWorldFirstPlayCustody(environment = globalThis) {
+	const existing = environment[LEDGER_KEY];
+	if (existing && existing.firstPlayLaunchBegun === true) return existing.snapshot();
+	return restartMitzvahWorldEssentialBoot(environment);
 }
 
 /**

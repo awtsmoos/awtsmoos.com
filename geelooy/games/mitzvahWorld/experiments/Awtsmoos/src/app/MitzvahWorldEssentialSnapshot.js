@@ -15,7 +15,7 @@ import {
 } from './MitzvahWorldEssentialTiming.js';
 
 /** Builds one immutable public receipt from the internal milestone map. */
-export function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment) {
+export function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment, graphicsEvidence = {}) {
 	const currentTime = now(environment);
 	const milestones = freezeMilestones(records, currentTime);
 	const active = firstActiveEssentialRecord(records);
@@ -23,6 +23,7 @@ export function createMitzvahWorldEssentialSnapshot(records, startedAtMillisecon
 		activeMilestone: active ? milestones[active.name] : null,
 		certified: Object.values(milestones).every(record => record.status === 'complete'),
 		milestones,
+		softwareRenderer: graphicsEvidence.softwareRenderer === true,
 		startedAtMilliseconds,
 		stalledMilestone: findStalledMilestone(milestones)
 	});

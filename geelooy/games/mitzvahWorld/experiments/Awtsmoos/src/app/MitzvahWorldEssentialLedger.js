@@ -12,11 +12,17 @@
 
 import { readMitzvahWorldEssentialTime } from './MitzvahWorldEssentialClock.js';
 import { ESSENTIAL_HARD_TIMEOUT_CODE, essentialDeadlineFailure, essentialDependencyFailure } from './MitzvahWorldEssentialDeadlinePolicy.js';
-import { ESSENTIAL_MILESTONE_CATALOG } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import {
+	ESSENTIAL_MILESTONES,
+	ESSENTIAL_MILESTONE_CATALOG,
+	SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS
+} from './MitzvahWorldEssentialMilestoneCatalog.js';
 import { resolveEssentialWatchdogTimeout } from './MitzvahWorldEssentialFrameProof.js';
 import { dismissMitzvahWorldEssentialFailure, presentMitzvahWorldEssentialFailure } from './MitzvahWorldEssentialFailurePresenter.js';
 import { applyEssentialDetails, clearEssentialFailure, createEssentialRecord, isEssentialTerminal } from './MitzvahWorldEssentialRecord.js';
 import { createMitzvahWorldEssentialSnapshot } from './MitzvahWorldEssentialSnapshot.js';
+import { syncMitzvahWorldEssentialSlowGraphicsNotice } from './MitzvahWorldEssentialSlowGraphicsNotice.js';
+import { readMitzvahWorldWebGlCapability } from './MitzvahWorldWebGlCapabilityGate.js';
 import { activateReadyEssentialRecords, touchEssentialRecord } from './MitzvahWorldEssentialTiming.js';
 import { MitzvahWorldEssentialWatchdog } from './MitzvahWorldEssentialWatchdog.js';
 
@@ -24,9 +30,17 @@ export class MitzvahWorldEssentialLedger {
 	constructor(environment) {
 		this.environment = environment;
 		this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
+		this.lastProgressAtMilliseconds = this.startedAtMilliseconds;
+		this.firstPlayLaunchBegun = false;
 		this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(item => [item.name, createEssentialRecord(item)]));
-		this.frameProver = null; this.frameProofAttempted = false;
 		this.launchWitness = this.menuWitness = null;
+		this.softwareRenderer = readMitzvahWorldWebGlCapability(environment)?.softwareRenderer === true;
+		if (this.softwareRenderer) {
+			const firstFrame = this.records.get(ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME);
+			if (firstFrame) firstFrame.timeoutMilliseconds = SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS;
+		}
+		this.frameProver = null;
+		this.frameProofAttempted = false;
 		activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
 		this.watchdog = new MitzvahWorldEssentialWatchdog(environment, this.startedAtMilliseconds, () => this.timeout());
 		this.rearmWatchdog(this.startedAtMilliseconds);
@@ -39,6 +53,7 @@ export class MitzvahWorldEssentialLedger {
 			const now = readMitzvahWorldEssentialTime(this.environment);
 			applyEssentialDetails(record, details);
 			touchEssentialRecord(record, now);
+			this.lastProgressAtMilliseconds = now;
 			this.rearmWatchdog(now);
 		}
 		return this.publish();
@@ -52,11 +67,12 @@ export class MitzvahWorldEssentialLedger {
 		if (missing) return this.fail(name, essentialDependencyFailure(details, missing));
 		const now = readMitzvahWorldEssentialTime(this.environment);
 		if (!reviving) {
-			const failure = essentialDeadlineFailure(record, now, this.startedAtMilliseconds, details);
+			const failure = essentialDeadlineFailure(record, now, this.startedAtMilliseconds, details, this.progressFloorFor(record));
 			if (failure) return this.fail(name, failure);
 		}
 		applyEssentialDetails(record, details);
 		record.lastProgressAtMilliseconds = now;
+		this.lastProgressAtMilliseconds = now;
 		record.status = 'complete';
 		record.completedAtMilliseconds = now;
 		record.elapsedMilliseconds = now - record.startedAtMilliseconds;
@@ -73,8 +89,23 @@ export class MitzvahWorldEssentialLedger {
 		if (isEssentialTerminal(record.status)) return this.snapshot();
 		const now = readMitzvahWorldEssentialTime(this.environment);
 		if (!details.resourceUrl) {
-			const donor = [...this.records.values()].find(candidate => candidate !== record && candidate.resourceUrl);
-			if (donor) details = { ...details, resourceStatus: details.resourceStatus ?? donor.resourceStatus ?? null, resourceUrl: donor.resourceUrl };
+			let donor = null;
+			for (const candidate of this.records.values()) {
+				if (candidate === record || !candidate.resourceUrl) continue;
+				const progress = candidate.lastProgressAtMilliseconds ?? candidate.startedAtMilliseconds ?? -1;
+				if (!donor || progress > donor.progress) donor = { candidate, progress };
+			}
+			if (donor) {
+				details = {
+					...details,
+					resourceStatus: details.resourceStatus ?? donor.candidate.resourceStatus ?? null,
+					resourceUrl: donor.candidate.resourceUrl
+				};
+				if ((details.importerStage == null || details.importerStage === 'essential-boot')
+					&& record.importerStage == null && donor.candidate.importerStage != null) {
+					details = { ...details, importerStage: donor.candidate.importerStage };
+				}
+			}
 		}
 		applyEssentialDetails(record, details);
 		record.status = details.status || 'failed';
@@ -100,11 +131,28 @@ export class MitzvahWorldEssentialLedger {
 	publish() {
 		const snapshot = this.snapshot();
 		this.environment.AwtsmoosMitzvahWorldEssentialBoot = snapshot;
+		syncMitzvahWorldEssentialSlowGraphicsNotice(this.environment, snapshot, {
+			launchBegun: this.firstPlayLaunchBegun === true,
+			softwareRenderer: this.softwareRenderer
+		});
 		return snapshot;
 	}
 
 	snapshot() {
-		return createMitzvahWorldEssentialSnapshot(this.records, this.startedAtMilliseconds, this.environment);
+		return createMitzvahWorldEssentialSnapshot(this.records, this.startedAtMilliseconds, this.environment, {
+			softwareRenderer: this.softwareRenderer
+		});
+	}
+
+	/**
+	 * The first-frame fact alone is judged against boot-wide progress: any witnessed
+	 * update or completion anywhere in the ledger proves the boot is still alive.
+	 * Every other fact returns null and keeps its own strict per-fact silence.
+	 */
+	progressFloorFor(record) {
+		return record.name === ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME
+			? this.lastProgressAtMilliseconds
+			: null;
 	}
 
 	requireRecord(name) {
@@ -115,6 +163,6 @@ export class MitzvahWorldEssentialLedger {
 
 	rearmWatchdog(now) {
 		if ([...this.records.values()].every(record => isEssentialTerminal(record.status))) return this.cancelWatchdog();
-		this.timer = this.watchdog.rearm(this.records, now);
+		this.timer = this.watchdog.rearm(this.records, now, record => this.progressFloorFor(record));
 	}
 }

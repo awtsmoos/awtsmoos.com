@@ -10,6 +10,7 @@ import {
 	readMitzvahWorldEssentialTime,
 	scheduleMitzvahWorldEssentialTimeout
 } from './MitzvahWorldEssentialClock.js';
+import { essentialEffectiveLastProgress } from './MitzvahWorldEssentialTiming.js';
 
 /**
  * @file MitzvahWorldEssentialWatchdog.js
@@ -25,9 +26,9 @@ export class MitzvahWorldEssentialWatchdog {
 		this.timer = null;
 	}
 
-	rearm(records, currentTime = readMitzvahWorldEssentialTime(this.environment)) {
+	rearm(records, currentTime = readMitzvahWorldEssentialTime(this.environment), progressFloorForRecord = null) {
 		this.cancel();
-		const delay = nextEssentialWatchdogDelay(records, currentTime, this.startedAtMilliseconds);
+		const delay = nextEssentialWatchdogDelay(records, currentTime, this.startedAtMilliseconds, progressFloorForRecord);
 		if (!Number.isFinite(delay)) return null;
 		this.timer = scheduleMitzvahWorldEssentialTimeout(this.environment, this.onTimeout, delay);
 		return this.timer;
@@ -39,11 +40,12 @@ export class MitzvahWorldEssentialWatchdog {
 	}
 }
 
-export function nextEssentialWatchdogDelay(records, currentTime, startedAtMilliseconds) {
+export function nextEssentialWatchdogDelay(records, currentTime, startedAtMilliseconds, progressFloorForRecord = null) {
 	const remaining = [];
 	for (const record of records.values()) {
 		if (record.status !== 'pending' || record.startedAtMilliseconds === null) continue;
-		const latest = record.lastProgressAtMilliseconds ?? record.startedAtMilliseconds;
+		const floor = typeof progressFloorForRecord === 'function' ? progressFloorForRecord(record) : null;
+		const latest = essentialEffectiveLastProgress(record, floor);
 		remaining.push(record.timeoutMilliseconds - (currentTime - latest));
 	}
 	remaining.push(ESSENTIAL_HARD_TIMEOUT_MS - (currentTime - startedAtMilliseconds));

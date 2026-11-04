@@ -29,15 +29,28 @@ export function touchEssentialRecord(record, currentTime) {
 	return true;
 }
 
-export function essentialRecordTimedOut(record, currentTime) {
+/**
+ * Returns the instant from which a fact's silence is honestly measured: its own latest
+ * progress, or the boot-wide progress floor when the caller supplies one that is later.
+ * Only the first-frame fact receives a floor (see the ledger); every other fact is
+ * judged on its own progress alone, so renderer progress can never hide silent terrain.
+ */
+export function essentialEffectiveLastProgress(record, progressFloorMilliseconds = null) {
+	const own = record.lastProgressAtMilliseconds ?? record.startedAtMilliseconds;
+	if (progressFloorMilliseconds === null || progressFloorMilliseconds === undefined) return own;
+	return own === null ? progressFloorMilliseconds : Math.max(own, progressFloorMilliseconds);
+}
+
+export function essentialRecordTimedOut(record, currentTime, progressFloorMilliseconds = null) {
 	if (record.startedAtMilliseconds === null) return false;
-	const latest = record.lastProgressAtMilliseconds ?? record.startedAtMilliseconds;
+	const latest = essentialEffectiveLastProgress(record, progressFloorMilliseconds);
 	return currentTime - latest >= record.timeoutMilliseconds;
 }
 
-export function firstTimedOutEssentialRecord(records, currentTime) {
+export function firstTimedOutEssentialRecord(records, currentTime, progressFloorForRecord = null) {
 	return [...records.values()].find(record => {
-		return record.status === 'pending' && essentialRecordTimedOut(record, currentTime);
+		const floor = typeof progressFloorForRecord === 'function' ? progressFloorForRecord(record) : null;
+		return record.status === 'pending' && essentialRecordTimedOut(record, currentTime, floor);
 	}) || null;
 }
 

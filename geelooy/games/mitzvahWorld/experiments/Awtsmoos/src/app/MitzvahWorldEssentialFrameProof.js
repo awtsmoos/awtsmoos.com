@@ -28,7 +28,7 @@ import { essentialHardTimeoutReached } from './MitzvahWorldEssentialWatchdog.js'
  * @returns {object} The ledger's published snapshot after the settlement.
  */
 export function resolveEssentialWatchdogTimeout(ledger, nowMilliseconds) {
-	const overdue = firstTimedOutEssentialRecord(ledger.records, nowMilliseconds);
+	const overdue = firstTimedOutEssentialRecord(ledger.records, nowMilliseconds, record => ledger.progressFloorFor(record));
 	if (overdue) {
 		if (attemptEssentialFrameProof(ledger, overdue, nowMilliseconds)) return ledger.publish();
 		if (attemptEssentialLaunchProof(ledger, overdue, nowMilliseconds)) return ledger.publish();

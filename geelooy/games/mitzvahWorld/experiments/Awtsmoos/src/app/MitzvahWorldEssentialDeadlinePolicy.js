@@ -18,12 +18,13 @@ export function essentialDependencyFailure(details, missing) {
 	return {
 		...details,
 		failureCode: 'ESSENTIAL_DEPENDENCY_INCOMPLETE',
-		failureMessage: `Dependency ${missing} was not complete.`
+		failureMessage: `Dependency ${missing} was not complete.`,
+		resourceStatus: details.resourceStatus ?? 'dependency-incomplete'
 	};
 }
 
-export function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
-	if (essentialRecordTimedOut(record, currentTime)) {
+export function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}, progressFloorMilliseconds = null) {
+	if (essentialRecordTimedOut(record, currentTime, progressFloorMilliseconds)) {
 		return timeoutDetails(record, details, record.timeoutFailureCode, currentTime);
 	}
 	if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
@@ -42,6 +43,8 @@ export function timeoutDetails(record, details, failureCode, nowMilliseconds = D
 		failureMessage: `${record.label} missed the bounded first-play deadline after ${Math.round(elapsedMilliseconds)} ms ` +
 			`(stage: ${details.importerStage || record.importerStage || 'essential-boot'}; ` +
 			`deadline: ${record.timeoutMilliseconds} ms).`,
+		importerStage: details.importerStage ?? record.importerStage ?? 'essential-boot',
+		resourceStatus: details.resourceStatus ?? record.resourceStatus ?? 'stalled-no-progress',
 		status: 'timed-out'
 	};
 }

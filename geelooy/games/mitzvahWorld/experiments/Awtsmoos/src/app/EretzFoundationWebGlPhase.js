@@ -53,6 +53,9 @@ export function prepareEretzFoundationWebGlPhase(hosts, options, environment) {
 	reportLaunchProgress(options, 'Opening WebGL…', 0.08, {
 		stage: 'foundation-renderer-services', url: import.meta.url
 	});
+	updateMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
+		importerStage: 'foundation-renderer-services'
+	});
 	let services;
 	try {
 		services = createEretzFoundationServices(hosts, quality, environment);
