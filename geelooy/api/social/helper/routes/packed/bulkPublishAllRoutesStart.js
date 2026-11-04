@@ -11,6 +11,7 @@ const path = require('path');
 const { requireMethod, requestValue } = require('./requestValues.js');
 const { UPLOAD_ID_RE, uploadDir } = require('./bulkPublishAllRoutesPaths.js');
 const { newJobId, setJob, runningJob } = require('./bulkPublishAllRoutesPlumbing.js');
+const parentStart = require('./bulkImportRoutesStart.js');
 
 module.exports = {
 	/** POST /packed/import/bulk/start — dispatch publishAll, else parent. */
@@ -18,7 +19,7 @@ module.exports = {
 		const body = this.$i?.body || {};
 		const kind = body.kind || requestValue(this.$i, 'kind');
 		if (kind === 'publishAll') return this.startPublishAll(body);
-		return super.start();
+		return parentStart.start.call(this);
 	},
 
 	/** Validate + queue the one-call publish job. */
@@ -54,8 +55,13 @@ module.exports = {
 		const _pubHeichel = body.heichelId || requestValue(this.$i, 'heichelId') || 'ikar';
 		const busy = runningJob(_pubHeichel);
 		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id, scope: 'heichel', heichelId: _pubHeichel };
-		const dryRun = !!body.dryRun;
-		const freshImport = body.freshImport === true || requestValue(this.$i, 'freshImport') === 'true';
+		// Flag resolution (pack-5 fix): accept boolean true or the string
+		// 'true', from the JSON body OR the query/form channel — the old
+		// body-only reads silently dropped dryRun/freshImport depending on
+		// how the caller encoded the request, so 'dry' jobs ran as writes.
+		const flag = (name) => { const b = body[name]; const q = requestValue(this.$i, name); return b === true || b === 'true' || q === true || q === 'true'; };
+		const dryRun = flag('dryRun');
+		const freshImport = flag('freshImport');
 		const job = {
 			id: newJobId(), status: 'queued', dryRun,
 			spec: {

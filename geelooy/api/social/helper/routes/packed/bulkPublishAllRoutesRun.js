@@ -12,12 +12,13 @@ const packed = require('../../comments/richDb/PackedStore.js');
 const { uploadDir, FLUSH_EVERY_POSTS } = require('./bulkPublishAllRoutesPaths.js');
 const { setJob, appendJobLog, yieldTick } = require('./bulkPublishAllRoutesPlumbing.js');
 const stageLifecycle = require('./stageLifecycle.js');
+const parentRun = require('./bulkImportRoutesRun.js');
 
 module.exports = {
 	/** Dispatch publishAll jobs to the streaming loop; everything else to parent. */
 	async runJob($i, job) {
 		if (job && job.spec && job.spec.kind === 'publishAll') return this.runPublishAll($i, job);
-		return super.runJob($i, job);
+		return parentRun.runJob.call(this, $i, job);
 	},
 
 	/** The one-call streaming loop. */
