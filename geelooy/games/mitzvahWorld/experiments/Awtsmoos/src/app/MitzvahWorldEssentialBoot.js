@@ -137,3 +137,13 @@ export function failMitzvahWorldEssentialMilestone(environment, name, details = 
 export function getMitzvahWorldEssentialBootSnapshot(environment = globalThis) {
 	return initializeMitzvahWorldEssentialBoot(environment).snapshot();
 }
+
+/**
+ * Returns the living ledger only when one already exists, so truthful fact
+ * publishers on routes that may run outside first-play custody (embeds,
+ * verification surfaces) can testify when a gate is present without ever
+ * creating a gate — and its watchdog — by accident.
+ */
+export function peekMitzvahWorldEssentialLedger(environment = globalThis) {
+	return environment?.[LEDGER_KEY] || null;
+}

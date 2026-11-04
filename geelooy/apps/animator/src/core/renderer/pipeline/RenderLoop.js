@@ -39,6 +39,24 @@ export class RenderLoop {
 		this._tick(app, timestamp || performance.now());
 	}
 
+	/**
+	 * Draws exactly one frame synchronously through the same protected path
+	 * the heartbeat uses. Export capture calls this when a hidden, headless,
+	 * or throttled tab starves requestAnimationFrame: the frame is produced
+	 * on demand instead of the export inheriting the tab's vsync stall.
+	 * @param {Object} app - AppCore instance with render context.
+	 * @param {number} timestamp - Frame timestamp.
+	 * @returns {void}
+	 */
+	static runOneFrame(app, timestamp) {
+		try {
+			this._runFrame(app, timestamp || performance.now());
+			RenderFrameFailureState.clear(app);
+		} catch (error) {
+			RenderFrameFailureState.report(app, error, timestamp || performance.now());
+		}
+	}
+
 	/** Stops future frames and cancels the currently scheduled RAF. @returns {void} */
 	static stop() {
 		this._isRunning = false;

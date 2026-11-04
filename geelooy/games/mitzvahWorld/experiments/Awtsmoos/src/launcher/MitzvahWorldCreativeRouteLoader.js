@@ -21,7 +21,7 @@ const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?compact=true&v=
  */
 export async function openMitzvahWorldMovieCreative(hosts, options = {}) {
 	const moduleKli = await import(CREATIVE_URL);
-	return moduleKli.openMovieMode(hosts, options.search || '');
+	return moduleKli.openMovieMode(hosts, options.search || '', options);
 }
 
 /**

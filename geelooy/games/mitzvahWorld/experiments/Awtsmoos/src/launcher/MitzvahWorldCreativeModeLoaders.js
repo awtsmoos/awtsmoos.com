@@ -19,7 +19,7 @@ export async function openPlatformMode(hosts) {
 	return launchPlatformShowcase(hosts);
 }
 
-export async function openMovieMode(hosts, search = '') {
+export async function openMovieMode(hosts, search = '', routeOptions = {}) {
 	const parameters = new URLSearchParams(search);
 	const [projectModule, studioModule] = await Promise.all([
 		import('../movie/MovieProject.js'),
@@ -33,7 +33,8 @@ export async function openMovieMode(hosts, search = '') {
 		project = importGameplaySnapshotIntoMovieProject(project).project;
 	}
 	return studioModule.createMovieStudio(hosts, project, {
-		autoRender: parameters.get('autoRender') === '1'
+		autoRender: parameters.get('autoRender') === '1',
+		onProgress: routeOptions.onProgress
 	});
 }
 

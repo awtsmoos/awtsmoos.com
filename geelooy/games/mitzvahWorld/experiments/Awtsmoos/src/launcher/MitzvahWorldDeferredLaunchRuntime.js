@@ -40,7 +40,9 @@ export async function launchDeferredMitzvahWorldRoute(context, route) {
 	}
 	if (route === 'platform') return routes.handlers.openPlatform();
 	if (route === 'mission-movie') return routes.handlers.openVillageMovie();
-	if (route === 'movie') return routes.handlers.openMovie(context.search);
+	if (route === 'movie') return routes.handlers.openMovie(context.search, {
+		onProgress: context.dependencies?.onProgress
+	});
 	throw new Error(`Unsupported MitzvahWorld route: ${route}`);
 }
 

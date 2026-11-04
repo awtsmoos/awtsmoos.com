@@ -11,6 +11,11 @@
 
 import { loadHouseAssets } from '../assets/HouseAssets.js';
 import { loadFirstImage } from '../app/EretzAssetLoader.js';
+import {
+	ESSENTIAL_MILESTONES,
+	completeMitzvahWorldEssentialMilestone,
+	peekMitzvahWorldEssentialLedger
+} from '../app/MitzvahWorldEssentialBoot.js';
 import { GRASS_URLS } from '../world/TerrainTextureCatalog.js';
 import { createRealNatureSystem } from '../world/nature/RealNatureSystem.js';
 import { hydrateMovieAuthoredPlayer } from './MovieAuthoredWorldPlayer.js';
@@ -28,6 +33,11 @@ export async function prepareMovieAuthoredAssetOptions(options = {}) {
 export async function enrichMovieAuthoredWorld(core, options = {}) {
 	const { runtime, qualityProfile } = core;
 	const player = await hydrateMovieAuthoredPlayer(runtime, options);
+	// The strict authored-player gate above has just proven the canonical
+	// chossid.glb decoded with animation clips bound to its channels — the
+	// exact fact the essential gate's CANONICAL_CHOSSID_DECODED milestone
+	// names, previously published only on the staged single-player path.
+	publishCanonicalChossidFact(options.environment || globalThis, player);
 	const realNature = await createRealNatureSystem({
 		cancelFrame: options.cancelFrame,
 		groundSampler: runtime.groundSampler,
@@ -44,6 +54,25 @@ export async function enrichMovieAuthoredWorld(core, options = {}) {
 	runtime.realNature = realNature;
 	const textures = await hydrateMovieAuthoredWorldTextures(runtime.scene, options);
 	return Object.freeze({ nature, player, status: 'ready', textures });
+}
+
+/**
+ * Testifies the canonical-chossid fact only when a guarded ledger already
+ * lives in this environment; unguarded contexts publish nothing and never
+ * create a gate by accident. Testimony must never break enrichment.
+ */
+function publishCanonicalChossidFact(environment, player) {
+	if (!peekMitzvahWorldEssentialLedger(environment)) return;
+	try {
+		completeMitzvahWorldEssentialMilestone(
+			environment,
+			ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED,
+			{
+				importerStage: 'movie-authored-player',
+				resourceStatus: `clips-${player?.receipt?.animations ?? 0}`
+			}
+		);
+	} catch { /* the world outranks its own testimony */ }
 }
 
 async function loadStrictHouseAssets(timeoutMs) {

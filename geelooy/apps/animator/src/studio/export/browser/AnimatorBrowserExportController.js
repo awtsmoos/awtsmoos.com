@@ -34,11 +34,19 @@ export class AnimatorBrowserExportController {
 		const frameSource = options.frameSource
 			|| new AnimatorProductionFrameSource(globalThis.window);
 
-		const includeAudio = capabilities.silent !== true;
+		// A caller may declare its movie has no soundtrack at all
+		// (options.soundtrack === false — e.g. the Mitzvah World Animator
+		// editor, whose timeline carries no audio): the export is then
+		// honestly video-only, and no score is synthesized for it. Without
+		// that declaration the soundtrack renders exactly as before, and a
+		// browser without AAC still falls back to a silent MP4.
+		const includeAudio = capabilities.silent !== true && options.soundtrack !== false;
 		let audio = { shim: null, voices: [] };
 		if (includeAudio) {
 			options.onStatus?.('Rendering the production soundtrack...');
 			audio = await AnimatorBrowserExportAudio.render(exportPlan, options);
+		} else if (options.soundtrack === false) {
+			options.onStatus?.('Exporting a video-only MP4 (this movie has no soundtrack).');
 		} else {
 			options.onStatus?.(
 				'This browser cannot encode AAC audio, so the MP4 will be exported without an audio track.'

@@ -10,6 +10,11 @@
  */
 
 import { installMinimalMeadowRichWorld } from '../app/MinimalMeadowRichWorld.js';
+import {
+	ESSENTIAL_MILESTONES,
+	completeMitzvahWorldEssentialMilestone,
+	peekMitzvahWorldEssentialLedger
+} from '../app/MitzvahWorldEssentialBoot.js';
 import { prepareMovieCinemaAssets } from './MovieCinemaAssetPreparation.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioAuthoring3dController } from './MovieStudioAuthoring3dController.js';
@@ -46,6 +51,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		loading.set('B"H decoding the complete authored valley and real assets…');
 		await prepareMovieStudioWorld(diagnostics, environment);
 		const runtime = diagnostics.runtime;
+		publishMovieStudioFirstFrame(environment, runtime);
 		loading.set('B"H hydrating the real river, trees, village, and mountains…');
 		const richWorld = await installMinimalMeadowRichWorld(runtime, environment);
 		loading.set('B"H preparing the real shared Chossid cast and wardrobe…');
@@ -54,6 +60,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		installControllers(session, view, environment);
+		publishMovieStudioMovement(environment);
 		session.initialCinemaAssets = cinemaAssets;
 		session.initialRichWorld = richWorld;
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -62,6 +69,52 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 	} finally {
 		loading.remove();
 	}
+}
+
+/**
+ * Publishes the first-frame fact the moment it is true on the movie route:
+ * world readiness has settled on the hydrated rich renderer, and one real
+ * frame of the authored scene is painted through it before the fact is
+ * named. A failed paint publishes nothing — the gate keeps judging honestly.
+ * Unguarded contexts (no living ledger) skip both the paint and the fact.
+ */
+function publishMovieStudioFirstFrame(environment, runtime) {
+	if (!peekMitzvahWorldEssentialLedger(environment)) return;
+	try {
+		runtime?.renderer?.render?.(runtime.scene, runtime.camera);
+	} catch {
+		return;
+	}
+	try {
+		completeMitzvahWorldEssentialMilestone(
+			environment,
+			ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
+			{
+				importerStage: 'movie-studio-readiness',
+				resourceStatus: 'frame-painted'
+			}
+		);
+	} catch { /* the world outranks its own testimony */ }
+}
+
+/**
+ * Publishes the movement fact in the only sense a movie route has it: the
+ * session is live, its controllers are installed, and the canonical player
+ * stands under the director's control, posed and moved by the transport
+ * through every preview and rendered frame. Unguarded contexts skip it.
+ */
+function publishMovieStudioMovement(environment) {
+	if (!peekMitzvahWorldEssentialLedger(environment)) return;
+	try {
+		completeMitzvahWorldEssentialMilestone(
+			environment,
+			ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
+			{
+				importerStage: 'movie-studio-session',
+				resourceStatus: 'player-under-director-control'
+			}
+		);
+	} catch { /* the world outranks its own testimony */ }
 }
 
 /** Installs focused controllers while the session remains the sole lifecycle owner. */

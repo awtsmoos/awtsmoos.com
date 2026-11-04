@@ -10,6 +10,7 @@
 
 import { navigateToDirectWorld } from './MitzvahWorldDirectRoute.js?v=20260722-direct-world-01';
 import { beginMitzvahWorldFirstPlayCustody } from '../app/MitzvahWorldEssentialBoot.js';
+import { armMainMenuLaunchWitness } from './MainMenuLaunchWitness.js';
 
 const VILLAGE_MOVIE_URL = './movies/projects/reference-village-60s.json';
 
@@ -72,11 +73,26 @@ export function createMitzvahWorldRouteHandlers(context) {
 		revealHosts(hosts, true);
 		return modes.platform(hosts);
 	};
-	const openMovie = async (movieSearch = parameters.toString()) => {
+	const openMovie = async (movieSearch = parameters.toString(), selection = {}) => {
 		beginWorldEntryCustody();
+		// A direct movie route never passes a menu click, so no launch task ever
+		// arms the essential gate's launch witness for it — yet the route IS a
+		// guarded first-play crossing (custody above). Arm the same witness the
+		// menu launch task arms, and feed its pen from the movie runtime's own
+		// truthful progress reports, so launch-gated facts (spawn terrain,
+		// canonical chossid) are judged by this crossing's witnessed progress
+		// instead of by a silence clock the movie path could never hear.
+		const witness = armMainMenuLaunchWitness(environment, {
+			onProgress: selection.onProgress
+		});
+		const onProgress = detail => witness.noteProgress(detail);
 		revealHosts(hosts, true);
 		const search = movieSearch.startsWith('?') ? movieSearch : `?${movieSearch}`;
-		return modes.movie(hosts, { search });
+		try {
+			return await modes.movie(hosts, { onProgress, search });
+		} finally {
+			witness.settle();
+		}
 	};
 	const openVillageMovie = () => openMovie(
 		`?mode=movie&movieUrl=${encodeURIComponent(VILLAGE_MOVIE_URL)}`

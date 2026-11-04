@@ -11,6 +11,12 @@
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
 import { assembleEretzCoreRuntime } from '../app/EretzCoreRuntimeAssembly.js';
+import {
+	ESSENTIAL_MILESTONES,
+	completeMitzvahWorldEssentialMilestone,
+	peekMitzvahWorldEssentialLedger,
+	updateMitzvahWorldEssentialMilestone
+} from '../app/MitzvahWorldEssentialBoot.js';
 import { loadEretzAssets } from '../app/EretzAssetLoader.js';
 import { createEretzFoundationServices } from '../app/EretzFoundationServices.js';
 import { reportLaunchProgress, throwIfLaunchAborted } from '../app/RuntimeLaunchProgress.js';
@@ -42,6 +48,10 @@ export async function createPlayableEretzRuntime(hosts, options = {}, boot) {
 	});
 	await hydrationGate(environment, options);
 	boot.begin('playable-terrain');
+	publishEssentialFact(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, {
+		importerStage: 'playable-terrain',
+		resourceStatus: 'building'
+	}, false);
 	reportLaunchProgress(options, 'Building the responsive valley…', 0.4);
 	const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
 	const obstacles = createObstacleField(loaded.assets, phaseOneGround, { legacyHouses: false });
@@ -73,6 +83,15 @@ export async function createPlayableEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('playable-scene');
 	services.scene.add(createSky3D(qualityProfile.quality));
 	services.scene.add(terrain.group);
+	// The spawn terrain now truly exists in the scene. The staged foundation
+	// phase publishes this same fact on the single-player path; the authored
+	// (movie) path builds its terrain here, so here is where it must testify —
+	// until this publication existed, a guarded movie boot sealed
+	// ESSENTIAL_SPAWN_TERRAIN_EXISTS_TIMEOUT while its world stood ready.
+	publishEssentialFact(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, {
+		importerStage: 'playable-terrain',
+		resourceStatus: `colliders-${terrain.colliders?.length ?? 0}`
+	}, true);
 	const foundation = createFoundation({
 		chunkRuntime,
 		collisionQuery,
@@ -93,6 +112,19 @@ export async function createPlayableEretzRuntime(hosts, options = {}, boot) {
 	await hydrationGate(environment, options);
 	const core = assembleEretzCoreRuntime(foundation, options, qualityProfile, boot);
 	return { ...core, foundation, qualityProfile };
+}
+
+/**
+ * Testifies to the essential gate only when a guarded ledger already lives in
+ * this environment; routes without custody (embeds, tests) publish nothing
+ * and never create a gate by accident. Testimony must never break building.
+ */
+function publishEssentialFact(environment, name, details, complete) {
+	if (!peekMitzvahWorldEssentialLedger(environment)) return;
+	try {
+		if (complete) completeMitzvahWorldEssentialMilestone(environment, name, details);
+		else updateMitzvahWorldEssentialMilestone(environment, name, details);
+	} catch { /* the world outranks its own testimony */ }
 }
 
 async function hydrationGate(environment, options) {

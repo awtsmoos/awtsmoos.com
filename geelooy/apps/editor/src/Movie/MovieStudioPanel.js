@@ -11,6 +11,7 @@
  */
 import { loadMovieProject } from './MovieProjectLoader.js';
 import { exportTimelineMovie } from './MovieVideoExporter.js';
+import { exportTimelineMovieMp4 } from './MovieMp4Exporter.js';
 
 const BAR_ID = 'mwa-movie-studio-bar';
 const SAMPLE = JSON.stringify({
@@ -28,13 +29,14 @@ const SAMPLE = JSON.stringify({
 /**
  * Install the movie load/export doorway into the running editor exactly once.
  * @param {object} app The running editor App (window.MWA).
- * @returns {{loadProjectJson:Function, exportMovie:Function}} Agent-callable movie API.
+ * @returns {{loadProjectJson:Function, exportMovie:Function, exportMovieMp4:Function}} Agent-callable movie API.
  */
 export function installMovieStudioPanel(app) {
 	if (!document.getElementById(BAR_ID)) document.body.append(buildBar(app));
 	return {
 		loadProjectJson: text => loadMovieProject(app, text),
-		exportMovie: (options) => exportTimelineMovie(app, options)
+		exportMovie: (options) => exportTimelineMovie(app, options),
+		exportMovieMp4: (options) => exportTimelineMovieMp4(app, options)
 	};
 }
 
@@ -47,6 +49,7 @@ function buildBar(app) {
 		<div style="display:flex;gap:6px;">
 			<button type="button" data-movie-open style="${chip()}">📥 Movie JSON</button>
 			<button type="button" data-movie-export style="${chip()}">🎬 Export Movie</button>
+			<button type="button" data-movie-export-mp4 style="${chip()}">🎬 Export MP4</button>
 		</div>
 		<div data-movie-panel hidden style="background:#14161c;color:#eef2ff;border:1px solid #39415a;border-radius:10px;padding:10px;width:min(92vw,430px);box-shadow:0 6px 24px rgba(0,0,0,.45);">
 			<textarea data-movie-json rows="10" spellcheck="false" style="width:100%;box-sizing:border-box;background:#0b0d12;color:#d7ffe0;border:1px solid #2c3348;border-radius:6px;padding:8px;font:12px/1.45 ui-monospace,monospace;">${SAMPLE}</textarea>
@@ -100,6 +103,20 @@ function wireBar(app, bar) {
 			app.showEditorNotice(`Movie exported: ${result.fileName} · ${Math.max(1, Math.round(result.bytes / 1024))} KB · ${result.duration}s.`);
 		} catch (error) {
 			app.showEditorNotice(`Movie export failed: ${error.message}`);
+		} finally {
+			button.disabled = false;
+		}
+	});
+	bar.querySelector('[data-movie-export-mp4]').addEventListener('click', async event => {
+		const button = event.currentTarget;
+		button.disabled = true;
+		try {
+			const result = await exportTimelineMovieMp4(app, {
+				onStatus: message => app.showEditorNotice(message)
+			});
+			app.showEditorNotice(`MP4 exported: ${result.fileName} · ${Math.max(1, Math.round(result.bytes / 1024))} KB · ${result.duration}s.`);
+		} catch (error) {
+			app.showEditorNotice(`MP4 export failed: ${error.message}`);
 		} finally {
 			button.disabled = false;
 		}
