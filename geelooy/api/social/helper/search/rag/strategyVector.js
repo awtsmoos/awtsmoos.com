@@ -43,16 +43,30 @@ async function vectorSource(options) {
 		}));
 	});
 	options.timings.sourceCacheHit = source.sourceCacheHit === true;
-	const { searchPendingVectors, mergePendingHits } = require('./pendingCommentVectors.js');
+	// SEARCH ITERATION 8 (2026-11-04): pending-comment-vector hits are NOT
+	// served by default. The persisted pending store was embedded from the
+	// defective pre-correction English, its rows carry no text (so visitor
+	// cards render empty), its drain path was never wired into publication,
+	// and corrected re-imports were silently deduped away — yet its raw
+	// cosine scores outranked every real publication (measured: 15 of the
+	// top 20 for "tzedakah charity", all textless, 2026-10-06 vectors above
+	// live publications). Pending vectors are pre-publication staging:
+	// import noting keeps filling the store exactly as before, but nothing
+	// unpublished may outrank the library. Serving resumes only when an
+	// operator explicitly sets AWTSMOOS_SERVE_PENDING_VECTORS=true after
+	// the lane has been drained and repopulated from the corrected corpus.
 	let hits = source.hits;
-	try {
-		const pending = await searchPendingVectors({
-			$i: options.$i,
-			queryVector: embedding.vector,
-			limit
-		});
-		hits = mergePendingHits(source.hits, pending, limit);
-	} catch (_error) {}
+	if (process.env.AWTSMOOS_SERVE_PENDING_VECTORS === 'true') {
+		const { searchPendingVectors, mergePendingHits } = require('./pendingCommentVectors.js');
+		try {
+			const pending = await searchPendingVectors({
+				$i: options.$i,
+				queryVector: embedding.vector,
+				limit
+			});
+			hits = mergePendingHits(source.hits, pending, limit);
+		} catch (_error) {}
+	}
 	return {
 		...source,
 		index: { ...source.index, sourceCacheHit: source.sourceCacheHit === true },
