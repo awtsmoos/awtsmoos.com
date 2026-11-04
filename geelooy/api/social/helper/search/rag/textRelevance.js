@@ -16,6 +16,14 @@
  * words also earn NO points: they once inflated weak hits (a halacha entry
  * about covering blood reached 45% on a flood query largely through "the"),
  * letting stopword-rich rows outrank rows matching more of the question.
+ * Iteration 7 makes the lexical scale continuous instead of a few flat
+ * shelves: a one-word query no longer hands every row the +8 phrase bonus
+ * (for a single token the "phrase" is just the token itself, so every
+ * whole-word row saturated at exactly 100% and tied), repeated whole-word
+ * occurrences earn diminishing extra credit, and a row's length dilutes
+ * its evidence — a long encyclopedia entry that mentions both query words
+ * once no longer ties a short segment that speaks of little else. Exact
+ * identity scores and the relevance floor are unchanged.
  */
 
 const {
@@ -27,6 +35,13 @@ const { aliasesForRow } = require('./sourceWorkIdentity.js');
 const EXACT_TITLE_SCORE = 4;
 const EXACT_IDENTITY_SCORE = 3;
 const WORD_BOUNDARIES = /[^\p{L}\p{N}]+/gu;
+/** Rows up to this many words are focused segments and keep full weight. */
+const FOCUSED_ROW_WORDS = 48;
+/** Whole-word occurrences stop earning extra credit beyond this count. */
+const FREQUENCY_CREDIT_CAP = 8;
+/** Length dilution grows by this much per doubling past the focused size. */
+const LENGTH_DILUTION_PER_DOUBLING = 0.35;
+const MAX_LENGTH_DILUTION = 3.5;
 
 /**
  * English function words: grammar glue, never topical evidence. Hebrew tokens
@@ -99,10 +114,47 @@ function searchableText(row = {}) {
 }
 
 /**
+ * Splits a normalized haystack into its word census. Normalization collapses
+ * every boundary run to a single space, so a plain split counts words exactly
+ * — including the first and last words, which a space-padded substring probe
+ * for whole words could never see.
+ */
+function haystackWords(haystack) {
+	return haystack ? haystack.split(' ').filter(Boolean) : [];
+}
+
+/** Counts exact whole-word occurrences of one token in the word census. */
+function wholeWordCount(words, token) {
+	let count = 0;
+	for (const word of words) {
+		if (word === token) count += 1;
+	}
+	return count;
+}
+
+/**
+ * Dilutes evidence by row length: a focused segment keeps full weight, and
+ * each doubling past the focused size divides the score a little more, so a
+ * very long entry must carry proportionally more evidence to tie a segment.
+ */
+function lengthDilution(wordCount) {
+	if (wordCount <= FOCUSED_ROW_WORDS) return 1;
+	const dilution = 1 + LENGTH_DILUTION_PER_DOUBLING
+		* Math.log2(wordCount / FOCUSED_ROW_WORDS);
+	return Math.min(MAX_LENGTH_DILUTION, dilution);
+}
+
+/**
  * Scores one row and reports the evidence behind the score. `contentMatch`
  * is true only when a non-stopword query token matched the row (as the whole
  * haystack, a whole word, or a substring); `phraseMatch` is a full-phrase
  * hit. Exact title/identity matches short-circuit with their fixed scores.
+ * The phrase bonus is paid only when the question has at least two tokens:
+ * for a one-word question the phrase is the word itself, and paying it made
+ * every whole-word row tie at exactly 100%. Whole-word credit grows with
+ * diminishing returns as the word recurs (3 for the first occurrence, up to
+ * 7.5 at eight), and the total is diluted by row length, so rows with equal
+ * match profiles no longer flatten into identical scores.
  */
 function relevanceEvidence(row, queryText, queryTokens) {
 	const none = { score: 0, contentMatch: false, phraseMatch: false, exact: false };
@@ -115,21 +167,30 @@ function relevanceEvidence(row, queryText, queryTokens) {
 	}
 	const haystack = searchableText(row);
 	if (!haystack) return none;
+	const words = haystackWords(haystack);
 	const phraseMatch = haystack.includes(queryText);
-	let score = phraseMatch ? 8 : 0;
+	let score = phraseMatch && queryTokens.length >= 2 ? 8 : 0;
 	let contentMatch = phraseMatch;
 	for (const token of queryTokens) {
 		let points = 0;
-		if (haystack === token) points = 5;
-		else if (haystack.includes(` ${token} `)) points = 3;
-		else if (haystack.includes(token)) points = 1;
+		if (haystack === token) {
+			points = 5;
+		} else {
+			const occurrences = wholeWordCount(words, token);
+			if (occurrences > 0) {
+				points = 3 + 1.5 * Math.log2(Math.min(occurrences, FREQUENCY_CREDIT_CAP));
+			} else if (haystack.includes(token)) {
+				points = 1;
+			}
+		}
 		if (!points) continue;
 		if (isStopword(token)) continue;
 		contentMatch = true;
 		score += points;
 	}
 	return {
-		score: score / Math.max(1, queryTokens.length * 3 + 8),
+		score: score
+			/ (Math.max(1, queryTokens.length * 3 + 8) * lengthDilution(words.length)),
 		contentMatch,
 		phraseMatch,
 		exact: false

@@ -7,6 +7,11 @@
  * @description The Awtsmoos lets a finite search clock end as truthful partial
  * evidence instead of a false crash; Awtsmoos.com still exposes every unexpected
  * fault rather than disguising corruption as an ordinary bounded timeout.
+ * Iteration 7 extends the bounded family to typed lane-unavailability
+ * testimony (circuit-open, strict-provenance, read-only store, embedder
+ * warming): production showed a Hebrew query failing as a bare HTTP 500 —
+ * which the visitor client then disguised as keyword results — when every
+ * lane was merely unavailable, each already carrying its typed reason.
  */
 
 const assert = require('node:assert/strict');
@@ -60,5 +65,48 @@ test('unexpected lane failures are never disguised as deadline exhaustion', () =
 			totalMs: 20
 		}),
 		thrown => thrown === error
+	);
+});
+
+/** Typed lane unavailability is bounded testimony, not a request crash. */
+test('typed lane unavailability merges into partial evidence, not a 500', () => {
+	const result = mergeLaneSearches({
+		lanes,
+		limit: 3,
+		query: 'מבול',
+		settled: [
+			rejected('STRICT_INDEX_PROVENANCE_MISSING', 'Strict RAG did not return persisted vector-index provenance.'),
+			rejected('LANE_CIRCUIT_OPEN', 'Lane sichos-kodesh is paused after a recent failure.')
+		],
+		totalMs: 1200
+	});
+	assert.equal(result.partial, true);
+	assert.deepEqual(result.hits, []);
+	assert.equal(result.laneErrors.length, 2);
+	assert.equal(result.laneErrors[0].id, 'likkutei-sichos');
+});
+
+/** An unexpected fault keeps its voice even beside bounded testimony. */
+test('an unexpected fault beside bounded failures still throws', () => {
+	const error = new Error('Database file vanished unexpectedly.');
+	error.code = 'ENOENT';
+	const boundedFirst = rejected(
+		'LANE_CIRCUIT_OPEN',
+		'Lane likkutei-sichos is paused after a recent failure.'
+	);
+	assert.throws(
+		() => mergeLaneSearches({
+			lanes,
+			limit: 3,
+			query: 'Torah',
+			settled: [
+				boundedFirst,
+				{ status: 'rejected', reason: error }
+			],
+			totalMs: 20
+		}),
+		// The merge refuses the partial disguise and surfaces the first
+		// lane failure, exactly as it did before the bounded set grew.
+		thrown => thrown === boundedFirst.reason
 	);
 });

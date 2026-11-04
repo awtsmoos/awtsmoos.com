@@ -11,8 +11,15 @@
  * the one scale every engine already publishes — percent — because the old
  * round-robin interleave mixed incomparable per-lane scales into payload
  * order and the painted "Relevance" list could show a weaker card above a
- * stronger one.
+ * stronger one. Iteration 7 also keeps one source from swallowing the
+ * visible window: at most two hits per source (post/series) are taken in
+ * the first pass, because five consecutive segments of a single chapter
+ * once filled a keyword top-5 at a tied 100%; deferred same-source hits
+ * fill the window only when other sources run out.
  */
+
+/** Most hits one source may contribute before its siblings are deferred. */
+const MAX_SAME_SOURCE_HITS = 2;
 
 /** Interleaves lane hit groups in stable round-robin order up to the requested limit. */
 function roundRobinHits(groups, limit) {
@@ -47,10 +54,23 @@ function normalizedPercent(hit = {}) {
 }
 
 /**
+ * Names the source a hit belongs to for diversity accounting. Hits whose
+ * rows carry no source identity are never treated as siblings.
+ */
+function hitSourceKey(hit = {}) {
+	const row = hit.row || {};
+	const key = row.postId || row.seriesId || row.sourceId || row.pageId;
+	return typeof key === 'string' && key.length ? key : null;
+}
+
+/**
  * Merges lane hit groups into one globally score-descending list. Ties keep
  * the fair witness order (in-lane position first, then lane order), so equal
  * evidence still interleaves across libraries instead of letting the first
- * lane swallow the list; ranks are re-numbered in merged order.
+ * lane swallow the list; ranks are re-numbered in merged order. Selection
+ * first takes at most MAX_SAME_SOURCE_HITS per source so the visible window
+ * shows the breadth of the library, then fills any remaining room with the
+ * deferred same-source hits in their ranked order.
  */
 function rankedMergeHits(groups, limit) {
 	const decorated = [];
@@ -64,8 +84,26 @@ function rankedMergeHits(groups, limit) {
 		|| left.position - right.position
 		|| left.laneIndex - right.laneIndex
 	);
-	return decorated
-		.slice(0, Math.max(0, Number(limit) || 0))
+	const cap = Math.max(0, Number(limit) || 0);
+	const selected = [];
+	const deferred = [];
+	const sourceCounts = new Map();
+	for (const entry of decorated) {
+		if (selected.length >= cap) break;
+		const key = hitSourceKey(entry.hit);
+		const used = key ? (sourceCounts.get(key) || 0) : 0;
+		if (key && used >= MAX_SAME_SOURCE_HITS) {
+			deferred.push(entry);
+			continue;
+		}
+		if (key) sourceCounts.set(key, used + 1);
+		selected.push(entry);
+	}
+	for (const entry of deferred) {
+		if (selected.length >= cap) break;
+		selected.push(entry);
+	}
+	return selected
 		.map((entry, index) => ({ ...entry.hit, rank: index + 1 }));
 }
 
@@ -94,7 +132,9 @@ function laneTimings(successes, totalMs) {
 }
 
 module.exports = {
+	MAX_SAME_SOURCE_HITS,
 	allLibrariesShard,
+	hitSourceKey,
 	laneTimings,
 	normalizedPercent,
 	rankedMergeHits,

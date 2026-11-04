@@ -68,7 +68,9 @@ export function rangeCard(hit, index, openComments = false) {
 	card.querySelector('.rank').textContent = index + 1;
 	card.querySelector('.eyebrow').textContent = `${clean(row.sourceLabel || row.seriesId)} · ${verseRangeLabel(row)}`;
 	card.querySelector('h2').textContent = clean(row.title || row.postId || 'Source segment');
-	card.querySelector('.score').textContent = `${relevance.toFixed(1)}% relevant`;
+	// The API already publishes two decimals; painting only one rounded
+	// distinct scores (42.00 vs 41.99) into visible ties, so show both.
+	card.querySelector('.score').textContent = `${relevance.toFixed(2)}% relevant`;
 	card.querySelector('.rangePreview').append(safeFragment(row.displayText || row.text || 'Matching source text'));
 	card.querySelector('.rangeMeta').textContent = segmentMeta(row, comments.length);
 	appendPostActions(card, row);

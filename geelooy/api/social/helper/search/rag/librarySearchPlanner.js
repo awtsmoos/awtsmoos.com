@@ -48,12 +48,27 @@ function laneSearchOptions(lane, options, timeoutMs) {
 }
 
 /**
+ * Names the strategy a lane is about to serve, mirroring laneSearchOptions:
+ * text-only lanes always serve text; every other lane serves the request's
+ * strategy, and anything not explicitly vector is lexical text. The circuit
+ * breaker scopes transient failures by this name so one strategy's illness
+ * never masquerades as the other's.
+ */
+function laneStrategyScope(lane, options = {}) {
+	if (lane?.textOnly === true) return 'text';
+	return String(options.strategy || '').toLowerCase() === 'vector'
+		? 'vector'
+		: 'text';
+}
+
+/**
  * Searches one published lane beneath one explicit phase deadline. A lane
  * whose circuit is open after recent deterministic failures is skipped and
  * reported as a lane failure instead of re-paying spawn/timeout costs.
  */
 async function boundedLaneSearch(lane, options, timeoutMs) {
-	const blocked = laneBlock(lane.id);
+	const scope = laneStrategyScope(lane, options);
+	const blocked = laneBlock(lane.id, scope);
 	if (blocked) {
 		throw Object.assign(new Error(blocked.message), {
 			code: blocked.code,
@@ -66,10 +81,10 @@ async function boundedLaneSearch(lane, options, timeoutMs) {
 			lane.id,
 			timeoutMs
 		);
-		recordLaneSuccess(lane.id);
+		recordLaneSuccess(lane.id, scope);
 		return result;
 	} catch (error) {
-		recordLaneFailure(lane.id, error);
+		recordLaneFailure(lane.id, error, Date.now(), scope);
 		throw error;
 	}
 }
@@ -125,6 +140,7 @@ async function settleLibraryLanes(lanes, options = {}) {
 module.exports = {
 	boundedLaneSearch,
 	laneSearchOptions,
+	laneStrategyScope,
 	lexicalLaneOrder,
 	searchPlanMode,
 	settleLibraryLanes
