@@ -93,9 +93,13 @@ function validatePlan(plan) {
 	if (plan.contentKind === 'answer' && !plan.parentQuestionId) {
 		errors.push('Answers require parentQuestionId.');
 	}
-	if (plan.source.id && (!plan.source.heichelId || !plan.source.type)) {
-		errors.push('An existing source requires type, id and heichelId.');
+	if (plan.source.id && !plan.source.type) {
+		errors.push('An existing source requires type and id.');
 	}
+	// A source id without its heichelId is NOT rejected here: the canonical
+	// locator adjudicates it, resolving the record under the plan's primary
+	// scope when it provably lives there and failing with
+	// SOURCE_HEICHEL_REQUIRED only when it cannot be found.
 	return { valid: errors.length === 0, errors };
 }
 

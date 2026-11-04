@@ -60,15 +60,35 @@ function secondaryDestinations(snapshot) {
 	return [...unique.values()];
 }
 
+/**
+ * A source launched without its birthplace (a bare `?source=<id>` link, or a
+ * restored draft saved by one) must not deadlock the composer: the plan's
+ * primary destination already resolves to the source's Heichel when known
+ * and to the chosen destination otherwise, so the source inherits that
+ * Heichel. The server still verifies the record exists under it before
+ * anything is reused — an inherited scope that names no record fails
+ * honestly instead of publishing.
+ */
+function normalizedSource(snapshot, primary) {
+	const source = snapshot.canonicalSource;
+	if (!source?.id) return {};
+	return {
+		...source,
+		heichelId: source.heichelId || primary.heichelId || '',
+		seriesId: source.seriesId || primary.seriesId || 'root'
+	};
+}
+
 export function buildPublicationPlan(snapshot) {
+	const primary = primaryDestination(snapshot);
 	return {
 		version: 1,
 		idempotencyKey: snapshot.publication.idempotencyKey,
 		aliasId: snapshot.identity.aliasId,
 		contentKind: contentKind(snapshot),
-		primary: primaryDestination(snapshot),
+		primary,
 		secondary: secondaryDestinations(snapshot),
-		source: snapshot.canonicalSource || {},
+		source: normalizedSource(snapshot, primary),
 		parentQuestionId: snapshot.questionId || '',
 		visibility: normalizeSocialVisibility(snapshot.publication?.visibility),
 		scheduledAt: Number(snapshot.publication.scheduledAt || 0)
@@ -86,4 +106,4 @@ export function publicationIssues(snapshot) {
 	return issues;
 }
 
-export { contentKind, destinationKey, primaryDestination, secondaryDestinations };
+export { contentKind, destinationKey, primaryDestination, secondaryDestinations, normalizedSource };

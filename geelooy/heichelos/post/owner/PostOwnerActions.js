@@ -22,13 +22,26 @@ function viewerAlias() {
 	return window.curAlias || window.currentAlias || '';
 }
 
-function postContext() {
-	const post = window.post || {};
-	const segments = window.location.pathname.split('/').filter(Boolean);
+function postContext(win = window) {
+	const post = win.post || {};
+	const segments = win.location.pathname.split('/').filter(Boolean);
 	const heichelId = post.heichel?.id || post.heichelId || segments[1] || '';
-	const seriesId = window.series?.id || post.parentSeriesId || post.seriesId || segments[3] || 'root';
+	// The bare reader URL (/heichelos/<heichel>/post/<postId>) has no series
+	// segment: segments[3] there is the post id itself, never the series.
+	const pathSeries = segments[2] === 'series' ? (segments[3] || '') : '';
+	const seriesId = win.series?.id || post.parentSeriesId || post.seriesId || pathSeries || 'root';
 	const postId = post.id || post.postId || '';
 	return { post, heichelId, seriesId, postId };
+}
+
+/**
+ * Ownership is the record's own testimony: canonical records carry `author`,
+ * rich records may carry only `aliasId`. Either field, exactly matching the
+ * viewing alias, proves the post is the viewer's.
+ */
+function isPostOwner(post, alias) {
+	const owner = String(post?.author || post?.aliasId || '').trim();
+	return Boolean(owner && alias) && owner === String(alias).trim();
 }
 
 function postUrl({ heichelId, seriesId, postId }) {
@@ -277,9 +290,13 @@ function mount(ctx) {
 }
 
 /**
- * Waits briefly for the reader to publish the post record and for the shell
- * to publish the viewing alias, then mounts the owner row only when the two
+ * Waits for the reader to publish the post record and for the shell to
+ * publish the viewing alias, then mounts the owner row only when the two
  * meet on the same alias. Anything else leaves the page exactly as it was.
+ * The wait is generous (240 ticks ≈ 60 s): on a slow or recovering backend
+ * the reader's own scripts and the session alias can arrive long after the
+ * first paint, and a 12 s give-up made the owner's only Edit/Delete
+ * controls silently never appear.
  */
 export function initPostOwnerActions() {
 	let ticks = 0;
@@ -289,9 +306,11 @@ export function initPostOwnerActions() {
 		const alias = viewerAlias();
 		if (ctx.postId && alias) {
 			clearInterval(timer);
-			if (ctx.post.author && ctx.post.author === alias) mount(ctx);
+			if (isPostOwner(ctx.post, alias)) mount(ctx);
 			return;
 		}
-		if (ticks > 48) clearInterval(timer);
+		if (ticks > 240) clearInterval(timer);
 	}, 250);
 }
+
+export { postContext, isPostOwner };

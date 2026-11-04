@@ -58,7 +58,11 @@ async function planPublication({ $i, input, reviewApproved = false }) {
 	const plan = normalizePlan(input);
 	const validation = validatePlan(plan);
 	if (!validation.valid) return planError(validation);
-	const located = await locateCanonical({ $i, source: plan.source });
+	const located = await locateCanonical({
+		$i,
+		source: plan.source,
+		fallbackHeichelId: plan.primary.heichelId
+	});
 	if (located?.error) return { error: located.error };
 	const primary = await primaryAction({ $i, plan, located, reviewApproved });
 	const canonical = plannedCanonical(plan, located);

@@ -48,9 +48,30 @@ class MailboxMutations extends MailDomainService {
 		const yesodGuard = await this.requireOwner();
 		if (!yesodGuard.ok) return yesodGuard.error;
 		if (!tiferesThreadId) return this.failure({ message: 'threadId required' });
-		const malchusPath = `/emails/${this.mailFolder()}/threads/${tiferesThreadId}`;
-		const chochmahRemoved = await this.$i.db.delete(malchusPath);
-		return { success: true, removed: chochmahRemoved };
+		const gevurahRemoved = [];
+		for (const hodFolder of this.threadFolderCandidates(tiferesThreadId)) {
+			const malchusPath = `/emails/${this.mailFolder()}/threads/${hodFolder}`;
+			if (await this.$i.db.delete(malchusPath)) gevurahRemoved.push(hodFolder);
+		}
+		return { success: true, removed: gevurahRemoved };
+	}
+
+	/**
+	 * Mirrors the reader's folder contract (MailboxService.threadVariations):
+	 * clients address a thread by its normalized correspondent (`tedt`), while
+	 * delivery stores it under the full `<alias>_at_awtsmoos.com` folder.
+	 * Deleting only the addressed name removed nothing — the API reported
+	 * success and the thread returned on the next read. Every physical
+	 * variation the reader can resurrect is deleted here.
+	 */
+	threadFolderCandidates(tiferesThreadId) {
+		const raw = String(tiferesThreadId);
+		const suffix = '_at_awtsmoos.com';
+		const core = raw.endsWith(suffix) ? raw.slice(0, -suffix.length) : raw;
+		if (core.includes('_at_') && !core.endsWith(suffix)) {
+			return [...new Set([raw, core])];
+		}
+		return [...new Set([raw, core, `${core}${suffix}`])];
 	}
 
 	/** Splits the established `folder:key` message id while preserving colons after the first separator. */

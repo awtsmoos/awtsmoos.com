@@ -23,10 +23,30 @@ function canonicalFromRecord(record = {}, fallback = {}) {
 	});
 }
 
-async function locateCanonical({ $i, source }) {
+async function locateCanonical({ $i, source, fallbackHeichelId = '' }) {
 	const normalized = normalizeSource(source);
 	if (!normalized.id) return { found: false, canonical: null, record: null };
 	if (!normalized.heichelId) {
+		// A source may arrive without its birthplace (a bare reference link,
+		// a restored draft). Before refusing, try the plan's primary scope:
+		// resolution succeeds only on an actual record hit there, so the
+		// fallback is verified by existence, never assumed. When the record
+		// does not live under the primary Heichel the original refusal stands.
+		if (fallbackHeichelId) {
+			const record = await readPostRecord({
+				$i,
+				heichelId: fallbackHeichelId,
+				postId: normalized.id
+			});
+			if (record) {
+				const scoped = { ...normalized, heichelId: fallbackHeichelId };
+				return {
+					found: true,
+					canonical: canonicalFromRecord(record, scoped),
+					record
+				};
+			}
+		}
 		return {
 			found: false,
 			error: {
