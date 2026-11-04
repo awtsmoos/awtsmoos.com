@@ -26,7 +26,15 @@ class MediaBunnyBase {
 		this.lastQueuedTime = 0;
 	}
 
-	/** Initializes MP4 output, canvas-native video source, audio source, and the worker canvas. */
+	/**
+	 * Initializes MP4 output, canvas-native video source, and the worker canvas.
+	 * An audio source/track is created only when the session config carries
+	 * audio: config.includeAudio === false means the caller's browser cannot
+	 * encode AAC (or the user chose no audio), and the MP4 must then be
+	 * genuinely silent — no audio track at all. The earlier shape always
+	 * created the AAC track and encoded even a silent buffer through it, so
+	 * AAC-less browsers encoded every frame and then died at finalize.
+	 */
 	async start() {
 		if (this.isStarted) {
 			return;
@@ -54,8 +62,10 @@ class MediaBunnyBase {
 			this.output.addVideoTrack(this.videoSampleSource, {
 				frameRate: outputFormat.fps || 30
 			});
-			this.audioBufferSource = AwtsVideoBase.createAudioSource(this.mediabunny);
-			this.output.addAudioTrack(this.audioBufferSource);
+			if (this.config.includeAudio !== false) {
+				this.audioBufferSource = AwtsVideoBase.createAudioSource(this.mediabunny);
+				this.output.addAudioTrack(this.audioBufferSource);
+			}
 			await this.output.start();
 			this.isStarted = true;
 			this._postStatus(`Renderer Ready. Codec: ${codec}`);
@@ -88,13 +98,19 @@ class MediaBunnyBase {
 		}
 	}
 
-	/** Finalizes the real MP4 after every frame has crossed the encoder boundary. */
-	async finalize(audioBufferShim) {
+	/**
+	 * Finalizes the real MP4 after every frame has crossed the encoder boundary.
+	 * @param {object|null} audioBufferShim Soundtrack to encode, or null for a
+	 * genuinely silent (audio-track-free) MP4.
+	 * @param {object} [options] Finalize evidence; durationSeconds lets the
+	 * tail-frame fill work without an audio shim to borrow the duration from.
+	 */
+	async finalize(audioBufferShim, options = {}) {
 		if (!this.isStarted) {
 			throw new Error('Renderer must be started before finalization.');
 		}
 		await this.waitForFrames();
-		return AwtsVideoBase.finalizeOutput(this, audioBufferShim);
+		return AwtsVideoBase.finalizeOutput(this, audioBufferShim, options);
 	}
 
 	/** Sends a readable worker status through the shared posting vessel. */

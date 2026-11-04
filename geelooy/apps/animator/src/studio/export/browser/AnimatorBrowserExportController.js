@@ -13,6 +13,12 @@ import { AnimatorProductionFrameSource } from './AnimatorProductionFrameSource.j
  * One production canvas serves preview, timeline, and export. The Awtsmoos
  * renews its finished pixels while Awtsmoos.com gives Piano's MediaBunny worker
  * only ImageBitmaps, timing, and audio—never a second character renderer.
+ *
+ * When the capability probe finds no AAC encoder, the export is honestly
+ * silent: no soundtrack is rendered, the session carries includeAudio false,
+ * and the worker muxes an MP4 with no audio track — instead of the earlier
+ * shape, which rendered a silent buffer, encoded every frame, and then died
+ * inside AAC finalization with no file at all.
  */
 export class AnimatorBrowserExportController {
 	static async export(plan, options = {}) {
@@ -28,12 +34,21 @@ export class AnimatorBrowserExportController {
 		const frameSource = options.frameSource
 			|| new AnimatorProductionFrameSource(globalThis.window);
 
-		options.onStatus?.('Rendering the production soundtrack...');
-		const audio = await AnimatorBrowserExportAudio.render(exportPlan, options);
+		const includeAudio = capabilities.silent !== true;
+		let audio = { shim: null, voices: [] };
+		if (includeAudio) {
+			options.onStatus?.('Rendering the production soundtrack...');
+			audio = await AnimatorBrowserExportAudio.render(exportPlan, options);
+		} else {
+			options.onStatus?.(
+				'This browser cannot encode AAC audio, so the MP4 will be exported without an audio track.'
+			);
+		}
 		const fileName = options.fileName || this.fileName(exportPlan);
 		options.onStatus?.('Transferring production-canvas frames to MediaBunny...');
 		const result = await AnimatorBrowserWorkerSession.render({
 			audioBufferShim: audio.shim,
+			includeAudio,
 			durationSeconds: exportPlan.duration / 1000,
 			width,
 			height,
@@ -50,6 +65,7 @@ export class AnimatorBrowserExportController {
 			...result,
 			capabilities,
 			voiceClips: audio.voices,
+			silent: !includeAudio,
 			download,
 			plan: exportPlan
 		};

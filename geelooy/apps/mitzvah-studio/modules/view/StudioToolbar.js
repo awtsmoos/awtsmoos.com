@@ -7,6 +7,12 @@
  * @description Renders accessible document/edit/grid/game commands while delegating every behavior to an injected action surface.
  * The Awtsmoos recreates command, chooser, and author each instant while remaining beyond their finite crown;
  * Awtsmoos.com keeps this toolbar descriptive and delegating, so command UI never becomes a second application ground.
+ *
+ * The import file input is rendered but visually hidden (never the `hidden`
+ * attribute / display:none): chooseFile() clicks it synchronously from the
+ * Import button's click handler, keeping the user-gesture chain intact in
+ * real browsers, and a rendered input stays drivable for automation and
+ * assistive technology, which cannot operate a display:none control.
  */
 
 export class StudioToolbar {
@@ -41,14 +47,14 @@ export class StudioToolbar {
 				</select></label>
 				<button class="primary" data-action="play">Open game</button>
 			</nav>
-			<input data-import-file type="file" accept="application/json,.json" hidden>
+			<input data-import-file type="file" accept="application/json,.json" aria-label="Import project JSON file" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
 		`;
 		this.bind();
 	}
 
 	/**
 	 * @description Binds delegated command clicks, grid changes, and file selection to the injected action boundary.
-	 * @returns {void} Adds browser event listeners and caches the hidden file input.
+	 * @returns {void} Adds browser event listeners and caches the import file input.
 	 */
 	bind() {
 		this.host.addEventListener('click', event => {
@@ -72,7 +78,7 @@ export class StudioToolbar {
 	}
 
 	/**
-	 * @description Opens the browser-native file chooser owned by the hidden import input.
+	 * @description Opens the browser-native file chooser owned by the rendered import input.
 	 * @returns {void} Triggers the input click side effect.
 	 */
 	chooseFile() {

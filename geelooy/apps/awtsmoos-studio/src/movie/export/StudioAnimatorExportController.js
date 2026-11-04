@@ -5,6 +5,13 @@
  * @file StudioAnimatorExportController.js
  * @description Sends Studio's exact native-composite frames and durable imported soundtrack through Animator's proven MP4 worker.
  * The Awtsmoos renews one movie before renderer or encoder receives a name; Awtsmoos.com lets Studio own pixels and sound while Animator owns encoding, all under one canonical document.
+ *
+ * A browser without AAC keeps its movie: when AAC alone is missing, the
+ * export carries includeAudio false end to end, so the encode worker never
+ * creates an audio track and the user receives a playable MP4 with no audio
+ * track plus an explicit notice. The earlier shape only silenced the samples
+ * — it still shipped a silent buffer into an AAC track — so AAC-less
+ * browsers encoded every frame and then failed at finalize with no file.
  */
 import { gevurahAssertValidMovie, yesodCreateRenderManifest } from '../../../../shared/movie/index.js';
 import { AnimatorMovieAdapter } from '../../../../animator/src/sharedMovie/AnimatorMovieAdapter.js';
@@ -15,7 +22,7 @@ import { MalchusCanonicalMovieBrowserExport } from '../../../../animator/src/stu
 import { YesodCanonicalMovieExportPlan } from '../../../../animator/src/studio/export/browser/CanonicalMovieExportPlan.js';
 import { AnimatorBrowserWorkerSession } from '../../../../animator/src/studio/export/browser/AnimatorBrowserWorkerSession.js';
 import { StudioAudioAssetStore } from '../../media/StudioAudioAssetStore.js';
-import { renderStudioExportAudio, STUDIO_EXPORT_AUDIO_RATE } from './StudioExportAudio.js';
+import { renderStudioExportAudio } from './StudioExportAudio.js';
 import { StudioNativeExportFrameSource } from './StudioNativeExportFrameSource.js';
 
 export class StudioAnimatorExportController {
@@ -29,17 +36,23 @@ export class StudioAnimatorExportController {
 		options.onStatus?.('Checking native Studio MP4 capability...');
 		const capabilities = await inspectStudioExportCapabilities(options);
 		const silentAudioFallback = capabilities.aac !== true;
+		const includeAudio = options.includeAudio !== false && !silentAudioFallback;
 		const frameSource = options.frameSource || new StudioNativeExportFrameSource(movie, options);
 		const ownsFrameSource = !options.frameSource;
 		try {
-			options.onStatus?.(options.includeAudio === false ? 'Preparing silent soundtrack...' : 'Mixing imported Studio soundtrack...');
-			const audioBufferShim = options.audioBufferShim || await audioFor(movie, exportPlan, {
-				...options,
-				includeAudio: silentAudioFallback ? false : options.includeAudio
-			});
+			let audioBufferShim = null;
+			if (includeAudio) {
+				options.onStatus?.('Mixing imported Studio soundtrack...');
+				audioBufferShim = options.audioBufferShim || await audioFor(movie, exportPlan, options);
+			} else {
+				options.onStatus?.(silentAudioFallback
+					? 'AAC audio encoding is unavailable in this browser — exporting an MP4 without an audio track.'
+					: 'Preparing a silent export (no audio track)...');
+			}
 			options.onStatus?.('Encoding native Studio frames with Animator...');
 			const result = await AnimatorBrowserWorkerSession.render({
 				audioBufferShim,
+				includeAudio,
 				durationSeconds: exportPlan.duration / 1000,
 				width: Number(options.width || profile.width),
 				height: Number(options.height || profile.height),
@@ -50,7 +63,7 @@ export class StudioAnimatorExportController {
 				fileName: options.fileName || `${movie.id}.mp4`
 			}, options);
 			const download = options.download === false ? null : AnimatorBrowserExportDownload.save(result.blob, result.fileName);
-			return { ...result, capabilities, silentAudioFallback, download, plan: exportPlan,
+			return { ...result, capabilities, silentAudioFallback, includeAudio, download, plan: exportPlan,
 				canonicalMovie: structuredClone(movie), adapterReport: structuredClone(projection.report),
 				manifest: yesodCreateRenderManifest(movie, { id: 'awtsmoos-studio-native-composite' }, profile) };
 		} finally {
@@ -63,12 +76,12 @@ export class StudioAnimatorExportController {
  * Studio's own export capability policy, built on the Animator's truthful
  * inspect() report. Every rendering vessel is required except AAC audio
  * encoding: when AAC alone is missing (common on Linux Chromium), export
- * proceeds with a silent soundtrack instead of vetoing the whole MP4.
+ * proceeds without an audio track instead of vetoing the whole MP4.
  * The missing list names only real capabilities — the report's synthetic
  * aggregate field is never treated as a capability of its own.
  */
 const REQUIRED_STUDIO_EXPORT_CAPABILITIES = Object.freeze([
-	'worker', 'offscreenCanvas', 'videoEncoder', 'audioEncoder', 'offlineAudio', 'audioDecode', 'h264'
+	'worker', 'offscreenCanvas', 'videoEncoder', 'offlineAudio', 'audioDecode', 'h264'
 ]);
 
 async function inspectStudioExportCapabilities(options) {
@@ -78,20 +91,14 @@ async function inspectStudioExportCapabilities(options) {
 		throw new Error(`Browser MP4 export is unavailable: ${missing.join(', ')}`);
 	}
 	if (report.aac !== true) {
-		options.onStatus?.('AAC audio encoding is unavailable in this browser — exporting a silent MP4 instead.');
+		options.onStatus?.('AAC audio encoding is unavailable in this browser — exporting an MP4 without an audio track.');
 	}
 	return report;
 }
 
 async function audioFor(movie, plan, options) {
 	const seconds = plan.duration / 1000;
-	if (options.includeAudio === false) return silentStereo(seconds);
 	return renderStudioExportAudio(movie, options.audioAssetStore || new StudioAudioAssetStore(), seconds, options);
-}
-function silentStereo(seconds) {
-	const length = Math.max(1, Math.ceil(seconds * STUDIO_EXPORT_AUDIO_RATE));
-	return { sampleRate: STUDIO_EXPORT_AUDIO_RATE, length, duration: seconds,
-		numberOfChannels: 2, channels: [new Float32Array(length), new Float32Array(length)] };
 }
 function finiteDuration(requested, fallback) {
 	const duration = Number(requested ?? fallback);

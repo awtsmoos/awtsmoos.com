@@ -65,6 +65,11 @@ export class StudioWorkspaceController {
 		return StudioExportActions.renderMovie(this.store);
 	}
 
+	/** Cancels the in-flight MP4 export, if one is running; the store lands on 'cancelled'. */
+	cancelExportMovie() {
+		return StudioExportActions.cancelRender();
+	}
+
 	/** Opens the existing Character Lab using its current DOM contract. */
 	openCharacterLab() {
 		const lab = document.querySelector('#character-customizer');

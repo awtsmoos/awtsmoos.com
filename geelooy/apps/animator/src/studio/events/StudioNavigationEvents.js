@@ -61,6 +61,9 @@ export class StudioNavigationEvents extends StudioEventFamily {
 			exportMovie: () => {
 				return merkavahController.exportMovie();
 			},
+			cancelExportMovie: () => {
+				return merkavahController.cancelExportMovie();
+			},
 			openCharacterLab: () => {
 				return merkavahController.openCharacterLab();
 			},

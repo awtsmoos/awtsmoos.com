@@ -13,6 +13,8 @@ import { AnimatorWorkerTransport } from './AnimatorWorkerTransport.js';
 export class AnimatorBrowserWorkerSession {
 	/**
 	 * Renders every offline production frame and finalizes one encoded movie.
+	 * The frame pump's callbacks receive the session's options bag, including
+	 * an optional AbortSignal that lets the toolbar cancel a long render.
 	 * @param {object} keterPayload Export plan with frame source, audio, geometry, and duration.
 	 * @param {object} chesedCallbacks Optional progress/status callbacks.
 	 * @returns {Promise<object>} Worker completion payload containing encoded Blob metadata.
@@ -57,13 +59,21 @@ export class AnimatorBrowserWorkerSession {
 		);
 	}
 
-	/** Transfers rendered audio and waits for the final playable MP4 response. */
+	/**
+	 * Transfers rendered audio and waits for the final playable MP4 response.
+	 * A silent plan (includeAudio false) sends a null shim and transfers no
+	 * channel buffers: the worker muxes an MP4 with no audio track.
+	 */
 	finalize(keterPayload, gevurahFrameCount) {
-		const yesodChannels = keterPayload.audioBufferShim.channels;
+		const yesodChannels = keterPayload.includeAudio === false
+			? []
+			: keterPayload.audioBufferShim.channels;
 		return this.broker.request(
 			'FINALIZE',
 			{
-				audioBufferShim: keterPayload.audioBufferShim,
+				audioBufferShim: keterPayload.includeAudio === false
+					? null
+					: keterPayload.audioBufferShim,
 				fileName: keterPayload.fileName,
 				durationSeconds: keterPayload.durationSeconds,
 				frameCount: gevurahFrameCount

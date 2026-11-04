@@ -13,6 +13,12 @@
  * H.264 works, export still proceeds and the encode worker muxes a silent
  * MP4; the assert then reports `silent: true` so callers can tell the user
  * the truth instead of the whole export dying on an audio-only gap.
+ *
+ * The AAC probe uses the exact configuration the worker encodes with
+ * (mp4a.40.2, 48 kHz, stereo, 96 kbps — see the MediaBunny base audio
+ * source): probing a different bitrate than the encode uses can declare
+ * a browser AAC-less (or AAC-capable) for a configuration that is never
+ * actually encoded.
  */
 export class AnimatorBrowserExportCapabilities {
 	static REQUIRED = [
@@ -62,7 +68,7 @@ export class AnimatorBrowserExportCapabilities {
 			codec: 'mp4a.40.2',
 			sampleRate: 48000,
 			numberOfChannels: 2,
-			bitrate: 192000
+			bitrate: 96000
 		});
 		return result.supported === true;
 	}

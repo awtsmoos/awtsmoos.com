@@ -86,7 +86,13 @@ export class StudioMovieSession {
 		return this.seek(scene.start);
 	}
 
-	async loadDocument(document, status = 'Movie loaded into the unified Studio.') {
+	/**
+	 * Loads one canonical document. Every document that reaches loadMovie from
+	 * here has just passed the shared validator (normalizeStudioSharedMovie
+	 * runs gevurahValidateMovie and throws on any error), so the default
+	 * status says so out loud — a successful load IS a validation pass.
+	 */
+	async loadDocument(document, status = 'Movie loaded into the unified Studio. Canonical data valid.') {
 		return this.loadMovie(normalizeStudioSharedMovie(document), status);
 	}
 

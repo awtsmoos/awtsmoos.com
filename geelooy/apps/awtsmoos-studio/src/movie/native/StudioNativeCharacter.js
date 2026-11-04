@@ -10,14 +10,14 @@
  */
 
 import { createNativeModelAssetService } from '../../../../../libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js';
-import { mitzvahWorldChossidUrl } from '../../providers/StudioMitzvahWorldAssetProvider.js';
+import { resolveMitzvahWorldChossidUrl } from '../../providers/StudioMitzvahWorldAssetProvider.js';
 
 const chossidAssets = createNativeModelAssetService();
 
 /** Load one isolated Chossid scene instance and place it from canonical Studio coordinates. */
 export async function loadStudioNativeChossid(options = {}) {
 	const loaded = await chossidAssets.loadIsolated(
-		mitzvahWorldChossidUrl(),
+		await resolveMitzvahWorldChossidUrl(),
 		'awtsmoos-studio-chossid'
 	);
 	const actor = loaded?.scene || loaded;

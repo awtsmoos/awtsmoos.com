@@ -5,6 +5,9 @@
  * @file MovieStudioPanel.js
  * @description The Awtsmoos opens one small doorway in the editor through which a JSON project enters and a movie leaves;
  * Awtsmoos.com keeps the doorway honest: load errors are written where the maker can read them, and export reports the file it truly made.
+ * A successful load is a validation pass — loadMovieProject parses and validates
+ * every object, keyframe, and instant and throws on the first defect — so the
+ * success notice names the project valid instead of leaving the maker to guess.
  */
 import { loadMovieProject } from './MovieProjectLoader.js';
 import { exportTimelineMovie } from './MovieVideoExporter.js';
@@ -83,7 +86,7 @@ function wireBar(app, bar) {
 			const summary = loadMovieProject(app, area.value);
 			showError('');
 			panel.hidden = true;
-			app.showEditorNotice(`Movie project "${summary.name}" loaded: ${summary.objects.length} object(s), ${summary.keyframes} keyframe(s), ${summary.duration}s.`);
+			app.showEditorNotice(`Movie project "${summary.name}" loaded and validated: ${summary.objects.length} object(s), ${summary.keyframes} keyframe(s), ${summary.duration}s.`);
 		} catch (error) {
 			showError(error.message);
 			app.showEditorNotice(`Movie project failed to load: ${error.message}`);

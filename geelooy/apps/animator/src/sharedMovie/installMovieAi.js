@@ -8,8 +8,19 @@
  * actually wired to the Animator: a restored movie boots into the dock, the stage
  * bridge plays whatever the dock validates, the export panel renders a real MP4
  * through Animator's own browser encoder, and every change autosaves locally.
+ *
+ * First boot carries a real canonical movie: with nothing stored, the dock
+ * used to open empty — its native project is not canonical movie data and no
+ * native→canonical bridge exists — so "Copy current data" copied nothing and
+ * "Load canonical data" could only ever fail on empty input, making the whole
+ * canonical round-trip unexercisable from the UI. The starter is the shared
+ * instant photo-story template: validator-clean, projects through the
+ * Animator adapter with zero deferred entries, and references only external
+ * images (no GLB), so load → copy → validate → play → export all work on a
+ * fresh profile. A stored movie always wins over the starter.
  */
 import { installMovieDataRuntime } from '../../../shared/movie/ui/MovieDataRuntime.js';
+import { createPhotoStoryTemplate } from '../../../shared/movie/examples/InstantMovieTemplates.js';
 import { AnimatorMovieAdapter } from './AnimatorMovieAdapter.js';
 import { AnimatorMoviePersistence } from './AnimatorMoviePersistence.js';
 import { AnimatorStageBridge } from './AnimatorStageBridge.js';
@@ -20,7 +31,7 @@ installMovieDataRuntime({
 	appId: 'animator',
 	appName: 'Awtsmoos Animator',
 	projector: movie => AnimatorMovieAdapter.project(movie),
-	initialMovie: persistence.readStoredMovie(),
+	initialMovie: persistence.readStoredMovie() || createPhotoStoryTemplate(),
 	onExport: exportDockMovie
 }).then(runtime => {
 	if (!runtime) {

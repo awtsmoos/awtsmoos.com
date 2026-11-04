@@ -51,7 +51,13 @@ export class StudioToolbarActions {
 		};
 	}
 
-	/** @returns {Object} MP4 export action with accessible progress feedback. */
+	/**
+	 * @returns {Object} MP4 export action with accessible progress feedback.
+	 * While a render runs, the button stays enabled and becomes the cancel
+	 * control: a multi-minute software-rendered export with no way out was
+	 * the acceptance complaint. Clicking fires cancelExportMovie; the store
+	 * then lands on 'cancelled' and the button returns to Render.
+	 */
 	static exportButton(exportState = {}) {
 		const rendering = exportState.status === 'rendering';
 		const percent = Math.round((exportState.progress || 0) * 100);
@@ -60,15 +66,15 @@ export class StudioToolbarActions {
 			attrs: {
 				className: 'aw-studio-command aw-studio-export-button',
 				type: 'button',
-				disabled: rendering,
+				disabled: false,
 				'aria-busy': rendering ? 'true' : 'false',
-				'aria-label': rendering ? `Rendering movie ${percent}%` : 'Render production MP4',
-				title: 'Render production MP4'
+				'aria-label': rendering ? `Cancel rendering (currently ${percent}%)` : 'Render production MP4',
+				title: rendering ? 'Cancel rendering' : 'Render production MP4'
 			},
-			on: { click: 'exportMovie' },
+			on: { click: rendering ? 'cancelExportMovie' : 'exportMovie' },
 			children: [
-				{ tag: 'span', attrs: { className: 'aw-studio-command-emoji', 'aria-hidden': 'true' }, text: rendering ? '⏳' : '💾' },
-				{ tag: 'span', attrs: { className: 'aw-studio-command-label' }, text: rendering ? `${percent}%` : 'Render' }
+				{ tag: 'span', attrs: { className: 'aw-studio-command-emoji', 'aria-hidden': 'true' }, text: rendering ? '⏹️' : '💾' },
+				{ tag: 'span', attrs: { className: 'aw-studio-command-label' }, text: rendering ? `Cancel ${percent}%` : 'Render' }
 			]
 		};
 	}

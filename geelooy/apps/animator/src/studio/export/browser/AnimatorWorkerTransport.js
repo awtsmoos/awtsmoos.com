@@ -17,7 +17,12 @@ export class AnimatorWorkerTransport {
 		return new Worker(yesodWorkerUrl.href);
 	}
 
-	/** Builds the exact INIT payload required by MediaBunny-backed worker rendering. */
+	/**
+	 * Builds the exact INIT payload required by MediaBunny-backed worker rendering.
+	 * includeAudio travels with the plan: false means this browser cannot
+	 * encode AAC, and the worker then creates no audio track at all, so the
+	 * export finishes as a playable silent MP4 instead of dying at finalize.
+	 */
 	static config(keterPayload) {
 		return {
 			resolution: {
@@ -27,7 +32,8 @@ export class AnimatorWorkerTransport {
 			outputFormat: {
 				fps: keterPayload.fps,
 				quality: keterPayload.quality
-			}
+			},
+			includeAudio: keterPayload.includeAudio !== false
 		};
 	}
 }

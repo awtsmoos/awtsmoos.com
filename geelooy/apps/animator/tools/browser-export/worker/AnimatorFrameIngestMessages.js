@@ -44,7 +44,12 @@ async function acceptFrame(frame) {
 
 async function finalize(payload) {
 	const state = self.AnimatorFrameIngest;
-	const blob = await state.renderer.finalize(payload.audioBufferShim);
+	// audioBufferShim is null for a genuinely silent render (no AAC in this
+	// browser): the base then muxes an MP4 with no audio track at all, and
+	// durationSeconds carries the movie length for the tail-frame fill.
+	const blob = await state.renderer.finalize(payload.audioBufferShim, {
+		durationSeconds: payload.durationSeconds
+	});
 	self.postMessage({
 		type: 'VIDEO_COMPLETE',
 		payload: {
@@ -52,7 +57,9 @@ async function finalize(payload) {
 			fileName: payload.fileName,
 			durationSeconds: payload.durationSeconds,
 			frameCount: payload.frameCount,
-			codecPath: 'Production ImageBitmap / Piano MediaBunnyBase VideoSampleSource + AAC'
+			codecPath: payload.audioBufferShim
+				? 'Production ImageBitmap / Piano MediaBunnyBase VideoSampleSource + AAC'
+				: 'Production ImageBitmap / Piano MediaBunnyBase VideoSampleSource (silent: no audio track)'
 		}
 	});
 }

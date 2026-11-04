@@ -169,11 +169,17 @@ export function mountMoviePanel(container, context = {}) {
 	const renderButton = el('button', { type: 'button', text: 'Render Movie (WebM)', style: buttonStyle(), onclick: () => openInMaker(true) });
 	const copyButton = el('button', { type: 'button', text: 'Copy Project JSON', style: buttonStyle(), onclick: () => copyProject() });
 	const downloadButton = el('button', { type: 'button', text: 'Download project.json', style: buttonStyle(), onclick: () => downloadProject() });
+	// The import input stays rendered (visually hidden, never display:none):
+	// it is appended to the live button row below and clicked synchronously
+	// from the Import button's own click handler, so the user-gesture chain
+	// is intact in real browsers — and the control remains present and
+	// drivable for automation and assistive technology, which cannot operate
+	// a display:none input.
 	const importFileInput = el('input', {
 		type: 'file',
 		accept: 'application/json,.json',
 		'aria-label': 'Import a Movie Maker project JSON file',
-		style: { display: 'none' }
+		style: { position: 'absolute', width: '1px', height: '1px', opacity: '0', overflow: 'hidden' }
 	});
 	importFileInput.addEventListener('change', () => {
 		const file = importFileInput.files && importFileInput.files[0];
