@@ -64,7 +64,7 @@ async function canonicalCommentRequest(context, method, fields) {
 }
 
 /** Edits one ordinary community comment and refreshes all visible manifestations. */
-export async function editCommunityComment(comment) {
+export async function editCommunityComment(comment, onEdited) {
 	const context = mutationContext(comment);
 	const current = copyTextOf(comment);
 	const next = prompt("Edit this comment", current);
@@ -78,14 +78,16 @@ export async function editCommunityComment(comment) {
 		fields.dayuh = JSON.stringify(context.dayuh);
 	}
 	await canonicalCommentRequest(context, "PUT", fields);
+	onEdited?.(next);
 	await refreshWorld();
 }
 
 /** Deletes one ordinary community comment after explicit confirmation. */
-export async function deleteCommunityComment(comment) {
+export async function deleteCommunityComment(comment, onDeleted) {
 	if (!confirm("B\"H - Delete this community comment?")) return;
 	const context = mutationContext(comment);
 	await canonicalCommentRequest(context, "DELETE", { aliasId: context.aliasId });
+	onDeleted?.();
 	document.querySelectorAll(
 		`[data-cid="${CSS.escape(String(comment.id))}"]`
 	).forEach(node => node.remove());

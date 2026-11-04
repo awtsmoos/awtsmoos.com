@@ -16,13 +16,23 @@ export class CommentStudioActions {
 
 	/** Validates local media and enters the shared duplicate-safe mutation gate. */
 	async publish() {
-		const malchusSnapshot = this.state.snapshot();
-		const gevurahPending = pendingMedia(malchusSnapshot.comment.assets);
-		if (gevurahPending.length) {
-			this.status.show(`${gevurahPending.length} media item(s) still need successful upload.`, 'error');
-			return null;
-		}
 		try {
+			const malchusSnapshot = this.state.snapshot();
+			const gevurahPending = pendingMedia(malchusSnapshot.comment.assets);
+			if (gevurahPending.length) {
+				this.status.show(`${gevurahPending.length} media item(s) still need successful upload.`, 'error');
+				return null;
+			}
+			// A comment without an exact destination can only fail remotely
+			// or land nowhere; refuse here, in words, before any gate or
+			// request. (This prologue previously sat OUTSIDE the try, so a
+			// throw from it — or this missing check — left the button
+			// completely silent: no request, no error, no comment.)
+			const target = malchusSnapshot.comment.target || {};
+			if (!target.heichelId || !target.entityId) {
+				this.status.show('Choose the exact post this interaction belongs to before publishing.', 'error');
+				return null;
+			}
 			return await this.operations.mutation('comment-publish', () => this.performPublish(malchusSnapshot), {
 				meta: { target: malchusSnapshot.comment.target }
 			});
@@ -38,6 +48,9 @@ export class CommentStudioActions {
 		this.status.show('Publishing canonical rich interaction…', 'working');
 		try {
 			const ohrResult = await this.api.createComment(commentPayload(this.root, malchusSnapshot));
+			if (ohrResult?.error) {
+				throw new Error(ohrResult.error.message || ohrResult.error.code || 'The server refused this comment.');
+			}
 			this.status.show('Comment published at the exact target.', 'success');
 			await this.recordActivity(malchusSnapshot, ohrResult);
 			this.onCreated?.(ohrResult);

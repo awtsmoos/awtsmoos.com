@@ -15,9 +15,10 @@ const {
 	readLedger,
 	beginLedger,
 	finishLedger,
-	replayResult
+	payloadFingerprint,
+	replayDecision
 } = require('./IdempotencyLedger.js');
-const { publishCanonical } = require('./ContentPublisher.js');
+const { publishCanonical, contentPayload } = require('./ContentPublisher.js');
 const { createPlacement } = require('./PlacementStore.js');
 const {
 	canonicalSubmission,
@@ -70,12 +71,19 @@ async function executePublication({ $i, input, reviewApproved = false }) {
 		aliasId: plan.aliasId,
 		idempotencyKey: plan.idempotencyKey
 	});
-	const replay = replayResult(previous);
-	if (replay) return replay;
+	// A stored success may only answer for the SAME deed. The fingerprint
+	// covers the exact content payload this attempt would create; a key
+	// reused with different content (a composer draft that kept its key
+	// after an earlier publish) conflicts honestly instead of replaying
+	// a success for a publication that never happens.
+	const fingerprint = payloadFingerprint({ plan, payload: contentPayload($i, plan) });
+	const decision = replayDecision(previous, fingerprint);
+	if (decision.action === 'replay') return decision.result;
+	if (decision.action === 'conflict') return decision.result;
 	if (previous?.status === 'executing') {
 		return { error: { code: 'PUBLICATION_IN_PROGRESS', message: 'This request is already executing.' } };
 	}
-	await beginLedger({ $i, aliasId: plan.aliasId, idempotencyKey: plan.idempotencyKey, plan });
+	await beginLedger({ $i, aliasId: plan.aliasId, idempotencyKey: plan.idempotencyKey, plan, fingerprint });
 	if (execution.primary.type === 'submitCanonical') {
 		const submission = await canonicalSubmission({ $i, plan });
 		const result = { success: { status: 'submitted', plan: execution, submission } };

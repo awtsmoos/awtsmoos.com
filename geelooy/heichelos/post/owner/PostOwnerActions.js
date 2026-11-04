@@ -38,7 +38,13 @@ function postUrl({ heichelId, seriesId, postId }) {
 function serverMessage(error) {
 	if (!error) return 'The server refused this change.';
 	if (typeof error === 'string') return error;
-	return error.message || error.details || error.code || 'The server refused this change.';
+	// Server error details are sometimes structured objects (for example a
+	// POST_NOT_FOUND details map). Returning one verbatim made the dialog
+	// render "[object Object]"; only string fields may reach the reader.
+	if (typeof error.message === 'string' && error.message) return error.message;
+	if (typeof error.details === 'string' && error.details) return error.details;
+	if (typeof error.code === 'string' && error.code) return error.code;
+	return 'The server refused this change.';
 }
 
 async function send(url, method, fields) {

@@ -4,6 +4,7 @@
 
 import { buildPostPayload, payloadIssues } from '../model/PostPayload.js';
 import { buildPublicationPlan, publicationIssues } from '../publishing/PublicationPlan.js';
+import { requestId } from '../state/PublicationValue.js';
 
 /**
  * @class ComposerWorkflow
@@ -72,6 +73,13 @@ export class ComposerWorkflow {
 		return 'Published through the unified social graph.';
 	}
 
+	/** Mints a fresh publication key so the next attempt is a new deed, never a replay of this one. */
+	rotatePublicationKey() {
+		this.state.mutate('publication:rotate-key', state => {
+			state.publication.idempotencyKey = requestId();
+		});
+	}
+
 	async publish() {
 		const snapshot = this.state.snapshot();
 		const issues = this.issues(snapshot);
@@ -81,10 +89,30 @@ export class ComposerWorkflow {
 		}
 		this.status.show('Executing the verified publication plan…', 'working');
 		try {
-			const result = await this.api.publish(
-				buildPostPayload(snapshot),
-				buildPublicationPlan(snapshot)
-			);
+			let result = null;
+			try {
+				result = await this.api.publish(
+					buildPostPayload(snapshot),
+					buildPublicationPlan(snapshot)
+				);
+			} catch (error) {
+				if (error?.code !== 'PUBLICATION_KEY_CONFLICT') throw error;
+			}
+			if (!result || result?.error?.code === 'PUBLICATION_KEY_CONFLICT') {
+				// The draft kept a key an earlier publication already consumed
+				// for different content; the server rightly refused to replay
+				// that success. Rotate the key and execute once, for real.
+				this.rotatePublicationKey();
+				const fresh = this.state.snapshot();
+				result = await this.api.publish(
+					buildPostPayload(fresh),
+					buildPublicationPlan(fresh)
+				);
+			}
+			if (result?.error) {
+				throw new Error(result.error.message || 'Publication failed.');
+			}
+			this.rotatePublicationKey();
 			this.localDrafts.clear(snapshot);
 			this.draftHistory?.clear(snapshot);
 			this.status.show(this.resultMessage(result), 'success');

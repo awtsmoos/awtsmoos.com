@@ -3,6 +3,10 @@
 // Blessed is He
 
 import { handleReply } from "/heichelos/post/comments/actions/reply.js";
+import {
+	deleteCommunityComment,
+	editCommunityComment
+} from "/heichelos/post/comments/actions/menuMutation.js";
 import { startCommentReadingIntelligence } from "../intelligence/CommentReadingIntelligence.js";
 import { createCommentReactionBar } from "./CommentReactions.js";
 import { createConnectRequestGroup } from "./CommentSocialActions.js";
@@ -88,7 +92,7 @@ function commentActions(card, comment, author) {
 	reply.className = "awtsmoos-social-reply awtsmoos-social-reply-primary";
 	reply.textContent = "Reply";
 	reply.addEventListener("click", () => handleReply(comment, card));
-	actions.append(reply, moreMenu(comment, author));
+	actions.append(reply, moreMenu(comment, author, card));
 	return actions;
 }
 
@@ -97,7 +101,7 @@ function commentActions(card, comment, author) {
  * itself stays a clean thread: identity, prose, Reply. Reaction state loads lazily on
  * first open instead of firing one request per card on every page view.
  */
-function moreMenu(comment, author) {
+function moreMenu(comment, author, card) {
 	const wrap = document.createElement("div");
 	wrap.className = "awtsmoos-social-more";
 	const details = document.createElement("details");
@@ -132,6 +136,10 @@ function moreMenu(comment, author) {
 		connectSection.append(connectLabel, connectGroup);
 		panel.appendChild(connectSection);
 	}
+	const ownerSection = ownerActionsSection(comment, author, card, details);
+	if (ownerSection) {
+		panel.appendChild(ownerSection);
+	}
 	details.append(summary, panel);
 	let reactionsBuilt = false;
 	details.addEventListener("toggle", async () => {
@@ -150,6 +158,57 @@ function moreMenu(comment, author) {
 	});
 	wrap.appendChild(details);
 	return wrap;
+}
+
+/**
+ * The owner's own controls for this card's menu. Until now this menu held
+ * only reactions and connect requests, so a signed-in author had no Edit or
+ * Delete on their own comments here at all — the canonical controls existed
+ * only in the separate source-annotation menu. These buttons call that same
+ * canonical mutation layer (server-side ownership gates included); failures
+ * surface with the server's message instead of pretending success.
+ */
+function ownerActionsSection(comment, author, card, details) {
+	const viewer = window.curAlias || window.currentAlias || "";
+	if (!viewer || !author || viewer !== author) {
+		return null;
+	}
+	const section = document.createElement("div");
+	section.className = "awtsmoos-social-more-section";
+	const label = document.createElement("span");
+	label.className = "awtsmoos-social-more-label";
+	label.textContent = "Your comment";
+	const edit = document.createElement("button");
+	edit.type = "button";
+	edit.className = "awtsmoos-social-more-action";
+	edit.textContent = "Edit";
+	edit.setAttribute("role", "menuitem");
+	edit.addEventListener("click", async () => {
+		details.open = false;
+		try {
+			await editCommunityComment(comment, next => {
+				const body = card?.querySelector(".awtsmoos-social-comment-body");
+				if (body) body.textContent = next;
+			});
+		} catch (error) {
+			alert(error.message || "Comment edit failed.");
+		}
+	});
+	const del = document.createElement("button");
+	del.type = "button";
+	del.className = "awtsmoos-social-more-action awtsmoos-social-more-danger";
+	del.textContent = "Delete";
+	del.setAttribute("role", "menuitem");
+	del.addEventListener("click", async () => {
+		details.open = false;
+		try {
+			await deleteCommunityComment(comment, () => card?.remove());
+		} catch (error) {
+			alert(error.message || "Comment delete failed.");
+		}
+	});
+	section.append(label, edit, del);
+	return section;
 }
 
 async function appendReplies(card, replies, depth) {
@@ -249,6 +308,20 @@ function ensureMoreStyle() {
 	font-size: .82rem;
 	opacity: .7;
 }
+.awtsmoos-social-more-action {
+	justify-self: start;
+	padding: .42rem .8rem;
+	border: 1px solid var(--sefer-rule, rgb(0 0 0 / 16%));
+	border-radius: .6rem;
+	background: none;
+	color: inherit;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+.awtsmoos-social-more-action:hover { border-color: var(--reader-gold, #b98a2e); }
+.awtsmoos-social-more-action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.awtsmoos-social-more-danger { color: #b03a30; border-color: rgb(176 58 48 / 45%); }
 .awtsmoos-social-more-connect .awtsmoos-comment-connect-actions {
 	display: flex;
 	flex-wrap: wrap;
