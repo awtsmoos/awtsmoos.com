@@ -31,7 +31,7 @@ function mergePendingHits(baseHits = [], pendingHits = [], limit = 10) {
 /** Observability for operators: size, persistence, queue depth. */
 async function pendingIndexStats({ $i } = {}) {
 	const store = getStore($i);
-	loadStore(store);
+	await loadStore(store);
 	return {
 		records: store.records.size,
 		queued: store.queue.length,
@@ -51,7 +51,7 @@ async function pendingIndexStats({ $i } = {}) {
  */
 async function drainPendingVectors({ $i } = {}) {
 	const store = getStore($i);
-	loadStore(store);
+	await loadStore(store);
 	const cleared = store.records.size;
 	store.records.clear();
 	store.order.length = 0;

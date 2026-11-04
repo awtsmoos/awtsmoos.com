@@ -11,6 +11,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const readline = require('node:readline');
 
 const { storePathFor, maxRows } = require('./pendingCommentVectorsCore.js');
 
@@ -27,6 +28,7 @@ function getStore($i) {
 			records: new Map(),
 			order: [],
 			loaded: false,
+			loading: null,
 			persisted: Boolean(file),
 			queue: [],
 			queuedKeys: new Set(),
@@ -37,32 +39,73 @@ function getStore($i) {
 	return store;
 }
 
-/** Loads persisted JSONL rows into memory (once per process). */
+/** Inserts one persisted row with first-occurrence-wins dedupe, as the load has always done. */
+function insertLoadedRecord(store, record) {
+	if (!record || !record.key || !Array.isArray(record.vector)) return;
+	if (store.records.has(record.key)) return;
+	store.records.set(record.key, {
+		...record,
+		vector: Float32Array.from(record.vector)
+	});
+	store.order.push(record.key);
+}
+
+/**
+ * Loads persisted JSONL rows into memory, once per process, by STREAMING the
+ * file line by line in the background. The previous implementation read the
+ * whole file with readFileSync and parsed every record before applying the
+ * row cap: with a 1.6 GB store file that was a multi-GB transient inside the
+ * first visitor search after every restart (kernel OOM / V8 heap abort on
+ * the production box). Streaming keeps the transient at one line plus the
+ * capped record set, and FIFO eviction runs DURING the parse in batches, so
+ * the final Map and order are exactly what the old load-then-cap produced:
+ * the newest maxRows() first-occurrence records, in first-occurrence order.
+ * The returned promise resolves when the parse completes; search callers do
+ * not await it (pending hits are a bonus merge and simply grow in as the
+ * load lands), while import/drain callers await it to keep their dedupe and
+ * clearing semantics exact.
+ */
 function loadStore(store) {
-	if (store.loaded) return;
-	store.loaded = true;
-	if (!store.file) return;
-	let content = '';
-	try {
-		content = fs.readFileSync(store.file, 'utf8');
-	} catch {
-		return;
+	if (store.loaded) return Promise.resolve(true);
+	if (store.loading) return store.loading;
+	if (!store.file) {
+		store.loaded = true;
+		return Promise.resolve(true);
 	}
-	for (const line of content.split('\n')) {
-		const trimmed = line.trim();
-		if (!trimmed) continue;
+	const EVICT_BATCH = 4096;
+	store.loading = new Promise(resolve => {
+		let finished = false;
+		const finish = ok => {
+			if (finished) return;
+			finished = true;
+			enforceCap(store);
+			store.loaded = true;
+			store.loading = null;
+			resolve(ok);
+		};
+		let input;
 		try {
-			const record = JSON.parse(trimmed);
-			if (!record || !record.key || !Array.isArray(record.vector)) continue;
-			if (store.records.has(record.key)) continue;
-			store.records.set(record.key, {
-				...record,
-				vector: Float32Array.from(record.vector)
-			});
-			store.order.push(record.key);
-		} catch {}
-	}
-	enforceCap(store);
+			input = fs.createReadStream(store.file, { encoding: 'utf8' });
+		} catch {
+			finish(false);
+			return;
+		}
+		input.on('error', () => finish(false));
+		const lines = readline.createInterface({ input, crlfDelay: Infinity });
+		// The interface re-emits input failures as its own 'error' event;
+		// an unlistened 'error' would throw instead of ending the load.
+		lines.on('error', () => finish(false));
+		lines.on('line', line => {
+			const trimmed = line.trim();
+			if (!trimmed) return;
+			try {
+				insertLoadedRecord(store, JSON.parse(trimmed));
+			} catch {}
+			if (store.order.length > maxRows() + EVICT_BATCH) enforceCap(store);
+		});
+		lines.on('close', () => finish(true));
+	});
+	return store.loading;
 }
 
 function persistRecord(store, record) {
@@ -89,10 +132,10 @@ function persistRecord(store, record) {
 /** FIFO-evicts oldest rows when the store exceeds its cap. */
 function enforceCap(store) {
 	const cap = maxRows();
-	while (store.order.length > cap) {
-		const oldest = store.order.shift();
-		store.records.delete(oldest);
-	}
+	const excess = store.order.length - cap;
+	if (excess <= 0) return;
+	const evicted = store.order.splice(0, excess);
+	for (const key of evicted) store.records.delete(key);
 }
 
 function addRecord(store, record) {

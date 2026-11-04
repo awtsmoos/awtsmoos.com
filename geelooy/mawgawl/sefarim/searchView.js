@@ -70,7 +70,11 @@ export function setSearching(form, searching) {
 		return;
 	}
 
-	button.disabled = searching;
+	// The submit button is never disabled: a click during an active search
+	// is a NEW search intent, and SearchSession.begin() already supersedes
+	// the in-flight request. Disabling it (the pre-iteration-6 behavior)
+	// silently swallowed visitor clicks for the whole 16s semantic window
+	// while Enter kept working — the page looked broken, not busy.
 	const label = button.querySelector('.search-submit-label, .library-search-label');
 	if (label) {
 		label.textContent = searching ? 'Searching…' : 'Search';

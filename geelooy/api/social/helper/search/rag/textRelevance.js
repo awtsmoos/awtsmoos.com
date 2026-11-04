@@ -12,7 +12,10 @@
  * English function words carry no evidence of their own: a lone whole-word
  * match on "the" once scored exactly 3/(3n+8) and surfaced as a result, so a
  * hit now needs at least one content-token match (or an exact identity or
- * full-phrase match) before it may be shown.
+ * full-phrase match) before it may be shown. Since iteration 6, function
+ * words also earn NO points: they once inflated weak hits (a halacha entry
+ * about covering blood reached 45% on a flood query largely through "the"),
+ * letting stopword-rich rows outrank rows matching more of the question.
  */
 
 const {
@@ -121,7 +124,8 @@ function relevanceEvidence(row, queryText, queryTokens) {
 		else if (haystack.includes(` ${token} `)) points = 3;
 		else if (haystack.includes(token)) points = 1;
 		if (!points) continue;
-		if (!isStopword(token)) contentMatch = true;
+		if (isStopword(token)) continue;
+		contentMatch = true;
 		score += points;
 	}
 	return {

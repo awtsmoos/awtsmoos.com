@@ -35,6 +35,7 @@ const {
 	readLibraryResponse,
 	rememberLibraryResponse
 } = require('./libraryResponseCache.js');
+const { withLibrarySearchAdmission } = require('./librarySearchAdmission.js');
 
 /** Gives unknown canonical-work discovery only time still owned by this request. */
 async function boundedCatalogHits(options, limit, timeoutMs = CANONICAL_CATALOG_WAIT_MS) {
@@ -72,29 +73,36 @@ async function librarySearch(options = {}) {
 		if (cached.value.index) cached.value.index.responseCacheHit = true;
 		return cached.value;
 	}
-	const catalogWait = Math.min(
-		CANONICAL_CATALOG_WAIT_MS,
-		remainingLibraryMs(deadlineAt)
-	);
-	const [settled, workHits] = await Promise.all([
-		settleLibraryLanes(lanes, { ...options, libraryDeadlineAt: deadlineAt }),
-		boundedCatalogHits(options, Math.min(5, limit), catalogWait)
-	]);
-	try {
-		const merged = mergeLaneSearches({
-			lanes,
-			limit,
-			query: options.query,
-			settled,
-			totalMs: Date.now() - startedAt
-		});
-		const result = promoteNavigationHits(merged, workHits, limit);
-		rememberLibraryResponse(options, lanes, result);
-		return result;
-	} catch (error) {
-		if (!workHits.length) throw error;
-		return canonicalNavigationResult(options.query, workHits, startedAt, limit);
-	}
+	// The fan-out itself runs under admission for vector strategy: a bounded
+	// number of all-libraries semantic searches execute at once, and queued
+	// requests spend their own deadline waiting instead of stacking seven
+	// lane fan-outs onto the box until it falls over.
+	const executeAllLanes = async () => {
+		const catalogWait = Math.min(
+			CANONICAL_CATALOG_WAIT_MS,
+			remainingLibraryMs(deadlineAt)
+		);
+		const [settled, workHits] = await Promise.all([
+			settleLibraryLanes(lanes, { ...options, libraryDeadlineAt: deadlineAt }),
+			boundedCatalogHits(options, Math.min(5, limit), catalogWait)
+		]);
+		try {
+			const merged = mergeLaneSearches({
+				lanes,
+				limit,
+				query: options.query,
+				settled,
+				totalMs: Date.now() - startedAt
+			});
+			const result = promoteNavigationHits(merged, workHits, limit);
+			rememberLibraryResponse(options, lanes, result);
+			return result;
+		} catch (error) {
+			if (!workHits.length) throw error;
+			return canonicalNavigationResult(options.query, workHits, startedAt, limit);
+		}
+	};
+	return withLibrarySearchAdmission(options, deadlineAt, executeAllLanes);
 }
 
 module.exports = {
