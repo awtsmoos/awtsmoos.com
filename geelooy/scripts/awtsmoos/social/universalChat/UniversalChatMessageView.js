@@ -69,7 +69,7 @@ export class UniversalChatMessageView {
 		}
 		const label = document.createElement("span");
 		label.className = "universal-chat-roster-label";
-		label.textContent = "Here now";
+		label.textContent = "Here now: ";
 		this.elements.roster.appendChild(label);
 		for (const member of roster) {
 			const chip = document.createElement("span");

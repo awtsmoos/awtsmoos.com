@@ -89,9 +89,16 @@ function openComposeTo(ui, toAlias) {
   setTimeout(() => modal.classList.add('visible'), 10);
 }
 
+// BH QA sweep2 EMAIL-GATE-DOM: home parent remembered so the gate can be re-attached if identity is ever lost again.
+let loginOverlayHome = null;
 function showLoginOverlay(ui, show) {
   const ov = ui.getHtml('loginOverlay');
   if (!ov) return;
-  if (show) { ov.classList.remove('hidden'); setTimeout(() => ov.classList.add('visible'), 10); }
-  else { ov.classList.remove('visible'); setTimeout(() => ov.classList.add('hidden'), 180); }
+  if (show) {
+    if (!ov.isConnected && loginOverlayHome && loginOverlayHome.isConnected) loginOverlayHome.appendChild(ov);
+    ov.classList.remove('hidden'); setTimeout(() => ov.classList.add('visible'), 10);
+  } else {
+    ov.classList.remove('visible');
+    setTimeout(() => { ov.classList.add('hidden'); if (!loginOverlayHome) loginOverlayHome = ov.parentNode; ov.remove(); }, 180);
+  }
 }

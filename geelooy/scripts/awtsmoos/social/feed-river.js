@@ -195,9 +195,12 @@ async function fetchPage() {
 	renderSentinel(true);
 
 	const mode = MODES.find(m => m.key === state.mode);
+	// BH QA sweep2 SOCIAL-SKELETONS: bound the request so a hung feed can never leave infinite skeletons.
+	const controller = new AbortController();
+	const watchdog = setTimeout(() => controller.abort(), 20000);
 	try {
 		const url = `/api/social/feed/${mode.endpoint}?limit=${PAGE_SIZE}&offset=${state.nextOffset}`;
-		const res = await fetch(url, { credentials: 'same-origin' });
+		const res = await fetch(url, { credentials: 'same-origin', signal: controller.signal });
 		const data = await res.json();
 		const payload = data.success || data;
 		const items = payload.items || [];
@@ -207,6 +210,7 @@ async function fetchPage() {
 	} catch (err) {
 		showError();
 	} finally {
+		clearTimeout(watchdog);
 		state.loading = false;
 		renderSentinel(false);
 	}
@@ -227,10 +231,30 @@ function appendItems(items) {
 	state.items.push(...items);
 }
 
+function isSignedIn() {
+	try {
+		return !!(window.curAlias || new URLSearchParams(window.location.search).get('alias'));
+	} catch (_) { return !!window.curAlias; }
+}
+
+function signedOutHtml() {
+	return '<div class="feed-empty">'
+		+ '<div class="feed-empty__glyph">' + String.fromCharCode(10022) + '</div>'
+		+ '<h2 class="feed-empty__title">Sign in to see your river</h2>'
+		+ '<p class="feed-empty__text">Your personalized For You feed appears after you sign in — posts chosen from what you love, plus beautiful discoveries.</p>'
+		+ '<a class="feed-empty__cta" href="/login/">Sign in</a>'
+		+ '</div>';
+}
+
 function showError() {
 	const river = document.getElementById('feed-river');
 	if (!river) return;
 	river.querySelectorAll('.feed-skeleton').forEach(el => el.remove());
+	// BH QA sweep2 SOCIAL-SKELETONS: signed-out visitors get a sign-in prompt, never infinite skeletons.
+	if (state.offset === 0 && !isSignedIn()) {
+		river.innerHTML = signedOutHtml();
+		return;
+	}
 	if (state.offset === 0) {
 		river.innerHTML = `<div class="feed-empty">
 			<div class="feed-empty__glyph">⚡</div>

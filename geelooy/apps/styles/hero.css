@@ -25,8 +25,9 @@ body[data-geelooy-route="apps"] .apps-hero > * {
 body[data-geelooy-route="apps"] .apps-hero h1 {
 	max-inline-size: 12ch;
 	margin-inline: 0;
+	margin-block: 0 0.4em;
 	font-size: clamp(2.65rem, 11vw, 6.5rem);
-	line-height: 1.05;
+	line-height: 1.15;
 	letter-spacing: -.05em;
 	text-wrap: balance;
 	overflow-wrap: anywhere;

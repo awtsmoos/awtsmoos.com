@@ -46,6 +46,7 @@ export class OmniboxController {
 		this.renderer.clearElement.addEventListener("click", () => this.clearHistory());
 		this.formElement.addEventListener("submit", () => this.close());
 		document.addEventListener("pointerdown", event => this.handleOutsidePointer(event));
+		this.rootElement.addEventListener("focusout", event => this.handleFocusOut(event));
 		document.addEventListener("awtsmoosExploreOpening", () => this.close());
 		document.addEventListener("awtsmoosProfileOpening", () => this.close());
 		return this;
@@ -108,6 +109,13 @@ export class OmniboxController {
 
 	handleOutsidePointer(event) {
 		if (!this.panelElement.hidden && !this.rootElement.contains(event.target)) {
+			this.close();
+		}
+	}
+
+	handleFocusOut(event) {
+		// B"H QA sweep2: close the suggestions panel when keyboard focus leaves the search region (tabbing away).
+		if (!this.panelElement.hidden && !this.rootElement.contains(event.relatedTarget)) {
 			this.close();
 		}
 	}

@@ -100,3 +100,11 @@
 		border-color: CanvasText;
 	}
 }
+
+/* B"H QA sweep2 CHEVRONS: the native-marker hide was scoped to .awtsmoosSocialExperience (absent on Social Hub), so the browser triangle rendered next to the custom chevron. Hide it for every disclosure summary. */
+.awtsmoosDisclosure__summary::-webkit-details-marker {
+	display: none;
+}
+.awtsmoosDisclosure__summary::marker {
+	content: "";
+}

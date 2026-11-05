@@ -86,6 +86,8 @@ export function renderAppCard(app) {
 	const card = document.createElement("a");
 	card.className = "g-card g-app-card";
 	card.href = resolveAppHref(app.href);
+	// BH QA sweep2 CATALOG-A11Y: explicit accessible name for the card link.
+	card.setAttribute("aria-label", app.title + " — " + app.description);
 	card.dataset.appCard = "";
 	card.dataset.appId = app.id;
 	card.dataset.category = app.categories.join(" ");
@@ -109,12 +111,15 @@ export function renderAppCard(app) {
 		card.append(commerce);
 	}
 
-	const support = textElement(
-		"span",
-		app.supportLabel,
-		"g-app-commerce g-app-commerce--support"
-	);
-	card.append(support);
+	// BH QA sweep2 CATALOG-A11Y: never render a literal undefined support label.
+	if (app.supportLabel) {
+		const support = textElement(
+			"span",
+			app.supportLabel,
+			"g-app-commerce g-app-commerce--support"
+		);
+		card.append(support);
+	}
 
 	return card;
 }

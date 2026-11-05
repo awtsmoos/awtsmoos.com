@@ -83,7 +83,7 @@ function updateStatusPill(pill, status) {
 		"<span class=\"status-dot\" aria-hidden=\"true\"></span>",
 		`<span class=\"status-copy\"><strong>${escapeHtml(status.label)}</strong>`,
 		`<small>${escapeHtml(status.detail)} · Tunnel ${escapeHtml(tunnel.label)}</small></span>`
-	].join("");
+	].join(" ");
 }
 
 function escapeHtml(value) {

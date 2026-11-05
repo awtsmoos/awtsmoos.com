@@ -119,3 +119,17 @@
 		padding: 0.75rem 1rem;
 	}
 }
+
+/* B"H QA sweep2 CONTENTS-CONTRAST: the dark bar kept light-mode text colors (dark brown on dark navy) — washed out. Light, high-contrast tones for dark theme. */
+[data-theme="dark"] .reader-toc-title {
+	color: #d8c49a;
+}
+[data-theme="dark"] .reader-toc-link {
+	color: #f0e4c8;
+}
+[data-theme="dark"] .reader-toc-link:hover {
+	color: #fffdf4;
+}
+[data-theme="dark"] .reader-toc-item.toc-active > .reader-toc-link {
+	color: #fffdf4;
+}

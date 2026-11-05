@@ -42,7 +42,7 @@ export class ConstellationRenderer {
 		summary.className = "constellation-summary";
 		summary.append(
 			this.createGroupIdentity(group),
-			this.createGroupCount(doors.length)
+			this.createGroupCount(doors.length, group)
 		);
 
 		const grid = document.createElement("div");
