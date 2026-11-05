@@ -23,7 +23,7 @@ export const MEDIA_APPS = Object.freeze([
 	defineApp({
 		id: "rebbe",
 		title: "Rebbe Audio",
-		href: "./rebbe",
+		href: "./rebbe/",
 		description: "Search, hear, clip, and work with the Rebbe audio archive without turning Torah access into a paywall.",
 		icon: "♫",
 		chip: "Audio",
@@ -54,7 +54,7 @@ export const MEDIA_APPS = Object.freeze([
 	defineApp({
 		id: "piano",
 		title: "Piano & Synth",
-		href: "./piano",
+		href: "./piano/",
 		description: "Play and compose immediately; future durable instrument, effect, and visual packs can extend the studio.",
 		icon: "♬",
 		chip: "Music",
