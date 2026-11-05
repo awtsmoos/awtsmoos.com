@@ -180,14 +180,49 @@ function buildDescription(data, postTitle, heichelName) {
 }
 
 /**
+ * @description Humanizes a series id/name the same way the client reader does
+ * (geelooy/heichelos/post/logic/core.js): camelCase/underscore ids become
+ * spaced Title Case; already-readable names pass through untouched.
+ * @param {string} value Raw series id or name.
+ * @returns {string} Humanized series name.
+ */
+function humanizeSeriesName(value) {
+	const humanize = (v) => String(v || '')
+		.replace(/([a-z])([A-Z])/g, '$1 $2')
+		.replace(/[_-]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim()
+		.replace(/\b\w/g, (c) => c.toUpperCase());
+	const raw = String(value || '').trim();
+	if (!raw) return 'Revelation';
+	return /[A-Z_]|^[a-z]+[A-Z]/.test(raw) && !raw.includes(' ') ? humanize(raw) : raw;
+}
+
+/**
+ * @description Resolves the display series name for a reader data vessel:
+ * prefers the loaded series record's display fields, falls back to the
+ * humanized series id (S3-COSMETIC-2 — the server title was skipping the
+ * series name entirely).
+ * @param {object} data Reader data vessel.
+ * @returns {string} Series display name.
+ */
+function resolveSeriesName(data) {
+	const series = data?.series;
+	const raw = series?.prateem?.displayName || series?.prateem?.title || series?.title
+		|| series?.prateem?.name || series?.name || data?.parentSeries || '';
+	return humanizeSeriesName(raw);
+}
+
+/**
  * @description Resolves the real post title: Hebrew title plus English title
  * where they differ, then English title, then Hebrew title, then the series or
  * commentator identity. The generic 'Torah Teaching' fires only when the
  * record carries no title of its own.
  * @param {object} post Post record.
+ * @param {string} [seriesName] Humanized series name for the page title.
  * @returns {{pageTitle: string, articleTitle: string}} Plain-text titles, unescaped.
  */
-function buildTitles(post) {
+function buildTitles(post, seriesName) {
 	const enTitle = cleanText(post?.title);
 	const heTitle = cleanText(post?.heTitle);
 	const fallback = cleanText(post?.seriesId) || cleanText(post?.commentator);
@@ -203,7 +238,10 @@ function buildTitles(post) {
 	} else {
 		articleTitle = 'Torah Teaching';
 	}
-	return { articleTitle, pageTitle: `${articleTitle} | Awtsmoos` };
+	const pageTitle = seriesName
+		? `${articleTitle} | ${seriesName} | Awtsmoos`
+		: `${articleTitle} | Awtsmoos`;
+	return { articleTitle, pageTitle };
 }
 
 /**
@@ -212,7 +250,8 @@ function buildTitles(post) {
  * @returns {object} Search-facing semantic model.
  */
 function buildPostSemantic(data) {
-	const { pageTitle, articleTitle } = buildTitles(data?.post);
+	const seriesName = resolveSeriesName(data);
+	const { pageTitle, articleTitle } = buildTitles(data?.post, seriesName);
 	const heichelName = cleanText(data?.heichel?.name || data?.heichel?.title) || 'Geelooy Heichel';
 	const canonicalPath = buildCanonicalPath(data);
 	const canonicalUrl = `https://awtsmoos.com${canonicalPath}`;
@@ -244,6 +283,8 @@ module.exports = {
 	detectContentLanguages,
 	escapeHtml,
 	firstExcerpts,
+	humanizeSeriesName,
+	resolveSeriesName,
 	plainText,
 	resolveHeichelId,
 	stripLeadingMarkers,
