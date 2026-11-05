@@ -68,10 +68,13 @@ export class ConstellationRenderer {
 		return identity;
 	}
 
-	createGroupCount(total) {
+	createGroupCount(total, group) {
 		const count = document.createElement("span");
 		count.className = "constellation-count";
-		count.textContent = String(total);
+		// BH QA sweep2 WORLDS-PANELS: collapsed panels show an explicit summary so they never read as broken empty panels.
+		const noun = String((group && group.label) || "doors").toLowerCase();
+		count.textContent = total + " " + noun;
+		count.setAttribute("aria-label", total + " " + noun + " in this group");
 		return count;
 	}
 
