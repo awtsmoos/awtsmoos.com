@@ -303,7 +303,6 @@ input[type="text"]:focus, textarea:focus {
 #bulk-actions-bar {
     position: fixed;
     bottom: 0; left: 50%;
-    transform: translateX(-50%);
     background: var(--color-ink);
     color: var(--bg-surface);
     padding: 1rem;

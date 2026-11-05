@@ -69,7 +69,7 @@
 }
 /* B"H --- RE-FORGED SIDEBAR TOGGLE --- */
 .sidebar-toggle {
-    position: fixed; /* B"H - Anchor to viewport */
+    /* qa-sweep3: removed dead position:fixed (all:unset + position:absolute below win) */
     bottom: 1rem;
     left: 1rem;
     z-index: 1001;
