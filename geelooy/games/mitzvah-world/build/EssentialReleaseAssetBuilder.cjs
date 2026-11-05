@@ -24,9 +24,9 @@ const ASSETS = Object.freeze({
 		fileName: `${CHOSSID_SHA}/chossid.glb`,
 		localFile: `assets/models/player/${CHOSSID_SHA}/chossid.glb`,
 		materialize: true,
-		publicUrl: `/games/mitzvahWorld/build/generated/assets/${CHOSSID_SHA}/chossid.glb`,
+		publicUrl: `/games/mitzvah-world/build/generated/assets/${CHOSSID_SHA}/chossid.glb`,
 		sha256: CHOSSID_SHA,
-		sourceUrl: `https://awtsmoos.com/games/mitzvahWorld/build/generated/assets/${CHOSSID_SHA}/chossid.glb`
+		sourceUrl: `https://awtsmoos.com/games/mitzvah-world/build/generated/assets/${CHOSSID_SHA}/chossid.glb`
 	}),
 	essentialGrass: Object.freeze({
 		bytes: 322486,

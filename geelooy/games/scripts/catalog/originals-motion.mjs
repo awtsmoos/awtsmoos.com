@@ -14,7 +14,7 @@ export const ORIGINAL_MOTION_GAMES = Object.freeze([
 	defineGame({
 		id: "temple-runner",
 		title: "Temple Runner",
-		href: "./mitzvahWorld/templeRunner/",
+		href: "./mitzvah-world/temple-runner/",
 		description: "Sprint a native 3D Jerusalem road as the Chossid through procedural districts, hazards, turns, missions, and textured world detail.",
 		collection: "originals",
 		genre: "3D Procedural Runner",

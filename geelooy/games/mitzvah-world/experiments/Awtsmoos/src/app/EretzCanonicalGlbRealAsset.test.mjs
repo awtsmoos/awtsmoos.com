@@ -20,7 +20,7 @@ import { prepareCanonicalPlayerMeshes } from './EretzPlayerRuntimeFactories.js';
 async function realChossid() {
 	const raw = readFileSync(new URL('../../../../build/generated/assets/canonical-chossid.glb', import.meta.url));
 	const bytes = raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength);
-	return loadTinyGltfBuffer(bytes, 'https://awtsmoos.com/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb');
+	return loadTinyGltfBuffer(bytes, 'https://awtsmoos.com/games/mitzvah-world/build/generated/assets/canonical-chossid.glb');
 }
 
 /** Returns named authored nodes even after the renderer's traversal skips hidden garments. */

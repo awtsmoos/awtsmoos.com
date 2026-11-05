@@ -1008,7 +1008,7 @@ const __awtsmoosModule_490 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/GeneratedRuntimeChunkUrl.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/GeneratedRuntimeChunkUrl.js ----
 {
 	const __exports = __awtsmoosModule_2;
 	// B"H
@@ -1059,7 +1059,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
 {
 	const __exports = __awtsmoosModule_5;
 	// B"H
@@ -1085,7 +1085,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
 {
 	const __exports = __awtsmoosModule_4;
 	// B"H
@@ -1109,7 +1109,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * This module lives at <game>/experiments/Awtsmoos/src/assets/; models live at <game>/build/generated/assets/.
 	 */
 	function releaseModelRoot() {
-		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
+		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
 	}
 
 	/** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
@@ -1145,7 +1145,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
 	const __exports = __awtsmoosModule_3;
 	// B"H
@@ -1197,7 +1197,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----
 {
 	const __exports = __awtsmoosModule_7;
 	// B"H
@@ -1249,7 +1249,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/CanonicalChossidFetchBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/CanonicalChossidFetchBridge.js ----
 {
 	const __exports = __awtsmoosModule_6;
 	// B"H
@@ -1266,7 +1266,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const openModelResponseCache = __awtsmoosModule_7.openModelResponseCache;
 	const readModelResponseCache = __awtsmoosModule_7.readModelResponseCache;
 
-	const SHARED_KEY = Symbol.for('awtsmoos.mitzvahWorld.canonicalChossidWarmup.v1');
+	const SHARED_KEY = Symbol.for('awtsmoos.mitzvah-world.canonicalChossidWarmup.v1');
 	const CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
 	const MODEL_BYTES = 2027368;
 	const GLB_MAGIC = 0x46546c67;
@@ -1351,7 +1351,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js ----
 {
 	const __exports = __awtsmoosModule_1;
 	// B"H
@@ -1372,7 +1372,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const READABLE_SOURCE = 'EretzDeferredEssentialAssets.js';
 	const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 		'mitzvah-world-player.compact.js',
-		(( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js"),
+		(( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js"),
 		READABLE_SOURCE
 	);
 
@@ -1404,7 +1404,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js ----
 {
 	const __exports = __awtsmoosModule_9;
 	// B"H
@@ -1501,7 +1501,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLaunchBootProgress.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzLaunchBootProgress.js ----
 {
 	const __exports = __awtsmoosModule_8;
 	// B"H
@@ -1546,7 +1546,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/performance/SurvivalQualityPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalQualityPolicy.js ----
 {
 	const __exports = __awtsmoosModule_12;
 	// B"H
@@ -1605,7 +1605,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapChunkRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapChunkRuntime.js ----
 {
 	const __exports = __awtsmoosModule_13;
 	// B"H
@@ -1653,7 +1653,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCollisionSpatialIndex.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapCollisionSpatialIndex.js ----
 {
 	const __exports = __awtsmoosModule_15;
 	// B"H
@@ -1778,7 +1778,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCollisionWorld.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapCollisionWorld.js ----
 {
 	const __exports = __awtsmoosModule_14;
 	// B"H
@@ -1882,7 +1882,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFlatGround.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapFlatGround.js ----
 {
 	const __exports = __awtsmoosModule_16;
 	// B"H
@@ -1958,7 +1958,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapEssentialTerrainReadiness.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapEssentialTerrainReadiness.js ----
 {
 	const __exports = __awtsmoosModule_19;
 	// B"H
@@ -2052,7 +2052,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialRemoteProvenance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/PublicMaterialRemoteProvenance.js ----
 {
 	const __exports = __awtsmoosModule_23;
 	//B"H
@@ -2111,7 +2111,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteMaterialImageValidity.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteMaterialImageValidity.js ----
 {
 	const __exports = __awtsmoosModule_22;
 	//B"H
@@ -2211,7 +2211,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapTerrainRemoteBinding.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapTerrainRemoteBinding.js ----
 {
 	const __exports = __awtsmoosModule_21;
 	// B"H
@@ -2274,7 +2274,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapTerrainGrassSelection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapTerrainGrassSelection.js ----
 {
 	const __exports = __awtsmoosModule_20;
 	// B"H
@@ -2315,7 +2315,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapTerrainHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapTerrainHydration.js ----
 {
 	const __exports = __awtsmoosModule_18;
 	// B"H
@@ -2335,7 +2335,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const TERRAIN_SOURCES_URL = new URL(
 		'./MinimalMeadowTerrainSources.js?v=20260907-canonical-grass-fallback-01',
-		(( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapTerrainHydration.js")
+		(( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapTerrainHydration.js")
 	).href;
 
 	/** Creates one idempotent remote terrain hydration task. */
@@ -9018,7 +9018,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
 {
 	const __exports = __awtsmoosModule_107;
 	//B"H
@@ -9103,7 +9103,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapImmediateMaterial.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapImmediateMaterial.js ----
 {
 	const __exports = __awtsmoosModule_108;
 	//B"H
@@ -9172,7 +9172,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapProceduralTerrainTextures.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapProceduralTerrainTextures.js ----
 {
 	const __exports = __awtsmoosModule_109;
 	// B"H
@@ -9613,7 +9613,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisibleWorld.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapVisibleWorld.js ----
 {
 	const __exports = __awtsmoosModule_24;
 	// B"H
@@ -16692,7 +16692,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-matrix-core.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-matrix-core.js ----
 {
 	const __exports = __awtsmoosModule_192;
 	// B"H
@@ -16813,7 +16813,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-camera-math.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-camera-math.js ----
 {
 	const __exports = __awtsmoosModule_191;
 	// B"H
@@ -16898,7 +16898,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeadowProceduralLayer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapMeadowProceduralLayer.js ----
 {
 	const __exports = __awtsmoosModule_110;
 	// B"H
@@ -17236,7 +17236,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapTerrainPackage.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapTerrainPackage.js ----
 {
 	const __exports = __awtsmoosModule_17;
 	// B"H
@@ -17353,7 +17353,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapWorldFoundation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapWorldFoundation.js ----
 {
 	const __exports = __awtsmoosModule_11;
 	// B"H
@@ -17410,7 +17410,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
 {
 	const __exports = __awtsmoosModule_197;
 	// B"H
@@ -17501,7 +17501,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
 {
 	const __exports = __awtsmoosModule_196;
 	// B"H
@@ -17541,7 +17541,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
 {
 	const __exports = __awtsmoosModule_200;
 	// B"H
@@ -17605,7 +17605,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
 {
 	const __exports = __awtsmoosModule_199;
 	// B"H
@@ -17692,7 +17692,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
 {
 	const __exports = __awtsmoosModule_198;
 	// B"H
@@ -17756,7 +17756,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
 {
 	const __exports = __awtsmoosModule_203;
 	// B"H
@@ -17821,7 +17821,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLaunchProof.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLaunchProof.js ----
 {
 	const __exports = __awtsmoosModule_202;
 	// B"H
@@ -17919,7 +17919,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFrameProof.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFrameProof.js ----
 {
 	const __exports = __awtsmoosModule_201;
 	// B"H
@@ -18022,7 +18022,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
 {
 	const __exports = __awtsmoosModule_204;
 	// B"H
@@ -18117,7 +18117,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
 {
 	const __exports = __awtsmoosModule_205;
 	// B"H
@@ -18178,7 +18178,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSlowGraphicsNotice.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSlowGraphicsNotice.js ----
 {
 	const __exports = __awtsmoosModule_206;
 	// B"H
@@ -18252,7 +18252,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
 {
 	const __exports = __awtsmoosModule_207;
 	//B"H
@@ -18437,7 +18437,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
 {
 	const __exports = __awtsmoosModule_195;
 	// B"H
@@ -18618,7 +18618,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
 {
 	const __exports = __awtsmoosModule_208;
 	//B"H
@@ -18817,7 +18817,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
 {
 	const __exports = __awtsmoosModule_194;
 	// B"H
@@ -18992,7 +18992,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
 	const __exports = __awtsmoosModule_209;
 	// B"H
@@ -19118,7 +19118,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationBootFailure.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationBootFailure.js ----
 {
 	const __exports = __awtsmoosModule_193;
 	// B"H
@@ -19155,7 +19155,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-math.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-transform-math.js ----
 {
 	const __exports = __awtsmoosModule_214;
 	// B"H
@@ -19239,7 +19239,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-interpolation-math.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-interpolation-math.js ----
 {
 	const __exports = __awtsmoosModule_215;
 	// B"H
@@ -19296,7 +19296,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-math.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-math.js ----
 {
 	const __exports = __awtsmoosModule_213;
 	// B"H
@@ -19329,7 +19329,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-transform-cache.js ----
 {
 	const __exports = __awtsmoosModule_216;
 	// B"H
@@ -19527,7 +19527,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-vector.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-vector.js ----
 {
 	const __exports = __awtsmoosModule_217;
 	// B"H
@@ -19611,7 +19611,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-object3d.js ----
 {
 	const __exports = __awtsmoosModule_212;
 	// B"H
@@ -19753,7 +19753,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-mesh-object.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-mesh-object.js ----
 {
 	const __exports = __awtsmoosModule_218;
 	// B"H
@@ -19787,7 +19787,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-geometry.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-geometry.js ----
 {
 	const __exports = __awtsmoosModule_219;
 	// B"H
@@ -19886,7 +19886,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-camera.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-camera.js ----
 {
 	const __exports = __awtsmoosModule_220;
 	// B"H
@@ -19916,7 +19916,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-runtime.js ----
 {
 	const __exports = __awtsmoosModule_211;
 	// B"H
@@ -19976,7 +19976,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = __awtsmoosDefault_96zbx;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Vec3.js ----
 {
 	const __exports = __awtsmoosModule_225;
 	// B"H // Boruch Hashem // Blessed is He
@@ -20064,7 +20064,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Ray.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Ray.js ----
 {
 	const __exports = __awtsmoosModule_224;
 	// B"H // Boruch Hashem // Blessed is He
@@ -20098,7 +20098,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
 {
 	const __exports = __awtsmoosModule_223;
 	// B"H
@@ -20161,7 +20161,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipCache.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraClipCache.js ----
 {
 	const __exports = __awtsmoosModule_222;
 	// B"H
@@ -20287,7 +20287,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js ----
 {
 	const __exports = __awtsmoosModule_227;
 	// B"H
@@ -20379,7 +20379,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraFirstPersonRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraFirstPersonRuntime.js ----
 {
 	const __exports = __awtsmoosModule_226;
 	// B"H
@@ -20426,7 +20426,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraGestureMath.js ----
 {
 	const __exports = __awtsmoosModule_229;
 	// B"H
@@ -20508,7 +20508,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraMouseChordState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraMouseChordState.js ----
 {
 	const __exports = __awtsmoosModule_230;
 	// B"H
@@ -20584,7 +20584,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraLegacyZoom.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraLegacyZoom.js ----
 {
 	const __exports = __awtsmoosModule_232;
 	// B"H
@@ -20645,7 +20645,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraPointerCapture.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraPointerCapture.js ----
 {
 	const __exports = __awtsmoosModule_234;
 	// B"H
@@ -20681,7 +20681,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureSurface.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraGestureSurface.js ----
 {
 	const __exports = __awtsmoosModule_235;
 	// B"H
@@ -20750,7 +20750,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraGestureLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_233;
 	// B"H
@@ -20852,7 +20852,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraGestureRuntime.js ----
 {
 	const __exports = __awtsmoosModule_231;
 	// B"H
@@ -20946,7 +20946,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureController.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraGestureController.js ----
 {
 	const __exports = __awtsmoosModule_228;
 	// B"H
@@ -21038,7 +21038,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalHouseArchetypes.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalHouseArchetypes.js ----
 {
 	const __exports = __awtsmoosModule_242;
 	// B"H
@@ -21108,7 +21108,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageHouseEntryPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageHouseEntryPolicy.js ----
 {
 	const __exports = __awtsmoosModule_243;
 	// B"H
@@ -21175,7 +21175,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHouses.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageHouses.js ----
 {
 	const __exports = __awtsmoosModule_241;
 	// B"H
@@ -21252,7 +21252,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageFootprints.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageFootprints.js ----
 {
 	const __exports = __awtsmoosModule_240;
 	// B"H
@@ -21329,7 +21329,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalFoundationPads.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalFoundationPads.js ----
 {
 	const __exports = __awtsmoosModule_239;
 	// B"H
@@ -21444,7 +21444,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHydrology.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageHydrology.js ----
 {
 	const __exports = __awtsmoosModule_247;
 	// B"H
@@ -28816,7 +28816,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageWaterReachSpecs.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageWaterReachSpecs.js ----
 {
 	const __exports = __awtsmoosModule_331;
 	// B"H
@@ -28917,7 +28917,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/MainRiverVillageRiverPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/MainRiverVillageRiverPolicy.js ----
 {
 	const __exports = __awtsmoosModule_249;
 	// B"H
@@ -29002,7 +29002,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverPath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverPath.js ----
 {
 	const __exports = __awtsmoosModule_248;
 	// B"H
@@ -29101,7 +29101,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainHydrology.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainHydrology.js ----
 {
 	const __exports = __awtsmoosModule_246;
 	// B"H
@@ -29175,7 +29175,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalHydrologyBankField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalHydrologyBankField.js ----
 {
 	const __exports = __awtsmoosModule_245;
 	// B"H
@@ -29277,7 +29277,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalHydrologyTerrain.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalHydrologyTerrain.js ----
 {
 	const __exports = __awtsmoosModule_244;
 	// B"H
@@ -29344,7 +29344,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRiverValleyField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRiverValleyField.js ----
 {
 	const __exports = __awtsmoosModule_338;
 	// B"H
@@ -29392,7 +29392,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainTerraces.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainTerraces.js ----
 {
 	const __exports = __awtsmoosModule_339;
 	// B"H
@@ -29474,7 +29474,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainBase.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainBase.js ----
 {
 	const __exports = __awtsmoosModule_337;
 	// B"H
@@ -29554,7 +29554,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageStoneBridgeContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageStoneBridgeContract.js ----
 {
 	const __exports = __awtsmoosModule_336;
 	// B"H
@@ -29621,7 +29621,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageRoads.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageRoads.js ----
 {
 	const __exports = __awtsmoosModule_335;
 	// B"H
@@ -29739,7 +29739,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadGraph.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadGraph.js ----
 {
 	const __exports = __awtsmoosModule_334;
 	// B"H
@@ -29859,7 +29859,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadProfiles.js ----
 {
 	const __exports = __awtsmoosModule_333;
 	// B"H
@@ -29902,7 +29902,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadCorridor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadCorridor.js ----
 {
 	const __exports = __awtsmoosModule_332;
 	// B"H
@@ -30030,7 +30030,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainHeight.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainHeight.js ----
 {
 	const __exports = __awtsmoosModule_238;
 	// B"H
@@ -30096,7 +30096,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraTerrainClearance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraTerrainClearance.js ----
 {
 	const __exports = __awtsmoosModule_237;
 	// B"H
@@ -30131,7 +30131,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/LegacyOrbitCameraPose.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/LegacyOrbitCameraPose.js ----
 {
 	const __exports = __awtsmoosModule_236;
 	// B"H
@@ -30214,7 +30214,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraProfileSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraProfileSystem.js ----
 {
 	const __exports = __awtsmoosModule_340;
 	// B"H
@@ -30286,7 +30286,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraOrbitController.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraOrbitController.js ----
 {
 	const __exports = __awtsmoosModule_221;
 	// B"H
@@ -30409,7 +30409,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/MinimalMeadowViewportCameraPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/MinimalMeadowViewportCameraPolicy.js ----
 {
 	const __exports = __awtsmoosModule_341;
 	// B"H
@@ -30465,7 +30465,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButtonElements.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/JumpButtonElements.js ----
 {
 	const __exports = __awtsmoosModule_343;
 	// B"H
@@ -30529,7 +30529,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputPresentationPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/InputPresentationPolicy.js ----
 {
 	const __exports = __awtsmoosModule_345;
 	// B"H
@@ -30559,7 +30559,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputTargetPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/InputTargetPolicy.js ----
 {
 	const __exports = __awtsmoosModule_346;
 	// B"H
@@ -30623,7 +30623,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButtonKeyboard.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/JumpButtonKeyboard.js ----
 {
 	const __exports = __awtsmoosModule_344;
 	// B"H
@@ -30688,7 +30688,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButton.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/JumpButton.js ----
 {
 	const __exports = __awtsmoosModule_342;
 	// B"H
@@ -31088,7 +31088,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystickKeyboard.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/MobileJoystickKeyboard.js ----
 {
 	const __exports = __awtsmoosModule_351;
 	// B"H
@@ -31181,7 +31181,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystickPointerSurface.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/MobileJoystickPointerSurface.js ----
 {
 	const __exports = __awtsmoosModule_352;
 	// B"H
@@ -31298,7 +31298,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystick.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/MobileJoystick.js ----
 {
 	const __exports = __awtsmoosModule_347;
 	//B"H
@@ -31409,7 +31409,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputAxisState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/InputAxisState.js ----
 {
 	const __exports = __awtsmoosModule_354;
 	// B"H
@@ -31457,7 +31457,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputPointerState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/InputPointerState.js ----
 {
 	const __exports = __awtsmoosModule_355;
 	// B"H
@@ -31527,7 +31527,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/UiEventBindings.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/UiEventBindings.js ----
 {
 	const __exports = __awtsmoosModule_356;
 	// B"H
@@ -31580,7 +31580,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/UiEventSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/input/UiEventSystem.js ----
 {
 	const __exports = __awtsmoosModule_353;
 	// B"H
@@ -31702,7 +31702,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/performance/QualityTier.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/QualityTier.js ----
 {
 	const __exports = __awtsmoosModule_359;
 	// B"H
@@ -31790,7 +31790,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodPolicy.js ----
 {
 	const __exports = __awtsmoosModule_361;
 	// B"H
@@ -31923,7 +31923,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodAuthoredRange.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodAuthoredRange.js ----
 {
 	const __exports = __awtsmoosModule_360;
 	// B"H
@@ -31983,7 +31983,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodControllerMath.js ----
 {
 	const __exports = __awtsmoosModule_362;
 	// B"H
@@ -32045,7 +32045,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerEntry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodControllerEntry.js ----
 {
 	const __exports = __awtsmoosModule_363;
 	// B"H
@@ -32124,7 +32124,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodSpatialKey.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodSpatialKey.js ----
 {
 	const __exports = __awtsmoosModule_365;
 	// B"H
@@ -32195,7 +32195,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerEvent.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodControllerEvent.js ----
 {
 	const __exports = __awtsmoosModule_364;
 	// B"H
@@ -32233,7 +32233,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodMaterialFade.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodMaterialFade.js ----
 {
 	const __exports = __awtsmoosModule_366;
 	// B"H
@@ -32335,7 +32335,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodFrameBudget.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodFrameBudget.js ----
 {
 	const __exports = __awtsmoosModule_368;
 	// B"H
@@ -32391,7 +32391,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodTransitionProcessor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodTransitionProcessor.js ----
 {
 	const __exports = __awtsmoosModule_369;
 	// B"H
@@ -32496,7 +32496,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodTransitionQueue.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodTransitionQueue.js ----
 {
 	const __exports = __awtsmoosModule_367;
 	// B"H
@@ -32588,7 +32588,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodController.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodController.js ----
 {
 	const __exports = __awtsmoosModule_358;
 	// B"H
@@ -32714,7 +32714,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodGeometryBounds.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodGeometryBounds.js ----
 {
 	const __exports = __awtsmoosModule_371;
 	// B"H
@@ -32819,7 +32819,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodWorldBounds.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodWorldBounds.js ----
 {
 	const __exports = __awtsmoosModule_372;
 	// B"H
@@ -32880,7 +32880,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodSceneCandidate.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/LodSceneCandidate.js ----
 {
 	const __exports = __awtsmoosModule_370;
 	// B"H
@@ -32951,7 +32951,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/SceneLodDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/SceneLodDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_373;
 	// B"H
@@ -33015,7 +33015,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/SceneLodRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/lod/SceneLodRuntime.js ----
 {
 	const __exports = __awtsmoosModule_357;
 	// B"H
@@ -33091,7 +33091,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
 {
 	const __exports = __awtsmoosModule_374;
 	// B"H
@@ -33158,7 +33158,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
 {
 	const __exports = __awtsmoosModule_375;
 	// B"H
@@ -33236,7 +33236,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js ----
 {
 	const __exports = __awtsmoosModule_377;
 	// B"H
@@ -33295,7 +33295,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-layer-policy.js ----
 {
 	const __exports = __awtsmoosModule_380;
 	// B"H
@@ -33354,7 +33354,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-shadow-map.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-shadow-map.js ----
 {
 	const __exports = __awtsmoosModule_379;
 	// B"H
@@ -33587,7 +33587,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/render/ShadowBudgetController.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/render/ShadowBudgetController.js ----
 {
 	const __exports = __awtsmoosModule_378;
 	// B"H
@@ -33654,7 +33654,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = ShadowBudgetController;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorBinding.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorBinding.js ----
 {
 	const __exports = __awtsmoosModule_384;
 	// B"H
@@ -33712,7 +33712,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorShader.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorShader.js ----
 {
 	const __exports = __awtsmoosModule_386;
 	// B"H
@@ -33798,7 +33798,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorProgram.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorProgram.js ----
 {
 	const __exports = __awtsmoosModule_385;
 	// B"H
@@ -33860,7 +33860,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js ----
 {
 	const __exports = __awtsmoosModule_387;
 	// B"H
@@ -33967,7 +33967,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapSkyDome.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapSkyDome.js ----
 {
 	const __exports = __awtsmoosModule_388;
 	// B"H
@@ -34227,7 +34227,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/fx/MitzvahParticleLayer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/fx/MitzvahParticleLayer.js ----
 {
 	const __exports = __awtsmoosModule_389;
 	// B"H
@@ -34528,7 +34528,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js ----
 {
 	const __exports = __awtsmoosModule_383;
 	//B"H
@@ -34774,7 +34774,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLDefaults.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/ProgressiveWebGLDefaults.js ----
 {
 	const __exports = __awtsmoosModule_390;
 	// B"H
@@ -34817,7 +34817,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/ProgressiveWebGLState.js ----
 {
 	const __exports = __awtsmoosModule_391;
 	// B"H
@@ -34898,7 +34898,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/WebGlRequiredError.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/WebGlRequiredError.js ----
 {
 	const __exports = __awtsmoosModule_392;
 	// B"H
@@ -34959,7 +34959,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gl-state-model.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gl-state-model.js ----
 {
 	const __exports = __awtsmoosModule_396;
 	// B"H
@@ -35094,7 +35094,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gl-state-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gl-state-cache.js ----
 {
 	const __exports = __awtsmoosModule_395;
 	// B"H
@@ -35200,7 +35200,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-instancing.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-instancing.js ----
 {
 	const __exports = __awtsmoosModule_397;
 	// B"H
@@ -35304,7 +35304,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-buffer-resources.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-buffer-resources.js ----
 {
 	const __exports = __awtsmoosModule_399;
 	// B"H
@@ -35394,7 +35394,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-attribute-fallbacks.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-attribute-fallbacks.js ----
 {
 	const __exports = __awtsmoosModule_401;
 	// B"H
@@ -35422,7 +35422,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-webgl-utils.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-webgl-utils.js ----
 {
 	const __exports = __awtsmoosModule_402;
 	// B"H
@@ -35578,7 +35578,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-manual-attributes.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-manual-attributes.js ----
 {
 	const __exports = __awtsmoosModule_400;
 	// B"H
@@ -35697,7 +35697,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-array-builder.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-vertex-array-builder.js ----
 {
 	const __exports = __awtsmoosModule_404;
 	// B"H
@@ -35776,7 +35776,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-array-fallbacks.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-vertex-array-fallbacks.js ----
 {
 	const __exports = __awtsmoosModule_405;
 	// B"H
@@ -35813,7 +35813,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-arrays.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-vertex-arrays.js ----
 {
 	const __exports = __awtsmoosModule_403;
 	// B"H
@@ -35944,7 +35944,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-buffers.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-buffers.js ----
 {
 	const __exports = __awtsmoosModule_398;
 	// B"H
@@ -36013,7 +36013,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-policy.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-policy.js ----
 {
 	const __exports = __awtsmoosModule_409;
 	// B"H
@@ -36097,7 +36097,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-surface-policy.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-surface-policy.js ----
 {
 	const __exports = __awtsmoosModule_410;
 	// B"H
@@ -36169,7 +36169,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-bounds.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-bounds.js ----
 {
 	const __exports = __awtsmoosModule_413;
 	// B"H
@@ -36289,7 +36289,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling-metadata.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-culling-metadata.js ----
 {
 	const __exports = __awtsmoosModule_414;
 	// B"H
@@ -36387,7 +36387,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-culling.js ----
 {
 	const __exports = __awtsmoosModule_412;
 	// B"H
@@ -36509,7 +36509,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-policy.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-batch-policy.js ----
 {
 	const __exports = __awtsmoosModule_411;
 	// B"H
@@ -36597,7 +36597,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-collection.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-collection.js ----
 {
 	const __exports = __awtsmoosModule_408;
 	// B"H
@@ -36666,7 +36666,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-cull-list.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-cull-list.js ----
 {
 	const __exports = __awtsmoosModule_415;
 	// B"H
@@ -36753,7 +36753,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-material-signature-state.js ----
 {
 	const __exports = __awtsmoosModule_418;
 	// B"H
@@ -36824,7 +36824,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-texture-signature.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-material-texture-signature.js ----
 {
 	const __exports = __awtsmoosModule_419;
 	// B"H
@@ -36879,7 +36879,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-source.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-texture-source.js ----
 {
 	const __exports = __awtsmoosModule_423;
 	// B"H
@@ -36944,7 +36944,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-native-texture-density.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-native-texture-density.js ----
 {
 	const __exports = __awtsmoosModule_422;
 	// B"H
@@ -37064,7 +37064,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-layered-texture-state.js ----
 {
 	const __exports = __awtsmoosModule_421;
 	// B"H
@@ -37173,7 +37173,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint-core.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-texture-state-fingerprint-core.js ----
 {
 	const __exports = __awtsmoosModule_425;
 	// B"H
@@ -37268,7 +37268,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-layer-fingerprint.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-texture-layer-fingerprint.js ----
 {
 	const __exports = __awtsmoosModule_426;
 	// B"H
@@ -37354,7 +37354,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-mixing-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-mixing-state.js ----
 {
 	const __exports = __awtsmoosModule_427;
 	// B"H
@@ -37415,7 +37415,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-texture-state-fingerprint.js ----
 {
 	const __exports = __awtsmoosModule_424;
 	// B"H
@@ -37489,7 +37489,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-texture-state.js ----
 {
 	const __exports = __awtsmoosModule_420;
 	// B"H
@@ -37601,7 +37601,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-material-signature.js ----
 {
 	const __exports = __awtsmoosModule_417;
 	// B"H
@@ -37703,7 +37703,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-order.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-order.js ----
 {
 	const __exports = __awtsmoosModule_416;
 	// B"H
@@ -37780,7 +37780,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-transparent-distance-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-transparent-distance-cache.js ----
 {
 	const __exports = __awtsmoosModule_428;
 	// B"H
@@ -37846,7 +37846,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-draw-list.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-draw-list.js ----
 {
 	const __exports = __awtsmoosModule_407;
 	// B"H
@@ -37934,7 +37934,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-gl-state-stats.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-gl-state-stats.js ----
 {
 	const __exports = __awtsmoosModule_429;
 	// B"H
@@ -38014,7 +38014,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skin-binding.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-skin-binding.js ----
 {
 	const __exports = __awtsmoosModule_432;
 	// B"H
@@ -38066,7 +38066,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skin.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-skin.js ----
 {
 	const __exports = __awtsmoosModule_431;
 	// B"H
@@ -38179,7 +38179,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-mesh-helpers.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-mesh-helpers.js ----
 {
 	const __exports = __awtsmoosModule_433;
 	// B"H
@@ -38257,7 +38257,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-water-physical-uniforms.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-water-physical-uniforms.js ----
 {
 	const __exports = __awtsmoosModule_437;
 	// B"H
@@ -38360,7 +38360,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-water-material-mode.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-water-material-mode.js ----
 {
 	const __exports = __awtsmoosModule_438;
 	// B"H
@@ -38426,7 +38426,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-uniforms.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-uniforms.js ----
 {
 	const __exports = __awtsmoosModule_436;
 	//B"H
@@ -38555,7 +38555,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-program-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-program-state.js ----
 {
 	const __exports = __awtsmoosModule_435;
 	// B"H
@@ -38607,7 +38607,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-instanced-mesh.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-instanced-mesh.js ----
 {
 	const __exports = __awtsmoosModule_434;
 	// B"H
@@ -38739,7 +38739,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-mesh.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-mesh.js ----
 {
 	const __exports = __awtsmoosModule_430;
 	// B"H
@@ -38843,7 +38843,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shadow-instanced.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-shadow-instanced.js ----
 {
 	const __exports = __awtsmoosModule_441;
 	// B"H
@@ -38946,7 +38946,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shadow-casters.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-shadow-casters.js ----
 {
 	const __exports = __awtsmoosModule_440;
 	// B"H
@@ -39060,7 +39060,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shadow-cull.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-shadow-cull.js ----
 {
 	const __exports = __awtsmoosModule_442;
 	// B"H
@@ -39173,7 +39173,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shadow-pass.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-shadow-pass.js ----
 {
 	const __exports = __awtsmoosModule_439;
 	// B"H
@@ -39279,7 +39279,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-cache.js ----
 {
 	const __exports = __awtsmoosModule_445;
 	// B"H
@@ -39357,7 +39357,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-lines.js ----
 {
 	const __exports = __awtsmoosModule_446;
 	// B"H
@@ -39407,7 +39407,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-matrix.js ----
 {
 	const __exports = __awtsmoosModule_447;
 	// B"H
@@ -39440,7 +39440,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-binding.js ----
 {
 	const __exports = __awtsmoosModule_449;
 	// B"H
@@ -39508,7 +39508,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-scene.js ----
 {
 	const __exports = __awtsmoosModule_448;
 	// B"H
@@ -39630,7 +39630,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-system.js ----
 {
 	const __exports = __awtsmoosModule_444;
 	// B"H
@@ -39747,7 +39747,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skeleton.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-skeleton.js ----
 {
 	const __exports = __awtsmoosModule_443;
 	// B"H
@@ -39785,7 +39785,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-frame.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-frame.js ----
 {
 	const __exports = __awtsmoosModule_406;
 	// B"H
@@ -40049,7 +40049,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-instance-buffers.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-instance-buffers.js ----
 {
 	const __exports = __awtsmoosModule_450;
 	// B"H
@@ -40110,7 +40110,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-material-state.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-material-state.js ----
 {
 	const __exports = __awtsmoosModule_451;
 	//B"H
@@ -40232,7 +40232,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-locations.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-locations.js ----
 {
 	const __exports = __awtsmoosModule_453;
 	//B"H
@@ -40313,7 +40313,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-depth-shaders.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-depth-shaders.js ----
 {
 	const __exports = __awtsmoosModule_454;
 	// B"H
@@ -40421,7 +40421,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-water-lighting-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-water-lighting-functions.js ----
 {
 	const __exports = __awtsmoosModule_458;
 	// B"H
@@ -40511,7 +40511,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-lighting-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-lighting-functions.js ----
 {
 	const __exports = __awtsmoosModule_457;
 	// B"H
@@ -40580,7 +40580,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shadow-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-shadow-functions.js ----
 {
 	const __exports = __awtsmoosModule_459;
 	// B"H
@@ -40623,7 +40623,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-main-function.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-main-function.js ----
 {
 	const __exports = __awtsmoosModule_460;
 	// B"H
@@ -40680,7 +40680,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-sampling-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-sampling-functions.js ----
 {
 	const __exports = __awtsmoosModule_461;
 	// B"H
@@ -40759,7 +40759,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-sky-fragment-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-sky-fragment-functions.js ----
 {
 	const __exports = __awtsmoosModule_462;
 	// B"H
@@ -40830,7 +40830,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-declarations.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-fragment-declarations.js ----
 {
 	const __exports = __awtsmoosModule_464;
 	// B"H
@@ -40879,7 +40879,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-standard-declarations.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-standard-declarations.js ----
 {
 	const __exports = __awtsmoosModule_463;
 	// B"H
@@ -40964,7 +40964,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-ecology-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-fragment-ecology-functions.js ----
 {
 	const __exports = __awtsmoosModule_466;
 	// B"H
@@ -41031,7 +41031,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-projection-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-fragment-projection-functions.js ----
 {
 	const __exports = __awtsmoosModule_467;
 	// B"H
@@ -41113,7 +41113,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-functions.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-terrain-fragment-functions.js ----
 {
 	const __exports = __awtsmoosModule_465;
 	// B"H
@@ -41223,7 +41223,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shader.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-fragment-shader.js ----
 {
 	const __exports = __awtsmoosModule_456;
 	// B"H
@@ -41266,7 +41266,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-rigid-shader.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-rigid-shader.js ----
 {
 	const __exports = __awtsmoosModule_468;
 	// B"H
@@ -41319,7 +41319,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-shaders.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-shaders.js ----
 {
 	const __exports = __awtsmoosModule_469;
 	// B"H
@@ -41406,7 +41406,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-vegetation-vertex-deformation.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-vegetation-vertex-deformation.js ----
 {
 	const __exports = __awtsmoosModule_471;
 	//B"H
@@ -41481,7 +41481,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-unified-shaders.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-unified-shaders.js ----
 {
 	const __exports = __awtsmoosModule_470;
 	//B"H
@@ -41639,7 +41639,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shaders.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-shaders.js ----
 {
 	const __exports = __awtsmoosModule_455;
 	// B"H
@@ -41664,7 +41664,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-programs.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-programs.js ----
 {
 	const __exports = __awtsmoosModule_452;
 	// B"H
@@ -41796,7 +41796,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gpu-texture-diagnostics.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gpu-texture-diagnostics.js ----
 {
 	const __exports = __awtsmoosModule_474;
 	// B"H
@@ -41852,7 +41852,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gpu-texture-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gpu-texture-cache.js ----
 {
 	const __exports = __awtsmoosModule_473;
 	// B"H
@@ -42026,7 +42026,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-binder.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-layered-texture-binder.js ----
 {
 	const __exports = __awtsmoosModule_475;
 	// B"H
@@ -42094,7 +42094,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-texture-stats.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-texture-stats.js ----
 {
 	const __exports = __awtsmoosModule_476;
 	// B"H
@@ -42136,7 +42136,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-textures.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-render-textures.js ----
 {
 	const __exports = __awtsmoosModule_472;
 	// B"H
@@ -42234,7 +42234,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-webgl-renderer.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-webgl-renderer.js ----
 {
 	const __exports = __awtsmoosModule_394;
 	// B"H
@@ -42412,7 +42412,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = TinyWebGLRenderer;
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-key.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-batch-key.js ----
 {
 	const __exports = __awtsmoosModule_478;
 	// B"H
@@ -42476,7 +42476,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-sequence.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-batch-sequence.js ----
 {
 	const __exports = __awtsmoosModule_479;
 	// B"H
@@ -42555,7 +42555,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-stats.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-batch-stats.js ----
 {
 	const __exports = __awtsmoosModule_480;
 	// B"H
@@ -42625,7 +42625,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-material.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-batch-material.js ----
 {
 	const __exports = __awtsmoosModule_482;
 	// B"H
@@ -42668,7 +42668,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-geometry-source.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-geometry-source.js ----
 {
 	const __exports = __awtsmoosModule_483;
 	// B"H
@@ -42771,7 +42771,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-geometry-merge.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-geometry-merge.js ----
 {
 	const __exports = __awtsmoosModule_481;
 	// B"H
@@ -42839,7 +42839,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-opaque-batcher.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-static-opaque-batcher.js ----
 {
 	const __exports = __awtsmoosModule_477;
 	// B"H
@@ -42943,7 +42943,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRendererHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/ProgressiveWebGLRendererHydration.js ----
 {
 	const __exports = __awtsmoosModule_393;
 	// B"H
@@ -43014,7 +43014,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js ----
 {
 	const __exports = __awtsmoosModule_382;
 	//B"H
@@ -43145,7 +43145,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = ProgressiveWebGLRenderer;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRenderer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRenderer.js ----
 {
 	const __exports = __awtsmoosModule_381;
 	// B"H
@@ -43175,7 +43175,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = createMinimalMeadowRenderer;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/SurvivalBootstrapColorRenderer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/SurvivalBootstrapColorRenderer.js ----
 {
 	const __exports = __awtsmoosModule_484;
 	// B"H
@@ -43205,7 +43205,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = SurvivalBootstrapColorRenderer;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationRenderer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationRenderer.js ----
 {
 	const __exports = __awtsmoosModule_376;
 	// B"H
@@ -43282,7 +43282,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = createEretzFoundationRenderer;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzGameplayInputBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzGameplayInputBridge.js ----
 {
 	const __exports = __awtsmoosModule_485;
 	//B"H
@@ -43344,7 +43344,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = installEretzGameplayInputBridge;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationServices.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationServices.js ----
 {
 	const __exports = __awtsmoosModule_210;
 	// B"H
@@ -43425,7 +43425,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = createEretzFoundationServices;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzViewport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzViewport.js ----
 {
 	const __exports = __awtsmoosModule_487;
 	// B"H
@@ -43541,7 +43541,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWebGlBootFrame.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzWebGlBootFrame.js ----
 {
 	const __exports = __awtsmoosModule_486;
 	// B"H
@@ -43649,7 +43649,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js ----
 {
 	const __exports = __awtsmoosModule_10;
 	// B"H
@@ -43703,7 +43703,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		bootState('renderer-creating');
 		options.boot?.begin('webgl-context');
 		reportLaunchProgress(options, 'Opening WebGL…', 0.08, {
-			stage: 'foundation-renderer-services', url: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
+			stage: 'foundation-renderer-services', url: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
 		});
 		updateMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
 			importerStage: 'foundation-renderer-services'
@@ -43717,7 +43717,7 @@ const __awtsmoosModule_0 = Object.create(null);
 				failureMessage: `Renderer initialization failed: ${error?.message || String(error)}`,
 				importerStage: 'foundation-renderer-services',
 				resourceStatus: error?.code || 'renderer-constructor-threw',
-				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
+				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
 			}, bootState);
 		}
 		updateMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
@@ -43734,7 +43734,7 @@ const __awtsmoosModule_0 = Object.create(null);
 				failureMessage: error?.message || String(error),
 				importerStage: 'webgl-boot-frame',
 				resourceStatus: zero ? 'zero-size-viewport' : 'first-frame-paint-threw',
-				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
+				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
 			}, bootState);
 		}
 		if (!webGlBootFrame?.pixels?.[0] || !webGlBootFrame?.pixels?.[1]
@@ -43744,7 +43744,7 @@ const __awtsmoosModule_0 = Object.create(null);
 				failureMessage: 'First frame produced no nonzero viewport; refusing to certify.',
 				importerStage: 'webgl-boot-frame',
 				resourceStatus: 'zero-size-viewport',
-				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
+				resourceUrl: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationWebGlPhase.js")
 			}, bootState);
 		}
 		completeMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
@@ -43769,7 +43769,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialVisualGate.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzEssentialVisualGate.js ----
 {
 	const __exports = __awtsmoosModule_489;
 	// B"H
@@ -43890,7 +43890,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationVisualHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzFoundationVisualHydration.js ----
 {
 	const __exports = __awtsmoosModule_488;
 	// B"H
@@ -43976,7 +43976,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLushRendererPrewarm.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzLushRendererPrewarm.js ----
 {
 	const __exports = __awtsmoosModule_490;
 	// B"H
@@ -44029,7 +44029,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzWorldFoundation.js ----
 {
 	const __exports = __awtsmoosModule_0;
 	// B"H
@@ -44081,7 +44081,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		throwIfLaunchAborted(options.signal);
 		beginEretzLushRendererPrewarm(services.renderer, { ...options, environment });
 		reportLaunchProgress(options, 'Loading authored player…', 0.42, {
-			stage: 'generated-essential-player', url: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
+			stage: 'generated-essential-player', url: (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
 		});
 		const loaded = await essentialAssetsPromise;
 		throwIfLaunchAborted(options.signal);

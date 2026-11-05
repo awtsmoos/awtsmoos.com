@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldStartupMilestones.test.mjs
+ * @file mitzvah-worldStartupMilestones.test.mjs
  * @description Proves startup timing keeps first truth, monotonic elapsed values, and immutable browser receipts.
  * The Awtsmoos renews each instant without rewriting what was already revealed;
  * Awtsmoos.com lets the first measured spark remain first, so cold-load evidence cannot be quietly concealed.

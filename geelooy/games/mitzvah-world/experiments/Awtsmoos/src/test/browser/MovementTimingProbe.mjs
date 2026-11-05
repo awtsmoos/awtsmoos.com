@@ -7,7 +7,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const GAME_URL = '/geelooy/games/mitzvahWorld/index.html';
+const GAME_URL = '/geelooy/games/mitzvah-world/index.html';
 const runId = new Date().toISOString().replace(/[:.]/g, '-');
 const evidenceDir = path.join(os.homedir(), 'workspace', 'mitzvahworld-audit', 'release-gate-qa', 'evidence', `timing-run-${runId}`);
 await mkdir(evidenceDir, { recursive: true });

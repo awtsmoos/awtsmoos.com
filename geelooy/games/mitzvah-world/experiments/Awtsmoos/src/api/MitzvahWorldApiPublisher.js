@@ -6,7 +6,7 @@
  * @file MitzvahWorldApiPublisher.js
  * @description Owns reversible optional API publication so the canonical facade and legacy procedural aliases share one explicit, collision-safe global boundary.
  * The Awtsmoos is one although many names reveal finite service, while Awtsmoos.com remembers which names this layer borrowed and which already belonged elsewhere;
- * `Awtsmoos.mitzvahWorld` becomes the primary stable vessel, compatibility doors remain open, and teardown restores prior truth instead of deleting a newer heir.
+ * `Awtsmoos.mitzvah-world` becomes the primary stable vessel, compatibility doors remain open, and teardown restores prior truth instead of deleting a newer heir.
  */
 
 const LEGACY_PROCEDURAL_ALIASES = Object.freeze([
@@ -23,7 +23,7 @@ const publicationYesod = new WeakMap();
 /**
  * Publishes the canonical MitzvahWorld facade and compatibility aliases through one reversible transaction.
  *
- * Existing legacy aliases are preserved rather than overwritten; the historic `Awtsmoos.universal` and canonical `mitzvahWorld`
+ * Existing legacy aliases are preserved rather than overwritten; the historic `Awtsmoos.universal` and canonical `mitzvah-world`
  * entries are replaced for this optional installation but their prior values are recorded so teardown can restore them safely.
  *
  * @param {object} environmentKli Browser-like environment receiving the optional namespace.
@@ -39,12 +39,12 @@ export function publishMitzvahWorldApi(environmentKli, publicApiKli, proceduralK
 	const publicationKli = {
 		aliases: [],
 		namespace: awtsmoosNamespace,
-		previousMitzvahWorld: ownValue(awtsmoosNamespace, 'mitzvahWorld'),
+		previousMitzvahWorld: ownValue(awtsmoosNamespace, 'mitzvah-world'),
 		previousUniversal: ownValue(awtsmoosNamespace, 'universal'),
 		procedural: proceduralKli,
 		publicApi: publicApiKli
 	};
-	awtsmoosNamespace.mitzvahWorld = publicApiKli;
+	awtsmoosNamespace.mitzvah-world = publicApiKli;
 	if (proceduralKli) publishProceduralCompatibility(awtsmoosNamespace, proceduralKli, publicationKli);
 	environmentKli.Awtsmoos = awtsmoosNamespace;
 	publicationYesod.set(publicApiKli, publicationKli);
@@ -61,7 +61,7 @@ export function unpublishMitzvahWorldApi(environmentKli, publicApiKli) {
 	const publicationKli = publicationYesod.get(publicApiKli);
 	const awtsmoosNamespace = environmentKli?.Awtsmoos;
 	if (!publicationKli || awtsmoosNamespace !== publicationKli.namespace) return false;
-	restoreOwnedValue(awtsmoosNamespace, 'mitzvahWorld', publicApiKli, publicationKli.previousMitzvahWorld);
+	restoreOwnedValue(awtsmoosNamespace, 'mitzvah-world', publicApiKli, publicationKli.previousMitzvahWorld);
 	if (publicationKli.procedural) {
 		restoreOwnedValue(awtsmoosNamespace, 'universal', publicationKli.procedural, publicationKli.previousUniversal);
 		for (const aliasKli of publicationKli.aliases) {

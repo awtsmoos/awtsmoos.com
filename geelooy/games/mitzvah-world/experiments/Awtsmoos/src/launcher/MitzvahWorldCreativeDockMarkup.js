@@ -13,7 +13,7 @@
  * Returns trusted application-owned advanced-sheet markup with explicit dialog labelling and stable data hooks.
  * @returns {string} Static semantic markup consumed by `MitzvahWorldCreativeDockView`.
  */
-export function mitzvahWorldCreativeDockMarkup() {
+export function mitzvah-worldCreativeDockMarkup() {
 	return `
 		<button class="Awtsmoos-creative-dock__trigger" type="button" data-creative-toggle aria-expanded="false" aria-controls="AwtsmoosCreativeSheet">
 			<span aria-hidden="true">✦</span>

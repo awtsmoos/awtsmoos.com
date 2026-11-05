@@ -13,7 +13,7 @@
  */
 
 // B"H — fixed 2026-10-13: path was ../../zmanim (resolved to geelooy/games/zmanim,
-// missing). From geelooy/games/mitzvahWorld/shared/ the zmanim domain is ../../../zmanim.
+// missing). From geelooy/games/mitzvah-world/shared/ the zmanim domain is ../../../zmanim.
 import { ChochmahSolarEvents } from "../../../zmanim/js/domain/solar-events.js";
 
 /** Default location (Yerushalayim) when geolocation is unavailable. */

@@ -90,7 +90,7 @@
  * */
 var elements = {};
 var parser = new DOMParser();
-import Heeoolee from "/games/mitzvahWorld/ckidsAwtsmoos/chayim/heeooleey.js";
+import Heeoolee from "/games/mitzvah-world/ckidsAwtsmoos/chayim/heeooleey.js";
 export default class UI extends Heeoolee {
     get myHTMLElements() {
         return elements;

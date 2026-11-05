@@ -23,7 +23,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const GAME_URL = '/geelooy/games/mitzvahWorld/index.html';
+const GAME_URL = '/geelooy/games/mitzvah-world/index.html';
 const FRESH_TOLERANCE_MS = 250;
 const BOOT_BUDGET_MS = 5000;
 

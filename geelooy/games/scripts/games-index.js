@@ -45,7 +45,7 @@ function revealEmergencyLinks() {
 	const section = document.getElementById('gamesCatalog');
 	if (!section || section.querySelector('.gameCard, [data-game-card]')) return;
 	const emergency = [
-		['Play Temple Runner', './mitzvahWorld/templeRunner/'],
+		['Play Temple Runner', './mitzvah-world/temple-runner/'],
 		['Party Challenge', './party/']
 	];
 	const fragment = document.createDocumentFragment();

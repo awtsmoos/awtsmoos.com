@@ -79,7 +79,7 @@ test('B"H dedicated and catalog missions share one projection', () => {
 
 test('B"H map state migrates expansion and remembers full-screen', () => {
 	const values = new Map([
-		['Awtsmoos.mitzvahWorld.minimap.expanded.v1', 'true']
+		['Awtsmoos.mitzvah-world.minimap.expanded.v1', 'true']
 	]);
 	const storage = {
 		getItem: key => values.get(key) || null,

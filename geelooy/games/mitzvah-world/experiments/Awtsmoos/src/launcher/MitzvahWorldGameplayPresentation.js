@@ -9,7 +9,7 @@
  * presentation may reveal already-certified hosts, but it never declares gameplay truth—the readiness publisher alone bears that crown.
  */
 
-import { mitzvahWorldDynamicImportUrl } from './MitzvahWorldDynamicImportUrl.js';
+import { mitzvah-worldDynamicImportUrl } from './MitzvahWorldDynamicImportUrl.js';
 
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
 const FUTURE_CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
@@ -43,7 +43,7 @@ export function prepareGameplayPresentation(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
 	);
 	hudControllerPromise ||= stylesheetReadiness.then(() => schedule(environment, async () => {
-		const { HudMinimizeController } = await import(mitzvahWorldDynamicImportUrl('../ui/HudMinimizeController.js?compact=true'));
+		const { HudMinimizeController } = await import(mitzvah-worldDynamicImportUrl('../ui/HudMinimizeController.js?compact=true'));
 		environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
 		return environment.AwtsmoosHud;
 	}));
@@ -63,14 +63,14 @@ function prepareUniverseEntry(documentValue, environment) {
 	scheduleFn(async () => {
 		try {
 			const { installUniverseEntryButton } = await import(
-				mitzvahWorldDynamicImportUrl(`./MitzvahWorldUniverseEntryButton.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+				mitzvah-worldDynamicImportUrl(`./MitzvahWorldUniverseEntryButton.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
 			);
 			installUniverseEntryButton({
 				document: documentValue,
 				environment,
 				installDock: async () => {
 					const { installMitzvahWorldCreativeDock } = await import(
-						mitzvahWorldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+						mitzvah-worldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
 					);
 					environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(documentValue, environment);
 					return environment.AwtsmoosCreativeDock;
@@ -99,7 +99,7 @@ export function prepareCreativeDockPresentation(
 		// graph unavailable) degrades gracefully instead of breaking boot.
 		try {
 			const { installMitzvahWorldCreativeDock } = await import(
-				mitzvahWorldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+				mitzvah-worldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
 			);
 			environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
 				documentValue,

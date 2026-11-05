@@ -18,16 +18,16 @@ function createAutoplayReportIngress(repositoryRoot) {
 		repositoryRoot,
 		'geelooy',
 		'games',
-		'mitzvahWorld',
+		'mitzvah-world',
 		'reports',
 		'autoplay'
 	);
 	return async function autoplayReportIngress(request, response) {
 		const url = new URL(request.url, 'http://127.0.0.1');
-		if (url.pathname === '/mitzvahWorld/autoplay-ping') {
+		if (url.pathname === '/mitzvah-world/autoplay-ping') {
 			sendJson(response, 200, {
 				ok: true,
-				service: 'mitzvahWorld-autoplay',
+				service: 'mitzvah-world-autoplay',
 				time: Date.now()
 			});
 			return true;
@@ -50,8 +50,8 @@ function createAutoplayReportIngress(repositoryRoot) {
 }
 
 function isReportPath(pathname) {
-	return pathname === '/mitzvahWorld/autoplay-report'
-		|| pathname === '/api/mitzvahWorld/autoplay-report';
+	return pathname === '/mitzvah-world/autoplay-report'
+		|| pathname === '/api/mitzvah-world/autoplay-report';
 }
 
 function readRequestBody(request, limit) {

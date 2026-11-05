@@ -58,7 +58,7 @@ test('canonical Chossid remains authored and locally hash-addressed', () => {
 	const chossid = ASSETS.canonicalChossid;
 	assert.equal(chossid.bytes, 2027368);
 	assert.equal(chossid.sha256, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48');
-	assert.equal(chossid.publicUrl, `/games/mitzvahWorld/build/generated/assets/${chossid.sha256}/chossid.glb`);
+	assert.equal(chossid.publicUrl, `/games/mitzvah-world/build/generated/assets/${chossid.sha256}/chossid.glb`);
 	assert.equal(chossid.fileName, `${chossid.sha256}/chossid.glb`);
 });
 

@@ -17,7 +17,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { browserProofAvailable, startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const gamePath = '/geelooy/games/mitzvahWorld/index.html?mode=world';
+const gamePath = '/geelooy/games/mitzvah-world/index.html?mode=world';
 const driveRoot = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 
 test('B"H ready multiplayer settles canonical Drive district texture attempts', {

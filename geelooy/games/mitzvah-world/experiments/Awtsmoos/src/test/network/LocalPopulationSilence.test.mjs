@@ -14,8 +14,8 @@ import test from 'node:test';
 import { resolveMainMenuRealtimeUrl } from '../../launcher/MainMenuPopulation.js';
 import { requestWorldPopulation, resolvePopulationUrl } from '../../network/WorldPopulationClient.js';
 
-const localhost = environment('http://127.0.0.1:5192/games/mitzvahWorld/');
-const production = environment('https://awtsmoos.com/games/mitzvahWorld/');
+const localhost = environment('http://127.0.0.1:5192/games/mitzvah-world/');
+const production = environment('https://awtsmoos.com/games/mitzvah-world/');
 
 test('implicit same-port localhost realtime is intentionally disabled', () => {
 	localhost.AwtsmoosRealtimeUrl = 'ws://127.0.0.1:5192/';

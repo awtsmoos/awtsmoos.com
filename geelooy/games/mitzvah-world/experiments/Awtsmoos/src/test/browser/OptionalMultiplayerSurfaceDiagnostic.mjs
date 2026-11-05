@@ -21,7 +21,7 @@ let failure = null;
 try {
 	for (const name of ['Diagnostic Aleph', 'Diagnostic Bet']) {
 		const target = await browser.createTarget(
-			`${processValue.baseUrl}/geelooy/games/mitzvahWorld/index.html?displayName=${encodeURIComponent(name)}`
+			`${processValue.baseUrl}/geelooy/games/mitzvah-world/index.html?displayName=${encodeURIComponent(name)}`
 		);
 		targets.push(target);
 	}
@@ -71,7 +71,7 @@ function snapshotExpression() {
 		const imports = {};
 		for (const file of ['SharedChatClientFactory.js', 'MitzvahWorldChatPanel.js']) {
 			try {
-				await import('/games/mitzvahWorld/experiments/Awtsmoos/src/network/' + file);
+				await import('/games/mitzvah-world/experiments/Awtsmoos/src/network/' + file);
 				imports[file] = 'ready';
 			} catch (error) {
 				imports[file] = String(error?.message || error);

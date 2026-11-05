@@ -44,7 +44,7 @@ try {
 		width: 1280
 	});
 	await command('Page.navigate', {
-		url: `${owner.baseUrl}/geelooy/games/mitzvahWorld/index.html?realNpcProof=${Date.now()}`
+		url: `${owner.baseUrl}/geelooy/games/mitzvah-world/index.html?realNpcProof=${Date.now()}`
 	});
 	await command('Page.bringToFront');
 	await enterSinglePlayer(command, 'blank-meadow');

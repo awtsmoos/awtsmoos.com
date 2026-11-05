@@ -28,7 +28,7 @@ export function createMitzvahWorldRegionPortalFields() {
 			key: 'regionId',
 			kind: 'select',
 			label: 'Named Region',
-			options: mitzvahWorldRegionIds()
+			options: mitzvah-worldRegionIds()
 		}),
 		createPortalField({
 			description: 'World-space X coordinate used only when no explicit region identity is supplied.',
@@ -55,7 +55,7 @@ export function createMitzvahWorldRegionPortalFields() {
  * @description Reads stable region identifiers directly from the canonical region catalog without copying names, radii, or package metadata into Portal source.
  * @returns {ReadonlyArray<string>} Frozen ordered canonical region identifiers.
  */
-function mitzvahWorldRegionIds() {
+function mitzvah-worldRegionIds() {
 	const ids = [];
 	for (const region of MINIMAL_MEADOW_REGIONS) {
 		ids.push(region.id);

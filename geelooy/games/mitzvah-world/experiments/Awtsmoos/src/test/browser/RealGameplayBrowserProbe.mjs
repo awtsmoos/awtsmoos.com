@@ -29,7 +29,7 @@ const browser = await new BrowserCdpHarness(processValue.cdpPort).start();
 let targetId = null;
 let failure = null;
 try {
-	const url = `${processValue.baseUrl}/geelooy/games/mitzvahWorld/index.html?proof=${Date.now()}`;
+	const url = `${processValue.baseUrl}/geelooy/games/mitzvah-world/index.html?proof=${Date.now()}`;
 	const target = await browser.targets.create();
 	targetId = target.id;
 	const session = await browser.session(targetId);

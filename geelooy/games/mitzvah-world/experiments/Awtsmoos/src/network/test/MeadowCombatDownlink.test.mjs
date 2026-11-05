@@ -38,7 +38,7 @@ import {
 
 const require = createRequire(import.meta.url);
 const { SPAWNS } = require(
-	'../../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureSpawnCatalog.js'
+	'../../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world/CreatureSpawnCatalog.js'
 );
 const SERVER_SPAWNS = new Map(SPAWNS.map(spawn => [spawn.id, spawn]));
 

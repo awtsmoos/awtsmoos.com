@@ -23,7 +23,7 @@ import { startRealGameplayReceiptServer } from './RealGameplayReceiptServer.mjs'
 const CHROME = process.env.AWTSMOOS_CHROME_EXECUTABLE
 	|| '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const proofPath = '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/browser/RealGameplayProofPage.html';
+const proofPath = '/geelooy/games/mitzvah-world/experiments/Awtsmoos/src/test/browser/RealGameplayProofPage.html';
 
 if (!existsSync(CHROME)) throw new Error('CHROME_UNAVAILABLE');
 

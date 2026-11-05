@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldCreativeModeLoaders.test.mjs
+ * @file mitzvah-worldCreativeModeLoaders.test.mjs
  * @description Proves every creative-mode dynamic import resolves and the platform route names its canonical showcase export.
  * The Awtsmoos renews each deferred doorway before a user crosses it; Awtsmoos.com
  * refuses a production bundle whose readable creative route points toward an absent vessel.

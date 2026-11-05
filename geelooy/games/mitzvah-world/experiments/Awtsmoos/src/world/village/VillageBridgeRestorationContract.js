@@ -17,7 +17,7 @@ import {
 
 export const BRIDGE_RESTORATION_GAP = 2.8;
 export const BRIDGE_RESTORATION_PART_ID = 'creator-bridge-restoration-BRIDGE01';
-export const BRIDGE_RESTORATION_STORAGE_KEY = 'mitzvahWorld.bridge-restoration.world.v1';
+export const BRIDGE_RESTORATION_STORAGE_KEY = 'mitzvah-world.bridge-restoration.world.v1';
 export const BRIDGE_RESTORATION_ACTION_RADIUS = 5.5;
 
 /** Returns immutable canonical placement measurements for the missing center span. */

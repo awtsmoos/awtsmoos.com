@@ -12,11 +12,11 @@ import { resolve } from "node:path";
 import { runPerutaPlaythroughSuite } from "./PlaythroughSuite.mjs";
 
 const yesodBaseUrl = process.env.PERUTA_URL
-	|| "http://127.0.0.1:8766/geelooy/games/mitzvahWorld/subwaySurfer/";
+	|| "http://127.0.0.1:8766/geelooy/games/mitzvah-world/subwaySurfer/";
 const yesodPort = Number(process.env.PERUTA_CDP_PORT || 9222);
 const hodOutputRoot = resolve(
 	process.env.PERUTA_OUTPUT
-		|| "geelooy/games/mitzvahWorld/subwaySurfer/dev/playthrough/output/latest"
+		|| "geelooy/games/mitzvah-world/subwaySurfer/dev/playthrough/output/latest"
 );
 const tiferesProfileNames = process.argv.slice(2).length
 	? process.argv.slice(2)

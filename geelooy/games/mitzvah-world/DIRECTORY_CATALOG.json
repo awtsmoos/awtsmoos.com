@@ -2,7 +2,7 @@
   "BH": "B\"H",
   "generatedAt": "2026-07-23T23:32:30.660Z",
   "directoryCount": 129,
-  "root": "/Users/awtsmoos/awtsmoos.com/geelooy/games/mitzvahWorld",
+  "root": "/Users/awtsmoos/awtsmoos.com/geelooy/games/mitzvah-world",
   "excluded": [
     ".git",
     "ai_thoughts",
@@ -3522,7 +3522,7 @@
         "directWorldRoute.test.mjs",
         "mainMenuLaunchTask.test.mjs",
         "mainMenuStreamingBoundary.test.mjs",
-        "mitzvahWorldLauncher.test.mjs"
+        "mitzvah-worldLauncher.test.mjs"
       ],
       "exports": [],
       "imports": [

@@ -9,7 +9,7 @@
  * @param {string | URLSearchParams} search World route search parameters.
  * @returns {'singleplayer' | 'multiplayer'} Explicit session mode.
  */
-export function mitzvahWorldSessionMode(search = '') {
+export function mitzvah-worldSessionMode(search = '') {
 	const parameters = search instanceof URLSearchParams
 		? search
 		: new URLSearchParams(search);
@@ -26,5 +26,5 @@ export function mitzvahWorldSessionMode(search = '') {
  * @returns {'singleplayer' | 'multiplayer'} Canonical session mode.
  */
 export function resolveMitzvahWorldSessionMode(search = '') {
-	return mitzvahWorldSessionMode(search);
+	return mitzvah-worldSessionMode(search);
 }

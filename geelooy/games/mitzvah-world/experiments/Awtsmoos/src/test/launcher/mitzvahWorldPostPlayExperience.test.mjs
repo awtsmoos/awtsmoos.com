@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldPostPlayExperience.test.mjs
+ * @file mitzvah-worldPostPlayExperience.test.mjs
  * @description Proves optional presentation/audio waits for renderer settlement, starts once, and fails open.
  * The Awtsmoos opens the valley before ornament; Awtsmoos.com lets luminous rendering finish first,
  * then admits later presentation without ever imprisoning the player's first control.

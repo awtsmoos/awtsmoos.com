@@ -11,7 +11,7 @@
 
 import { openModelResponseCache, readModelResponseCache } from './RemoteModelCachePersistence.js';
 
-const SHARED_KEY = Symbol.for('awtsmoos.mitzvahWorld.canonicalChossidWarmup.v1');
+const SHARED_KEY = Symbol.for('awtsmoos.mitzvah-world.canonicalChossidWarmup.v1');
 const CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
 const MODEL_BYTES = 2027368;
 const GLB_MAGIC = 0x46546c67;

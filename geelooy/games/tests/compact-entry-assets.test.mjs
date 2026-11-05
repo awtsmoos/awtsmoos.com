@@ -18,7 +18,7 @@ import { discoverCompactDoorways } from './compact-entry-assets/doorways.mjs';
  * - Every other discovered production doorway remains audited without filename allowlists.
  */
 
-const EXCLUDED_SCOPE_FRAGMENT = '/mitzvahWorld/';
+const EXCLUDED_SCOPE_FRAGMENT = '/mitzvah-world/';
 
 /** Return whether an absolute doorway path belongs to this mission's explicitly excluded game family. */
 function isExcludedDoorway(doorway) {

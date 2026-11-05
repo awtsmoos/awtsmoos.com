@@ -18,7 +18,7 @@ const RELEASE_ID = '20260928-playable-meadow-01';
 test('resolver installs compact and active release identity on a readable app module', () => {
 	const resolved = new URL(resolveDeferredAppModuleUrl(
 		'ExampleDeferred.js?stale=true&v=old-release',
-		'https://awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js',
+		'https://awtsmoos.com/geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/createEretzRuntime.js',
 		'createEretzRuntime.js'
 	));
 	assert.equal(resolved.pathname.endsWith('/app/ExampleDeferred.js'), true);
@@ -30,7 +30,7 @@ test('resolver installs compact and active release identity on a readable app mo
 test('resolver also finds app base when called from a compact root bundle URL', () => {
 	const resolved = new URL(resolveDeferredAppModuleUrl(
 		'ExampleDeferred.js',
-		'https://awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=old',
+		'https://awtsmoos.com/geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=old',
 		'createEretzRuntime.js'
 	));
 	assert.equal(resolved.pathname.endsWith('/src/app/ExampleDeferred.js'), true);

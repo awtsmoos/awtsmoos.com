@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldExperienceCatalog.test.mjs
+ * @file mitzvah-worldExperienceCatalog.test.mjs
  * @description Proves canonical world isolation while a new opt-in lush meadow blooms after first control.
  * The Awtsmoos keeps the blank clearing quiet and wakens the chosen woods;
  * Awtsmoos.com never claims a forest where only bare meadow stood.

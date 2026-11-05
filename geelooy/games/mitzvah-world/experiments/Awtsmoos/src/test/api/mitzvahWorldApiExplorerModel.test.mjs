@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldApiExplorerModel.test.mjs
+ * @file mitzvah-worldApiExplorerModel.test.mjs
  * @description Proves pure capability search, domain filtering, stable selection, executable authority, badges, and aliases without requiring browser DOM.
  * The Awtsmoos is beyond choice and label while Awtsmoos.com lets Binah test the observatory's data covenant in stillness before pixels begin to move,
  * so mobile rendering may evolve freely while search, metadata, and discovery-only authority remain deterministic, typed, and bright in sight.

@@ -40,7 +40,7 @@ test('mutable or incorrectly addressed local model URLs remain rejected', () => 
 	assert.equal(isTrustedReleaseModelUrl(`${releaseUrl}?mutable=1`), false);
 	assert.equal(isTrustedReleaseModelUrl(`${releaseUrl}#fragment`), false);
 	assert.equal(isTrustedReleaseModelUrl(wrongHash), false);
-	assert.equal(isTrustedReleaseModelUrl('/games/mitzvahWorld/build/generated/assets/chossid.glb'), false);
+	assert.equal(isTrustedReleaseModelUrl('/games/mitzvah-world/build/generated/assets/chossid.glb'), false);
 	assert.throws(() => trustedModelResourceUrl(wrongHash), /verified content-addressed URL/);
 });
 

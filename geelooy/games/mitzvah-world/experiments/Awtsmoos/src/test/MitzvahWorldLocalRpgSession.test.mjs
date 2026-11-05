@@ -21,9 +21,9 @@ import {
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
 
 const require = createRequire(import.meta.url);
-const serverCatalog = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatantCatalog.js');
-const { ADVENTURE_QUESTS } = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AdventureQuestCatalog.js');
-const { SPAWNS } = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureSpawnCatalog.js');
+const serverCatalog = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world/CombatantCatalog.js');
+const { ADVENTURE_QUESTS } = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world/AdventureQuestCatalog.js');
+const { SPAWNS } = require('../../../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world/CreatureSpawnCatalog.js');
 
 test('offline RPG catalogs and attack outcomes remain aligned with multiplayer', () => {
 	assert.deepEqual(Object.keys(LOCAL_RPG_WEAPONS).sort(), Object.keys(serverCatalog.WEAPONS).sort());

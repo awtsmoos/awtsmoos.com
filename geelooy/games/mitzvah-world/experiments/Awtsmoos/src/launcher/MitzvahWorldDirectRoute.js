@@ -46,7 +46,7 @@ export function navigateToDirectWorld(environment, selection = {}, options = {})
 function resolveCurrentHref(locationValue) {
 	if (locationValue?.href) return locationValue.href;
 	const origin = locationValue?.origin || 'http://localhost';
-	const pathname = locationValue?.pathname || '/games/mitzvahWorld/';
+	const pathname = locationValue?.pathname || '/games/mitzvah-world/';
 	return `${origin}${pathname}${locationValue?.search || ''}`;
 }
 

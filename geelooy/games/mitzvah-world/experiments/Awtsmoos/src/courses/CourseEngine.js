@@ -104,7 +104,7 @@ export class CourseEngine {
 	}
 
 	bestKey() {
-		return `mitzvahWorld.courseBest.${this.def.id}`;
+		return `mitzvah-world.courseBest.${this.def.id}`;
 	}
 
 	loadBestMs() {

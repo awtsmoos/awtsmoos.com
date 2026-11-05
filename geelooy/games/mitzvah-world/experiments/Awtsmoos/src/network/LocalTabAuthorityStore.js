@@ -11,7 +11,7 @@
 
 import { LOCAL_RPG_WEAPONS } from './LocalRpgCatalog.js';
 
-const AUTHORITY_KEY_PREFIX = 'awtsmoos.mitzvahWorld.localAuthority.v1';
+const AUTHORITY_KEY_PREFIX = 'awtsmoos.mitzvah-world.localAuthority.v1';
 const DEFAULT_ITEM = 'wooden-staff';
 const KNOWN_ITEMS = new Set(Object.keys(LOCAL_RPG_WEAPONS));
 

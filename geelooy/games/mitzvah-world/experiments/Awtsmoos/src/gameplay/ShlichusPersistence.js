@@ -7,7 +7,7 @@
  * @description Persists compact Shlichus state on transitions and reports storage health.
  */
 
-const DEFAULT_KEY = 'awtsmoos.mitzvahWorld.shlichus.v1';
+const DEFAULT_KEY = 'awtsmoos.mitzvah-world.shlichus.v1';
 
 export class ShlichusPersistence {
 	constructor(options = {}) {

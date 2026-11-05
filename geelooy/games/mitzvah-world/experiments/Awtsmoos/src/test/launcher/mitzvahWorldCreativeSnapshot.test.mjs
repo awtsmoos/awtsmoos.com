@@ -10,7 +10,7 @@ import {
 	normalizeMitzvahWorldCreativeSnapshot
 } from '../../launcher/MitzvahWorldCreativeSnapshot.js';
 
-const SAFE_RETURN = '/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=village&quality=high#gate';
+const SAFE_RETURN = '/games/mitzvah-world/?mode=world&session=singleplayer&worldId=village&quality=high#gate';
 
 test('creative snapshot keeps bounded transforms and sanitized session provenance', () => {
 	const diagnostics = {
@@ -31,7 +31,7 @@ test('creative snapshot keeps bounded transforms and sanitized session provenanc
 	const snapshot = createMitzvahWorldCreativeSnapshot(diagnostics, {
 		now: '2026-08-02T20:00:00.000Z',
 		location: {
-			pathname: '/games/mitzvahWorld/',
+			pathname: '/games/mitzvah-world/',
 			search: '?session=solo&world=village&quality=high&realtimeUrl=wss://secret&token=hidden',
 			hash: '#gate'
 		},
@@ -54,8 +54,8 @@ test('snapshot normalization rejects foreign paths and ignores unsafe source fie
 		format: MITZVAH_WORLD_CAPTURE_FORMAT,
 		capturedAt: '2026-08-02T20:00:00.000Z',
 		source: {
-			href: '/games/mitzvahWorld/?world=village&session=solo',
-			returnHref: '/games/mitzvahWorld/?world=village&session=solo',
+			href: '/games/mitzvah-world/?world=village&session=solo',
+			returnHref: '/games/mitzvah-world/?world=village&session=solo',
 			credentials: { token: 'hidden' },
 			peers: [{ id: 'other-player' }]
 		}
@@ -67,7 +67,7 @@ test('snapshot normalization rejects foreign paths and ignores unsafe source fie
 	assert.equal('peers' in normalized.source, false);
 	assert.equal(normalizeMitzvahWorldCreativeSnapshot({
 		...base,
-		source: { href: 'https://evil.example/world', returnHref: '/games/mitzvahWorld/' }
+		source: { href: 'https://evil.example/world', returnHref: '/games/mitzvah-world/' }
 	}), null);
 	assert.equal(normalizeMitzvahWorldCreativeSnapshot({ ...base, capturedAt: 'invalid' }), null);
 });

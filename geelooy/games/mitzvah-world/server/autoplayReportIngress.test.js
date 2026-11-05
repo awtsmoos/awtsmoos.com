@@ -35,15 +35,15 @@ test('non-Mitzvah request declines while ping remains available to platform rout
 	const ignored = fakeResponse();
 	assert.equal(await handler({ url: '/elsewhere', method: 'GET' }, ignored), false);
 	const ping = fakeResponse();
-	assert.equal(await handler({ url: '/mitzvahWorld/autoplay-ping', method: 'GET' }, ping), true);
+	assert.equal(await handler({ url: '/mitzvah-world/autoplay-ping', method: 'GET' }, ping), true);
 	assert.equal(ping.statusCode, 200);
-	assert.equal(JSON.parse(ping.body).service, 'mitzvahWorld-autoplay');
+	assert.equal(JSON.parse(ping.body).service, 'mitzvah-world-autoplay');
 });
 
 test('report route preserves POST-only method protection', async () => {
 	const handler = createAutoplayReportIngress('/tmp/unused-awtsmoos-root');
 	const response = fakeResponse();
-	assert.equal(await handler({ url: '/mitzvahWorld/autoplay-report', method: 'GET' }, response), true);
+	assert.equal(await handler({ url: '/mitzvah-world/autoplay-report', method: 'GET' }, response), true);
 	assert.equal(response.statusCode, 405);
 	assert.equal(JSON.parse(response.body).error, 'method_not_allowed');
 });

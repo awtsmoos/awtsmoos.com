@@ -31,8 +31,8 @@ test('gameplay snapshot import adds safe provenance and a return receipt only', 
 		format: 'awtsmoos.mitzvah-world.capture.v1',
 		capturedAt: '2026-08-02T20:00:00.000Z',
 		source: {
-			href: '/games/mitzvahWorld/?world=village&session=single&token=hidden',
-			returnHref: '/games/mitzvahWorld/?world=village&session=single&token=hidden',
+			href: '/games/mitzvah-world/?world=village&session=single&token=hidden',
+			returnHref: '/games/mitzvah-world/?world=village&session=single&token=hidden',
 			sessionMode: 'single',
 			title: 'Mitzvah World',
 			peers: [{ id: 'other-player' }]
@@ -52,7 +52,7 @@ test('gameplay snapshot import adds safe provenance and a return receipt only', 
 	assert.equal(result.receipt.worldId, 'village');
 	assert.equal(
 		result.receipt.returnHref,
-		'/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=village'
+		'/games/mitzvah-world/?mode=world&session=singleplayer&worldId=village'
 	);
 	assert.equal(result.project.metadata.author, 'Awtsmoos');
 	assert.equal(capture.source.worldId, 'village');

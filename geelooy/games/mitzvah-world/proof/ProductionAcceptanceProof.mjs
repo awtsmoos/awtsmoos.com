@@ -26,7 +26,7 @@ import {
 } from './BrowserProofScenarios.mjs';
 
 const repositoryRoot = resolve(process.argv[2] || process.cwd());
-const gameRoot = resolve(repositoryRoot, 'geelooy/games/mitzvahWorld');
+const gameRoot = resolve(repositoryRoot, 'geelooy/games/mitzvah-world');
 const outputPath = resolve(
 	repositoryRoot,
 	process.argv[3]

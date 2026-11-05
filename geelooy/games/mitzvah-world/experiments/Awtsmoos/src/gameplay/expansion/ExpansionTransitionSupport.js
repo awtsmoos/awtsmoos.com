@@ -68,7 +68,7 @@ export async function rollbackExpansion(
 
 export function restoreExpansionRegion(environment) {
 	try {
-		const stored = environment.localStorage?.getItem('mitzvahWorld.regionId');
+		const stored = environment.localStorage?.getItem('mitzvah-world.regionId');
 		return stored ? canonicalRegionId(stored) : null;
 	} catch {
 		return null;
@@ -78,7 +78,7 @@ export function restoreExpansionRegion(environment) {
 export function persistExpansionRegion(environment, regionId) {
 	try {
 		environment.localStorage?.setItem(
-			'mitzvahWorld.regionId',
+			'mitzvah-world.regionId',
 			canonicalRegionId(regionId)
 		);
 	} catch {

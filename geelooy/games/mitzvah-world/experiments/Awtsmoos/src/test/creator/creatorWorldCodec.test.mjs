@@ -24,18 +24,18 @@ test('canonical world round-trips through validator with stable object and world
 	const parsed = parseCreatorWorld(portable.json);
 	assert.equal(parsed.format, 'awtsmoos.world.v1');
 	assert.equal(parsed.version, 1);
-	assert.equal(parsed.metadata.mitzvahWorldCreator.worldId, portable.worldId);
+	assert.equal(parsed.metadata.mitzvah-worldCreator.worldId, portable.worldId);
 	assert.equal(creatorWorldParts(parsed)[0].definition.id, 'creator-timber-wall-0042');
 	const reopened = new MitzvahWorldCreatorDocument({ document: parsed, environment });
-	assert.equal(reopened.document.metadata.mitzvahWorldCreator.worldId, portable.worldId);
+	assert.equal(reopened.document.metadata.mitzvah-worldCreator.worldId, portable.worldId);
 });
 
 test('remix assigns a new identity and preserves source provenance', async () => {
 	const environment = createCreatorEnvironment();
 	const portable = await createPortableCreatorWorld(environment);
 	const remix = remixCreatorWorld(portable.document, environment);
-	assert.notEqual(remix.metadata.mitzvahWorldCreator.worldId, portable.worldId);
-	assert.equal(remix.metadata.mitzvahWorldCreator.remixOf, portable.worldId);
+	assert.notEqual(remix.metadata.mitzvah-worldCreator.worldId, portable.worldId);
+	assert.equal(remix.metadata.mitzvah-worldCreator.remixOf, portable.worldId);
 	assert.equal(creatorWorldParts(remix)[0].definition.id, 'creator-timber-wall-0042');
 });
 

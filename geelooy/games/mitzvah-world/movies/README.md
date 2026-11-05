@@ -4,9 +4,9 @@ The Movie Maker directs the real Mitzvah World renderer, actors, houses, trees, 
 
 ## Entry routes
 
-- `/games/mitzvahWorld/` opens the short launcher menu.
-- `/games/mitzvahWorld/?mode=world` enters normal gameplay directly.
-- `/games/mitzvahWorld/?mode=movie&movie=sample30` opens the included 30-second project.
+- `/games/mitzvah-world/` opens the short launcher menu.
+- `/games/mitzvah-world/?mode=world` enters normal gameplay directly.
+- `/games/mitzvah-world/?mode=movie&movie=sample30` opens the included 30-second project.
 - `movie=<base64url JSON>` opens an encoded project.
 - `movieJson=<URL-encoded JSON>` opens raw JSON.
 - `movieUrl=/path/project.json` fetches a project.
@@ -45,7 +45,7 @@ The real tiny renderer draws the world into its WebGL canvas. `MovieOverlay` com
 Run:
 
 ```bash
-node geelooy/games/mitzvahWorld/movies/tools/finalizeMovie.mjs
+node geelooy/games/mitzvah-world/movies/tools/finalizeMovie.mjs
 ```
 
 The finalizer reads dialogue directly from the project JSON, creates speaker voices with macOS `say`, mixes them over browser audio, normalizes the movie to the requested duration and frame rate, and writes H.264/AAC MP4 plus an ffprobe JSON report.

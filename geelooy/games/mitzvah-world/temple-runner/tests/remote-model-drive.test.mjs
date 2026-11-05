@@ -7,7 +7,7 @@
  * @description Guards Temple Runner's Chossid model URL against ever pointing at the dead
  * firebase_drive_migration tree again.
  * Yaakov 2026-10-13: the firebase_drive_migration URLs 404 — the model MUST resolve to the
- * deployed repository asset at /games/mitzvahWorld/build/generated/assets/{sha256}/chossid.glb.
+ * deployed repository asset at /games/mitzvah-world/build/generated/assets/{sha256}/chossid.glb.
  */
 
 import assert from 'node:assert/strict';
@@ -19,7 +19,7 @@ import { remoteModelRecord } from '../../experiments/Awtsmoos/src/assets/RemoteM
 
 const CHOSSID_IDENTITY = 'player/chossid.glb';
 const CHOSSID_SHA = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
-const ASSET_PREFIX = '/games/mitzvahWorld/build/generated/assets/';
+const ASSET_PREFIX = '/games/mitzvah-world/build/generated/assets/';
 const loaderPath = fileURLToPath(new URL('../src/core/ChossidLoader.js', import.meta.url));
 const catalogPath = fileURLToPath(new URL('../../experiments/Awtsmoos/src/assets/RemoteModelCatalog.js', import.meta.url));
 

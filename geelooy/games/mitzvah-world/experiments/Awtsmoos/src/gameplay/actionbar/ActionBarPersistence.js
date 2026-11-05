@@ -7,7 +7,7 @@
  * @description Restores and writes compact action-bar layouts only on state transitions.
  */
 
-const DEFAULT_KEY = 'awtsmoos.mitzvahWorld.actionBar.v1';
+const DEFAULT_KEY = 'awtsmoos.mitzvah-world.actionBar.v1';
 
 export class ActionBarPersistence {
 	constructor(options = {}) {

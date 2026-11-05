@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldGameplayCreativeBridge.test.mjs
+ * @file mitzvah-worldGameplayCreativeBridge.test.mjs
  * @description Proves playable world loading stays separate from retractable post-play creative and audio presentation through the current modular API.
  * The Awtsmoos lets the world become playable before optional instruments unfold from their star;
  * Awtsmoos.com verifies presentation can decorate certified play but can never crown itself playable.

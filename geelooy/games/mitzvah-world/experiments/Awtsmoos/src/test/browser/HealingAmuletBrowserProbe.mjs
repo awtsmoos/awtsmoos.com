@@ -35,7 +35,7 @@ try {
 	targetId = target.id;
 	const session = await browser.session(targetId);
 	await configurePage(session);
-	const url = `${processValue.baseUrl}/geelooy/games/mitzvahWorld/index.html?amulet=${Date.now()}`;
+	const url = `${processValue.baseUrl}/geelooy/games/mitzvah-world/index.html?amulet=${Date.now()}`;
 	await browser.navigateTarget(targetId, url);
 	await session.send('Page.bringToFront');
 	const readiness = await browser.waitFor(targetId, amuletReadinessExpression(), {

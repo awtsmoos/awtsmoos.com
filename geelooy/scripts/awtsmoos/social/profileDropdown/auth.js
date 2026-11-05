@@ -43,7 +43,7 @@ async function authenticate(elements, form, url, registering, closeMenu) {
 		});
 		const body = await response.text();
 		if (!responseSucceeded(response, body, registering)) {
-			throw new Error(serverMessageFromBody(body) || 'The account server rejected this request.');
+			throw new Error(friendlyAuthMessage(serverMessageFromBody(body), registering));
 		}
 		passwordInput.value = '';
 		if (registering) {
@@ -95,8 +95,376 @@ function serverMessageFromBody(body) {
 	return text;
 }
 
-function swapForms(hiddenForm, shownForm) {
-	hiddenForm.hidden = true;
-	shownForm.hidden = false;
-	shownForm.querySelector('input')?.focus();
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
 }
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(servsetProfileMessage(elements.authMessage, 'Signed in. Your identity is ready.', 'success');
+		closeMenu({ restoreFocus: false });
+		requestAnimationFrame(() => elements.dropdownProfile.focus());
+	} catch (error) {
+		passwordInput.value = '';
+		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		passwordInput.focus();
+	} finally {
+		setProfileFormBusy(form, false);
+	}
+}
+
+async function hydrateSignedInIdentity(elements) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		const identity = await hydrateProfileIdentity(elements);
+		if (identity.username) return identity;
+		await new Promise(resolve => setTimeout(resolve, 120));
+	}
+	throw new Error('Login succeeded, but the session could not be hydrated yet.');
+}
+
+function prepareLoginAfterRegistration(elements, username) {
+	setProfileMessage(elements.authMessage, 'Account created. Sign in with the new account.', 'success');
+	elements.loginUsername.value = username;
+	swapForms(elements.registerForm, elements.loginForm);
+	elements.loginPassword.focus();
+}
+
+function responseSucceeded(response, body, registering) {
+	if (!response.ok) return false;
+	const normalized = body.toLowerCase();
+	if (normalized.includes('success') || normalized.includes('logged in')) return true;
+	return registering && (normalized.includes('account created') || normalized.includes('registered'));
+}
+
+/** Surfaces the auth message the server rendered into its response page, when present. */
+function serverMessageFromBody(body) {
+	const match = String(body || '').match(/id="serverMessage"[^>]*>([\s\S]*?)<\/div>/);
+	if (!match) return '';
+	const text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	if (!text || text.startsWith('Please fill out the form')) return '';
+	return text;
+}
+
+/**
+ * Maps a raw auth failure to the specific copy the QA ordered.
+ * Wrong password -> password copy; taken username -> taken-name copy.
+ * Any other specific server message passes through unchanged.
+ * @param {string} serverMessage Raw message extracted from the server response.
+ * @param {boolean} registering True for the signup form, false for login.
+ * @returns {string} User-facing auth failure copy.
+ */
+function friendlyAuthMessage(serv

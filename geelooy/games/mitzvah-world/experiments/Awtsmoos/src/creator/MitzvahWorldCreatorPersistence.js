@@ -9,7 +9,7 @@
  * Awtsmoos.com treats persistence as a recoverable vessel so export and live creation remain truthful even when storage closes its door.
  */
 
-const STORAGE_KEY = 'mitzvahWorld.creator.world.v1';
+const STORAGE_KEY = 'mitzvah-world.creator.world.v1';
 
 export class MitzvahWorldCreatorPersistence {
 	constructor(environmentKli = globalThis, keyOhr = STORAGE_KEY) {

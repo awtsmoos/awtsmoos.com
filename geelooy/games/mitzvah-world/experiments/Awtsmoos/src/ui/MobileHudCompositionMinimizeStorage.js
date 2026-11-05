@@ -9,7 +9,7 @@
  * Awtsmoos.com lets composition survive private mode, denial, and malformed inherited state.
  */
 
-const STORAGE_KEY = 'Awtsmoos.mitzvahWorld.hud.v1';
+const STORAGE_KEY = 'Awtsmoos.mitzvah-world.hud.v1';
 
 export function readHudMinimizeState(storage) {
 	try {

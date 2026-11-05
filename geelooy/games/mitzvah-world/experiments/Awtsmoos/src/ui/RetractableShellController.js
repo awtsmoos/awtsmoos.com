@@ -9,7 +9,7 @@
  * this controller keeps each shell's state on its own vessel, so advanced depth may hide cleanly while one luminous handle remains right.
  */
 
-const STORAGE_PREFIX = 'awtsmoos.mitzvahWorld.retracted.';
+const STORAGE_PREFIX = 'awtsmoos.mitzvah-world.retracted.';
 
 /** Coordinates root-local retractable shells and their accessible toggle buttons. */
 export class RetractableShellController {

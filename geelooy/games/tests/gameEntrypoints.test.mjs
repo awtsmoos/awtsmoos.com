@@ -31,6 +31,6 @@ test('non-JavaScript navigation provides keyboard-ready quick game links', () =>
 	const html = fs.readFileSync(path.join(gamesRoot, 'index.html'), 'utf8');
 	assert.match(html, /<nav class="quickLaunch[^>]+aria-label="Quick game launches"/);
 	assert.match(html, /<a class="skipLink" href="#gamesCatalog">/);
-	assert.match(html, /<a href="\.\/mitzvahWorld\/templeRunner\/">/);
+	assert.match(html, /<a href="\.\/mitzvah-world\/templeRunner\/">/);
 	assert.match(html, /<a href="\.\/party\/">/);
 });

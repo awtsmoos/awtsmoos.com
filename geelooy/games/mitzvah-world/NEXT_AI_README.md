@@ -9,8 +9,8 @@
 
 ## Start here
 
-- Public route: `/games/mitzvahWorld/`
-- Route shell: `geelooy/games/mitzvahWorld/index.html`
+- Public route: `/games/mitzvah-world/`
+- Route shell: `geelooy/games/mitzvah-world/index.html`
 - Compact entry: `experiments/Awtsmoos/src/mitzvah-world.compact.js`
 - Source launcher: `experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js`
 - Runtime diagnostics: `globalThis.AwtsmoosMitzvahWorld`
@@ -51,7 +51,7 @@ Never hand-edit `mitzvah-world.compact.js`. After rebuilding:
 ```bash
 node ayzarim/awtsmoosDynamicServer/tests/compactJs.test.js
 node ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahFeature.test.js
-node ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahWorldRuntime.test.js
+node ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvah-worldRuntime.test.js
 ```
 
 ## Model delivery

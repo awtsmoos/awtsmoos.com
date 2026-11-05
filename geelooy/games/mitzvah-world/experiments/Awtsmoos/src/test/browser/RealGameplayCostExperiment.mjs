@@ -33,7 +33,7 @@ try {
 	const session = await browser.session(targetId);
 	await configurePage(session);
 	const blank = await sample(browser, targetId);
-	const url = `${processValue.baseUrl}/geelooy/games/mitzvahWorld/index.html?cost=${Date.now()}`;
+	const url = `${processValue.baseUrl}/geelooy/games/mitzvah-world/index.html?cost=${Date.now()}`;
 	await browser.navigateTarget(targetId, url);
 	await session.send('Page.bringToFront');
 	const boot = await browser.waitFor(targetId, bootExpression(), {

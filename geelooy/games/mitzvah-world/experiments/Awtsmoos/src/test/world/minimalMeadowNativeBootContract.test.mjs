@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
-const GAME_ROOT = 'geelooy/games/mitzvahWorld';
+const GAME_ROOT = 'geelooy/games/mitzvah-world';
 const source = relativePath => fs.readFileSync(`${GAME_ROOT}/${relativePath}`, 'utf8');
 
 test('B"H production index owns generated game entry and independent shell', () => {

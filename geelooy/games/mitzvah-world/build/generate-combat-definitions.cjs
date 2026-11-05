@@ -30,7 +30,7 @@ const clientFile = path.join(
 );
 const serverFile = path.resolve(
 	gameRoot,
-	'../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefinitionRecords.js'
+	'../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world/CombatDefinitionRecords.js'
 );
 const sources = readCombatSources(sharedRoot);
 const digest = combatSourceDigest(sources);

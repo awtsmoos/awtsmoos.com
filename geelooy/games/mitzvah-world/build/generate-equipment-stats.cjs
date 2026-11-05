@@ -14,7 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const gameRoot = path.resolve(__dirname, '..');
-const serverRoot = path.resolve(gameRoot, '../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld');
+const serverRoot = path.resolve(gameRoot, '../../../ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvah-world');
 const clientRoot = path.join(gameRoot, 'experiments/Awtsmoos/src/gameplay/stats');
 const sourcePath = path.join(gameRoot, 'shared/equipment-stat-modifiers.json');
 const source = fs.readFileSync(sourcePath, 'utf8');

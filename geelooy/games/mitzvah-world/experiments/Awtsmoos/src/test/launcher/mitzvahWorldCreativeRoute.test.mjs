@@ -10,12 +10,12 @@ import {
 	isGameplayMovieHandoff
 } from '../../launcher/MitzvahWorldCreativeRoute.js';
 
-const SOURCE_HREF = 'https://example.test/games/mitzvahWorld/?world=village&session=solo&quality=high&realtimeUrl=wss://secret&token=hidden#gate';
+const SOURCE_HREF = 'https://example.test/games/mitzvah-world/?world=village&session=solo&quality=high&realtimeUrl=wss://secret&token=hidden#gate';
 
 test('movie route preserves safe world identity and strips transport secrets', () => {
 	const route = createMitzvahWorldMovieRoute({ href: SOURCE_HREF });
 	const url = new URL(route, 'https://example.test');
-	assert.equal(url.pathname, '/games/mitzvahWorld/');
+	assert.equal(url.pathname, '/games/mitzvah-world/');
 	assert.equal(url.searchParams.get('worldId'), 'village');
 	assert.equal(url.searchParams.get('session'), 'singleplayer');
 	assert.equal(url.searchParams.get('quality'), 'high');
@@ -31,7 +31,7 @@ test('movie route preserves safe world identity and strips transport secrets', (
 test('return route restores exact safe session and world intent', () => {
 	const route = createMitzvahWorldReturnRoute({
 		source: {
-			returnHref: '/games/mitzvahWorld/?mode=world&session=multiplayer&worldId=desert&quality=cinematic#well',
+			returnHref: '/games/mitzvah-world/?mode=world&session=multiplayer&worldId=desert&quality=cinematic#well',
 			sessionMode: 'multiplayer',
 			worldId: 'desert',
 			peers: [{ id: 'hidden' }]
@@ -39,7 +39,7 @@ test('return route restores exact safe session and world intent', () => {
 	});
 	assert.equal(
 		route,
-		'/games/mitzvahWorld/?mode=world&session=multiplayer&worldId=desert&quality=cinematic#well'
+		'/games/mitzvah-world/?mode=world&session=multiplayer&worldId=desert&quality=cinematic#well'
 	);
 	assert.equal(route.includes('peers'), false);
 });

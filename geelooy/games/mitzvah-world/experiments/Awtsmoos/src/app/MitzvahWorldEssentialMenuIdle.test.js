@@ -66,7 +66,7 @@ function createEnvironment() {
 	};
 	document.body = new FakeElement('body', document);
 	environment.document = document;
-	environment.location = { href: 'https://example.test/games/mitzvahWorld/' };
+	environment.location = { href: 'https://example.test/games/mitzvah-world/' };
 	return environment;
 }
 

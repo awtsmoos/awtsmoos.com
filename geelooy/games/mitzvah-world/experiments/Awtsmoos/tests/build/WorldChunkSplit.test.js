@@ -20,8 +20,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const REPO_BUILD_SCRIPT = '/home/hatch/workspace/mw-repo/geelooy/games/mitzvahWorld/build/split-world-chunk.cjs';
-const LIVE_SRC = '/home/hatch/workspace/mw-repo/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src';
+const REPO_BUILD_SCRIPT = '/home/hatch/workspace/mw-repo/geelooy/games/mitzvah-world/build/split-world-chunk.cjs';
+const LIVE_SRC = '/home/hatch/workspace/mw-repo/geelooy/games/mitzvah-world/experiments/Awtsmoos/src';
 const DEPLOY_LIMIT = 5242880;
 const SPLIT_CAP = 4800000;
 

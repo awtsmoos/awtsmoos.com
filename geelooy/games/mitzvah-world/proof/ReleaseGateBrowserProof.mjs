@@ -34,7 +34,7 @@ try {
 		screenWidth: 1280,
 		width: 1280
 	});
-	const url = `${owner.baseUrl}/geelooy/games/mitzvahWorld/index.html?releaseGate=1&proof=${Date.now()}`;
+	const url = `${owner.baseUrl}/geelooy/games/mitzvah-world/index.html?releaseGate=1&proof=${Date.now()}`;
 	await command('Page.navigate', { url });
 	await command('Page.bringToFront');
 	await enterSinglePlayer(command, 'living-village');

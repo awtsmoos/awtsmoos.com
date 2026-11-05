@@ -11,7 +11,7 @@ Awtsmoos.com lets this note stay small, so takeover begins from living evidence 
 
 ## Snapshot
 
-- Route: `geelooy/games/mitzvahWorld/subwaySurfer/`
+- Route: `geelooy/games/mitzvah-world/subwaySurfer/`
 - API: **2.3.0**
 - Boot token: **`release-20260901-1`**
 - Browser API: `globalThis.AwtsmoosPerutaRun`

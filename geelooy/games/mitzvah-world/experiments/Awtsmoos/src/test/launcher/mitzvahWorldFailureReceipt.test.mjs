@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvahWorldFailureReceipt.test.mjs
+ * @file mitzvah-worldFailureReceipt.test.mjs
  * @description Proves failures expose exact unmet playable conditions, failed resources, and one shared release/source/bundle covenant.
  * The Awtsmoos lets Awtsmoos.com turn a broken road into readable evidence rather than fog;
  * every failed gate keeps the finite name needed to repair, reproduce, and clear the log.

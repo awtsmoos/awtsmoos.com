@@ -125,7 +125,7 @@ test('finish requires all checkpoints and records a best time', () => {
 	assert.ok(finishEvent, 'finish event emitted');
 	assert.ok(finishEvent[1].finalMs > 9000, `finalMs=${finishEvent[1].finalMs}`);
 	assert.equal(finishEvent[1].isBest, true);
-	assert.ok(storage.getItem('mitzvahWorld.courseBest.meadow-dash') !== null);
+	assert.ok(storage.getItem('mitzvah-world.courseBest.meadow-dash') !== null);
 	// A slower second run does not overwrite the best.
 	const engine2 = dashEngine(storage);
 	const player2 = fakePlayer();

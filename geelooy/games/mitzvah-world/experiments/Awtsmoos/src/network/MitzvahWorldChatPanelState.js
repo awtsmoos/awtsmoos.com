@@ -9,7 +9,7 @@
 	* denied, private, malformed, and absent storage from affecting multiplayer playability.
 	*/
 
-const STORAGE_KEY = 'Awtsmoos.mitzvahWorld.chat.open.v1';
+const STORAGE_KEY = 'Awtsmoos.mitzvah-world.chat.open.v1';
 
 export function readChatPanelOpen(storage) {
 	try {

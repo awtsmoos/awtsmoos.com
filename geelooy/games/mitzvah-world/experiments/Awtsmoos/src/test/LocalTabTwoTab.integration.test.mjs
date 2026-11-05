@@ -58,7 +58,7 @@ function tabClient(storage, identityScope) {
 
 function storageWith(initialValue) {
 	const values = new Map([
-		['awtsmoos.mitzvahWorld.localTabPlayerId', initialValue]
+		['awtsmoos.mitzvah-world.localTabPlayerId', initialValue]
 	]);
 	return {
 		getItem(key) { return values.get(key) || null; },

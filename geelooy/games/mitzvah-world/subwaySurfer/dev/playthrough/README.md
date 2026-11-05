@@ -40,13 +40,13 @@ It is intentionally separate from gameplay runtime ownership. It does not mutate
 The default route is served from local port `8766` and Chrome debugging port `9222`.
 
 ```bash
-node geelooy/games/mitzvahWorld/subwaySurfer/dev/playthrough/run-playthrough.mjs mobile
+node geelooy/games/mitzvah-world/subwaySurfer/dev/playthrough/run-playthrough.mjs mobile
 ```
 
 Run both default profiles:
 
 ```bash
-node geelooy/games/mitzvahWorld/subwaySurfer/dev/playthrough/run-playthrough.mjs
+node geelooy/games/mitzvah-world/subwaySurfer/dev/playthrough/run-playthrough.mjs
 ```
 
 Environment overrides:

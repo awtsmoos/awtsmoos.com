@@ -19,7 +19,7 @@ const { compileCompactModule } = require("../../../ayzarim/awtsmoosDynamicServer
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const entryFile = path.join(
 	repoRoot,
-	"geelooy/games/mitzvahWorld/templeRunner/src/main.js"
+	"geelooy/games/mitzvah-world/temple-runner/src/main.js"
 );
 
 /**
@@ -44,7 +44,7 @@ test("Temple runtime assembly is statically folded into CompactJS", async () => 
 test("startup source contains no local dynamic runtime gate", async () => {
 	const startupPath = path.join(
 		repoRoot,
-		"geelooy/games/mitzvahWorld/templeRunner/src/app/TempleStartupDependencies.js"
+		"geelooy/games/mitzvah-world/temple-runner/src/app/TempleStartupDependencies.js"
 	);
 	const source = await fs.readFile(startupPath, "utf8");
 	assert.match(source, /import \{ TempleRuntimeAssembly \} from "\.\/TempleRuntimeAssembly\.js"/);

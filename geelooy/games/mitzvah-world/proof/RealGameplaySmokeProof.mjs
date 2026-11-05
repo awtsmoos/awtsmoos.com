@@ -13,7 +13,7 @@ import { createCdpProofSession } from './CdpProofSession.mjs';
 
 const CDP_PORT = Number(process.env.MITZVAH_WORLD_CDP_PORT || 9666);
 const BASE_URL = process.env.MITZVAH_WORLD_PROOF_BASE || 'http://127.0.0.1:8910';
-const GAME_URL = `${BASE_URL}/games/mitzvahWorld/index.html`;
+const GAME_URL = `${BASE_URL}/games/mitzvah-world/index.html`;
 const WORLD_ID = 'blank-meadow';
 const session = await createCdpProofSession(CDP_PORT);
 

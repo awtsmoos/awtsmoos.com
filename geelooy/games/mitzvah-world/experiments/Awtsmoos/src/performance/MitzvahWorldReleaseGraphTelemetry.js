@@ -9,7 +9,7 @@
  * Awtsmoos.com reveals that graph receipt without making the player's first step wait in night.
  */
 
-const RECEIPT_PATH = '/games/mitzvahWorld/build/generated/mitzvah-world-release-gate.json';
+const RECEIPT_PATH = '/games/mitzvah-world/build/generated/mitzvah-world-release-gate.json';
 
 /** Starts optional same-origin release telemetry and degrades silently when the receipt is unavailable. */
 export function startMitzvahWorldReleaseGraphTelemetry(diagnostics = {}, environment = globalThis) {

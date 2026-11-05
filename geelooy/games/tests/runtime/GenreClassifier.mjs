@@ -7,7 +7,7 @@ const NAME_FAMILIES = new Map([
 	['brick-blast', 'arcade'], ['pong', 'arcade'], ['soul-jump', 'platformer'],
 	['sulam-ha-sod', 'platformer'], ['rebbe-runner', 'runner'], ['kabbalah-shooter', 'shooter'],
 	['shema-strike', 'shooter'], ['nitzotz-io', 'action-3d'], ['Merkava', 'action-3d'],
-	['city-of-light', 'exploration-3d'], ['mitzvahWorld', 'exploration-3d']
+	['city-of-light', 'exploration-3d'], ['mitzvah-world', 'exploration-3d']
 ]);
 
 /**

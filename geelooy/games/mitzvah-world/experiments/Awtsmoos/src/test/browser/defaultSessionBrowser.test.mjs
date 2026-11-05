@@ -20,7 +20,7 @@ import {
 import { browserProofAvailable, startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const worldPath = '/geelooy/games/mitzvahWorld/index.html?mode=world';
+const worldPath = '/geelooy/games/mitzvah-world/index.html?mode=world';
 
 test('B"H solo and default world multiplayer share immediate gameplay', {
 	skip: !browserProofAvailable(),

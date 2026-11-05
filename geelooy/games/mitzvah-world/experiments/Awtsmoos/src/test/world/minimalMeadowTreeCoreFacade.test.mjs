@@ -19,7 +19,7 @@ import {
 } from '../../app/MinimalMeadowTreeCoreFacade.js';
 
 const facadePath = path.resolve(
-	'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
+	'geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
 );
 
 test('B"H facade exposes the real canonical procedural tree API', () => {

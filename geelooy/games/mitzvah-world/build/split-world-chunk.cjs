@@ -19,7 +19,7 @@
  * The shared registry is a number-keyed object (not a positional array) so module lookup
  * stays correct even if the compiler ever emits gapped module numbering.
  *
- * Usage: node geelooy/games/mitzvahWorld/build/split-world-chunk.cjs
+ * Usage: node geelooy/games/mitzvah-world/build/split-world-chunk.cjs
  * Re-run after every rebuild of the world chunk. Then regenerate .br/.gz with
  * GeneratedAssetCompression.cjs compressGeneratedAsset() for both chunk files.
  */

@@ -8,7 +8,7 @@
  *
  * ID UNIFICATION DECISION (stream 4, 2026-10-13):
  * The canonical enemy identities are the species ids in
- * `geelooy/games/mitzvahWorld/shared/combat/enemy-profiles.json`
+ * `geelooy/games/mitzvah-world/shared/combat/enemy-profiles.json`
  * (fox, wolf, dybbuk-shade, fallen-seraph-husk, great-dybbuk, klipah-guardian,
  * kedem-letter-warden). Both the server (CombatEffectivenessResolver, creature
  * records, CreatureSpawnCatalog) and the client (generated CombatDefinitionRecords)

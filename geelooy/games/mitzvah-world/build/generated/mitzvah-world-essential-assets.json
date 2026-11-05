@@ -4,9 +4,9 @@
 			"bytes": 2027368,
 			"custody": "local",
 			"materialized": true,
-			"publicUrl": "/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
+			"publicUrl": "/games/mitzvah-world/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
 			"sha256": "d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48",
-			"sourceUrl": "https://awtsmoos.com/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb"
+			"sourceUrl": "https://awtsmoos.com/games/mitzvah-world/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb"
 		},
 		"essentialGrass": {
 			"bytes": 322486,

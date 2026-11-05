@@ -3,7 +3,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { startBrowserProof } from './BrowserProofProcess.mjs';
 import { fileURLToPath } from 'node:url';
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const GAME_URL = '/geelooy/games/mitzvahWorld/index.html';
+const GAME_URL = '/geelooy/games/mitzvah-world/index.html';
 const processValue = await startBrowserProof(repositoryRoot);
 const browser = await new BrowserCdpHarness(processValue.cdpPort).start();
 let targetId = null;

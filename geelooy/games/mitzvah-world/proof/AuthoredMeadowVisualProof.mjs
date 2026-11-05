@@ -23,7 +23,7 @@ import {
 
 const CDP_PORT = Number(process.env.MITZVAH_WORLD_CDP_PORT || 9666);
 const BASE_URL = process.env.MITZVAH_WORLD_PROOF_BASE || 'http://127.0.0.1:8910';
-const GAME_URL = `${BASE_URL}/games/mitzvahWorld/index.html?authored=${Date.now()}`;
+const GAME_URL = `${BASE_URL}/games/mitzvah-world/index.html?authored=${Date.now()}`;
 const SCREENSHOT_PATH = process.env.MITZVAH_WORLD_VISUAL_SCREENSHOT || '/tmp/mitzvah-authored-meadow-proof.png';
 const session = await createCdpProofSession(CDP_PORT);
 

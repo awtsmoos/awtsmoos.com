@@ -15,7 +15,7 @@ import {
 	resolveGeneratedRuntimeChunkUrl
 } from '../../app/GeneratedRuntimeChunkUrl.js';
 
-const ROOT = 'http://127.0.0.1:8080/games/mitzvahWorld/experiments/Awtsmoos/src/';
+const ROOT = 'http://127.0.0.1:8080/games/mitzvah-world/experiments/Awtsmoos/src/';
 const CHUNKS = ['foundation', 'core', 'presentation', 'world', 'optional'];
 
 for (const name of CHUNKS) {

@@ -16,7 +16,7 @@ import { installMinimalMeadowOptionalEntries } from './MinimalMeadowOptionalEntr
 import { runMinimalSharedMeadowReadiness } from './MinimalSharedMeadowReadinessFlow.js';
 import { isMinimalMovieRequest, openMinimalCreativeRoute } from './MinimalSharedCreativeRoute.js';
 import { launchMinimalSharedMeadowRuntime } from './MinimalSharedMeadowRuntimeLaunch.js';
-import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
+import { mitzvah-worldSessionMode } from './MitzvahWorldSessionMode.js';
 import { resolveMinimalMeadowHosts, showMinimalMeadowBootFailure } from './MinimalSharedMeadowPageSupport.js';
 
 export async function bootMinimalSharedMeadowRuntimePage(
@@ -42,7 +42,7 @@ export async function bootMinimalSharedMeadowRuntimePage(
 		loading = new MeadowLoadingScreen(documentValue, environment);
 		const parameters = new URLSearchParams(search);
 		const sessionMode = dependencies.sessionMode
-			|| mitzvahWorldSessionMode(parameters);
+			|| mitzvah-worldSessionMode(parameters);
 		documentValue.documentElement.dataset.awtsmoosSession = sessionMode;
 		stage(documentValue, 'runtime-launch');
 		const diagnostics = await launchMinimalSharedMeadowRuntime({

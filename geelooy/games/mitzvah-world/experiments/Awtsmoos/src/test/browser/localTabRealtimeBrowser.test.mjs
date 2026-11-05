@@ -16,8 +16,8 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { browserProofAvailable, startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const harnessPath = '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/browser/LocalTabRealtimeHarness.html';
-const modulePath = '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabRealtimeClient.js';
+const harnessPath = '/geelooy/games/mitzvah-world/experiments/Awtsmoos/src/test/browser/LocalTabRealtimeHarness.html';
+const modulePath = '/geelooy/games/mitzvah-world/experiments/Awtsmoos/src/network/LocalTabRealtimeClient.js';
 
 test('B"H two real tabs exchange exact production realtime state', {
 	skip: !browserProofAvailable(),

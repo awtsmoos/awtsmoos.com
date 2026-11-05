@@ -4,7 +4,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const GAME_URL = '/geelooy/games/mitzvahWorld/index.html';
+const GAME_URL = '/geelooy/games/mitzvah-world/index.html';
 
 const processValue = await startBrowserProof(repositoryRoot);
 const browser = await new BrowserCdpHarness(processValue.cdpPort).start();
@@ -19,7 +19,7 @@ try {
 	await new Promise(r => setTimeout(r, 4000));
 	await browser.evaluate(targetId, `(() => {
 		globalThis.__seq = [];
-		const base = location.origin + '/games/mitzvahWorld/experiments/Awtsmoos/src/';
+		const base = location.origin + '/games/mitzvah-world/experiments/Awtsmoos/src/';
 		const t0 = performance.now();
 		import(base + 'mitzvah-world-foundation.compact.js').then(fns => {
 			globalThis.__seq.push(['foundation-import-ms', Math.round(performance.now() - t0), Object.keys(fns).length]);

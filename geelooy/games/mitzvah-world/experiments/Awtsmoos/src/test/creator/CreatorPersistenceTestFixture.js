@@ -12,7 +12,7 @@
 import { MitzvahWorldCreatorDocument } from '../../creator/MitzvahWorldCreatorDocument.js';
 import { MitzvahWorldCreatorSandboxInventory } from '../../creator/MitzvahWorldCreatorSandboxInventory.js';
 import { MitzvahWorldCreatorSession } from '../../creator/MitzvahWorldCreatorSession.js';
-import { mitzvahWorldCreatorPart } from '../../creator/MitzvahWorldCreatorCatalog.js';
+import { mitzvah-worldCreatorPart } from '../../creator/MitzvahWorldCreatorCatalog.js';
 
 export function createCreatorEnvironment() {
 	let sequence = 0;
@@ -77,12 +77,12 @@ export function createCreatorSessionFixture() {
 
 export async function createPortableCreatorWorld(environment, id = 'creator-timber-wall-0042') {
 	const documentStore = new MitzvahWorldCreatorDocument({ environment });
-	const part = mitzvahWorldCreatorPart('timber-wall');
+	const part = mitzvah-worldCreatorPart('timber-wall');
 	await documentStore.createPart(part, creatorDefinition(id));
 	return {
 		document: documentStore.document,
 		json: documentStore.serialize(),
-		worldId: documentStore.document.metadata.mitzvahWorldCreator.worldId
+		worldId: documentStore.document.metadata.mitzvah-worldCreator.worldId
 	};
 }
 

@@ -24,7 +24,7 @@ import {
 	localTerrainTextureUrl
 } from '../terrain/LocalTerrainTextureCatalog.js';
 
-const LOCAL_MODEL_PATTERN = /^\/games\/mitzvahWorld\/assets\/models\/reference-world\/[a-f0-9]{64}\//;
+const LOCAL_MODEL_PATTERN = /^\/games\/mitzvah-world\/assets\/models\/reference-world\/[a-f0-9]{64}\//;
 
 test('real nature catalog exposes the five inspected immutable assets', () => {
 	const catalog = realNatureAssetCatalog();

@@ -27,7 +27,7 @@ test('each house role points to a same-origin, versioned CC0 photograph',()=>{
 	for(const role of roles){
 		const uri=new URL(housePhotoUrl(role,environment));
 		assert.equal(uri.origin,origin);
-		assert.match(uri.pathname,/^\/games\/mitzvahWorld\/photoreal\/textures\/cc0\/.+\.jpg$/);
+		assert.match(uri.pathname,/^\/games\/mitzvah-world\/photoreal\/textures\/cc0\/.+\.jpg$/);
 		distinct.add(uri.pathname);
 		const material=houseMaterial(role);
 		assert.equal(material.houseMaterialRole,role);

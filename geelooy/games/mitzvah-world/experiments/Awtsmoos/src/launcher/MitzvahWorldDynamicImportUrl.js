@@ -12,7 +12,7 @@
  */
 
 /** Returns an importable specifier: bare path on file:, original on http(s). */
-export function mitzvahWorldDynamicImportUrl(specifier) {
+export function mitzvah-worldDynamicImportUrl(specifier) {
 	if (globalThis.location?.protocol === 'file:') {
 		const queryIndex = String(specifier).indexOf('?');
 		return queryIndex >= 0 ? String(specifier).slice(0, queryIndex) : specifier;

@@ -50,6 +50,6 @@ export function createMitzvahWorldRuntimeSnapshot(
  * Returns the public schema version without requiring callers to materialize a live runtime snapshot.
  * @returns {number} Current monotonically increasing snapshot schema version.
  */
-export function mitzvahWorldRuntimeSnapshotVersion() {
+export function mitzvah-worldRuntimeSnapshotVersion() {
 	return PUBLIC_SNAPSHOT_VERSION;
 }

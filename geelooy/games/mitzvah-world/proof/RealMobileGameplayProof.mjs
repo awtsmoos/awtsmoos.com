@@ -22,7 +22,7 @@ import { readMobileGameplayState } from './MobileGameplayState.mjs';
 const CDP_PORT = Number(process.env.MITZVAH_WORLD_CDP_PORT || 9999);
 const BASE_URL = process.env.MITZVAH_WORLD_PROOF_BASE || 'http://127.0.0.1:8910';
 const WORLD_ID = process.env.MITZVAH_WORLD_PROOF_WORLD || 'simple-meadow';
-const GAME_URL = `${BASE_URL}/games/mitzvahWorld/index.html?mobile-proof=${Date.now()}`;
+const GAME_URL = `${BASE_URL}/games/mitzvah-world/index.html?mobile-proof=${Date.now()}`;
 const session = await createCdpProofSession(CDP_PORT);
 
 try {

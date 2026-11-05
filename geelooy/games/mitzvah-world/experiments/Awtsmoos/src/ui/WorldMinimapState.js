@@ -9,8 +9,8 @@
  * preserves legacy expansion while denied, malformed, or absent persistence cannot block play.
  */
 
-const MODE_KEY = 'Awtsmoos.mitzvahWorld.minimap.mode.v2';
-const LEGACY_KEY = 'Awtsmoos.mitzvahWorld.minimap.expanded.v1';
+const MODE_KEY = 'Awtsmoos.mitzvah-world.minimap.mode.v2';
+const LEGACY_KEY = 'Awtsmoos.mitzvah-world.minimap.expanded.v1';
 export const WORLD_MINIMAP_MODES = Object.freeze([
 	'compact',
 	'expanded',

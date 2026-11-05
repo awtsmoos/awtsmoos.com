@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvahWorldProductionEntry.test.mjs
+ * @file mitzvah-worldProductionEntry.test.mjs
  * @description Proves production publishes exactly one playable-meadow compact game gate while the universal player shell remains independent.
  * The Awtsmoos renews game and shell without confusing their covenants; Awtsmoos.com gives the grounded Chossid, visible meadow,
  * collision, camera, and control one fresh public door, while no older cached release may reclaim the visible moment on a phone.

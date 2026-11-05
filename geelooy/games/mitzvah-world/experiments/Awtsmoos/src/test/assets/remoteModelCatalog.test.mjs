@@ -62,6 +62,6 @@ test('catalog evidence declares Drive authority and rejects mutable or local pat
 	assert.equal(evidence.remoteRoot, REMOTE_MODEL_ROOT);
 	assert.equal(remoteModelUrl(IDENTITY, LOCALHOST), remoteModelUrl(IDENTITY, PRODUCTION));
 	assert.equal(isTrustedModelUrl(`${remoteModelUrl(IDENTITY)}?mutable=1`), false);
-	assert.equal(isTrustedModelUrl('/games/mitzvahWorld/assets/models/chossid.glb'), false);
+	assert.equal(isTrustedModelUrl('/games/mitzvah-world/assets/models/chossid.glb'), false);
 	assert.equal(isTrustedModelUrl('../assets/models/player/chossid.glb'), false);
 });

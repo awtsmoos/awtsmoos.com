@@ -32,7 +32,7 @@ try {
 	const command = session.command;
 	await configure(command);
 	await command('Page.navigate', {
-		url: `${base}/games/mitzvahWorld/index.html?desktop=${Date.now()}`
+		url: `${base}/games/mitzvah-world/index.html?desktop=${Date.now()}`
 	});
 	await enterSinglePlayer(command, 'blank-meadow');
 	const readiness = await waitForPersistentRuntime(command);

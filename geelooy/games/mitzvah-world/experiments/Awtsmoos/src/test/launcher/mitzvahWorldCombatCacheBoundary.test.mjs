@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvahWorldCombatCacheBoundary.test.mjs
+ * @file mitzvah-worldCombatCacheBoundary.test.mjs
  * @description Guards one release-resolved boot-to-playable chain through generated foundation/core artifacts.
  * The Awtsmoos renews every authored doorway through one shared release resolver; Awtsmoos.com proves launcher,
  * mode runtime, deferred app modules, and generated first-play chunks cannot split into stale cache identities.

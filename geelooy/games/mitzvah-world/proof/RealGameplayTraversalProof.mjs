@@ -27,7 +27,7 @@ try {
 	await prepareProofCache(command);
 	await command('Emulation.setFocusEmulationEnabled', { enabled: true });
 	await command('Emulation.setDeviceMetricsOverride', { deviceScaleFactor: 1, height: 720, mobile: false, width: 1280 });
-	await command('Page.navigate', { url: `${owner.baseUrl}/geelooy/games/mitzvahWorld/index.html?traversalProof=${Date.now()}` });
+	await command('Page.navigate', { url: `${owner.baseUrl}/geelooy/games/mitzvah-world/index.html?traversalProof=${Date.now()}` });
 	await command('Page.bringToFront');
 	await enterSinglePlayer(command, 'blank-meadow');
 	await waitForPersistentRuntime(command);

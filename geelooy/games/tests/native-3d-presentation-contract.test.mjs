@@ -34,7 +34,7 @@ test('shared live-state native 3D covers the twenty remaining 2D gameplay routes
 	for (const slug of ['adventure', 'brick-blast', 'cards', 'pong', 'shema-strike', 'sulam-ha-sod']) {
 		assert.equal(supportsOptionalNative3D({ pathname: `/games/${slug}/` }), true, slug);
 	}
-	for (const slug of ['connect4', 'tetris', 'chess', 'cobyk', 'ohrfront', 'seven-mitzvos', 'mitzvahWorld', 'party', 'rambam']) {
+	for (const slug of ['connect4', 'tetris', 'chess', 'cobyk', 'ohrfront', 'seven-mitzvos', 'mitzvah-world', 'party', 'rambam']) {
 		assert.equal(supportsOptionalNative3D({ pathname: `/games/${slug}/` }), false, slug);
 	}
 });

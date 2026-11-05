@@ -66,7 +66,7 @@ the arm segment.
 - Timer runs on real frame delta while the run is active (started, not finished).
 - Checkpoints must be touched in order; respawn always returns to the highest
   checkpoint reached (or spawn). Respawn is synchronous (well under 250ms).
-- Best times persist in localStorage under `mitzvahWorld.courseBest.<id>`.
+- Best times persist in localStorage under `mitzvah-world.courseBest.<id>`.
 - Course state is per-player: in multiplayer every client simulates its own run;
   the multiplayer bridge keeps replicating positions, so other avatars stay visible.
 */

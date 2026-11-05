@@ -11,7 +11,7 @@
  */
 
 const EMERGENCY_GAMES = Object.freeze([
-	{ title: 'Play Temple Runner', href: './mitzvahWorld/templeRunner/' },
+	{ title: 'Play Temple Runner', href: './mitzvah-world/temple-runner/' },
 	{ title: 'Party Challenge', href: './party/' }
 ]);
 

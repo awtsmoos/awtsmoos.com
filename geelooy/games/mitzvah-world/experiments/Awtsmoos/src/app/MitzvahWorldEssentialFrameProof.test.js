@@ -34,7 +34,7 @@ const FAILURE_ID = 'mitzvah-world-essential-failure';
 const PROOF_RECEIPT = Object.freeze({
 	importerStage: 'main-menu-webgl-frame-proof',
 	resourceStatus: 'first-frame-proved-800x600',
-	resourceUrl: 'https://example.test/games/mitzvahWorld/'
+	resourceUrl: 'https://example.test/games/mitzvah-world/'
 });
 
 class FakeElement {
@@ -74,7 +74,7 @@ function createEnvironment() {
 	};
 	document.body = new FakeElement('body', document);
 	environment.document = document;
-	environment.location = { href: 'https://example.test/games/mitzvahWorld/' };
+	environment.location = { href: 'https://example.test/games/mitzvah-world/' };
 	return environment;
 }
 

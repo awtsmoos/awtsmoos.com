@@ -26,7 +26,7 @@ const session = await createCdpProofSession(port);
 try {
 	const command = session.command;
 	await prepareNetworkBoundary(command, definition.blockedUrls);
-	await command('Page.navigate', { url: `${base}/games/mitzvahWorld/index.html?failure=${scenario}-${Date.now()}` });
+	await command('Page.navigate', { url: `${base}/games/mitzvah-world/index.html?failure=${scenario}-${Date.now()}` });
 	await waitForWorldButton(command);
 	await evaluate(command, `document.querySelector('[data-world-id="blank-meadow"]').click(); true`);
 	let state = await waitForScenario(command, definition);

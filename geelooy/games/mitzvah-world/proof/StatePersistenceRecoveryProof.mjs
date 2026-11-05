@@ -43,7 +43,7 @@ async function configure(command) {
 }
 
 async function enter(command, label) {
-	const url = `${base}/games/mitzvahWorld/index.html?persist=${label}-${Date.now()}`;
+	const url = `${base}/games/mitzvah-world/index.html?persist=${label}-${Date.now()}`;
 	await command('Page.navigate', { url });
 	await enterSinglePlayer(command, 'blank-meadow');
 }

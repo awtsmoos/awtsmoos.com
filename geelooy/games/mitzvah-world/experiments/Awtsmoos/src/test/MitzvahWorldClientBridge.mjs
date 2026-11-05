@@ -25,10 +25,10 @@ const serverModule = relativePath => path.join(
 );
 const { RealtimePlatform } = require(serverModule('platform/RealtimePlatform.js'));
 const { createMitzvahWorldApplication } = require(
-	serverModule('apps/mitzvahWorld/application.js')
+	serverModule('apps/mitzvah-world/application.js')
 );
 const { WorldDirectory } = require(
-	serverModule('apps/mitzvahWorld/WorldDirectory.js')
+	serverModule('apps/mitzvah-world/WorldDirectory.js')
 );
 
 export function createBridgeHarness(options = {}) {

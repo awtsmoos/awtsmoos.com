@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps the advanced vessel inside its world while Gevurah quiets only its siblings, preserving one clean local hierarchy of light.
  */
 
-import { mitzvahWorldCreativeDockMarkup } from './MitzvahWorldCreativeDockMarkup.js';
+import { mitzvah-worldCreativeDockMarkup } from './MitzvahWorldCreativeDockMarkup.js';
 import { MitzvahWorldCreativeDockInteractionBoundary } from './MitzvahWorldCreativeDockInteractionBoundary.js';
 
 /** Owns optional-control DOM, focus flow, and open/closed presentation only. */
@@ -30,7 +30,7 @@ export class MitzvahWorldCreativeDockView {
 		this.root.dataset.directHudZone = 'advanced';
 		this.root.dataset.open = 'false';
 		this.root.setAttribute('aria-label', 'Optional world controls');
-		this.root.innerHTML = mitzvahWorldCreativeDockMarkup();
+		this.root.innerHTML = mitzvah-worldCreativeDockMarkup();
 		this.gameRoot.append(this.root);
 		this.resolveReferences();
 		this.revealClosedControls();

@@ -9,8 +9,8 @@
 	* identity on the Window itself and uses session storage only as a diagnostic breadcrumb.
 	*/
 
-const STORAGE_KEY = 'awtsmoos.mitzvahWorld.localTabPlayerId';
-const IDENTITY_PROPERTY = Symbol.for('awtsmoos.mitzvahWorld.liveTabPlayerId');
+const STORAGE_KEY = 'awtsmoos.mitzvah-world.localTabPlayerId';
+const IDENTITY_PROPERTY = Symbol.for('awtsmoos.mitzvah-world.liveTabPlayerId');
 
 export function localTabPlayerId(storage = null, scope = globalThis) {
 	const liveIdentity = safeScopeValue(scope);
@@ -22,7 +22,7 @@ export function localTabPlayerId(storage = null, scope = globalThis) {
 }
 
 export function localTabChannelName(worldId = 'main-village') {
-	return `awtsmoos.mitzvahWorld.local.${sanitize(worldId)}`;
+	return `awtsmoos.mitzvah-world.local.${sanitize(worldId)}`;
 }
 
 export function localTabPlayerAddress(playerId) {

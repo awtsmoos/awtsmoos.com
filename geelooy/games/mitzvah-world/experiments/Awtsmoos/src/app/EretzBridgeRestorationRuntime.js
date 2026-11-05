@@ -17,7 +17,7 @@ import { BRIDGE_RESTORATION_ACTION_RADIUS, distanceToVillageBridgeRestoration } 
 import { createVillageBridgeRestorationDefinition } from '../world/village/VillageBridgeRestorationDefinition.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
 
-const STORAGE_KEY = 'mitzvahWorld.eretz.bridge-restoration.v1';
+const STORAGE_KEY = 'mitzvah-world.eretz.bridge-restoration.v1';
 
 /** The Eretz-contextual build transaction respects the completed trial and purchased stone. */
 export class EretzBridgeRestorationRuntime {

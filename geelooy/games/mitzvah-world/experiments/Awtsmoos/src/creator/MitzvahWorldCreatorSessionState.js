@@ -10,7 +10,7 @@
  */
 
 import { HistoryLedger } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
-import { mitzvahWorldCreatorCatalog, mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
+import { mitzvah-worldCreatorCatalog, mitzvah-worldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 import { MitzvahWorldCreatorControlState } from './MitzvahWorldCreatorControlState.js';
 import { MitzvahWorldCreatorDocument } from './MitzvahWorldCreatorDocument.js';
 import { createMitzvahWorldPlacement } from './MitzvahWorldCreatorPlacementPolicy.js';
@@ -40,7 +40,7 @@ export class MitzvahWorldCreatorSessionState {
 	}
 
 	catalogPart(idOhr) {
-		return mitzvahWorldCreatorPart(idOhr);
+		return mitzvah-worldCreatorPart(idOhr);
 	}
 
 	placement(idOhr = 'creator-preview') {
@@ -67,7 +67,7 @@ export class MitzvahWorldCreatorSessionState {
 		const catalogBinah = this.controlState.selectedPart();
 		const streamingBinah = this.runtimeAdapter.diagnostics();
 		return Object.freeze({
-			catalog: mitzvahWorldCreatorCatalog(),
+			catalog: mitzvah-worldCreatorCatalog(),
 			controls: controlBinah.controls,
 			history: this.history.snapshot(),
 			indexed: streamingBinah.indexed ?? streamingBinah.mounted,
@@ -75,7 +75,7 @@ export class MitzvahWorldCreatorSessionState {
 			mounted: streamingBinah.mounted,
 			selectedId: controlBinah.selectedId,
 			selectedObjectId: this.selectedObjectId,
-			worldId: this.documentStore.document?.metadata?.mitzvahWorldCreator?.worldId || null
+			worldId: this.documentStore.document?.metadata?.mitzvah-worldCreator?.worldId || null
 		});
 	}
 

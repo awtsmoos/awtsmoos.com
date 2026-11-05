@@ -18,7 +18,7 @@ import {
 	essentialMaterialHydrationUrl
 } from '../../app/EretzEssentialHydrationUrls.js';
 
-const ROOT = 'https://awtsmoos.com/games/mitzvahWorld/experiments/Awtsmoos/src/';
+const ROOT = 'https://awtsmoos.com/games/mitzvah-world/experiments/Awtsmoos/src/';
 const COMPACT_ENTRY = `${ROOT}mitzvah-world-core.compact.js`;
 
 test('essential hydration state contains no literal rich dynamic-import doors', async () => {

@@ -29,7 +29,7 @@ import {
 } from './FullScreenMapModerationExpressions.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const worldPath = '/geelooy/games/mitzvahWorld/index.html?mode=world';
+const worldPath = '/geelooy/games/mitzvah-world/index.html?mode=world';
 
 test('B"H real world pages use full map and personal chat protection', {
 	skip: !browserProofAvailable(),

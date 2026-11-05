@@ -11,7 +11,7 @@ const processValue = await startBrowserProof(repositoryRoot);
 const browser = await new BrowserCdpHarness(processValue.cdpPort).start();
 let targetId = null;
 try {
-	const url = `${processValue.baseUrl}/geelooy/games/mitzvahWorld/index.html?explore=${Date.now()}`;
+	const url = `${processValue.baseUrl}/geelooy/games/mitzvah-world/index.html?explore=${Date.now()}`;
 	const target = await browser.targets.create();
 	targetId = target.id;
 	const session = await browser.session(targetId);

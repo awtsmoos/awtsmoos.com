@@ -28670,7 +28670,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 			);
 		}
 		installProtocolHelpers(runtimeMalchus, executorTiferes, nextId);
-		runtimeMalchus.mitzvahWorld = {
+		runtimeMalchus.mitzvah-world = {
 			builder: runtimeMalchus.builder,
 			houses: runtimeMalchus.houses,
 			humans: runtimeMalchus.humans,
@@ -29478,7 +29478,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvahWorldBuilderDefinitions.js ----
+// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvah-worldBuilderDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2081;
 	// B"H
@@ -29486,7 +29486,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	// Blessed is He
 
 	/**
-	 * @file mitzvahWorldBuilderDefinitions.js
+	 * @file mitzvah-worldBuilderDefinitions.js
 	 * @description Reveals portable creator resources for build parts and obstacle-course collections through the universal transaction registry.
 	 * The Awtsmoos gives free creation a measured vessel, while Awtsmoos.com lets every wall, platform, checkpoint, and course remain JSON before sight;
 	 * one document may travel from game to studio to another person without hiding world truth inside a renderer's night.
@@ -29534,7 +29534,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 				exampleId: 'builder-part-example',
 				id: 'builder.parts.create',
 				label: 'Create build part',
-				type: 'mitzvahWorld.builder.part'
+				type: 'mitzvah-world.builder.part'
 			}),
 			createBuilderDefinition({
 				bucket: 'collections',
@@ -29542,7 +29542,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 				exampleId: 'builder-course-example',
 				id: 'builder.courses.create',
 				label: 'Create obstacle course',
-				type: 'mitzvahWorld.builder.course'
+				type: 'mitzvah-world.builder.course'
 			})
 		];
 	}
@@ -29551,14 +29551,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvahWorldDefinitions.js ----
+// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvah-worldDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2082;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 	/**
-	 * @file mitzvahWorldDefinitions.js
+	 * @file mitzvah-worldDefinitions.js
 	 * @description Defines semantic Mitzvah World resource identities without owning game routes, deployment URLs, or assets.
 	 * The Awtsmoos renews each enduring identity before a renderer may choose the garment it will wear;
 	 * Awtsmoos.com keeps universal documents free of game paths, so procedural vessels may answer everywhere.
@@ -48527,7 +48527,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorIdentity.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorIdentity.js ----
 {
 	const __exports = __awtsmoosModule_2343;
 	//B"H
@@ -48542,14 +48542,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 */
 	function ensureCreatorWorldIdentity(documentMalchus, environmentKli = globalThis) {
 		const metadata = documentMalchus.metadata ||= {};
-		const creator = metadata.mitzvahWorldCreator ||= {};
+		const creator = metadata.mitzvah-worldCreator ||= {};
 		creator.worldId ||= createCreatorWorldId(environmentKli);
 		return creator.worldId;
 	}
 	function remixCreatorWorld(documentMalchus, environmentKli = globalThis) {
 		const remixMalchus = structuredClone(documentMalchus);
 		const sourceId = ensureCreatorWorldIdentity(documentMalchus, environmentKli);
-		const creator = remixMalchus.metadata.mitzvahWorldCreator ||= {};
+		const creator = remixMalchus.metadata.mitzvah-worldCreator ||= {};
 		creator.remixOf = sourceId;
 		creator.worldId = createCreatorWorldId(environmentKli);
 		return remixMalchus;
@@ -48568,7 +48568,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.remixCreatorWorld = remixCreatorWorld;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldUniverseCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldUniverseCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2346;
 	// B"H
@@ -48809,7 +48809,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2345;
 	// B"H
@@ -48861,14 +48861,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	/** Returns the immutable ordered creator catalog: legacy primitives first, then the
 	 *  player universe vocabulary (structures, nature, characters, mission beacons).
 	 *  Yaakov 2026-10-11: every player creates their own universe. */
-	function mitzvahWorldCreatorCatalog() {
+	function mitzvah-worldCreatorCatalog() {
 		return MERGED_CATALOG;
 	}
 
 
-	__exports.mitzvahWorldCreatorCatalog = mitzvahWorldCreatorCatalog;
+	__exports.mitzvah-worldCreatorCatalog = mitzvah-worldCreatorCatalog;
 	/** Resolves one creator entry (legacy or universe part) or throws a deterministic domain error. */
-	function mitzvahWorldCreatorPart(id) {
+	function mitzvah-worldCreatorPart(id) {
 		const binah = MERGED_CATALOG.find(candidateKli => candidateKli.id === id);
 		if (!binah) {
 			throw new Error(`CREATOR_PART_UNKNOWN:${id}`);
@@ -48877,7 +48877,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	}
 
 
-	__exports.mitzvahWorldCreatorPart = mitzvahWorldCreatorPart;
+	__exports.mitzvah-worldCreatorPart = mitzvah-worldCreatorPart;
 	/** Merged once: legacy ids win on collision so saved worlds keep their meaning. */
 	const MERGED_CATALOG = Object.freeze(mergeCatalogs(CREATOR_CATALOG, universeCatalog()));
 
@@ -48894,7 +48894,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorWorldCodec.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorWorldCodec.js ----
 {
 	const __exports = __awtsmoosModule_2344;
 	//B"H
@@ -48909,7 +48909,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 */
 
 	const WORLD_FORMAT = __awtsmoosModule_2052.WORLD_FORMAT;
-	const mitzvahWorldCreatorPart = __awtsmoosModule_2345.mitzvahWorldCreatorPart;
+	const mitzvah-worldCreatorPart = __awtsmoosModule_2345.mitzvah-worldCreatorPart;
 
 	const MAXIMUM_COORDINATE = 1000000;
 	const MAXIMUM_DIMENSION = 1024;
@@ -48939,7 +48939,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	function creatorWorldParts(documentMalchus) {
 		const objects = documentMalchus?.resources?.objects || {};
 		return Object.values(objects)
-			.filter(resource => resource?.type === 'mitzvahWorld.builder.part')
+			.filter(resource => resource?.type === 'mitzvah-world.builder.part')
 			.map(resource => Object.freeze({
 				definition: validateDefinition(resource.definition, resource.id),
 				kind: validateKind(resource.kind)
@@ -48968,7 +48968,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 	__exports.validateCreatorWorld = validateCreatorWorld;
 	function validateKind(kindOhr) {
-		mitzvahWorldCreatorPart(kindOhr);
+		mitzvah-worldCreatorPart(kindOhr);
 		return kindOhr;
 	}
 
@@ -49004,7 +49004,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorDocument.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorDocument.js ----
 {
 	const __exports = __awtsmoosModule_2342;
 	//B"H
@@ -49109,7 +49109,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorPersistence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorPersistence.js ----
 {
 	const __exports = __awtsmoosModule_2347;
 	//B"H
@@ -49123,7 +49123,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 * Awtsmoos.com treats persistence as a recoverable vessel so export and live creation remain truthful even when storage closes its door.
 	 */
 
-	const STORAGE_KEY = 'mitzvahWorld.creator.world.v1';
+	const STORAGE_KEY = 'mitzvah-world.creator.world.v1';
 
 	class MitzvahWorldCreatorPersistence {
 		constructor(environmentKli = globalThis, keyOhr = STORAGE_KEY) {
@@ -51375,7 +51375,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometryCache.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/BooleanDoorwayGeometryCache.js ----
 {
 	const __exports = __awtsmoosModule_2392;
 	// B"H
@@ -51483,7 +51483,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayUvProjection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/BooleanDoorwayUvProjection.js ----
 {
 	const __exports = __awtsmoosModule_2394;
 	// B"H
@@ -51535,7 +51535,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js ----
 {
 	const __exports = __awtsmoosModule_2393;
 	// B"H
@@ -51646,7 +51646,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/BooleanDoorwayGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2391;
 	// B"H
@@ -51718,7 +51718,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralCylinderMesh.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/ProceduralCylinderMesh.js ----
 {
 	const __exports = __awtsmoosModule_2395;
 	// B"H
@@ -51779,7 +51779,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js ----
 {
 	const __exports = __awtsmoosModule_2352;
 	// B"H
@@ -51894,7 +51894,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralTransformRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/ProceduralTransformRules.js ----
 {
 	const __exports = __awtsmoosModule_2396;
 	// B"H
@@ -51973,7 +51973,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/ProceduralBridge.js ----
 {
 	const __exports = __awtsmoosModule_2351;
 	// B"H
@@ -52015,7 +52015,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTransform.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveTransform.js ----
 {
 	const __exports = __awtsmoosModule_2398;
 	// B"H
@@ -52069,7 +52069,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveBoxGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveBoxGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2397;
 	// B"H
@@ -52137,7 +52137,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveDiamondGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveDiamondGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2399;
 	// B"H
@@ -52178,7 +52178,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DoorwayFrameGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/DoorwayFrameGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2400;
 	//B"H
@@ -52282,7 +52282,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryFactory.js ----
 {
 	const __exports = __awtsmoosModule_2350;
 	// B"H
@@ -52348,7 +52348,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryBuffers.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryBuffers.js ----
 {
 	const __exports = __awtsmoosModule_2401;
 	// B"H
@@ -52439,7 +52439,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveTerrainSampler.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveTerrainSampler.js ----
 {
 	const __exports = __awtsmoosModule_2406;
 	// B"H
@@ -52492,7 +52492,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveRealNatureRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2405;
 	// B"H
@@ -52575,7 +52575,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
 {
 	const __exports = __awtsmoosModule_2412;
 	// B"H
@@ -52636,7 +52636,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation-parser.js ----
 {
 	const __exports = __awtsmoosModule_2411;
 	// B"H
@@ -52728,7 +52728,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation-bindings.js ----
 {
 	const __exports = __awtsmoosModule_2414;
 	// B"H
@@ -52835,7 +52835,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation-quaternion.js ----
 {
 	const __exports = __awtsmoosModule_2416;
 	// B"H
@@ -52904,7 +52904,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation-sampler.js ----
 {
 	const __exports = __awtsmoosModule_2415;
 	// B"H
@@ -53006,7 +53006,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation-player.js ----
 {
 	const __exports = __awtsmoosModule_2413;
 	// B"H
@@ -53135,7 +53135,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-animation.js ----
 {
 	const __exports = __awtsmoosModule_2410;
 	// B"H
@@ -53155,7 +53155,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-cache.js ----
 {
 	const __exports = __awtsmoosModule_2418;
 	// B"H
@@ -53233,7 +53233,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-lines.js ----
 {
 	const __exports = __awtsmoosModule_2419;
 	// B"H
@@ -53283,7 +53283,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	}
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-matrix.js ----
 {
 	const __exports = __awtsmoosModule_2420;
 	// B"H
@@ -53316,7 +53316,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-binding.js ----
 {
 	const __exports = __awtsmoosModule_2422;
 	// B"H
@@ -53384,7 +53384,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-scene.js ----
 {
 	const __exports = __awtsmoosModule_2421;
 	// B"H
@@ -53506,7 +53506,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-skin-system.js ----
 {
 	const __exports = __awtsmoosModule_2417;
 	// B"H
@@ -53623,7 +53623,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-instance.js ----
 {
 	const __exports = __awtsmoosModule_2409;
 	// B"H
@@ -53747,7 +53747,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-container.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-container.js ----
 {
 	const __exports = __awtsmoosModule_2425;
 	// B"H
@@ -53820,7 +53820,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-finalize.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-finalize.js ----
 {
 	const __exports = __awtsmoosModule_2426;
 	// B"H
@@ -53886,7 +53886,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-structure-diagnostics.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-structure-diagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2428;
 	// B"H
@@ -53939,7 +53939,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader-stats.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-loader-stats.js ----
 {
 	const __exports = __awtsmoosModule_2427;
 	// B"H
@@ -53997,7 +53997,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-materials.js ----
 {
 	const __exports = __awtsmoosModule_2429;
 	// B"H
@@ -54067,7 +54067,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-scene-builder.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-scene-builder.js ----
 {
 	const __exports = __awtsmoosModule_2430;
 	// B"H
@@ -54188,7 +54188,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js ----
+// ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-loader.js ----
 {
 	const __exports = __awtsmoosModule_2424;
 	// B"H
@@ -54310,7 +54310,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = __awtsmoosDefault_8xt7gs;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
 {
 	const __exports = __awtsmoosModule_2433;
 	// B"H
@@ -54336,7 +54336,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2432;
 	//B"H
@@ -54352,7 +54352,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_2433.REMOTE_MODEL_RECORDS;
 
-	const REMOTE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
+	const REMOTE_MODEL_ROOT = '/games/mitzvah-world/build/generated/assets/';
 
 
 	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
@@ -54368,7 +54368,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
 		const segments = modelPath.split('/');
 		const filename = segments.at(-1);
-		/* B"H — Yaakov 2026-10-13: assets live at /games/mitzvahWorld/build/generated/assets/{sha256}/{file}.
+		/* B"H — Yaakov 2026-10-13: assets live at /games/mitzvah-world/build/generated/assets/{sha256}/{file}.
 		   The old remote migration tree 404s, so the semantic folder segment is dropped from the
 		   hashed path to match the real deployed layout. */
 		const hashedPath = [record.sha256, filename].filter(Boolean).join('/');
@@ -54376,7 +54376,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 		return Object.freeze({
 			...record,
 			candidates: Object.freeze([remoteUrl]),
-			drivePath: `games/mitzvahWorld/build/generated/assets/${hashedPath}`,
+			drivePath: `games/mitzvah-world/build/generated/assets/${hashedPath}`,
 			filename,
 			path: modelPath,
 			remoteUrl,
@@ -54453,7 +54453,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2434;
 	// B"H
@@ -54477,7 +54477,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 * This module lives at <game>/experiments/Awtsmoos/src/assets/; models live at <game>/build/generated/assets/.
 	 */
 	function releaseModelRoot() {
-		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
+		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
 	}
 
 	/** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
@@ -54513,7 +54513,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----
 {
 	const __exports = __awtsmoosModule_2436;
 	// B"H
@@ -54565,7 +54565,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/CanonicalChossidFetchBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/CanonicalChossidFetchBridge.js ----
 {
 	const __exports = __awtsmoosModule_2437;
 	// B"H
@@ -54582,7 +54582,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const openModelResponseCache = __awtsmoosModule_2436.openModelResponseCache;
 	const readModelResponseCache = __awtsmoosModule_2436.readModelResponseCache;
 
-	const SHARED_KEY = Symbol.for('awtsmoos.mitzvahWorld.canonicalChossidWarmup.v1');
+	const SHARED_KEY = Symbol.for('awtsmoos.mitzvah-world.canonicalChossidWarmup.v1');
 	const CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
 	const MODEL_BYTES = 2027368;
 	const GLB_MAGIC = 0x46546c67;
@@ -54667,7 +54667,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelFetchRetry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelFetchRetry.js ----
 {
 	const __exports = __awtsmoosModule_2438;
 	// B"H
@@ -54743,7 +54743,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
 {
 	const __exports = __awtsmoosModule_2435;
 	// B"H
@@ -54814,7 +54814,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js ----
 {
 	const __exports = __awtsmoosModule_2431;
 	// B"H
@@ -54948,7 +54948,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = fetchAssetBuffer;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTrust.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ModelAssetTrust.js ----
 {
 	const __exports = __awtsmoosModule_2439;
 	// B"H
@@ -54978,7 +54978,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js ----
 {
 	const __exports = __awtsmoosModule_2423;
 	// B"H
@@ -55130,7 +55130,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ModelAssetLoader.js ----
 {
 	const __exports = __awtsmoosModule_2408;
 	// B"H
@@ -55235,7 +55235,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureAnimationLoop.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureAnimationLoop.js ----
 {
 	const __exports = __awtsmoosModule_2440;
 	// B"H
@@ -55284,7 +55284,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/environment/EnvironmentalWindField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/environment/EnvironmentalWindField.js ----
 {
 	const __exports = __awtsmoosModule_2443;
 	// B"H
@@ -55382,7 +55382,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureQualityBudget.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureQualityBudget.js ----
 {
 	const __exports = __awtsmoosModule_2444;
 	// B"H
@@ -55429,7 +55429,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/SharedWindQuaternion.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/SharedWindQuaternion.js ----
 {
 	const __exports = __awtsmoosModule_2445;
 	// B"H
@@ -55466,7 +55466,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/SharedWindField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/SharedWindField.js ----
 {
 	const __exports = __awtsmoosModule_2442;
 	// B"H
@@ -55595,7 +55595,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceDecoration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureInstanceDecoration.js ----
 {
 	const __exports = __awtsmoosModule_2441;
 	// B"H
@@ -55656,7 +55656,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceLoader.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureInstanceLoader.js ----
 {
 	const __exports = __awtsmoosModule_2446;
 	// B"H
@@ -55689,7 +55689,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldSpatialMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldSpatialMath.js ----
 {
 	const __exports = __awtsmoosModule_2450;
 	// B"H
@@ -55809,7 +55809,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldArchitectureApproach.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldArchitectureApproach.js ----
 {
 	const __exports = __awtsmoosModule_2449;
 	// B"H
@@ -55883,7 +55883,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldPhysicalExclusions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldPhysicalExclusions.js ----
 {
 	const __exports = __awtsmoosModule_2451;
 	// B"H
@@ -56006,7 +56006,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSampling.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSampling.js ----
 {
 	const __exports = __awtsmoosModule_2454;
 	// B"H
@@ -56108,7 +56108,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSolver.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSolver.js ----
 {
 	const __exports = __awtsmoosModule_2455;
 	// B"H
@@ -56179,7 +56179,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceNetwork.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceNetwork.js ----
 {
 	const __exports = __awtsmoosModule_2453;
 	// B"H
@@ -56264,7 +56264,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldRoadCorridor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldRoadCorridor.js ----
 {
 	const __exports = __awtsmoosModule_2452;
 	// B"H
@@ -56372,7 +56372,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldTriangleExclusion.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldTriangleExclusion.js ----
 {
 	const __exports = __awtsmoosModule_2456;
 	// B"H
@@ -56435,7 +56435,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageCurves.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageCurves.js ----
 {
 	const __exports = __awtsmoosModule_2459;
 	// B"H
@@ -56489,7 +56489,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverChannelProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverChannelProfile.js ----
 {
 	const __exports = __awtsmoosModule_2460;
 	// B"H
@@ -56598,7 +56598,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverHydrologySampling.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverHydrologySampling.js ----
 {
 	const __exports = __awtsmoosModule_2461;
 	// B"H
@@ -56649,7 +56649,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageGroundSampling.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageGroundSampling.js ----
 {
 	const __exports = __awtsmoosModule_2462;
 	// B"H
@@ -56671,7 +56671,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverHydrology.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverHydrology.js ----
 {
 	const __exports = __awtsmoosModule_2458;
 	// B"H
@@ -56776,7 +56776,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldWaterCorridor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldWaterCorridor.js ----
 {
 	const __exports = __awtsmoosModule_2457;
 	// B"H
@@ -56857,7 +56857,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldEcologyClearance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldEcologyClearance.js ----
 {
 	const __exports = __awtsmoosModule_2448;
 	// B"H
@@ -56960,7 +56960,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldEcologySpacing.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldEcologySpacing.js ----
 {
 	const __exports = __awtsmoosModule_2463;
 	// B"H
@@ -56996,7 +56996,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureAssetCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/RealNatureAssetCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2464;
 	// B"H
@@ -57046,7 +57046,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NaturePlacementField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NaturePlacementField.js ----
 {
 	const __exports = __awtsmoosModule_2447;
 	// B"H
@@ -57142,7 +57142,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureVisibilityField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureVisibilityField.js ----
 {
 	const __exports = __awtsmoosModule_2465;
 	// B"H
@@ -57200,7 +57200,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/RealNatureSystem.js ----
 {
 	const __exports = __awtsmoosModule_2407;
 	// B"H
@@ -57305,7 +57305,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = createRealNatureSystem;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveRealNatureBridge.js ----
 {
 	const __exports = __awtsmoosModule_2404;
 	// B"H
@@ -57412,7 +57412,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureReceipt.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveRealNatureReceipt.js ----
 {
 	const __exports = __awtsmoosModule_2466;
 	// B"H
@@ -57444,7 +57444,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureScheduler.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveRealNatureScheduler.js ----
 {
 	const __exports = __awtsmoosModule_2403;
 	// B"H
@@ -57515,7 +57515,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveFallbackSurfaceRecipe.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveFallbackSurfaceRecipe.js ----
 {
 	const __exports = __awtsmoosModule_2467;
 	// B"H
@@ -57644,7 +57644,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureExactRepeat.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureExactRepeat.js ----
 {
 	const __exports = __awtsmoosModule_2470;
 	// B"H
@@ -57662,7 +57662,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureImageMetrics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureImageMetrics.js ----
 {
 	const __exports = __awtsmoosModule_2471;
 	// B"H
@@ -57680,7 +57680,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureMaterialFields.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureMaterialFields.js ----
 {
 	const __exports = __awtsmoosModule_2472;
 	// B"H
@@ -57755,7 +57755,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityPlan.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureDensityPlan.js ----
 {
 	const __exports = __awtsmoosModule_2473;
 	// B"H
@@ -57772,7 +57772,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2474;
 	// B"H
@@ -57789,7 +57789,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureRepeat.js ----
 {
 	const __exports = __awtsmoosModule_2469;
 	// B"H
@@ -57819,7 +57819,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2468;
 	// B"H
@@ -57875,7 +57875,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js ----
 {
 	const __exports = __awtsmoosModule_2402;
 	//B"H
@@ -57978,7 +57978,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js ----
 {
 	const __exports = __awtsmoosModule_2475;
 	// B"H
@@ -58019,7 +58019,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js ----
 {
 	const __exports = __awtsmoosModule_2476;
 	// B"H
@@ -58132,7 +58132,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/Box3D.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/Box3D.js ----
 {
 	const __exports = __awtsmoosModule_2349;
 	//B"H
@@ -58244,7 +58244,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorRuntimeAdapter.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorRuntimeAdapter.js ----
 {
 	const __exports = __awtsmoosModule_2348;
 	// B"H
@@ -58384,7 +58384,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorTransactions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorTransactions.js ----
 {
 	const __exports = __awtsmoosModule_2477;
 	// B"H
@@ -58560,7 +58560,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/DetailTextureFamilies.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/DetailTextureFamilies.js ----
 {
 	const __exports = __awtsmoosModule_2481;
 	// B"H
@@ -58617,7 +58617,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SurfaceTextureFamilies.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/SurfaceTextureFamilies.js ----
 {
 	const __exports = __awtsmoosModule_2482;
 	// B"H
@@ -58699,7 +58699,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureFamilies.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureFamilies.js ----
 {
 	const __exports = __awtsmoosModule_2480;
 	// B"H
@@ -58723,7 +58723,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/WorldMaterialPresets.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/WorldMaterialPresets.js ----
 {
 	const __exports = __awtsmoosModule_2483;
 	// B"H
@@ -58819,7 +58819,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2479;
 	//B"H
@@ -58871,7 +58871,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageBridgeRestorationDefinition.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageBridgeRestorationDefinition.js ----
 {
 	const __exports = __awtsmoosModule_2478;
 	// B"H
@@ -58922,7 +58922,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VillageBridgeRestorationSession.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/VillageBridgeRestorationSession.js ----
 {
 	const __exports = __awtsmoosModule_359;
 	// B"H
@@ -58940,7 +58940,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const MitzvahWorldCreatorDocument = __awtsmoosModule_2342.MitzvahWorldCreatorDocument;
 	const MitzvahWorldCreatorPersistence = __awtsmoosModule_2347.MitzvahWorldCreatorPersistence;
 	const MitzvahWorldCreatorRuntimeAdapter = __awtsmoosModule_2348.MitzvahWorldCreatorRuntimeAdapter;
-	const mitzvahWorldCreatorPart = __awtsmoosModule_2345.mitzvahWorldCreatorPart;
+	const mitzvah-worldCreatorPart = __awtsmoosModule_2345.mitzvah-worldCreatorPart;
 	const commitCreatorPlacement = __awtsmoosModule_2477.commitCreatorPlacement;
 	const undoCreatorPlacement = __awtsmoosModule_2477.undoCreatorPlacement;
 	const creatorWorldParts = __awtsmoosModule_2344.creatorWorldParts;
@@ -58978,7 +58978,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 		/** Commits Creator placement then compensates it fully when durable save fails. */
 		async build() {
 			if (this.built) return Object.freeze({ alreadyBuilt: true });
-			const catalog = mitzvahWorldCreatorPart('stone-platform');
+			const catalog = mitzvah-worldCreatorPart('stone-platform');
 			const definition = createVillageBridgeRestorationDefinition();
 			const receipt = await commitCreatorPlacement(this, catalog, definition);
 			const saved = this.persistence.save(this.documentStore.serialize());
@@ -58992,7 +58992,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 		/** Required by the shared undo compensation path. */
 		catalogPart(id) {
-			return mitzvahWorldCreatorPart(id);
+			return mitzvah-worldCreatorPart(id);
 		}
 
 		/** Releases live bridge-owned geometry without deleting durable truth. */
@@ -59005,7 +59005,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VillageBridgeRestorationRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/VillageBridgeRestorationRuntime.js ----
 {
 	const __exports = __awtsmoosModule_353;
 	// B"H
@@ -59132,7 +59132,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VillageBridgeTrialQuestCoordinator.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/VillageBridgeTrialQuestCoordinator.js ----
 {
 	const __exports = __awtsmoosModule_2484;
 	// B"H
@@ -59220,7 +59220,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryAppearanceRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryAppearanceRules.js ----
 {
 	const __exports = __awtsmoosModule_2490;
 	// B"H
@@ -59286,7 +59286,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStoreRules.js ----
 {
 	const __exports = __awtsmoosModule_2492;
 	// B"H
@@ -59399,7 +59399,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventorySaleTransaction.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventorySaleTransaction.js ----
 {
 	const __exports = __awtsmoosModule_2491;
 	// B"H
@@ -59464,7 +59464,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreTransactions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStoreTransactions.js ----
 {
 	const __exports = __awtsmoosModule_2493;
 	// B"H
@@ -59576,7 +59576,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreMutation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStoreMutation.js ----
 {
 	const __exports = __awtsmoosModule_2489;
 	// B"H
@@ -59704,7 +59704,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2496;
 	// B"H
@@ -59772,7 +59772,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryLearningRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryLearningRules.js ----
 {
 	const __exports = __awtsmoosModule_2495;
 	// B"H
@@ -59828,7 +59828,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryPersistenceRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryPersistenceRules.js ----
 {
 	const __exports = __awtsmoosModule_2497;
 	// B"H
@@ -59901,7 +59901,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreLearning.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStoreLearning.js ----
 {
 	const __exports = __awtsmoosModule_2494;
 	// B"H
@@ -59987,7 +59987,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStorePublication.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStorePublication.js ----
 {
 	const __exports = __awtsmoosModule_2498;
 	// B"H
@@ -60027,7 +60027,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryTransactionStore.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryTransactionStore.js ----
 {
 	const __exports = __awtsmoosModule_2488;
 	// B"H
@@ -60134,7 +60134,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/InventoryStore.js ----
 {
 	const __exports = __awtsmoosModule_2487;
 	// B"H
@@ -60210,7 +60210,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionConstants.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionConstants.js ----
 {
 	const __exports = __awtsmoosModule_2503;
 	// B"H
@@ -60276,7 +60276,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionDefinitionValidator.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionDefinitionValidator.js ----
 {
 	const __exports = __awtsmoosModule_2502;
 	// B"H
@@ -60378,7 +60378,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRegistry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionRegistry.js ----
 {
 	const __exports = __awtsmoosModule_2501;
 	// B"H
@@ -60443,7 +60443,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/staff/StaffCastAction.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/definitions/staff/StaffCastAction.js ----
 {
 	const __exports = __awtsmoosModule_2504;
 	// B"H
@@ -60524,7 +60524,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/sword/SwordCastAction.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/definitions/sword/SwordCastAction.js ----
 {
 	const __exports = __awtsmoosModule_2505;
 	// B"H
@@ -60605,7 +60605,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/BuiltInPlayerActions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/BuiltInPlayerActions.js ----
 {
 	const __exports = __awtsmoosModule_2500;
 	// B"H
@@ -60634,7 +60634,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseLibrary.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseLibrary.js ----
 {
 	const __exports = __awtsmoosModule_2508;
 	// B"H
@@ -60714,7 +60714,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseMath.js ----
 {
 	const __exports = __awtsmoosModule_2507;
 	// B"H
@@ -60791,7 +60791,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBoneResolver.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionBoneResolver.js ----
 {
 	const __exports = __awtsmoosModule_2509;
 	// B"H
@@ -60862,7 +60862,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionActor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionActor.js ----
 {
 	const __exports = __awtsmoosModule_2506;
 	// B"H
@@ -60968,7 +60968,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionMessageBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionMessageBridge.js ----
 {
 	const __exports = __awtsmoosModule_2510;
 	// B"H
@@ -61078,7 +61078,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js ----
 {
 	const __exports = __awtsmoosModule_2513;
 	// B"H
@@ -61184,7 +61184,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2512;
 	// B"H
@@ -61238,7 +61238,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js ----
 {
 	const __exports = __awtsmoosModule_2516;
 	// B"H
@@ -61324,7 +61324,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMask.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMask.js ----
 {
 	const __exports = __awtsmoosModule_2515;
 	// B"H
@@ -61427,7 +61427,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.playerActionPoseMatches = playerActionPoseMatches;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2514;
 	// B"H
@@ -61506,7 +61506,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionModelBinding.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionModelBinding.js ----
 {
 	const __exports = __awtsmoosModule_2511;
 	// B"H
@@ -61549,7 +61549,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionPoseSampler.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionPoseSampler.js ----
 {
 	const __exports = __awtsmoosModule_2518;
 	// B"H
@@ -61612,7 +61612,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeCommands.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeCommands.js ----
 {
 	const __exports = __awtsmoosModule_2519;
 	// B"H
@@ -61677,7 +61677,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2517;
 	// B"H
@@ -61793,7 +61793,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/playerActions/PlayerActionSystem.js ----
 {
 	const __exports = __awtsmoosModule_2499;
 	// B"H
@@ -61854,7 +61854,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
 {
 	const __exports = __awtsmoosModule_2520;
 	// B"H
@@ -61921,7 +61921,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
 	const __exports = __awtsmoosModule_2521;
 	// B"H
@@ -61973,7 +61973,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationClipPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAnimationClipPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2522;
 	// B"H
@@ -62058,7 +62058,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistrySupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistrySupport.js ----
 {
 	const __exports = __awtsmoosModule_2525;
 	// B"H
@@ -62093,7 +62093,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponPose.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWeaponPose.js ----
 {
 	const __exports = __awtsmoosModule_2528;
 	// B"H
@@ -62165,7 +62165,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js ----
 {
 	const __exports = __awtsmoosModule_2527;
 	// B"H
@@ -62248,7 +62248,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js ----
 {
 	const __exports = __awtsmoosModule_2526;
 	// B"H
@@ -62333,7 +62333,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js ----
 {
 	const __exports = __awtsmoosModule_2524;
 	// B"H
@@ -62453,7 +62453,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierKeys.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierKeys.js ----
 {
 	const __exports = __awtsmoosModule_2532;
 	// B"H
@@ -62502,7 +62502,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatKeys.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/DerivedStatKeys.js ----
 {
 	const __exports = __awtsmoosModule_2531;
 	// B"H
@@ -62524,7 +62524,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatProjector.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/DerivedStatProjector.js ----
 {
 	const __exports = __awtsmoosModule_2530;
 	// B"H
@@ -62597,7 +62597,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatCombatRecords.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatCombatRecords.js ----
 {
 	const __exports = __awtsmoosModule_2536;
 	// B"H
@@ -62697,7 +62697,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatGarmentRecords.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatGarmentRecords.js ----
 {
 	const __exports = __awtsmoosModule_2537;
 	// B"H
@@ -62799,7 +62799,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2535;
 	// B"H
@@ -62831,7 +62831,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentDerivedStatSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/EquipmentDerivedStatSources.js ----
 {
 	const __exports = __awtsmoosModule_2534;
 	// B"H
@@ -62866,7 +62866,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/RuntimeDerivedStatSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/stats/RuntimeDerivedStatSources.js ----
 {
 	const __exports = __awtsmoosModule_2533;
 	// B"H
@@ -62904,7 +62904,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatApplication.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatApplication.js ----
 {
 	const __exports = __awtsmoosModule_2538;
 	// B"H
@@ -62963,7 +62963,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatsRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatsRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2529;
 	// B"H
@@ -63012,7 +63012,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAim.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAim.js ----
 {
 	const __exports = __awtsmoosModule_2540;
 	// B"H
@@ -63105,7 +63105,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentCasting.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentCasting.js ----
 {
 	const __exports = __awtsmoosModule_2539;
 	// B"H
@@ -63208,7 +63208,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/GarmentAppearanceCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/GarmentAppearanceCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2542;
 	// B"H
@@ -63269,7 +63269,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentAppearance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowGarmentAppearance.js ----
 {
 	const __exports = __awtsmoosModule_2541;
 	//B"H
@@ -63370,7 +63370,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentMaterialIsolation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowGarmentMaterialIsolation.js ----
 {
 	const __exports = __awtsmoosModule_2545;
 	//B"H
@@ -63462,7 +63462,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentDiscovery.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowGarmentDiscovery.js ----
 {
 	const __exports = __awtsmoosModule_2544;
 	// B"H
@@ -63542,7 +63542,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentNodes.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentNodes.js ----
 {
 	const __exports = __awtsmoosModule_2543;
 	//B"H
@@ -63660,7 +63660,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js ----
 {
 	const __exports = __awtsmoosModule_2546;
 	// B"H
@@ -63719,7 +63719,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWeaponFactory.js ----
 {
 	const __exports = __awtsmoosModule_2547;
 	// B"H
@@ -63792,7 +63792,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2523;
 	// B"H
@@ -63910,7 +63910,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerMaterialHydrator.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPlayerMaterialHydrator.js ----
 {
 	const __exports = __awtsmoosModule_2548;
 	// B"H
@@ -63960,7 +63960,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js ----
 {
 	const __exports = __awtsmoosModule_2486;
 	// B"H
@@ -64063,7 +64063,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcBridgeRoadEdge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcBridgeRoadEdge.js ----
 {
 	const __exports = __awtsmoosModule_2552;
 	// B"H
@@ -64109,7 +64109,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadNetworkGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcRoadNetworkGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2553;
 	// B"H
@@ -64142,7 +64142,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadNetwork.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcRoadNetwork.js ----
 {
 	const __exports = __awtsmoosModule_2551;
 	// B"H
@@ -64275,7 +64275,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadJourneyGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcRoadJourneyGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2554;
 	// B"H
@@ -64344,7 +64344,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadJourney.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcRoadJourney.js ----
 {
 	const __exports = __awtsmoosModule_2550;
 	// B"H
@@ -64438,7 +64438,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcElevation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcElevation.js ----
 {
 	const __exports = __awtsmoosModule_2555;
 	// B"H
@@ -64470,7 +64470,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcCrossing.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcCrossing.js ----
 {
 	const __exports = __awtsmoosModule_2549;
 	// B"H
@@ -64575,7 +64575,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcTraveler.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcTraveler.js ----
 {
 	const __exports = __awtsmoosModule_2485;
 	// B"H
@@ -64668,7 +64668,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeGameplayMount.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBridgeGameplayMount.js ----
 {
 	const __exports = __awtsmoosModule_217;
 	// B"H
@@ -64729,7 +64729,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/GameplayQuietWindow.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/GameplayQuietWindow.js ----
 {
 	const __exports = __awtsmoosModule_2557;
 	// B"H
@@ -64842,7 +64842,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootInteraction.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootInteraction.js ----
 {
 	const __exports = __awtsmoosModule_2560;
 	// B"H
@@ -64911,7 +64911,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootPresentation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootPresentation.js ----
 {
 	const __exports = __awtsmoosModule_2561;
 	// B"H
@@ -65019,7 +65019,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/YesodStylesheetInstaller.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/YesodStylesheetInstaller.js ----
 {
 	const __exports = __awtsmoosModule_2563;
 	// B"H
@@ -65075,7 +65075,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootStyles.js ----
 {
 	const __exports = __awtsmoosModule_2562;
 	// B"H
@@ -65092,7 +65092,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const YesodStylesheetInstaller = __awtsmoosModule_2563.YesodStylesheetInstaller;
 
 	const CORPSE_LOOT_STYLE_ID = 'Awtsmoos-minimal-meadow-corpse-loot-styles';
-	const CORPSE_LOOT_STYLE_URL = new URL('./styles/corpse-loot/corpse-loot.css', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootStyles.js")).href;
+	const CORPSE_LOOT_STYLE_URL = new URL('./styles/corpse-loot/corpse-loot.css', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootStyles.js")).href;
 
 	/** Specialized external-style vessel for corpse-loot surfaces. */
 	class YesodCorpseLootStylesheet extends YesodStylesheetInstaller {
@@ -65115,7 +65115,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/YesodModalEnvironment.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/YesodModalEnvironment.js ----
 {
 	const __exports = __awtsmoosModule_2564;
 	// B"H
@@ -65201,7 +65201,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/YesodModalEventPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/YesodModalEventPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2566;
 	// B"H
@@ -65303,7 +65303,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/YesodModalFocusCycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/YesodModalFocusCycle.js ----
 {
 	const __exports = __awtsmoosModule_2567;
 	// B"H
@@ -65409,7 +65409,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/YesodModalInteractionGuard.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/YesodModalInteractionGuard.js ----
 {
 	const __exports = __awtsmoosModule_2565;
 	// B"H
@@ -65534,7 +65534,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootPanel.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowCorpseLootPanel.js ----
 {
 	const __exports = __awtsmoosModule_2559;
 	// B"H
@@ -65658,7 +65658,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetLegacyPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetLegacyPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2570;
 	// B"H
@@ -65755,7 +65755,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapterSupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapterSupport.js ----
 {
 	const __exports = __awtsmoosModule_2571;
 	// B"H
@@ -65804,7 +65804,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapter.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapter.js ----
 {
 	const __exports = __awtsmoosModule_2569;
 	// B"H
@@ -65933,7 +65933,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinatorSupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetCoordinatorSupport.js ----
 {
 	const __exports = __awtsmoosModule_2572;
 	// B"H
@@ -65994,7 +65994,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetPointerSession.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetPointerSession.js ----
 {
 	const __exports = __awtsmoosModule_2573;
 	// B"H
@@ -66071,7 +66071,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetSelectionState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetSelectionState.js ----
 {
 	const __exports = __awtsmoosModule_2574;
 	// B"H
@@ -66129,7 +66129,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js ----
 {
 	const __exports = __awtsmoosModule_2568;
 	// B"H
@@ -66259,7 +66259,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureAnimation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCreatureAnimation.js ----
 {
 	const __exports = __awtsmoosModule_2578;
 	// B"H
@@ -66370,7 +66370,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyDefense.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyDefense.js ----
 {
 	const __exports = __awtsmoosModule_2579;
 	// B"H
@@ -66496,7 +66496,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemySelectionVisual.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemySelectionVisual.js ----
 {
 	const __exports = __awtsmoosModule_2580;
 	// B"H
@@ -66618,7 +66618,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorMotion.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorMotion.js ----
 {
 	const __exports = __awtsmoosModule_2577;
 	// B"H
@@ -66730,7 +66730,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonField.js ----
 {
 	const __exports = __awtsmoosModule_2585;
 	// B"H
@@ -66850,7 +66850,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceRegions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceRegions.js ----
 {
 	const __exports = __awtsmoosModule_2584;
 	// B"H
@@ -66928,7 +66928,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkinWeights.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkinWeights.js ----
 {
 	const __exports = __awtsmoosModule_2586;
 	// B"H
@@ -66985,7 +66985,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSurfaceVertex.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonSurfaceVertex.js ----
 {
 	const __exports = __awtsmoosModule_2588;
 	// B"H
@@ -67062,7 +67062,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMarchingTetrahedra.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowMarchingTetrahedra.js ----
 {
 	const __exports = __awtsmoosModule_2587;
 	// B"H
@@ -67141,7 +67141,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2583;
 	//B"H
@@ -67233,7 +67233,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityLighting.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityLighting.js ----
 {
 	const __exports = __awtsmoosModule_2592;
 	// B"H
@@ -67291,7 +67291,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityRegions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityRegions.js ----
 {
 	const __exports = __awtsmoosModule_2593;
 	// B"H
@@ -67338,7 +67338,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMetrics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMetrics.js ----
 {
 	const __exports = __awtsmoosModule_2591;
 	// B"H
@@ -67456,7 +67456,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMaterialRecord.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMaterialRecord.js ----
 {
 	const __exports = __awtsmoosModule_2590;
 	// B"H
@@ -67507,7 +67507,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityProfile.js ----
 {
 	const __exports = __awtsmoosModule_2594;
 	// B"H
@@ -67578,7 +67578,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonTintPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonTintPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2595;
 	// B"H
@@ -67667,7 +67667,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js ----
 {
 	const __exports = __awtsmoosModule_2589;
 	//B"H
@@ -67752,7 +67752,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkeleton.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkeleton.js ----
 {
 	const __exports = __awtsmoosModule_2596;
 	// B"H
@@ -67820,7 +67820,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js ----
 {
 	const __exports = __awtsmoosModule_2582;
 	//B"H
@@ -67921,7 +67921,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js ----
 {
 	const __exports = __awtsmoosModule_2605;
 	// B"H
@@ -67967,7 +67967,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalancePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalancePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2606;
 	// B"H
@@ -68021,7 +68021,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyDamage.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyDamage.js ----
 {
 	const __exports = __awtsmoosModule_2604;
 	// B"H
@@ -68138,7 +68138,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2608;
 	// B"H
@@ -68221,7 +68221,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProjectile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProjectile.js ----
 {
 	const __exports = __awtsmoosModule_2607;
 	// B"H
@@ -68314,7 +68314,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatEffects.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatEffects.js ----
 {
 	const __exports = __awtsmoosModule_2603;
 	// B"H
@@ -68416,7 +68416,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2609;
 	// B"H
@@ -68477,7 +68477,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLineOfSight.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLineOfSight.js ----
 {
 	const __exports = __awtsmoosModule_2611;
 	// B"H
@@ -68533,7 +68533,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigationCollision.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigationCollision.js ----
 {
 	const __exports = __awtsmoosModule_2612;
 	// B"H
@@ -68606,7 +68606,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js ----
 {
 	const __exports = __awtsmoosModule_2610;
 	// B"H
@@ -68703,7 +68703,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyMeleeExecution.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyMeleeExecution.js ----
 {
 	const __exports = __awtsmoosModule_2602;
 	// B"H
@@ -68774,7 +68774,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRangedExecution.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRangedExecution.js ----
 {
 	const __exports = __awtsmoosModule_2613;
 	// B"H
@@ -68835,7 +68835,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackExecution.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackExecution.js ----
 {
 	const __exports = __awtsmoosModule_2601;
 	// B"H
@@ -68860,7 +68860,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionReceipt.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionReceipt.js ----
 {
 	const __exports = __awtsmoosModule_2614;
 	// B"H
@@ -68894,7 +68894,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRolePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRolePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2617;
 	// B"H
@@ -68946,7 +68946,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemySteering.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemySteering.js ----
 {
 	const __exports = __awtsmoosModule_2616;
 	// B"H
@@ -69036,7 +69036,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDecision.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDecision.js ----
 {
 	const __exports = __awtsmoosModule_2615;
 	// B"H
@@ -69112,7 +69112,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionAdvance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionAdvance.js ----
 {
 	const __exports = __awtsmoosModule_2600;
 	// B"H
@@ -69206,7 +69206,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2618;
 	// B"H
@@ -69326,7 +69326,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionFlow.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionFlow.js ----
 {
 	const __exports = __awtsmoosModule_2599;
 	// B"H
@@ -69414,7 +69414,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLocomotionFlow.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLocomotionFlow.js ----
 {
 	const __exports = __awtsmoosModule_2619;
 	// B"H
@@ -69493,7 +69493,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatAdvance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatAdvance.js ----
 {
 	const __exports = __awtsmoosModule_2598;
 	// B"H
@@ -69544,7 +69544,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2620;
 	// B"H
@@ -69593,7 +69593,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js ----
 {
 	const __exports = __awtsmoosModule_2622;
 	// B"H
@@ -69690,7 +69690,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatState.js ----
 {
 	const __exports = __awtsmoosModule_2621;
 	// B"H
@@ -69731,7 +69731,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombat.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombat.js ----
 {
 	const __exports = __awtsmoosModule_2597;
 	// B"H
@@ -69842,7 +69842,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/affinity/CombatStatusLedger.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/affinity/CombatStatusLedger.js ----
 {
 	const __exports = __awtsmoosModule_2624;
 	// B"H
@@ -69943,7 +69943,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js ----
 {
 	const __exports = __awtsmoosModule_2625;
 	// B"H
@@ -70016,7 +70016,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorState.js ----
 {
 	const __exports = __awtsmoosModule_2623;
 	// B"H
@@ -70065,7 +70065,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfile.js ----
 {
 	const __exports = __awtsmoosModule_2626;
 	// B"H
@@ -70116,7 +70116,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorSetup.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorSetup.js ----
 {
 	const __exports = __awtsmoosModule_2581;
 	// B"H
@@ -70175,7 +70175,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyHealth.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyHealth.js ----
 {
 	const __exports = __awtsmoosModule_2628;
 	// B"H
@@ -70240,7 +70240,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2629;
 	// B"H
@@ -70304,7 +70304,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLoot.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLoot.js ----
 {
 	const __exports = __awtsmoosModule_2630;
 	// B"H
@@ -70437,7 +70437,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2627;
 	// B"H
@@ -70535,7 +70535,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyState.js ----
 {
 	const __exports = __awtsmoosModule_2631;
 	// B"H
@@ -70611,7 +70611,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActor.js ----
 {
 	const __exports = __awtsmoosModule_2576;
 	// B"H
@@ -70705,7 +70705,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2632;
 	// B"H
@@ -70745,7 +70745,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationTargeting.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationTargeting.js ----
 {
 	const __exports = __awtsmoosModule_2633;
 	// B"H
@@ -70802,7 +70802,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldBounds.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldBounds.js ----
 {
 	const __exports = __awtsmoosModule_2637;
 	// B"H
@@ -70857,7 +70857,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfileFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfileFactory.js ----
 {
 	const __exports = __awtsmoosModule_2636;
 	// B"H
@@ -70979,7 +70979,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenProfile.js ----
 {
 	const __exports = __awtsmoosModule_2635;
 	// B"H
@@ -71062,7 +71062,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js ----
 {
 	const __exports = __awtsmoosModule_2641;
 	// B"H
@@ -71204,7 +71204,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadEncounterStations.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRoadEncounterStations.js ----
 {
 	const __exports = __awtsmoosModule_2640;
 	// B"H
@@ -71255,7 +71255,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPursuerProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPursuerProfile.js ----
 {
 	const __exports = __awtsmoosModule_2639;
 	// B"H
@@ -71319,7 +71319,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowScribeProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowScribeProfile.js ----
 {
 	const __exports = __awtsmoosModule_2642;
 	// B"H
@@ -71387,7 +71387,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSentinelProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowSentinelProfile.js ----
 {
 	const __exports = __awtsmoosModule_2643;
 	// B"H
@@ -71451,7 +71451,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadEnemyProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRoadEnemyProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2638;
 	// B"H
@@ -71479,7 +71479,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSupportingEnemyProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowSupportingEnemyProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2644;
 	// B"H
@@ -71569,7 +71569,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2634;
 	// B"H
@@ -71605,7 +71605,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceipts.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceipts.js ----
 {
 	const __exports = __awtsmoosModule_2646;
 	// B"H
@@ -71651,7 +71651,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceiptCadence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceiptCadence.js ----
 {
 	const __exports = __awtsmoosModule_2645;
 	// B"H
@@ -71704,7 +71704,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyUpdateBudget.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyUpdateBudget.js ----
 {
 	const __exports = __awtsmoosModule_2647;
 	// B"H
@@ -71811,7 +71811,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2575;
 	// B"H
@@ -71933,7 +71933,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRuntimeMount.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRuntimeMount.js ----
 {
 	const __exports = __awtsmoosModule_2558;
 	// B"H
@@ -71986,7 +71986,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js ----
 {
 	const __exports = __awtsmoosModule_2648;
 	// B"H
@@ -72074,7 +72074,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCreatureHydration.js ----
 {
 	const __exports = __awtsmoosModule_2556;
 	// B"H
@@ -72140,7 +72140,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRegionCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2650;
 	// B"H
@@ -72223,7 +72223,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRegionRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2649;
 	// B"H
@@ -72312,7 +72312,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/RiverCrossingShlichus.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/RiverCrossingShlichus.js ----
 {
 	const __exports = __awtsmoosModule_2655;
 	// B"H
@@ -72388,7 +72388,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TanachMissionsBereishis.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TanachMissionsBereishis.js ----
 {
 	const __exports = __awtsmoosModule_2656;
 	// B"H
@@ -73959,7 +73959,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TanachMissionsShemos.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TanachMissionsShemos.js ----
 {
 	const __exports = __awtsmoosModule_2657;
 	// B"H
@@ -75268,7 +75268,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TanachMissionsMidbar.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TanachMissionsMidbar.js ----
 {
 	const __exports = __awtsmoosModule_2658;
 	// B"H
@@ -77462,7 +77462,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TanachMissionsNeviim.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TanachMissionsNeviim.js ----
 {
 	const __exports = __awtsmoosModule_2659;
 	// B"H
@@ -80222,7 +80222,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TanachMissionsBuilding.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/TanachMissionsBuilding.js ----
 {
 	const __exports = __awtsmoosModule_2660;
 	// B"H
@@ -80393,7 +80393,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/AdventureCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2654;
 	// B"H
@@ -80524,7 +80524,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStoreRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/AdventureStoreRules.js ----
 {
 	const __exports = __awtsmoosModule_2661;
 	// B"H
@@ -80620,7 +80620,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/AdventureStore.js ----
 {
 	const __exports = __awtsmoosModule_2653;
 	// B"H
@@ -80802,7 +80802,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowMenuQuestRecord.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowMenuQuestRecord.js ----
 {
 	const __exports = __awtsmoosModule_2663;
 	// B"H
@@ -80847,7 +80847,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/UnifiedQuestStore.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/UnifiedQuestStore.js ----
 {
 	const __exports = __awtsmoosModule_2662;
 	// B"H
@@ -80966,7 +80966,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentElements.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentElements.js ----
 {
 	const __exports = __awtsmoosModule_2665;
 	// B"H
@@ -81002,7 +81002,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentActions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentActions.js ----
 {
 	const __exports = __awtsmoosModule_2666;
 	// B"H
@@ -81055,7 +81055,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalPresentation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalPresentation.js ----
 {
 	const __exports = __awtsmoosModule_2669;
 	// B"H
@@ -81131,7 +81131,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgress.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgress.js ----
 {
 	const __exports = __awtsmoosModule_2670;
 	// B"H
@@ -81196,7 +81196,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestCompletionPresentation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestCompletionPresentation.js ----
 {
 	const __exports = __awtsmoosModule_2668;
 	// B"H
@@ -81261,7 +81261,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/TeachingPlacementPreference.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/TeachingPlacementPreference.js ----
 {
 	const __exports = __awtsmoosModule_2671;
 	// B"H
@@ -81350,7 +81350,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestPresentation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestPresentation.js ----
 {
 	const __exports = __awtsmoosModule_2667;
 	// B"H
@@ -81451,7 +81451,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalStyles.js ----
 {
 	const __exports = __awtsmoosModule_2673;
 	// B"H
@@ -81502,7 +81502,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentBaseStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentBaseStyles.js ----
 {
 	const __exports = __awtsmoosModule_2674;
 	// B"H
@@ -81623,7 +81623,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgressStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgressStyles.js ----
 {
 	const __exports = __awtsmoosModule_2676;
 	// B"H
@@ -81735,7 +81735,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestTrackerSurfaceStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestTrackerSurfaceStyles.js ----
 {
 	const __exports = __awtsmoosModule_2677;
 	// B"H
@@ -81835,7 +81835,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentTrackerStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentTrackerStyles.js ----
 {
 	const __exports = __awtsmoosModule_2675;
 	// B"H
@@ -81861,7 +81861,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentStyles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentStyles.js ----
 {
 	const __exports = __awtsmoosModule_2672;
 	// B"H
@@ -81900,7 +81900,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchment.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchment.js ----
 {
 	const __exports = __awtsmoosModule_2664;
 	// B"H
@@ -82006,7 +82006,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestLogPanel.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/QuestLogPanel.js ----
 {
 	const __exports = __awtsmoosModule_2679;
 	// B"H
@@ -82122,7 +82122,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestTracker.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/QuestTracker.js ----
 {
 	const __exports = __awtsmoosModule_2680;
 	// B"H
@@ -82196,7 +82196,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/UnifiedQuestHud.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/UnifiedQuestHud.js ----
 {
 	const __exports = __awtsmoosModule_2678;
 	// B"H
@@ -82260,7 +82260,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestCompletion.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestCompletion.js ----
 {
 	const __exports = __awtsmoosModule_2682;
 	// B"H
@@ -82327,7 +82327,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestEncounterContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestEncounterContract.js ----
 {
 	const __exports = __awtsmoosModule_2684;
 	// B"H
@@ -82434,7 +82434,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestDefinition.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestDefinition.js ----
 {
 	const __exports = __awtsmoosModule_2683;
 	// B"H
@@ -82525,7 +82525,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestOptionalObjectives.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestOptionalObjectives.js ----
 {
 	const __exports = __awtsmoosModule_2685;
 	// B"H
@@ -82626,7 +82626,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestSnapshot.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestSnapshot.js ----
 {
 	const __exports = __awtsmoosModule_2686;
 	// B"H
@@ -82676,7 +82676,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js ----
 {
 	const __exports = __awtsmoosModule_2681;
 	// B"H
@@ -82793,7 +82793,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestCoreMount.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestCoreMount.js ----
 {
 	const __exports = __awtsmoosModule_2652;
 	// B"H
@@ -82880,7 +82880,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcQuestMarker.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcQuestMarker.js ----
 {
 	const __exports = __awtsmoosModule_2689;
 	//B"H
@@ -82961,7 +82961,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestChossidVisual.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestChossidVisual.js ----
 {
 	const __exports = __awtsmoosModule_2690;
 	//B"H
@@ -83016,7 +83016,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcContract.js ----
 {
 	const __exports = __awtsmoosModule_2691;
 	// B"H
@@ -83091,7 +83091,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2688;
 	// B"H
@@ -83206,7 +83206,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AmuletExpertCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/AmuletExpertCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2694;
 	// B"H
@@ -83234,7 +83234,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/HealingAmuletUse.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/HealingAmuletUse.js ----
 {
 	const __exports = __awtsmoosModule_2697;
 	// B"H
@@ -83285,7 +83285,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/HealingAmuletCommerce.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/HealingAmuletCommerce.js ----
 {
 	const __exports = __awtsmoosModule_2696;
 	// B"H
@@ -83396,7 +83396,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AmuletExpertPanel.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/AmuletExpertPanel.js ----
 {
 	const __exports = __awtsmoosModule_2698;
 	// B"H
@@ -83499,7 +83499,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2695;
 	// B"H
@@ -83567,7 +83567,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertTargeting.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertTargeting.js ----
 {
 	const __exports = __awtsmoosModule_2699;
 	// B"H
@@ -83637,7 +83637,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2693;
 	// B"H
@@ -83747,7 +83747,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/ClothingMerchantCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/ClothingMerchantCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2701;
 	// B"H
@@ -83785,7 +83785,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantContract.js ----
 {
 	const __exports = __awtsmoosModule_2702;
 	// B"H
@@ -83864,7 +83864,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/MerchantAuthorityReconciliation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/MerchantAuthorityReconciliation.js ----
 {
 	const __exports = __awtsmoosModule_2705;
 	// B"H
@@ -83973,7 +83973,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/MerchantTransactionFacade.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/MerchantTransactionFacade.js ----
 {
 	const __exports = __awtsmoosModule_2704;
 	// B"H
@@ -84069,7 +84069,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MerchantTradeCard.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MerchantTradeCard.js ----
 {
 	const __exports = __awtsmoosModule_2708;
 	// B"H
@@ -84155,7 +84155,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MerchantPanelMarkup.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MerchantPanelMarkup.js ----
 {
 	const __exports = __awtsmoosModule_2709;
 	// B"H
@@ -84201,7 +84201,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MerchantPanelBase.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MerchantPanelBase.js ----
 {
 	const __exports = __awtsmoosModule_2707;
 	// B"H
@@ -84327,7 +84327,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/ClothingMerchantPanel.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/ClothingMerchantPanel.js ----
 {
 	const __exports = __awtsmoosModule_2706;
 	// B"H
@@ -84386,7 +84386,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2703;
 	// B"H
@@ -84471,7 +84471,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2700;
 	// B"H
@@ -84569,7 +84569,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMountSupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMountSupport.js ----
 {
 	const __exports = __awtsmoosModule_2692;
 	// B"H
@@ -84667,7 +84667,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcHydration.js ----
 {
 	const __exports = __awtsmoosModule_2687;
 	// B"H
@@ -84718,7 +84718,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestMount.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowQuestMount.js ----
 {
 	const __exports = __awtsmoosModule_2651;
 	// B"H
@@ -84770,7 +84770,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDaasRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowDaasRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2711;
 	// B"H
@@ -84883,7 +84883,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2712;
 	// B"H
@@ -84989,7 +84989,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPostureRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPostureRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2713;
 	// B"H
@@ -85092,7 +85092,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowReactionRules.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowReactionRules.js ----
 {
 	const __exports = __awtsmoosModule_2714;
 	// B"H
@@ -85161,7 +85161,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTeachingQuestRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTeachingQuestRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2715;
 	// B"H
@@ -85254,7 +85254,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSlicePersistence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSlicePersistence.js ----
 {
 	const __exports = __awtsmoosModule_2716;
 	// B"H
@@ -85366,7 +85366,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAccessibilitySettings.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAccessibilitySettings.js ----
 {
 	const __exports = __awtsmoosModule_2718;
 	// B"H
@@ -85436,7 +85436,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceReward.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceReward.js ----
 {
 	const __exports = __awtsmoosModule_2717;
 	// B"H
@@ -85552,7 +85552,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2710;
 	// B"H
@@ -85679,7 +85679,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/RegionIdentity.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/RegionIdentity.js ----
 {
 	const __exports = __awtsmoosModule_2720;
 	// B"H
@@ -85722,7 +85722,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/LetterHighlandsPackage.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/LetterHighlandsPackage.js ----
 {
 	const __exports = __awtsmoosModule_2722;
 	// B"H
@@ -85775,7 +85775,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/OpenWorldPackageLoaders.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/OpenWorldPackageLoaders.js ----
 {
 	const __exports = __awtsmoosModule_2721;
 	//B"H
@@ -85800,7 +85800,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/OpenWorldManifest.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/OpenWorldManifest.js ----
 {
 	const __exports = __awtsmoosModule_2724;
 	//B"H
@@ -85889,7 +85889,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/OpenWorldRegionSelection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/OpenWorldRegionSelection.js ----
 {
 	const __exports = __awtsmoosModule_2723;
 	//B"H
@@ -85954,7 +85954,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/RegionPackageResidency.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/RegionPackageResidency.js ----
 {
 	const __exports = __awtsmoosModule_2725;
 	//B"H
@@ -86077,7 +86077,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/RegionPackageRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/RegionPackageRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2719;
 	//B"H
@@ -86198,7 +86198,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js ----
 {
 	const __exports = __awtsmoosModule_2728;
 	// B"H
@@ -86257,7 +86257,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/Sky3D.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/Sky3D.js ----
 {
 	const __exports = __awtsmoosModule_2727;
 	//B"H
@@ -86308,7 +86308,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = createSky3D;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSky.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowSky.js ----
 {
 	const __exports = __awtsmoosModule_2726;
 	// B"H
@@ -86354,7 +86354,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2729;
 	// B"H
@@ -86394,7 +86394,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/ExpansionCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2732;
 	// B"H
@@ -86475,7 +86475,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionTransitionSupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/ExpansionTransitionSupport.js ----
 {
 	const __exports = __awtsmoosModule_2734;
 	// B"H
@@ -86556,7 +86556,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.rollbackExpansion = rollbackExpansion;
 	function restoreExpansionRegion(environment) {
 		try {
-			const stored = environment.localStorage?.getItem('mitzvahWorld.regionId');
+			const stored = environment.localStorage?.getItem('mitzvah-world.regionId');
 			return stored ? canonicalRegionId(stored) : null;
 		} catch {
 			return null;
@@ -86568,7 +86568,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	function persistExpansionRegion(environment, regionId) {
 		try {
 			environment.localStorage?.setItem(
-				'mitzvahWorld.regionId',
+				'mitzvah-world.regionId',
 				canonicalRegionId(regionId)
 			);
 		} catch {
@@ -86581,7 +86581,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/LocalizedCellCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/streaming/LocalizedCellCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2736;
 	// B"H
@@ -86675,7 +86675,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/LocalizedEnemyScope.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/streaming/LocalizedEnemyScope.js ----
 {
 	const __exports = __awtsmoosModule_2735;
 	// B"H
@@ -86717,7 +86717,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntimeProjection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntimeProjection.js ----
 {
 	const __exports = __awtsmoosModule_2733;
 	// B"H
@@ -86776,7 +86776,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntimeTransition.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntimeTransition.js ----
 {
 	const __exports = __awtsmoosModule_2737;
 	// B"H
@@ -86841,7 +86841,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/LocalizedCellSelection.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/streaming/LocalizedCellSelection.js ----
 {
 	const __exports = __awtsmoosModule_2739;
 	// B"H
@@ -86889,7 +86889,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/LocalizedCellStreaming.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/streaming/LocalizedCellStreaming.js ----
 {
 	const __exports = __awtsmoosModule_2738;
 	// B"H
@@ -86987,7 +86987,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntime.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/ExpansionRuntime.js ----
 {
 	const __exports = __awtsmoosModule_2731;
 	// B"H
@@ -87106,7 +87106,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/LocalCombatMasteryBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/LocalCombatMasteryBridge.js ----
 {
 	const __exports = __awtsmoosModule_2740;
 	// B"H
@@ -87156,7 +87156,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionState.js ----
 {
 	const __exports = __awtsmoosModule_2742;
 	// B"H
@@ -87202,7 +87202,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/LocalProgressionChoiceCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/LocalProgressionChoiceCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2744;
 	// B"H
@@ -87245,7 +87245,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionProgression.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionProgression.js ----
 {
 	const __exports = __awtsmoosModule_2743;
 	// B"H
@@ -87332,7 +87332,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionAuthority.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/gameplay/expansion/LocalExpansionAuthority.js ----
 {
 	const __exports = __awtsmoosModule_2741;
 	// B"H
@@ -87437,7 +87437,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldExpansionMount.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldExpansionMount.js ----
 {
 	const __exports = __awtsmoosModule_2730;
 	// B"H
@@ -87495,7 +87495,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowConcurrentMountPlan.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowConcurrentMountPlan.js ----
 {
 	const __exports = __awtsmoosModule_2748;
 	// B"H
@@ -87564,7 +87564,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = runMinimalMeadowConcurrentMountPlan;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseDoorOctreeBridge.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzHouseDoorOctreeBridge.js ----
 {
 	const __exports = __awtsmoosModule_2753;
 	//B"H
@@ -87623,7 +87623,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorFrameUtilities.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorFrameUtilities.js ----
 {
 	const __exports = __awtsmoosModule_2756;
 	// B"H
@@ -87683,7 +87683,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorWorldMatrix.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorWorldMatrix.js ----
 {
 	const __exports = __awtsmoosModule_2757;
 	// B"H
@@ -87751,7 +87751,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/HouseDoorLegacyAliases.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/HouseDoorLegacyAliases.js ----
 {
 	const __exports = __awtsmoosModule_2758;
 	// B"H
@@ -87780,7 +87780,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/house/HouseGroundMeasurement.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/house/HouseGroundMeasurement.js ----
 {
 	const __exports = __awtsmoosModule_2760;
 	// B"H
@@ -87820,7 +87820,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/house/HouseSpec.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/house/HouseSpec.js ----
 {
 	const __exports = __awtsmoosModule_2759;
 	// B"H
@@ -87947,7 +87947,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/HouseDoorGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/HouseDoorGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2755;
 	// B"H
@@ -88075,7 +88075,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorWallSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorWallSystem.js ----
 {
 	const __exports = __awtsmoosModule_2754;
 	// B"H
@@ -88185,7 +88185,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorDebugEvidence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorDebugEvidence.js ----
 {
 	const __exports = __awtsmoosModule_2762;
 	// B"H
@@ -88219,7 +88219,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionFeedback.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorInteractionFeedback.js ----
 {
 	const __exports = __awtsmoosModule_2764;
 	//B"H
@@ -88307,7 +88307,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCollisionGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorCollisionGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2766;
 	// B"H
@@ -88366,7 +88366,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorHitEvidence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorHitEvidence.js ----
 {
 	const __exports = __awtsmoosModule_2767;
 	//B"H
@@ -88442,7 +88442,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionRange.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorInteractionRange.js ----
 {
 	const __exports = __awtsmoosModule_2768;
 	//B"H
@@ -88498,7 +88498,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorProjectionGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorProjectionGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2769;
 	// B"H
@@ -88588,7 +88588,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorProjectedHitTest.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorProjectedHitTest.js ----
 {
 	const __exports = __awtsmoosModule_2770;
 	//B"H
@@ -88659,7 +88659,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionHitTest.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorInteractionHitTest.js ----
 {
 	const __exports = __awtsmoosModule_2765;
 	//B"H
@@ -88749,7 +88749,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPointerSurface.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorPointerSurface.js ----
 {
 	const __exports = __awtsmoosModule_2771;
 	//B"H
@@ -88867,7 +88867,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionController.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorInteractionController.js ----
 {
 	const __exports = __awtsmoosModule_2763;
 	//B"H
@@ -88992,7 +88992,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorActionReceipt.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorActionReceipt.js ----
 {
 	const __exports = __awtsmoosModule_2775;
 	//B"H
@@ -89051,7 +89051,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorStateContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorStateContract.js ----
 {
 	const __exports = __awtsmoosModule_2776;
 	//B"H
@@ -89157,7 +89157,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorStateTransition.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorStateTransition.js ----
 {
 	const __exports = __awtsmoosModule_2777;
 	//B"H
@@ -89197,7 +89197,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorRuntimePose.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorRuntimePose.js ----
 {
 	const __exports = __awtsmoosModule_2779;
 	// B"H
@@ -89322,7 +89322,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorThresholdSafety.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorThresholdSafety.js ----
 {
 	const __exports = __awtsmoosModule_2778;
 	// B"H
@@ -89431,7 +89431,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorClosePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorClosePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2774;
 	//B"H
@@ -89528,7 +89528,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorAutoCloseClock.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorAutoCloseClock.js ----
 {
 	const __exports = __awtsmoosModule_2773;
 	//B"H
@@ -89583,7 +89583,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorMotionMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorMotionMath.js ----
 {
 	const __exports = __awtsmoosModule_2780;
 	//B"H
@@ -89647,7 +89647,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorMotionIntegrator.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorMotionIntegrator.js ----
 {
 	const __exports = __awtsmoosModule_2772;
 	//B"H
@@ -89734,7 +89734,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCommandPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorCommandPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2783;
 	//B"H
@@ -89895,7 +89895,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPromptDescriptor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorPromptDescriptor.js ----
 {
 	const __exports = __awtsmoosModule_2784;
 	//B"H
@@ -89977,7 +89977,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCommandFacade.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorCommandFacade.js ----
 {
 	const __exports = __awtsmoosModule_2782;
 	//B"H
@@ -90094,7 +90094,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DynamicDoorPresentation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DynamicDoorPresentation.js ----
 {
 	const __exports = __awtsmoosModule_2785;
 	//B"H
@@ -90221,7 +90221,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPresentationFacade.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorPresentationFacade.js ----
 {
 	const __exports = __awtsmoosModule_2781;
 	//B"H
@@ -90306,7 +90306,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorwaySpecs.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DoorwaySpecs.js ----
 {
 	const __exports = __awtsmoosModule_2786;
 	// B"H
@@ -90353,7 +90353,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DynamicDoor3D.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/DynamicDoor3D.js ----
 {
 	const __exports = __awtsmoosModule_2761;
 	//B"H
@@ -90445,7 +90445,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseDynamicDoor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzHouseDynamicDoor.js ----
 {
 	const __exports = __awtsmoosModule_2752;
 	//B"H
@@ -90564,7 +90564,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseMath.js ----
 {
 	const __exports = __awtsmoosModule_2788;
 	// B"H
@@ -90615,7 +90615,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMezuzah.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseMezuzah.js ----
 {
 	const __exports = __awtsmoosModule_2787;
 	// B"H
@@ -90673,7 +90673,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssemblyInstallers.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssemblyInstallers.js ----
 {
 	const __exports = __awtsmoosModule_2751;
 	//B"H
@@ -90761,7 +90761,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2789;
 	// B"H
@@ -90824,7 +90824,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePitchedRoof.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePitchedRoof.js ----
 {
 	const __exports = __awtsmoosModule_2790;
 	// B"H
@@ -90998,7 +90998,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js ----
 {
 	const __exports = __awtsmoosModule_2750;
 	// B"H
@@ -91091,7 +91091,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseCollisionVisibility.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseCollisionVisibility.js ----
 {
 	const __exports = __awtsmoosModule_2791;
 	// B"H
@@ -91126,7 +91126,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js ----
 {
 	const __exports = __awtsmoosModule_2793;
 	// B"H
@@ -91193,7 +91193,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2794;
 	// B"H
@@ -91258,7 +91258,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js ----
 {
 	const __exports = __awtsmoosModule_2792;
 	//B"H
@@ -91387,7 +91387,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js ----
 {
 	const __exports = __awtsmoosModule_2795;
 	// B"H
@@ -91467,7 +91467,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapProceduralTerrainTextures.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapProceduralTerrainTextures.js ----
 {
 	const __exports = __awtsmoosModule_2797;
 	// B"H
@@ -91908,7 +91908,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahDriveImageAssets.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahDriveImageAssets.js ----
 {
 	const __exports = __awtsmoosModule_2798;
 	// B"H
@@ -91952,7 +91952,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js ----
 {
 	const __exports = __awtsmoosModule_2796;
 	// B"H
@@ -92041,7 +92041,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2799;
 	// B"H
@@ -92085,7 +92085,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2800;
 	// B"H
@@ -92119,7 +92119,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2801;
 	// B"H
@@ -92147,7 +92147,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseArchetypeCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzHouseArchetypeCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2803;
 	//B"H
@@ -92240,7 +92240,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2802;
 	//B"H
@@ -92312,7 +92312,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js ----
 {
 	const __exports = __awtsmoosModule_2804;
 	// B"H
@@ -92356,7 +92356,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js ----
 {
 	const __exports = __awtsmoosModule_2805;
 	// B"H
@@ -92410,7 +92410,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js ----
 {
 	const __exports = __awtsmoosModule_2749;
 	//B"H
@@ -92515,7 +92515,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackBinding.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MaterialStackBinding.js ----
 {
 	const __exports = __awtsmoosModule_2808;
 	// B"H
@@ -92550,7 +92550,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackRecipe.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MaterialStackRecipe.js ----
 {
 	const __exports = __awtsmoosModule_2811;
 	// B"H
@@ -92571,7 +92571,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackLayer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MaterialStackLayer.js ----
 {
 	const __exports = __awtsmoosModule_2813;
 	// B"H
@@ -92597,7 +92597,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialPresetLayer.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MaterialPresetLayer.js ----
 {
 	const __exports = __awtsmoosModule_2812;
 	// B"H
@@ -92638,7 +92638,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/HighestResolutionSurfaceCatalog.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/HighestResolutionSurfaceCatalog.js ----
 {
 	const __exports = __awtsmoosModule_2816;
 	// B"H
@@ -92701,7 +92701,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageTerrainSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MountainVillageTerrainSources.js ----
 {
 	const __exports = __awtsmoosModule_2815;
 	// B"H
@@ -92776,7 +92776,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialSources.js ----
 {
 	const __exports = __awtsmoosModule_2814;
 	// B"H
@@ -92841,7 +92841,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/RoadMaterialStackPreset.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/RoadMaterialStackPreset.js ----
 {
 	const __exports = __awtsmoosModule_2810;
 	// B"H
@@ -92931,7 +92931,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackLayers.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackLayers.js ----
 {
 	const __exports = __awtsmoosModule_2818;
 	// B"H
@@ -93011,7 +93011,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js ----
 {
 	const __exports = __awtsmoosModule_2817;
 	// B"H
@@ -93041,7 +93041,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/StructureMaterialStackPreset.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/StructureMaterialStackPreset.js ----
 {
 	const __exports = __awtsmoosModule_2819;
 	// B"H
@@ -93122,7 +93122,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialPresets.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialPresets.js ----
 {
 	const __exports = __awtsmoosModule_2809;
 	// B"H
@@ -93143,7 +93143,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainRidgeAtlas.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/AtmosphericMountainRidgeAtlas.js ----
 {
 	const __exports = __awtsmoosModule_2821;
 	// B"H
@@ -93252,7 +93252,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainZones.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/AtmosphericMountainZones.js ----
 {
 	const __exports = __awtsmoosModule_2822;
 	// B"H
@@ -93285,7 +93285,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/AtmosphericMountainGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2820;
 	// B"H
@@ -93410,7 +93410,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js ----
 {
 	const __exports = __awtsmoosModule_2807;
 	// B"H
@@ -93532,7 +93532,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMountainSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowMountainSystem.js ----
 {
 	const __exports = __awtsmoosModule_2806;
 	// B"H
@@ -93592,7 +93592,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/ForestLeafTexture.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/trees/ForestLeafTexture.js ----
 {
 	const __exports = __awtsmoosModule_2825;
 	//B"H
@@ -93658,7 +93658,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	__exports.default = createForestLeafTexture;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeMaterialSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeMaterialSources.js ----
 {
 	const __exports = __awtsmoosModule_2824;
 	//B"H
@@ -93735,7 +93735,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js ----
 {
 	const __exports = __awtsmoosModule_2827;
 	// B"H
@@ -93776,7 +93776,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainNoise.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTerrainNoise.js ----
 {
 	const __exports = __awtsmoosModule_2832;
 	// B"H
@@ -93876,7 +93876,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendFields.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendFields.js ----
 {
 	const __exports = __awtsmoosModule_2831;
 	// B"H
@@ -93951,7 +93951,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js ----
 {
 	const __exports = __awtsmoosModule_2830;
 	// B"H
@@ -94073,7 +94073,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEcologyField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEcologyField.js ----
 {
 	const __exports = __awtsmoosModule_2829;
 	// B"H
@@ -94159,7 +94159,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSpeciesProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeSpeciesProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2833;
 	// B"H
@@ -94220,7 +94220,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSilhouette.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeSilhouette.js ----
 {
 	const __exports = __awtsmoosModule_2834;
 	// B"H
@@ -94300,7 +94300,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationConfig.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationConfig.js ----
 {
 	const __exports = __awtsmoosModule_2835;
 	// B"H
@@ -94363,7 +94363,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js ----
 {
 	const __exports = __awtsmoosModule_2836;
 	// B"H
@@ -94436,7 +94436,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacementFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacementFactory.js ----
 {
 	const __exports = __awtsmoosModule_2828;
 	// B"H
@@ -94520,7 +94520,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js ----
 {
 	const __exports = __awtsmoosModule_2838;
 	// B"H
@@ -94647,7 +94647,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationExclusions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationExclusions.js ----
 {
 	const __exports = __awtsmoosModule_2837;
 	// B"H
@@ -94756,7 +94756,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacements.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacements.js ----
 {
 	const __exports = __awtsmoosModule_2826;
 	// B"H
@@ -94851,7 +94851,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js ----
 {
 	const __exports = __awtsmoosModule_2842;
 	//B"H
@@ -94966,7 +94966,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2841;
 	//B"H
@@ -95070,7 +95070,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeFactory.js ----
 {
 	const __exports = __awtsmoosModule_2840;
 	// B"H
@@ -95132,7 +95132,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeUpdatePolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeUpdatePolicy.js ----
 {
 	const __exports = __awtsmoosModule_2843;
 	//B"H
@@ -95249,7 +95249,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeRecordFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeRecordFactory.js ----
 {
 	const __exports = __awtsmoosModule_2839;
 	//B"H
@@ -95296,7 +95296,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnvironmentalWind.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowEnvironmentalWind.js ----
 {
 	const __exports = __awtsmoosModule_2845;
 	// B"H
@@ -95314,7 +95314,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeWind.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeWind.js ----
 {
 	const __exports = __awtsmoosModule_2844;
 	//B"H
@@ -95394,7 +95394,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2846;
 	// B"H
@@ -95477,7 +95477,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationHydration.js ----
 {
 	const __exports = __awtsmoosModule_2847;
 	// B"H
@@ -95518,7 +95518,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeSystem.js ----
 {
 	const __exports = __awtsmoosModule_2823;
 	//B"H
@@ -95643,7 +95643,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerSpecies.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFlowerSpecies.js ----
 {
 	const __exports = __awtsmoosModule_2852;
 	// B"H
@@ -95715,7 +95715,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCellProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCellProfile.js ----
 {
 	const __exports = __awtsmoosModule_2851;
 	// B"H
@@ -95780,7 +95780,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationQualityBudget.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationQualityBudget.js ----
 {
 	const __exports = __awtsmoosModule_2853;
 	// B"H
@@ -95838,7 +95838,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralPatchField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowProceduralPatchField.js ----
 {
 	const __exports = __awtsmoosModule_2854;
 	// B"H
@@ -95930,7 +95930,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistribution.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistribution.js ----
 {
 	const __exports = __awtsmoosModule_2850;
 	// B"H
@@ -96043,7 +96043,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCells.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCells.js ----
 {
 	const __exports = __awtsmoosModule_2849;
 	// B"H
@@ -96067,7 +96067,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalBladeGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalBladeGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2859;
 	// B"H
@@ -96151,7 +96151,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2858;
 	// B"H
@@ -96259,7 +96259,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalColor.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalColor.js ----
 {
 	const __exports = __awtsmoosModule_2860;
 	// B"H
@@ -96299,7 +96299,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpPopulation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpPopulation.js ----
 {
 	const __exports = __awtsmoosModule_2857;
 	// B"H
@@ -96398,7 +96398,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2856;
 	// B"H
@@ -96473,7 +96473,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionMaterials.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionMaterials.js ----
 {
 	const __exports = __awtsmoosModule_2861;
 	// B"H
@@ -96529,7 +96529,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionCellFactory.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionCellFactory.js ----
 {
 	const __exports = __awtsmoosModule_2855;
 	// B"H
@@ -96617,7 +96617,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDynamics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDynamics.js ----
 {
 	const __exports = __awtsmoosModule_2862;
 	//B"H
@@ -96707,7 +96707,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationMotionState.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationMotionState.js ----
 {
 	const __exports = __awtsmoosModule_2863;
 	//B"H
@@ -96777,7 +96777,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationVisibility.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationVisibility.js ----
 {
 	const __exports = __awtsmoosModule_2864;
 	// B"H
@@ -96838,7 +96838,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js ----
 {
 	const __exports = __awtsmoosModule_2848;
 	//B"H
@@ -96957,7 +96957,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterFlowProfiles.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterFlowProfiles.js ----
 {
 	const __exports = __awtsmoosModule_2867;
 	// B"H
@@ -97015,7 +97015,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterAnimation.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterAnimation.js ----
 {
 	const __exports = __awtsmoosModule_2866;
 	// B"H
@@ -97143,7 +97143,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js ----
 {
 	const __exports = __awtsmoosModule_2870;
 	// B"H
@@ -97243,7 +97243,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2869;
 	// B"H
@@ -97295,7 +97295,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDiagnostics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterDiagnostics.js ----
 {
 	const __exports = __awtsmoosModule_2868;
 	// B"H
@@ -97369,7 +97369,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/WaterShaderRecipe.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/proceduralApi/WaterShaderRecipe.js ----
 {
 	const __exports = __awtsmoosModule_2872;
 	//B"H
@@ -97386,7 +97386,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2873;
 	// B"H
@@ -97474,7 +97474,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/SurfaceNormalField.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/SurfaceNormalField.js ----
 {
 	const __exports = __awtsmoosModule_2876;
 	// B"H
@@ -97590,7 +97590,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLakeGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowLakeGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2875;
 	// B"H
@@ -97679,7 +97679,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRiverGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2877;
 	// B"H
@@ -97763,7 +97763,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterGeometry.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterGeometry.js ----
 {
 	const __exports = __awtsmoosModule_2874;
 	// B"H
@@ -97811,7 +97811,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialDefinition.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialDefinition.js ----
 {
 	const __exports = __awtsmoosModule_2878;
 	// B"H
@@ -97916,7 +97916,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2871;
 	// B"H
@@ -98019,7 +98019,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js ----
 {
 	const __exports = __awtsmoosModule_2879;
 	// B"H
@@ -98116,7 +98116,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterQualityPolicy.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterQualityPolicy.js ----
 {
 	const __exports = __awtsmoosModule_2880;
 	// B"H
@@ -98179,7 +98179,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralWaterNormals.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowProceduralWaterNormals.js ----
 {
 	const __exports = __awtsmoosModule_2883;
 	// B"H
@@ -98281,7 +98281,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterFallbackSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterFallbackSources.js ----
 {
 	const __exports = __awtsmoosModule_2882;
 	// B"H
@@ -98333,7 +98333,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSources.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterSources.js ----
 {
 	const __exports = __awtsmoosModule_2881;
 	// B"H
@@ -98426,7 +98426,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSystem.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWaterSystem.js ----
 {
 	const __exports = __awtsmoosModule_2865;
 	//B"H
@@ -98549,7 +98549,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldTargeting.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldTargeting.js ----
 {
 	const __exports = __awtsmoosModule_2884;
 	// B"H
@@ -98586,7 +98586,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMounts.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMounts.js ----
 {
 	const __exports = __awtsmoosModule_2747;
 	// B"H
@@ -98635,7 +98635,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorld.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRichWorld.js ----
 {
 	const __exports = __awtsmoosModule_2746;
 	// B"H
@@ -98694,7 +98694,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldRichSchedule.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldRichSchedule.js ----
 {
 	const __exports = __awtsmoosModule_2745;
 	// B"H
@@ -98735,7 +98735,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPresentationCadence.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPresentationCadence.js ----
 {
 	const __exports = __awtsmoosModule_2886;
 	//B"H
@@ -98812,7 +98812,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystemLifecycle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystemLifecycle.js ----
 {
 	const __exports = __awtsmoosModule_2885;
 	// B"H
@@ -98910,7 +98910,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystems.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystems.js ----
 {
 	const __exports = __awtsmoosModule_1;
 	//B"H
@@ -98993,7 +98993,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldBundle.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowWorldBundle.js ----
 {
 	const __exports = __awtsmoosModule_0;
 	// B"H

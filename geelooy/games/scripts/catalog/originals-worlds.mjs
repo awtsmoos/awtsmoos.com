@@ -68,7 +68,7 @@ export const ORIGINAL_WORLD_GAMES = Object.freeze([
 	defineGame({
 		id: "mitzvah-world",
 		title: "Mitzvah World",
-		href: "./mitzvahWorld/",
+		href: "./mitzvah-world/",
 		description: "A wandering 3D mitzvah world with local RPG systems, community foundations, and an expanding simulation engine.",
 		collection: "originals",
 		genre: "World RPG",

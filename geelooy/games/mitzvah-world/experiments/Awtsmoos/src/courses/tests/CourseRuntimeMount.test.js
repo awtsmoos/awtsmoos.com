@@ -89,8 +89,8 @@ function stubEnvironment(courseId) {
 		document: stubDocument(),
 		location: {
 			search: courseId ? `?course=${courseId}` : '',
-			pathname: '/games/mitzvahWorld/index.html',
-			href: `http://localhost/games/mitzvahWorld/index.html${courseId ? `?course=${courseId}` : ''}`
+			pathname: '/games/mitzvah-world/index.html',
+			href: `http://localhost/games/mitzvah-world/index.html${courseId ? `?course=${courseId}` : ''}`
 		}
 	};
 }

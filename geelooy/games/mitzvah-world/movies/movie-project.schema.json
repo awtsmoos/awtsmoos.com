@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "/games/mitzvahWorld/movies/movie-project.schema.json",
+	"$id": "/games/mitzvah-world/movies/movie-project.schema.json",
 	"title": "Mitzvah World AI Movie Project",
 	"type": "object",
 	"required": [

@@ -12,7 +12,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-	mitzvahWorldSessionMode,
+	mitzvah-worldSessionMode,
 	resolveMitzvahWorldSessionMode
 } from '../launcher/MitzvahWorldSessionMode.js';
 import { resolveMinimalSharedMeadowSessionMode } from '../launcher/MinimalSharedMeadowPage.js';
@@ -22,10 +22,10 @@ import {
 } from '../network/MultiplayerStatusBadge.js';
 
 test('world URLs default to multiplayer and require explicit singleplayer', () => {
-	assert.equal(mitzvahWorldSessionMode('?mode=world'), 'multiplayer');
-	assert.equal(mitzvahWorldSessionMode('?mode=world&transport=local'), 'multiplayer');
-	assert.equal(mitzvahWorldSessionMode('?mode=world&session=singleplayer'), 'singleplayer');
-	assert.equal(mitzvahWorldSessionMode('?session=SinglePlayer'), 'multiplayer');
+	assert.equal(mitzvah-worldSessionMode('?mode=world'), 'multiplayer');
+	assert.equal(mitzvah-worldSessionMode('?mode=world&transport=local'), 'multiplayer');
+	assert.equal(mitzvah-worldSessionMode('?mode=world&session=singleplayer'), 'singleplayer');
+	assert.equal(mitzvah-worldSessionMode('?session=SinglePlayer'), 'multiplayer');
 });
 
 test('both public session resolvers retain the canonical multiplayer default', async () => {

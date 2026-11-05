@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvahWorldRouteShell.test.mjs
+ * @file mitzvah-worldRouteShell.test.mjs
  * @description Verifies the public route shell, compact entry, and embedded icon contract.
  * The Awtsmoos keeps the doorway truthful while the living world unfolds within;
  * Awtsmoos.com tests the icon, root, and compact scroll before the browser may begin.

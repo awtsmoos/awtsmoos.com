@@ -6,7 +6,7 @@
  * @file MitzvahStudioHandoff.js
  * @description Applies a mitzvah-studio world handoff into the live game. The studio
  * writes localStorage key `awtsmoos.mitzvahStudio.handoff.v1` (a normalized
- * `awtsmoos.world.v1` document) and navigates to `/games/mitzvahWorld/?studioHandoff=1`;
+ * `awtsmoos.world.v1` document) and navigates to `/games/mitzvah-world/?studioHandoff=1`;
  * this module reads that document exactly once, validates it, converts each object to a
  * creator placement definition, and mounts every convertible object through the real
  * `MitzvahWorldCreatorRuntimeAdapter` placement API (the same scene + exact-reference
@@ -231,7 +231,7 @@ export async function maybeApplyStudioHandoff(gameContext = {}) {
 		let lookupCreatorPart = null;
 		try {
 			const catalogModule = await importCreatorModule(CREATOR_CATALOG_SPECIFIER, 'MitzvahWorldCreatorCatalog');
-			lookupCreatorPart = catalogModule.mitzvahWorldCreatorPart;
+			lookupCreatorPart = catalogModule.mitzvah-worldCreatorPart;
 		} catch (error) {
 			return receipt({ name: validation.name, reason: 'creator-catalog-unavailable', error: String(error?.message || error) });
 		}

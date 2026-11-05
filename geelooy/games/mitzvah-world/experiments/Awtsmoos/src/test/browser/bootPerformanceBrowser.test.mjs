@@ -16,7 +16,7 @@ import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { browserProofAvailable, startBrowserProof } from './BrowserProofProcess.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../../../../../../', import.meta.url));
-const gamePath = '/geelooy/games/mitzvahWorld/index.html?mode=world&session=singleplayer';
+const gamePath = '/geelooy/games/mitzvah-world/index.html?mode=world&session=singleplayer';
 const VEIL_OBSERVATION_BUDGET_MS = 5000;
 
 test('B"H desktop cold and warm single-player boot reaches playable release', {

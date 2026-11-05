@@ -32,16 +32,16 @@ const snapshot = {
 	format: 'awtsmoos.mitzvah-world.capture.v1',
 	capturedAt: '2026-08-02T20:00:00.000Z',
 	source: {
-		href: '/games/mitzvahWorld/?session=solo&token=hidden',
-		returnHref: '/games/mitzvahWorld/?session=solo&token=hidden',
+		href: '/games/mitzvah-world/?session=solo&token=hidden',
+		returnHref: '/games/mitzvah-world/?session=solo&token=hidden',
 		sessionMode: 'single',
 		title: 'Mitzvah World'
 	}
 };
 
 const normalizedSource = {
-	href: '/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=main-village',
-	returnHref: '/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=main-village',
+	href: '/games/mitzvah-world/?mode=world&session=singleplayer&worldId=main-village',
+	returnHref: '/games/mitzvah-world/?mode=world&session=singleplayer&worldId=main-village',
 	sessionMode: 'singleplayer',
 	worldId: 'main-village',
 	title: 'Mitzvah World'

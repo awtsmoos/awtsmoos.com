@@ -3,7 +3,7 @@
 //Blessed be He
 
 /**
- * @file mitzvahWorldExperienceSelection.test.mjs
+ * @file mitzvah-worldExperienceSelection.test.mjs
  * @description Proves the official local worlds, Sandbox coexistence, legacy aliases, and single-player normalization contract.
  * Generic and multiplayer runtime options remain free of local-world policy while old bookmarks resolve to current canonical IDs.
  */

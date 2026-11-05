@@ -24,7 +24,7 @@ const session = await createCdpProofSession(port);
 try {
 	const command = session.command;
 	await configure(command);
-	await command('Page.navigate', { url: `${base}/games/mitzvahWorld/index.html?compound=${width}x${height}-${Date.now()}` });
+	await command('Page.navigate', { url: `${base}/games/mitzvah-world/index.html?compound=${width}x${height}-${Date.now()}` });
 	await enterSinglePlayer(command, 'blank-meadow');
 	await waitForFirstMobileControl(command);
 	const gesture = await runCompoundMobileGesture(command);
