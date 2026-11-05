@@ -157,7 +157,7 @@
 }
 
 .console-sidebar > * {
-    min-width: 420px; 
+    min-width: min(420px, 100%); /* qa-sweep3: was 420px; caps at sidebar width on phones */
 }
 
 /* --- MOBILE --- */

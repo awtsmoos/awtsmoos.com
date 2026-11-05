@@ -30,7 +30,7 @@
 .studio-track-row {
 	display: grid;
 	grid-template-columns: 116px minmax(620px, 1fr);
-	min-width: 736px;
+	min-width: min(736px, 100%); /* qa-sweep3: was 736px; rows scroll inside .studio-timeline-body */
 }
 
 .studio-timeline-ruler {

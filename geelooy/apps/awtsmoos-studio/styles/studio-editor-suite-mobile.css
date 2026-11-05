@@ -59,7 +59,7 @@
 	.studio-timeline-ruler,
 	.studio-track-row {
 		grid-template-columns: 92px minmax(540px, 1fr);
-		min-width: 632px;
+		min-width: min(632px, 100%); /* qa-sweep3: was 632px; phone-safe */
 	}
 
 	.studio-track-header {

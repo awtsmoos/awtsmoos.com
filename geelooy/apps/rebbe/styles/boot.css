@@ -4,13 +4,13 @@
 
 #boot-sequence {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #000; z-index: 10000;
+    background: #000; z-index: var(--z-topmost);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Courier New', monospace;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.boot-center { width: 400px; display: flex; flex-direction: column; gap: 20px; }
+.boot-center { width: min(400px, calc(100vw - 32px)); /* qa-sweep3: was 400px; phone-safe */ display: flex; flex-direction: column; gap: 20px; }
 
 .boot-logo { 
     font-size: 40px; font-weight: 900; color: var(--c-text-main); letter-spacing: 5px; 

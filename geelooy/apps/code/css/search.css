@@ -23,7 +23,7 @@
 }
 
 .search-window {
-    width: 600px;
+    width: min(600px, 90%); /* qa-sweep3: was 600px + max-width 90%; identical, phone-safe */
     max-width: 90%;
     max-height: 80vh;
     background-color: var(--color-bg-deep);

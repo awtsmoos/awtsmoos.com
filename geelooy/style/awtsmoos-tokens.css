@@ -213,4 +213,32 @@
   --movie-input-bg: #ffffff;
   --preset-b: #dbe7f5;
   --trim: #d4a94e;
+
+  /* ---- shared breakpoint scale (qa-sweep3) ----
+   * Canonical responsive tiers for the whole site. The old ~30 ad-hoc
+   * breakpoints (680px vs 760px "mobile" dead zone, etc.) migrate toward
+   * these. NOTE: var() cannot be used inside @media conditions — these
+   * tokens document the single agreed scale and are usable in
+   * min()/max()/clamp() width expressions. New @media rules must use the
+   * canonical values below; do not invent new nearby breakpoints. */
+  --bp-xs: 360px;
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* ---- shared z-index scale (qa-sweep3) ----
+   * One layering ladder for the whole site. Replaces the old 8 competing
+   * "topmost" tiers (9000/9999/10000/20000/99990/100000/2147483000).
+   * Rule: pick the lowest tier that works; never invent a new sky-high
+   * value. --z-topmost is the ceiling — nothing may layer above it. */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-overlay: 500;
+  --z-modal: 1000;
+  --z-toast: 1100;
+  --z-topmost: 1200;
 }
