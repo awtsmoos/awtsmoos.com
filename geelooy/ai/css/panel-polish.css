@@ -83,7 +83,7 @@
 .thought-envelope-card.is-fullscreen {
   position: fixed;
   inset: 16px;
-  z-index: 2147483000;
+  z-index: var(--z-modal);
   max-width: none;
   background: #020817;
   border: 1px solid rgba(34,211,238,.45);

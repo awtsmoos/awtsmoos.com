@@ -39,7 +39,7 @@
 	content: "";
 	position: fixed;
 	inset: 0;
-	z-index: 2147483000;
+	z-index: var(--z-overlay);
 	pointer-events: none;
 	opacity: .05;
 	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/cf1b236430b90d41046a8c2f07e57f5e08fdc06d749ed4adb6913a82517e3af4/asset");
@@ -48,7 +48,7 @@
 	content: "";
 	position: fixed;
 	inset: 0;
-	z-index: 2147482999;
+	z-index: 499;
 	pointer-events: none;
 	background: radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, .42) 100%);
 }

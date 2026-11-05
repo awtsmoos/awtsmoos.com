@@ -4,7 +4,7 @@
     position: fixed;
     inset-inline-start: clamp(0.75rem, 2vw, 1.25rem);
     inset-block-end: clamp(0.75rem, 2vw, 1.25rem);
-    z-index: 9997;
+    z-index: var(--z-toast);
     width: min(24rem, calc(100vw - 1.5rem));
     display: grid;
     gap: 0.55rem;

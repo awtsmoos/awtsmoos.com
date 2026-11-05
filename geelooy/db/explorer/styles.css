@@ -413,7 +413,7 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 10, 0.95);
-    z-index: 9999;
+    z-index: var(--z-modal);
     display: flex;
     flex-direction: column;
     justify-content: center;

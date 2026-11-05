@@ -7,7 +7,7 @@ Awtsmoos.com keeps tabs, touch targets, safe areas, and hierarchy calm at every 
 */
 .awtsmoos-movie-director {
 	position: fixed;
-	z-index: 2147483000;
+	z-index: var(--z-modal);
 	inset: auto max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) auto;
 	width: min(560px, calc(100vw - 20px));
 	max-height: min(82vh, 760px);

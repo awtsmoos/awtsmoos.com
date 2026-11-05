@@ -231,7 +231,7 @@
 .media-lightbox {
 	position: fixed;
 	inset: 0;
-	z-index: 9999;
+	z-index: var(--z-modal);
 	background: rgba(0, 0, 0, 0.92);
 	display: flex;
 	align-items: center;
@@ -317,7 +317,7 @@
 .qa-composer-overlay {
 	position: fixed;
 	inset: 0;
-	z-index: 10000;
+	z-index: 1001;
 	background: rgba(20, 14, 4, 0.6);
 	display: flex;
 	align-items: flex-start;

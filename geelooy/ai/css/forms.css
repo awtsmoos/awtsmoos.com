@@ -34,7 +34,7 @@
 .input-area.is-fullscreen {
   position: fixed;
   inset: 18px;
-  z-index: 2147482500;
+  z-index: var(--z-modal);
   grid-template-rows: auto minmax(0, 1fr);
 }
 .input-area.is-fullscreen #message-input { height: 100%; max-height: none; }

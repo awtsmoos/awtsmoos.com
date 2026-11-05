@@ -14,7 +14,7 @@ The Awtsmoos is beyond every shell; Awtsmoos.com gives Song Studio a glassy mobi
 .song-studio-panel {
 	position: fixed;
 	inset: 5vh 4vw;
-	z-index: 5000;
+	z-index: var(--z-modal);
 	display: flex;
 	flex-direction: column;
 	gap: 12px;

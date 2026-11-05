@@ -107,7 +107,7 @@
 		:root .post-reader-localized-context .scribe-lens-overlay {
 			position: fixed;
 			inset: 0;
-			z-index: 3050;
+			z-index: 985;
 			background: rgb(43 30 15 / 46%);
 			-webkit-backdrop-filter: blur(3px);
 			backdrop-filter: blur(3px);
@@ -123,7 +123,7 @@
 		/* Panel shell — flush bottom sheet, rounded top, grab handle */
 		:root .post-reader-localized-context .typography-details {
 			position: fixed;
-			z-index: 3060;
+			z-index: 986;
 			inset-inline: 0;
 			bottom: 0;
 			inline-size: min(36rem, 100%);
@@ -800,7 +800,7 @@
 		/* Floating controls (Aa / Sources buttons) */
 		:root .post-reader-localized-context .awtsmoos-floating-controls {
 			position: fixed;
-			z-index: 3040;
+			z-index: 984;
 			inset-inline-end: max(.75rem, env(safe-area-inset-right, 0px));
 			bottom: max(.75rem, env(safe-area-inset-bottom, 0px));
 			display: flex;
@@ -1862,7 +1862,7 @@
 		/* ---------- floating dock: Aa + Sources ---------- */
 		:root .post-reader-localized-context .awtsmoos-floating-controls {
 			position: fixed;
-			z-index: 3000;
+			z-index: 983;
 			inset-block-end: max(1.25rem, env(safe-area-inset-bottom, 0px));
 			inset-inline-end: max(1.25rem, env(safe-area-inset-right, 0px));
 			display: flex;
@@ -1977,7 +1977,7 @@
 		:root .post-reader-localized-context .awtsmoos-src-overlay {
 			position: fixed;
 			inset: 0;
-			z-index: 3070;
+			z-index: 987;
 			background: rgb(43 30 15 / 46%);
 			-webkit-backdrop-filter: blur(3px);
 			backdrop-filter: blur(3px);
@@ -1994,7 +1994,7 @@
 		/* ---------- footnote modal ---------- */
 		:root .post-reader-localized-context .awtsmoos-fn-modal {
 			position: fixed;
-			z-index: 3080;
+			z-index: 988;
 			inset-inline: 0;
 			top: 50%;
 			inline-size: min(32rem, calc(100% - 2.5rem));
@@ -2104,7 +2104,7 @@
 		/* ---------- sources sheet ---------- */
 		:root .post-reader-localized-context .awtsmoos-src-sheet {
 			position: fixed;
-			z-index: 3080;
+			z-index: 988;
 			inset-inline: 0;
 			bottom: 0;
 			inline-size: min(38rem, 100%);
@@ -2664,7 +2664,7 @@
 		:root .post-reader-localized-context .awtsmoos-footnote-overlay {
 			position: fixed;
 			inset: 0;
-			z-index: 3070;
+			z-index: 987;
 			display: flex;
 			align-items: center;
 			justify-content: center;

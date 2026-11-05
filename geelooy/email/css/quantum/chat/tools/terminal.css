@@ -1,7 +1,7 @@
 /* B"H — The keyboard terminal opens as a focused emerald protocol field. */
 .cmd-modal {
 	position: fixed;
-	z-index: 10000;
+	z-index: 1001;
 	top: 20%;
 	left: 50%;
 	width: min(90%, 42rem);

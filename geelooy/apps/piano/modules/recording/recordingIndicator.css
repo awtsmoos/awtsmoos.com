@@ -5,7 +5,7 @@
  */
 .piano-recording-indicator {
 	position: fixed;
-	z-index: 2147483000;
+	z-index: var(--z-toast);
 	top: calc(.6rem + env(safe-area-inset-top, 0px));
 	right: calc(.6rem + env(safe-area-inset-right, 0px));
 	display: flex;

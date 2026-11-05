@@ -48,7 +48,7 @@ body.awtsmoosNative3D #game-container {
 	position: fixed;
 	right: max(12px, env(safe-area-inset-right));
 	bottom: max(74px, calc(env(safe-area-inset-bottom) + 12px));
-	z-index: 2147483000;
+	z-index: var(--z-fixed);
 	min-width: 78px;
 	min-height: 44px;
 	padding: 9px 12px;

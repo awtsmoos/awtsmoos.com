@@ -36,7 +36,7 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   transition: transform 0.18s ease, opacity 0.18s ease, visibility 0s linear 0.18s;
   overflow: hidden;
   box-sizing: border-box;
-  z-index: 9999;
+  z-index: 499;
   animation: bootPulse 1.4s ease-out;
 }
 .extreme-dropdown.is-visible {

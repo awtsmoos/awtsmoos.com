@@ -146,11 +146,11 @@ html body.geelooy-home-document :where(.home-feed-tabs button, .home-command-doc
 :where(body.geelooy-home-document) :where(.sidebarMitzvah.geelooy-drawer:not(.offscreen)) {
 	display: grid;
 	pointer-events: auto;
-	z-index: 5000;
+	z-index: 320;
 }
 html body.geelooy-home-document .home-feed-tabs { z-index: 120; }
-html body.geelooy-home-document .home-command-dock { z-index: 4600; }
-html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700; }
+html body.geelooy-home-document .home-command-dock { z-index: var(--z-fixed); }
+html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 310; }
 
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* @tunnel-interactive-states: hover/active/focus-visible for every interactive control */

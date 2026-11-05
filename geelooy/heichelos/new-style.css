@@ -158,7 +158,7 @@ html .card-social-actions { display: none; }
 
 .selection-popover {
     position: absolute;
-    z-index: 11000;
+    z-index: var(--z-overlay);
     background: var(--ns-popover-bg);
     border: 2px solid var(--ns-popover-border);
     box-shadow: 0 0 0 2px var(--ns-popover-ring), var(--shadow-ui);
@@ -188,13 +188,13 @@ awtsmoos-note { border-bottom: 2px dotted var(--color-primary); cursor: help; }
 .heb .marginal-sigil { right: auto; left: 100%; margin-left: 10rem; margin-right: 0; }
 html .marginal-sigil:hover, html awtsmoos-note:hover + .marginal-sigil { transform: scale(1.3); }
 .marginal-sigil:hover::before { color: var(--color-danger); }
-.note-popover { position: absolute; z-index: 12000; width: 250px; background: var(--bg-surface); color: var(--ns-note-popover-fg); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .2s; }
-.post-reader-localized-context.focus-mode-active :where(#scribeLensOverlay) { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,.88) 100%); }
+.note-popover { position: absolute; z-index: 501; width: 250px; background: var(--bg-surface); color: var(--ns-note-popover-fg); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.post-reader-localized-context.focus-mode-active :where(#scribeLensOverlay) { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 499; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,.88) 100%); }
 
 @media (max-width: 700px) {
     .card-menu-spark { top: .65rem; right: .65rem; }
     .card-menu-trigger { width: 3rem; height: 3rem; font-size: 1.35rem; }
-    .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 2147483000; justify-items: stretch; }
+    .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 1103; justify-items: stretch; }
     :where(.card-menu-spark.open) .card-menu-trigger { justify-self: end; margin-bottom: .7rem; }
     :where(.card-menu-spark.open) .card-menu-panel { position: relative; inset: auto; min-width: 0; max-width: none; width: 100%; border-radius: 1.35rem; display: grid; }
     .card-menu-action { min-height: 3.25rem; font-size: .95rem; }

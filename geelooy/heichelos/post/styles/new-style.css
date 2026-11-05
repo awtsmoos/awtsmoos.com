@@ -18,7 +18,7 @@
 /* --- B"H - THE SCRIBE'S INKWELL (Selection Popover) --- */
 .post-reader-localized-context .selection-popover {
     position: absolute;
-    z-index: 11000;
+    z-index: var(--z-overlay);
     background: #3a2f1b; 
     border: 2px solid #2a1f0b;
     box-shadow: 0 0 0 2px #c5a372, var(--shadow-ui);
@@ -152,7 +152,7 @@
 
 .post-reader-localized-context .note-popover {
     position: absolute;
-    z-index: 12000;
+    z-index: 501;
     width: 250px;
     background: var(--bg-surface);
     border: var(--border-ui);
@@ -174,7 +174,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 9999;
+    z-index: 499;
     background: radial-gradient(
         circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%),
         transparent 0%,

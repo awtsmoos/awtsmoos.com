@@ -11,7 +11,7 @@
     background: var(--bg-surface-translucent, rgba(255, 255, 255, 0.85));
     border: 2px solid var(--color-ink);
     box-shadow: var(--shadow-high);
-    z-index: 10000;
+    z-index: var(--z-overlay);
     display: flex;
     flex-direction: column;
     animation: slideInRight 0.3s cubic-bezier(0.19, 1, 0.22, 1);

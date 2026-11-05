@@ -66,7 +66,7 @@
 	top: 0;
 	inset-inline: 0;
 	block-size: 3px;
-	z-index: 4000;
+	z-index: 995;
 	background: var(--over-progress);
 	box-shadow: 0 1px 8px var(--over-wash-strong);
 	transform-origin: 0 50%;
@@ -280,7 +280,7 @@
 	inset-inline-end: clamp(0.6rem, 2vw, 1.4rem);
 	top: 50%;
 	translate: 0 -50%;
-	z-index: 2500;
+	z-index: 982;
 	display: flex;
 	flex-direction: column;
 	gap: 0.45rem;
@@ -464,7 +464,7 @@
 	content: "";
 	position: fixed;
 	inset: 0;
-	z-index: 2000;
+	z-index: 980;
 	pointer-events: none;
 	background: radial-gradient(115% 85% at 50% 0%, transparent 58%, var(--over-vignette) 100%);
 }

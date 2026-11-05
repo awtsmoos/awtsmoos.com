@@ -41,7 +41,7 @@
     position: absolute;
     right: 8px;
     top: 8px;
-    z-index: 20000;
+    z-index: 600;
     max-width: 360px;
     padding: 8px 10px;
     border: 1px solid rgba(0, 246, 255, 0.55);

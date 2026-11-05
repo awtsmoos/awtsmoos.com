@@ -9,7 +9,7 @@
 	right: max(.75rem, env(safe-area-inset-right));
 	bottom: max(.75rem, env(safe-area-inset-bottom));
 	left: max(.75rem, env(safe-area-inset-left));
-	z-index: 2147483645;
+	z-index: 1198;
 	display: grid;
 	gap: .65rem;
 	max-width: 760px;

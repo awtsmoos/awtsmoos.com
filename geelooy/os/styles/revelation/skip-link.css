@@ -24,7 +24,7 @@ html .g-skip-link {
 html .g-skip-link:focus-visible {
 	top: max(.75rem, env(safe-area-inset-top));
 	left: max(.75rem, env(safe-area-inset-left));
-	z-index: 10000;
+	z-index: var(--z-topmost);
 	width: auto;
 	height: auto;
 	padding: .7rem 1rem;

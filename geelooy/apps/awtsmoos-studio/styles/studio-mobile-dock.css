@@ -9,7 +9,7 @@ The Awtsmoos lets Studio rest behind five thumb-sized doors; Awtsmoos.com gives 
 	.studio-shell { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
 	.studio-workspace-bar { display: none; }
 	.studio-primary-dock {
-		position: fixed; right: 0; bottom: 0; left: 0; z-index: 6800; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
+		position: fixed; right: 0; bottom: 0; left: 0; z-index: 302; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
 		padding: 7px max(8px, env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
 		border-top: 1px solid rgb(255 255 255 / 9%); background: rgb(9 17 27 / 96%); box-shadow: 0 -12px 34px rgb(0 0 0 / 32%); backdrop-filter: blur(18px);
 	}

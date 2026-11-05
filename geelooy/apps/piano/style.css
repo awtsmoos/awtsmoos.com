@@ -323,7 +323,7 @@ body, html {
     inset: 0;
     pointer-events: none;
     overflow: hidden;
-    z-index: 9998;
+    z-index: 995;
 }
 .live-effect-particle {
     position: fixed;

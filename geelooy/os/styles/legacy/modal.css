@@ -16,7 +16,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				z-index: 11000;
+				z-index: var(--z-modal);
 				opacity: 0;
 				animation: fadeIn 0.3s forwards;
 			}

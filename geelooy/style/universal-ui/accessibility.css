@@ -14,7 +14,7 @@
 	position: fixed;
 	inset-block-start: 0.75rem;
 	inset-inline-start: 0.75rem;
-	z-index: 2147483647;
+	z-index: var(--z-topmost);
 	max-inline-size: calc(100vw - 1.5rem);
 	padding: 0.7rem 1rem;
 	border: 2px solid currentColor;

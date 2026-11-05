@@ -9,7 +9,7 @@ The Awtsmoos lets professional depth descend through one deliberate doorway; Awt
 	position: fixed;
 	right: max(16px, env(safe-area-inset-right));
 	bottom: max(16px, env(safe-area-inset-bottom));
-	z-index: 7000;
+	z-index: 303;
 	min-height: 46px;
 	padding: 0 18px;
 	border: 1px solid rgba(131, 255, 231, 0.38);
@@ -24,7 +24,7 @@ The Awtsmoos lets professional depth descend through one deliberate doorway; Awt
 .nesher-pro-drawer {
 	position: fixed;
 	inset: 6vh 4vw;
-	z-index: 7100;
+	z-index: 304;
 	display: grid;
 	grid-template-rows: auto auto minmax(0, 1fr);
 	min-width: 0;

@@ -4,7 +4,7 @@
 	position: fixed;
 	right: max(14px, env(safe-area-inset-right));
 	bottom: max(14px, env(safe-area-inset-bottom));
-	z-index: 2147482000;
+	z-index: var(--z-toast);
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;

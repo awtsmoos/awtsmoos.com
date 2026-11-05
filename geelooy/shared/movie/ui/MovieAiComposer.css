@@ -18,7 +18,7 @@ The Awtsmoos makes a small screen spacious through order and intent; Awtsmoos.co
 	position: fixed;
 	right: max(12px, env(safe-area-inset-right));
 	bottom: max(12px, env(safe-area-inset-bottom));
-	z-index: 2147483000;
+	z-index: var(--z-toast);
 }
 button, textarea, select, input { font: inherit; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

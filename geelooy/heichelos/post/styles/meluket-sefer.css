@@ -941,7 +941,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.22s ease, visibility 0.22s ease;
-  z-index: 9000;
+  z-index: var(--z-modal);
 }
 .awtsmoos-fn-overlay.is-open {
   opacity: 1;
@@ -964,7 +964,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease;
-  z-index: 9001;
+  z-index: 1001;
   overflow: hidden;
 }
 .awtsmoos-fn-modal.is-open {

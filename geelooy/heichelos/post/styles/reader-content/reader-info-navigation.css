@@ -38,14 +38,14 @@
 .post-reader-localized-context #readerInfoBackdrop {
 	position: fixed;
 	inset: 0;
-	z-index: 3150;
+	z-index: 989;
 	background: rgb(22 19 13 / 52%);
 	touch-action: none;
 }
 .post-reader-localized-context #readerInfoPanel {
 	box-sizing: border-box;
 	position: fixed;
-	z-index: 3160;
+	z-index: 990;
 	inset: auto max(8px, calc((100vw - 560px) / 2)) max(8px, env(safe-area-inset-bottom, 0px));
 	display: flex;
 	flex-direction: column;

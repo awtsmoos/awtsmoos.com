@@ -6,7 +6,7 @@
 
 html .insane-verse-context-menu {
     position: fixed; 
-    z-index: 2147483647; 
+    z-index: var(--z-topmost); 
     background: var(--bg-surface);
     border: 8px solid var(--color-ink);
     box-shadow: 20px 20px 0px var(--color-primary);

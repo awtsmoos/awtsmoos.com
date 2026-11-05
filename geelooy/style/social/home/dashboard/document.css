@@ -28,7 +28,7 @@ body.geelooy-home-document *::after {
   position: fixed;
   left: 1rem;
   top: 1rem;
-  z-index: 20000;
+  z-index: var(--z-topmost);
   transform: translateY(-150%);
   background: #fff;
   color: #08111f;

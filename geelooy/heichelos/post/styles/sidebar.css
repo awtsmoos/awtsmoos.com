@@ -137,7 +137,7 @@ padding: clamp(0.85rem, 2.6vw, 1.25rem);
     max-height: none;
     flex-basis: auto;
     border: none;
-    z-index: 50000;
+    z-index: var(--z-modal);
     margin: 0;
     transform: none;
 }

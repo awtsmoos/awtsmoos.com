@@ -294,7 +294,7 @@
     .card-wrapper.awtsmoos-card { min-height: 9rem; overflow: visible; }
     .card-wrapper .post-card { min-height: 9rem; padding-inline-end: 4.2rem; }
     .card-menu-spark { top: .65rem; inset-inline-end: .65rem; }
-    .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 2147483000; place-items: stretch; }
+    .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 1103; place-items: stretch; }
     .card-menu-spark.open .card-menu-trigger { justify-self: end; margin-bottom: .7rem; }
     .card-menu-spark.open .card-menu-panel { position: relative; inset: auto; min-width: 0; width: 100%; border-radius: 1.35rem; display: grid; }
     .card-menu-action { justify-content: center; min-height: 3.2rem; font-size: 1rem; }

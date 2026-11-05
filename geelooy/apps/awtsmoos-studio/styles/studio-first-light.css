@@ -19,7 +19,7 @@ body {
 .studio-first-light {
 	position: fixed;
 	inset: 0;
-	z-index: 9999;
+	z-index: var(--z-topmost);
 	display: grid;
 	place-items: center;
 	padding: 24px;

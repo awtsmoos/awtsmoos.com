@@ -52,7 +52,7 @@
 
 .composer-area.fullscreen {
 	position: fixed;
-	z-index: 9000;
+	z-index: 470;
 	inset: max(5.5rem, env(safe-area-inset-top)) .75rem .75rem;
 }
 

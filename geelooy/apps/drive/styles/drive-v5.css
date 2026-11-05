@@ -30,7 +30,7 @@
     width: auto;
     height: auto;
     overflow: visible;
-    z-index: 9999;
+    z-index: var(--z-topmost);
     padding: 10px 16px;
     background: var(--drive-accent);
     color: var(--drive-on-accent);

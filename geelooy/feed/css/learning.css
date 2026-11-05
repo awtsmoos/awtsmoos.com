@@ -33,7 +33,7 @@
 .learn-overlay {
 	position: fixed;
 	inset: 0;
-	z-index: 2147483000;
+	z-index: var(--z-toast);
 	background: var(--learn-scrim);
 	display: flex;
 	align-items: stretch;
@@ -274,7 +274,7 @@
 .shiur-stage {
 	position: fixed;
 	inset: 0;
-	z-index: 2147483001;
+	z-index: 1101;
 	background: var(--aw-surface);
 	color: var(--aw-text);
 	display: flex;
@@ -567,7 +567,7 @@
 .siyum-celebrate {
 	position: fixed;
 	inset: 0;
-	z-index: 2147483002;
+	z-index: 1102;
 	display: flex;
 	align-items: center;
 	justify-content: center;

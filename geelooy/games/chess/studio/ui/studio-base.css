@@ -23,7 +23,7 @@ body.chess-studio-open {
 	--studio-accent-2: #a78bfa;
 	position: fixed;
 	inset: 0;
-	z-index: 1000000;
+	z-index: var(--z-modal);
 	background: radial-gradient(circle at 20% 0%, rgba(115, 220, 255, 0.16), transparent 34%), radial-gradient(circle at 90% 20%, rgba(167, 139, 250, 0.16), transparent 30%), rgba(2, 6, 23, 0.93);
 	backdrop-filter: blur(16px);
 	color: var(--studio-text);

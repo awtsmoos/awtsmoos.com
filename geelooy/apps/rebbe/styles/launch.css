@@ -8,7 +8,7 @@
 	position: fixed;
 	top: max(10px, env(safe-area-inset-top));
 	left: 50%;
-	z-index: 10000;
+	z-index: var(--z-toast);
 	max-width: min(92vw, 560px);
 	padding: 10px 16px;
 	border: 1px solid rgba(38, 235, 255, 0.55);

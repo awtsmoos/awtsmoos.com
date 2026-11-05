@@ -7,7 +7,7 @@
 .automation-panel.is-panel-fullscreen {
   position:fixed;
   inset:10px;
-  z-index:2147482500;
+  z-index: var(--z-modal);
   width:auto;
   height:auto;
   max-width:none;
