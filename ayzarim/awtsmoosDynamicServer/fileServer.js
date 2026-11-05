@@ -22,6 +22,7 @@ const {
 const { readStaticAsset } = require('./static/StaticAssetRepresentation.js');
 const { isTemplate } = require('./static/StaticAssetHeaders.js');
 const { sendCompressedTemplate } = require('./static/TemplateCompressedResponse.js');
+const { applySecurityHeaders } = require('./response/securityHeaders.js');
 
 const HANDLED_RESPONSE = Symbol('handled-response');
 
@@ -39,6 +40,8 @@ const HANDLED_RESPONSE = Symbol('handled-response');
  */
 async function doFileResponse(context) {
 	const { request, response } = context.dependencies;
+	// S3-MINOR-2: security headers on every static asset too.
+	applySecurityHeaders(response);
 	try {
 		if (await maybeSendBundle(context)) {
 			return;

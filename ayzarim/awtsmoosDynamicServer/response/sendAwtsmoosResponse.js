@@ -4,6 +4,7 @@
 // Blessed is He
 
 const { validHttpStatus } = require("./httpStatus.js");
+const { applySecurityHeaders } = require("./securityHeaders.js");
 
 function bodyFromActualResponse(ar) {
   if (Buffer.isBuffer(ar)) return ar;
@@ -26,6 +27,9 @@ function applyHeaders(response, res, ar) {
   }
 
   response.setHeader("Vary", "Cookie");
+
+  // S3-MINOR-2: site-wide security headers (HSTS, CSP, framing, MIME, referrer).
+  applySecurityHeaders(response);
 
   if (res.headers && typeof res.headers === "object") {
     for (const [k, v] of Object.entries(res.headers)) {
