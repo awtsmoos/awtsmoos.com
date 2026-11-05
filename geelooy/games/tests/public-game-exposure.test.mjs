@@ -24,8 +24,8 @@ function discoveredPlayableRoutes() {
 		if (!entry.isDirectory()) continue;
 		if (fs.existsSync(path.join(gamesRoot, entry.name, 'index.html'))) routes.push(`./${entry.name}/`);
 	}
-	const temple = path.join(gamesRoot, 'mitzvah-world/temple-runner/index.html');
-	if (fs.existsSync(temple)) routes.push('./mitzvah-world/temple-runner/');
+	const temple = path.join(gamesRoot, 'mitzvah-world/templeRunner/index.html');
+	if (fs.existsSync(temple)) routes.push('./mitzvah-world/templeRunner/');
 	return routes.sort();
 }
 
@@ -48,7 +48,7 @@ test('Rambam remains an explicit study landing rather than a missing renderer', 
 test('Temple Runner and Ohrfront are first-class accurate public games', () => {
 	const temple = GAMES.find(game => game.id === 'temple-runner');
 	const ohrfront = GAMES.find(game => game.id === 'ohrfront');
-	assert.equal(temple?.href, './mitzvah-world/temple-runner/');
+	assert.equal(temple?.href, './mitzvah-world/templeRunner/');
 	assert.equal(temple?.genre, '3D Procedural Runner');
 	assert.ok(temple?.tags.includes('Touch'));
 	assert.ok(temple?.tags.includes('Gamepad'));
@@ -65,7 +65,7 @@ test('Party remains a separate mode hub with prominent storefront access', () =>
 
 test('storefront and nested Temple Runner use one CompactJS entry flag', () => {
 	const storefront = fs.readFileSync(path.join(gamesRoot, 'index.html'), 'utf8');
-	const temple = fs.readFileSync(path.join(gamesRoot, 'mitzvah-world/temple-runner/index.html'), 'utf8');
+	const temple = fs.readFileSync(path.join(gamesRoot, 'mitzvah-world/templeRunner/index.html'), 'utf8');
 	assert.match(storefront, /games-index\.js\?v=[^"&]+&compact=true/);
 	assert.match(temple, /src\/main\.js\?v=[^"&]+&compact=true/);
 	assert.equal((storefront.match(/games-index\.js[^"']*compact=true/g) || []).length, 1);

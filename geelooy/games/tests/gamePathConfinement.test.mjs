@@ -26,7 +26,7 @@ test('fallback game links cannot escape the Games directory', () => {
 test('real local game routes remain accessible with their original parameters', () => {
 	assert.equal(safeGamePath({ href: './rambam/' }, catalog), '/games/rambam/');
 	assert.equal(
-		safeGamePath({ href: './mitzvah-world/temple-runner/?mode=solo#start' }, catalog),
-		'/games/mitzvah-world/temple-runner/?mode=solo#start'
+		safeGamePath({ href: './mitzvah-world/templeRunner/?mode=solo#start' }, catalog),
+		'/games/mitzvah-world/templeRunner/?mode=solo#start'
 	);
 });
