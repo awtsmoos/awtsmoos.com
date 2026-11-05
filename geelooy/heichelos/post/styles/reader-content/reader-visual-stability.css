@@ -4,68 +4,91 @@
  *
  * The Awtsmoos gives the reader a measured vessel: broad enough for Torah,
  * bounded enough for the eye, and steady when light becomes darkness.
+ *
+ * NOTE (qa-sweep3): the doubled .post-reader-localized-context class is a
+ * deliberate specificity guard (+0,1,0) so these stability rules keep winning
+ * over competing sheets with ZERO !important declarations. Theme colors ride
+ * on --reader-* tokens so theme switching overrides the token, not the hex.
  */
 
-.post-reader-localized-context .awtsmoos-chapter-nav {
-	margin-bottom: 72px !important;
+html[data-theme="light"] {
+	--reader-nav-ink: #2b2118;
+	--reader-btn-bg: #fffdf6;
+	--reader-btn-border: rgb(31 23 18 / 18%);
+	--reader-btn-ink: #1f1712;
+	--reader-btn2-border: rgb(90 76 61 / 22%);
+	--reader-btn2-ink: #5a4c3d;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision #typographyBtn,
-.post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
-	transition: transform 180ms ease, box-shadow 180ms ease !important;
+html[data-theme="dark"] {
+	--reader-nav-ink: #f0e7d3;
+	--reader-btn-bg: #171209;
+	--reader-btn-border: rgb(244 202 108 / 38%);
+	--reader-btn-ink: #f4ead3;
+	--reader-btn2-border: rgb(244 202 108 / 38%);
+	--reader-btn2-ink: #f4ead3;
 }
 
-html[data-theme="light"] .post-reader-localized-context .awtsmoos-chapter-nav {
-	color: #2b2118 !important;
+.post-reader-localized-context.post-reader-localized-context .awtsmoos-chapter-nav {
+	margin-bottom: 72px;
 }
 
-html[data-theme="light"] body .post-reader-localized-context.awtsmoos-reader-vision #typographyBtn {
-	background: #fffdf6 !important;
-	border: 1px solid rgb(31 23 18 / 18%) !important;
-	color: #1f1712 !important;
+.post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #typographyBtn,
+.post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
+	transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-html[data-theme="light"] body .post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
-	background: #fffdf6 !important;
-	border: 1px solid rgb(90 76 61 / 22%) !important;
-	color: #5a4c3d !important;
+html[data-theme="light"] .post-reader-localized-context.post-reader-localized-context .awtsmoos-chapter-nav {
+	color: var(--reader-nav-ink, #2b2118);
 }
 
-html[data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav {
-	color: #f0e7d3 !important;
+html[data-theme="light"] body .post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #typographyBtn {
+	background: var(--reader-btn-bg, #fffdf6);
+	border: 1px solid var(--reader-btn-border, rgb(31 23 18 / 18%));
+	color: var(--reader-btn-ink, #1f1712);
 }
 
-html[data-theme="dark"] body .post-reader-localized-context.awtsmoos-reader-vision #typographyBtn,
-html[data-theme="dark"] body .post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
-	background: #171209 !important;
-	border: 1px solid rgb(244 202 108 / 38%) !important;
-	color: #f4ead3 !important;
+html[data-theme="light"] body .post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
+	background: var(--reader-btn-bg, #fffdf6);
+	border: 1px solid var(--reader-btn2-border, rgb(90 76 61 / 22%));
+	color: var(--reader-btn2-ink, #5a4c3d);
+}
+
+html[data-theme="dark"] .post-reader-localized-context.post-reader-localized-context .awtsmoos-chapter-nav {
+	color: var(--reader-nav-ink, #f0e7d3);
+}
+
+html[data-theme="dark"] body .post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #typographyBtn,
+html[data-theme="dark"] body .post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #commentaryBtn {
+	background: var(--reader-btn-bg, #171209);
+	border: 1px solid var(--reader-btn-border, rgb(244 202 108 / 38%));
+	color: var(--reader-btn-ink, #f4ead3);
 }
 
 @media (max-width: 48rem) {
-	.post-reader-localized-context > .awtsmoos-floating-controls {
-		align-items: flex-end !important;
-		bottom: max(12px, env(safe-area-inset-bottom)) !important;
-		min-height: 72px !important;
+	.post-reader-localized-context.post-reader-localized-context > .awtsmoos-floating-controls {
+		align-items: flex-end;
+		bottom: max(12px, env(safe-area-inset-bottom));
+		min-height: 72px;
 	}
 
-	.post-reader-localized-context #typographyBtn {
-		font-size: 24px !important;
-		height: 72px !important;
-		width: 72px !important;
+	.post-reader-localized-context.post-reader-localized-context #typographyBtn {
+		font-size: 24px;
+		height: 72px;
+		width: 72px;
 	}
 
-	.post-reader-localized-context #commentaryBtn {
-		height: 56px !important;
-		width: 56px !important;
+	.post-reader-localized-context.post-reader-localized-context #commentaryBtn {
+		height: 56px;
+		width: 56px;
 	}
 }
 
 @media (min-width: 48.01rem) {
-	.post-reader-localized-context #realPost.content {
-		margin-inline: auto !important;
-		max-width: 960px !important;
-		padding: 64px 32px 128px !important;
-		width: min(960px, calc(100vw - 64px)) !important;
+	.post-reader-localized-context.post-reader-localized-context #realPost.content {
+		margin-inline: auto;
+		max-width: 960px;
+		padding: 64px 32px 128px;
+		width: min(960px, calc(100vw - 64px));
 	}
 }

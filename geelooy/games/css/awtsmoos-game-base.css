@@ -4,10 +4,13 @@
  * Include in every game's index.html: /games/css/awtsmoos-game-base.css
  */
 
-/* Runtime truth outranks decorative display rules. */
-[hidden],
-.hidden {
-	display: none !important;
+/* Runtime truth outranks decorative display rules.
+   qa-sweep3: kill-switch rewritten without the important flag; the doubled
+   selectors keep (0,2,0) specificity so hidden elements stay hidden over
+   decorative display rules. */
+[hidden][hidden],
+.hidden.hidden {
+	display: none;
 }
 
 /* Game UI is touch-first: no selection, no callout, no tap flash, no double-tap zoom delay. */

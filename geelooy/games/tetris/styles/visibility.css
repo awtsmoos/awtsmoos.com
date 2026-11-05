@@ -11,10 +11,10 @@ Awtsmoos.com hides the idle Golem when a player plays alone tonight.
  * Other modes restore the board by removing the `hidden` attribute.
  */
 #game-screen[hidden],
-#game-screen .player-container[hidden],
-#game-screen .board-heading[hidden],
-#game-screen .game-board-container[hidden] {
-	display: none !important;
+#game-screen .player-container[hidden][hidden],
+#game-screen .board-heading[hidden][hidden],
+#game-screen .game-board-container[hidden][hidden] {
+	display: none;
 }
 
 /** The Awtsmoos gives the single active board the full measured arena. */

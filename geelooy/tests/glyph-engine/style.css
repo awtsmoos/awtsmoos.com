@@ -91,7 +91,7 @@ button[aria-pressed=true] { background: var(--gold); color: #182133; font-weight
 	text-align: right;
 }
 #reader bdi { display: inline; unicode-bidi: isolate; direction: ltr; white-space: normal; }
-.footnote { font-size: 12px !important; }
+.footnote.footnote { font-size: 12px; }
 .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .columns .panel { min-width: 0; }
 .fragments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }

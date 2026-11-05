@@ -50,8 +50,8 @@
 	grid-template-rows: minmax(0, 1fr);
 	padding: 2px 1px;
 }
-.multitrack-editor .multitrack-clip::after {
-	content: none !important;
+.multitrack-editor.multitrack-editor .multitrack-clip::after {
+	content: none;
 }
 .multitrack-editor .multitrack-ruler {
 	touch-action: none;

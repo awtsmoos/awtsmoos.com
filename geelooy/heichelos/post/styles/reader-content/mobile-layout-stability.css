@@ -4,30 +4,35 @@
  *
  * The Awtsmoos lets the letters grow without making their vessel swell.
  * Awtsmoos.com keeps mobile reader geometry stable while Aa scales Torah text.
+ *
+ * NOTE (qa-sweep3): the doubled .post-reader-localized-context class is a
+ * deliberate specificity guard (+0,1,0) so these stability rules keep winning
+ * over later-loaded sheets (reader-mobile-rescue, translations) with ZERO
+ * !important declarations.
  */
 
 @media (max-width: 48rem) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost.content {
-		padding: 12px 12px calc(96px + env(safe-area-inset-bottom)) !important;
+	.all.post-reader-localized-context.post-reader-localized-context.awtsmoos-reader-vision #realPost.content {
+		padding: 12px 12px calc(96px + env(safe-area-inset-bottom));
 	}
 
-	.post-reader-localized-context #realPost .toichen {
-		line-height: 1.55 !important;
+	.post-reader-localized-context.post-reader-localized-context #realPost .toichen {
+		line-height: 1.55;
 	}
 
-	.post-reader-localized-context #realPost .sub-awtsmoos.heb,
-	.post-reader-localized-context #realPost .sub-awtsmoos.en {
-		line-height: 1.55 !important;
+	.post-reader-localized-context.post-reader-localized-context #realPost .sub-awtsmoos.heb,
+	.post-reader-localized-context.post-reader-localized-context #realPost .sub-awtsmoos.en {
+		line-height: 1.55;
 	}
 
-	.post-reader-localized-context #realPost .awtsmoos-translation-block {
-		line-height: 1.5 !important;
-		margin-block: 14px 20px !important;
-		padding: 16px 18px !important;
+	.post-reader-localized-context.post-reader-localized-context #realPost .awtsmoos-translation-block {
+		line-height: 1.5;
+		margin-block: 14px 20px;
+		padding: 16px 18px;
 	}
 
-	.post-reader-localized-context #realPost .awtsmoos-translation-block p {
-		line-height: 1.5 !important;
-		margin-block: 0 !important;
+	.post-reader-localized-context.post-reader-localized-context #realPost .awtsmoos-translation-block p {
+		line-height: 1.5;
+		margin-block: 0;
 	}
 }

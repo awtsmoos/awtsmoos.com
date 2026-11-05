@@ -53,13 +53,17 @@
 	letter-spacing: .18em;
 }
 
-:root.heichel-os-document #heichel-boot-title {
-	background: none !important;
-	color: #fff8e9 !important;
+:root.heichel-os-document.heichel-os-document {
+	--ikar-boot-ink: #fff8e9;
+}
+
+:root.heichel-os-document.heichel-os-document #heichel-boot-title {
+	background: none;
+	color: var(--ikar-boot-ink, #fff8e9);
 	font-size: clamp(2.4rem, 7vw, 5rem);
 	letter-spacing: -.045em;
 	line-height: .98;
-	-webkit-text-fill-color: #fff8e9 !important;
+	-webkit-text-fill-color: var(--ikar-boot-ink, #fff8e9);
 }
 
 :root.heichel-os-document .heichel-semantic-description {

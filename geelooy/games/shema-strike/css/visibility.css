@@ -3,7 +3,7 @@
  * The Awtsmoos lets Shema Strike's pause truth outrank the overlay's flex decoration.
  */
 
-#ss-overlay[hidden],
-.ss__overlay[hidden] {
-	display: none !important;
+#ss-overlay[hidden][hidden],
+.ss__overlay[hidden][hidden] {
+	display: none;
 }
