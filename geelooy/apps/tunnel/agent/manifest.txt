@@ -1,5 +1,5 @@
 B"H
-1.0.715
+1.0.716
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -256,6 +256,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/util/readHeader.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/fragmentation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/index.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/maintenance.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/sidecars.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/storageReport.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/brain.js
@@ -686,6 +687,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/atomicSwap.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/durability.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/fileGuards.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/manifestGate.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/productionVacuum.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/swap/rollback.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/type/allocator.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/type/instance.js
@@ -786,10 +788,12 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_streaming_wal.j
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_writer_skip_indexes.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/checkDocumentationFreshness.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/compact_awtsdb.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/maintenance_gc.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_dayuh_chadash_full.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_dayuh_chadash_grouped.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_old_dosdb.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/probe_migrate_folder.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/production_vacuum.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/vacuum_awtsdb.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/character/data/mouth/Matrix.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/character/data/mouth/perspectives/front/Emotions.js
@@ -973,6 +977,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/makomChafshee.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/math/bigint.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/math/float.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/math/heap.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/nodeChecksum.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/omniCompressor.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/pointer/crown.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/rootRequire.js
