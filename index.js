@@ -41,7 +41,7 @@ const {
 } = require("./geelooy/api/ssh/virtual/boot.js");
 const {
 	createAutoplayReportIngress
-} = require("./geelooy/games/mitzvahWorld/server/autoplayReportIngress.js");
+} = require("./geelooy/games/mitzvah-world/server/autoplayReportIngress.js");
 const {
 	createCustomDomainHttpIngress
 } = require("./geelooy/sites/customDomainHttpIngress.js");
