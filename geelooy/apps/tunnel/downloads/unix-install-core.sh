@@ -81,7 +81,7 @@ if ! without_errexit load_release_metadata; then
 	fi
 	install_fail "release-metadata" \
 		"Published metadata is unavailable and every verified local recovery layer failed." \
-		"origin=$origin root=$ROOT recovery=$RECOVERY_ROOT"
+		"origin=$origin root=$ROOT recovery=$RECOVERY_ROOT${RELEASE_METADATA_ERROR:+ server=$RELEASE_METADATA_ERROR}"
 fi
 
 apply_installed_version_policy

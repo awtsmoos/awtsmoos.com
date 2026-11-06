@@ -29,16 +29,16 @@ assert.match(recoveryStore, /awtsmoos-recovery-identity\.sh/);
 
 const selfVerified = runScenario({ self: 0, archive: 1, emergency: 1 });
 assert.equal(selfVerified.mode, "primary");
-assert.deepEqual(selfVerified.calls, ["self", "refresh", "event:passed"]);
+assert.deepEqual(selfVerified.calls, ["progress:23", "rescue", "self", "refresh", "event:passed"]);
 
 const archive = runScenario({ self: 1, archive: 0, emergency: 1 });
 assert.equal(archive.mode, "primary");
-assert.deepEqual(archive.calls, ["self", "archive", "event:passed"]);
+assert.deepEqual(archive.calls, ["progress:23", "rescue", "self", "archive", "event:passed"]);
 assert.ok(!archive.calls.includes("refresh"), "archive recovery must preserve the newer sealed slot");
 
 const emergency = runScenario({ self: 1, archive: 1, emergency: 0 });
 assert.equal(emergency.mode, "emergency");
-assert.deepEqual(emergency.calls, ["self", "archive", "emergency", "event:degraded"]);
+assert.deepEqual(emergency.calls, ["progress:23", "rescue", "self", "archive", "emergency", "event:degraded"]);
 
 const failure = runScenario({ self: 1, archive: 1, emergency: 1 });
 assert.equal(failure.status, 1);
@@ -66,6 +66,8 @@ repair_self_verified_installed_release() { printf '%s\\n' self >> "$CALLS"; retu
 restore_archive_layers() { printf '%s\\n' archive >> "$CALLS"; return ${archive}; }
 ensure_emergency_continuity() { printf '%s\\n' emergency >> "$CALLS"; return ${emergency}; }
 refresh_emergency_runtime() { printf '%s\\n' refresh >> "$CALLS"; }
+install_rescue_runtime() { printf '%s\\n' rescue >> "$CALLS"; }
+install_progress() { printf 'progress:%s\\n' "$1" >> "$CALLS"; }
 install_event() { printf 'event:%s\\n' "$2" >> "$CALLS"; }
 source ${shellQuote(fallback)}
 recover_without_release_metadata

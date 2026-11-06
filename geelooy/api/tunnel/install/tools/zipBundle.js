@@ -58,7 +58,9 @@ function buildAgentBundle(repoRoot) {
 		return cached;
 	}
 	if (process.env.NODE_ENV === "production") {
-		const error = new Error("tunnel_prebuilt_bundle_missing_or_invalid");
+		const error = new Error(
+			`tunnel_prebuilt_bundle_missing_or_invalid:${describeCacheRejection()}`
+		);
 		error.code = "tunnel_prebuilt_bundle_missing_or_invalid";
 		throw error;
 	}
@@ -67,6 +69,30 @@ function buildAgentBundle(repoRoot) {
 	productionBundle = bundle;
 	productionManifestMtimeMs = manifestMtimeMs;
 	return bundle;
+}
+
+/**
+ * Name the exact reason a production cache was rejected, so the next
+ * BUNDLE_MANIFEST_BUILD_FAILED names the drift instead of hiding it.
+ * Diagnostic only: never throws, never rebuilds.
+ */
+function describeCacheRejection(directory = cacheDir()) {
+	try {
+		const meta = JSON.parse(fs.readFileSync(path.join(directory, "agent.json"), "utf8"));
+		const roots = SourcePaths.resolveRoots();
+		const manifest = fs.readFileSync(path.join(roots.agentRoot, "manifest.txt"));
+		if (meta.manifestSha256 !== sha(manifest)) return "manifest_changed";
+		const expectedSource = String(process.env.AWTSMOOS_RELEASE_SOURCE_SHA || "").trim().toLowerCase();
+		if (expectedSource && meta.releaseSourceSha !== expectedSource) {
+			return `source_sha_mismatch expected=${expectedSource} cached=${meta.releaseSourceSha}`;
+		}
+		if (!HEX64.test(meta.sha256) || !HEX40.test(String(meta.releaseSourceSha || ""))) return "cache_meta_invalid";
+		if (!Number.isInteger(meta.files) || meta.files < 1000) return "cache_files_invalid";
+		if (!/^\d+\.\d+\.\d+$/.test(meta.version)) return "cache_version_invalid";
+		return "cache_bytes_invalid";
+	} catch {
+		return "cache_missing_or_unreadable";
+	}
 }
 
 /** Load only an exact, hash-verified, manifest-matching artifact. */

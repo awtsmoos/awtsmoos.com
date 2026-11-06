@@ -11,8 +11,16 @@ systemctl_bin="${AWTSMOOS_SYSTEMCTL_BIN:-systemctl}"
 
 [[ "$target" =~ ^[0-9a-f]{40}$ ]] || exit 2
 environment="$($systemctl_bin show "$service" -p Environment --value 2>/dev/null || true)"
+# B"H 2026-11-06: match requires BOTH release variables. The live service
+# once carried RELEASE_SHA=7651f0ed with RELEASE_SOURCE_SHA=6a5412df while
+# HEAD and the sealed tunnel bundle were 146199244; a SHA-only match would
+# have called that drift a match and skipped the reactivation that fixes it.
 case " $environment " in
-	*" AWTSMOOS_RELEASE_SHA=$target "*) exit 0 ;;
+	*" AWTSMOOS_RELEASE_SHA=$target "*) ;;
+	*) exit 1 ;;
+esac
+case " $environment " in
+	*" AWTSMOOS_RELEASE_SOURCE_SHA=$target "*) exit 0 ;;
 esac
 # Static deployments advance browser bytes without changing the running Node
 # generation's release environment. The recorded PID fences stale markers.

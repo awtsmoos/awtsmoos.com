@@ -25,9 +25,35 @@ preserve_fast_repair_continuity() {
 restart_verified_release() {
 	local journal_state="$1"
 	local success_message="$2"
+	local registering_pid=""
+	install_progress 23 "Published release unavailable — restarting locally sealed release"
+	# B"H 2026-11-06: never kill an agent that is alive and mid-registration
+	# to "restart" it — the Nov 6 Mac installs killed registering agents
+	# (pids 27839, 37095) and reset registration progress each time. Wait
+	# for it to confirm instead; restart only if it never does.
+	if declare -F registering_agent_pid >/dev/null 2>&1 && registering_pid="$(registering_agent_pid 2>/dev/null || true)" && [ -n "$registering_pid" ]; then
+		install_event "fast-repair" "warning" \
+			"Installed agent is mid-registration; waiting for it instead of restarting." \
+			"pid=$registering_pid"
+		install_progress 26 "Installed agent is registering — waiting instead of restarting"
+		if candidate_is_stably_active; then
+			complete_fast_repair "$journal_state" \
+				"Installed agent registered without restart."
+			return 0
+		fi
+		install_event "fast-repair" "warning" \
+			"Registering agent did not confirm; proceeding with restart." \
+			"pid=$registering_pid $(final_readiness_failure_detail 2>/dev/null || printf '')"
+	fi
 	install_event "fast-repair" "warning" \
 		"Explicit refresh is replacing the current native generation." \
 		"version=$CANDIDATE_VERSION root=$ROOT priorHealth=${CURRENT_RUNTIME_HEALTH_FAILURE:-not_required}"
+	# B"H 2026-11-06: seed the recovery archive BEFORE displacing the
+	# current runtime — a machine that has only ever fast-repaired has no
+	# versions/ at all, so rollback reports "No healthy recovery version
+	# exists." Archive failure must never block the repair itself.
+	archive_known_good_runtime "before_fast_repair" 2>/dev/null || true
+	install_progress 28 "Stopping the current generation"
 	stop_existing_runtime
 	migrate_runtime_device_state "$ROOT"
 	write_supervisor
@@ -40,6 +66,7 @@ restart_verified_release() {
 		preserve_fast_repair_continuity "fast_repair_supervisor_start_failed"
 		return 1
 	fi
+	install_progress 30 "Waiting for the replacement generation to register"
 	if candidate_is_stably_active; then
 		complete_fast_repair "$journal_state" "$success_message"
 		return 0
@@ -51,7 +78,7 @@ restart_verified_release() {
 	fi
 	install_event "fast-repair" "warning" \
 		"Replacement generation did not become stable inside the readiness window." \
-		"state=$(connection_state_name) $(project_root_health_summary)"
+		"$(final_readiness_failure_detail 2>/dev/null || printf '') state=$(connection_state_name) $(project_root_health_summary)"
 	preserve_fast_repair_continuity "fast_repair_readiness_failed"
 	return 1
 }

@@ -86,7 +86,15 @@ test("published source identity rejects a stale but hash-valid cache", () => {
   Bundle.writeVerifiedCache({buffer:bytes,bytes:bytes.length,sha256:sha(bytes),manifestSha256:sha(fs.readFileSync(path.join(SourcePaths.resolveRoots().agentRoot,"manifest.txt"))),releaseSourceSha:"a".repeat(40),version:"1.0.690",files:3088},dir);
   const stale=runProduction(dir,"b".repeat(40));
   assert.equal(stale.status,0,stale.stderr);
-  assert.equal(JSON.parse(stale.stdout.trim()).code,"tunnel_prebuilt_bundle_missing_or_invalid");
+  const staleResponse=JSON.parse(stale.stdout.trim());
+  assert.equal(staleResponse.code,"tunnel_prebuilt_bundle_missing_or_invalid");
+  // B"H 2026-11-06: the live 500 hid which drift rejected the cache (the
+  // running service env named source 6a5412df while the sealed cache named
+  // 146199244). The message must name the mismatch so the next one is
+  // diagnosable from the response body alone.
+  assert.match(staleResponse.message,/source_sha_mismatch/);
+  assert.match(staleResponse.message,/expected=b{40}/);
+  assert.match(staleResponse.message,/cached=a{40}/);
   const matching=runProduction(dir,"a".repeat(40));
   assert.equal(matching.status,0,matching.stderr);
   assert.equal(JSON.parse(matching.stdout.trim()).ok,true);

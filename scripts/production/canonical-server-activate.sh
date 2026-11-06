@@ -24,6 +24,7 @@ nginx_preparer="$script_directory/canonical-nginx-mime.sh"
 service_verifier="$script_directory/canonical-service-verify.sh"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
+dropin_backup="${backup}.d"
 armed=0
 committed=0
 had_override=0
@@ -41,6 +42,10 @@ rollback() {
 		install -D -m 0644 "$backup" "$override" || true
 	else
 		rm -f "$override" || true
+	fi
+	if [ -d "$dropin_backup" ]; then
+		rm -rf "/etc/systemd/system/${service}.d"
+		cp -a "$dropin_backup" "/etc/systemd/system/${service}.d" || true
 	fi
 	if [ "$socket_preexisting" -eq 0 ]; then
 		systemctl stop "$socket_unit" || true
@@ -79,6 +84,22 @@ armed=1
 install -D -m 0644 "$source_override" "$override"
 printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\nEnvironment=AWTSMOOS_RELEASE_SOURCE_SHA=%s\n' \
 	"$expected" "$expected" >> "$override"
+# B"H 2026-11-06: the live service once ran with RELEASE_SHA from one
+# release and RELEASE_SOURCE_SHA from another (99-zzzz-external-ws set
+# SOURCE_SHA=6a5412df after 99-zz set both to 7651f0ed), while HEAD and the
+# sealed tunnel bundle were 146199244 — so bundle-manifest 500ed on the
+# source check even though the cache itself was valid. The canonical
+# override is the sole source of release identity from here on: strip both
+# variables from every other drop-in (rollback restores them from the backup).
+dropin_dir="/etc/systemd/system/${service}.d"
+if [ -d "$dropin_dir" ]; then
+	cp -a "$dropin_dir" "$dropin_backup"
+	for dropin in "$dropin_dir"/*.conf; do
+		[ -f "$dropin" ] || continue
+		[ "$dropin" = "$override" ] && continue
+		sed -i '/^Environment=AWTSMOOS_RELEASE_SHA=/d; /^Environment=AWTSMOOS_RELEASE_SOURCE_SHA=/d; /^Environment="AWTSMOOS_RELEASE_SHA=/d; /^Environment="AWTSMOOS_RELEASE_SOURCE_SHA=/d' "$dropin"
+	done
+fi
 install -D -m 0644 "$source_socket" "/etc/systemd/system/$socket_unit"
 bash "$watchdog_installer"
 bash "$nginx_preparer"
@@ -103,6 +124,18 @@ for _attempt in $(seq 1 60); do
 	sleep 1
 done
 [ "$healthy" -eq 1 ] || fail service_health_timeout
+# B"H 2026-11-06: prove the live environment carries this release before
+# calling the activation done — a stale drop-in must fail loudly here,
+# never surface later as a bundle-manifest 500.
+live_environment="$(systemctl show "$service" -p Environment --value 2>/dev/null || true)"
+case " $live_environment " in
+	*" AWTSMOOS_RELEASE_SHA=$expected "*) ;;
+	*) fail service_release_env_mismatch ;;
+esac
+case " $live_environment " in
+	*" AWTSMOOS_RELEASE_SOURCE_SHA=$expected "*) ;;
+	*) fail service_release_env_mismatch ;;
+esac
 bash "$service_verifier" "$service" "$repo" "$expected" "$virtual_ssh_port" "$virtual_ssh_probe"
 
 if [ "${AWTSMOOS_COMPACT_PREWARM:-0}" = "1" ]; then

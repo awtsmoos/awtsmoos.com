@@ -125,6 +125,14 @@ wait_for_runtime() {
 			stable=0
 			stable_pid=""
 		fi
+		# B"H 2026-11-06: the readiness wait is the longest silent stretch
+		# in the installer (45–600s). Say so every 15s with the live
+		# receipt state, so a slow registration never looks like a hang.
+		if [ "$(( elapsed_samples % 60 ))" -eq 0 ] && [ "$elapsed_samples" -gt 0 ]; then
+			install_event "startup" "progress" \
+				"Still waiting for the agent to register." \
+				"elapsedSamples=$elapsed_samples stableSamples=$stable $(runtime_health_summary "$agent_pid" 2>/dev/null || printf '')"
+		fi
 		sleep 0.25
 		elapsed_samples=$(( elapsed_samples + 1 ))
 	done

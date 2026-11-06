@@ -71,7 +71,12 @@ candidate_runtime_ready() {
 
 candidate_is_stably_active() {
 	current_release_is_complete || return 1
-	local startup_timeout="${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}"
+	# B"H 2026-11-06: the old 45s default could not pass even a HEALTHY
+	# registration — the Mac agent that finally registered on Nov 6 took
+	# ~83s from start to registration_confirmed, and degraded control-plane
+	# registrations take minutes. 180s covers a healthy registration with
+	# margin; the no-binding 600s budget is unchanged.
+	local startup_timeout="${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-180}"
 	local agent_pid=""
 	if [ ! -f "$ROOT/device-binding.json" ] && [ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
 		startup_timeout=600
@@ -80,14 +85,15 @@ candidate_is_stably_active() {
 		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 		install_event "startup" "failed" \
 			"Candidate did not sustain registered runtime readiness." \
-			"$(runtime_health_summary "$agent_pid")"
+			"$(final_readiness_failure_detail 2>/dev/null || printf '') $(runtime_health_summary "$agent_pid")"
 		return 1
 	fi
 	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	install_progress 55 "Agent registered — proving durable supervision"
 	if ! wait_for_service_supervision 30; then
 		install_event "startup" "failed" \
 			"Agent was temporary; durable supervisor ownership was not proven." \
-			"$(service_health_summary)"
+			"$(final_readiness_failure_detail 2>/dev/null || printf '') $(service_health_summary)"
 		return 1
 	fi
 	if ! current_release_is_complete; then

@@ -140,19 +140,21 @@ function publishDescriptor($i) {
 	} catch (error) {
 		// B"H: surface the real build failure so a 500 here is debuggable
 		// without a code deploy. Message only — no stack traces.
+		// B"H 2026-11-06: send the error with response.end, not the
+		// {mimeType, response} packet: the packet path returned wire HTTP 200
+		// for this exact error (verified live Nov 6), so curl -fsSL in the
+		// installer downloaded the error JSON as if it were a descriptor.
+		// publishPairingApprove below already uses end() for a real status.
 		$i.response.statusCode = 500;
-		return sendText(
-			$i,
-			JSON.stringify({
-				BH: "B\"H",
-				error: {
-					message: String((error && error.message) || error || "unknown").slice(0, 500),
-					code: "BUNDLE_MANIFEST_BUILD_FAILED",
-					statusCode: 500
-				}
-			}),
-			"application/json; charset=utf-8"
-		);
+		$i.response.setHeader("Content-Type", "application/json; charset=utf-8");
+		return $i.response.end(JSON.stringify({
+			BH: "B\"H",
+			error: {
+				message: String((error && error.message) || error || "unknown").slice(0, 500),
+				code: "BUNDLE_MANIFEST_BUILD_FAILED",
+				statusCode: 500
+			}
+		}));
 	}
 }
 

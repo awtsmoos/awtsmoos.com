@@ -70,6 +70,26 @@ else
 fi
 
 if [ "$static_only" -eq 1 ]; then
+	# B"H 2026-11-06: a static deploy never restarts the service, so the
+	# running process keeps rejecting any bundle sealed for a different
+	# source SHA — and a static change to agent files invalidates the sealed
+	# bundle outright (manifest hash). Prove the sealed cache still verifies
+	# against the LIVE environment before skipping the restart; otherwise
+	# fall through to full canonical activation, which re-seals, purges
+	# stale release env, and restarts.
+	bundle_cache="${AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR:-/var/cache/awtsmoos-tunnel-bundle}"
+	live_source_sha="$(systemctl show "$service" -p Environment --value 2>/dev/null | tr ' ' '\n' | sed -n 's/^AWTSMOOS_RELEASE_SOURCE_SHA=//p' | tail -n 1)"
+	if [ -z "$live_source_sha" ] || ! AWTSMOOS_RELEASE_SOURCE_SHA="$live_source_sha" AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" node -e '
+		const path = require("node:path");
+		const root = process.argv[1];
+		const bundle = require(path.join(root, "geelooy/api/tunnel/install/tools/zipBundle.js"));
+		process.exit(bundle.readVerifiedCache() ? 0 : 1);
+	' "$repo"; then
+		static_only=0
+	fi
+fi
+
+if [ "$static_only" -eq 1 ]; then
 	systemctl is-active --quiet "$service" || fail static_service_unhealthy
 	pid="$(systemctl show "$service" -p MainPID --value)"
 	[[ "$pid" =~ ^[0-9]+$ ]] && [ "$pid" -gt 1 ] || fail static_service_pid_missing

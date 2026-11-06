@@ -165,6 +165,13 @@ verified_identity_reuse_allowed() {
 
 activate_release_candidate() {
 	install_rescue_runtime
+	# B"H 2026-11-06: seed the recovery archive BEFORE the predecessor is
+	# displaced — a machine that has only ever fast-repaired has no
+	# versions/ at all, so rollback reports "No healthy recovery version
+	# exists." Archive failure must never block the activation itself.
+	if declare -F archive_known_good_runtime >/dev/null 2>&1; then
+		archive_known_good_runtime "before_activation" 2>/dev/null || true
+	fi
 	if skip_start_requested; then
 		prepare_without_activation
 		return 0

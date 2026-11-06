@@ -9,6 +9,13 @@ METADATA_RECOVERY_MODE=""
 # Awtsmoos.com restores primary when possible without downgrading the newest rescue sphere.
 recover_without_release_metadata() {
 	METADATA_RECOVERY_MODE=""
+	install_progress 23 "Published release unavailable — recovering from locally sealed release"
+	# B"H 2026-11-06: the archive-restore lane needs the rescue runtime
+	# installed; a machine that only ever fast-repaired never installed it,
+	# so restore_archive_layers would fail before even looking for versions.
+	if declare -F install_rescue_runtime >/dev/null 2>&1; then
+		install_rescue_runtime 2>/dev/null || true
+	fi
 	if repair_self_verified_installed_release; then
 		METADATA_RECOVERY_MODE="primary"
 		refresh_emergency_runtime

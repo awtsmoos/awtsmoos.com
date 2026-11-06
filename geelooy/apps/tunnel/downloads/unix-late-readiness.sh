@@ -35,6 +35,13 @@ candidate_late_readiness_grace() {
 					"phase=$(startup_phase) $(service_health_summary)"
 				return 0
 			fi
+			# B"H 2026-11-06: a flickering candidate (Nov 4 reached rank 5
+			# yet never held 4 consecutive samples) is still progressing
+			# while samples pass — extend on passing samples too, not only
+			# on phase-rank advances, so one failed sample does not waste
+			# the whole grace window. The hard deadline still caps mercy.
+			deadline=$(( deadline + 2 ))
+			[ "$deadline" -gt "$hard_deadline" ] && deadline="$hard_deadline"
 		else
 			stable=0
 		fi
@@ -51,5 +58,14 @@ candidate_late_readiness_grace() {
 		sleep 0.25
 		now="$(date +%s)"
 	done
-	late_candidate_ready_sample
+	# B"H 2026-11-06: name the failing check when grace expires — the Nov 6
+	# log carried only a connection/project summary, never which of the
+	# four readiness checks failed.
+	if late_candidate_ready_sample; then
+		return 0
+	fi
+	install_event "startup" "failed" \
+		"Late-start grace expired before the candidate stabilized." \
+		"$(final_readiness_failure_detail 2>/dev/null || printf '')"
+	return 1
 }

@@ -10,6 +10,7 @@ BUNDLE_URL=""
 BUNDLE_SHA=""
 BUNDLE_BYTES=""
 RELEASE_SOURCE_SHA=""
+RELEASE_METADATA_ERROR=""
 
 # The Awtsmoos renews one small release witness before any heavy download begins;
 # Awtsmoos.com verifies runtime artifact identity independently from Git provenance.
@@ -37,6 +38,30 @@ load_release_metadata() {
 	wait "$descriptor_pid" || descriptor_status=$?
 	if [ "$descriptor_status" -ne 0 ]; then
 		# Never wait on a speculative download after the descriptor has failed.
+		kill "$manifest_pid" 2>/dev/null || true
+		wait "$manifest_pid" 2>/dev/null || true
+		rm -rf "$RELEASE_METADATA_ROOT"
+		return 1
+	fi
+	# B"H 2026-11-06: the server answers a broken bundle build with an
+	# error JSON (BUNDLE_MANIFEST_BUILD_FAILED) — sometimes on wire HTTP
+	# 200, so curl succeeds and the descriptor parse below fails with no
+	# reason. Name the server's message immediately and fail fast instead
+	# of leaving the fallback to burn silent minutes first.
+	if grep -Fq 'BUNDLE_MANIFEST_BUILD_FAILED' "$RELEASE_DESCRIPTOR_PATH" 2>/dev/null; then
+		RELEASE_METADATA_ERROR="$("$AWTSMOOS_NODE_BIN" - "$RELEASE_DESCRIPTOR_PATH" <<'NODE' 2>/dev/null || true
+const fs = require("node:fs");
+try {
+	const body = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	process.stdout.write(String(body?.error?.message || body?.error?.code || ""));
+} catch {}
+NODE
+)"
+		[ -n "$RELEASE_METADATA_ERROR" ] || RELEASE_METADATA_ERROR="BUNDLE_MANIFEST_BUILD_FAILED"
+		export RELEASE_METADATA_ERROR
+		install_event "release-metadata" "failed" \
+			"Published release metadata is unavailable: $RELEASE_METADATA_ERROR." \
+			"origin=$origin"
 		kill "$manifest_pid" 2>/dev/null || true
 		wait "$manifest_pid" 2>/dev/null || true
 		rm -rf "$RELEASE_METADATA_ROOT"
