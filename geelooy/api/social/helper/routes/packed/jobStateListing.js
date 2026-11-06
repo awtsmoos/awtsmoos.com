@@ -7,11 +7,17 @@
  * @description
  * The Awtsmoos reveals many records without freezing one living request;
  * Awtsmoos.com scans history asynchronously, then serves a brief cached crest.
+ *
+ * Bulk-upload redesign §3.3: the listing scans EVERY job-store directory
+ * (primary off-volume store first, legacy directory second) and merges
+ * by job id, primary winning, so jobs recorded before the move stay
+ * listed. Receipts files (<jobId>.receipts.jsonl) are not states and
+ * are skipped here.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { jobStateDir } = require('./jobStatePaths.js');
+const { jobStateDirs } = require('./jobStatePaths.js');
 const { loadJobStateAsync } = require('./jobStatePersistence.js');
 
 const LIST_CACHE_TTL_MS = 5000;
@@ -25,7 +31,7 @@ async function newestCandidates(directory, limit) {
 	} catch (_) {
 		return [];
 	}
-	const files = names.filter(name => name.endsWith('.json'));
+	const files = names.filter(name => name.endsWith('.json') && !name.endsWith('.receipts.jsonl'));
 	const statted = [];
 	for (let index = 0; index < files.length; index += 256) {
 		const batch = files.slice(index, index + 256);
@@ -46,19 +52,23 @@ async function newestCandidates(directory, limit) {
 
 /** Load only the selected recent records through durable repair semantics. */
 async function scanJobStatesAsync($i, limit) {
-	const ids = await newestCandidates(jobStateDir($i), limit);
-	const output = [];
-	for (let index = 0; index < ids.length; index += 32) {
-		const batch = ids.slice(index, index + 32);
-		const records = await Promise.all(batch.map(id => loadJobStateAsync($i, id)));
-		for (const record of records) if (record) output.push(record);
+	const byId = new Map();
+	for (const directory of jobStateDirs($i)) {
+		const ids = await newestCandidates(directory, limit);
+		for (let index = 0; index < ids.length; index += 32) {
+			const batch = ids.slice(index, index + 32);
+			const records = await Promise.all(batch.map(id => loadJobStateAsync($i, id)));
+			for (const record of records) {
+				if (record && !byId.has(record.id)) byId.set(record.id, record);
+			}
+		}
 	}
-	return output;
+	return [...byId.values()].sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0)).slice(0, limit);
 }
 
 /** Return a bounded async list with stale-while-revalidate caching. */
 async function listJobStatesAsync($i, limit = 50) {
-	const directory = jobStateDir($i);
+	const directory = jobStateDirs($i)[0];
 	const wanted = Math.max(limit * 2, limit + 10);
 	let entry = listCache.get(directory);
 	if (!entry) {
@@ -90,7 +100,7 @@ async function listJobStatesAsync($i, limit = 50) {
 
 /** Legacy sync facade: never scans; return the last warmed snapshot. */
 function listJobStates($i) {
-	const entry = listCache.get(jobStateDir($i));
+	const entry = listCache.get(jobStateDirs($i)[0]);
 	if (!entry?.data) {
 		listJobStatesAsync($i).catch(() => {});
 		return [];

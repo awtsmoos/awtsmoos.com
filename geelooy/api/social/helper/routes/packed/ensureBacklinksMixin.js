@@ -16,6 +16,10 @@ const { extractTarball } = require('./tarball.js');
 const { UPLOAD_ID_RE } = require('./importBounds.js');
 const { setJob } = require('./jobStore.js');
 const { saveJobState } = require('./jobState.js');
+// Bulk-upload redesign §3.7: ensure-backlinks is account-authenticated —
+// any authenticated user may repair backlinks for their OWN import alias;
+// a foreign alias returns FORBIDDEN without leaking job existence.
+const { authorizeJobRoute } = require('./accountRouteAuth.js');
 
 module.exports = {
 
@@ -32,8 +36,8 @@ module.exports = {
 	async ensureBacklinks() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const auth = await authorizeJobRoute(this);
+		if (auth.authError) return auth.authError;
 		const body = this.$i?.body || {};
 		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
 		if (!UPLOAD_ID_RE.test(uploadId)) {
@@ -57,6 +61,9 @@ module.exports = {
 		}
 		const heichelId = String((files[0] && files[0].heichelId) || 'tanach');
 		const jobAliasId = heichelId + '-import';
+		if (auth.scope && !auth.scope.has(jobAliasId)) {
+			return { success: false, error: 'FORBIDDEN', message: `Backlink alias ${jobAliasId} is not one of your aliases.` };
+		}
 		const b = {
 			id: 'backlinks_' + Date.now().toString(36) + '_' + crypto.randomBytes(4).toString('hex'),
 			status: 'queued', uploadId, heichelId, aliasId: jobAliasId,

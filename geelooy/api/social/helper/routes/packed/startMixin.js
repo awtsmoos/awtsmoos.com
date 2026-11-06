@@ -41,16 +41,23 @@ module.exports = {
 			skipLiveCheck: options.skipLiveCheck,
 			source: resolved.source,
 			stagedDir: resolved.stagedDir,
+			uploadId: options.body.uploadId || null,
+			series: resolved.series || null,
+			caller,
 			timeBudgetMs: options.timeBudgetMs
 		});
 		const admission = scheduleImportJob(this.$i, job, () => this.runJob(this.$i, job));
 		if (admission.error) {
-			return { error: admission.error, message: admission.message };
+			return { error: admission.error, message: admission.message, retryable: admission.retryable, retryAfterMs: admission.retryAfterMs, persistError: admission.persistError || undefined };
 		}
 		return {
 			success: {
 				jobId: job.id,
 				status: job.status,
+				held: admission.held || false,
+				holdReason: admission.holdReason || undefined,
+				freeBytes: admission.freeBytes,
+				minimumFreeBytes: admission.minimumFreeBytes,
 				dryRun: options.dryRun,
 				totalPosts: posts.length,
 				source: resolved.source

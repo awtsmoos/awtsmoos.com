@@ -67,7 +67,28 @@ async function pruneOldJobStates(directory, options = {}) {
 		throw error;
 	}
 	for await (const entry of handle) {
-		if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
+		if (!entry.isFile()) continue;
+		// Bulk-upload redesign §3.3: a receipts file is deleted together
+		// with its state; an orphaned receipts file (state already gone)
+		// older than retention is deleted on its own.
+		if (entry.name.endsWith(".receipts.jsonl")) {
+			result.inspected++;
+			const receiptsFile = path.join(directory, entry.name);
+			try {
+				const stats = await fs.promises.stat(receiptsFile);
+				if (stats.mtimeMs >= cutoff) continue;
+				const stateFile = path.join(directory, entry.name.slice(0, -".receipts.jsonl".length) + ".json");
+				let stateExists = true;
+				try { await fs.promises.access(stateFile); } catch (_) { stateExists = false; }
+				if (stateExists) continue;
+				await fs.promises.unlink(receiptsFile);
+				result.deleted++;
+			} catch (error) {
+				if (error.code !== "ENOENT") result.errors++;
+			}
+			continue;
+		}
+		if (!entry.name.endsWith(".json")) continue;
 		result.inspected++;
 		const filename = path.join(directory, entry.name);
 		try {
@@ -85,6 +106,7 @@ async function pruneOldJobStates(directory, options = {}) {
 			}
 			await fs.promises.unlink(filename);
 			result.deleted++;
+			try { await fs.promises.unlink(filename.slice(0, -5) + ".receipts.jsonl"); } catch (_) { /* no receipts file */ }
 		} catch (error) {
 			if (error.code !== "ENOENT") result.errors++;
 		}

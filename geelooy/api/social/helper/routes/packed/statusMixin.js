@@ -12,6 +12,7 @@ const { requireMethod, requestValue } = require('./requestValues.js');
 const { getJobViewAsync, jobStateShape, listJobStatesAsync } = require('./jobState.js');
 const { jobs } = require('./jobStore.js');
 const { accountScope, jobAliasOf, visibleJobs } = require('./statusAccess.js');
+const { summarizeReceipts, readReceiptsPage } = require('./jobReceipts.js');
 
 const DONE_IDS_CAP = 1000;
 const TERMINAL = new Set(['done', 'failed', 'cancelled', 'absolute-failure', 'interrupted', 'paused']);
@@ -23,12 +24,30 @@ function agentLog(route) {
 	} catch (_error) {}
 }
 
-function statusResponse(found) {
+function statusResponse(found, $i) {
 	const v = found.view;
-	const allDoneIds = v.donePostIds || [];
+	// Bulk-upload redesign §3.3/§3.6: the durable per-post truth is the
+	// receipts file (summarized here, pageable from /packed/import/posts/
+	// receipts). The capped donePostIds[:1000] list is derived from the
+	// receipts' first page — never from a linear list in the state file,
+	// which keeps counters only. A job with no receipts yet reports an
+	// empty list; its count still comes from the state counter.
+	let receipts = null;
+	let receiptPage = null;
+	try {
+		if ($i && v.id) {
+			receipts = summarizeReceipts($i, v.resumeOf || v.id);
+			receiptPage = readReceiptsPage($i, v.resumeOf || v.id, 1, DONE_IDS_CAP);
+		}
+	} catch (_) { /* receipts are advisory on status */ }
+	const allDoneIds = receiptPage ? receiptPage.receipts.map(r => r.postId) : [];
+	const doneCount = v.donePostIdsCount != null ? v.donePostIdsCount : (receipts ? receipts.total : allDoneIds.length);
 	return {
 		success: {
 			id: v.id, status: v.status, dryRun: v.dryRun, live: found.live,
+			kind: v.kind || 'import', resumeOf: v.resumeOf || undefined, attempt: v.attempt || 0,
+			held: v.status === 'held', holdReason: v.holdReason || undefined, holdFreeBytes: v.holdFreeBytes,
+			persistDegraded: !!v.persistDegraded,
 			heichelId: v.heichelId, source: v.source, totalPosts: v.totalPosts,
 			postsDone: v.postsDone, wrote: v.wrote, updated: v.updated,
 			skipped: v.skipped, failed: v.failed,
@@ -37,8 +56,10 @@ function statusResponse(found) {
 			preHashMismatches: v.preHashMismatches || 0, preHashUntrusted: !!v.preHashUntrusted,
 			errors: (v.errors || []).slice(-10),
 			donePostIds: allDoneIds.slice(0, DONE_IDS_CAP),
-			donePostIdsCount: allDoneIds.length,
-			donePostIdsTruncated: allDoneIds.length > DONE_IDS_CAP,
+			donePostIdsCount: doneCount,
+			donePostIdsTruncated: doneCount > DONE_IDS_CAP,
+			receipts,
+			receiptsUrl: v.id ? ('/packed/import/posts/receipts?jobId=' + encodeURIComponent(v.resumeOf || v.id)) : undefined,
 			createdAt: v.createdAt, updatedAt: v.updatedAt,
 			startedAt: v.startedAt, finishedAt: v.finishedAt, durationMs: v.durationMs
 		}
@@ -71,7 +92,28 @@ module.exports = {
 			const alias = jobAliasOf(found);
 			if (!alias || !account.scope.has(String(alias))) return { success: false, error: 'JOB_NOT_FOUND', jobId };
 		}
-		return statusResponse(found);
+		return statusResponse(found, this.$i);
+	},
+
+	/** GET /packed/import/posts/receipts?jobId=<id>[&page=N&perPage=N] — paginated per-post receipts. */
+	async receipts() {
+		const bad = requireMethod(this.$i, 'GET');
+		if (bad) return bad;
+		const account = await accountScope(this);
+		if (account.authError) return account.authError;
+		const jobId = requestValue(this.$i, 'job') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'id');
+		const found = await getJobViewAsync(this.$i, jobId);
+		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		if (account.scope) {
+			const alias = jobAliasOf(found);
+			if (!alias || !account.scope.has(String(alias))) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		}
+		const page = Number(requestValue(this.$i, 'page') || 1);
+		const perPage = Number(requestValue(this.$i, 'perPage') || 100);
+		const lineageId = found.view.resumeOf || found.view.id;
+		const result = readReceiptsPage(this.$i, lineageId, page, perPage);
+		const summary = summarizeReceipts(this.$i, lineageId);
+		return { success: { jobId: found.view.id, lineageId, ...result, summary } };
 	},
 
 	/** GET /packed/import/posts/jobs */
@@ -89,7 +131,7 @@ module.exports = {
 		return {
 			success: visibleJobs(byId.values(), account.scope)
 				.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 50)
-				.map(job => ({ id: job.id, status: job.status, dryRun: job.dryRun, live: job.live, heichelId: job.heichelId, source: job.source, totalPosts: job.totalPosts, postsDone: job.postsDone, wrote: job.wrote, updated: job.updated, skipped: job.skipped, failed: job.failed, errors: (job.errors || []).length, durationMs: job.durationMs }))
+				.map(job => ({ id: job.id, status: job.status, kind: job.kind || 'import', dryRun: job.dryRun, live: job.live, heichelId: job.heichelId, source: job.source, totalPosts: job.totalPosts, postsDone: job.postsDone, wrote: job.wrote, updated: job.updated, skipped: job.skipped, failed: job.failed, holdReason: job.holdReason || undefined, resumeOf: job.resumeOf || undefined, errors: (job.errors || []).length, durationMs: job.durationMs }))
 		};
 	}
 };

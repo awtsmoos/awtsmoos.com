@@ -26,7 +26,14 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (!sig) {
 			try {
 				const ownership = require('./ownership.js');
-				if (ownership.authenticate(this.$i)) return null;
+				const caller = ownership.authenticate(this.$i);
+				if (caller) {
+					// Bulk-upload redesign §3.7: record the account caller
+					// so the bulk routes can scope it to its own aliases
+					// (see accountScope on the parent class).
+					this.__accountCaller = caller;
+					return null;
+				}
 			} catch (_) { /* fall through to operator-key check */ }
 			return super.checkAuth();
 		}
@@ -53,6 +60,7 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (!sigCheck.ok) {
 			return { success: false, error: 'SIG_' + sigCheck.error, message: 'Invalid stage signature.' };
 		}
+		this.__accountCaller = null;
 		return null;
 	}
 

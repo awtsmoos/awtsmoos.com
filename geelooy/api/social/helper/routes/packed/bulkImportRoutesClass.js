@@ -31,24 +31,57 @@ class PackedBulkImportRoutes {
 	// call is rejected — never an open import door.
 	// MAC-SEVERANCE: also accepts AWTSMOOS_DEPLOY_KEY so the VM can import
 	// via the HTTPS deploy key without ever needing the Mac/tunnel.
+	// Bulk-upload redesign §3.7: an authenticated Awtsmoos account may
+	// also drive the comments lane (no operator key in the normal path);
+	// the caller is recorded on the instance as __accountCaller so the
+	// start/status/jobs/cancel routes can scope it to its own aliases.
+	// Operator key and deploy key stay as the admin/machine paths. A
+	// WRONG key still fails closed even with a valid bearer, as before.
 	checkAuth() {
 		const expected = process.env.AWTSMOOS_BULK_IMPORT_KEY;
 		const deployKey = process.env.AWTSMOOS_DEPLOY_KEY;
+		const given = requestValue(this.$i, 'operatorKey') || this.$i?.body?.operatorKey || '';
+		if (given) {
+			if (!expected && !deployKey) {
+				return { success: false, error: 'IMPORT_NOT_CONFIGURED', message: 'Bulk import operator key is not configured on this server.' };
+			}
+			const a = Buffer.from(String(given));
+			for (const exp of [expected, deployKey]) {
+				if (!exp) continue;
+				const b = Buffer.from(String(exp));
+				if (a.length === b.length && crypto.timingSafeEqual(a, b)) {
+					this.__accountCaller = null;
+					return null;
+				}
+			}
+			return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
+		}
 		if (!expected && !deployKey) {
 			return { success: false, error: 'IMPORT_NOT_CONFIGURED', message: 'Bulk import operator key is not configured on this server.' };
 		}
-		const given = requestValue(this.$i, 'operatorKey') || this.$i?.body?.operatorKey || '';
-		if (!given) return { success: false, error: 'FORBIDDEN', message: 'operatorKey is required.' };
-		const a = Buffer.from(String(given));
-		// Check against bulk-import key first, then deploy key (Mac-severance path)
-		for (const exp of [expected, deployKey]) {
-			if (!exp) continue;
-			const b = Buffer.from(String(exp));
-			if (a.length === b.length && crypto.timingSafeEqual(a, b)) {
+		try {
+			const ownership = require('./ownership.js');
+			const caller = ownership.authenticate(this.$i);
+			if (caller) {
+				this.__accountCaller = caller;
 				return null;
 			}
-		}
-		return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
+		} catch (_) { /* fall through to the key requirement */ }
+		return { success: false, error: 'FORBIDDEN', message: 'operatorKey is required.' };
+	}
+
+	/** The account caller authorized by checkAuth, or null for key/admin callers. */
+	accountCaller() {
+		return this.__accountCaller || null;
+	}
+
+	/** The alias scope for an account caller (null = unrestricted/admin). */
+	async accountScope() {
+		const caller = this.accountCaller();
+		if (!caller) return null;
+		if (caller.isAdmin) return null;
+		const ownership = require('./ownership.js');
+		return ownership.callerAliasSet(this.$i, caller);
 	}
 
 	// -- payload loading ------------------------------------------------------

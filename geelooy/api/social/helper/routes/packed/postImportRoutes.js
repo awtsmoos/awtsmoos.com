@@ -33,6 +33,15 @@ const PackedPostImportRoutes = class PackedPostImportRoutes {
 			'/packed/import/posts/cancel': this.cancel.bind(this),
 			'/packed/import/posts/verify': this.verify.bind(this),
 			'/packed/import/posts/verify-status': this.verifyStatus.bind(this),
+			// B"H 2026-11-06 (bulk-upload redesign §3.6/§3.5): resume from
+			// receipts, retry-failed-only, paginated receipts, bulk update
+			// as a job, and series as a first-class entity.
+			'/packed/import/posts/resume': this.resume.bind(this),
+			'/packed/import/posts/retry-failed': this.retryFailed.bind(this),
+			'/packed/import/posts/receipts': this.receipts.bind(this),
+			'/packed/import/posts/update-job': this.updateJob.bind(this),
+			'/packed/import/series/upsert': this.seriesUpsert.bind(this),
+			'/packed/import/series/rebuild': this.seriesRebuild.bind(this),
 			'/packed/import/posts/ensure-backlinks': this.ensureBacklinks.bind(this),
 			'/packed/import/posts/backlinks-status': this.backlinksStatus.bind(this),
 			// B"H 2026-10-14 (import-speed): replay a job's persisted
@@ -74,6 +83,9 @@ Object.assign(PackedPostImportRoutes.prototype,
 	require('./removeMixin.js'),
 	require('./verifyMixin.js'),
 	require('./runVerifyMixin.js'),
+	require('./resumeMixin.js'),
+	require('./updateJobMixin.js'),
+	require('./seriesUpsertMixin.js'),
 	require('./ensureBacklinksMixin.js'),
 	require('./backlinksRepairMixin.js'),
 	require('./backlinksStatusMixin.js'),

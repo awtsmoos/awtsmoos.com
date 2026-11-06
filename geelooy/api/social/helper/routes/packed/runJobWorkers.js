@@ -14,6 +14,7 @@ const { flushPackedBatch } = require('./runJobBatch.js');
 const { appendJobLog } = require('./jobLog.js');
 const { saveJobState } = require('./jobState.js');
 const { awaitCheckpoint } = require('./jobCheckpointWriter.js');
+const { closeReceipts } = require('./jobReceipts.js');
 const { setJob } = require('./jobStore.js');
 const { clearJobWatchdog } = require('./jobWatchdog.js');
 const { releaseTerminalJobPayload } = require('./terminalJobPayload.js');
@@ -25,6 +26,9 @@ function finalizeJob($i, job) {
 	job.durationMs = job.startedAt ? job.finishedAt - job.startedAt : null;
 	job.updatedAt = job.finishedAt;
 	setJob(job);
+	// Bulk-upload redesign §3.3: the receipts file is fsynced at terminal
+	// state, so a resume after a crash reads exactly what happened.
+	try { closeReceipts($i, job); } catch (_) { /* best effort */ }
 	const persisted = saveJobState($i, job);
 	appendJobLog($i, {
 		jobId: job.id,

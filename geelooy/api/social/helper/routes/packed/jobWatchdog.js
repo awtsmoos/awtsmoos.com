@@ -9,12 +9,16 @@
  * Awtsmoos.com fences stale checkpoints, persists terminal truth, and keeps admin time free in peace.
  */
 
+const fs = require('node:fs');
+const path = require('node:path');
 const { appendJobLog } = require('./jobLog.js');
 const { awaitCheckpoint } = require('./jobCheckpointWriter.js');
 const { saveJobState } = require('./jobState.js');
-const { setJob } = require('./jobStore.js');
+const { jobStateDirs, safeJobId } = require('./jobStatePaths.js');
+const { setJob, getJob } = require('./jobStore.js');
 const {
 	WATCHDOG_INTERVAL_MS,
+	WATCHDOG_INTERRUPTED_MS,
 	executionBudgetMs,
 	heartbeatJob,
 	jobBudgetExceeded,
@@ -90,9 +94,82 @@ function clearJobWatchdog(job) {
 	job._watchdogTimer = null;
 }
 
+/**
+ * Read one raw state file without the load-time repair (loadJobStateAsync
+ * flips stale queued/running states to interrupted on read, so a sweep
+ * through it would never see a stale state to flip). Returns the parsed
+ * record, or null when the file is missing, unreadable, or invalid.
+ */
+function readRawStateFile(file) {
+	try {
+		const raw = fs.readFileSync(file, 'utf8');
+		const record = JSON.parse(raw);
+		if (!record || typeof record !== 'object' || !safeJobId(record.id)) return null;
+		return record;
+	} catch (_) {
+		return null;
+	}
+}
+
+/**
+ * Bulk-upload redesign §3.6: durably mark stalled DISK jobs `interrupted`.
+ * A job whose process died leaves a queued/running state on disk with no
+ * live job and no heartbeat; this sweep flips it durably so a stalled job
+ * is visible as interrupted within 10 minutes even when nobody loads it.
+ * It scans the raw state files (not the load path, which repairs on read),
+ * skips live jobs, and never touches held jobs. Returns the ids flipped.
+ */
+async function sweepStaleDiskJobs($i, now = Date.now()) {
+	const flipped = [];
+	const seen = new Set();
+	let dirs = [];
+	try {
+		dirs = jobStateDirs($i);
+	} catch (_) {
+		return flipped;
+	}
+	for (const dir of dirs) {
+		let names = [];
+		try {
+			names = fs.readdirSync(dir);
+		} catch (_) {
+			continue;
+		}
+		for (const name of names) {
+			if (!name.endsWith('.json')) continue;
+			const id = safeJobId(name.slice(0, -'.json'.length));
+			if (!id || seen.has(id)) continue;
+			seen.add(id);
+			const record = readRawStateFile(path.join(dir, name));
+			if (!record || (record.status !== 'queued' && record.status !== 'running')) continue;
+			if (getJob(record.id)) continue;
+			const lastBeat = Number(record.updatedAt || record.createdAt || 0);
+			if (!lastBeat || now - lastBeat < WATCHDOG_INTERRUPTED_MS) continue;
+			const interruptedAt = now;
+			const repaired = {
+				...record,
+				status: 'interrupted',
+				interruptedAt,
+				finishedAt: record.finishedAt || interruptedAt,
+				updatedAt: interruptedAt
+			};
+			try {
+				if (saveJobState($i, repaired)) flipped.push(record.id);
+			} catch (_) { /* best effort */ }
+		}
+	}
+	if (flipped.length) {
+		try {
+			appendJobLog($i, { event: 'watchdog-sweep-interrupted', jobIds: flipped });
+		} catch (_) { /* ignore */ }
+	}
+	return flipped;
+}
+
 module.exports = {
 	armJobWatchdog,
 	clearJobWatchdog,
+	sweepStaleDiskJobs,
 	terminalizeFromWatchdog,
 	watchdogTick
 };

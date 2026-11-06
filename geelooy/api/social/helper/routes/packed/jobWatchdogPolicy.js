@@ -11,6 +11,14 @@
 
 const NO_HEARTBEAT_MS = 240000;
 const WATCHDOG_INTERVAL_MS = 30000;
+// Bulk-upload redesign §3.6: a job with no heartbeat for 10 minutes is
+// stalled — it is marked `interrupted` DURABLY (not only on next load)
+// so a resume can pick up exactly where it stopped. The in-process
+// stale-heartbeat terminalization keeps its existing contract (see
+// jobWatchdog.test.cjs); the 10-minute rule is the durable disk sweep
+// (sweepStaleDiskJobs in jobWatchdog.js), which also covers jobs whose
+// process died outright.
+const WATCHDOG_INTERRUPTED_MS = 600000;
 
 /** Preserve the inherited size-scaled execution ceiling for non-admin work only. */
 function executionBudgetMs(job) {
@@ -47,6 +55,7 @@ function markJobProgress(job, now = Date.now()) {
 module.exports = {
 	NO_HEARTBEAT_MS,
 	WATCHDOG_INTERVAL_MS,
+	WATCHDOG_INTERRUPTED_MS,
 	executionBudgetMs,
 	heartbeatJob,
 	jobBudgetExceeded,

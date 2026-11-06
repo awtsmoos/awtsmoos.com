@@ -7,17 +7,35 @@
  * @description
  * The Awtsmoos sends each job through memory, storage, and durable gates before motion begins;
  * Awtsmoos.com names a narrow vessel before accepting light, then frees safely sealed terminal input when motion ends.
+ *
+ * Bulk-upload redesign §3.3/§3.4 — two gates, not one:
+ *  - RECORD gate (job store, 500 MB floor): the job must be durably
+ *    recorded before it is acknowledged. Only when BOTH the primary
+ *    and the fallback store fail is the job refused, and the refusal
+ *    carries the real persistError — never the bare IMPORT_PERSIST_FAILED.
+ *  - DATA gate (data volume, 8 GiB floor kept): when free space is below
+ *    the floor the job is admitted as HELD — durable, visible in
+ *    posts/jobs, auto-started by the watcher once free space clears
+ *    the floor + 1 GiB hysteresis — instead of being refused.
+ * The proven stability limits stay: 2 lanes, 1 job per heichel,
+ * disjoint series, queue ≤ 24 jobs.
  */
 
 const { setJob, getJob } = require('./jobStore.js');
-const { saveJobState } = require('./jobState.js');
+const { saveJobState, saveJobStateDetailed } = require('./jobState.js');
+const { appendJobLog } = require('./jobLog.js');
 const { importLaneKeys, laneKeysIntersect } = require('./importLaneKeys.js');
 const { inspectAdmission } = require('./importLaneAdmission.js');
-const { inspectImportStorage } = require('./importStorageAdmission.js');
+const { inspectImportStorage, importStorageReadyForHeld } = require('./importStorageAdmission.js');
 const { releaseTerminalJobPayload } = require('./terminalJobPayload.js');
 
 const queue = [];
 const active = new Map();
+const held = [];
+let heldWatcherTimer = null;
+let heldWatcherContext = null;
+
+const HELD_WATCH_INTERVAL_MS = 60000;
 
 /** Limit concurrent executions to the host's configured capacity. */
 function laneLimit() {
@@ -67,16 +85,96 @@ function drain() {
 			break;
 		}
 	}
+	if (held.length) maybeReleaseHeld();
 }
 
 /** Return a specific capacity error if durable persistence raced with disk pressure. */
-function persistenceFailure($i) {
+function persistenceFailure($i, persistError) {
 	const storage = inspectImportStorage($i);
-	if (storage.error) return storage;
+	if (storage.error) return { ...storage, persistError: persistError || null };
 	return {
 		error: 'IMPORT_PERSIST_FAILED',
-		message: 'The job could not be safely stored. Retry later.'
+		message: 'The job could not be safely stored. Retry later.',
+		retryable: true,
+		retryAfterMs: 30000,
+		persistError: persistError || null
 	};
+}
+
+/** Admit one held entry into the live queue now that space is restored. */
+function admitHeldEntry(entry) {
+	const { $i, job } = entry;
+	job.status = 'queued';
+	job.holdReason = undefined;
+	job.holdFreeBytes = undefined;
+	job.heldAt = undefined;
+	job.updatedAt = Date.now();
+	const saved = saveJobStateDetailed($i, job);
+	if (!saved.ok) {
+		job.status = 'held';
+		job.holdReason = 'IMPORT_PERSIST_FAILED';
+		job.updatedAt = Date.now();
+		saveJobState($i, job);
+		return false;
+	}
+	setJob(job);
+	queue.push(entry);
+	drain();
+	return true;
+}
+
+/** Release every held job when the data volume has cleared the floor + hysteresis. */
+function maybeReleaseHeld() {
+	if (!held.length) return 0;
+	const $i = held[0].$i;
+	if (!importStorageReadyForHeld($i)) return 0;
+	let released = 0;
+	const stillHeld = [];
+	for (const entry of held.splice(0, held.length)) {
+		if (admitHeldEntry(entry)) released++;
+		else stillHeld.push(entry);
+	}
+	if (stillHeld.length) held.push(...stillHeld);
+	if (released) {
+		try {
+			appendJobLog($i, { event: 'held-released', released, stillHeld: stillHeld.length });
+		} catch (_) { /* ignore */ }
+	}
+	return released;
+}
+
+/** Start the held-job watcher (idempotent, unref'd — never keeps the process alive). */
+function startHeldWatcher($i) {
+	if (heldWatcherTimer) {
+		if ($i) heldWatcherContext = $i;
+		return heldWatcherTimer;
+	}
+	heldWatcherContext = $i || null;
+	heldWatcherTimer = setInterval(() => {
+		try {
+			maybeReleaseHeld();
+		} catch (_) { /* the watcher must never throw */ }
+	}, HELD_WATCH_INTERVAL_MS);
+	if (heldWatcherTimer.unref) heldWatcherTimer.unref();
+	return heldWatcherTimer;
+}
+
+/** Held jobs currently waiting for disk space (ids only, for status/inspection). */
+function heldJobSnapshot() {
+	return held.map(entry => ({
+		id: entry.job.id,
+		holdReason: entry.job.holdReason,
+		holdFreeBytes: entry.job.holdFreeBytes,
+		heldAt: entry.job.heldAt
+	}));
+}
+
+/** Remove one held job from the held queue (cancel path). Returns true when removed. */
+function removeHeldJob(jobId) {
+	const index = held.findIndex(entry => entry.job.id === jobId);
+	if (index < 0) return false;
+	held.splice(index, 1);
+	return true;
 }
 
 /** Never acknowledge work before capacity and durable-state gates both pass. */
@@ -84,13 +182,39 @@ function scheduleImportJob($i, job, runner) {
 	if (getJob(job.id)) {
 		return { error: 'IMPORT_DUPLICATE_JOB', message: 'The specified job already exists.' };
 	}
-	const storage = inspectImportStorage($i);
-	if (storage.error) return storage;
 	const admission = inspectAdmission(job, queue, active);
-	if (admission.error) return admission;
+	if (admission.error) return { ...admission, retryable: false };
+	// DATA gate first for the held decision — but the RECORD gate decides
+	// the refusal. A job is held (durable, visible) when the data volume
+	// is low; it is refused only when its state cannot be recorded.
+	const storage = inspectImportStorage($i);
+	if (storage.error) {
+		job.status = 'held';
+		job.heldAt = Date.now();
+		job.queuedAt = job.queuedAt || job.heldAt;
+		job.holdReason = storage.error;
+		job.holdFreeBytes = storage.freeBytes;
+		job.updatedAt = job.heldAt;
+		const saved = saveJobStateDetailed($i, job);
+		if (!saved.ok) return persistenceFailure($i, saved.persistError);
+		setJob(job);
+		held.push({ $i, job, runner, keys: importLaneKeys(job), bytes: admission.bytes || 0 });
+		startHeldWatcher($i);
+		return {
+			held: true,
+			status: 'held',
+			holdReason: storage.error,
+			freeBytes: storage.freeBytes,
+			minimumFreeBytes: storage.minimumFreeBytes,
+			retryable: true,
+			retryAfterMs: storage.retryAfterMs || 60000,
+			message: 'Import storage is below the safe free-space floor; the job is held and will start automatically when space is restored.'
+		};
+	}
 	job.status = 'queued';
 	job.queuedAt = job.queuedAt || Date.now();
-	if (!saveJobState($i, job)) return persistenceFailure($i);
+	const saved = saveJobStateDetailed($i, job);
+	if (!saved.ok) return persistenceFailure($i, saved.persistError);
 	setJob(job);
 	const entry = { $i, job, runner, keys: importLaneKeys(job), bytes: admission.bytes };
 	queue.push(entry);
@@ -104,7 +228,9 @@ function importLaneSnapshot() {
 		limit: laneLimit(),
 		active: active.size,
 		queued: queue.length,
-		activeJobIds: [...active.keys()]
+		held: held.length,
+		activeJobIds: [...active.keys()],
+		heldJobIds: held.map(entry => entry.job.id)
 	};
 }
 
@@ -112,6 +238,22 @@ function importLaneSnapshot() {
 function resetImportLanesForTest() {
 	queue.length = 0;
 	active.clear();
+	held.length = 0;
+	if (heldWatcherTimer) {
+		clearInterval(heldWatcherTimer);
+		heldWatcherTimer = null;
+	}
+	heldWatcherContext = null;
 }
 
-module.exports = { importLaneSnapshot, resetImportLanesForTest, scheduleImportJob };
+module.exports = {
+	admitHeldEntry,
+	heldJobSnapshot,
+	held,
+	importLaneSnapshot,
+	maybeReleaseHeld,
+	removeHeldJob,
+	resetImportLanesForTest,
+	scheduleImportJob,
+	startHeldWatcher
+};

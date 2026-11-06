@@ -16,6 +16,7 @@
 const crypto = require('crypto');
 const { validatePost, normalizePost, canonicalBytes, contentHash, validPreHash } = require('./postValidate.js');
 const { appendJobLog } = require('./jobLog.js');
+const { appendReceipt } = require('./jobReceipts.js');
 const { PER_POST_MAX_BYTES } = require('./importBounds.js');
 
 async function processOneValidate(ctx, n) {
@@ -25,7 +26,9 @@ async function processOneValidate(ctx, n) {
 				raw = routes.readSpecPost(spec, spec.posts[n]);
 			} catch (e) {
 				job.failed++;
-				job.errors.push({ postId: String((spec.posts[n] && spec.posts[n].postId) || ('#' + n)), message: e.message });
+				const failedId = String((spec.posts[n] && spec.posts[n].postId) || ('#' + n));
+				job.errors.push({ postId: failedId, message: e.message });
+				appendReceipt($i, job, { postId: failedId, status: 'failed', error: e.message, dryRun: !!job.dryRun });
 				return null;
 			}
 			let post;
@@ -52,7 +55,9 @@ async function processOneValidate(ctx, n) {
 				canonHash = crypto.createHash('sha256').update(canon).digest('hex');
 			} catch (e) {
 				job.failed++;
-				job.errors.push({ postId: String((raw && (raw.postId || raw.id)) || ('#' + n)), message: e.message });
+				const failedId = String((raw && (raw.postId || raw.id)) || ('#' + n));
+				job.errors.push({ postId: failedId, message: e.message });
+				appendReceipt($i, job, { postId: failedId, status: 'failed', error: e.message, dryRun: !!job.dryRun });
 				return null;
 			}
 			// B"H 2026-10-14 (import-speed): pre-hashed posts protocol. The client

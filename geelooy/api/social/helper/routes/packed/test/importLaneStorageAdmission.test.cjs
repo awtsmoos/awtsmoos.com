@@ -6,7 +6,8 @@
  * @file importLaneStorageAdmission.test.cjs
  * @description
  * The Awtsmoos lets a scheduler know when the vessel is too narrow before a receipt is born;
- * Awtsmoos.com proves low storage refuses the promise without queueing work or writing state forlorn.
+ * Awtsmoos.com proves low storage holds the promise durably (visible, auto-starting)
+ * instead of refusing it — bulk-upload redesign §3.4.
  */
 
 const assert = require('node:assert/strict');
@@ -17,13 +18,14 @@ const test = require('node:test');
 const { jobs } = require('../jobStore.js');
 const {
 	resetImportLanesForTest,
-	scheduleImportJob
+	scheduleImportJob,
+	heldJobSnapshot
 } = require('../importLaneScheduler.js');
 const { jobStateDir } = require('../jobState.js');
 
 const ORIGINAL_FLOOR = process.env.AWTSMOOS_IMPORT_MIN_FREE_GB;
 
-/** Build one minimal schedulable job whose runner must never begin. */
+/** Build one minimal schedulable job whose runner must never begin while held. */
 function job() {
 	return {
 		id: 'postimport_storage_rejected',
@@ -44,7 +46,7 @@ test.afterEach(() => {
 	else process.env.AWTSMOOS_IMPORT_MIN_FREE_GB = ORIGINAL_FLOOR;
 });
 
-test('low storage is rejected before receipt persistence or runner launch', () => {
+test('low storage holds the job durably instead of rejecting it', () => {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-storage-lane-'));
 	const $i = { db: { directory: root } };
 	let runnerCalled = false;
@@ -54,11 +56,20 @@ test('low storage is rejected before receipt persistence or runner launch', () =
 		const result = scheduleImportJob($i, candidate, async () => {
 			runnerCalled = true;
 		});
-		assert.equal(result.error, 'IMPORT_STORAGE_LOW');
+		// Bulk-upload redesign §3.4: below the data floor the job is
+		// admitted as held (durable, visible, auto-start) — not refused.
+		assert.equal(result.held, true);
+		assert.equal(result.holdReason, 'IMPORT_STORAGE_LOW');
+		assert.equal(result.retryable, true);
 		assert.equal(runnerCalled, false);
-		assert.equal(jobs.has(candidate.id), false);
+		assert.equal(candidate.status, 'held');
+		assert.equal(jobs.has(candidate.id), true);
+		assert.deepEqual(heldJobSnapshot().map(entry => entry.id), [candidate.id]);
 		const filename = path.join(jobStateDir($i), candidate.id + '.json');
-		assert.equal(fs.existsSync(filename), false);
+		assert.equal(fs.existsSync(filename), true);
+		const persisted = JSON.parse(fs.readFileSync(filename, 'utf8'));
+		assert.equal(persisted.status, 'held');
+		assert.equal(persisted.holdReason, 'IMPORT_STORAGE_LOW');
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });
 	}

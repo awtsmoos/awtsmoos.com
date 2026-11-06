@@ -19,6 +19,10 @@ module.exports = {
 		const jobId = requestValue(this.$i, 'job');
 		const job = getJob(jobId);
 		if (!job) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		if (typeof this.accountScope === 'function') {
+			const scope = await this.accountScope();
+			if (scope && !scope.has(String(job.spec.aliasId || ''))) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		}
 		const { spec, ...rest } = job;
 		return { success: { ...rest, kind: spec.kind, seriesId: spec.seriesId, postId: spec.postId, aliasId: spec.aliasId, totalItems: spec.totalItems } };
 	},
@@ -29,8 +33,11 @@ module.exports = {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		let scope = null;
+		if (typeof this.accountScope === 'function') scope = await this.accountScope();
 		return {
 			success: [...jobs.values()]
+				.filter(j => !scope || scope.has(String(j.spec.aliasId || '')))
 				.sort((a, b) => b.createdAt - a.createdAt)
 				.map(j => ({
 					id: j.id, status: j.status, kind: j.spec.kind, dryRun: j.dryRun,
@@ -50,6 +57,10 @@ module.exports = {
 		const jobId = requestValue(this.$i, 'job') || this.$i?.body?.job;
 		const job = getJob(jobId);
 		if (!job) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		if (typeof this.accountScope === 'function') {
+			const scope = await this.accountScope();
+			if (scope && !scope.has(String(job.spec.aliasId || ''))) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		}
 		if (job.status !== 'running' && job.status !== 'queued') {
 			return { success: false, error: 'JOB_NOT_RUNNING', status: job.status };
 		}

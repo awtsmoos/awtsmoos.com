@@ -46,6 +46,23 @@ module.exports = {
 		} catch (e) {
 			return { error: { success: false, error: 'STAGE_READ_FAILED', message: e.message } };
 		}
+	// Bulk-upload redesign §3.1: the uploadId is bound to its staging
+	// caller (owner sidecar written by the stage endpoint). A non-admin
+	// caller may not start someone else's upload — closing the
+	// guessed-uploadId hole the old code only warned about in a comment.
+	// Uploads staged before sidecars existed have no owner and stay
+	// startable (back-compat).
+	try {
+		const ownership = require('./ownership.js');
+		const caller = ownership.authenticate($i);
+		const ownerFile = path.join(path.dirname(dest), uploadId + '.owner.json');
+		if (caller && !caller.isAdmin && fs.existsSync(ownerFile)) {
+			const owner = JSON.parse(fs.readFileSync(ownerFile, 'utf8'));
+			if (owner && owner.identity && String(owner.identity) !== String(caller.identity || '')) {
+				return { error: { success: false, error: 'FORBIDDEN_UPLOAD_OWNER', message: 'uploadId belongs to another uploader.' } };
+			}
+		}
+	} catch (_) { /* ownership check failure must not break staged reads */ }
 		let manifest;
 		try {
 			manifest = JSON.parse(fs.readFileSync(path.join(dest, 'manifest.json'), 'utf8'));
@@ -55,6 +72,20 @@ module.exports = {
 		const files = Array.isArray(manifest.files) ? manifest.files : [];
 		if (!files.length) {
 			return { error: { success: false, error: 'MANIFEST_EMPTY', message: 'No post files listed in manifest.json' } };
+		}
+		// Bulk-upload redesign §3.2/§3.5: a staged set may carry series.json
+		// alongside manifest.json — series-level fields applied by the
+		// same upsert path at job start, before the first post is written.
+		// A set without series.json behaves exactly as before.
+		let series = null;
+		const seriesFile = path.join(dest, 'series.json');
+		try {
+			if (fs.existsSync(seriesFile)) {
+				const parsed = JSON.parse(fs.readFileSync(seriesFile, 'utf8'));
+				if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) series = parsed;
+			}
+		} catch (e) {
+			return { error: { success: false, error: 'SERIES_UNREADABLE', message: 'series.json: ' + e.message } };
 		}
 		// STREAMING: never parse post files here. Return lightweight entries;
 		// runJob reads + parses exactly one file at a time. Holding all parsed
@@ -80,6 +111,13 @@ module.exports = {
 				contentHash: validPreHash(f),
 			});
 		}
-		return { entries, dest, source: 'upload:' + uploadId };
+		return {
+			entries, dest, source: 'upload:' + uploadId, series,
+			// Bulk-upload redesign §3.1: the manifest may carry exact
+			// totals (the client writes them); the server reports them
+			// so a start reply can state the total before any post runs.
+			totalPosts: Number(manifest.totalPosts) || entries.length,
+			totalBytes: Number(manifest.totalBytes) || null
+		};
 	}
 };

@@ -4,11 +4,40 @@
 /**
  * socialPacked bulk single-post mirror records and writer (split from socialPacked.js).
  */
-const { logicalKey } = require('./shardPaths.js');
+const fs = require('fs');
+const { logicalKey, shardFile, legacyShardFile } = require('./shardPaths.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
 const { engineFor, fileRoot, fileFor } = require('./socialPackedEngine.js');
 const { writePacked } = require('./socialPackedCore.js');
 const { allPostValue } = require('./socialPackedMirror.js');
+
+// B"H 2026-11-06 (search deletion): the ENTIRE search system is being
+// deleted from the live server — the search store files are going away
+// and site search stays OFF until the search system is rebuilt in Node.
+// Imports must NOT fail on the missing stores, and must NOT recreate
+// them: writePacked/writeFileRecord would silently re-create
+// social.search.awtsdb on the next append (fs.appendFileSync creates
+// the file), defeating the deletion. So the search-shard records are
+// skipped whenever the search store files are absent, and counted here
+// for the job log. When the store IS present the records are written
+// exactly as before — the import path works with or without it.
+let searchSkippedRecords = 0;
+
+/** True when a search store file exists under the request's db root. */
+function searchStorePresent($i) {
+	const root = fileRoot($i);
+	if (!root) return true;
+	try {
+		if (fs.existsSync(shardFile(root, 'search'))) return true;
+		const legacy = legacyShardFile(root, 'search');
+		if (legacy && fs.existsSync(legacy)) return true;
+	} catch (_) { /* absent = not present */ }
+	return false;
+}
+
+function searchSkippedCount() {
+	return searchSkippedRecords;
+}
 /**
  * Bulk-optimized post writer for the import job (Yaakov 2026-10-11:
  * bulk importer is #1 priority — reliable, reusable, fast).
@@ -35,12 +64,21 @@ function mirrorPostRecords({ $i, post }) {
     { shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } },
     { shard: 'allPosts', key: logicalKey(['allPosts', allPost.heichelId, postId]), value: allPost, meta: { kind: 'allPost', aliasId: allPost.aliasId, heichelId: allPost.heichelId, seriesId: allPost.seriesId } },
     { shard: 'meta', key: entityManifestKey(manifest), value: manifest, meta: { kind: 'entityManifest', entityKind: manifest.kind } },
-    { shard: 'search', key: logicalKey(['indexes', 'postsByHeichel', allPost.heichelId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByHeichel' } },
   ];
-  if (allPost.aliasId) {
-    records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByAlias', allPost.aliasId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByAlias' } });
+  // Search-index records only when the search store exists (see header):
+  // with the store deleted, skipping keeps imports working and keeps the
+  // deletion deleted. Site search is OFF until the Node rebuild.
+  if (searchStorePresent($i)) {
+    records.push(
+      { shard: 'search', key: logicalKey(['indexes', 'postsByHeichel', allPost.heichelId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByHeichel' } },
+    );
+    if (allPost.aliasId) {
+      records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByAlias', allPost.aliasId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByAlias' } });
+    }
+    records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByType', allPost.type, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByType' } });
+  } else {
+    searchSkippedRecords += allPost.aliasId ? 3 : 2;
   }
-  records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByType', allPost.type, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByType' } });
   return records;
 }
 function mirrorPostBulk({ $i, post }) {
@@ -71,4 +109,4 @@ function mirrorPostBulk({ $i, post }) {
   // BH 2026-10-19: do NOT delete grouped.json - mergeTailRecords handles append-only growth efficiently
   return first;
 }
-module.exports = { mirrorPostRecords, mirrorPostBulk };
+module.exports = { mirrorPostRecords, mirrorPostBulk, searchStorePresent, searchSkippedCount };

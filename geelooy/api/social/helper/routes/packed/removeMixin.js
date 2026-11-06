@@ -20,10 +20,17 @@ module.exports = {
 		// MULTI-FACTOR DELETE AUTH 2026-10-19 by site owner order:
 		// Factor 1: POST method. Factor 2: normal auth. Factor 3: owner confirm header.
 		// Factor 4: agent identity (must identify as human or ai with source).
+		// Bulk-upload redesign §3.7: Factor 2 is now account auth — an
+		// admin passes as before; any other authenticated user may only
+		// remove their OWN posts (checked against the live record below;
+		// a foreign or missing post returns POST_NOT_FOUND, never a
+		// permission error, so existence does not leak).
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const auth = await require('./accountRouteAuth.js').authorizeJobRoute(this);
+		if (auth.authError) return auth.authError;
+		const routeScope = auth.scope;
+		const routeCaller = auth.admin ? null : (this.checkAuthDetailed() || {}).caller;
 		const hdrs = (this.$i && this.$i.headers) || {};
 		const confirm = hdrs['x-owner-delete-confirm'] || '';
 		if (confirm !== 'OWNER_CONFIRMED_DELETE_20261019') {
@@ -45,6 +52,12 @@ module.exports = {
 		const removed = [];
 		let post = null;
 		try { post = await this.$i.db.get(`/social/heichelos/${heichelId}/posts/${postId}`); } catch (_) { /* ignore */ }
+		if (routeScope && routeCaller) {
+			const ownership = require('./ownership.js');
+			if (!post || !ownership.ownsPost(routeCaller, post, routeScope)) {
+				return { success: false, error: 'POST_NOT_FOUND', heichelId, postId };
+			}
+		}
 		if (post) {
 			const s = post.seriesId || 'root';
 			try {

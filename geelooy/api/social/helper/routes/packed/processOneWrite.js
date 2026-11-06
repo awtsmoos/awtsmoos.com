@@ -14,6 +14,7 @@
 const { setJob } = require('./jobStore.js');
 const { yieldTick, checkServerHealth } = require('./serverHealth.js');
 const { flushPackedBatch } = require('./runJobBatch.js');
+const { appendReceipt } = require('./jobReceipts.js');
 const { contentHash } = require('./postValidate.js');
 
 async function processOneWrite(ctx, vd) {
@@ -23,6 +24,7 @@ async function processOneWrite(ctx, vd) {
 			if (job.doneHashes[post.postId] === hash) {
 				// Already processed by THIS job: skip unconditionally.
 				job.skipped++;
+				appendReceipt($i, job, { postId: post.postId, hash, status: 'skipped', dryRun: !!job.dryRun });
 				return;
 			}
 			// B"H 2026-10-21 (Worker B, import-speed v4): partial-cache
@@ -56,6 +58,7 @@ async function processOneWrite(ctx, vd) {
 				if (nativeOk) {
 					job.skipped++;
 					job.doneHashes[post.postId] = hash;
+					appendReceipt($i, job, { postId: post.postId, hash, status: 'skipped', dryRun: !!job.dryRun });
 					// B"H 2026-10-12: series index must populate even for
 					// idempotent skips — otherwise re-imports leave series
 					// pages empty (posts live but unlisted).
@@ -93,6 +96,7 @@ async function processOneWrite(ctx, vd) {
 				} catch (e) {
 					job.failed++;
 					job.errors.push({ postId: post.postId, message: 'WRITE_FAILED: ' + (e.message || e) });
+					appendReceipt($i, job, { postId: post.postId, hash, status: 'failed', error: 'WRITE_FAILED: ' + (e.message || e), dryRun: !!job.dryRun });
 					return;
 				}
 			}
@@ -106,6 +110,7 @@ async function processOneWrite(ctx, vd) {
 			job.postsDone++;
 			if (existed) job.updated++;
 			else job.wrote++;
+			appendReceipt($i, job, { postId: post.postId, hash, status: existed ? 'updated' : 'wrote', dryRun: !!job.dryRun });
 			// B"H 2026-10-13 (import-speed): yield every 50 posts, not every
 			// post. Per-post yields were 1000+ event-loop round-trips for a
 			// 1000-post job; every-50 keeps the server responsive at 1/50th

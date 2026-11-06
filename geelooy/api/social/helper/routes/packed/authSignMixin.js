@@ -21,6 +21,13 @@ module.exports = {
 	//   posts/status|cancel:  sha256hex('job:' + job)
 	//   posts/jobs:           sha256hex('jobs')
 	//   posts/verify:         sha256hex('verify:' + uploadId)
+	//   posts/resume:         sha256hex('resume:' + jobId)
+	//   posts/retry-failed:   sha256hex('retry-failed:' + jobId)
+	//   posts/receipts:       sha256hex('receipts:' + jobId)
+	//   posts/update-job (staged): sha256hex('update-job:' + uploadId)
+	//   posts/update-job (inline): sha256hex(JSON.stringify(updates))
+	//   posts/series-upsert:  sha256hex('series-upsert:' + heichelId + ':' + seriesId)
+	//   posts/series-rebuild: sha256hex('series-rebuild:' + heichelId + ':' + seriesId)
 	// Returns null when the signature is valid, 'NO_ATTEMPT' when no
 	// signature fields are present, or an error object on any failure.
 	checkSignatureAuth() {
@@ -51,7 +58,9 @@ module.exports = {
 		} else if (op === 'posts/verify') {
 			const body = this.$i?.body || {};
 			const uploadId = body.uploadId || requestValue(this.$i, 'uploadId');
-			expectedHash = importSign.sha256hex('verify:' + String(uploadId || ''));
+			const jobId = body.jobId || body.job || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job');
+			// Bulk-upload redesign §3.6: receipt-based verify signs the jobId.
+			expectedHash = importSign.sha256hex('verify:' + String(jobId || uploadId || ''));
 		} else if (op === 'posts/verify-status') {
 			expectedHash = importSign.sha256hex('verify-status:' + String(requestValue(this.$i, 'verify') || ''));
 		} else if (op === 'posts/ensure-backlinks') {
@@ -73,6 +82,29 @@ module.exports = {
 			const rmH = rmBody.heichelId || requestValue(this.$i, 'heichelId');
 			const rmP = rmBody.postId || requestValue(this.$i, 'postId');
 			expectedHash = importSign.sha256hex('remove:' + String(rmH || '') + ':' + String(rmP || ''));
+		} else if (op === 'posts/resume') {
+			const rsBody = this.$i?.body || {};
+			expectedHash = importSign.sha256hex('resume:' + String(rsBody.jobId || rsBody.job || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || ''));
+		} else if (op === 'posts/retry-failed') {
+			const rfBody = this.$i?.body || {};
+			expectedHash = importSign.sha256hex('retry-failed:' + String(rfBody.jobId || rfBody.job || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || ''));
+		} else if (op === 'posts/receipts') {
+			expectedHash = importSign.sha256hex('receipts:' + String(requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || ''));
+		} else if (op === 'posts/update-job') {
+			const ujBody = this.$i?.body || {};
+			const ujUploadId = ujBody.uploadId || requestValue(this.$i, 'uploadId');
+			if (ujUploadId) {
+				expectedHash = importSign.sha256hex('update-job:' + String(ujUploadId));
+			} else {
+				const ujVal = ujBody.updates ?? requestValue(this.$i, 'updates');
+				expectedHash = importSign.sha256hex(JSON.stringify(ujVal));
+			}
+		} else if (op === 'posts/series-upsert') {
+			const suBody = this.$i?.body || {};
+			expectedHash = importSign.sha256hex('series-upsert:' + String(suBody.heichelId || requestValue(this.$i, 'heichelId') || '') + ':' + String(suBody.seriesId || requestValue(this.$i, 'seriesId') || ''));
+		} else if (op === 'posts/series-rebuild') {
+			const srBody = this.$i?.body || {};
+			expectedHash = importSign.sha256hex('series-rebuild:' + String(srBody.heichelId || requestValue(this.$i, 'heichelId') || '') + ':' + String(srBody.seriesId || requestValue(this.$i, 'seriesId') || ''));
 		} else {
 			return { success: false, error: 'SIG_BAD_OP', message: 'Unknown signed operation: ' + op };
 		}

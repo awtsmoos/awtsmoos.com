@@ -9,6 +9,10 @@
 
 const { requireMethod, requestValue } = require('./requestValues.js');
 const { getJobView } = require('./jobState.js');
+// Bulk-upload redesign §3.7: backlinks-status and flush-backlinks are
+// account-authenticated — any authenticated user may poll/flush their
+// OWN jobs; foreign jobs return NOT_FOUND so existence does not leak.
+const { authorizeJobRoute, foreignJobError, jobVisibleToScope } = require('./accountRouteAuth.js');
 
 module.exports = {
 
@@ -16,11 +20,12 @@ module.exports = {
 	async backlinksStatus() {
 		const bad = requireMethod(this.$i, 'GET');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const auth = await authorizeJobRoute(this);
+		if (auth.authError) return auth.authError;
 		const backlinkId = requestValue(this.$i, 'backlinks') || requestValue(this.$i, 'backlinksId') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || requestValue(this.$i, 'id'); // Worker A 2026-10-21: alias parity with status
 		const found = getJobView(this.$i, backlinkId);
 		if (!found) return { success: false, error: 'BACKLINKS_NOT_FOUND', backlinkId };
+		if (!jobVisibleToScope(found, auth.scope)) return { success: false, error: 'BACKLINKS_NOT_FOUND', backlinkId };
 		const v = found.view;
 		return {
 			success: {
@@ -45,13 +50,14 @@ module.exports = {
 	async flushBacklinks() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
+		const auth = await authorizeJobRoute(this);
+		if (auth.authError) return auth.authError;
 		const body = this.$i?.body || {};
 		const jobId = String(body.job || body.jobId || requestValue(this.$i, 'job') || requestValue(this.$i, 'jobId') || ''); // Worker A 2026-10-21: accept jobId
 		if (!jobId) return { success: false, error: 'NO_JOB', message: 'Provide {job}.' };
 		const found = getJobView(this.$i, jobId);
 		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		if (!jobVisibleToScope(found, auth.scope)) return foreignJobError(jobId);
 		const persisted = Array.isArray(found.view.backlinkQueue) ? found.view.backlinkQueue : [];
 		if (!persisted.length) {
 			return { success: { jobId, flushed: 0, message: 'no pending backlinks' } };

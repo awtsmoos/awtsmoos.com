@@ -15,6 +15,10 @@ const { databaseRoot } = require('./jobStatePaths.js');
 const GIBIBYTE = 1024 ** 3;
 const DEFAULT_MINIMUM_FREE_GIB = 8;
 const MAXIMUM_CONFIGURED_FREE_GIB = 1024 * 1024;
+// Bulk-upload redesign §3.4: a held job auto-starts only once free space
+// clears the floor PLUS this hysteresis margin, so a job is not released
+// into a disk that is about to dip under the floor again.
+const HELD_HYSTERESIS_GIB = 1;
 
 /** Resolve a bounded positive operator override or the production-safe default. */
 function minimumFreeGiB() {
@@ -64,14 +68,30 @@ function inspectImportStorage($i, statfsSync = fs.statfsSync, statSync = fs.stat
 		error: 'IMPORT_STORAGE_LOW',
 		message: 'Import storage is below the safe free-space floor. Restore capacity before retrying.',
 		measured: true,
+		// Bulk-upload redesign §3.2 (observability): every rejection says
+		// whether a retry can help and when to try it.
+		retryable: true,
+		retryAfterMs: 60000,
 		...measurement
 	};
+}
+
+/**
+ * True when the data volume has cleared the floor plus the 1 GiB held-job
+ * hysteresis margin — the condition that releases held jobs (§3.4).
+ */
+function importStorageReadyForHeld($i, statfsSync = fs.statfsSync, statSync = fs.statSync) {
+	const measurement = measureImportStorage($i, statfsSync, statSync);
+	if (!measurement) return false;
+	return measurement.freeBytes >= measurement.minimumFreeBytes + HELD_HYSTERESIS_GIB * GIBIBYTE;
 }
 
 module.exports = {
 	DEFAULT_MINIMUM_FREE_GIB,
 	GIBIBYTE,
+	HELD_HYSTERESIS_GIB,
 	canMeasureDirectory,
+	importStorageReadyForHeld,
 	inspectImportStorage,
 	measureImportStorage,
 	minimumFreeGiB

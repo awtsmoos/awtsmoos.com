@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { engineFor, fileRoot, fileFor, envelope } = require('./socialPackedEngine.js');
 const { writePacked } = require('./socialPackedCore.js');
-const { mirrorPostRecords, mirrorPostBulk } = require('./socialPackedMirrorBulk.js');
+const { mirrorPostRecords, mirrorPostBulk, searchStorePresent } = require('./socialPackedMirrorBulk.js');
 /**
  * B"H 2026-10-11 (import-speed): batched packed-mirror write. Builds the
  * exact envelopes mirrorPostBulk would write and appends ONE chunk per
@@ -40,6 +40,10 @@ function mirrorPostsBulk({ $i, posts }) {
   for (const [shard, lines] of byShard) {
     const file = fileFor(root, shard);
     if (!file) continue;
+    // B"H 2026-11-06 (search deletion): never re-create a deleted search
+    // store by appending to it — mirrorPostRecords already filters these,
+    // this is the defense in depth for any direct caller.
+    if (shard === 'search' && !searchStorePresent($i)) continue;
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.appendFileSync(file, lines.join(''));
   }

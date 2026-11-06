@@ -38,6 +38,14 @@ module.exports = {
 		const postId = body.postId;
 		const aliasId = body.aliasId;
 		const heichelId = body.heichelId || requestValue(this.$i, 'heichelId') || 'ikar';
+		// Bulk-upload redesign §3.7: an account caller may only import
+		// comments under their OWN aliases.
+		if (typeof this.accountScope === 'function') {
+			const scope = await this.accountScope();
+			if (scope && aliasId && !scope.has(String(aliasId))) {
+				return { success: false, error: 'FORBIDDEN_OWNERSHIP', message: 'aliasId ' + aliasId + ' is not one of your aliases.' };
+			}
+		}
 		const dryRun = !!(body.dryRun ?? (requestValue(this.$i, 'dryRun') === 'true' || requestValue(this.$i, 'dryRun') === true));
 		if (!['perPost', 'perPostIndex', 'translation', 'summary', 'ocrFix'].includes(kind)) {
 			return { success: false, error: 'BAD_KIND', message: 'kind must be perPost|perPostIndex' };

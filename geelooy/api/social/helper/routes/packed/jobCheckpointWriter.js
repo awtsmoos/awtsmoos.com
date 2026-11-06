@@ -19,10 +19,14 @@ function checkpointAsync($i, job) {
 	// and a stringify throw used to propagate through runWorker and mark
 	// the whole job failed (Oct 28, 2026, R01 dry-run, 5th post). Fail
 	// the checkpoint silently instead; terminal state is written separately.
+	// Bulk-upload redesign §3.2 (observability): "silently" no longer means
+	// invisibly — the cause is logged (server log + job log) so a
+	// checkpoint that can never land is diagnosable the first time.
 	let body;
 	try {
 		body = JSON.stringify(jobStateShape(job));
-	} catch (_) {
+	} catch (error) {
+		try { console.error('[IMPORT-CHECKPOINT-FAILED] job=' + job.id + ' message=' + String((error && error.message) || error)); } catch (_) {}
 		return Promise.resolve();
 	}
 	const write = (async () => {
@@ -33,8 +37,11 @@ function checkpointAsync($i, job) {
 			await fs.promises.writeFile(temporary, body);
 			await fs.promises.rename(temporary, path.join(directory, job.id + '.json'));
 			scheduleJobStateCleanup(directory);
-		} catch (_) {
-			// Match the historical best-effort checkpoint contract.
+		} catch (error) {
+			// Match the historical best-effort checkpoint contract — but
+			// log the cause instead of swallowing it (see above).
+			try { console.error('[IMPORT-CHECKPOINT-FAILED] job=' + job.id + ' code=' + ((error && error.code) || '?') + ' message=' + String((error && error.message) || error)); } catch (_) {}
+			try { require('./jobLog.js').appendJobLog($i, { jobId: job.id, event: 'checkpoint-failed', message: String((error && error.message) || error), code: (error && error.code) || null }); } catch (_) {}
 		}
 	})();
 	const tracked = write.finally(() => {

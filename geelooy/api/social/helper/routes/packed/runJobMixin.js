@@ -49,6 +49,21 @@ module.exports = {
 		await yieldTick();
 		markJobRunning($i, job);
 
+		// Bulk-upload redesign §3.5: a staged set's series.json is applied
+		// by the series-upsert path BEFORE the first post is written, so
+		// posts never land under a series whose fields are stale. A
+		// series failure is recorded on the job but never aborts the import.
+		if (job.spec && job.spec.series && typeof this.applyStagedSeries === 'function') {
+			try {
+				const applied = await this.applyStagedSeries($i, job);
+				if (applied && applied.error) {
+					job.errors.push({ message: 'SERIES_JSON_FAILED: ' + applied.error });
+				}
+			} catch (error) {
+				job.errors.push({ message: 'SERIES_JSON_FAILED: ' + (error.message || error) });
+			}
+		}
+
 		const liveHashes = await prepareLiveHashes(this, $i, job);
 		armJobWatchdog($i, job);
 		setJob(job);

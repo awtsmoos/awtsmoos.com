@@ -25,6 +25,11 @@ function inspectAdmission(job, waiting, running) {
 	if (entries.some(entry => entry.job.id === job.id)) {
 		return { error: 'IMPORT_DUPLICATE_JOB', message: 'This import job is already accepted.' };
 	}
+	// Bulk-upload redesign §3.4: staged jobs stream one post at a time
+	// from the tarball — their memory footprint is one post, not the
+	// whole set — so the 32 MB / 96 MB caps do not apply to them. The
+	// queue-count cap above still applies. Inline jobs keep the caps.
+	if (isStagedJob(job)) return { bytes: 0, staged: true };
 	let bytes;
 	try {
 		const payload = JSON.stringify(job.spec);
@@ -42,4 +47,12 @@ function inspectAdmission(job, waiting, running) {
 	return { bytes };
 }
 
-module.exports = { inspectAdmission };
+module.exports = { inspectAdmission, isStagedJob };
+
+/** A staged job streams from disk; an inline job holds its payload in memory. */
+function isStagedJob(job) {
+	const source = job?.spec?.source || '';
+	if (typeof source === 'string' && source.startsWith('upload:')) return true;
+	if (job?.spec?.stagedDir || job?.spec?.updatesFile) return true;
+	return false;
+}

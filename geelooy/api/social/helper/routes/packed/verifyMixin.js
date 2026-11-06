@@ -16,6 +16,10 @@ const { extractTarball } = require('./tarball.js');
 const { saveJobState, getJobView } = require('./jobState.js');
 const { setJob } = require('./jobStore.js');
 const { UPLOAD_ID_RE } = require('./importBounds.js');
+const { readReceipts, summarizeReceipts, appendReceipt, closeReceipts } = require('./jobReceipts.js');
+const { contentHash } = require('./postValidate.js');
+const { yieldTick } = require('./serverHealth.js');
+const { appendJobLog } = require('./jobLog.js');
 const {
 	callerMaySeeVerify,
 	callerOwnsAlias,
@@ -23,13 +27,21 @@ const {
 } = require('./verifyAccess.js');
 
 module.exports = {
-	/** POST /packed/import/posts/verify {uploadId} -> {verifyId}. */
+	/** POST /packed/import/posts/verify {uploadId} -> {verifyId}; or {jobId} for receipt-based verify. */
 	async verify() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
 		const account = verifyAccount(this);
 		if (account.authError) return account.authError;
 		const body = this.$i?.body || {};
+		// Bulk-upload redesign §3.6: verify FROM THE RECEIPTS of a job —
+		// per-post packed-hash + native + backlink checks, read from the
+		// job's own receipts, never from a listing count (E5). The result
+		// is itself a receipts file on the verify job.
+		const jobId = String(body.jobId || body.job || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || '');
+		if (jobId && !body.uploadId && !requestValue(this.$i, 'uploadId')) {
+			return this.verifyFromReceipts(account, jobId);
+		}
 		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
 		if (!UPLOAD_ID_RE.test(uploadId)) {
 			return { success: false, error: 'BAD_UPLOAD_ID', message: 'uploadId must match [A-Za-z0-9_-]{8,64}' };
@@ -70,6 +82,103 @@ module.exports = {
 		return { success: { verifyId: job.id, total: files.length, status: job.status } };
 	},
 
+	/** POST /packed/import/posts/verify {jobId} — verify from the job's receipts. */
+	async verifyFromReceipts(account, jobId) {
+		const found = getJobView(this.$i, jobId);
+		if (!found || !await callerMaySeeVerify(this, account.detailed, found)) {
+			return { success: false, error: 'VERIFY_NOT_FOUND', jobId };
+		}
+		const view = found.view;
+		const lineageId = view.resumeOf || view.id;
+		const receipts = readReceipts(this.$i, lineageId)
+			.filter(r => r.status === 'wrote' || r.status === 'updated' || r.status === 'skipped');
+		if (!receipts.length) {
+			return { success: false, error: 'NO_RECEIPTS', jobId, message: 'The job has no wrote/updated/skipped receipts to verify.' };
+		}
+		const heichelId = String(view.heichelId || 'tanach');
+		const job = {
+			id: `verify_${Date.now().toString(36)}_${crypto.randomBytes(4).toString('hex')}`,
+			status: 'queued', jobId: view.id, verifyOf: lineageId, heichelId,
+			aliasId: view.aliasId, aliasName: view.aliasName,
+			total: receipts.length, checked: 0, ok: 0, mismatches: [],
+			createdAt: Date.now(), updatedAt: Date.now(), finishedAt: null, durationMs: null,
+			spec: { heichelId, source: `verify-receipts:${lineageId}` },
+			doneHashes: {}
+		};
+		setJob(job);
+		saveJobState(this.$i, { ...job });
+		this.runVerifyFromReceipts(this.$i, job, receipts).catch(() => {});
+		return { success: { verifyId: job.id, jobId: view.id, total: receipts.length, status: job.status, fromReceipts: true } };
+	},
+
+	/** The receipt-based verify engine: 3 checks per receipt, result is a receipts file. */
+	async runVerifyFromReceipts($i, v, receipts) {
+		await yieldTick();
+		v.status = 'running';
+		v.startedAt = Date.now();
+		setJob(v);
+		try {
+			const liveHashes = await this.streamLiveHashes($i, v.heichelId);
+			await yieldTick();
+			for (let n = 0; n < receipts.length; n++) {
+				const receipt = receipts[n];
+				const postId = String(receipt.postId || '');
+				const expectedHash = receipt.hash || null;
+				let problem = null;
+				try {
+					if (!expectedHash) {
+						problem = 'RECEIPT_NO_HASH';
+					} else {
+						// 1. packed mirror check (streamed map — no per-post file scan).
+						const liveHash = liveHashes.get(postId);
+						if (liveHash !== expectedHash) {
+							problem = liveHash ? 'PACKED_HASH_MISMATCH' : 'PACKED_NOT_FOUND';
+						} else {
+							// 2. native first-class record check.
+							let live = null;
+							try { live = await $i.db.get(`/social/heichelos/${v.heichelId}/posts/${postId}`); } catch (_) { /* ignore */ }
+							if (!live) problem = 'NATIVE_NOT_FOUND';
+							else if (contentHash(live) !== expectedHash) problem = 'NATIVE_HASH_MISMATCH';
+							else {
+								// 3. alias link check (alias/series from the live record).
+								const aliasId = String(live.aliasId || '');
+								const seriesId = String(live.seriesId || '');
+								let link = null;
+								try { link = await $i.db.get(`/social/aliases/${aliasId}/postsSubmitted/inHeichel/${v.heichelId}/inSeries/${seriesId}/${postId}`); } catch (_) { /* ignore */ }
+								if (!link) problem = 'ALIAS_LINK_MISSING';
+							}
+						}
+					}
+				} catch (e) {
+					problem = 'VERIFY_ERROR: ' + (e.message || e);
+				}
+				if (problem) {
+					v.mismatches.push({ postId, problem });
+					appendReceipt($i, v, { postId, hash: expectedHash, status: 'failed', error: problem });
+				} else {
+					v.ok++;
+					appendReceipt($i, v, { postId, hash: expectedHash, status: 'skipped' });
+				}
+				v.checked++;
+				if (n % 25 === 24) {
+					v.updatedAt = Date.now();
+					setJob(v);
+					await yieldTick();
+				}
+			}
+			v.status = 'done';
+		} catch (e) {
+			v.status = 'failed';
+			v.mismatches.push({ postId: '', problem: 'VERIFY_JOB_FAILED: ' + (e.message || e) });
+		}
+		v.finishedAt = Date.now();
+		v.durationMs = v.finishedAt - v.startedAt;
+		try { closeReceipts($i, v); } catch (_) { /* best effort */ }
+		setJob(v);
+		saveJobState($i, { ...v, spec: { heichelId: v.heichelId, source: 'verify-receipts:' + v.verifyOf }, doneHashes: {} });
+		appendJobLog($i, { jobId: v.id, event: 'verify-' + v.status, checked: v.checked, ok: v.ok, mismatches: v.mismatches.length, durationMs: v.durationMs });
+	},
+
 	/** GET /packed/import/posts/verify-status?verify=<id> */
 	async verifyStatus() {
 		const bad = requireMethod(this.$i, 'GET');
@@ -85,13 +194,19 @@ module.exports = {
 			return { success: false, error: 'VERIFY_NOT_FOUND', verifyId };
 		}
 		const view = found.view;
+		let receipts = null;
+		try {
+			if (view.id) receipts = summarizeReceipts(this.$i, view.id);
+		} catch (_) { /* advisory */ }
 		return {
 			success: {
 				id: view.id, status: view.status, live: found.live,
-				uploadId: view.uploadId, heichelId: view.heichelId,
+				uploadId: view.uploadId, jobId: view.jobId || undefined, verifyOf: view.verifyOf || undefined, fromReceipts: !!view.verifyOf,
+				heichelId: view.heichelId,
 				total: view.total, checked: view.checked, ok: view.ok,
 				mismatches: (view.mismatches || []).slice(0, 50),
 				mismatchCount: (view.mismatches || []).length,
+				receipts,
 				durationMs: view.durationMs
 			}
 		};

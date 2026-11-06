@@ -23,19 +23,35 @@ function buildJob(options) {
 		skipLiveCheck,
 		source,
 		stagedDir,
-		timeBudgetMs
+		timeBudgetMs,
+		// Bulk-upload redesign §3.5/§3.6: job kind (import | update),
+		// resume lineage, staged manifest reference, and series.json.
+		kind,
+		resumeOf,
+		attempt,
+		originalTotalPosts,
+		uploadId,
+		series,
+		caller
 	} = options;
 	const now = Date.now();
 	return {
 		id: newJobId(),
 		status: 'queued',
+		kind: kind || 'import',
+		resumeOf: resumeOf || null,
+		attempt: attempt || 0,
+		originalTotalPosts: originalTotalPosts || null,
 		dryRun,
 		isAdmin: !!isAdmin,
+		caller: caller ? { identity: caller.identity, userId: caller.userId, accountId: caller.accountId, isAdmin: !!caller.isAdmin, via: caller.via } : null,
 		spec: {
 			heichelId,
 			posts,
 			source,
 			stagedDir,
+			uploadId: uploadId || null,
+			series: series || null,
 			aliasId: jobAliasId,
 			aliasName: jobAliasName
 		},

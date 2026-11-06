@@ -10,12 +10,13 @@
  */
 
 const { getJob } = require('./jobStore.js');
-const { jobStateDir, safeJobId } = require('./jobStatePaths.js');
+const { jobStateDir, jobStateDirs, safeJobId } = require('./jobStatePaths.js');
 const { jobStateShape } = require('./jobStateShape.js');
 const {
 	loadJobState,
 	loadJobStateAsync,
-	saveJobState
+	saveJobState,
+	saveJobStateDetailed
 } = require('./jobStatePersistence.js');
 const {
 	listJobStates,
@@ -54,11 +55,13 @@ module.exports = {
 	getJobView,
 	getJobViewAsync,
 	jobStateDir,
+	jobStateDirs,
 	jobStateShape,
 	listJobStates,
 	listJobStatesAsync,
 	loadJobState,
 	loadJobStateAsync,
 	safeJobId,
-	saveJobState
+	saveJobState,
+	saveJobStateDetailed
 };
