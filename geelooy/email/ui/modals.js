@@ -31,6 +31,7 @@ export function renderLoginOverlay(ui, root) {
 			children: [
 				gatewayHero(),
 				gatewayFeatures(),
+				gatewaySignInCta(),
 				{
 					tag: 'div',
 					shaym: 'authWrapper',
@@ -92,6 +93,16 @@ function gatewayFeature(title, copy) {
 			{ tag: 'strong', textContent: title },
 			{ tag: 'span', textContent: copy }
 		]
+	};
+}
+
+/** Returns the gateway's prominent sign-in call to action. */
+function gatewaySignInCta() {
+	return {
+		tag: 'a',
+		classList: ['identity-gateway-signin-cta'],
+		attributes: { href: '/login/?next=%2Femail%2F' },
+		textContent: 'Sign in to open your mailbox'
 	};
 }
 

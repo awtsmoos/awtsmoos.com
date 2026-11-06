@@ -156,3 +156,22 @@ html button:focus-visible { outline: 2px solid var(--neon-cyan); outline-offset:
 	outline: 2px solid var(--neon-gold);
 	outline-offset: 2px;
 }
+
+/* P1 Fix 5 (EMAIL-GATE): prominent gateway sign-in call to action. */
+.identity-gateway-signin-cta {
+	display: inline-block;
+	margin: 1rem 0;
+	padding: 0.75rem 1.5rem;
+	border-radius: 999px;
+	background: var(--neon-gold, #d4a017);
+	color: #1a1207;
+	font-weight: 700;
+	text-decoration: none;
+	text-align: center;
+}
+.identity-gateway-signin-cta:hover,
+.identity-gateway-signin-cta:focus-visible {
+	filter: brightness(1.1);
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}

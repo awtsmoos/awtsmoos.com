@@ -12,8 +12,8 @@
  */
 export class AliasPanelActions {
 	/** Retains the real API, state, and existing composer interaction surfaces. */
-	constructor({ root, state, api, status, memory, onAliasChanged }) {
-		Object.assign(this, { root, state, api, status, memory, onAliasChanged });
+	constructor({ root, state, api, status, memory, onAliasChanged, onIdentityVerified }) {
+		Object.assign(this, { root, state, api, status, memory, onAliasChanged, onIdentityVerified });
 		this.aliases = [];
 	}
 

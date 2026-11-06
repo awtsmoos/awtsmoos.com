@@ -14,6 +14,25 @@
 import { createSocialHub } from './AppAssembly.js';
 import { KeterSocialHubShell } from './ui/shell/SocialHubShell.js';
 import { TiferesFutureExperience } from './ui/FutureExperience.js';
+import { mountSignedOutGate } from './ui/SignedOutGate.js';
+
+/**
+ * Reads the hub's signed-in state for the signed-out gate.
+ * Falls back to the identity controller's login-link visibility.
+ */
+function readSignedIn(yesodApp) {
+	try {
+		const snapshot = yesodApp?.state?.snapshot?.();
+		if (snapshot && typeof snapshot.identity?.loggedIn === 'boolean') {
+			return snapshot.identity.loggedIn;
+		}
+	} catch {
+		/* fall through to DOM fallback */
+	}
+	const loginLink = document.getElementById('loginLink');
+	if (loginLink) return loginLink.hidden;
+	return false;
+}
 
 /**
  * Mounts first-paint structure, initializes the existing social application, then adds progressive UX authorities.
@@ -25,6 +44,13 @@ async function awakenSocialHub() {
 
 	const yesodApp = createSocialHub(document);
 	await yesodApp.initialize();
+
+	// B"H — signed-out visitors get a sign-in gate with a working path
+	// on auth-gated controls instead of dead silence (QA sweep #2).
+	mountSignedOutGate(
+		document.getElementById('socialHubMount') || document,
+		() => readSignedIn(yesodApp)
+	);
 
 	const tiferesExperience = new TiferesFutureExperience(document, yesodApp);
 	tiferesExperience.mount();

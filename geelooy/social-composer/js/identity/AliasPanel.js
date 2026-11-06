@@ -45,6 +45,7 @@ export class AliasPanel extends AliasPanelActions {
 		const selected = this.aliases.find(alias => alias.aliasId === identity.selectedAlias);
 		if (selected) this.applyAlias(selected, identity.memory);
 		else this.clearUnverifiedAlias();
+		this.onIdentityVerified?.(identity);
 	}
 
 	/** Builds a native select using server-verified aliases only. */
@@ -68,6 +69,7 @@ export class AliasPanel extends AliasPanelActions {
 		this.element('aliasState').textContent = 'Alias verification unavailable. Sign in and reload before publishing.';
 		this.status.show('Unable to verify posting identity. Reload to try again.', 'error');
 		console.warn('Alias bootstrap unavailable:', reason);
+		this.onIdentityVerified?.({ loggedIn: false });
 	}
 
 	/** Clears only the active author identity, never the saved draft content. */

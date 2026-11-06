@@ -63,7 +63,7 @@ function paintSummary(mount, eventAlias, options) {
 	copy.append(eyebrow, value);
 	const link = document.createElement('a');
 	link.className = 'mail-identity-summary-action';
-	link.href = alias ? '/profile' : '/login?returnTo=%2Femail';
+	link.href = alias ? '/profile' : '/login/?next=%2Femail%2F';
 	link.textContent = alias ? 'Profile ↗' : 'Sign in ↗';
 	link.setAttribute('aria-label', alias ? `Open profile for ${alias}` : 'Sign in to Awtsmoos Mail');
 	mount.append(symbol, copy, link);

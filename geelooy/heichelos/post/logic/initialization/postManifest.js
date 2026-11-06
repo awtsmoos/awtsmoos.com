@@ -24,17 +24,45 @@ import {
 	viewportHasVisibleText
 } from './PostManifestElements.js?v=post-elements-001';
 
+/** True when the post carries units-shaped content (Torah units or social replies). */
+function hasUnitsContent(post) {
+	return Array.isArray(post?.units) && post.units.length > 0;
+}
+
 async function manifestPrimaryContent(viewport, post) {
 	const richRoot = renderRootDocument(viewport, post?.rootDocument);
 	const structuredPost = prepareStructuredPost(post);
 	let unitsRendered = false;
-	if (structuredPost) {
-		await interpretPostDayuh(structuredPost);
-	} else if (!richRoot && Array.isArray(post?.units) && post.units.length) {
-		unitsRendered = renderUnitsPost(viewport, post);
-		if (!unitsRendered && post?.content) appendPublicPlainContent(viewport, post.content);
-	} else if (!richRoot && post?.content) {
-		appendPublicPlainContent(viewport, post.content);
+	try {
+		if (structuredPost) {
+			await interpretPostDayuh(structuredPost);
+		} else if (!richRoot && hasUnitsContent(post)) {
+			unitsRendered = renderUnitsPost(viewport, post);
+			if (!unitsRendered && post?.content) appendPublicPlainContent(viewport, post.content);
+		} else if (!richRoot && post?.content) {
+			appendPublicPlainContent(viewport, post.content);
+		}
+	} catch (error) {
+		console.error('B"H primary content manifestation failed; falling back to units/plain:', error);
+	}
+	// B"H — social/debate permalinks (QA sweep #2 PERMALINK-EMPTY): if the
+	// primary path threw or left no visible text, render units directly so
+	// the post body is never blank when units exist.
+	if (!viewportHasVisibleText(viewport) && hasUnitsContent(post)) {
+		try {
+			unitsRendered = renderUnitsPost(viewport, post) || unitsRendered;
+		} catch (error) {
+			console.error('B"H units fallback failed:', error);
+		}
+	}
+	// B"H — last resort: a plain-text description so a social reply with
+	// neither sections nor units still shows its words.
+	if (!viewportHasVisibleText(viewport) && typeof post?.description === 'string' && post.description.trim()) {
+		try {
+			appendPublicPlainContent(viewport, post.description);
+		} catch (error) {
+			console.error('B"H description fallback failed:', error);
+		}
 	}
 	return {
 		richRoot,

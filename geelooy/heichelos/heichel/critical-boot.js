@@ -89,7 +89,41 @@ function revealFallbackReadiness() {
 	if (status) status.textContent = 'Torah is ready. Enhanced navigation is loading.';
 }
 
+/**
+ * Redirects bogus series slugs to the branded 404 page.
+ * The server renders 200 for unknown slugs; the API reports SERIES_NOT_FOUND.
+ */
+async function guardSeriesRoute() {
+	const match = location.pathname.match(/^\/heichelos\/([^/]+)\/series\/([^/]+)\/?$/);
+	if (!match || location.pathname.includes('/post/')) return;
+	const [, heichelId, seriesId] = match;
+	try {
+		const res = await fetch(
+			`/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/details`,
+			{ headers: { 'Accept': 'application/json' } }
+		);
+		if (!res.ok) return; // transport error: stay on page
+		const data = await res.json();
+		if (data?.error?.code === 'SERIES_NOT_FOUND') {
+			location.replace('/404.html');
+		}
+	} catch {
+		// API unreachable: stay on page rather than false-404.
+	}
+}
+
+/** Loads the shared breadcrumbs module on Heichel pages (Fix 7). */
+function loadBreadcrumbs() {
+	if (document.querySelector('script[src="/scripts/awtsmoos/ui/breadcrumbs.js"]')) return;
+	const script = document.createElement('script');
+	script.src = '/scripts/awtsmoos/ui/breadcrumbs.js';
+	script.defer = true;
+	document.head.appendChild(script);
+}
+
 revealFallbackReadiness();
+void guardSeriesRoute();
+loadBreadcrumbs();
 
 if (document.readyState === 'complete') {
 	scheduleHydration();

@@ -20,8 +20,30 @@ export class ComposerWorkflow {
 	restoreLocal() {
 		const restored = this.localDrafts.load(this.state.snapshot());
 		if (!restored) return false;
+		this.preRestoreSnapshot = this.state.snapshot();
+		this.restoredDraftAliasId = restored?.identity?.aliasId || '';
+		this.draftWasRestored = true;
 		this.state.replace(restored);
 		this.status.show('Local draft restored.', 'success');
+		return true;
+	}
+
+	/** Discards a locally restored draft saved under a different account. */
+	discardForeignDraft(identity) {
+		if (!this.draftWasRestored || !this.restoredDraftAliasId) return false;
+		if (!identity?.loggedIn) return false;
+		const verified = new Set((identity.aliases || []).map(a => a?.aliasId).filter(Boolean));
+		if (verified.has(this.restoredDraftAliasId)) {
+			this.draftWasRestored = false;
+			this.restoredDraftAliasId = '';
+			return false;
+		}
+		try { this.localDrafts.clear(this.state.snapshot()); } catch {}
+		if (this.preRestoreSnapshot) this.state.replace(this.preRestoreSnapshot);
+		this.draftWasRestored = false;
+		this.restoredDraftAliasId = '';
+		this.preRestoreSnapshot = null;
+		this.status.show('Discarded a draft saved under a different account. Starting fresh.', 'error');
 		return true;
 	}
 

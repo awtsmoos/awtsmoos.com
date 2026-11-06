@@ -61,6 +61,7 @@ export function createComposer(context) {
 	);
 	const planView = new PublicationPlanView({ root: document, state, api, status });
 	const workflow = createWorkflow({ state, localDrafts, api, status, context, draftHistory: drafts.history });
+	aliasPanel.onIdentityVerified = identity => workflow.discardForeignDraft(identity);
 	const review = createReviewAssembly({ state, workflow, planView, status });
 	const controller = createController({
 		state,
