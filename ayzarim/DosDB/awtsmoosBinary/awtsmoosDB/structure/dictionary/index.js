@@ -7,6 +7,7 @@
 
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer/index.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 class DictionaryEngine {
     constructor(allocator, ptr = null) {
@@ -75,16 +76,18 @@ class DictionaryEngine {
         const seqSeal = seq.bulkLoadPointers(orderPointers);
 
         const total = 4 + 1 + mapSeal.length + 1 + seqSeal.length;
-        const loc = this.allocator.allocate(total);
-        const buf = Buffer.allocUnsafe(total).fill(0);
-        buf.write(constants.MAGIC_DIC, 0);
+        const content = Buffer.allocUnsafe(total).fill(0);
+        content.write(constants.MAGIC_DIC, 0);
         let p = 4;
-        buf.writeUInt8(mapSeal.length, p++);
-        mapSeal.copy(buf, p);
+        content.writeUInt8(mapSeal.length, p++);
+        mapSeal.copy(content, p);
         p += mapSeal.length;
-        buf.writeUInt8(seqSeal.length, p++);
-        seqSeal.copy(buf, p);
-        this.db._writeChainSafe(loc, buf);
+        content.writeUInt8(seqSeal.length, p++);
+        seqSeal.copy(content, p);
+        // B"H §8.5: checksum trailer (see inscriber.js).
+        const sealed = nodeChecksum.appendTrailer(content);
+        const loc = this.allocator.allocate(sealed.length);
+        this.db._writeChainSafe(loc, sealed);
 
         this.map = map;
         this.seq = seq;
@@ -119,17 +122,19 @@ class DictionaryEngine {
         const newMS = SmartPointer.toBuffer(this.map.ptr);
         const newSS = SmartPointer.toBuffer(this.seq.ptr);
         const total = 4 + 1 + newMS.length + 1 + newSS.length;
-        const loc = this.allocator.allocate(total);
-        const buf = Buffer.allocUnsafe(total).fill(0);
-        buf.write(constants.MAGIC_DIC, 0);
+        const content = Buffer.allocUnsafe(total).fill(0);
+        content.write(constants.MAGIC_DIC, 0);
         let p = 4;
-        buf.writeUInt8(newMS.length, p++);
-        newMS.copy(buf, p);
+        content.writeUInt8(newMS.length, p++);
+        newMS.copy(content, p);
         p += newMS.length;
-        buf.writeUInt8(newSS.length, p++);
-        newSS.copy(buf, p);
+        content.writeUInt8(newSS.length, p++);
+        newSS.copy(content, p);
 
-        this.db._writeChainSafe(loc, buf);
+        // B"H §8.5: checksum trailer (see inscriber.js).
+        const sealed = nodeChecksum.appendTrailer(content);
+        const loc = this.allocator.allocate(sealed.length);
+        this.db._writeChainSafe(loc, sealed);
         this.ptr = { ...loc, type: constants.VAL_TYPE.DICTIONARY };
         return true;
     }

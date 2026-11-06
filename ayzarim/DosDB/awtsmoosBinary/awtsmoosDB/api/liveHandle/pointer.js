@@ -26,6 +26,17 @@ function updateAnchoredPointer(state, newPointer) {
 		const decoded = SmartPointer.decode(newPointer);
 		if (!decoded) return;
 		const anchor = new StableAnchor(state.db);
+		// B"H §8.1 (revised Nov 6): the anchor does NOT free its
+		// previous inner seal here. The engine that built the new
+		// pointer already retires the previous root
+		// (SequenceEngine._retirePreviousRoot, MapEngine.set/delete
+		// retire their retired seals), and freeing the same seal a
+		// second time here re-enters a range allocations may already
+		// have partly reused — the verifier then reports
+		// reachable-range-overlap (proven by
+		// search_bulk_reindex_test). A bulk-loaded root whose
+		// publisher is this anchor leaks one seal until the
+		// scheduled gc() adopts it; that is bounded, not corrupt.
 		if (!anchor.update(state.ptr, decoded.type, newPointer)) {
 			throw new Error('B"H stable anchor could not publish its relocated structure');
 		}

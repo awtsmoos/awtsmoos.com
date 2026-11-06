@@ -59,10 +59,40 @@ class MapEngine {
 		const result = this.insertOps.perform(root, keyBuffer, valuePointer, rootSeal);
 		const finalSeal = promoteRoot(this.nodeIO, result);
 		this.ptr = SmartPointer.decode(finalSeal);
+		// B"H §8.1: every node rewritten on the path retires its previous
+		// seal. Free those ranges at write time instead of dropping them
+		// for the complement refresh to rediscover. Freeing runs through
+		// allocator.free(), so inside db.batch() the ranges wait in the
+		// retirement queue and are promoted at the idle boundary; outside
+		// a batch they join the free list (or the pending ledger when the
+		// verified gate is closed). A seal identical to the live seal is
+		// never freed. The one double-free overlap — the old root seal,
+		// which the parent set also releases — can only meet inside
+		// db.batch(), where the retirement queue coalesces duplicates
+		// before any range is handed out again.
+		this._releaseRetired(result.retiredSeals, finalSeal);
 		if (this.db && this.db.allocator && typeof this.db.allocator.notifyRetired === 'function') {
 			this.db.allocator.notifyRetired();
 		}
 		return finalSeal;
+	}
+
+	/** Frees retired node seals, skipping any seal that is still live. */
+	_releaseRetired(seals, liveSeal) {
+		if (!seals || !seals.length || !this.allocator) return;
+		let live = null;
+		try { live = liveSeal ? SmartPointer.decode(liveSeal) : null; } catch (_err) { live = null; }
+		for (const seal of seals) {
+			if (!seal) continue;
+			try {
+				const decoded = SmartPointer.decode(seal);
+				if (!decoded) continue;
+				if (live && decoded.offset === live.offset && decoded.length === live.length) continue;
+				this.allocator.releasePointer(seal);
+			} catch (_err) {
+				// A malformed retired seal must never break the write.
+			}
+		}
 	}
 
 	/** Bulk-loads already sorted entries using the dedicated balanced-map loader. */
@@ -73,11 +103,18 @@ class MapEngine {
 	/** Deletes one key and adopts the replacement root returned by the deletion engine. */
 	delete(key) {
 		if (!this.ptr) return false;
+		const rootSeal = SmartPointer.encode(
+			constants.VAL_TYPE.MAP,
+			this.ptr.offset,
+			this.ptr.length
+		);
 		const root = this.nodeIO.load(this.ptr);
 		if (!root) throw unreadableRootError(this.db, this.ptr, "deletion");
-		const result = this.deleteOps.perform(root, Buffer.from(String(key), "utf8"));
+		const result = this.deleteOps.perform(root, Buffer.from(String(key), "utf8"), rootSeal);
 		if (!result.success) return false;
 		this.ptr = SmartPointer.decode(result.newSeal);
+		// B"H §8.1: same write-time retirement as set() — see there.
+		this._releaseRetired(result.retiredSeals, result.newSeal);
 		if (this.db && this.db.allocator && typeof this.db.allocator.notifyRetired === 'function') {
 			this.db.allocator.notifyRetired();
 		}

@@ -45,10 +45,15 @@ function persist(hnsw, handle, id, pointer) {
 	if (id >= sequence.length()) {
 		sequence.push(pointer);
 	} else {
+		// B"H §8.2: the old skipFree:true here was a no-op — the
+		// sequence engine ignores it. The replaced registry body is
+		// retired by the caller through release() (registry.saveNode
+		// and commitBulk/retireOriginalBodies), which is the single
+		// owner of that free. The dead flag is removed so the code
+		// stops implying a skipped free.
 		sequence.set(
 			id,
-			pointer,
-			{ skipFree: true }
+			pointer
 		);
 	}
 	common.checkAutoCompact(

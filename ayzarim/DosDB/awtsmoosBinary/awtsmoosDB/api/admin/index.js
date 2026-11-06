@@ -15,6 +15,13 @@ class AdminManager {
     return { ...info, verifyOk: verify.ok, reachableBytes: verify.reachableBytes, errors: verify.errors };
   }
 
+  // B"H §8.3: admin-surface storage health — storageReport +
+  // allocator reuse state, with alerts when verify fails or
+  // unreachable bytes cross the threshold.
+  storage(options = {}) {
+    return this.db.checkStorageHealth(options);
+  }
+
   list(handle = this.db.root, options = {}) {
     return this.db.keys(handle, {
       order: options.order || 'asc',

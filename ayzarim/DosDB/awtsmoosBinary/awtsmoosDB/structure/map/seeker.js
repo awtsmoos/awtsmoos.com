@@ -15,19 +15,30 @@ const Scribe = require('../../utils/leb128/scribe.js');
 const Pointer = require('../../utils/pointer/crown.js');
 const constants = require('../../constants.js');
 const Search = require('./ops/search.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 /** Decodes the bounded keys and pointer seals contained in one physical map node. */
 function decodeNode(buffer) {
 	if (!buffer || buffer.length < 5) return null;
 	if (buffer.subarray(0, 4).toString() !== constants.MAGIC_MAP) return null;
+	try {
+		return decodeNodeChecked(buffer);
+	} catch (_err) {
+		return null;
+	}
+}
+
+function decodeNodeChecked(buffer) {
 	const isLeaf = buffer[4] === 1;
 	const count = Scribe.read(buffer, 5);
 	let position = 5 + count.bytesRead;
 	const keys = [];
 	const pointers = [];
 	for (let index = 0; index < count.value; index += 1) {
+		if (position >= buffer.length) return null;
 		const keyLength = Scribe.read(buffer, position);
 		position += keyLength.bytesRead;
+		if (position + keyLength.value > buffer.length) return null;
 		keys.push(buffer.subarray(position, position + keyLength.value));
 		position += keyLength.value;
 		const pointer = Pointer.decode(buffer, position);
@@ -37,8 +48,13 @@ function decodeNode(buffer) {
 	}
 	if (!isLeaf && position < buffer.length) {
 		const pointer = Pointer.decode(buffer, position);
-		if (pointer) pointers.push(buffer.subarray(position, position + pointer.byteSize));
+		if (!pointer) return null;
+		pointers.push(buffer.subarray(position, position + pointer.byteSize));
+		position += pointer.byteSize;
 	}
+	// B"H §8.5: a node whose parse ends 4 bytes short of its seal must
+	// carry a matching checksum trailer, or it is torn.
+	if (nodeChecksum.checkTrailer(buffer, position) === null) return null;
 	return { isLeaf, keys, pointers };
 }
 /** Chooses the child pointer whose persisted interval can contain the target. */

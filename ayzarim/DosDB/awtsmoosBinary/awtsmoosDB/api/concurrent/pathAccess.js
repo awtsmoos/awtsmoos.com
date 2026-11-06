@@ -51,11 +51,18 @@ class PathAccess {
 		if (!target) throw new Error('B"H: Cannot write the empty root path');
 		const soul = target.parent && target.parent[constants.SYMBOLS.INTERNALS];
 		if (soul && soul.writer && typeof soul.writer.set === 'function') {
+			// B"H §8.2: the bulk path used to write with assumeNew +
+			// skipFree + skipOldState, so every overwritten value was
+			// left dead in the file and only the gated complement
+			// refresh could rediscover it. The old value is now looked
+			// up and freed through the ordinary release (which queues
+			// into the retirement queue inside a batch). skipIndexes
+			// stays: this path deliberately does not maintain the
+			// search/vector indexes, and changing that is a separate
+			// decision. Cost is one map seek per write — the bulk
+			// publish caller already reads the existing post first.
 			soul.writer.set(target.key, value, {
-				assumeNew: true,
-				skipFree: true,
-				skipIndexes: true,
-				skipOldState: true
+				skipIndexes: true
 			});
 			return value;
 		}

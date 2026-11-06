@@ -10,6 +10,7 @@
 const constants = require('../../constants.js');
 const Pointer = require('../../utils/pointer/crown.js');
 const serializer = require('../../utils/serializer.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 function visitSequence(verifier, pointer, tag) {
 	const bytes = verifier.db._readChainSafe(pointer);
@@ -28,6 +29,13 @@ function visitSequence(verifier, pointer, tag) {
 		verifier.visitSeal(bytes.subarray(position, position + length.value), `${tag}.seq.${index}`);
 		position += length.value;
 		if (!isLeaf) position += 4;
+	}
+
+	// B"H §8.5: a node whose parse ends 4 bytes short of its seal must
+	// carry a matching checksum trailer, or it is torn.
+	if (nodeChecksum.checkTrailer(bytes, position) === null) {
+		verifier.bad.push({ tag, reason: 'bad-sequence-checksum', ptr: pointer });
+		return;
 	}
 }
 

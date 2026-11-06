@@ -7,6 +7,7 @@
 const constants = require('../../../constants.js');
 const MapEngine = require('../../map/index.js');
 const SequenceEngine = require('../../sequence/index.js');
+const nodeChecksum = require('../../../utils/nodeChecksum.js');
 
 module.exports = {
     /**
@@ -24,6 +25,18 @@ module.exports = {
 
         const sLen = buf.readUInt8(pos++);
         const sSeal = buf.subarray(pos, pos + sLen);
+        pos += sLen;
+
+        // B"H §8.5: a wrapper whose parse ends 4 bytes short of its seal
+        // must carry a matching checksum trailer. A torn wrapper fails
+        // closed with an explicit error instead of handing garbage seals
+        // to the map/sequence engines. Legacy wrappers without a trailer
+        // keep loading as before.
+        if (nodeChecksum.checkTrailer(buf, pos) === null) {
+            const error = new Error('B"H dictionary wrapper checksum failed — torn write suspected');
+            error.code = 'AWTSMOOSDB_DICTIONARY_CHECKSUM';
+            throw error;
+        }
 
         engine.map = new MapEngine(engine.allocator, mSeal);
         engine.seq = new SequenceEngine(engine.allocator, sSeal);

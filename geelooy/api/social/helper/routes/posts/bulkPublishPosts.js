@@ -78,6 +78,16 @@ async function bulkPublishPosts({ $i, heichelId, seriesId, updates, createIfMiss
 
 	try { invalidateSeries(heichelId, seriesId); } catch (e) { /* ignore */ }
 
+	// B"H §8.3: schedule deferred reclamation after the bulk publish.
+	// gc() is O(graph) and must never run inside the request path; the
+	// schedule is coalescing and fires after the response, under the
+	// batch-closed state. If $i.db is a wrapper without the maintenance
+	// surface, this is a no-op — the CLI (scripts/maintenance_gc.js)
+	// covers that case.
+	if (db && typeof db.scheduleMaintenanceGc === 'function') {
+		try { db.scheduleMaintenanceGc({ reason: 'bulk-publish' }); } catch (e) { /* maintenance must never fail the publish */ }
+	}
+
 	return {
 		success: {
 			applied: results.length,

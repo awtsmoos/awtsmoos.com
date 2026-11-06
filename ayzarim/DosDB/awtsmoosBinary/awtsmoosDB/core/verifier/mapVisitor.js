@@ -10,6 +10,7 @@
 const constants = require('../../constants.js');
 const Pointer = require('../../utils/pointer/crown.js');
 const Scribe = require('../../utils/leb128/scribe.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 function visitMap(verifier, pointer, tag) {
 	const bytes = verifier.db._readChainSafe(pointer);
@@ -23,16 +24,40 @@ function visitMap(verifier, pointer, tag) {
 	let position = 5 + count.bytesRead;
 
 	for (let index = 0; index < count.value; index++) {
+		if (position >= bytes.length) {
+			verifier.bad.push({ tag, reason: 'bad-map-truncated', ptr: pointer });
+			return;
+		}
 		const keyLength = Scribe.read(bytes, position);
 		position += keyLength.bytesRead + keyLength.value;
+		if (position > bytes.length) {
+			verifier.bad.push({ tag, reason: 'bad-map-truncated', ptr: pointer });
+			return;
+		}
 		const child = Pointer.decode(bytes, position);
+		if (!child) {
+			verifier.bad.push({ tag, reason: 'bad-map-pointer', ptr: pointer });
+			return;
+		}
 		verifier.visitSeal(bytes.subarray(position, position + child.byteSize), `${tag}.map.${index}`);
 		position += child.byteSize;
 	}
 
 	if (!isLeaf && position < bytes.length) {
 		const child = Pointer.decode(bytes, position);
+		if (!child) {
+			verifier.bad.push({ tag, reason: 'bad-map-pointer', ptr: pointer });
+			return;
+		}
 		verifier.visitSeal(bytes.subarray(position, position + child.byteSize), `${tag}.map.last`);
+		position += child.byteSize;
+	}
+
+	// B"H §8.5: a node whose parse ends 4 bytes short of its seal must
+	// carry a matching checksum trailer, or it is torn.
+	if (nodeChecksum.checkTrailer(bytes, position) === null) {
+		verifier.bad.push({ tag, reason: 'bad-map-checksum', ptr: pointer });
+		return;
 	}
 }
 

@@ -19,6 +19,7 @@ const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer/index.js');
 const toKeyText = require('./keyText.js');
 const toKeyBytes = require('./keyBytes.js');
+const nodeChecksum = require('../../../utils/nodeChecksum.js');
 
 module.exports = {
   /**
@@ -45,20 +46,23 @@ module.exports = {
 
     const newSS = SmartPointer.toBuffer(engine.seq.ptr);
     const total = 4 + 1 + newMS.length + 1 + newSS.length;
-    const loc = engine.allocator.allocate(total);
-    const buf = Buffer.allocUnsafe(total).fill(0);
+    const content = Buffer.allocUnsafe(total).fill(0);
 
-    buf.write(constants.MAGIC_DIC, 0);
+    content.write(constants.MAGIC_DIC, 0);
 
     let p = 4;
-    buf.writeUInt8(newMS.length, p++);
-    newMS.copy(buf, p);
+    content.writeUInt8(newMS.length, p++);
+    newMS.copy(content, p);
     p += newMS.length;
 
-    buf.writeUInt8(newSS.length, p++);
-    newSS.copy(buf, p);
+    content.writeUInt8(newSS.length, p++);
+    newSS.copy(content, p);
 
-    engine.db._writeChainSafe(loc, buf);
+    // B"H §8.5: seal the wrapper with a checksum trailer so a torn
+    // write fails closed on load instead of parsing as garbage.
+    const sealed = nodeChecksum.appendTrailer(content);
+    const loc = engine.allocator.allocate(sealed.length);
+    engine.db._writeChainSafe(loc, sealed);
 
     return {
       ...loc,

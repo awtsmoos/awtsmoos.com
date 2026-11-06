@@ -23,8 +23,8 @@ function openDb() {
 		compression: true,
 		reuseFreedSpace: 'verified',
 		versions: false,
-		virtualFsCompression: true,
-		wal: false
+		virtualFsCompression: true
+		// B"H §8.5: WAL on (engine default) — see openHeichelFsDb.
 	});
 	database.open();
 	return database;
@@ -102,7 +102,7 @@ function remove({ shard: shardName = 'core', parts = [] }) {
 }
 
 function info() {
-	return { path: ROOT, engine: 'AwtsmoosDB', rootKey: ROOT_KEY, wal: false };
+	return { path: ROOT, engine: 'AwtsmoosDB', rootKey: ROOT_KEY, wal: true };
 }
 
 function close() {

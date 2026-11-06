@@ -46,7 +46,7 @@ function open($i) {
 		reuseFreedSpace: 'verified',
 		versions: false,
 		virtualFsCompression: true,
-		wal: false,
+		// B"H §8.5: WAL on (engine default) — see openHeichelFsDb.
 		processLockMode: 'exclusive',
 		lockMode: 'exclusive'
 	});

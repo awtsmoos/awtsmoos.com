@@ -41,6 +41,7 @@ module.exports = [
 	'runtime_features_test.js',
 	'pager_sparse_test.js',
 	'gc_verify_test.js',
+	'never_builds_up_test.js',
 	'verified_free_list_test.js',
 	'verified_complement_reuse_test.js',
 	'verify_blob_tokens_test.js',

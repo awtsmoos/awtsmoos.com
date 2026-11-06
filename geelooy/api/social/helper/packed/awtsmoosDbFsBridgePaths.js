@@ -30,8 +30,11 @@ function openHeichelFsDb(dbFile) {
 		compression: false,
 		reuseFreedSpace: 'verified',
 		versions: false,
-		virtualFsCompression: true,
-		wal: false
+		virtualFsCompression: true
+		// B"H §8.5: WAL on (engine default). wal:false used to leave
+		// crash safety to superblock-flush ordering alone — the Oct 27
+		// root-map corruption. Data pages are also fsynced before the
+		// superblock now (database.js _flushSuperblock).
 	});
 	database.open();
 	database.fs.ready();

@@ -71,6 +71,14 @@ module.exports = {
 		};
 		db.fs.write(perPostPath(aliasId, postId), awts.serializeJSON(postData));
 		if (db.fs.flush) db.fs.flush();
+		// B"H §8.3: schedule deferred reclamation after the import job.
+		// Import jobs have a 6-second hard kill switch, so gc() (O(graph))
+		// must never run inline here; the schedule is coalescing and fires
+		// after the job, on the cached handle the server already holds
+		// exclusively. Dry runs write nothing, so they schedule nothing.
+		if (!job.dryRun && db && typeof db.scheduleMaintenanceGc === 'function') {
+			try { db.scheduleMaintenanceGc({ reason: 'import-job' }); } catch (_) { /* maintenance must never fail the import */ }
+		}
 		// Worker G (2026-10-21): imported comments must appear in the alias
 		// comment index (allFor) like native comments do. Guarded so it only
 		// runs with a real app db handle and can never fail the import.

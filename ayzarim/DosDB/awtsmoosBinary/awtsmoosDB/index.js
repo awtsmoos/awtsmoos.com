@@ -20,6 +20,7 @@ const reindexSearch = require('./api/search/reindex/index.js');
 const flushSearchPath = require('./api/search/batchedFlush.js');
 const vacuumFile = require('./core/vacuum/index.js');
 const semanticDigest = require('./core/vacuum/semanticDigest.js');
+const maintenance = require('./api/admin/maintenance.js');
 const withDefaultVerifiedReuse = require('./core/allocator/defaultReuseOptions.js');
 
 class AwtsmoosDB extends BaseAwtsmoosDB {
@@ -55,6 +56,21 @@ SearchManager.prototype._flushUpdates = function flushUpdatesInOneBoundary(path)
 
 AwtsmoosDB.prototype.storageReport = function storageReport(options = {}) {
 	return new StorageReport(this).snapshot(options);
+};
+
+// B"H §8.3: scheduled reclamation. maintenanceGc runs gc() + a health
+// check synchronously under the caller's exclusive ownership;
+// scheduleMaintenanceGc defers it out of the request path.
+AwtsmoosDB.prototype.maintenanceGc = function maintenanceGc(options = {}) {
+	return maintenance.runMaintenanceGc(this, options);
+};
+
+AwtsmoosDB.prototype.scheduleMaintenanceGc = function scheduleMaintenanceGc(options = {}) {
+	return maintenance.scheduleMaintenanceGc(this, options);
+};
+
+AwtsmoosDB.prototype.checkStorageHealth = function checkStorageHealth(options = {}) {
+	return maintenance.checkStorageHealth(this, options);
 };
 
 AwtsmoosDB.prototype.semanticDigest = function digest() {

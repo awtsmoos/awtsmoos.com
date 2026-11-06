@@ -7,6 +7,7 @@
 const MapEngine = require('../../map/index.js');
 const SequenceEngine = require('../../sequence/index.js');
 const constants = require('../../../constants.js');
+const nodeChecksum = require('../../../utils/nodeChecksum.js');
 
 module.exports = {
     /**
@@ -21,17 +22,19 @@ module.exports = {
         const ss = s.create(); 
         
         const total = 4 + 1 + ms.length + 1 + ss.length;
-        const loc = engine.allocator.allocate(total);
-        const buf = Buffer.allocUnsafe(total).fill(0);
-        
-        buf.write(constants.MAGIC_DIC, 0);
-        let p = 4;
-        buf.writeUInt8(ms.length, p++);
-        ms.copy(buf, p); p += ms.length;
-        buf.writeUInt8(ss.length, p++);
-        ss.copy(buf, p);
+        const content = Buffer.allocUnsafe(total).fill(0);
 
-        engine.db._writeChainSafe(loc, buf);
+        content.write(constants.MAGIC_DIC, 0);
+        let p = 4;
+        content.writeUInt8(ms.length, p++);
+        ms.copy(content, p); p += ms.length;
+        content.writeUInt8(ss.length, p++);
+        ss.copy(content, p);
+
+        // B"H §8.5: checksum trailer (see inscriber.js).
+        const sealed = nodeChecksum.appendTrailer(content);
+        const loc = engine.allocator.allocate(sealed.length);
+        engine.db._writeChainSafe(loc, sealed);
         engine.map = m; engine.seq = s; engine.initialized = true;
         
         return { ...loc, type: constants.VAL_TYPE.DICTIONARY };

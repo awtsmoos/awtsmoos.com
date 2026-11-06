@@ -13,6 +13,7 @@
  */
 
 const constants = require('../../constants.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 function visitAnchor(verifier, pointer, tag) {
 	const bytes = verifier.db._readChainSafe(pointer);
@@ -58,6 +59,14 @@ function visitDictionary(verifier, pointer, tag) {
 	position += mapLength;
 	const sequenceLength = bytes.readUInt8(position++);
 	verifier.visitSeal(bytes.subarray(position, position + sequenceLength), `${tag}.dict.seq`);
+	position += sequenceLength;
+
+	// B"H §8.5: a wrapper whose parse ends 4 bytes short of its seal must
+	// carry a matching checksum trailer, or it is torn.
+	if (nodeChecksum.checkTrailer(bytes, position) === null) {
+		verifier.bad.push({ tag, reason: 'bad-dictionary-checksum', ptr: pointer });
+		return;
+	}
 }
 
 module.exports = {

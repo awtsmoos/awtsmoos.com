@@ -24,6 +24,7 @@ const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
 const waitForIdleCore = require('./core/idle/index.js');
+const shouldSkipForcedFsync = require('./core/idle/fastGate.js');
 const MetricsTracker = require('./core/metrics/tracker.js');
 const PasswordBox = require('./utils/crypto/passwordBox.js');
 const Pointer = require('./utils/pointer/crown.js');
@@ -211,6 +212,18 @@ class AwtsmoosDB {
   _flushSuperblock(seal = this.rootPtrRaw) {
     if (this.options.readOnly) throw new Error('B\"H readOnly AwtsmoosDB refused superblock flush');
     if (!seal) return;
+
+    // B"H §8.5: order data pages before the superblock that points at
+    // them. With WAL off (the packed stores' production setting until
+    // this fix), a crash between the node-bytes write and the superblock
+    // flush left the superblock pointing at bytes that were never
+    // durably written — the Oct 27 root-map corruption. Flushing dirty
+    // data pages first makes the superblock write the commit point:
+    // the bytes it names are already durable. The caller still fsyncs
+    // after (waitForIdle does), so the superblock itself is durable at
+    // the idle boundary. Fast-test mode skips the extra fsync, like the
+    // idle path (fastGate.js).
+    if (!shouldSkipForcedFsync({})) this.pager.fsync(true);
 
     const layout = Buffer.alloc(64).fill(0);
     layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);

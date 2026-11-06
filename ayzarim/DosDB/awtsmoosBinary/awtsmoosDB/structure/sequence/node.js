@@ -6,6 +6,7 @@
 const constants = require('../../constants.js');
 const serializer = require('../../utils/serializer.js');
 const SmartPointer = require('../../utils/smartPointer/index.js');
+const nodeChecksum = require('../../utils/nodeChecksum.js');
 
 class SequenceNode {
     constructor(allocator, engine) { 
@@ -26,6 +27,15 @@ class SequenceNode {
         // Use flat constant MAGIC_SEQ_NODE
         if (buf.subarray(0, 4).toString() !== constants.MAGIC_SEQ_NODE) return null;
 
+        try {
+            return this._parse(buf, ptr);
+        } catch (_err) {
+            // A torn node fails closed as unreadable, never as a crash.
+            return null;
+        }
+    }
+
+    _parse(buf, ptr) {
         const flags = buf.readUInt8(4);
         const isLeaf = (flags & 1) === 1;
         const isWeak = (flags & 2) === 2;
@@ -37,12 +47,16 @@ class SequenceNode {
         let offset = 17;
         const items = [];
         for(let i = 0; i < itemCount; i++) {
-            if (offset >= buf.length) break;
+            if (offset >= buf.length) return null;
             const pLenInfo = serializer.readVarInt(buf, offset); offset += pLenInfo.bytesRead;
+            if (offset + pLenInfo.value > buf.length) return null;
             const p = buf.subarray(offset, offset + pLenInfo.value); offset += pLenInfo.value;
             let count = 1; if (!isLeaf) { count = buf.readUInt32BE(offset); offset += 4; }
             items.push({ ptr: p, count });
         }
+        // B"H §8.5: a node whose parse ends 4 bytes short of its seal
+        // must carry a matching checksum trailer, or it is torn.
+        if (nodeChecksum.checkTrailer(buf, offset) === null) return null;
         return { ptr, isLeaf, isWeak, items, totalCount, totalBytes };
     }
 
@@ -54,29 +68,32 @@ class SequenceNode {
             if (!node.isLeaf) size += 4;
         }
 
-        const loc = (this.allocator.v1 || this.allocator).allocate(size);
-        node.ptr = { offset: loc.offset, length: size, type: constants.VAL_TYPE.SEQUENCE };
+        const loc = (this.allocator.v1 || this.allocator).allocate(size + nodeChecksum.TRAILER_BYTES);
+        node.ptr = { offset: loc.offset, length: size + nodeChecksum.TRAILER_BYTES, type: constants.VAL_TYPE.SEQUENCE };
 
-        const buf = Buffer.allocUnsafe(size).fill(0);
+        const content = Buffer.allocUnsafe(size).fill(0);
         // Use flat constant MAGIC_SEQ_NODE
-        buf.write(constants.MAGIC_SEQ_NODE, 0);
+        content.write(constants.MAGIC_SEQ_NODE, 0);
         
-        buf.writeUInt8((node.isLeaf ? 1 : 0) | (node.isWeak ? 2 : 0), 4);
-        buf.writeUInt16BE(node.items.length, 5);
-        buf.writeUInt32BE(node.totalCount || 0, 7);
+        content.writeUInt8((node.isLeaf ? 1 : 0) | (node.isWeak ? 2 : 0), 4);
+        content.writeUInt16BE(node.items.length, 5);
+        content.writeUInt32BE(node.totalCount || 0, 7);
         const tb = node.totalBytes || 0;
-        buf.writeUInt16BE(Math.floor(tb / 0x100000000), 11);
-        buf.writeUInt32BE(tb % 0x100000000, 13);
+        content.writeUInt16BE(Math.floor(tb / 0x100000000), 11);
+        content.writeUInt32BE(tb % 0x100000000, 13);
         
         let offset = 17;
         for (const item of node.items) {
             const p = SmartPointer.toBuffer(item.ptr);
-            offset += serializer.writeVarIntTo(buf, offset, p.length);
-            p.copy(buf, offset); offset += p.length;
-            if (!node.isLeaf) { buf.writeUInt32BE(item.count, offset); offset += 4; }
+            offset += serializer.writeVarIntTo(content, offset, p.length);
+            p.copy(content, offset); offset += p.length;
+            if (!node.isLeaf) { content.writeUInt32BE(item.count, offset); offset += 4; }
         }
         
-        this.db._writeChainSafe(node.ptr, buf);
+        // B"H §8.5: seal the node with a checksum trailer so a torn
+        // write fails closed on load instead of parsing as garbage.
+        const sealed = nodeChecksum.appendTrailer(content);
+        this.db._writeChainSafe(node.ptr, sealed);
         return node.ptr;
     }
 }
