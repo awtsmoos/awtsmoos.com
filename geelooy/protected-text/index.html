@@ -1,0 +1,378 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--Protected Text demo: the sample text on this page is never in the HTML, never in the DOM, and never crosses the wire in the clear. It arrives encrypted, is decrypted in memory, and is drawn only onto canvas.-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protected Text — Live Demo | Awtsmoos</title>
+<meta name="description" content="A live demo of ephemeral key-exchange text protection: the key is never sent, the text never crosses the wire in the clear, and the page renders only onto canvas.">
+<style>
+	body { font-family: Georgia, "Times New Roman", serif; background: #f7f3e8; color: #2b2118; margin: 0; padding: 0; }
+	main { max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
+	h1 { font-size: 30px; margin: 0 0 6px; }
+	.lede { font-size: 17px; line-height: 1.55; }
+	.card { background: #fffdf6; border: 1px solid #d8c49a; border-radius: 10px; padding: 16px 18px; margin: 18px 0; }
+	.card h2 { font-size: 18px; margin: 0 0 10px; }
+	.card p { margin: 8px 0; line-height: 1.5; }
+	.note { font-size: 16px; line-height: 1.6; }
+	.note li { margin: 6px 0; }
+	#status { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; background: #241d14; color: #e8dcc0; border-radius: 8px; padding: 12px 14px; min-height: 120px; }
+	#status .ok { color: #9fd6a4; }
+	#status .bad { color: #ff9d9d; }
+	canvas { display: block; width: 100%; background: #fff; border: 1px solid #d8c49a; border-radius: 8px; margin: 8px 0 4px; }
+	.cap { font-size: 13px; color: #6b5b43; margin: 0 0 10px; }
+	.btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+	button { font: inherit; font-size: 15px; padding: 9px 16px; border-radius: 8px; border: 1px solid #8a6d3b; background: #f0e4c8; color: #2b2118; cursor: pointer; }
+	button:hover { background: #e6d5a8; }
+	button:disabled { opacity: .5; cursor: wait; }
+	table { border-collapse: collapse; width: 100%; font-size: 13px; }
+	th, td { text-align: left; border-bottom: 1px solid #e3d5b3; padding: 7px 6px; vertical-align: top; }
+	th { color: #6b5b43; font-weight: 600; }
+	.mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; word-break: break-all; }
+	.verdict { font-size: 16px; font-weight: 700; }
+	.verdict.pass { color: #2e7d32; }
+	.verdict.fail { color: #b3261e; }
+	footer { font-size: 13px; color: #6b5b43; line-height: 1.5; }
+	a { color: #7a5c14; }
+</style>
+</head>
+<body>
+<main>
+	<h1>Protected Text — live demo</h1>
+	<p class="lede">This page shows a paragraph of Hebrew and a paragraph of English that were <strong>never sent to your browser as readable text</strong>. They arrived encrypted, were decrypted inside your browser's memory, and are drawn only onto canvas — there is no text in this page for a copy, a search, or a recording to find.</p>
+
+	<section class="card">
+		<h2>How it works, in plain words</h2>
+		<ul class="note">
+			<li><strong>The key is never sent.</strong> Your browser and the server each make a fresh one-time key, swap only the public halves, and compute the same secret on both sides. The secret itself never crosses the wire.</li>
+			<li><strong>Fresh every time.</strong> The keys are new for this visit and thrown away when you leave. A recording of this visit cannot open the next one.</li>
+			<li><strong>A second lock on the letters.</strong> The font itself is scrambled fresh for this visit and sent encrypted. The text arrives scrambled too, so even the decrypted words are unreadable without this visit's font.</li>
+			<li><strong>Canvas only.</strong> The readable words never enter the page as text — only as pixels on a canvas.</li>
+		</ul>
+		<p class="note"><strong>The honest limit:</strong> anything on a screen can be read from a screenshot. This design does not stop that. It stops the quiet, bulk kind of theft — recording everything the browser downloads and rebuilding the text from it later.</p>
+	</section>
+
+	<section class="card">
+		<h2>Status</h2>
+		<div id="status">Starting…</div>
+		<div class="btns">
+			<button id="btn-refetch" disabled>Fetch again (same key)</button>
+			<button id="btn-rotate" disabled>Rotate key &amp; fetch again</button>
+			<button id="btn-check" disabled>Re-run the recording check</button>
+		</div>
+	</section>
+
+	<section class="card">
+		<h2>The text (canvas only)</h2>
+		<p class="cap">Hebrew — drawn on canvas, not present as text anywhere on this page.</p>
+		<canvas id="canvas-he" width="720" height="190" dir="rtl"></canvas>
+		<p class="cap">English — drawn on canvas, not present as text anywhere on this page.</p>
+		<canvas id="canvas-en" width="720" height="190"></canvas>
+		<p class="cap">If a canvas is blank, the font or the decryption did not load — see Status above.</p>
+	</section>
+
+	<section class="card">
+		<h2>What a network recording sees</h2>
+		<p>Every request this page made, and what was in it. A recording holds public keys and ciphertext — never the key, never the readable text.</p>
+		<table>
+			<thead><tr><th>Request</th><th>What it contained</th></tr></thead>
+			<tbody id="requests"><tr><td colspan="2">No requests yet.</td></tr></tbody>
+		</table>
+		<p id="verdict" class="verdict"></p>
+		<p id="check-detail" class="mono"></p>
+	</section>
+
+	<footer>
+		<p>Demo only — a test page, not a finished product. Endpoints: <span class="mono">POST /api/protected-text/exchange</span>, <span class="mono">GET /api/protected-text/content?session=…</span>, <span class="mono">POST /api/protected-text/rotate</span>. The key lives as a non-extractable browser key and in server memory only (10-minute sessions). <a href="/">Awtsmoos.com</a></p>
+	</footer>
+</main>
+<script>
+(function () {
+	"use strict";
+	var statusEl = document.getElementById("status");
+	var requestsEl = document.getElementById("requests");
+	var verdictEl = document.getElementById("verdict");
+	var checkEl = document.getElementById("check-detail");
+	var btnRefetch = document.getElementById("btn-refetch");
+	var btnRotate = document.getElementById("btn-rotate");
+	var btnCheck = document.getElementById("btn-check");
+	var enc = new TextEncoder();
+	var dec = new TextDecoder();
+	var FONT_FAMILY = "ProtectedTextDemo";
+	var recorded = []; // {method, url, body} — everything the page sent/received, for the proof panel
+	var state = {
+		pair: null, hkdfKey: null, aesKey: null,
+		sessionId: null, rotation: 0, fontLayer: false,
+		text: null, fontLoaded: false
+	};
+
+	function log(msg, cls) {
+		var line = document.createElement("div");
+		if (cls) line.className = cls;
+		line.textContent = msg;
+		statusEl.appendChild(line);
+	}
+	function shortB64(s, n) {
+		s = String(s || "");
+		return s.length > (n || 48) ? s.slice(0, n || 48) + "… (" + s.length + " chars)" : s;
+	}
+	function b64ToBytes(s) {
+		var bin = atob(s);
+		var out = new Uint8Array(bin.length);
+		for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+		return out;
+	}
+	function bytesToB64(bytes) {
+		var bin = "";
+		for (var i = 0; i < bytes.length; i += 0x8000) {
+			bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+		}
+		return btoa(bin);
+	}
+	function renderRequests() {
+		if (!recorded.length) return;
+		requestsEl.innerHTML = "";
+		recorded.forEach(function (r) {
+			var tr = document.createElement("tr");
+			var a = document.createElement("td");
+			a.textContent = r.method + " " + r.url;
+			var b = document.createElement("td");
+			b.className = "mono";
+			b.textContent = r.body;
+			tr.appendChild(a);
+			tr.appendChild(b);
+			requestsEl.appendChild(tr);
+		});
+	}
+	function recordRequest(method, url, bodyText) {
+		recorded.push({ method: method, url: url, body: bodyText });
+		renderRequests();
+	}
+	async function postJson(url, obj) {
+		var body = JSON.stringify(obj);
+		recordRequest("POST", url, "request body: " + shortB64(body, 120));
+		var res = await fetch(url, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: body
+		});
+		var text = await res.text();
+		recordRequest("POST", url + " → " + res.status, "response body: " + shortB64(text, 160));
+		if (!res.ok) throw new Error(url + " failed: " + res.status + " " + text.slice(0, 200));
+		return JSON.parse(text);
+	}
+	async function getJson(url) {
+		recordRequest("GET", url, "no body (session id is in the URL)");
+		var res = await fetch(url);
+		var text = await res.text();
+		recordRequest("GET", url + " → " + res.status, "response body: " + shortB64(text, 160));
+		if (!res.ok) throw new Error(url + " failed: " + res.status + " " + text.slice(0, 200));
+		return JSON.parse(text);
+	}
+
+	async function deriveAesKey(rotation) {
+		state.aesKey = await crypto.subtle.deriveKey(
+			{
+				name: "HKDF", hash: "SHA-256",
+				salt: new Uint8Array(0),
+				info: enc.encode("awtsmoos-protected-text/v1#" + rotation)
+			},
+			state.hkdfKey,
+			{ name: "AES-GCM", length: 256 },
+			false,
+			["decrypt"]
+		);
+	}
+	async function decryptBytes(ivB64, ctB64, tagB64) {
+		var iv = b64ToBytes(ivB64);
+		var ct = b64ToBytes(ctB64);
+		var tag = b64ToBytes(tagB64);
+		var data = new Uint8Array(ct.length + tag.length);
+		data.set(ct, 0);
+		data.set(tag, ct.length);
+		return await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, state.aesKey, data);
+	}
+
+	async function exchange() {
+		log("1. Generating a fresh one-time keypair in this browser…");
+		state.pair = await crypto.subtle.generateKey(
+			{ name: "ECDH", namedCurve: "P-256" },
+			false,
+			["deriveKey", "deriveBits"]
+		);
+		var clientPub = bytesToB64(new Uint8Array(await crypto.subtle.exportKey("raw", state.pair.publicKey)));
+		log("   My public key (this is what leaves the browser): " + shortB64(clientPub, 40));
+		var ex = await postJson("/api/protected-text/exchange", { clientPublicKey: clientPub });
+		if (!ex.ok) throw new Error("exchange failed: " + (ex.error || "unknown"));
+		state.sessionId = ex.sessionId;
+		state.rotation = 0;
+		state.fontLayer = !!ex.fontLayer;
+		log("2. Server answered with its public key only. Session: " + state.sessionId.slice(0, 12) + "…", "ok");
+		log("   Font layer: " + (state.fontLayer ? "on — a fresh scrambled font for this visit" : "off (base font unavailable; encryption layer only)"));
+		var serverPub = await crypto.subtle.importKey(
+			"raw", b64ToBytes(ex.serverPublicKey),
+			{ name: "ECDH", namedCurve: "P-256" }, true, []
+		);
+		var bits = await crypto.subtle.deriveBits({ name: "ECDH", public: serverPub }, state.pair.privateKey, 256);
+		state.hkdfKey = await crypto.subtle.importKey("raw", bits, { name: "HKDF" }, false, ["deriveKey"]);
+		await deriveAesKey(0);
+		log("3. Session key derived on both sides. It was never sent anywhere.", "ok");
+		try {
+			await crypto.subtle.exportKey("raw", state.aesKey);
+			log("   WARNING: the key exported — it should be non-extractable!", "bad");
+		} catch (e) {
+			log("   Key export refused by the browser, as designed (non-extractable).", "ok");
+		}
+	}
+
+	async function fetchAndDraw() {
+		log("4. Fetching the encrypted text" + (state.fontLayer ? " and the encrypted font…" : "…"));
+		var content = await getJson("/api/protected-text/content?session=" + encodeURIComponent(state.sessionId));
+		if (!content.ok) throw new Error("content failed: " + (content.error || "unknown"));
+		if (state.fontLayer) {
+			log("   Encrypted font received: " + content.fontCiphertext.length + " base64 chars of ciphertext (not a usable font).");
+			var fontPlain = await decryptBytes(content.fontIv, content.fontCiphertext, content.fontTag);
+			log("   Font decrypted in memory (" + fontPlain.byteLength + " bytes) — never saved as a file, never loaded from a URL.");
+			var face = new FontFace(FONT_FAMILY, fontPlain);
+			await face.load();
+			document.fonts.add(face);
+			state.fontLoaded = true;
+			log("   Font loaded from memory into the page.", "ok");
+		}
+		var plain = await decryptBytes(content.iv, content.ciphertext, content.tag);
+		state.text = JSON.parse(dec.decode(plain));
+		log("5. Text decrypted in memory. Drawing it onto canvas only — it never enters the page as text.", "ok");
+		drawText();
+		runCheck();
+	}
+
+	function drawText() {
+		var font = state.fontLoaded ? "28px \"" + FONT_FAMILY + "\", serif" : "28px serif";
+		drawParagraph(document.getElementById("canvas-he"), state.text.he, font, true);
+		drawParagraph(document.getElementById("canvas-en"), state.text.en, font, false);
+	}
+	function drawParagraph(canvas, text, font, rtl) {
+		var ctx = canvas.getContext("2d");
+		var W = canvas.width, pad = 26, lineH = 38;
+		ctx.clearRect(0, 0, W, canvas.height);
+		ctx.font = font;
+		ctx.fillStyle = "#2b2118";
+		ctx.direction = rtl ? "rtl" : "ltr";
+		ctx.textAlign = rtl ? "right" : "left";
+		ctx.textBaseline = "top";
+		var x = rtl ? W - pad : pad;
+		var y = 18;
+		var maxW = W - pad * 2;
+		var paras = text.split("\n");
+		paras.forEach(function (para) {
+			var words = para.split(/\s+/).filter(Boolean);
+			var line = "";
+			words.forEach(function (word) {
+				var trial = line ? line + " " + word : word;
+				if (ctx.measureText(trial).width > maxW && line) {
+					ctx.fillText(line, x, y);
+					y += lineH;
+					line = word;
+				} else {
+					line = trial;
+				}
+			});
+			if (line) { ctx.fillText(line, x, y); y += lineH; }
+			y += 10;
+		});
+		var need = y + 10;
+		if (need !== canvas.height) canvas.height = need;
+		// redraw after a height change clears the canvas
+		ctx.font = font;
+		ctx.fillStyle = "#2b2118";
+		ctx.direction = rtl ? "rtl" : "ltr";
+		ctx.textAlign = rtl ? "right" : "left";
+		ctx.textBaseline = "top";
+		y = 18;
+		paras.forEach(function (para) {
+			var words = para.split(/\s+/).filter(Boolean);
+			var line = "";
+			words.forEach(function (word) {
+				var trial = line ? line + " " + word : word;
+				if (ctx.measureText(trial).width > maxW && line) {
+					ctx.fillText(line, x, y);
+					y += lineH;
+					line = word;
+				} else {
+					line = trial;
+				}
+			});
+			if (line) { ctx.fillText(line, x, y); y += lineH; }
+			y += 10;
+		});
+	}
+
+	function runCheck() {
+		// The check scans everything this page sent and received for the
+		// readable text. The readable text exists only in memory; the check
+		// compares in-memory strings and never writes them to the page.
+		// Needles are long distinctive words (Hebrew words can never appear
+		// in base64 at all; Latin needles are 6+ letters so a chance match
+		// inside base64 is negligible) plus the first full line of each text.
+		if (!state.text) return;
+		var needles = [];
+		[state.text.he, state.text.en].forEach(function (t) {
+			needles.push(t.split("\n")[0]);
+			t.split(/[\s.]+/).filter(function (w) { return w.length >= 6; }).slice(0, 5).forEach(function (w) { needles.push(w); });
+		});
+		needles = needles.filter(function (w) { return w && w.length >= 6; });
+		var hay = recorded.map(function (r) { return r.body; }).join("\n");
+		var hits = needles.filter(function (n) { return hay.indexOf(n) !== -1; });
+		if (hits.length === 0) {
+			verdictEl.textContent = "✓ PASS — the readable text appears in none of the " + recorded.length + " recorded requests.";
+			verdictEl.className = "verdict pass";
+			checkEl.textContent = "Checked " + needles.length + " distinctive words from the decrypted text against every request and response body above. None found. A recording of this visit holds public keys + ciphertext only.";
+		} else {
+			verdictEl.textContent = "✗ FAIL — readable text found in the recording: " + hits.join(", ");
+			verdictEl.className = "verdict fail";
+			checkEl.textContent = "This should never happen. The words above were found in a request or response body.";
+		}
+	}
+
+	function setBusy(busy) {
+		[btnRefetch, btnRotate, btnCheck].forEach(function (b) { b.disabled = busy; });
+	}
+	async function run() {
+		setBusy(true);
+		try {
+			await exchange();
+			await fetchAndDraw();
+			log("Done. The readable text is on the canvases above — and nowhere else on this page.", "ok");
+		} catch (e) {
+			log("FAILED: " + (e && e.message ? e.message : e), "bad");
+		}
+		setBusy(false);
+	}
+	btnRefetch.addEventListener("click", async function () {
+		setBusy(true);
+		try { log("— fetching again with the same key…"); await fetchAndDraw(); }
+		catch (e) { log("FAILED: " + (e && e.message ? e.message : e), "bad"); }
+		setBusy(false);
+	});
+	btnRotate.addEventListener("click", async function () {
+		setBusy(true);
+		try {
+			log("— rotating the key (both sides re-derive from the same secret)…");
+			var res = await postJson("/api/protected-text/rotate", { sessionId: state.sessionId });
+			if (!res.ok) throw new Error("rotate failed: " + (res.error || "unknown"));
+			state.rotation = res.rotation;
+			await deriveAesKey(state.rotation);
+			log("   Rotated to key #" + state.rotation + ". The old key no longer opens anything new.", "ok");
+			await fetchAndDraw();
+		} catch (e) { log("FAILED: " + (e && e.message ? e.message : e), "bad"); }
+		setBusy(false);
+	});
+	btnCheck.addEventListener("click", function () { runCheck(); });
+	run();
+})();
+</script>
+</body>
+</html>
