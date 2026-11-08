@@ -14,6 +14,23 @@ RELEASE_METADATA_ERROR=""
 
 # The Awtsmoos renews one small release witness before any heavy download begins;
 # Awtsmoos.com verifies runtime artifact identity independently from Git provenance.
+# B"H — fail fast with the exact SHAs named. A stale cached manifest is
+# the Nov 6 failure (bundle-manifest 500, stuck at 22%); never fail
+# silently and never let a mismatched manifest reach the bundle download.
+# Returns 0 when the manifest at $2 hashes to $1, else 1.
+assert_manifest_sha_matches() {
+	local expected="$1" actual="$2" path="$3"
+	if [ "$actual" = "$expected" ]; then
+		return 0
+	fi
+	install_event "release-metadata" "failed" \
+		"Published manifest checksum mismatch." \
+		"expected=$expected actual=$actual path=$path"
+	printf '[Awtsmoos][release-metadata][failed] Manifest checksum mismatch: expected=%s actual=%s path=%s\n' \
+		"$expected" "$actual" "$path" >&2
+	return 1
+}
+
 load_release_metadata() {
 	if [ -n "$RELEASE_METADATA_ROOT" ] && 		[ -f "$RELEASE_DESCRIPTOR_PATH" ] && 		[ -f "$RELEASE_MANIFEST_PATH" ] && 		[ -n "$BUNDLE_SHA" ] && 		[ -n "$RELEASE_SOURCE_SHA" ]; then
 		return 0
@@ -100,7 +117,7 @@ NODE
 		fi
 	fi
 	local actual_manifest_sha="$(sha256_file "$RELEASE_MANIFEST_PATH")"
-	if [ "$actual_manifest_sha" != "$MANIFEST_SHA" ]; then
+	if ! assert_manifest_sha_matches "$MANIFEST_SHA" "$actual_manifest_sha" "$RELEASE_MANIFEST_PATH"; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi

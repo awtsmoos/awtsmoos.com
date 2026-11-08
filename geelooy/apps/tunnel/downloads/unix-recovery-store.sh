@@ -58,6 +58,37 @@ install_rescue_runtime() {
 		"sha256=$canonical_hash"
 }
 
+# B"H — counts the sealed known-good runtime versions that can be rolled
+# back to. A machine that has only ever fast-repaired may have none at all.
+recovery_version_count() {
+	local versions_root="$RECOVERY_ROOT/versions"
+	[ -d "$versions_root" ] || { printf '0\n'; return 0; }
+	local count=0 entry=""
+	for entry in "$versions_root"/*/; do
+		[ -d "$entry" ] || continue
+		count=$(( count + 1 ))
+	done
+	printf '%s\n' "$count"
+}
+
+# B"H — refuses to proceed without a rollback path. The Nov 6 failure was
+# "No healthy recovery version exists" at rollback time, after the
+# predecessor was already displaced. A prior version is enough to proceed
+# even when the fresh seed just failed; zero versions is a hard stop.
+require_rollback_path() {
+	local count
+	count="$(recovery_version_count)"
+	if [ "${count:-0}" -ge 1 ]; then
+		return 0
+	fi
+	install_event "recovery" "failed" \
+		"No recovery version exists; refusing to proceed without a rollback path." \
+		"recovery=$RECOVERY_ROOT versions=0"
+	printf '[Awtsmoos][recovery][failed] No recovery version exists at %s/versions; refusing to displace the live runtime without a rollback path.\n' \
+		"$RECOVERY_ROOT" >&2
+	return 1
+}
+
 archive_known_good_runtime() {
 	local reason="${1:-known_good_before_activation}"
 	local version=""

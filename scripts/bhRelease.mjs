@@ -26,7 +26,11 @@ const message = valueArg("--message") || 'B"H';
 
 run(process.execPath, ["scripts/verifyHomeSource.mjs"]);
 run(process.execPath, ["scripts/repository-hygiene/check.cjs"]);
-run(process.execPath, ["geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs"]);
+// B"H 2026-11-08 hardening: one pre-deploy gate — manifest fresh AND every
+// changed JS file loadable. A stale manifest fails every deploy at
+// preflight (Nov 6); a missed require after a rename crash-looped
+// production (mitzvah-world). Both are caught here, before any push.
+run(process.execPath, ["scripts/release-gates/preDeployGate.cjs"]);
 
 const branch = capture("git", ["branch", "--show-current"]);
 if (!branch) {

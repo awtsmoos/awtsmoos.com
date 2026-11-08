@@ -266,8 +266,19 @@ activate_release_candidate() {
 	# displaced — a machine that has only ever fast-repaired has no
 	# versions/ at all, so rollback reports "No healthy recovery version
 	# exists." Archive failure must never block the activation itself.
+	# B"H 2026-11-08 hardening: seeding alone is not enough — verify a
+	# rollback path actually exists. A prior version is enough to proceed
+	# even when the fresh seed just failed; zero versions is a hard stop,
+	# before the predecessor is touched.
 	if declare -F archive_known_good_runtime >/dev/null 2>&1; then
 		archive_known_good_runtime "before_activation" 2>/dev/null || true
+	fi
+	if declare -F require_rollback_path >/dev/null 2>&1; then
+		if ! require_rollback_path; then
+			install_fail "recovery" \
+				"No recovery version exists; installation stopped before displacing the live runtime." \
+				"recovery=$RECOVERY_ROOT"
+		fi
 	fi
 	if skip_start_requested; then
 		prepare_without_activation

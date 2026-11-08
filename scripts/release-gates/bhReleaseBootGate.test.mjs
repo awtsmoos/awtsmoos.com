@@ -27,7 +27,14 @@ function functionBody(name) {
 }
 
 test('release refuses a stale tunnel manifest before publication logic', () => {
-	const manifestGate = source.indexOf('verify-manifest.cjs');
+	// B"H 2026-11-08 hardening: the manifest check now runs inside the
+	// pre-deploy gate (which also runs the syntax/require check). Either
+	// the direct verify-manifest.cjs call or the pre-deploy gate satisfies
+	// this — both refuse a stale manifest before publication logic.
+	const manifestGate = Math.max(
+		source.indexOf('verify-manifest.cjs'),
+		source.indexOf('preDeployGate.cjs')
+	);
 	const branchResolution = source.indexOf('const branch =');
 	assert(manifestGate >= 0, 'release must verify the tunnel manifest');
 	assert(manifestGate < branchResolution, 'manifest verification must precede publication logic');

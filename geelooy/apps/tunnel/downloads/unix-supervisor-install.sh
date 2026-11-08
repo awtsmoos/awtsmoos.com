@@ -109,7 +109,25 @@ wait_for_runtime() {
 	local stable=0
 	local agent_pid=""
 	local stable_pid=""
-	while [ "$elapsed_samples" -lt "$maximum_samples" ]; do
+	# B"H 2026-11-08 hardening: the wait is adaptive, not a fixed cliff.
+	# While the agent is actively registering — its server receipt keeps
+	# advancing — the deadline extends, so a slow-but-progressing
+	# registration is never killed mid-flight (Nov 6: a healthy Mac
+	# registration took ~83s and degraded ones take minutes). Once the
+	# base timeout has passed AND there has been no receipt progress for a
+	# full no-progress window, the wait ends fast instead of burning the
+	# whole budget on a wedged agent. The absolute cap is the hard ceiling.
+	local no_progress_seconds="${AWTSMOOS_STARTUP_NO_PROGRESS_SECONDS:-60}"
+	local absolute_cap_seconds="${AWTSMOOS_STARTUP_ABSOLUTE_CAP_SECONDS:-600}"
+	local no_progress_samples=$(( no_progress_seconds * 4 ))
+	local absolute_cap_samples=$(( absolute_cap_seconds * 4 ))
+	local deadline_samples="$maximum_samples"
+	local last_progress_stamp=""
+	local last_progress_sample=0
+	if declare -F registration_receipt_stamp >/dev/null 2>&1; then
+		last_progress_stamp="$(registration_receipt_stamp 2>/dev/null || true)"
+	fi
+	while [ "$elapsed_samples" -lt "$deadline_samples" ] && [ "$elapsed_samples" -lt "$absolute_cap_samples" ]; do
 		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 		if runtime_pid_matches "$agent_pid" && runtime_registered "$agent_pid" 600000; then
 			if [ "$stable_pid" = "$agent_pid" ]; then
@@ -124,6 +142,27 @@ wait_for_runtime() {
 		else
 			stable=0
 			stable_pid=""
+		fi
+		# Adaptive: a receipt that keeps advancing means the agent is
+		# actively talking to the server — extend the deadline and reset
+		# the no-progress clock. A receipt that never moves is a wedge.
+		if declare -F registration_receipt_stamp >/dev/null 2>&1; then
+			local stamp=""
+			stamp="$(registration_receipt_stamp 2>/dev/null || true)"
+			if [ -n "$stamp" ] && [ "$stamp" != "$last_progress_stamp" ]; then
+				last_progress_stamp="$stamp"
+				last_progress_sample="$elapsed_samples"
+				local extended=$(( elapsed_samples + no_progress_samples ))
+				[ "$extended" -gt "$deadline_samples" ] && deadline_samples="$extended"
+				[ "$deadline_samples" -gt "$absolute_cap_samples" ] && deadline_samples="$absolute_cap_samples"
+			fi
+		fi
+		# Fail fast: past the base timeout with no receipt progress for a
+		# full window — the agent is wedged, not slow. Do not burn the
+		# remaining budget (or the old 600s no-binding budget) on silence.
+		if [ "$elapsed_samples" -ge "$maximum_samples" ] && \
+			[ $(( elapsed_samples - last_progress_sample )) -ge "$no_progress_samples" ]; then
+			break
 		fi
 		# B"H 2026-11-06: the readiness wait is the longest silent stretch
 		# in the installer (45–600s). Say so every 15s with the live

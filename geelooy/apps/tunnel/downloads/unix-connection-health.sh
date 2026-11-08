@@ -99,6 +99,60 @@ wait_for_registration() {
 	done
 	return 1
 }
+# B"H 2026-11-08 hardening: the receipt's last server-message timestamp
+# as epoch milliseconds, or nothing when there is no receipt. This is the
+# progress signal for the adaptive startup wait — when the agent is actively
+# registering, this timestamp keeps advancing.
+registration_receipt_stamp() {
+	"$AWTSMOOS_NODE_BIN" - "$ROOT/connection-state.json" <<'NODE' 2>/dev/null
+const fs = require("node:fs");
+try {
+	const receipt = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	const at = Date.parse(receipt.lastServerMessageAt || receipt.updatedAt || "");
+	if (Number.isFinite(at)) process.stdout.write(String(at));
+} catch {}
+NODE
+}
+
+# B"H 2026-11-08 hardening: requires a FRESH live registration receipt —
+# a real TUNNEL_ACK from the server, received within the last
+# max_age_seconds, for the expected tunnel. A stale receipt (up to 10
+# minutes old) from the predecessor must not satisfy a post-promotion
+# check; only the newly promoted agent's own registration counts.
+# Prints the receipt age in ms on success for the caller's log.
+require_fresh_registration() {
+	local max_age_seconds="${1:-120}"
+	local max_age_ms=$(( max_age_seconds * 1000 ))
+	local stamp=""
+	stamp="$(registration_receipt_stamp)"
+	[ -n "$stamp" ] || return 1
+	local now_ms="$(date +%s%3N 2>/dev/null || echo $(( $(date +%s) * 1000 )))"
+	local age_ms=$(( now_ms - stamp ))
+	[ "$age_ms" -ge 0 ] || return 1
+	[ "$age_ms" -le "$max_age_ms" ] || return 1
+	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	runtime_registered "$pid" "$max_age_ms" || return 1
+	printf '%s\n' "$age_ms"
+}
+
+# B"H 2026-11-08 hardening: one-word self-check for the installed agent.
+# Prints running_registered, running_unregistered, or not_running, so a
+# supervisor or repair loop can detect a live-but-silent agent and repair
+# it instead of leaving it unregistered.
+installed_agent_registration_state() {
+	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	if [ -z "$pid" ] || ! runtime_pid_matches "$pid"; then
+		printf 'not_running\n'
+		return 0
+	fi
+	if runtime_registered "$pid" 600000; then
+		printf 'running_registered\n'
+	else
+		printf 'running_unregistered\n'
+	fi
+	return 0
+}
+
 connection_state_name() {
 	node - "$ROOT/connection-state.json" <<'NODE'
 const fs = require("node:fs");

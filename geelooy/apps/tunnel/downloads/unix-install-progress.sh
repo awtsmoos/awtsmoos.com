@@ -332,11 +332,15 @@ install_progress() {
 	else
 		# One complete event per line in SSH, CI and redirected logs. No CR,
 		# terminal-control bytes, unrenderable emoji or overlapping messages.
-		if [ "${PRG_LAST_LOG_PCT:-}" != "$percent" ] || [ "${PRG_LAST_LOG_STEP:-}" != "$INSTALL_STEP_N" ]; then
+		# B"H 2026-11-08 hardening: a new message must print even when the
+		# percent and step are unchanged — otherwise a fallback that starts
+		# while the bar sits at 22% looks like a silent stall (Nov 6).
+		if [ "${PRG_LAST_LOG_PCT:-}" != "$percent" ] || [ "${PRG_LAST_LOG_STEP:-}" != "$INSTALL_STEP_N" ] || [ "${PRG_LAST_LOG_MSG:-}" != "$message" ]; then
 			printf '[%3d%%] step %s/%s %s\n' \
 				"$percent" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$message" >&2
 			PRG_LAST_LOG_PCT="$percent"
 			PRG_LAST_LOG_STEP="$INSTALL_STEP_N"
+			PRG_LAST_LOG_MSG="$message"
 		fi
 	fi
 	INSTALL_PROGRESS_LINE_OPEN=0

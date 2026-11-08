@@ -20,14 +20,37 @@ stage_release_candidate() {
 	rm -rf "$CANDIDATE_ROOT" "$work_root"
 	mkdir -p "$work_root"
 	assert_free_space "$BUNDLE_BYTES"
-	install_progress 38 "Downloading verified runtime bundle"
-	bundle_full_url="$(release_bundle_url)"
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 600 \
-		--speed-time 30 --speed-limit 1024 "$bundle_full_url" -o "$bundle_path"
+	# B"H 2026-11-08 hardening (speed): a verified bundle is cached by SHA
+	# in the recovery root and reused instead of re-downloading. A reinstall
+	# of the same release is then seconds, not a fresh download. The cache
+	# is only trusted when its SHA matches the published descriptor exactly.
+	local bundle_cache="${RECOVERY_ROOT}/cache/agent-bundle-${BUNDLE_SHA}.zip"
+	local bundle_cached=0
+	if [ -n "$BUNDLE_SHA" ] && [ -f "$bundle_cache" ] && \
+		[ "$(sha256_file "$bundle_cache")" = "$BUNDLE_SHA" ]; then
+		install_progress 38 "Using cached verified runtime bundle"
+		cp -p "$bundle_cache" "$bundle_path"
+		bundle_cached=1
+	else
+		install_progress 38 "Downloading verified runtime bundle"
+		bundle_full_url="$(release_bundle_url)"
+		curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 600 \
+			--speed-time 30 --speed-limit 1024 "$bundle_full_url" -o "$bundle_path"
+	fi
 	actual_bundle_sha="$(sha256_file "$bundle_path")"
 	[ "$actual_bundle_sha" = "$BUNDLE_SHA" ] || install_fail 		"verify" "Downloaded bundle checksum mismatch." 		"expected=$BUNDLE_SHA actual=$actual_bundle_sha"
+	if [ "$bundle_cached" -eq 0 ]; then
+		mkdir -p "$(dirname "$bundle_cache")"
+		cp -p "$bundle_path" "${bundle_cache}.tmp-$$" 2>/dev/null && mv -f "${bundle_cache}.tmp-$$" "$bundle_cache" 2>/dev/null || true
+	fi
 	install_progress 50 "Bundle checksum verified"
 	extract_bundle "$bundle_path" "$CANDIDATE_ROOT"
+	# B"H 2026-11-08 hardening: a merge once stripped the executable bit
+	# (100755 -> 100644) on 12 installer/deploy .sh files. Never trust the
+	# bit as packaged — restore +x on every shell script in the candidate
+	# before anything executes one directly (launchd, supervisor, awt).
+	# This repairs a stripped bit instead of failing on it.
+	find "$CANDIDATE_ROOT" -name '*.sh' -type f -exec chmod +x {} + 2>/dev/null || true
 	cp -p "$RELEASE_MANIFEST_PATH" "$CANDIDATE_ROOT/installed-manifest.txt"
 	printf '%s\n' "$CANDIDATE_VERSION" > "$CANDIDATE_ROOT/install-state.txt"
 	printf '%s\n' "$MANIFEST_SHA" > "$CANDIDATE_ROOT/install-manifest.sha256"

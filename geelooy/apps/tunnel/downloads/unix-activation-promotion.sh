@@ -69,6 +69,32 @@ start_promoted_candidate() {
 	local failed="$2"
 	start_supervisor
 	if candidate_is_stably_active; then
+		# B"H 2026-11-08 hardening: the readiness probe above accepts a
+		# receipt up to 10 minutes old, which a stale predecessor receipt
+		# could satisfy. Require a FRESH live registration from the newly
+		# promoted agent itself — a real TUNNEL_ACK within the last 120s —
+		# before declaring success. If it is not fresh, roll back loudly
+		# instead of leaving a live-but-silent agent.
+		local fresh_age_ms=""
+		if declare -F require_fresh_registration >/dev/null 2>&1; then
+			fresh_age_ms="$(require_fresh_registration "${AWTSMOOS_PROMOTED_REGISTRATION_FRESH_SECONDS:-120}" 2>/dev/null || true)"
+			if [ -z "$fresh_age_ms" ]; then
+				install_event "startup" "failed" \
+					"Promoted agent has no fresh live registration receipt." \
+					"expected a TUNNEL_ACK within ${AWTSMOOS_PROMOTED_REGISTRATION_FRESH_SECONDS:-120}s state=$(connection_state_name)"
+				if [ -n "$rollback" ] && [ -e "$rollback" ]; then
+					rollback_failed_activation "$rollback" "$failed"
+					return $?
+				fi
+				stop_existing_runtime || true
+				[ -e "$ROOT" ] && mv "$ROOT" "$failed"
+				recover_without_predecessor
+				return $?
+			fi
+			install_event "startup" "passed" \
+				"Promoted agent holds a fresh live registration receipt." \
+				"receiptAgeMs=$fresh_age_ms"
+		fi
 		write_activation_journal "candidate_stable" "$ROOT" "$rollback"
 		if [ -n "$rollback" ] && [ -e "$rollback" ]; then
 			if [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then

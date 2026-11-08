@@ -45,13 +45,28 @@ force_full_reinstall_requested() {
 	# A user explicitly choosing a mode requests full replacement, not another
 	# same-release restart that silently reuses a revoked credential. Unattended
 	# recovery runs without a mode remain eligible for fast repair.
+	local explicit=0
 	case "${AWTSMOOS_EXPLICIT_REINSTALL:-0}" in
-		1|true|TRUE|yes|YES) return 0 ;;
+		1|true|TRUE|yes|YES) explicit=1 ;;
 	esac
 	case "${AWTSMOOS_FORCE_REINSTALL:-0}" in
-		1|true|TRUE|yes|YES) return 0 ;;
-		*) return 1 ;;
+		1|true|TRUE|yes|YES) explicit=1 ;;
 	esac
+	[ "$explicit" -eq 1 ] || return 1
+	# B"H 2026-11-08 hardening (speed): an explicit full reinstall is still
+	# wasteful when the installed release is already current, healthy, AND
+	# live-registered. The credential is proven valid by the live TUNNEL_ACK
+	# receipt, so there is nothing a fresh pairing would repair — let the
+	# fast path (repair_matching_release) finish in seconds instead of a
+	# ~174s redownload/probe/promote. A version mismatch, an unhealthy
+	# agent, or a stale/missing registration still forces full replacement.
+	if declare -F installed_release_matches_metadata >/dev/null 2>&1 && \
+		declare -F current_runtime_is_stably_healthy >/dev/null 2>&1; then
+		if installed_release_matches_metadata && current_runtime_is_stably_healthy; then
+			return 1
+		fi
+	fi
+	return 0
 }
 
 local_release_metadata_complete() {
