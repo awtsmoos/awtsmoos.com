@@ -1,0 +1,66 @@
+/* B"H — Shliach Browser Link popup. Plain, readable, no surprises. */
+body {
+	width: 320px;
+	margin: 0;
+	padding: 14px;
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+	font-size: 13px;
+	color: #1f2430;
+	background: #f7f5ff;
+}
+h1 { font-size: 16px; margin: 0 0 2px; }
+.version { margin: 0 0 10px; color: #5a5f6e; font-size: 12px; }
+.status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	background: #fff;
+	border: 1px solid #ddd6f5;
+	margin-bottom: 12px;
+	font-weight: 600;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #9aa0ae; flex: none; }
+.dot.on { background: #1a73e8; }
+.dot.busy { background: #f9ab00; }
+.dot.off { background: #9aa0ae; }
+.pair label { display: block; font-weight: 600; margin-bottom: 4px; }
+.pair input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 8px;
+	border: 1px solid #b9b3d6;
+	border-radius: 8px;
+	font-size: 15px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+.pair-row { display: flex; gap: 8px; margin-top: 8px; }
+.hint { color: #5a5f6e; font-size: 12px; line-height: 1.45; }
+button {
+	padding: 8px 12px;
+	border: 1px solid #5b4bc4;
+	border-radius: 8px;
+	background: #5b4bc4;
+	color: #fff;
+	font-weight: 700;
+	cursor: pointer;
+}
+button:disabled { opacity: 0.45; cursor: default; }
+.counts { display: flex; gap: 12px; margin: 12px 0 4px; }
+.counts div { background: #fff; border: 1px solid #ddd6f5; border-radius: 8px; padding: 8px; flex: 1; text-align: center; }
+.counts strong { display: block; font-size: 18px; }
+.counts span { font-size: 11px; color: #5a5f6e; }
+.started { color: #5a5f6e; font-size: 12px; }
+.row { display: flex; gap: 8px; margin: 8px 0; }
+.row button { flex: 1; }
+.stream { display: block; margin-top: 8px; font-size: 12px; color: #3c4252; }
+.msg { min-height: 18px; color: #1a73e8; font-size: 12px; }
+.foot { color: #5a5f6e; font-size: 11px; line-height: 1.5; }
+.foot a { color: #5b4bc4; }
+/* B"H — hide utility. Doubled class (.hidden.hidden) beats every
+   single-class display rule in this file (.status, .counts, .row, .stream)
+   on specificity alone, so no !important is ever needed. Placed last so it
+   also wins any equal-specificity tie by order. */
+button.hidden.hidden, .hidden.hidden { display: none; }

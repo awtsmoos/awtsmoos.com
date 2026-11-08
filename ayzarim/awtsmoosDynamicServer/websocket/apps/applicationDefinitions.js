@@ -42,6 +42,9 @@ const {
 	createShemaStrikeApplication
 } = require("./shemaStrike/application.js");
 const {
+	createShliachBrowserApplication
+} = require("./shliachBrowser/application.js");
+const {
 	createTcpRelayApplication
 } = require("./tcpRelay/application.js");
 const {
@@ -70,6 +73,7 @@ const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
 	createMitzvahWorldApplication,
 	createOhrHagnuzApplication,
 	createScribeJourneyApplication,
+	createShliachBrowserApplication,
 	createTcpRelayApplication,
 	createTunnelActivityApplication,
 	createShemaStrikeApplication

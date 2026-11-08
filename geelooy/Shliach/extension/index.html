@@ -1,0 +1,227 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--The Awtsmoos lets the Shliach reach the reader's own browser, in three measures of trust; Awtsmoos.com lets each reader choose how much of their browser to open.-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos Shliach Browser Extension — Connect Your AI to Your Browser | Awtsmoos</title>
+	<meta name="description" content="Install the Awtsmoos Shliach browser extension in three versions — Minimal, Standard, or Unrestricted — and let your AI agent work directly in your browser, with a pairing code and your choice of permissions.">
+	<meta name="robots" content="index,follow,max-image-preview:large">
+	<link rel="canonical" href="https://awtsmoos.com/Shliach/extension/">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="Awtsmoos Shliach Browser Extension">
+	<meta property="og:description" content="Three versions of one extension — Minimal, Standard, Unrestricted — so your AI can work in your browser with exactly the permissions you grant.">
+	<meta property="og:url" content="https://awtsmoos.com/Shliach/extension/">
+	<meta property="og:image" content="https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png?v=e0b9f9934d">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Awtsmoos Shliach Browser Extension">
+	<meta name="twitter:description" content="Let your AI agent work directly in your browser — choose the version that matches the permissions you are comfortable granting.">
+	<meta name="twitter:image" content="https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png?v=e0b9f9934d">
+	<link rel="stylesheet" href="/style/shliach/index.css?v=17d0cd712b">
+	<link rel="stylesheet" href="/style/shliach/extension.css?v=7677d49c70">
+	<noscript><style>[data-reveal] { opacity: 1; transform: none; }</style></noscript>
+</head>
+<body>
+	<a class="shliach-skip" href="#main">Skip to extension versions</a>
+	<header class="shliach-nav-wrap">
+		<nav class="shliach-nav shliach-shell" aria-label="Shliach navigation">
+			<a class="shliach-brand" href="/">Awtsmoos.com</a>
+			<div class="shliach-nav-links">
+				<a href="/Shliach/">Shliach</a>
+				<a href="/Shliach/prompts/">Prompts</a>
+				<a href="/Shliach/poems/">Poems</a>
+				<a href="/Shliach/gallery/">Gallery</a>
+				<a href="/Shliach/extension/" aria-current="page">Extension</a>
+			</div>
+			<a class="shliach-launch" href="https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent" target="_blank" rel="noopener noreferrer">Open actual Shliach ↗</a>
+		</nav>
+	</header>
+	<main id="main">
+		<section class="shliach-hero">
+			<div class="shliach-shell shliach-hero-grid">
+				<div data-reveal>
+					<p class="shliach-kicker">Browser extension · Awtsmoos Shliach</p>
+					<h1>Connect your AI to your browser</h1>
+					<p class="shliach-lead">One extension, three versions. Your AI agent pairs with your browser by a short code, then reads pages, clicks, fills forms, and — in the Unrestricted version — watches every network request. You choose how much it may see.</p>
+					<div class="shliach-hero-actions">
+						<a class="shliach-launch" href="#versions">Choose a version ↓</a>
+						<a class="shliach-secondary" href="#how-it-connects">How it connects</a>
+					</div>
+				</div>
+				<figure class="shliach-art" data-reveal>
+					<img src="https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png?v=e0b9f9934d" alt="Jewish coder facing a glowing Aleph gateway in a luminous city" width="1536" height="1024" fetchpriority="high">
+					<figcaption>The Aleph gateway: from a written mission into work inside your own browser.</figcaption>
+				</figure>
+			</div>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal data-extension-filter id="versions">
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">Find your version</p>
+				<h2>Choose by permission.</h2>
+				<p>Type a permission — “debugger”, “tabs”, “downloads” — or a plain word like “network” or “screenshot”, and the versions that match stay. Or press a button to hide every version that asks for a permission you do not want to grant.</p>
+			</div>
+			<div class="extension-filter">
+				<label for="extension-search" class="shliach-sr-only">Search versions by permission</label>
+				<input type="search" id="extension-search" data-extension-search placeholder="Try “debugger”, “tabs”, “network”, or “no debugger”…">
+				<div class="extension-toggles" role="group" aria-label="Hide versions that use a permission">
+					<button type="button" class="extension-toggle" data-without="debugger" aria-pressed="false">Without the debugger API</button>
+					<button type="button" class="extension-toggle" data-without="all_urls" aria-pressed="false">Without &lt;all_urls&gt;</button>
+					<button type="button" class="extension-toggle" data-without="webRequest" aria-pressed="false">Without webRequest</button>
+				</div>
+				<p class="extension-count" data-extension-count aria-live="polite">Showing all 3 versions.</p>
+			</div>
+			<div class="extension-grid" style="margin-top: 24px;">
+				<article class="shliach-card extension-card" data-extension-card data-version="minimal" data-name="Minimal">
+					<span class="extension-badge">Least access</span>
+					<h3>Minimal</h3>
+					<p class="extension-version">Version 1.0.0 · 25,704 bytes</p>
+					<p>The smallest door. The agent works only in the tab you are looking at, and only after you click the extension. Nothing else is visible to it.</p>
+					<strong>It can</strong>
+					<ul class="extension-list">
+						<li data-capability="read active tab">Read the page in your active tab — raw HTML, the DOM tree, a compact summary, and the clickable elements with stable selectors</li>
+						<li data-capability="click fill active tab">Click buttons and fill forms in that tab</li>
+						<li data-capability="navigate active tab">Navigate that tab to a new page</li>
+					</ul>
+					<strong>It cannot</strong>
+					<ul class="extension-list">
+						<li class="cannot" data-capability="no debugger">Use the debugger API — no page JavaScript, no screenshots</li>
+						<li class="cannot" data-capability="no network logging">Log any network requests</li>
+						<li class="cannot" data-capability="no other tabs">See any other tab, or any site except awtsmoos.com</li>
+						<li class="cannot" data-capability="no downloads">Download files</li>
+					</ul>
+					<strong>Permissions</strong>
+					<ul class="extension-perms">
+						<li data-permission="activeTab">activeTab</li>
+						<li data-permission="scripting">scripting</li>
+						<li data-permission="storage">storage</li>
+						<li class="host" data-permission="awtsmoos.com">https://awtsmoos.com/*</li>
+					</ul>
+					<p>Honest caveat: it injects JavaScript into the page to work, so the page itself can detect that an extension is present. Its page reads are pure — they never change anything — but the injection itself is visible in principle.</p>
+					<a class="extension-download" href="/Shliach/extension/downloads/awtsmoos-shliach-browser-minimal-1.0.0.zip" download>Download Minimal ↓</a>
+					<p class="extension-sha">SHA-256: 4f760b6f4dfcdd83efebafae2d849441165d978bc417d7f7eb53896a01ffbe58</p>
+				</article>
+				<article class="shliach-card extension-card" data-extension-card data-version="standard" data-name="Standard">
+					<span class="extension-badge">Balanced</span>
+					<h3>Standard</h3>
+					<p class="extension-version">Version 1.0.0 · 25,731 bytes</p>
+					<p>The everyday door. The agent works in any awtsmoos.com tab and can save files for you. It never sees other sites and never watches the network.</p>
+					<strong>It can</strong>
+					<ul class="extension-list">
+						<li data-capability="read any awtsmoos tab">Read any awtsmoos.com tab — raw HTML, the DOM tree, a compact summary, and the clickable elements with stable selectors</li>
+						<li data-capability="click fill navigate">Click, fill, and navigate any awtsmoos.com tab</li>
+						<li data-capability="downloads">Download files to your computer</li>
+					</ul>
+					<strong>It cannot</strong>
+					<ul class="extension-list">
+						<li class="cannot" data-capability="no debugger">Use the debugger API — no page JavaScript, no screenshots</li>
+						<li class="cannot" data-capability="no network logging">Log any network requests</li>
+						<li class="cannot" data-capability="no other sites">See any site except awtsmoos.com</li>
+					</ul>
+					<strong>Permissions</strong>
+					<ul class="extension-perms">
+						<li data-permission="tabs">tabs</li>
+						<li data-permission="storage">storage</li>
+						<li data-permission="downloads">downloads</li>
+						<li class="host" data-permission="awtsmoos.com">https://awtsmoos.com/*</li>
+					</ul>
+					<p>Honest caveat: its content script runs on every awtsmoos.com page, so the page can detect that an extension is present. Its page reads are pure — they never change anything — but the script's presence is visible in principle.</p>
+					<a class="extension-download" href="/Shliach/extension/downloads/awtsmoos-shliach-browser-standard-1.0.0.zip" download>Download Standard ↓</a>
+					<p class="extension-sha">SHA-256: bdbc69dbd7790d020fd937054d522b7655f7f55def5ddf64830687be7a7497bd</p>
+				</article>
+				<article class="shliach-card extension-card" data-extension-card data-version="unrestricted" data-name="Unrestricted">
+					<span class="extension-badge extension-badge-main">Main version · Full access</span>
+					<h3>Unrestricted</h3>
+					<p class="extension-version">Version 1.0.0 · 26,979 bytes</p>
+					<p>The whole browser. This is the version the Shliach itself uses: it logs every network request on every site, drives any tab through the debugger, and streams it all to the agent live. It reads every page invisibly — the page cannot tell it is being read.</p>
+					<strong>It can</strong>
+					<ul class="extension-list">
+						<li data-capability="network logging all sites">Log ALL network requests on ALL sites, with full response bodies</li>
+						<li data-capability="debugger">Attach the debugger to any tab and run any DevTools command</li>
+						<li data-capability="read html dom summary elements">Read any page invisibly — raw HTML, the DOM tree, a compact summary, and the clickable elements with stable selectors</li>
+						<li data-capability="evaluate screenshot">Run JavaScript in any page and take screenshots</li>
+						<li data-capability="stream live">Stream network events to the agent live, as they happen</li>
+						<li data-capability="downloads">Download HAR files and anything else</li>
+					</ul>
+					<strong>Permissions</strong>
+					<ul class="extension-perms">
+						<li data-permission="debugger">debugger</li>
+						<li data-permission="tabs">tabs</li>
+						<li data-permission="storage">storage</li>
+						<li data-permission="downloads">downloads</li>
+						<li data-permission="unlimitedStorage">unlimitedStorage</li>
+						<li data-permission="offscreen">offscreen</li>
+						<li data-permission="webNavigation">webNavigation</li>
+						<li data-permission="webRequest">webRequest</li>
+						<li class="host" data-permission="all_urls">&lt;all_urls&gt;</li>
+					</ul>
+					<div class="extension-warning" role="alert">
+						<h3>⚠ Warning — read this before installing</h3>
+						<p><strong>This version can see everything in your browser.</strong> Every page you visit, every request it makes, every password you type into a page it is attached to. Install it only if you trust the agent it connects to, and only on a browser you are comfortable sharing that way.</p>
+						<p>Chrome shows a “debugging” banner on any tab the extension is attached to, so you can always see when it is active. Disconnect from the popup at any time to stop it.</p>
+					</div>
+					<a class="extension-download" href="/Shliach/extension/downloads/awtsmoos-shliach-browser-unrestricted-1.0.0.zip" download>Download Unrestricted ↓</a>
+					<p class="extension-sha">SHA-256: 835560ecfc5f9d1533df3483f6629d9c3b5f9a5c4729036b2a3ff0f8d2389579</p>
+				</article>
+			</div>
+			<p class="extension-empty" data-extension-empty>No version matches that search. Try a different permission, or clear the “without” buttons above.</p>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal id="what-it-sees">
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">Agent eyes</p>
+				<h2>What your agent can see, instantly.</h2>
+				<p>Every version gives the agent the same four ways to see a page. The difference is how invisibly it reads.</p>
+			</div>
+			<div class="shliach-grid">
+				<article class="shliach-card"><strong>page.html</strong><h3>Raw HTML</h3><p>The page's live HTML, serialized as the browser sees it — doctype and all. Pages are long, so the agent reads it in chunks (32,000 characters at a time) and pages through.</p></article>
+				<article class="shliach-card"><strong>page.dom</strong><h3>The DOM, resolved</h3><p>The parsed DOM tree as JSON: each element's tag, meaningful attributes, its own text, and its children — scripts and styles skipped, depth and node count capped so the answer stays small.</p></article>
+				<article class="shliach-card"><strong>page.summary</strong><h3>A compact summary</h3><p>Title, headings outline, meta description, the page's text, word count, and the first links and forms — a few kilobytes the agent can read in seconds instead of a full dump.</p></article>
+				<article class="shliach-card"><strong>page.elements</strong><h3>What to click</h3><p>Every clickable and selectable element on the page — links, buttons, inputs, selects — each with a stable selector that selects exactly that element, so the agent knows what to click and how to address it.</p></article>
+				<article class="shliach-card"><strong>Stealth · Unrestricted</strong><h3>The page doesn't know</h3><p>The Unrestricted version reads through the debugger, outside the page's JavaScript context: no injected script, no content script, no <code>navigator.webdriver</code> flag, no network request — and the readers only read, never change anything. The page has nothing to detect. The only trace is Chrome's “debugging” banner, visible to you, not to the page.</p></article>
+				<article class="shliach-card"><strong>Stealth · Minimal &amp; Standard</strong><h3>Honest limit</h3><p>These two run the same pure readers from the page itself (a content script, or an injected script on your click). The reads never change anything, but the page can in principle detect that an extension is present. Use Unrestricted when the page must not know.</p></article>
+			</div>
+			<p style="margin-top: 18px;">One hard limit, built into the relay: any single message over 64 KiB is refused, so large answers are chunked and capped — raw HTML in 32,000-character pages, the DOM tree to 200 nodes, the elements list to 150. The agent asks for the next chunk when it needs more; nothing is silently cut.</p>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal id="how-it-connects">
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">The live connection</p>
+				<h2>How the agent connects.</h2>
+				<p>The extension does not open a port on your computer and it does not store a password. It reaches out to Awtsmoos.com, and your agent meets it there.</p>
+			</div>
+			<ol class="extension-steps">
+				<li><strong>Your agent creates a pairing code.</strong> The agent — signed in to its Awtsmoos account — asks the server for a 6-character code. The code lives for ten minutes and pairs exactly one browser.</li>
+				<li><strong>You type the code into the extension.</strong> Open the extension popup, enter the code, and press Connect. The code itself is the authorization — no token ever sits in the extension.</li>
+				<li><strong>The relay forwards messages between them.</strong> The Awtsmoos realtime server (the same one that powers the site's live features) passes JSON back and forth between the agent and your browser. It never stores the messages and never reads them.</li>
+				<li><strong>Either side can end it.</strong> Close the popup connection, or let the code expire, and the pairing is gone. If the agent disconnects, the room closes; if your browser disconnects, you can rejoin with the same code while it is still valid.</li>
+			</ol>
+			<p style="margin-top: 18px;">The connection runs over <code>wss://awtsmoos.com/api/shliach/relay</code>, application <code>shliach-browser</code>, version 1. Once paired, the agent sends JSON commands and gets JSON back: <code>page.html</code>, <code>page.dom</code>, <code>page.summary</code> and <code>page.elements</code> to see the page; <code>page.read</code>, <code>page.click</code>, <code>page.fill</code> and <code>page.navigate</code> to work it; <code>page.evaluate</code> and <code>page.screenshot</code> (Unrestricted only); <code>network.start</code>, <code>network.stop</code>, <code>network.download</code> and <code>network.stream</code> (Unrestricted only). Only the Unrestricted version can attach the debugger and stream network traffic; Minimal and Standard work through the page itself and never see the network.</p>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal id="install">
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">Install</p>
+				<h2>Three steps, in Chrome.</h2>
+				<p>The extension is not in the Chrome Web Store. You install it yourself, in under a minute.</p>
+			</div>
+			<ol class="extension-steps">
+				<li><strong>Download a version above.</strong> Pick the one that matches what you are comfortable granting. Check the SHA-256 on this page against the file you downloaded, if you like.</li>
+				<li><strong>Unzip it.</strong> Open the ZIP and keep the folder it creates — that folder is the extension.</li>
+				<li><strong>Load it unpacked.</strong> Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> (top right), press <strong>Load unpacked</strong>, and choose the folder. The extension icon appears in your toolbar.</li>
+				<li><strong>Pair it.</strong> Ask your agent for a pairing code, click the extension icon, type the code, and press Connect.</li>
+			</ol>
+		</section>
+		<section class="shliach-shell shliach-cta-band" data-reveal>
+			<p class="shliach-kicker">More Shliach worlds</p>
+			<h2>See the images. Read the poems. Then build.</h2>
+			<div class="shliach-hero-actions">
+				<a class="shliach-secondary" href="/Shliach/gallery/">Gallery</a>
+				<a class="shliach-secondary" href="/Shliach/poems/">Poems</a>
+				<a class="shliach-launch" href="https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent" target="_blank" rel="noopener noreferrer">Open actual Shliach ↗</a>
+			</div>
+		</section>
+	</main>
+	<script type="module" src="/scripts/shliach/index.js?v=65128b6989"></script>
+	<script src="/scripts/shliach/extensionFilter.js?v=4a888d7003"></script>
+</body>
+</html>

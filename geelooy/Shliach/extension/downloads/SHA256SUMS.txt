@@ -1,0 +1,3 @@
+4f760b6f4dfcdd83efebafae2d849441165d978bc417d7f7eb53896a01ffbe58  awtsmoos-shliach-browser-minimal-1.0.0.zip
+bdbc69dbd7790d020fd937054d522b7655f7f55def5ddf64830687be7a7497bd  awtsmoos-shliach-browser-standard-1.0.0.zip
+835560ecfc5f9d1533df3483f6629d9c3b5f9a5c4729036b2a3ff0f8d2389579  awtsmoos-shliach-browser-unrestricted-1.0.0.zip

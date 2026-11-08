@@ -31,7 +31,8 @@ const ROUTES = new Map([
 	["Shliach/index.html", "https://awtsmoos.com/Shliach/"],
 	["Shliach/prompts/index.html", "https://awtsmoos.com/Shliach/prompts/"],
 	["Shliach/poems/index.html", "https://awtsmoos.com/Shliach/poems/"],
-	["Shliach/gallery/index.html", "https://awtsmoos.com/Shliach/gallery/"]
+	["Shliach/gallery/index.html", "https://awtsmoos.com/Shliach/gallery/"],
+	["Shliach/extension/index.html", "https://awtsmoos.com/Shliach/extension/"]
 ]);
 
 function literalUrl(url) {

@@ -1,0 +1,242 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the Shliach one browser extension in three measures;
+Awtsmoos.com lets each reader choose how much of their browser it treasures.
+*/
+
+/* Version cards: three measures, one code. */
+.extension-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 18px;
+	align-items: stretch;
+}
+.extension-card {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.extension-card h3 {
+	margin: 0;
+	font-size: 1.6rem;
+}
+.extension-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	align-self: flex-start;
+	padding: 6px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--shliach-line);
+	background: rgba(255, 255, 255, .06);
+	font-size: .8rem;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: var(--shliach-muted);
+}
+.extension-badge-main {
+	border-color: rgba(245, 200, 107, .55);
+	background: rgba(245, 200, 107, .14);
+	color: var(--shliach-gold-bright);
+}
+.extension-version {
+	color: var(--shliach-muted);
+	font-size: .9rem;
+}
+.extension-card p {
+	margin: 0;
+}
+.extension-list {
+	margin: 0;
+	padding-left: 20px;
+	line-height: 1.65;
+}
+.extension-list li {
+	margin-bottom: 6px;
+}
+.extension-list li::marker {
+	color: var(--shliach-gold);
+}
+.extension-list li.cannot::marker {
+	color: #ff7a7a;
+}
+.extension-perms {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.extension-perms li {
+	padding: 5px 10px;
+	border: 1px solid var(--shliach-line);
+	border-radius: 999px;
+	background: rgba(143, 98, 255, .12);
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+	font-size: .78rem;
+	color: var(--shliach-ink);
+}
+.extension-perms li.host {
+	background: rgba(98, 216, 255, .12);
+}
+.extension-download {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 12px 18px;
+	border-radius: 999px;
+	border: 1px solid rgba(245, 200, 107, .5);
+	background: linear-gradient(135deg, #f5c86b, #e8a93c);
+	color: var(--shliach-on-gold);
+	font-weight: 700;
+	text-decoration: none;
+	margin-top: auto;
+}
+.extension-download:hover,
+.extension-download:focus-visible {
+	background: linear-gradient(135deg, #ffe6a3, #f5c86b);
+}
+.extension-sha {
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+	font-size: .72rem;
+	color: var(--shliach-muted);
+	word-break: break-all;
+}
+.extension-card[data-hidden="true"] {
+	display: none;
+}
+
+/* The warning: the unrestricted version can see everything. */
+.extension-warning {
+	border: 1px solid rgba(255, 122, 122, .55);
+	border-radius: var(--shliach-radius);
+	background: linear-gradient(145deg, rgba(255, 90, 90, .16), rgba(255, 90, 90, .05));
+	box-shadow: var(--shliach-shadow);
+	padding: 28px;
+}
+.extension-warning h3 {
+	margin: 0 0 10px;
+	font-size: 1.35rem;
+	color: #ffb3b3;
+}
+.extension-warning p {
+	margin: 0 0 10px;
+	color: var(--shliach-ink);
+	line-height: 1.7;
+}
+.extension-warning p:last-child {
+	margin-bottom: 0;
+}
+.extension-warning strong {
+	color: #ffd2d2;
+}
+
+/* Permission search: find a version by what it may and may not do. */
+.extension-filter {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+.extension-filter input[type="search"] {
+	width: 100%;
+	padding: 14px 18px;
+	border: 1px solid var(--shliach-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .06);
+	color: var(--shliach-ink);
+	font: inherit;
+	font-size: 1rem;
+}
+.extension-filter input[type="search"]::placeholder {
+	color: var(--shliach-muted);
+}
+.extension-filter input[type="search"]:focus-visible {
+	outline: 2px solid var(--shliach-gold);
+	outline-offset: 2px;
+}
+.extension-toggles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.extension-toggle {
+	padding: 8px 14px;
+	border: 1px solid var(--shliach-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .05);
+	color: var(--shliach-ink);
+	font: inherit;
+	font-size: .9rem;
+	cursor: pointer;
+}
+.extension-toggle[aria-pressed="true"] {
+	border-color: rgba(245, 200, 107, .6);
+	background: rgba(245, 200, 107, .16);
+	color: var(--shliach-gold-bright);
+}
+.extension-count {
+	color: var(--shliach-muted);
+	font-size: .95rem;
+}
+.extension-empty {
+	display: none;
+	border: 1px dashed var(--shliach-line);
+	border-radius: var(--shliach-radius);
+	padding: 24px;
+	color: var(--shliach-muted);
+	line-height: 1.7;
+}
+.extension-empty[data-visible="true"] {
+	display: block;
+}
+
+/* Install steps. */
+.extension-steps {
+	counter-reset: extension-step;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 14px;
+}
+.extension-steps li {
+	counter-increment: extension-step;
+	display: grid;
+	grid-template-columns: 44px 1fr;
+	gap: 14px;
+	align-items: start;
+	padding: 18px;
+	border: 1px solid var(--shliach-line);
+	border-radius: 18px;
+	background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
+	line-height: 1.65;
+}
+.extension-steps li::before {
+	content: counter(extension-step);
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: rgba(245, 200, 107, .16);
+	border: 1px solid rgba(245, 200, 107, .5);
+	color: var(--shliach-gold-bright);
+	font-weight: 700;
+	font-size: 1.1rem;
+}
+.extension-steps code {
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+	font-size: .85em;
+	background: rgba(255, 255, 255, .08);
+	padding: 2px 6px;
+	border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+	.extension-grid {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Shliach Browser Link</title>
+	<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+	<h1 id="extName">Shliach Browser Link</h1>
+	<p class="version" id="extVersion"></p>
+	<div class="status" id="statusBox">
+		<span class="dot" id="relayDot"></span>
+		<span id="relayText">Not connected</span>
+	</div>
+	<div class="pair">
+		<label for="codeInput">Pairing code from your AI</label>
+		<input id="codeInput" type="text" placeholder="e.g. K7Q2XA" autocomplete="off" spellcheck="false">
+		<div class="pair-row">
+			<button id="connectBtn" type="button">Connect</button>
+			<button id="disconnectBtn" type="button" class="hidden">Disconnect</button>
+		</div>
+		<p class="hint">Your AI creates the code (it must be signed in to Awtsmoos). Type it here — the code is the only secret, and it expires in 10 minutes.</p>
+	</div>
+	<div id="recorder" class="hidden">
+		<div class="counts">
+			<div><strong id="count">0</strong><span>requests</span></div>
+			<div><strong id="countBodies">0</strong><span>with bodies</span></div>
+			<div><strong id="attachedTabs">0</strong><span>tabs attached</span></div>
+		</div>
+		<p class="started">Started <span id="started">—</span></p>
+		<div class="row">
+			<button id="startBtn" type="button">Start recording</button>
+			<button id="stopBtn" type="button" class="hidden">Stop &amp; download</button>
+		</div>
+		<div class="row">
+			<button id="downloadBtn" type="button">Download snapshot</button>
+			<button id="clearBtn" type="button">Clear log</button>
+		</div>
+		<label class="stream"><input id="streamBox" type="checkbox"> Stream network events to the agent live</label>
+	</div>
+	<p class="msg" id="msg"></p>
+	<p class="foot">The agent can only do what this version's permissions allow. See <a href="https://awtsmoos.com/Shliach/extension/" target="_blank" rel="noopener noreferrer">awtsmoos.com/Shliach/extension</a> for the other versions.</p>
+	<script src="popup.js"></script>
+</body>
+</html>
