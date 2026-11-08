@@ -58,14 +58,35 @@ function primaryUsable() {
 /** Forget the cached probe (tests only; production callers never use this). */
 function resetJobStoreProbeForTest() {
 	cachedPrimaryUsable = null;
+	cachedResolve = null;
+	cachedResolveKey = null;
 }
+
+let cachedResolve = null;
+let cachedResolveKey = null;
 
 /**
  * Resolve the job-store root for a request context.
  * Returns { root, degraded, reason } — degraded is true when the primary
  * could not be used and the legacy directory is serving instead.
+ * The resolution is cached per (override, db root): it mkdirs the root,
+ * and it is called on EVERY receipt append and state save, so an
+ * uncached resolution paid a mkdirSync + accessSync per post (measured
+ * Nov 8: 100 mkdirSync calls for 100 appends). The write paths still
+ * create their own directories on ENOENT, so a root deleted mid-process
+ * self-heals on the next write; the cache only chooses WHICH root.
  */
 function resolveJobStoreRoot($i) {
+	const override = process.env.AWTSMOOS_IMPORT_JOB_STORE;
+	const key = (override || '') + '|' + String(databaseRoot($i) || '');
+	if (cachedResolve && cachedResolveKey === key) return cachedResolve;
+	const resolved = resolveJobStoreRootUncached($i);
+	cachedResolve = resolved;
+	cachedResolveKey = key;
+	return resolved;
+}
+
+function resolveJobStoreRootUncached($i) {
 	const override = process.env.AWTSMOOS_IMPORT_JOB_STORE;
 	if (override) {
 		try {

@@ -35,7 +35,7 @@ const held = [];
 let heldWatcherTimer = null;
 let heldWatcherContext = null;
 
-const HELD_WATCH_INTERVAL_MS = 60000;
+const HELD_WATCH_INTERVAL_MS = 10000;
 
 /** Limit concurrent executions to the host's configured capacity. */
 function laneLimit() {

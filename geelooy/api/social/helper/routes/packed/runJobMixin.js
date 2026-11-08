@@ -7,13 +7,21 @@
  * @description
  * The Awtsmoos lets admitted work pass from queue to bounded motion without a mortal clock above;
  * Awtsmoos.com prepares indexed hints, arms one heartbeat guardian, and lets terminal truth arrive with love.
+ *
+ * Nov 8 instant pass: the live-hash prepass no longer gates the first
+ * write. startLiveHashPrep runs it in the background (chunked slices,
+ * setImmediate breaths) while the workers start at once; a worker whose
+ * post is not cached yet resolves the miss against the native record
+ * (processOneWrite's existing v4 fallback). The prepass completion is
+ * logged when it lands — the `started` event's liveCacheSize is 0
+ * because the cache is still filling, which is the correct truth.
  */
 
 const { yieldTick } = require('./serverHealth.js');
 const { setJob } = require('./jobStore.js');
 const { saveJobState } = require('./jobState.js');
 const { appendJobLog } = require('./jobLog.js');
-const { prepareLiveHashes } = require('./jobLiveHashPrep.js');
+const { startLiveHashPrep } = require('./jobLiveHashPrep.js');
 const { buildRunJobContext } = require('./runJobContext.js');
 const { armJobWatchdog, clearJobWatchdog } = require('./jobWatchdog.js');
 const { runWorkers } = require('./runJobWorkers.js');
@@ -64,7 +72,12 @@ module.exports = {
 			}
 		}
 
-		const liveHashes = await prepareLiveHashes(this, $i, job);
+		// Nov 8 instant pass: the live-hash prepass is a background
+		// optimization, never a gate. Workers start at once; the cache
+		// fills slice by slice and a miss is resolved per post against
+		// the native record. The lane is NOT held for the prepass.
+		const prep = startLiveHashPrep(this, $i, job);
+		const liveHashes = prep.liveHashes;
 		armJobWatchdog($i, job);
 		setJob(job);
 		saveJobState($i, job);
@@ -72,6 +85,17 @@ module.exports = {
 		const context = buildRunJobContext(this, $i, job, liveHashes);
 		await yieldTick();
 		logJobStarted($i, job, liveHashes, context);
+		prep.done.then(result => {
+			try {
+				appendJobLog($i, {
+					jobId: job.id,
+					event: 'live-cache-ready',
+					liveCacheSize: result.size,
+					cacheBuildMs: result.ms,
+					abandoned: !!result.abandoned
+				});
+			} catch (_) { /* logging must never throw */ }
+		}).catch(() => { /* the prepass never rejects */ });
 
 		try {
 			await runWorkers(context);

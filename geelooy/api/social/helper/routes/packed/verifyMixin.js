@@ -16,7 +16,7 @@ const { extractTarball } = require('./tarball.js');
 const { saveJobState, getJobView } = require('./jobState.js');
 const { setJob } = require('./jobStore.js');
 const { UPLOAD_ID_RE } = require('./importBounds.js');
-const { readReceipts, summarizeReceipts, appendReceipt, closeReceipts } = require('./jobReceipts.js');
+const { summarizeReceipts, appendReceipt, closeReceipts, streamReceipts } = require('./jobReceipts.js');
 const { contentHash } = require('./postValidate.js');
 const { yieldTick } = require('./serverHealth.js');
 const { appendJobLog } = require('./jobLog.js');
@@ -90,9 +90,13 @@ module.exports = {
 		}
 		const view = found.view;
 		const lineageId = view.resumeOf || view.id;
-		const receipts = readReceipts(this.$i, lineageId)
-			.filter(r => r.status === 'wrote' || r.status === 'updated' || r.status === 'skipped');
-		if (!receipts.length) {
+		// Nov 8 instant pass: stream the receipts — a 500K-post job's
+		// receipts file is ~60 MB and the old readReceipts() array spiked
+		// hundreds of MB. The verify engine consumes postId+hash one at
+		// a time, so it takes the generator, not an array.
+		const summary = summarizeReceipts(this.$i, lineageId);
+		const total = summary.wrote + summary.updated + summary.skipped;
+		if (!total) {
 			return { success: false, error: 'NO_RECEIPTS', jobId, message: 'The job has no wrote/updated/skipped receipts to verify.' };
 		}
 		const heichelId = String(view.heichelId || 'tanach');
@@ -100,18 +104,18 @@ module.exports = {
 			id: `verify_${Date.now().toString(36)}_${crypto.randomBytes(4).toString('hex')}`,
 			status: 'queued', jobId: view.id, verifyOf: lineageId, heichelId,
 			aliasId: view.aliasId, aliasName: view.aliasName,
-			total: receipts.length, checked: 0, ok: 0, mismatches: [],
+			total, checked: 0, ok: 0, mismatches: [],
 			createdAt: Date.now(), updatedAt: Date.now(), finishedAt: null, durationMs: null,
 			spec: { heichelId, source: `verify-receipts:${lineageId}` },
 			doneHashes: {}
 		};
 		setJob(job);
 		saveJobState(this.$i, { ...job });
-		this.runVerifyFromReceipts(this.$i, job, receipts).catch(() => {});
-		return { success: { verifyId: job.id, jobId: view.id, total: receipts.length, status: job.status, fromReceipts: true } };
+		this.runVerifyFromReceipts(this.$i, job, streamReceipts(this.$i, lineageId)).catch(() => {});
+		return { success: { verifyId: job.id, jobId: view.id, total, status: job.status, fromReceipts: true } };
 	},
 
-	/** The receipt-based verify engine: 3 checks per receipt, result is a receipts file. */
+	/** The receipt-based verify engine: 3 checks per receipt, result is a receipts file. Consumes an iterable (streamed), never a materialized array. */
 	async runVerifyFromReceipts($i, v, receipts) {
 		await yieldTick();
 		v.status = 'running';
@@ -120,8 +124,13 @@ module.exports = {
 		try {
 			const liveHashes = await this.streamLiveHashes($i, v.heichelId);
 			await yieldTick();
-			for (let n = 0; n < receipts.length; n++) {
-				const receipt = receipts[n];
+			let n = 0;
+			for (const receipt of receipts) {
+				// Only wrote/updated/skipped receipts name a live post;
+				// 'failed' receipts are the job's own failure record, not
+				// something to verify (the old code filtered them out
+				// before calling; the stream carries them, so skip here).
+				if (receipt.status !== 'wrote' && receipt.status !== 'updated' && receipt.status !== 'skipped') continue;
 				const postId = String(receipt.postId || '');
 				const expectedHash = receipt.hash || null;
 				let problem = null;
@@ -160,7 +169,8 @@ module.exports = {
 					appendReceipt($i, v, { postId, hash: expectedHash, status: 'skipped' });
 				}
 				v.checked++;
-				if (n % 25 === 24) {
+				n++;
+				if (n % 25 === 0) {
 					v.updatedAt = Date.now();
 					setJob(v);
 					await yieldTick();

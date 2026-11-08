@@ -147,14 +147,24 @@ async function stageDir(dir, heichelId, dryRun) {
 	const tar = fs.readFileSync(tarPath);
 	const totalChunks = Math.ceil(tar.length / CHUNK_BYTES);
 	console.log(JSON.stringify({ uploadId, kind: isUpdates ? 'updates' : 'posts', totalPosts: manifest.totalPosts || manifest.totalUpdates, totalBytes: tar.length, totalChunks }));
-	// Resume: ask the server what it already has (a re-run after a drop).
+	// Resume: ask the server which chunk indexes it already has (a
+	// re-run after a drop). The server reports the exact received
+	// indexes — a bare count is not enough, because chunks can arrive
+	// out of order and a count-only resume would skip a hole, then
+	// print "staged: true" for an upload the server never assembled.
 	let received = new Set();
 	try {
 		const probe = await request('GET', BASE + '/bulk/stage?uploadId=' + encodeURIComponent(uploadId));
 		if (probe.json && probe.json.success) {
-			for (let i = 0; i < (probe.json.success.receivedChunks || 0); i++) received.add(i);
+			const indexes = probe.json.success.receivedIndexes;
+			if (Array.isArray(indexes)) {
+				for (const i of indexes) received.add(Number(i));
+			} else {
+				for (let i = 0; i < (probe.json.success.receivedChunks || 0); i++) received.add(i);
+			}
 		}
 	} catch (_) { /* fresh upload */ }
+	let lastComplete = false;
 	for (let i = 0; i < totalChunks; i++) {
 		if (received.has(i)) continue;
 		const chunk = tar.subarray(i * CHUNK_BYTES, Math.min(tar.length, (i + 1) * CHUNK_BYTES));
@@ -167,8 +177,17 @@ async function stageDir(dir, heichelId, dryRun) {
 			printResult('stage chunk ' + i, r);
 			fail('stage failed at chunk ' + i + ' of ' + totalChunks + ' — re-run stage with the same dir to resume (uploadId ' + uploadId + ' is printed above only after the first chunk; re-run to get a fresh uploadId if this was chunk 0).');
 		}
-		if (i % 25 === 24 || i === totalChunks - 1) console.log(JSON.stringify({ uploadId, chunk: i + 1, totalChunks, complete: !!r.json.success.complete }));
+		lastComplete = !!r.json.success.complete;
+		if (i % 25 === 24 || i === totalChunks - 1) console.log(JSON.stringify({ uploadId, chunk: i + 1, totalChunks, complete: lastComplete }));
 	}
+	// Never print "staged: true" for an upload the server did not
+	// assemble. A re-run whose chunks were all already received uploads
+	// nothing, so re-probe before declaring success.
+	if (!lastComplete && totalChunks > 0) {
+		const probe = await request('GET', BASE + '/bulk/stage?uploadId=' + encodeURIComponent(uploadId)).catch(() => null);
+		lastComplete = !!(probe && probe.json && probe.json.success && probe.json.success.complete);
+	}
+	if (!lastComplete) fail('stage incomplete for uploadId ' + uploadId + ' — the server did not assemble the tarball; re-run stage with the same dir to resume.');
 	try { fs.unlinkSync(tarPath); } catch (_) {}
 	console.log(JSON.stringify({ uploadId, staged: true, next: 'node bulk-upload.cjs start ' + uploadId + ' --heichel ' + heichelId }, null, 2));
 }
