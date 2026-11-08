@@ -64,6 +64,17 @@ module.exports = {
 				await this.$i.db.delete(`/social/heichelos/${heichelId}/posts/${postId}`);
 				removed.push('native');
 			} catch (e) { return { success: false, error: 'DELETE_FAILED', message: 'native: ' + (e.message || e) }; }
+			// B"H 2026-11-08 (real-backend verify): the importer writes
+			// EVERY post twice — the heichel-level record AND the
+			// series-path record (writeNativePostOnly), and the series
+			// path is the PRIMARY read path (loadNativePost checks it
+			// first). Deleting only the heichel path left the "deleted"
+			// post fully readable and editable. Delete both, matching
+			// submissionsMixin which already deletes both paths.
+			try {
+				await this.$i.db.delete(`/social/heichelos/${heichelId}/series/${s}/posts/${postId}`);
+				removed.push('native-series');
+			} catch (_) { /* series-path record may not exist */ }
 			if (post.aliasId) {
 				try {
 					await this.$i.db.delete(`/social/aliases/${post.aliasId}/postsSubmitted/inHeichel/${heichelId}/inSeries/${s}/${postId}`);
