@@ -14,6 +14,14 @@ const WARMING_CODES = new Set([
 	'EXACT_SERIES_WARMING'
 ]);
 
+// B"H — the search system was taken down for a rebuild (Nov 6, 2026); while it
+// is unavailable the reader gets a friendly in-progress message, not an error.
+const UNAVAILABLE_CODES = new Set([
+	'SEARCH_UNAVAILABLE',
+	'TEXT_SEARCH_UNAVAILABLE',
+	'INDEXED_VECTOR_SEARCH_UNAVAILABLE'
+]);
+
 /**
  * Converts one search exception into human-facing recovery copy and a semantic variant class.
  *
@@ -25,6 +33,15 @@ function errorCopy(error) {
 		return {
 			title: 'Search is warming up.',
 			message: 'The local index or semantic model is preparing. Retry in a moment; later searches stay warm.',
+			className: 'library-warming',
+			role: 'status'
+		};
+	}
+
+	if (UNAVAILABLE_CODES.has(error?.code)) {
+		return {
+			title: 'Search is being rebuilt — still in beta.',
+			message: 'Search is down while a new one is being built. Browse the library directly for now — search will be back soon.',
 			className: 'library-warming',
 			role: 'status'
 		};

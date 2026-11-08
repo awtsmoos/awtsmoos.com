@@ -38,7 +38,6 @@ body[data-geelooy-route="home"] {
 		radial-gradient(circle at 50% 0%, var(--home-glow), transparent 65%);
 	border-bottom-color: var(--home-line-soft);
 	box-shadow: var(--sefer-shadow);
-	backdrop-filter: blur(30px) saturate(1.1);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html) body[data-geelooy-route="home"] .brand-mark {

@@ -249,7 +249,7 @@ body[data-geelooy-route="home"] .world-launcher[open] .world-panel {
 	animation: dream-portal-in .38s var(--dream-spring) both;
 }
 @keyframes dream-portal-in {
-	from { opacity: 0; transform: translate(-50%, -18px) scale(.965); filter: blur(5px); }
+	from { opacity: 0; transform: translateY(-18px) scale(.965); filter: blur(5px); }
 }
 /* Tiles cascade in as the portal opens. */
 body[data-geelooy-route="home"] .world-launcher[open] .world-tile {

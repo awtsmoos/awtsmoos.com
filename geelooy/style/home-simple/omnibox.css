@@ -88,6 +88,15 @@ body[data-geelooy-route="home"] .omnibox-options {
 	display: grid;
 	gap: .2rem;
 }
+/* B"H — search is being rebuilt (Nov 6, 2026); the panel says so plainly. */
+body[data-geelooy-route="home"] .omnibox-beta {
+	margin: .35rem .55rem .45rem;
+	padding-top: .5rem;
+	border-top: 1px solid var(--panel-border);
+	color: var(--text-muted);
+	font-size: .78rem;
+	line-height: 1.45;
+}
 @keyframes omnibox-arrive{
 	from {
 		opacity: 0;

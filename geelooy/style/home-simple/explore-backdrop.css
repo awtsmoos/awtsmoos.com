@@ -22,10 +22,6 @@ body[data-geelooy-route="home"] .explore-backdrop {
 	opacity: 1;
 	pointer-events: auto;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"].explore-open) .site-header {
-	z-index: var(--home-layer-launcher-host);
-}
 @media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .explore-backdrop {
 		transition: none;
 	} }

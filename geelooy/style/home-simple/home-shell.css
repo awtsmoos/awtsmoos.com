@@ -13,7 +13,7 @@ body[data-geelooy-route="home"] :where(.home, .site-footer) {
 
 body[data-geelooy-route="home"] .site-header {
 	position: relative;
-	z-index: var(--home-layer-header);
+	z-index: var(--home-layer-launcher-host);
 	inline-size: min(1240px, calc(100% - 32px));
 	min-inline-size: 0;
 	margin: 0 auto;

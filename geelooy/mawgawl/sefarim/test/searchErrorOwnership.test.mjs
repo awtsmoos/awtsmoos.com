@@ -43,6 +43,14 @@ test('error presenter clears duplicate status copy and owns one visible error ca
 	assert.match(errorView, /results\.replaceChildren\(card\)/);
 });
 
+test('unavailable search shows the in-progress beta message, not an error', () => {
+	assert.match(errorView, /SEARCH_UNAVAILABLE/);
+	assert.match(errorView, /TEXT_SEARCH_UNAVAILABLE/);
+	assert.match(errorView, /INDEXED_VECTOR_SEARCH_UNAVAILABLE/);
+	assert.match(errorView, /Search is being rebuilt — still in beta\./);
+	assert.match(errorView, /Browse the library directly for now/);
+});
+
 test('search view responsibilities remain split into bounded modules', () => {
 	for (const [name, source] of [
 		['searchView', searchView],
