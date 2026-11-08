@@ -12,6 +12,15 @@ import { fileURLToPath } from 'node:url';
 const source=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../unix-activation.sh');
 function run(script){
  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'awts-fresh-repair-'));
+ // The stubbed pairing flow writes a complete, key-coherent provision file,
+ // exactly like the real installer-direct pairing does.
+ fs.writeFileSync(path.join(tmp, 'write-provision.cjs'), `const crypto = require("node:crypto");
+const fs = require("node:fs");
+const [file] = process.argv.slice(2);
+const pair = crypto.generateKeyPairSync("rsa", { modulusLength: 2048, publicKeyEncoding: { type: "spki", format: "pem" }, privateKeyEncoding: { type: "pkcs8", format: "pem" } });
+const fingerprint = crypto.createHash("sha256").update(pair.publicKey, "utf8").digest("base64url");
+fs.writeFileSync(file, JSON.stringify({ deviceId: "dev_fixture", tunnelId: "tun_fixture", publicKey: pair.publicKey, publicKeyFingerprint: fingerprint, privateKey: pair.privateKey, credential: "fixture-credential", provisionedAt: new Date().toISOString() }));
+`);
  try {
   const result=spawnSync('bash',['-c',`
 set -Eeuo pipefail
@@ -37,7 +46,7 @@ prepare_without_activation(){ :; }
 install_rescue_runtime(){ :; }
 skip_start_requested(){ return 1; }
 direct_pairing_provision_file(){ printf '%s\\n' "$CANDIDATE_ROOT/provisioned-identity.json"; }
-direct_pairing_flow(){ printf 'pair\\n' >> "$TRACE"; if [ "$PAIR_FAILURE" = 1 ]; then AWTSMOOS_PAIRING_SKIPPED=1; else printf '{}\\n' > "$CANDIDATE_ROOT/provisioned-identity.json"; fi; }
+direct_pairing_flow(){ printf 'pair\\n' >> "$TRACE"; if [ "$PAIR_FAILURE" = 1 ]; then AWTSMOOS_PAIRING_SKIPPED=1; else "$AWTSMOOS_NODE_BIN" "$(dirname "$CANDIDATE_ROOT")/write-provision.cjs" "$CANDIDATE_ROOT/provisioned-identity.json"; fi; }
 activate_update(){ printf 'keep-old\\n' >> "$TRACE"; }
 TRACE="$1/trace"
 source "$2"

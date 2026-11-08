@@ -24,6 +24,76 @@ if ! trap -p ERR >/dev/null 2>&1; then
   }' ERR
 fi
 
+# B"H — the staged candidate's exact tunnelName is the relay registration
+# identity. Never pair under hostname/Awtsmoos when config uses another name.
+candidate_tunnel_name() {
+	"$AWTSMOOS_NODE_BIN" - "$CANDIDATE_ROOT/config.json" <<'NODE'
+const fs = require("node:fs");
+try {
+  const config = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+  const name = String(config.tunnelName || "");
+  if (!/^[A-Za-z0-9._:@-]{1,160}$/.test(name)) process.exit(1);
+  process.stdout.write(name);
+} catch { process.exit(1); }
+NODE
+}
+
+# B"H — prints one identity state word for a staged runtime, using the
+# agent's own identity loader so the verdict matches startup exactly:
+# paired, credential_missing, unpaired, key_incoherent, or check_failed.
+# credential_missing is the repairable state: the device and tunnel are
+# known, only the secret is gone from the secure store. The agent alone
+# cannot renew it — it runs as a background LaunchAgent where a browser
+# approval is unattended — so the installer renews it interactively.
+identity_credential_state() {
+	local root="$1" recovery="$2"
+	AWTSMOOS_INSTALL_ROOT="$root" AWTSMOOS_RECOVERY_ROOT="$recovery" \
+		"$AWTSMOOS_NODE_BIN" - "$root" "$recovery" <<'NODE' 2>/dev/null
+const path = require("node:path");
+const [root, recovery] = process.argv.slice(2);
+try {
+	const Identity = require(path.join(root, "lib/deviceIdentity/index.js"));
+	const options = { installRoot: root, recoveryRoot: recovery };
+	const metadata = Identity.Metadata.read(options);
+	const state = Identity.load(options);
+	const privateKey = metadata?.deviceId && Identity.SecureStore.read(metadata.deviceId, "private-key");
+	const coherent = privateKey && Identity.KeyCoherence.inspect(metadata, privateKey);
+	let word = String(state.state || "check_failed");
+	if (state.ok && coherent?.ok) word = "paired";
+	else if (state.state === "credential_missing") word = "credential_missing";
+	else if (!metadata?.deviceId || !metadata.tunnelId) word = "unpaired";
+	else if (!coherent?.ok) word = "key_incoherent";
+	process.stdout.write(word);
+} catch {
+	process.stdout.write("check_failed");
+}
+NODE
+}
+
+# B"H — verifies an installer-provisioned identity file is complete and its
+# private key matches its public key, using the same fingerprint the agent
+# checks at startup. Returns 0 only when the agent can pick it up.
+verify_provisioned_identity() {
+	local root="$1"
+	"$AWTSMOOS_NODE_BIN" - "$root/provisioned-identity.json" <<'NODE' 2>/dev/null
+const crypto = require("node:crypto");
+const fs = require("node:fs");
+const [file] = process.argv.slice(2);
+try {
+	const data = JSON.parse(fs.readFileSync(file, "utf8"));
+	if (!data.deviceId || !data.tunnelId || !data.credential || !data.privateKey) process.exit(1);
+	const publicKey = crypto.createPublicKey(data.privateKey).export({ type: "spki", format: "pem" });
+	const fingerprint = crypto.createHash("sha256").update(publicKey, "utf8").digest("base64url");
+	if (data.publicKeyFingerprint && fingerprint !== data.publicKeyFingerprint) process.exit(1);
+	if (data.publicKey) {
+		const supplied = crypto.createPublicKey(data.publicKey).export({ type: "spki", format: "pem" });
+		if (supplied !== publicKey) process.exit(1);
+	}
+	process.exit(0);
+} catch { process.exit(1); }
+NODE
+}
+
 # Activation proves staged life before any predecessor path is displaced. Fresh install
 # alone grants explicit identity creation authority; update probes remain read-only.
 #
@@ -43,16 +113,7 @@ activate_fresh() {
 	# B"H — the exact staged tunnelName is the relay registration identity.
 	# Never pair under hostname/Awtsmoos when config uses another registered name.
 	local pairing_tunnel_name
-	pairing_tunnel_name="$("$AWTSMOOS_NODE_BIN" - "$CANDIDATE_ROOT/config.json" <<'NODE'
-const fs = require("node:fs");
-try {
-  const config = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-  const name = String(config.tunnelName || "");
-  if (!/^[A-Za-z0-9._:@-]{1,160}$/.test(name)) process.exit(1);
-  process.stdout.write(name);
-} catch { process.exit(1); }
-NODE
-)" || install_fail "pairing" "Candidate tunnel name is invalid." "The staged runtime has no valid tunnelName."
+	pairing_tunnel_name="$(candidate_tunnel_name)" || install_fail "pairing" "Candidate tunnel name is invalid." "The staged runtime has no valid tunnelName."
 	[ -n "$pairing_tunnel_name" ] || install_fail "pairing" "Candidate tunnel name missing." "Cannot authorize a different device name."
 	if ! direct_pairing_flow "$pairing_tunnel_name"; then
 		install_fail "pairing" \
@@ -66,6 +127,15 @@ NODE
 		[ ! -s "$(direct_pairing_provision_file)" ]; then
 		install_fail "pairing" \
 			"New device approval did not produce an authorized credential." \
+			"The former tunnel was left unchanged. Retry pairing while signed in."
+	fi
+	# The candidate probe uses a mock identity, so it cannot prove the real
+	# credential is usable. Verify the provisioned identity is complete and
+	# key-coherent here, while the installer is still interactive and can
+	# re-pair — never promote an agent that cannot register.
+	if ! verify_provisioned_identity "$CANDIDATE_ROOT"; then
+		install_fail "pairing" \
+			"Provisioned credential could not be verified." \
 			"The former tunnel was left unchanged. Retry pairing while signed in."
 	fi
 	# A successful pairing response alone is not proof that the installed
@@ -98,23 +168,50 @@ activate_update() {
 	write_activation_journal "predecessor_preserved" "$CANDIDATE_ROOT" "$ROOT"
 	# Read the approved credential AND its corresponding private key from the
 	# staged agent's own store before stopping the working predecessor.
-	if ! AWTSMOOS_INSTALL_ROOT="$CANDIDATE_ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT" \
-		"$AWTSMOOS_NODE_BIN" - "$CANDIDATE_ROOT" "$RECOVERY_ROOT" <<'NODE'
-const path = require("node:path");
-const [root, recovery] = process.argv.slice(2);
-const Identity = require(path.join(root, "lib/deviceIdentity/index.js"));
-const options = { installRoot: root, recoveryRoot: recovery };
-const metadata = Identity.Metadata.read(options);
-const state = Identity.load(options);
-const privateKey = metadata?.deviceId && Identity.SecureStore.read(metadata.deviceId, "private-key");
-const coherent = privateKey && Identity.KeyCoherence.inspect(metadata, privateKey);
-if (!state.ok || !coherent?.ok) process.exit(73);
-NODE
-	then
-		install_fail "identity-reuse" \
-			"Staged runtime cannot read the already-approved key and credential." \
-			"The healthy predecessor was preserved; no new pairing was requested."
-	fi
+	# When the identity exists but its credential is gone from the secure
+	# store, renew it with a fresh interactive pairing here — the agent
+	# alone cannot, because it runs as a background LaunchAgent where a
+	# browser approval is unattended and it would wait silently instead of
+	# registering. Any other failure stays fail-closed: the healthy
+	# predecessor is preserved and no new pairing is requested.
+	local identity_state
+	identity_state="$(identity_credential_state "$CANDIDATE_ROOT" "$RECOVERY_ROOT")"
+	case "$identity_state" in
+		paired)
+			;;
+		credential_missing)
+			install_event "identity" "repair" \
+				"Device identity exists but its credential is missing; renewing with a fresh pairing." \
+				"candidate=$CANDIDATE_ROOT"
+			prg_info "Credential missing — renewing authorization with a fresh pairing code."
+			local repair_tunnel_name
+			repair_tunnel_name="$(candidate_tunnel_name)" || install_fail "pairing" \
+				"Candidate tunnel name is invalid." "The staged runtime has no valid tunnelName."
+			[ -n "$repair_tunnel_name" ] || install_fail "pairing" \
+				"Candidate tunnel name missing." "Cannot authorize a different device name."
+			if ! direct_pairing_flow "$repair_tunnel_name"; then
+				install_fail "pairing" \
+					"Credential-renewal pairing failed." \
+					"The healthy predecessor was preserved; no new pairing was requested."
+			fi
+			if [ "${AWTSMOOS_PAIRING_SKIPPED:-0}" = "1" ] ||
+				[ ! -s "$(direct_pairing_provision_file)" ]; then
+				install_fail "pairing" \
+					"Credential renewal did not produce an authorized credential." \
+					"The former tunnel was left unchanged. Retry pairing while signed in."
+			fi
+			if ! verify_provisioned_identity "$CANDIDATE_ROOT"; then
+				install_fail "pairing" \
+					"Renewed credential could not be verified." \
+					"The former tunnel was left unchanged. Retry pairing while signed in."
+			fi
+			;;
+		*)
+			install_fail "identity-reuse" \
+				"Staged runtime cannot read the already-approved key and credential." \
+				"The healthy predecessor was preserved; no new pairing was requested."
+			;;
+	esac
 	if ! prove_candidate_before_promotion readonly; then
 		# B"H — Yaakov 2026-10-14 STANDING RULE: Installer ALWAYS shows the
 		# agent's real output (same as `node main.js`), but better formatted.
