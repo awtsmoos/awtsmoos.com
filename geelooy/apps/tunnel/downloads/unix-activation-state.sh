@@ -90,7 +90,7 @@ candidate_is_stably_active() {
 	fi
 	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	install_progress 55 "Agent registered — proving durable supervision"
-	if ! wait_for_service_supervision 30; then
+	if ! wait_for_service_supervision 5; then
 		install_event "startup" "failed" \
 			"Agent was temporary; durable supervisor ownership was not proven." \
 			"$(final_readiness_failure_detail 2>/dev/null || printf '') $(service_health_summary)"

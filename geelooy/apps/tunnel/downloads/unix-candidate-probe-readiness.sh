@@ -134,7 +134,7 @@ wait_for_candidate_probe() {
 	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
 	local last_reported_lane=""
 	local last_reported_at_ms=0
-	local report_interval_ms="${AWTSMOOS_CANDIDATE_REPORT_INTERVAL_MS:-5000}"
+	local report_interval_ms="${AWTSMOOS_CANDIDATE_REPORT_INTERVAL_MS:-500}"
 	local announced_pairing=0
 	local announced_preparing=0
 	local announced_direct_skip=0
@@ -143,7 +143,7 @@ wait_for_candidate_probe() {
 	local installer_pairing_id=""
 	local installer_last_state_poll_ms=0
 	local installer_approval_seen_ms=0
-	local installer_state_poll_interval_ms=5000
+	local installer_state_poll_interval_ms=500
 	# B"H — after the installer itself sees approval, the candidate gets this
 	# long to finish registering before we fail with a targeted message.
 	local approval_settle_ms="${AWTSMOOS_APPROVAL_SETTLE_MS:-60000}"

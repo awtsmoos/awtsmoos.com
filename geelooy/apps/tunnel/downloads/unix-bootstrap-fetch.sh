@@ -14,8 +14,8 @@ bootstrap_fetch_once() {
 	local status=0
 	rm -f "$temporary" "$error_file"
 	set +e
-	code="$(curl -sS -L --connect-timeout 8 --max-time 45 \
-		--speed-time 20 --speed-limit 1024 \
+	code="$(curl -sS -L --connect-timeout 3 --max-time 10 \
+		--speed-time 5 --speed-limit 1024 \
 		-o "$temporary" -w '%{http_code}' "$url" 2>"$error_file")"
 	status=$?
 	set -e

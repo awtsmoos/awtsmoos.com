@@ -11,7 +11,8 @@ test('installer provides discoverable status and cancellation without exposing c
  assert.match(code,/Runner PID/);
  assert.match(code,/core PID/);
  assert.match(code,/kill -TERM/);
- assert.match(code,/lastHeartbeat >= 5000/);
+ assert.match(code,/lastHeartbeat >= 500/);
+ assert.doesNotMatch(code,/lastHeartbeat >= 5000/);
  assert.match(code,/core\.kill\("SIGTERM"\)/);
  assert.doesNotMatch(code,/process\.stdout\.write\(JSON\.stringify\(process\.env\)/);
 });

@@ -96,7 +96,7 @@ if load_release_metadata; then printf 'ok:'; sha256_file "$RELEASE_MANIFEST_PATH
 
 test('metadata outage has a short retry budget and cancels parallel download',()=>{
  const source=fs.readFileSync(path.join(root,'unix-release-metadata.sh'),'utf8');
- assert.equal((source.match(/--max-time 18/g)||[]).length,2);
+ assert.equal((source.match(/--max-time 6/g)||[]).length,2);
  assert.equal((source.match(/--retry 1/g)||[]).length,2);
  assert.match(source,/kill "\$manifest_pid"/);
 });

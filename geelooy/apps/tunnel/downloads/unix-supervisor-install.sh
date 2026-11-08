@@ -103,7 +103,7 @@ start_restored_supervisor() {
 
 wait_for_runtime() {
 	local timeout_seconds="${1:-45}"
-	local stable_samples="${AWTSMOOS_STABILITY_SAMPLES:-4}"
+	local stable_samples="${AWTSMOOS_STABILITY_SAMPLES:-2}"
 	local maximum_samples=$(( timeout_seconds * 4 ))
 	local elapsed_samples=0
 	local stable=0

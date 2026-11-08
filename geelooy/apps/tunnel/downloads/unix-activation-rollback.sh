@@ -20,7 +20,7 @@ restored_runtime_ready() {
 	wait_for_runtime "$timeout_seconds" || return 1
 	local agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	runtime_registered "$agent_pid" 600000 || return 1
-	wait_for_service_supervision 15 || return 1
+	wait_for_service_supervision 5 || return 1
 }
 
 restore_exact_predecessor() {

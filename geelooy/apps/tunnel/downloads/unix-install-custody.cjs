@@ -70,11 +70,11 @@ async function delegate() {
 			return;
 		}
 		if (!alive(runner.pid)) throw new Error("installer_custody_runner_lost");
-		if (Date.now()-lastHeartbeat >= 5000) {
+		if (Date.now()-lastHeartbeat >= 500) {
 			const receipt = readReceipt();
 			const elapsed = Math.floor((Date.now()-startedAt)/1000);
 			const silent = logAgeSeconds(logPath);
-			process.stderr.write(`${colors.cyan}   ◉ ACTIVE${colors.off} | ${elapsed}s | core PID ${receipt?.corePid || runner.pid}\n${colors.dim}      ${latestProgress(logPath)}${colors.off}${silent > 30 ? ` ${colors.gold}(no new output for ${silent}s)${colors.off}` : ""}\n`);
+			process.stderr.write(`${colors.cyan}   ◉ ACTIVE${colors.off} | ${elapsed}s | core PID ${receipt?.corePid || runner.pid}\n${colors.dim}      ${latestProgress(logPath)}${colors.off}${silent > 5 ? ` ${colors.gold}(no new output for ${silent}s)${colors.off}` : ""}\n`);
 			lastHeartbeat=Date.now();
 		}
 	}

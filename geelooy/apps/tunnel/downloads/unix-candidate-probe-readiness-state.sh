@@ -36,12 +36,12 @@ candidate_stable_duration_ms() {
 
 candidate_stability_ready() {
 	local now_ms="$1"
-	local required_samples="${AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-4}"
+	local required_samples="${AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-2}"
 	# An isolated candidate does not register on the real relay. A short,
 	# multi-sample action/port/version proof is sufficient here; the owning
 	# runtime must still sustain real registration and guardian checks after
 	# promotion, and rollback remains mandatory on failure.
-	local required_ms="${AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-1800}"
+	local required_ms="${AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-500}"
 	local duration_ms="$(candidate_stable_duration_ms "$now_ms")"
 	[ "$CANDIDATE_STABLE_SAMPLES" -ge "$required_samples" ] && [ "$duration_ms" -ge "$required_ms" ]
 }
@@ -49,11 +49,11 @@ candidate_stability_ready() {
 candidate_probe_sleep_seconds() {
 	local elapsed_ms="$1"
 	if [ "$elapsed_ms" -lt 2000 ]; then
-		printf '0.10\n'
+		printf '0.05\n'
 	elif [ "$elapsed_ms" -lt 10000 ]; then
-		printf '0.25\n'
+		printf '0.10\n'
 	else
-		printf '0.50\n'
+		printf '0.25\n'
 	fi
 }
 

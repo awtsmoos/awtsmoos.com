@@ -46,10 +46,10 @@ load_release_metadata() {
 	# resources. Fetch them concurrently; hash and compare both before trusting
 	# either. Wait for both children even when one fails, leaving no curl orphan.
 	local descriptor_pid manifest_pid descriptor_status=0 manifest_status=0
-	curl -fsSL --retry 1 --retry-delay 1 --connect-timeout 4 --max-time 18 --speed-time 10 --speed-limit 1024 \
+	curl -fsSL --retry 1 --retry-delay 0 --connect-timeout 2 --max-time 6 --speed-time 3 --speed-limit 1024 \
 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH" &
 	descriptor_pid=$!
-	curl -fsSL --retry 1 --retry-delay 1 --connect-timeout 4 --max-time 18 --speed-time 10 --speed-limit 1024 \
+	curl -fsSL --retry 1 --retry-delay 0 --connect-timeout 2 --max-time 6 --speed-time 3 --speed-limit 1024 \
 		"$origin/api/tunnel/install/manifest.txt" -o "$RELEASE_MANIFEST_PATH" &
 	manifest_pid=$!
 	wait "$descriptor_pid" || descriptor_status=$?
