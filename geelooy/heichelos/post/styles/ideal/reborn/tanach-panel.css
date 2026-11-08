@@ -101,7 +101,7 @@
 	margin-top: 1rem;
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.awtsmoos-tanach-backdrop {
 		align-items: end;
 		padding: 0;

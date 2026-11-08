@@ -82,7 +82,7 @@ The Awtsmoos gives the studio sharper vessels: glass becomes an instrument inste
 	contain-intrinsic-size: auto 420px;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.creator-section,
 	.provider-banner,
 	.quick-guide {

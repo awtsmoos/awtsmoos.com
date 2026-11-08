@@ -17,7 +17,7 @@
 .awt-agent-card strong { font-size: .92rem; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-agent-card span { color: var(--awt-muted); font-size: .76rem; }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .awt-task-row { padding: 12px; }
   .awt-task-copy strong, .awt-task-copy span { white-space: normal; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

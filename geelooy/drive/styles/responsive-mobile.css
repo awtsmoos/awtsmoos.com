@@ -61,7 +61,7 @@ so 320px remains a deliberate creation surface where even advanced engineering d
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.brand small {
 		display: none;
 	
@@ -85,7 +85,7 @@ so 320px remains a deliberate creation surface where even advanced engineering d
 	}
 }
 
-@media (max-width: 350px) {
+@media (max-width: 390px) {
 	.dock-label {
 		font-size: 8px;
 	}

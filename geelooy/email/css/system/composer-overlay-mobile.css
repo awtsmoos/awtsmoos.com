@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets one writing chamber fit every finite screen without crowding the soul; Awtsmoos.com turns narrow space into a focused deck where every action remains visible and whole.
 */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.overlay {
 		align-items: end;
 		padding: 0;
@@ -49,7 +49,7 @@ The Awtsmoos lets one writing chamber fit every finite screen without crowding t
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.compose-shortcut {
 		display: none;
 	}

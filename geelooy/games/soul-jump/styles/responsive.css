@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos gives the same ascent a different vessel when the screen narrows or motion must become still;
 Awtsmoos.com lets mobile geometry and reduced-motion preference govern the glow instead of forcing one visual will.
 */
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	#gameCanvas {
 		border-width: 0;
 		border-radius: 0;

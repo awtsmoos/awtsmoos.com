@@ -70,7 +70,7 @@ label:has(input[type="radio"]) {
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	summary {
 		inline-size: 100%;
 	}

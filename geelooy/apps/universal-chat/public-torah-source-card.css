@@ -66,7 +66,7 @@
 	background: rgba(121, 224, 183, 0.12);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-special-pane .universal-chat-source {
 		gap: 0.52rem;
 		padding: 0.75rem 0.72rem;

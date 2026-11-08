@@ -29,7 +29,7 @@
 	min-inline-size: 0;
 	max-inline-size: 100%;
 }
-@media (max-width: 39.9375rem) {
+@media (max-width: 560px) {
 	.awtsmoosSocialExperience :where(
 		.awtsmoosActionOverflow__more > .awtsmoosDisclosure__body,
 		.awtsmoosSocialSheet,

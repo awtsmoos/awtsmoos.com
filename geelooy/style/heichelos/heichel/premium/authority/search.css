@@ -67,24 +67,24 @@ body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
 	padding-inline: .85rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
 		grid-template-columns: minmax(0, 1fr);
 		gap: .42rem;
 		padding: .48rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack .living-path-field {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack .living-path-field {
 		grid-column: 1;
 		grid-row: 1;
 		inline-size: min(100%, 8rem);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack .series-search-row {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack .series-search-row {
 		grid-column: 1;
 		grid-row: 2;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-field label {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-field label {
 		position: absolute;
 		inline-size: 1px;
 		block-size: 1px;
@@ -96,7 +96,7 @@ body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .filter-chip {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .filter-chip {
 		min-inline-size: 2.75rem;
 		padding-inline: .7rem;
 	} }

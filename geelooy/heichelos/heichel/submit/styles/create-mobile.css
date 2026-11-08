@@ -33,7 +33,7 @@
 @media (hover:hover) and (pointer:fine) { .mobile-create-nav a:hover { transform:translateY(-1px); background:var(--create-hover-wash); color:var(--create-ink); } }
 .mobile-create-nav a:active { transform:scale(.96); }
 .mobile-create-nav a:focus-visible { outline:3px solid var(--create-focus); outline-offset:2px; }
-@media (min-width:60rem) {
+@media (min-width: 900px) {
 	.submit-page,
 	.post-creator-container { grid-template-columns:minmax(0,1fr) 17.5rem; align-items:start; }
 	.submit-hero,
@@ -45,14 +45,14 @@
 	.status-card,
 	.top-controls { position:sticky; inset-block-start:1rem; grid-column:2; }
 }
-@media (max-width:45rem) {
+@media (max-width: 760px) {
 	body { padding:3.25rem .65rem 8.25rem; }
 	.mobile-create-nav { display:grid; }
 	.publish-button { inset-inline:max(.65rem,env(safe-area-inset-left)) max(.65rem,env(safe-area-inset-right)); inset-block-end:calc(4.65rem + max(.65rem,env(safe-area-inset-bottom))); inline-size:auto; max-inline-size:none; }
 	.composer-actions,
 	.editor-controls-bar { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
-@media (max-width:24rem) {
+@media (max-width: 390px) {
 	.composer-actions,
 	.editor-controls-bar { grid-template-columns:repeat(2,minmax(0,1fr)); }
 	.mobile-create-nav a { font-size:.7rem; padding-inline:.25rem; 

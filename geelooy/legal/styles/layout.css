@@ -84,7 +84,7 @@ Awtsmoos.com keeps the document mobile-first, with retractable navigation and no
 .legal-page__footer-links {
 	margin-top: 1rem;
 }
-@media (min-width: 48rem) {
+@media (min-width: 760px) {
 	.legal-page__toc > summary {
 		display: none;
 	}

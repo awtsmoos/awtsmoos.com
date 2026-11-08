@@ -6,9 +6,9 @@
 .series-heading p:not(.series-label) { color:var(--light-text-b9c6dc, #b9c6dc); grid-column:1/-1; line-height:1.65; margin:.15rem 0 0; max-width:68ch; overflow-wrap:anywhere; padding-inline-start:.75rem; white-space:pre-wrap; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(#seriesControls) { justify-self:end; }
-@media (max-width:640px) { .series-heading {grid-template-columns:1fr} }
+@media (max-width: 560px) { .series-heading {grid-template-columns:1fr} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width:640px) { :where(#seriesControls) {justify-self:start} }
+@media (max-width: 560px) { :where(#seriesControls) {justify-self:start} }
 
 /* B"H Yaakov 2026-10-08: Light-theme branch for series-heading — dark text on light bg, no */
 html[data-theme="light"] .series-heading {

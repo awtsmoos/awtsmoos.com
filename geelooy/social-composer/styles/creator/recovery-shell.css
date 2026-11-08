@@ -84,7 +84,7 @@ Awtsmoos.com bounds the recovery sheet to safe edges, gives its header room to b
 	border-block-start: 1px solid var(--composer-border-soft);
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.draftRecoveryDialog > header {
 		grid-template-columns: 1fr;
 	}
@@ -95,7 +95,7 @@ Awtsmoos.com bounds the recovery sheet to safe edges, gives its header room to b
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (min-width: 50rem) {
+@media (min-width: 900px) {
 	.draftRecoveryDialog {
 		inset: 50% auto auto 50%;
 		inline-size: min(38rem, calc(100vw - 3rem));

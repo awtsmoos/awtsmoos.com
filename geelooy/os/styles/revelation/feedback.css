@@ -82,7 +82,7 @@ html .awtsmoos-toast {
 		background: var(--geo-surface-opaque);
 	}
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.start-record-category,
 	.shell-command-category {
 		display: none;

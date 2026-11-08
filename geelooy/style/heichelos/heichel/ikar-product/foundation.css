@@ -72,7 +72,7 @@
 	max-width: 42rem;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	:root.heichel-os-document .heichel-semantic-hero {
 		min-height: 13rem;
 	}

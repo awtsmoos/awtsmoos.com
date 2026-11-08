@@ -73,7 +73,7 @@
 	color: var(--g-danger);
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.g-editor-surface {
 		min-height: min(76vh, 34rem);
 		border-radius: var(--g-control-radius);

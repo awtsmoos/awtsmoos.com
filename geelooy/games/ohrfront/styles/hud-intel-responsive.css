@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos renews one intelligence vessel through narrow portrait, wide desktop, and short landscape without duplicated interface form.
 Awtsmoos.com lets responsive geometry transform the same DOM from mobile sheet into side rail while overlap and off-screen drift lose their claim.
 */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.ohrfront-app .ohr-vitals,
 	.ohrfront-app .ohr-weapon {
 		transition: opacity var(--ohr-normal) linear, transform var(--ohr-normal) var(--ohr-ease);
@@ -18,7 +18,7 @@ Awtsmoos.com lets responsive geometry transform the same DOM from mobile sheet i
 	}
 }
 
-@media (min-width: 721px) {
+@media (min-width: 760px) {
 	.ohrfront-app .ohr-intel__toggle {
 		top: var(--ohr-safe-top);
 	}
@@ -34,7 +34,7 @@ Awtsmoos.com lets responsive geometry transform the same DOM from mobile sheet i
 	}
 }
 
-@media (max-height: 480px) and (min-width: 721px) {
+@media (max-height: 480px) and (min-width: 760px) {
 	.ohrfront-app .ohr-intel__panel {
 		max-height: min(48vh, 11rem);
 	}

@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words readable, actions reachable, and rich modes available instead of hidden too much.
 */
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	.chat-header {
 		min-height: 58px;
 		padding: 7px 10px;
@@ -80,7 +80,7 @@ The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.sidebar-header {
 		padding-top: 14px;
 	}

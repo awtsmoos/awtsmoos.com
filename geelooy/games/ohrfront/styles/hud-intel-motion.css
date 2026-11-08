@@ -30,7 +30,7 @@ Awtsmoos.com lets transforms and opacity reveal requested intelligence smoothly,
 	transform: rotate(0deg);
 }
 
-@media (min-width: 721px) {
+@media (min-width: 760px) {
 	.ohrfront-app .ohr-intel__panel {
 		transform: translate3d(14px, 0, 0) scale(0.985);
 	}

@@ -71,7 +71,7 @@
 }
 
 /* ---------- Mobile: tighter but still breathable ---------- */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.post-reader-localized-context #realPost {
 		padding-inline: 1rem;
 	}

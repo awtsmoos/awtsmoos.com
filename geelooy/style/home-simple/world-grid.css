@@ -92,18 +92,18 @@ html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 @media (max-width: 900px) { body[data-geelooy-route="home"] .world-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	} }
-@media (max-width: 620px) { body[data-geelooy-route="home"] .world-grid {
+@media (max-width: 560px) { body[data-geelooy-route="home"] .world-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: .5rem;
 	} }
-@media (max-width: 620px) { body[data-geelooy-route="home"] .world-tile {
+@media (max-width: 560px) { body[data-geelooy-route="home"] .world-tile {
 		grid-template-columns: 2.35rem minmax(0, 1fr);
 		min-height: 64px;
 		padding: .58rem;
 		border-radius: .85rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 620px) { :where(body[data-geelooy-route="home"]) .world-tile span {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) .world-tile span {
 		width: 2.35rem;
 		height: 2.35rem;
 		border-radius: .72rem;

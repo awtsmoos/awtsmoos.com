@@ -81,7 +81,7 @@ Awtsmoos.com gives each canonical road a bounded vessel, a quiet spark, and no h
 	transform: scale(.97);
 }
 
-@media (min-width: 40.01rem) {
+@media (min-width: 560px) {
 	.social-hub-document .creatorLaunchRail {
 		display: flex;
 		overflow-x: auto;

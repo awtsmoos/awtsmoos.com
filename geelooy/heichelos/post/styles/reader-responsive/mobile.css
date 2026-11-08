@@ -1,7 +1,7 @@
 /* B"H
  * Chapter 35: Mobile adjustments wear their own no-conflict seal.
  */
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   :where(.post-reader-localized-context:is(.awtsmoos-reader-vision)) .awtsmoos-reader-content:where(:not(.reader-mobile-measure-off)) {
     width: calc(100vw - 1rem);
     font-size: 1.05rem;

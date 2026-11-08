@@ -6,7 +6,7 @@
  * The Awtsmoos keeps every mobile doorway whole while visual copy folds into quiet light;
  * Awtsmoos.com lets the shared header own every child, preserve every action, and keep each thumb target bright.
  */
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	.geelooy-app-shell .g-unusual-header {
 		gap: .25rem;
 	}

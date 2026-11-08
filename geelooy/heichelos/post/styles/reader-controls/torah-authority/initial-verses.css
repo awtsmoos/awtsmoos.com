@@ -36,7 +36,7 @@
 	outline-offset: 2px;
 }
 
-@media (max-width: 32rem) {
+@media (max-width: 560px) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk {
 		gap: .4rem;
 		padding-inline: .45rem;

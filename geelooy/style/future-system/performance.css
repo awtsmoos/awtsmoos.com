@@ -11,7 +11,7 @@ body[data-future-page="apps"] [data-app-grid] {
 	contain-intrinsic-size: auto 900px;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	body[data-future-page="games"] .gamesCatalog,
 	body[data-future-page="apps"] [data-app-grid] {
 		contain-intrinsic-size: auto 1500px;

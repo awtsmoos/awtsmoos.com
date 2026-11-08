@@ -69,7 +69,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.social-hub-document .peopleSearch {
 		grid-template-columns: 1fr 1fr;
 	}

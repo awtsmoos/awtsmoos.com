@@ -123,8 +123,8 @@ html .geelooy-home-document .home-command-dock {
 	border: 1px solid var(--home-dock-border);
 	box-shadow: 0 -18px 50px var(--home-dock-shadow);
 }
-@media (max-width: 720px) { html .geelooy-home-document .home-dashboard-shell { padding: 8px 8px calc(var(--g-dock-h) + 86px); } }
-@media (max-width: 720px) { html .geelooy-home-document .home-feed-tabs { top: 54px; } }
+@media (max-width: 760px) { html .geelooy-home-document .home-dashboard-shell { padding: 8px 8px calc(var(--g-dock-h) + 86px); } }
+@media (max-width: 760px) { html .geelooy-home-document .home-feed-tabs { top: 54px; } }
 /* B"H mobile click covenant: controls stay touchable even when legacy menus mis-set state. */
 html body.geelooy-home-document :where(.awtsmoosificationalisticaticalism, .home-feed-tabs, .home-command-dock, .home-empty-actions, .geelooy-feed-compact-actions, .geelooy-verse-chip) {
 	pointer-events: auto;

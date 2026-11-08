@@ -63,16 +63,16 @@ html :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-f
 	padding-block-start: .85rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-form {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-form {
 		grid-template-columns: minmax(0, 1fr) auto;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-input {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-input {
 		grid-column: 1 / -1;
 		min-block-size: 3rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-source {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-source {
 		min-inline-size: 0;
 		inline-size: 100%;
 	} }

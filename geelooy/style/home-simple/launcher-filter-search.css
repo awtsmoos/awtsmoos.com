@@ -61,7 +61,7 @@ body[data-geelooy-route="home"] .launcher-search {
 :where(body[data-geelooy-route="home"]) :where(.launcher-search) :where(input)::placeholder {
 	color: var(--home-placeholder);
 }
-@media (max-width: 620px) { body[data-geelooy-route="home"] .launcher-tools {
+@media (max-width: 560px) { body[data-geelooy-route="home"] .launcher-tools {
 		grid-template-columns: 1fr;
 		gap: .42rem;
 	} }

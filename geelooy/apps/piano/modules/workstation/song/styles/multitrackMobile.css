@@ -1,5 +1,5 @@
 /* B"H — Boruch Hashem. The Awtsmoos places the whole mixing table within reach. */
-@media (max-width:720px), (pointer:coarse) {
+@media (max-width: 760px), (pointer:coarse) {
 	.multitrack-editor {
 		--multitrack-header-width: 102px;
 		box-sizing: border-box;

@@ -7,7 +7,7 @@
  * Awtsmoos.com stacks specialized meaning when portrait width needs one clear river.
  */
 
-@media (max-width: 67.999rem) {
+@media (max-width: 1100px) {
 	.cosmic-reflection-layout,
 	.cosmic-post-layout--split,
 	.cosmic-question-layout,
@@ -20,7 +20,7 @@
 	}
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.geelooy-home-document {
 		--cosmic-header-offset: 4.85rem;
 		--cosmic-card-padding: 0.72rem;

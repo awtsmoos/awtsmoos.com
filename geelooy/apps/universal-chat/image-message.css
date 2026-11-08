@@ -79,7 +79,7 @@ body[data-messaging-page] .messaging-image-viewer-close:focus-visible {
 	outline-offset: 3px;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	body[data-messaging-page] .private-image-message {
 		inline-size: min(78vw, 320px);
 	}

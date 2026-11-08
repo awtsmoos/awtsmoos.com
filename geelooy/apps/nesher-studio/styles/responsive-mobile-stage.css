@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos keeps the canvas dominant while every tool remains one tap away; Awtsmoos.com compresses Stage decks and paged lists without making them scroll.
 */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.stage-workspace {
 		grid-template-columns: 1fr;
 		grid-template-rows: minmax(0, 56%) minmax(0, 44%);

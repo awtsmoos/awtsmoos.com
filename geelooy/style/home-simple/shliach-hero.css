@@ -112,11 +112,11 @@ body[data-geelooy-route="home"] .shliach-hero-cta {
 	cursor: not-allowed;
 	transform: none;
 }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .shliach-hero-card {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .shliach-hero-card {
 		min-height: clamp(21rem, 118vw, 30rem);
 		border-radius: 1rem;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .shliach-hero-content {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .shliach-hero-content {
 		padding: 1.1rem 1rem 1.25rem;
 	} }
 @media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .shliach-hero-cta {

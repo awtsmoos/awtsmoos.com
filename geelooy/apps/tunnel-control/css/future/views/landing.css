@@ -148,7 +148,7 @@ body {
   white-space: normal;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 900px) {
   .status-grid,
   .landing-status-grid,
   .mission-status-grid,
@@ -157,7 +157,7 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
   .status-grid,
   .landing-status-grid,
   .mission-status-grid,

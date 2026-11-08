@@ -56,7 +56,7 @@ body.geelooy-app-shell :where(
 		var(--g-surface);
 	box-shadow: var(--g-shadow-md), inset 0 1px rgba(255, 255, 255, 0.055);
 }
-@media (max-width: 42rem) { body.geelooy-app-shell .g-page-hero, body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
+@media (max-width: 760px) { body.geelooy-app-shell .g-page-hero, body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
 		align-items: stretch;
 		border-radius: 0.65rem 1.8rem 0.65rem 1.8rem;
 	} }

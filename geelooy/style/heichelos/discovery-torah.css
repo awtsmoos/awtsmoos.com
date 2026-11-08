@@ -184,24 +184,24 @@
 	overflow-wrap: anywhere;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 42rem) { .heichelos-discovery-page .social-spaces-shell {
+@media (max-width: 760px) { .heichelos-discovery-page .social-spaces-shell {
 		inline-size: min(100% - 1rem, 78rem);
 	} }
-@media (max-width: 42rem) { .heichelos-discovery-page .spaces-hero {
+@media (max-width: 760px) { .heichelos-discovery-page .spaces-hero {
 		padding: 1.15rem;
 	} }
-@media (max-width: 42rem) { .heichelos-discovery-page .spaces-search {
+@media (max-width: 760px) { .heichelos-discovery-page .spaces-search {
 		grid-template-columns: 1fr;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 42rem) { :where(.heichelos-discovery-page) .spaces-search .field-label {
+@media (max-width: 760px) { :where(.heichelos-discovery-page) .spaces-search .field-label {
 		grid-column: 1;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 42rem) { :where(.heichelos-discovery-page) .spaces-search .p-button {
+@media (max-width: 760px) { :where(.heichelos-discovery-page) .spaces-search .p-button {
 		inline-size: 100%;
 	} }
-@media (max-width: 42rem) { .heichelos-discovery-page .space-meta-line {
+@media (max-width: 760px) { .heichelos-discovery-page .space-meta-line {
 		flex-wrap: wrap;
 		gap: .35rem .75rem;
 	} }

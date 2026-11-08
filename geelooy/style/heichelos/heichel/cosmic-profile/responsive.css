@@ -3,62 +3,62 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /* The Awtsmoos preserves one profile language across wide and narrow vessels. */
-@media (min-width: 70rem) { .heichel-os-document .geelooy-bottom-nav {
+@media (min-width: 1100px) { .heichel-os-document .geelooy-bottom-nav {
 		display: none;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .geelooy-main-stage {
+@media (min-width: 1100px) { .heichel-os-document .geelooy-main-stage {
 		padding-bottom: 2rem;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .geelooy-main-stage {
+@media (max-width: 900px) { .heichel-os-document .geelooy-main-stage {
 		width: min(calc(100% - 1rem), var(--heichel-profile-width));
 		padding-top: 4.85rem;
 		padding-bottom: 5.4rem;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .cosmic-heichel-topbar {
+@media (max-width: 900px) { .heichel-os-document .cosmic-heichel-topbar {
 		grid-template-columns: auto minmax(0, 1fr) auto auto auto;
 		min-height: 4.1rem;
 		padding-inline: .62rem;
 	} }
-@media (max-width: 55rem) { .heichel-profile-cover {
+@media (max-width: 900px) { .heichel-profile-cover {
 		height: 8.6rem;
 	} }
-@media (max-width: 55rem) { .heichel-profile-identity {
+@media (max-width: 900px) { .heichel-profile-identity {
 		gap: .75rem;
 		margin-top: -2.55rem;
 		padding-inline: .85rem;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .heichel-seal {
+@media (max-width: 900px) { .heichel-os-document .heichel-seal {
 		width: 5.25rem;
 		height: 5.25rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 55rem) { :where(.heichel-os-document) :where(#heichel-main-title) {
+@media (max-width: 900px) { :where(.heichel-os-document) :where(#heichel-main-title) {
 		font-size: clamp(1.85rem, 8vw, 2.75rem);
 	} }
-@media (max-width: 55rem) { .heichel-os-document .hero-description {
+@media (max-width: 900px) { .heichel-os-document .hero-description {
 		font-size: .88rem;
 		line-height: 1.42;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .heichel-profile-stats, .heichel-profile-actions {
+@media (max-width: 900px) { .heichel-os-document .heichel-profile-stats, .heichel-profile-actions {
 		margin-inline: .85rem;
 		padding-inline: 0;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .heichel-nav-panel {
+@media (max-width: 900px) { .heichel-os-document .heichel-nav-panel {
 		padding: .62rem;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .heichel-os-district-dock {
+@media (max-width: 900px) { .heichel-os-document .heichel-os-district-dock {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .heichel-os-status-grid {
+@media (max-width: 900px) { .heichel-os-document .heichel-os-status-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	} }
-@media (max-width: 55rem) { html .heichel-os-document .nav-card {
+@media (max-width: 900px) { html .heichel-os-document .nav-card {
 		grid-template-columns: 3.8rem minmax(0, 1fr) auto;
 		gap: .5rem;
 		min-height: 7.6rem;
 		padding: 1.9rem .55rem .62rem;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .nav-card-media {
+@media (max-width: 900px) { .heichel-os-document .nav-card-media {
 		width: 2.9rem;
 		height: 2.9rem;
 	} }

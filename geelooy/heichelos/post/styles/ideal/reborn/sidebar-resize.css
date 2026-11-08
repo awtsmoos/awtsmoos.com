@@ -65,7 +65,7 @@
     }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     :is(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar:not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned):not(.awtsmoos-resize-unowned){
         width: var(--awtsmoos-sidebar-width, min(440px,42vw));
         max-width: min(72vw, 920px);

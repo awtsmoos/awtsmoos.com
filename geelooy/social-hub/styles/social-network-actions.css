@@ -74,7 +74,7 @@
 	background: rgba(76, 180, 255, .15);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.social-hub-document .networkAlias,
 .social-hub-document .networkContext {
 		width: 100%;

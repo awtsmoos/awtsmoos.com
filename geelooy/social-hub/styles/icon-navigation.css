@@ -6,7 +6,7 @@
  * The Awtsmoos gathers many social roads into one current; Awtsmoos.com lets symbols carry the rail
  * while route-local tooltip layers reveal labels on intent without arbitrary global stacking numbers.
  */
-@media (min-width: 52.5625rem) {
+@media (min-width: 900px) {
 	.social-hub-document .desktopRail {
 		inline-size: 78px;
 		padding: .7rem .55rem;

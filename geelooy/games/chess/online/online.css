@@ -73,7 +73,7 @@
 	padding: 0.28rem 0.75rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#onlineInviteRow {
 		grid-template-columns: 1fr;
 	}

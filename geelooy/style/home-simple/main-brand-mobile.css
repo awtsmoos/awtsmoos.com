@@ -4,38 +4,38 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gives the narrow Home page one measured earth beneath its fixed dock; Awtsmoos.com reserves that space once in the content vessel instead of stacking body and main padding into a false empty continent.
 */
-@media (max-width: 680px) { body[data-geelooy-route="home"] {
+@media (max-width: 760px) { body[data-geelooy-route="home"] {
 		padding-bottom: 0;
 		overflow-x: clip;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] :where(.home, .hero, .action-panel, .featured-worlds, .shliach-spotlight, .shliach-home-section) {
+@media (max-width: 760px) { body[data-geelooy-route="home"] :where(.home, .hero, .action-panel, .featured-worlds, .shliach-spotlight, .shliach-home-section) {
 		min-width: 0;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .banner-copy h1 {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .banner-copy h1 {
 		font-size: clamp(2.35rem, 12vw, 3.35rem);
 		line-height: .94;
 		max-width: 9ch;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .hero-summary {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .hero-summary {
 		font-size: .98rem;
 		line-height: 1.5;
 		max-width: 31rem;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .portal-shortcuts {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .portal-shortcuts {
 		display: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .featured-heading h2 {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .featured-heading h2 {
 		font-size: clamp(1.8rem, 8.5vw, 2.55rem);
 		line-height: 1.02;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .mobile-dock {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .mobile-dock {
 		bottom: max(.55rem, env(safe-area-inset-bottom));
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] :where(.hero-actions, .featured-worlds, .shliach-spotlight-card, .shliach-home-shell) {
+@media (max-width: 760px) { body[data-geelooy-route="home"] :where(.hero-actions, .featured-worlds, .shliach-spotlight-card, .shliach-home-shell) {
 		scroll-margin-bottom: 6.5rem;
 	} }
 @media (max-width: 390px) { body[data-geelooy-route="home"] .hero-actions {

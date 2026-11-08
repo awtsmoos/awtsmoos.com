@@ -108,7 +108,7 @@
 	opacity: 0.7;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.awtsmoos-related-torah {
 		margin-inline: 0;
 		border-radius: 14px;

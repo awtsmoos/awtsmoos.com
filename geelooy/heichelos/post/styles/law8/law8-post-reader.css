@@ -546,7 +546,7 @@
 }
 
 /* ---------- responsive ---------- */
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.post-reader-localized-context :where(#realPost.content) {
 		padding-inline: .7rem;
 	}

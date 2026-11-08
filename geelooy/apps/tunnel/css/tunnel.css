@@ -251,7 +251,7 @@ code {
   color: var(--muted);
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   .copy-row {
     grid-template-columns: 1fr;
   }
@@ -542,7 +542,7 @@ code {
   white-space: nowrap;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 900px) {
   .deck {
     grid-template-columns: 1fr;
   }

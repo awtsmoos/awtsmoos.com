@@ -6,7 +6,7 @@
  * The Awtsmoos keeps advanced time editable when requested; Awtsmoos.com lets the mobile timeline wrap inside its sheet without reserving permanent viewport height.
  */
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.nle-timeline-toolbar {
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: .38rem;

@@ -5,7 +5,7 @@ Blessed is He
 mitzvah-world-mobile-integration-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
 */
 
-@media (max-width: 820px), (pointer: coarse) {
+@media (max-width: 900px), (pointer: coarse) {
 	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-inventory-panel .inv-body {
 		grid-template-columns: 1fr;
 		grid-template-rows: auto minmax(0, 1fr);

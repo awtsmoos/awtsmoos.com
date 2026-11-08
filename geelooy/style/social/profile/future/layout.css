@@ -4,4 +4,4 @@
 .profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, .72fr); gap: .8rem; align-items: start; }
 .profile-stack { display: grid; gap: .8rem; }
 .loading-circle { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: .26rem solid #dfe6ee; border-top-color: #0f766e; }
-@media (max-width: 820px) { .profile-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } }

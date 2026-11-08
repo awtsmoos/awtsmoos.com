@@ -569,7 +569,7 @@ html, body {
 .stat b { display: block; font-size: 20px; color: var(--mk-acc); font-weight: 700; }
 
 /* responsive */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
   #toolbar { gap: 6px; padding: 6px 8px; }
   #addr { flex-basis: 100%; order: 10; }
   .page { padding: 24px 14px 48px 14px; }

@@ -193,7 +193,7 @@ html .mail-mobile-dock {
 	backdrop-filter: blur(28px);
 	color: var(--g4-text);
 }
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	html .mail-sidebar,
 	html .sidebar {
 		padding-top: var(--g4-safe-top);

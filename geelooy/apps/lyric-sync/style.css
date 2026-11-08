@@ -285,7 +285,7 @@ input[type="file"] {
 
 
 /* Mobile Responsive */
-@media (max-width: 600px) {
+@media (max-width: 560px) {
     body {
         padding: 0.5rem;
     }

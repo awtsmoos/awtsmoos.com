@@ -8,4 +8,4 @@
 .heichel-manage-hero p:not(.heichel-kicker) { color: #64748b; line-height: 1.6; }
 .heichel-route-dock { display: flex; gap: .55rem; flex-wrap: wrap; }
 .heichel-route-dock a { min-height: 44px; display: inline-flex; align-items: center; border: 1px solid #dfe6ee; border-radius: 999px; padding: .65rem .9rem; text-decoration: none; background: #f8fafc; font-weight: 750; color: #0f172a; }
-@media (max-width: 820px) { .heichel-manage-page { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .heichel-manage-page { grid-template-columns: 1fr; } }

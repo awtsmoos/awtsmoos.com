@@ -8,7 +8,7 @@
   .home-topbar, .home-command-card, .home-quick-grid, .home-tools-strip { grid-column: 1; }
   .home-feed-phone { grid-column: 2; grid-row: 2 / span 3; position: sticky; top: 4rem; }
 }
-@media (max-width: 980px) {
+@media (max-width: 900px) {
   .home-rail-links { display: none; }
   .home-menu-button { display: grid; place-items: center; }
   .home-topbar { grid-template-columns: minmax(0, 1fr) auto auto; }
@@ -27,7 +27,7 @@
   .post-author small { grid-column: 2; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
-@media (max-width: 430px) {
+@media (max-width: 390px) {
   .home-hero-copy h1 { font-size: clamp(1.9rem, 12vw, 3.1rem); 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .home-feed-title strong { font-size: 1.28rem; 

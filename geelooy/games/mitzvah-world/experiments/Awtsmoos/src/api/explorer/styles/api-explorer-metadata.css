@@ -89,7 +89,7 @@
 	opacity: .58;
 }
 
-@media (min-width: 46rem) {
+@media (min-width: 760px) {
 	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__filters {
 		grid-template-columns: minmax(0, 1.25fr) minmax(10rem, .75fr);
 	}

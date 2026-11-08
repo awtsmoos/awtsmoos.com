@@ -77,22 +77,22 @@ body[data-geelooy-route="home"] .ambient-glow {
 	mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="building"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="restoring"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="building"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="restoring"] {
 		opacity: .07;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="running"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="running"] {
 		opacity: .18;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="degraded"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="paused"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="degraded"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="paused"] {
 		opacity: .14;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="static"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="static"] {
 		opacity: .11;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .ambient-glow {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .ambient-glow {
 		inset-block-start: 12%;
 		width: calc(100vw - 16px);
 		max-width: calc(100vw - 16px);

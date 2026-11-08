@@ -7,29 +7,29 @@ The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com
 @media (max-width: 900px) { body[data-geelooy-route="home"] .featured-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-worlds {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .featured-worlds {
 		padding-top: 1rem;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-heading {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .featured-heading {
 		align-items: center;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .featured-heading a {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .featured-heading a {
 		display: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-card {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .featured-card {
 		min-height: 190px;
 		padding: .85rem;
 	} }
-@media (max-width: 430px) { body[data-geelooy-route="home"] .featured-grid {
+@media (max-width: 390px) { body[data-geelooy-route="home"] .featured-grid {
 		gap: .5rem;
 	} }
-@media (max-width: 430px) { body[data-geelooy-route="home"] .featured-card {
+@media (max-width: 390px) { body[data-geelooy-route="home"] .featured-card {
 		min-height: 174px;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .featured-card p {
+@media (max-width: 390px) { :where(body[data-geelooy-route="home"]) .featured-card p {
 		font-size: .66rem;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

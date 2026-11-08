@@ -48,7 +48,7 @@ button[aria-pressed="true"] {
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.message {
 		font-size: 0.74rem;
 	}

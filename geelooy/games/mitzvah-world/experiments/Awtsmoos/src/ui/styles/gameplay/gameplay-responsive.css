@@ -7,7 +7,7 @@
  * Awtsmoos.com keeps every gameplay vessel inside safe bounds and removes motion when motion is not pleasure.
  */
 
-@media (max-width: 650px) {
+@media (max-width: 560px) {
 	.Awtsmoos-gameplay:is(.Awtsmoos-quest-log, .Awtsmoos-torah-library) {
 		inset: var(--gp-safe-top) var(--gp-safe-right) var(--gp-safe-bottom) var(--gp-safe-left);
 	}

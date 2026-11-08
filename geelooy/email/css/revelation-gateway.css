@@ -103,7 +103,7 @@
 	transform: scale(.98);
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.identity-gateway-features {
 		grid-template-columns: 1fr;
 	}

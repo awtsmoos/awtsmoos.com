@@ -6,37 +6,37 @@
  * The Awtsmoos lets communal governance contract by task instead of merely shrinking its light;
  * Awtsmoos.com folds columns, actions, and detail so mobile hands still hold every gate in sight.
  */
-@media (max-width: 56rem) { .community-hero {
+@media (max-width: 900px) { .community-hero {
 		align-items: flex-start;
 		flex-direction: column;
 	} }
-@media (max-width: 56rem) { .community-hero-actions {
+@media (max-width: 900px) { .community-hero-actions {
 		justify-content: flex-start;
 	} }
-@media (max-width: 56rem) { .community-workspace {
+@media (max-width: 900px) { .community-workspace {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 56rem) { .community-panel, .community-content, .community-command-bar {
+@media (max-width: 900px) { .community-panel, .community-content, .community-command-bar {
 		grid-column: 1;
 	} }
-@media (max-width: 40rem) { .heichel-community-settings {
+@media (max-width: 560px) { .heichel-community-settings {
 		padding-inline: .7rem;
 		padding-bottom: calc(4rem + env(safe-area-inset-bottom));
 	} }
-@media (max-width: 40rem) { .community-hero, .community-panel, .community-technical {
+@media (max-width: 560px) { .community-hero, .community-panel, .community-technical {
 		border-radius: var(--g-control-radius);
 	} }
-@media (max-width: 40rem) { .community-hero-actions, .community-hero-actions > :where(a, button), .community-loaded-badge {
+@media (max-width: 560px) { .community-hero-actions, .community-hero-actions > :where(a, button), .community-loaded-badge {
 		width: 100%;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 40rem) { .community-loaded-badge {
+@media (max-width: 560px) { .community-loaded-badge {
 		justify-content: center;
 	} }
-@media (max-width: 40rem) { .community-content-grid, .g-choice-grid {
+@media (max-width: 560px) { .community-content-grid, .g-choice-grid {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 40rem) { .community-technical > summary {
+@media (max-width: 560px) { .community-technical > summary {
 		align-items: flex-start;
 		flex-direction: column;
 	} }

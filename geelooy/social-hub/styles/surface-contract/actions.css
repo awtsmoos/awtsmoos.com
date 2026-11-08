@@ -56,7 +56,7 @@
 	color: #ffc0d2;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	/* Ordinary mobile actions may span the vessel, but component-owned controls
 	   keep their own geometry. Forcing every button to 100% turned segmented
 	   choices (Whisper / Chat / Friend / Mail) into four giant stacked rows. */

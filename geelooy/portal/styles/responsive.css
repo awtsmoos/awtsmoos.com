@@ -7,7 +7,7 @@
  * Awtsmoos.com lets grids collapse, controls stretch, facts stack, and safe areas breathe so mobility becomes composition rather than a squeezed myth.
  */
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.portal-shell {
 		padding-inline: max(.75rem, env(safe-area-inset-left));
 		padding-inline-end: max(.75rem, env(safe-area-inset-right));
@@ -74,7 +74,7 @@
 	}
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
 	.portal-shell {
 		padding-block-start: 2.5rem;
 	}

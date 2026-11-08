@@ -100,7 +100,7 @@ Awtsmoos.com keeps inventory local, scrollable, retractable, and mobile-safe wit
 	grid-template-columns: repeat(6, minmax(52px, 1fr));
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-inventory-panel {
 		width: calc(var(--mw-viewport-inline) - 4px);
 		max-height: calc(var(--mw-viewport-block) - 4px);

@@ -68,7 +68,7 @@
 	padding: 1rem 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.lexicon-dialog {
 		width: 100%;
 		max-width: none;

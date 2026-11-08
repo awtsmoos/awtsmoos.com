@@ -73,7 +73,7 @@ body[data-geelooy-route="apps"] :where(.g-unusual-header, .g-dock) a:hover {
 body[data-geelooy-route="apps"] .g-header-actions,
 body[data-geelooy-route="apps"] .g-dock { gap: .35rem; }
 
-@media (max-width: 54rem) {
+@media (max-width: 900px) {
 	/* B"H — specificity bumped with html prefix (0,2,2 beats 0,2,1).
 	   No !important needed: these come after the base rules. */
 	html body[data-geelooy-route="apps"] .g-page {

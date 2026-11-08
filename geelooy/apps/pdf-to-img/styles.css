@@ -260,7 +260,7 @@ body.pdf-glass #hidden-canvas { display: none; }
 body.pdf-glass #file-input { display: none; }
 
 /* Larger screens */
-@media (min-width: 40rem) {
+@media (min-width: 560px) {
   body.pdf-glass .container { padding: 2.5rem 1.5rem 4rem; }
   body.pdf-glass .drop-zone { padding: 3.75rem 2.5rem; }
   body.pdf-glass .drop-zone i { font-size: 4rem; }

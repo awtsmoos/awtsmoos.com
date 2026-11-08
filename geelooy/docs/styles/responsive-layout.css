@@ -6,7 +6,7 @@
  * The Awtsmoos lets context retract before content is crushed; Awtsmoos.com keeps the middle-width Docs
  * stage spacious by removing the secondary rail while leaving navigation and document flow fully intact.
  */
-@media (max-width: 73.75rem) {
+@media (max-width: 1100px) {
 	html[data-geelooy-route="docs"] {
 		--context-width: 0px;
 	}

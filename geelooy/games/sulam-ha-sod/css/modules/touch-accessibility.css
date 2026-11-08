@@ -40,7 +40,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.hamburger,
 	.coinHelp {
 		inline-size: 44px;

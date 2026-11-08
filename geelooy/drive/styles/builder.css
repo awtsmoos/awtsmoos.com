@@ -108,7 +108,7 @@ this base vessel gives brief, readiness, and next actions room to breathe withou
 	background: color-mix(in srgb, var(--surface-soft) 74%, transparent);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 560px) {
 	.builder-brief-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

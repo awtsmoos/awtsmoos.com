@@ -388,7 +388,7 @@ body[data-geelooy-route="home"] .portal-shortcuts small {
 	color: var(--text-muted);
 }
 /* ============ MOBILE DOCK: GLASS PERFECTION ============ */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	body[data-geelooy-route="home"] .mobile-dock {
 		background: color-mix(in srgb, var(--panel-background) 82%, transparent);
 		-webkit-backdrop-filter: blur(22px) saturate(1.3);
@@ -579,7 +579,7 @@ body[data-geelooy-route="home"] .launcher-search input::placeholder {
 	color: var(--home-placeholder);
 }
 /* On small screens the dream stays calm: less tilt, softer shimmer. */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	body[data-geelooy-route="home"] .shliach-hero-card {
 		transform: rotateX(calc(var(--tilt-x, 0deg) * 1.1)) rotateY(calc(var(--tilt-y, 0deg) * 1.1));
 	}

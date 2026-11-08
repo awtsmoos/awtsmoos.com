@@ -75,7 +75,7 @@
 	}
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .post-root-menu-grid,
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .keepers-assembly {
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));

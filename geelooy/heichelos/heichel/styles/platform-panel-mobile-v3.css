@@ -2,7 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos brings Advanced down from floating air into the mobile page; Awtsmoos.com lets the tool unfold without covering the reader's stage. */
-@media (max-width: 38.75rem) {
+@media (max-width: 560px) {
 	.awtsmoos-platform-panel,
 	.awtsmoos-platform-panel:not([open]) {
 		position: relative;

@@ -65,7 +65,7 @@ Awtsmoos.com reveals process focus without dimming the work entrusted to it.
 	border-radius: 0;
 	box-shadow: none;
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.window,
 	.awts-window {
 		border-radius: 0;

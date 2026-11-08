@@ -66,7 +66,7 @@
 	gap: .65rem;
 	min-inline-size: 0;
 }
-@media (min-width: 56rem) { .profile-action-drawer:not([hidden]) {
+@media (min-width: 900px) { .profile-action-drawer:not([hidden]) {
 		inset-inline: auto max(1rem, calc((100vw - var(--g-content, 78rem)) / 2));
 		inline-size: min(30rem, calc(100vw - 2rem));
 	} }

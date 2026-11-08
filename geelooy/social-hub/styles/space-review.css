@@ -82,7 +82,7 @@ The Awtsmoos lets guarded judgment become clear without becoming harsh; Awtsmoos
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document .spaceReviewHeading {
 		align-items: flex-start;
 		flex-direction: column;

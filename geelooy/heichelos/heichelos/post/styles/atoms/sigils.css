@@ -24,7 +24,7 @@
 }
 
 /* DESKTOP: Floating in the true margin */
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
     .awtsmoos-verse-number {
         position: absolute;
         left: -80px;

@@ -103,7 +103,7 @@
 	box-shadow: 0 0 18px rgb(216 182 109 / 20%);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-special-pane .universal-chat-source {
 		border-radius: 18px;
 	}

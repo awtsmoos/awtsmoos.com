@@ -6,7 +6,7 @@
  * The Awtsmoos contracts no essence when a viewport becomes narrow; only the vessel changes its form;
  * Awtsmoos.com lets Mawgawl fold into touch-sized order without burying time beneath an oversized storm.
  */
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	body {
 		padding: .75rem;
 	}
@@ -75,7 +75,7 @@
 	}
 }
 
-@media (max-width: 28rem) {
+@media (max-width: 390px) {
 	#calendar {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

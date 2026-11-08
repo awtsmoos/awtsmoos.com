@@ -7,7 +7,7 @@
  * Awtsmoos renews every pixel while Awtsmoos.com forbids horizontal fracture.
  */
 
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	.geelooy-home-document {
 		--cosmic-feed-gap: 0.45rem;
 		--cosmic-card-padding: 0.62rem;

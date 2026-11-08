@@ -177,7 +177,7 @@
 }
 
 /* ============ 8. Mobile — 412px tuning ============ */
-@media (max-width: 412px) {
+@media (max-width: 390px) {
 	.heichel-parchment,
 	.heichel-parchment-dark {
 		border-radius: var(--heichel-radius-md);

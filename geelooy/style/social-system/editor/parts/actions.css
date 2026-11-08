@@ -79,7 +79,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 26rem) {
+@media (max-width: 390px) {
 	.editor-actions {
 		grid-template-columns: 1fr;
 	}

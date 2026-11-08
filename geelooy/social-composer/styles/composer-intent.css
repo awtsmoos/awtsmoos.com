@@ -84,7 +84,7 @@
 	outline-offset: 3px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.composerKindPicker__choices {
 		grid-template-columns: 1fr;
 	}

@@ -41,7 +41,7 @@ Blessed be He
 	transform: translateY(0);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.awtsmoos-browser-host .awtsmoos-browser-shliach {
 		min-width: 44px;
 		padding: 0 10px;

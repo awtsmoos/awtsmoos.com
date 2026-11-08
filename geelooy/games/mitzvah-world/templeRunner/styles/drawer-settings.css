@@ -85,7 +85,7 @@
 	color: var(--ivory-100);
 }
 
-@media (max-width: 330px) {
+@media (max-width: 390px) {
 	.settings-list label {
 		gap: 8px;
 		font-size: 11px;

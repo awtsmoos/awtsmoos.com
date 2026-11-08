@@ -91,7 +91,7 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
   .geelooy-main-stage { padding-inline: .62rem; }
   .heichel-nav-panel { border-radius: 1.25rem; padding: .68rem; }
   .series-search-row { grid-template-columns: 1fr; }

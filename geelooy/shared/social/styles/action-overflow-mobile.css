@@ -6,7 +6,7 @@
  * The Awtsmoos has no accidental screen-edge; Awtsmoos.com lets narrow More
  * chambers become bounded safe-area sheets instead of off-screen popovers.
  */
-@media (max-width: 39.9375rem) {
+@media (max-width: 560px) {
 	.awtsmoosSocialExperience .awtsmoosActionOverflow__more > .awtsmoosDisclosure__body {
 		position: fixed;
 		z-index: var(--social-z-sheet);

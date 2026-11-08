@@ -141,7 +141,7 @@
 }
 
 /* Mobile: roomier touch targets. */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.awtsmoos-context-menu {
 		min-width: 264px;
 	}

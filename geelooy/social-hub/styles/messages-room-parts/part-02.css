@@ -43,7 +43,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.hubMessagesRoomMount,
 	.hubConversationSurface {
 		min-height: calc(100dvh - 11rem);

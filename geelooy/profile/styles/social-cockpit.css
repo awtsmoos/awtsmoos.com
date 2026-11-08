@@ -23,13 +23,13 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (min-width: 45rem) {
+@media (min-width: 760px) {
 	.geelooy-profile-shell :where(.profile-social-launchpad__actions) {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 26.875rem) {
+@media (max-width: 390px) {
 	.geelooy-profile-shell :where(.profile-social-launchpad__actions) {
 		grid-template-columns: 1fr;
 	}

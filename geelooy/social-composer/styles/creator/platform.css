@@ -99,7 +99,7 @@ Awtsmoos.com begins with thumb-readable rows, then lets wider screens hold paire
 	line-height: 1.45;
 }
 
-@media (min-width: 42.51rem) {
+@media (min-width: 760px) {
 	.creatorPlatform {
 		margin-block: .8rem 1rem;
 		border-radius: var(--composer-radius-lg);

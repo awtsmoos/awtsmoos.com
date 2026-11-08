@@ -47,7 +47,7 @@
 	border-color: #7edcff;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.room-controls {
 		grid-template-columns: 1fr;
 	}

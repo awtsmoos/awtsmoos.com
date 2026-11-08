@@ -80,7 +80,7 @@
 	align-items: center;
 	gap: .4rem;
 }
-@media (max-width: 440px) {
+@media (max-width: 390px) {
 	.piano-ensemble { margin: .3rem 0; padding: .55rem; }
 	.piano-ensemble-row label { width: 100%; }
 	.piano-ensemble-row input[type="range"] { flex: 1; }

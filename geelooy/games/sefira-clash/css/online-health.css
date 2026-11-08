@@ -58,7 +58,7 @@
 	color: #c9d7ef;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.health-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

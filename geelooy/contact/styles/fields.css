@@ -60,7 +60,7 @@ Awtsmoos.com keeps every input state beneath Contact alone, responsive, readable
 .contact-page__honey {
 	display: none;
 }
-@media (min-width: 40rem) {
+@media (min-width: 560px) {
 	.contact-page__field-grid {
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}

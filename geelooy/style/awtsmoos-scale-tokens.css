@@ -1,0 +1,107 @@
+/* B"H — Awtsmoos canonical scale tokens (Nov 8, 2026).
+ *
+ * ONE shared breakpoint scale and ONE documented z-index scale for the
+ * whole site. Coby's standing rule: no CSS conflicts should ever happen.
+ * Every live stylesheet migrates onto these scales; nothing invents a new
+ * nearby breakpoint or a new sky-high z-index.
+ *
+ * This file SUPERSEDES the old scales in geelooy/style/awtsmoos-tokens.css
+ * (--bp-xs:360 / --bp-sm:480 / --bp-md:768 / --bp-lg:1024 / --bp-xl:1280 and
+ * --z-base:1 ... --z-topmost:1200, qa-sweep3). Those old tokens are
+ * deprecated and grandfathered only: --bp-* is used nowhere, and --z-*
+ * still resolves 72 live var(--z-*) usages to 100–1200. Do NOT add new
+ * usages of the old tokens. Remapping the old --z-* values onto the tiers
+ * below is follow-up work (it changes 72 stacking contexts at once).
+ *
+ * ---- BREAKPOINT SCALE (px): 390 / 560 / 760 / 900 / 1100 ----
+ * Media queries CANNOT use var() — write the literal px value from this
+ * scale in every @media (max-width|min-width) condition. The --aw-bp-*
+ * custom properties below document the scale and are usable ONLY in
+ * min()/max()/clamp() width expressions, never inside @media.
+ *
+ * MAPPING RULE — every media-query width maps to the NEAREST scale value
+ * by these bands (rem values convert at 16px/rem first, then map):
+ *   < 475            -> 390
+ *   475 – 659        -> 560
+ *   660 – 780        -> 760
+ *   781 – 999        -> 900
+ *   >= 1000          -> 1100
+ * Nearest-value table (the values found live, Nov 8, 2026):
+ *   -> 390 : 330 340 350 352 360 368 370 380 384 390 400 412 416 419 420
+ *            430 432 440 448(28rem) 460 464
+ *   -> 560 : 479 480(30rem) 512 520 540 544 560 576 600 608 620 639 640(40rem)
+ *            650
+ *   -> 760 : 672(42rem) 680(42.5rem) 688 700 704 720 736 740 750 760
+ *            768(48rem) 780
+ *   -> 900 : 800 820 832 840 850 860 864(54rem) 880(55rem) 896 899 900 920
+ *            928 940 960 980 992 999
+ *   -> 1100: 1000 1024 1040 1050 1056 1060 1080 1088 1100 1120 1152 1180
+ *            1184 1200 1260 1280 1299 1300 1380 1408 1420 1440 1449 1450
+ *            1460 1500 1680
+ * The bands are monotone, so mapping preserves the relative order of
+ * breakpoints within every file (tiers may collapse onto one scale value,
+ * they never invert). Complementary min-width "N+1" pairs (e.g. max 760 /
+ * min 761) map to the SAME scale value (760); the two rules then overlap
+ * at exactly that one pixel and normal cascade order decides.
+ * OUT OF SCOPE (not migrated, not linted): @container width queries
+ * (container-relative, not viewport breakpoints) and JS matchMedia() calls.
+ *
+ * ---- Z-INDEX SCALE (per surface, documented tiers) ----
+ *   base              0
+ *   content           1–10
+ *   header            20–29
+ *   overlay/backdrop  30–39
+ *   drawer/dialog     40–49
+ *   toast/notification 50–59
+ *   topmost           60–69
+ * NOTHING live may exceed 99. Pick the LOWEST tier that works; never
+ * invent a new sky-high value.
+ *
+ * CODE-APP ABSURD-VALUE MIGRATION (Nov 8, 2026) — relative order preserved:
+ *   25000 -> 40  (.dialog-overlay, file-commander overlay, search overlay)
+ *   26000 -> 41  (.code-tunnel-console drawer)
+ *   30000 -> 44  (.code-welcome-wrapper, .graph-nav-overlay)
+ *   30001 -> 45  (#graph-nav-close, one above its overlay — keeps the +1)
+ *   50000 -> 50  (selection menu)
+ *   100000 -> 55 (.code-android-emulator shell)
+ *   250000 -> 60 (dialogs overlay)
+ *   300000 -> 65 (#context-menu, #main-menu)
+ *   400000 -> 69 (task-notification stack — ceiling)
+ * KNOWN REMAINING CONFLICT (follow-up, NOT fixed here — task forbids
+ * touching z-index below 9000): geelooy/apps/code/css still holds
+ * 100–6500 literals (e.g. layout.css 3200/3201, components.css 5000,
+ * launcher 6400, account-panel 6500) that now sit ABOVE the migrated
+ * 40–69 tier in the same app. A full code-app normalization into the
+ * tiers above is still open.
+ * DOCUMENTED EXCEPTION — geelooy/mawgawl/sefarim/styles/search-clean.css
+ * keeps z-index:9990 on .search-loading-overlay. It is NOT the code app,
+ * and migrating it to <=69 would INVERT it against shell.css z-index:1000
+ * in the same surface. The lint test exempts exactly this one occurrence.
+ */
+
+:root {
+  /* ---- breakpoint scale (literals only in @media; vars for calc) ---- */
+  --aw-bp-390: 390px;
+  --aw-bp-560: 560px;
+  --aw-bp-760: 760px;
+  --aw-bp-900: 900px;
+  --aw-bp-1100: 1100px;
+
+  /* ---- z-index tiers (lowest value that works in each tier) ---- */
+  --aw-z-base: 0;
+  --aw-z-content: 1;
+  --aw-z-content-top: 10;
+  --aw-z-header: 20;
+  --aw-z-header-top: 29;
+  --aw-z-overlay: 30;
+  --aw-z-overlay-top: 39;
+  --aw-z-dialog: 40;
+  --aw-z-dialog-top: 49;
+  --aw-z-toast: 50;
+  --aw-z-toast-top: 59;
+  --aw-z-topmost: 60;
+  --aw-z-ceiling: 69;
+
+  /* ---- hard ceiling: no live z-index may exceed this ---- */
+  --aw-z-max: 99;
+}

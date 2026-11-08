@@ -120,7 +120,7 @@
 	opacity: 0.42;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.command-palette {
 		width: calc(100vw - 16px);
 		max-height: min(78vh, 640px);

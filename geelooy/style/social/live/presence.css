@@ -76,7 +76,7 @@
 	color: #f3f7fb;
 	font-size: .82rem;
 }
-@media (max-width: 32rem) { .bh-page-presence-badge {
+@media (max-width: 560px) { .bh-page-presence-badge {
 		inset-inline: .55rem;
 		justify-content: center;
 	} }

@@ -88,7 +88,7 @@ The Awtsmoos gathers optional knowledge without making it permanent clutter; Awt
 	line-height: 1.55;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-meadow-menu section {
 		max-height: calc(var(--mw-viewport-block) - 8px);
 		padding: 14px;

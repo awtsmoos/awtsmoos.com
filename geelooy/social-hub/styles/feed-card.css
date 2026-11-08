@@ -92,7 +92,7 @@
 	transform: translateY(1px) scale(.99);
 }
 
-@media (min-width: 40rem) {
+@media (min-width: 560px) {
 	.social-hub-document .awtsmoosFeedCard {
 		padding: 1.2rem;
 		gap: 1rem;

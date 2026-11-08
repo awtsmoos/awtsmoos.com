@@ -25,7 +25,7 @@ Awtsmoos.com makes preview broad enough for cinema and small enough for mobile d
 	font-variant-numeric: tabular-nums;
 	opacity: 0.72;
 }
-@media (orientation: portrait) and (max-width: 620px) {
+@media (orientation: portrait) and (max-width: 560px) {
 	.movie-canvas-wrap canvas {
 		max-height: 36vh;
 	}

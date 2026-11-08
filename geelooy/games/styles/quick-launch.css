@@ -80,7 +80,7 @@
 	font-style: normal;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 900px) {
 	.quickLaunch {
 		grid-template-columns: minmax(0, 1fr);
 	}

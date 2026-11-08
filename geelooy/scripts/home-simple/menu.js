@@ -9,11 +9,13 @@ export class MenuController {
 		this.buttonElement = rootElement.querySelector("[data-menu-button]");
 		this.panelElement = rootElement.querySelector("[data-menu-panel]");
 		this.backdropElement = document.querySelector("[data-menu-backdrop]");
+		this.closeButtonElement = rootElement.querySelector("[data-menu-close]");
 		this.linkElements = [...rootElement.querySelectorAll("[data-world-link]")];
 	}
 
 	connect() {
 		this.rootElement.addEventListener("toggle", () => this.syncState());
+		this.closeButtonElement?.addEventListener("click", () => this.close(true));
 		this.backdropElement?.addEventListener("click", () => this.close(true));
 		document.addEventListener("pointerdown", event => this.handleOutsidePointer(event));
 		document.addEventListener("keydown", event => this.handleKeyboard(event));

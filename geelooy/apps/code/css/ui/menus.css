@@ -4,7 +4,7 @@
 
 #context-menu, #main-menu { 
     position: fixed; 
-    z-index: 300000;
+    z-index: 65;
     background-color: rgba(13, 17, 23, 0.98); 
     border: 1px solid var(--neon-cyan); 
     backdrop-filter: blur(20px) saturate(180%); 

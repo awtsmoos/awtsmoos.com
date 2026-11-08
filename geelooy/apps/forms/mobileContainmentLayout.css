@@ -58,7 +58,7 @@ body {
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.forms-topbar {
 		padding-left: max(12px, env(safe-area-inset-left));
 		padding-right: max(12px, env(safe-area-inset-right));
@@ -69,7 +69,7 @@ body {
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.forms-brand {
 		gap: 7px;
 	}

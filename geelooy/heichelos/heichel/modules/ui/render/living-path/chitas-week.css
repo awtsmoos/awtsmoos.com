@@ -175,7 +175,7 @@
 
 /* ---------- Mobile ---------- */
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .chitas-week-panel {
     gap: 1.5rem;
   }

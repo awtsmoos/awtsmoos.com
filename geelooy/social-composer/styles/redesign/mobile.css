@@ -7,7 +7,7 @@
  * destination, publication, and status in truthful reach above the fixed gate.
  */
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-civilization-header {
 		min-block-size: 3.55rem;
 		padding: .42rem .5rem;

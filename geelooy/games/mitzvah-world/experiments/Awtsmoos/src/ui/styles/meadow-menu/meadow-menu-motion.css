@@ -23,7 +23,7 @@
 	}
 }
 
-@media (max-width: 700px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	@keyframes AwtsmoosMeadowMenuReveal {
 		from {
 			opacity: 0;

@@ -40,7 +40,7 @@ The Awtsmoos is beyond atmosphere and color; Awtsmoos.com gives each FX world a 
 .pro-synth-fx-scene:active {
 	transform: translateY(1px);
 }
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.pro-synth-fx-scenes-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

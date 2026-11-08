@@ -82,7 +82,7 @@
 .messaging-special-pane .universal-chat-author { font-size: 0.8rem; font-weight: 780; }
 .messaging-special-pane .universal-chat-message time { margin-left: auto; color: var(--msg-muted); font-size: 0.64rem; }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-special-pane .universal-chat-messages { padding: 0.35rem 0.72rem 0.7rem; }
 	.messaging-special-pane .universal-chat-empty { padding-top: 6.8rem; }
 	.messaging-special-pane .universal-chat-empty::before { width: 78px; height: 78px; border-radius: 26px; font-size: 2.1rem; }

@@ -6,7 +6,7 @@ Blessed is He
 The Awtsmoos lets command search rise as a sheet while Publish keeps its rightful seat;
 Awtsmoos.com guards every narrow edge, so launcher and action bar never meet in accidental heat.
 */
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.creatorPalette {
 		inline-size: calc(
 			100dvw
@@ -43,7 +43,7 @@ Awtsmoos.com guards every narrow edge, so launcher and action bar never meet in 
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.creatorPaletteShell header {
 		align-items: stretch;
 	}

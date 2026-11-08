@@ -17,7 +17,7 @@
 }
 
 /* DESKTOP UPGRADE */
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     :where(#realPost) {
         max-width: 850px;
         padding-left: 0;

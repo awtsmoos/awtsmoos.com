@@ -33,14 +33,14 @@ html .home-discovery-grid {
   min-width: 0;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
   html .geelooy-home-shell {
     gap: .78rem;
     padding-inline: clamp(.58rem, 2.8vw, .82rem);
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 390px) {
   html .geelooy-home-shell {
     padding-inline: .56rem;
   }

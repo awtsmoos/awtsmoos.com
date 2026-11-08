@@ -59,7 +59,7 @@
 	color: var(--c-cyan);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
 	#modal-studio#modal-studio {
 		position: fixed;
 		inset: 0;

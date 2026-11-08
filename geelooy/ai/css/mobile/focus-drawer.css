@@ -5,7 +5,7 @@
   summoned drawers instead of permanent height-hungry rails.
 */
 /* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   html .container {
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: "main";

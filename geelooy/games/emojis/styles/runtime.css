@@ -41,7 +41,7 @@
 	box-shadow: 0 0 0 2px rgba(103, 232, 249, 0.18);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.game-pause-button {
 		min-inline-size: 78px;
 		min-block-size: 48px;

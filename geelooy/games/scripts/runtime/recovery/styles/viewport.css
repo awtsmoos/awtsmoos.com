@@ -19,7 +19,7 @@
 	}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.recovery {
 		left: max(8px, env(safe-area-inset-left));
 		max-width: none;

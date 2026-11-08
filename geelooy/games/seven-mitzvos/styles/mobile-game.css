@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps the encounter HUD compact on phones while preserving forty-eight-pixel actions and the largest possible stage.
  * This vessel changes only mobile presentation; every game mechanic continues through the existing GameSession and game classes.
  */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.gameHeader {
 		gap: 0.35rem;
 		grid-template-columns: auto minmax(0, 1fr);

@@ -13,7 +13,7 @@
 }
 
 /* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   html .awtsmoos-local-prompt-overlay {
     align-items: stretch;
     justify-items: stretch;

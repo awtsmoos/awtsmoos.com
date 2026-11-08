@@ -7,7 +7,7 @@
  * human viewport as a true vessel; mobile stacks without overflow, reduced motion
  * loses no meaning, and forced colors keep every revealed doorway clearly showing.
  */
-@media (max-width: 32rem) {
+@media (max-width: 560px) {
 	.social-hub-document .futureCapabilityCenter__controls,
 	.social-hub-document .futureCapabilityCard {
 		grid-template-columns: minmax(0, 1fr);

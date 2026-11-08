@@ -1,6 +1,6 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H Heichel mobile: less crush, more breath. */
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .heichel-main-stage { width: min(100vw - .9rem, 40rem); }
   .heichel-hero { padding: 1rem; }
   .heichel-tabs { border-radius: 1rem; }

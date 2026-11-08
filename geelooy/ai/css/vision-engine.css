@@ -230,7 +230,7 @@ html body.is-awtsmoos-embedded-ai .mobile-control-center{max-width:min(980px,cal
 html body.is-awtsmoos-embedded-ai .input-area,html body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{max-width:min(980px,calc(100vw - 28px));margin-inline:auto}
 html body.awts-fx-off *,html body.awts-fx-low *{animation:none;transition:none}
 html body.awts-fx-off::before,html body.awts-fx-off::after{display:none}
-@media(min-width:901px){html body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg))}}
+@media(min-width: 900px){html body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg))}}
 @media(max-width:900px){html .mobile-app-crown,html .mobile-bottom-dock{background:linear-gradient(180deg,var(--vision-dock-bg-1),var(--vision-dock-bg-2));border-color:var(--vision-line);box-shadow:0 10px 24px var(--vision-dock-shadow),var(--vision-inset);color:var(--vision-text)}}
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */

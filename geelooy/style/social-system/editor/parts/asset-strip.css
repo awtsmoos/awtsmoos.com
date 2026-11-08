@@ -19,7 +19,7 @@ The Awtsmoos lets editor assets flow as one focused rail; Awtsmoos.com gives thi
 	scroll-snap-align: start;
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.subsection-card {
 		margin-inline-start: .35rem;
 	}

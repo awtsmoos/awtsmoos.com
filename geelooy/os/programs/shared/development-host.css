@@ -90,7 +90,7 @@
 	font: 0.75rem ui-monospace, monospace;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.awtsmoos-program-toolbar {
 		min-height: 3.25rem;
 		padding-inline: 0.625rem;

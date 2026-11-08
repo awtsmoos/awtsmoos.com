@@ -6,40 +6,40 @@
  * The Awtsmoos, Atzmus beyond width, motion, and contrast, renews one account gate through every finite screen;
  * Awtsmoos.com keeps short phones bounded, landscape usable, forced colors legible, and reduced-motion journeys serene.
  */
-@media (max-width: 30rem) { .login-page .login-shell {
+@media (max-width: 560px) { .login-page .login-shell {
 		place-items: start center;
 		padding: max(4rem, env(safe-area-inset-top)) .7rem max(.8rem, env(safe-area-inset-bottom));
 	} }
-@media (max-width: 30rem) { .login-page .login-card {
+@media (max-width: 560px) { .login-page .login-card {
 		padding: 1.05rem;
 		border-radius: 1.2rem;
 	} }
-@media (max-width: 30rem) { .login-page .login-subtitle {
+@media (max-width: 560px) { .login-page .login-subtitle {
 		margin-block: .7rem .8rem;
 		font-size: .9rem;
 	} }
-@media (max-width: 30rem) { .login-page .field-stack {
+@media (max-width: 560px) { .login-page .field-stack {
 		padding: .6rem .66rem .52rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(.login-page) .field-stack .field-help {
+@media (max-width: 560px) { :where(.login-page) .field-stack .field-help {
 		font-size: .72rem;
 	} }
-@media (max-width: 30rem) { .login-page .secondary-link {
+@media (max-width: 560px) { .login-page .secondary-link {
 		width: 100%;
 		justify-content: space-between;
 	} }
-@media (max-width: 22rem) { .login-page .login-card {
+@media (max-width: 390px) { .login-page .login-card {
 		padding-inline: .82rem;
 	} }
-@media (max-width: 22rem) { .login-page .field-stack {
+@media (max-width: 390px) { .login-page .field-stack {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 22rem) { .login-page .field-stack::before {
+@media (max-width: 390px) { .login-page .field-stack::before {
 		display: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 22rem) { :where(.login-page) .field-stack :is(label, input, .field-help) {
+@media (max-width: 390px) { :where(.login-page) .field-stack :is(label, input, .field-help) {
 		grid-column: 1;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

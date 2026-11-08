@@ -94,7 +94,7 @@
 	}
 }
 
-@media (pointer: fine) and (min-width: 761px) {
+@media (pointer: fine) and (min-width: 760px) {
 	.worldTouchControls {
 		display: none;
 	}

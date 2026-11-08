@@ -191,7 +191,7 @@ html .marginal-sigil:hover, html awtsmoos-note:hover + .marginal-sigil { transfo
 .note-popover { position: absolute; z-index: 501; width: 250px; background: var(--bg-surface); color: var(--ns-note-popover-fg); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .2s; }
 .post-reader-localized-context.focus-mode-active :where(#scribeLensOverlay) { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 499; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,.88) 100%); }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .card-menu-spark { top: .65rem; right: .65rem; }
     .card-menu-trigger { width: 3rem; height: 3rem; font-size: 1.35rem; }
     .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 1103; justify-items: stretch; }

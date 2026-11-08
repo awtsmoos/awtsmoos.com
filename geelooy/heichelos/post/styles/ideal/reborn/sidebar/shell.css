@@ -68,7 +68,7 @@
 	}
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar {
 		inset-block: 0;
 		inset-inline-start: auto;

@@ -588,7 +588,7 @@
 /* ---------- Mobile ----------
    Yaakov's law: on phones the content is nearly edge-to-edge.
    Words may wrap — letters NEVER stack one-per-line. */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.meluket-sefer-active .meluket-sefer {
 		padding: 0.5rem 0.25rem 3rem;
 		border-radius: 0;
@@ -922,7 +922,7 @@
 	0%, 100% { box-shadow: none; }
 	25% { box-shadow: 0 0 0 3px var(--sefer-focus); }
 }
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.torah-ohr-flowchart .flow {
 		padding: 1.1rem 0.9rem;
 	}

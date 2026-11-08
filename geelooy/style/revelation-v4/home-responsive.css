@@ -6,16 +6,16 @@ Blessed is He
 The Awtsmoos is beyond measure, yet each vessel receives the light it can hold;
 Awtsmoos.com keeps the revelation immense on a phone without making the learner fight the gold.
 */
-@media (max-width: 1000px) { :where(body[data-geelooy-route="home"]) main.home .dance-frame {
+@media (max-width: 1100px) { :where(body[data-geelooy-route="home"]) main.home .dance-frame {
 		grid-template-columns: minmax(0, 1fr) minmax(19rem, .88fr);
 		min-height: 450px;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 1000px) { :where(body[data-geelooy-route="home"]) main.home .hero-title {
+@media (max-width: 1100px) { :where(body[data-geelooy-route="home"]) main.home .hero-title {
 		font-size: clamp(2.45rem, 6vw, 4.35rem);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 1000px) { :where(body[data-geelooy-route="home"]) main.home .featured-worlds {
+@media (max-width: 1100px) { :where(body[data-geelooy-route="home"]) main.home .featured-worlds {
 		width: min(100% - 24px, 1280px);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -70,27 +70,27 @@ Awtsmoos.com keeps the revelation immense on a phone without making the learner 
 		margin-top: 2rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 540px) { :where(body[data-geelooy-route="home"]) main.home .portal-shortcuts {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) main.home .portal-shortcuts {
 		grid-template-columns: 1fr 1fr;
 		gap: .58rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 540px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts a {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts a {
 		grid-template-columns: auto minmax(0, 1fr);
 		min-height: 4.8rem;
 		padding: .62rem;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 540px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts small {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts small {
 		display: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 540px) { :where(body[data-geelooy-route="home"]) main.home .featured-grid {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) main.home .featured-grid {
 		grid-template-columns: 1fr;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 540px) { :where(body[data-geelooy-route="home"]) main.home .featured-card--torah, :where(body[data-geelooy-route="home"]) main.home .featured-card--os {
+@media (max-width: 560px) { :where(body[data-geelooy-route="home"]) main.home .featured-card--torah, :where(body[data-geelooy-route="home"]) main.home .featured-card--os {
 		grid-column: auto;
 	} }

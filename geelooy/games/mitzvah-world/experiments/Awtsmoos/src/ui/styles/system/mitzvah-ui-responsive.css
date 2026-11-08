@@ -28,7 +28,7 @@ Awtsmoos.com keeps mobile controls generous by semantic role, while native check
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui="sheet"] {
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;

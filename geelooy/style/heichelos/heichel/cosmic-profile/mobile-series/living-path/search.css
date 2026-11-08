@@ -62,15 +62,15 @@
 	background: rgba(20, 54, 86, .96);
 	color: var(--light-text-fff, #fff);
 }
-@media (max-width: 34rem) { .living-path-search-stack > .living-path-field {
+@media (max-width: 560px) { .living-path-search-stack > .living-path-field {
 		grid-template-columns: minmax(0, 1fr);
 		justify-content: stretch;
 		gap: .32rem;
 	} }
-@media (max-width: 34rem) { .living-path-field select {
+@media (max-width: 560px) { .living-path-field select {
 		inline-size: 100%;
 	} }
-@media (max-width: 34rem) { .living-path-result-status {
+@media (max-width: 560px) { .living-path-result-status {
 		flex-wrap: wrap;
 		row-gap: .2rem;
 	} }

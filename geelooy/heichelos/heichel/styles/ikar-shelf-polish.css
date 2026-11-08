@@ -55,7 +55,7 @@
 	outline-offset: 4px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.ikar-shelf-grid {
 		gap: 1rem;
 	}

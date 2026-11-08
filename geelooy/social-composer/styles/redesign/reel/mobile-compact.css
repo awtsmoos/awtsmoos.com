@@ -6,7 +6,7 @@
  * Narrow phones preserve meaningful choice copy and full-width render actions.
  */
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.reel-choice-card {
 		grid-template-columns: 2.7rem minmax(0, 1fr);
 		min-block-size: 8.8rem;

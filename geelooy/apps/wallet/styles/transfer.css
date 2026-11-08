@@ -81,7 +81,7 @@
 	color: var(--wallet-error);
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.transfer-fields {
 		grid-template-columns: 1fr;
 	}

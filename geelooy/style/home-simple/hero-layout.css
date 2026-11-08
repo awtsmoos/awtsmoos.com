@@ -74,21 +74,21 @@ body[data-geelooy-route="home"] .search-paths {
 	color: var(--text-primary);
 	transform: translateY(1px) scale(.98);
 }
-@media (max-width: 800px) { body[data-geelooy-route="home"] .action-panel {
+@media (max-width: 900px) { body[data-geelooy-route="home"] .action-panel {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 800px) { body[data-geelooy-route="home"] .search-paths {
+@media (max-width: 900px) { body[data-geelooy-route="home"] .search-paths {
 		justify-content: center;
 		flex-wrap: wrap;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .home {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .home {
 		padding: 8px 8px calc(6.5rem + env(safe-area-inset-bottom));
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .hero {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .hero {
 		gap: .65rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .search-paths a {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .search-paths a {
 		min-height: 44px;
 		padding: .5rem .72rem;
 	

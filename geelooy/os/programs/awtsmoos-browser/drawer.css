@@ -71,7 +71,7 @@
 	}
 }
 
-@media (min-width: 880px) {
+@media (min-width: 900px) {
 	.awtsmoos-browser-host .awtsmoos-browser-advanced-panel {
 		max-block-size: none;
 		block-size: 100%;

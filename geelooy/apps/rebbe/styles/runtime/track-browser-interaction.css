@@ -36,7 +36,7 @@
 	}
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	#list-tracks#list-tracks .premium-track-item {
 		grid-template-columns: 44px minmax(0, 1fr);
 	}
@@ -64,7 +64,7 @@
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	#list-tracks .row-command-deck,
 	#list-tracks .event-toolbar-actions {
 		grid-template-columns: 1fr;

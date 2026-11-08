@@ -68,7 +68,7 @@ Awtsmoos.com lets selected intent, open chamber, and contextual river glow with 
 		inset 0 1px rgb(255 255 255 / 3%);
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-civilization-document .creatorSurface {
 		box-shadow: inset 0 1px rgb(255 255 255 / 4%);
 	}

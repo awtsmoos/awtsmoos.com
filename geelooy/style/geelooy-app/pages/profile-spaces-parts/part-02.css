@@ -51,7 +51,7 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 	border-block-start: 1px solid var(--g-line);
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.profile-identity-row,
 	.spaces-hero {
 		align-items: stretch;

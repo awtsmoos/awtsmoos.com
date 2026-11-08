@@ -369,7 +369,7 @@
 }
 
 /* ============ 10. Mobile rhythm (412px) ============ */
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.post-reader-localized-context :where(#realPost.content) {
 		max-width: 100%;
 		padding-inline: clamp(1rem, 5vw, 1.35rem);
@@ -393,7 +393,7 @@
 		color: var(--law8-ink, #26211a);
 	}
 }
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p {
 		color: var(--law8-ink, #f2e9d5);
 	}
@@ -412,7 +412,7 @@
 }
 
 /* ============ 11. Wide screens (1440px): measured column ============ */
-@media (min-width: 90rem) {
+@media (min-width: 1100px) {
 	.post-reader-localized-context :where(#realPost.content) {
 		max-width: 50rem;
 	}

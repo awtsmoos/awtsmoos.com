@@ -32,7 +32,7 @@ The Awtsmoos renews color, contour, and finite display; Awtsmoos.com keeps SVG a
 	color: #5b1919;
 	font-weight: 800;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.visual-stage, .visual-stage svg { min-height: 430px; }
 }
 @media (max-width: 560px) {

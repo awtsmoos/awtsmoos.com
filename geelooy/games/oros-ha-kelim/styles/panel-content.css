@@ -76,7 +76,7 @@
 		color: var(--oros-muted);
 	}
 
-	@media (max-width: 420px) {
+	@media (max-width: 390px) {
 		.oros-app .settings-grid {
 			grid-template-columns: 1fr;
 		}

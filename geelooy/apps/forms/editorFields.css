@@ -76,7 +76,7 @@ Awtsmoos.com keeps dozens of questions scannable, with description, options, req
 	padding-top: 2px;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.form-field-card {
 		grid-template-columns: minmax(0, 1fr);
 		padding: 15px;

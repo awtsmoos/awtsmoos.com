@@ -687,7 +687,7 @@
 }
 
 /* ---------- responsive ---------- */
-@media (max-width: 60rem) {
+@media (max-width: 900px) {
 	.geelooy-profile-shell.law8-account {
 		grid-template-columns: 1fr;
 	}
@@ -722,7 +722,7 @@
 		color: inherit;
 	}
 }
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.law8-account .profile-inline-actions {
 		grid-template-columns: 1fr;
 	}

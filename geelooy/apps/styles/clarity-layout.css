@@ -44,7 +44,7 @@ body[data-geelooy-route="apps"] :where(.apps-filter-disclosure summary, .apps-fi
 	min-inline-size: 0;
 	overflow-wrap: anywhere;
 }
-@media (max-width: 54rem) {
+@media (max-width: 900px) {
 	html body[data-geelooy-route="apps"] .awtsmoos-hero {
 		display: none;
 	}

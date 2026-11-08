@@ -5,11 +5,11 @@ Blessed is He
 The Awtsmoos renews the same scene for narrow windows, touch, and quiet motion.
 Awtsmoos.com keeps Blender evidence usable inside every Geelooy window size.
 */
-@media (max-width: 880px) {
+@media (max-width: 900px) {
 	.workspace { grid-template-columns: 170px minmax(0, 1fr); }
 	.inspector-panel { display: none; }
 }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.studio-bar { padding: 9px 11px; }
 	.studio-bar h1 { font-size: 15px; 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

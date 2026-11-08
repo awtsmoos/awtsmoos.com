@@ -96,7 +96,7 @@ Awtsmoos.com keeps this governance vessel beneath .social-hub-document, bounded 
 	line-height: 1.45;
 	overflow-wrap: anywhere;
 }
-@media (min-width: 52rem) {
+@media (min-width: 900px) {
 	.social-hub-document .hubRoomGovernanceBody {
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}

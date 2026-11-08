@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos lets the same light fit a narrow vessel or a broad one with grace;
 Awtsmoos.com expands this Heichel studio only when the screen offers space.
 */
-@media (min-width: 720px) {
+@media (min-width: 760px) {
 	.heichel-manage-page {
 		padding: 28px 22px 56px;
 	}
@@ -27,7 +27,7 @@ Awtsmoos.com expands this Heichel studio only when the screen offers space.
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (min-width: 940px) {
+@media (min-width: 900px) {
 	.heichel-manage-page .heichel-manage-grid {
 		grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
 		gap: 18px;
@@ -39,7 +39,7 @@ Awtsmoos.com expands this Heichel studio only when the screen offers space.
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.heichel-manage-page .heichel-route-dock {
 		margin-right: -6px;
 	}

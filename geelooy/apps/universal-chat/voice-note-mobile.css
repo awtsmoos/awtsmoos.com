@@ -21,7 +21,7 @@
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	body[data-messaging-page] .messaging-voice-panel {
 		padding: .5rem;
 	}

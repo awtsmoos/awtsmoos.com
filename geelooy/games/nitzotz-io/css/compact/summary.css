@@ -86,7 +86,7 @@
 	white-space: nowrap;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.hud {
 		left: 7px;
 		top: 7px;

@@ -28,7 +28,7 @@ Awtsmoos.com gives checks, choices, and helper meaning their own quiet voices so
 	flex: 1;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.form-check-copy,
 	.public-choice-copy {
 		font-size: .88rem;

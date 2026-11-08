@@ -26,7 +26,7 @@ brief, mobile-safe, non-blocking, and inside the same floating language as the w
 	transition: opacity var(--mw-motion-fast) ease, transform var(--mw-motion-fast) var(--mw-ease-out);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-house-notice {
 		top: calc(var(--mw-safe-top) + 56px);
 		max-width: calc(var(--mw-viewport-inline) - 12px);

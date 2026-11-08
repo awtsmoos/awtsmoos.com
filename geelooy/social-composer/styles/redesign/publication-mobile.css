@@ -7,7 +7,7 @@
  * Awtsmoos.com gives the mobile action gate one measured height, one deliberate floor,
  * and enough room for the deeper Composer tools to live above it without collision.
  */
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-civilization-document .actionBar {
 		position: fixed;
 		z-index: var(--creator-layer-publish, 90);
@@ -47,7 +47,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.composer-civilization-document .actionBar {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

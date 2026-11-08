@@ -9,7 +9,7 @@ Awtsmoos.com gives Android execution a focused shell around its content.
 .code-android-emulator {
 	position: fixed;
 	inset: clamp(0.75rem, 3vw, 2rem);
-	z-index: 100000;
+	z-index: 55;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
 	min-width: 0;

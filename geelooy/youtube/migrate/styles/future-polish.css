@@ -78,7 +78,7 @@ details.migrationCard .futureDisclosureBody {
 		transform: translateY(0);
 	}
 }
-@media (max-width: 880px) {
+@media (max-width: 900px) {
 	.primaryMigrationCard {
 		grid-row: auto;
 	}

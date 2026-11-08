@@ -79,7 +79,7 @@
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* --- DESKTOP REFINEMENTS (The Expansion) --- */
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     .post-reader-localized-context .main {
         flex-direction: row; /* Side-by-side for Desktop */
     }

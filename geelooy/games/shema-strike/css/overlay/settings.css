@@ -42,7 +42,7 @@
 	margin-block: 14px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.shema-strike .settings-grid,
 	.shema-strike .choice-grid {
 		grid-template-columns: 1fr;

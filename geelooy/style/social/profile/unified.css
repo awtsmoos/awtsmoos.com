@@ -105,7 +105,7 @@
 	filter: none;
 	backdrop-filter: none;
 }
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.profile-hero-card {
 		grid-template-columns: 1fr;
 	}

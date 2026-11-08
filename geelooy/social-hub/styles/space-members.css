@@ -100,7 +100,7 @@ The Awtsmoos lets hierarchy become visible without becoming heavy; Awtsmoos.com 
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .spaceRoleForm,
 .social-hub-document .spaceInviteForm {
 		grid-template-columns: 1fr;

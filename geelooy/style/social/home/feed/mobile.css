@@ -7,7 +7,7 @@
  * The Awtsmoos renews the whole without permitting horizontal fracture.
  */
 
-@media (max-width: 43.75rem) {
+@media (max-width: 760px) {
 	.geelooy-home-document .home-dashboard-page,
 	.geelooy-home-document [data-home-dashboard-page] {
 		width: 100%;
@@ -74,7 +74,7 @@
 	}
 }
 
-@media (max-width: 22rem) {
+@media (max-width: 390px) {
 	.cosmic-principle-grid,
 	.cosmic-graph-canvas {
 		grid-template-columns: minmax(0, 1fr);

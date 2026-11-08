@@ -83,7 +83,7 @@ body {
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
 		padding-inline: clamp(.82rem, 4vw, 1.15rem);
 		font-size: calc(clamp(1.15rem, 4.7vw, 1.34rem) * var(--post-scale-ratio, 1));

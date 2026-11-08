@@ -62,7 +62,7 @@ Awtsmoos.com lets each major sheet feel like future hardware while safe-area geo
 	}
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-civilization-document :is(
 		.publicationReviewDialog,
 		.draftRecoveryDialog

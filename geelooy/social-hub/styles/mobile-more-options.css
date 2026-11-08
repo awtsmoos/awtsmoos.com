@@ -72,7 +72,7 @@
 	}
 }
 
-@media (max-width: 25rem) {
+@media (max-width: 390px) {
 	.social-hub-document .mobileMoreSheet__grid {
 		grid-template-columns: 1fr;
 	}

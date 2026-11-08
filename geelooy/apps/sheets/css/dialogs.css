@@ -113,7 +113,7 @@ Awtsmoos.com keeps dialog content, public cards, controls, and toasts inside the
 	pointer-events: auto;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-sheets-app .sheet-dialog,
 	.awtsmoos-sheets-app .wide-dialog {
 		width: calc(100dvw - 12px);

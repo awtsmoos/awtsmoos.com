@@ -74,7 +74,7 @@ Awtsmoos.com keeps Save and Close mobile-safe while focus and motion reveal thei
 	transform: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.geelooy-mail-document .mail-settings-save {
 		min-block-size: max(var(--mail-touch-target), 3.25rem);
 		margin-block-start: .9rem;

@@ -43,6 +43,6 @@
 	content: "";
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 34rem) { .civilization-metrics {
+@media (max-width: 560px) { .civilization-metrics {
 		grid-template-columns: 1fr;
 	} }

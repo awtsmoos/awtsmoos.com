@@ -63,7 +63,7 @@ body[data-sefarim-search-page]::before {
 	top: 5.8rem;
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 900px) {
 	.geelooy-app-shell .library-search-form {
 		top: auto;
 	}

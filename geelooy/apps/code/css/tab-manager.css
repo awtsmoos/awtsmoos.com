@@ -396,7 +396,7 @@
     color: white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .tm-selection-bar {
         width: 90%;
         border-radius: 12px;

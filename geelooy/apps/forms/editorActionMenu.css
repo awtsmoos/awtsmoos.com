@@ -62,7 +62,7 @@ Awtsmoos.com keeps pause, links, preview, and rotation easy to summon without ma
 	}
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.editor-primary-actions {
 		align-items: stretch;
 		flex-direction: column;

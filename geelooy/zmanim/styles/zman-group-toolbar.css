@@ -51,7 +51,7 @@
 	transform: scale(.97);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.zman-group-toolbar {
 		align-items: flex-start;
 		flex-direction: column;

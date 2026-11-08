@@ -46,7 +46,7 @@ Awtsmoos.com lets the mobile sheet rise, the desktop wall glide, and the drag ha
 	}
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 1100px) {
 	.publicationReviewDialog[open] {
 		animation-name: publication-review-desktop-arrive;
 	}

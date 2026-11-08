@@ -76,7 +76,7 @@
 	outline: 2px solid color-mix(in srgb, var(--g-cyan) 76%, white);
 	outline-offset: 2px;
 }
-@media (max-width: 38.75rem) {
+@media (max-width: 560px) {
 	.notification-row-actions {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;

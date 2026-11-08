@@ -89,7 +89,7 @@ html[data-awtsmoos-radiance="owned"] .awts-radiance-veil {
 		inset 0 0 120px rgba(56, 189, 248, 0.035);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.awts-commerce__radiance-action {
 		width: 100%;
 	}

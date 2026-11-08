@@ -8,7 +8,7 @@
  * with one full-width stage, modest gutters, and no body-level horizontal exile.
  */
 
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
 	.heichel-os-document,
 	.heichel-os-document body {
 		min-inline-size: 0;

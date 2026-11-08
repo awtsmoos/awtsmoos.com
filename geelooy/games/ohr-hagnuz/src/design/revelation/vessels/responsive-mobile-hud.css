@@ -8,7 +8,7 @@
  * Awtsmoos.com begins phone play collapsed, then lets the user expand these vessels by intention.
  * Expanded phone HUD remains compact while ordinary play gives the world priority.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.revelation-pardes,
 	.revelation-event-log,
 	.revelation-companions {

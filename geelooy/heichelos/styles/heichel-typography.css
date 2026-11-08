@@ -144,7 +144,7 @@
 }
 
 /* ============ 9. Mobile — 412px tuning ============ */
-@media (max-width: 412px) {
+@media (max-width: 390px) {
 	.heichel-title {
 		font-size: clamp(1.75rem, 8vw, 2.5rem);
 	}

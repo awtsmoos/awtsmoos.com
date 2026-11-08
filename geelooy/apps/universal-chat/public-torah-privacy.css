@@ -79,7 +79,7 @@
 	font-size: 0.65rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-special-pane .universal-chat-privacy-control {
 		min-height: 40px;
 		padding: 0 0.1rem;

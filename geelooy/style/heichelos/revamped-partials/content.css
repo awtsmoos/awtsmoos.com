@@ -145,14 +145,14 @@
 .heichel-editor-add {
     justify-self: start;
 }
-@media (max-width: 640px) { .card-social-action {
+@media (max-width: 560px) { .card-social-action {
         flex: 1 1 calc(50% - 0.45rem);
     } }
-@media (max-width: 640px) { .heichel-editor-row {
+@media (max-width: 560px) { .heichel-editor-row {
         align-items: stretch;
         flex-direction: column;
     } }
-@media (max-width: 640px) { .heichel-editor-remove, .heichel-editor-add {
+@media (max-width: 560px) { .heichel-editor-remove, .heichel-editor-add {
         width: 100%;
         min-height: 2.75rem;
     } }

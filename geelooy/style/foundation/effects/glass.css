@@ -21,7 +21,7 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
 		background: var(--awt-surface);
 	}
 }
-@media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
+@media (pointer: coarse), (max-width: 900px), (prefers-reduced-motion: reduce) {
 	.awt-glass,
 	:where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
 		background: var(--awt-surface);

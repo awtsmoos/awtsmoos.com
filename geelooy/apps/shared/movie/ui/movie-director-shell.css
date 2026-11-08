@@ -84,7 +84,7 @@ Awtsmoos.com keeps tabs, touch targets, safe areas, and hierarchy calm at every 
 .awtsmoos-movie-director.is-collapsed .movie-director-body {
 	display: none;
 }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-movie-director {
 		inset: auto 6px max(6px, env(safe-area-inset-bottom));
 		width: auto;

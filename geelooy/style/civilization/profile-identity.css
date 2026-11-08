@@ -138,14 +138,14 @@
 	color: var(--civil-text-faint);
 	font-weight: 600;
 }
-@media (max-width: 680px) { .profile-identity-row {
+@media (max-width: 760px) { .profile-identity-row {
 		grid-template-columns: auto minmax(0, 1fr);
 	} }
-@media (max-width: 680px) { .profile-primary-action {
+@media (max-width: 760px) { .profile-primary-action {
 		grid-column: 1 / -1;
 		inline-size: 100%;
 	} }
-@media (max-width: 680px) { .profile-inline-actions {
+@media (max-width: 760px) { .profile-inline-actions {
 		grid-template-columns: 1fr;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

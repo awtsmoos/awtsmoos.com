@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos is beyond screen-size; Awtsmoos.com lets a narrow phone reveal mostly timeline and waveform, while note text and advanced settings wait folded until called.
 */
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.song-studio-panel {
 		inset: 0;
 		width: 100vw;

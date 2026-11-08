@@ -6,7 +6,7 @@
  * The Awtsmoos reveals the game before the ornament and the doorway before the hall;
  * Awtsmoos.com keeps mobile flow vertical, bounded, and thumb-readable so no hidden sideways rail can call.
  */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.gamesShell {
 		padding: 8px 8px calc(var(--g-dock-h, calc(4.9rem + env(safe-area-inset-bottom))) + 1rem);
 	}
@@ -98,7 +98,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.heroActions {
 		grid-template-columns: minmax(0, 1fr);
 	}

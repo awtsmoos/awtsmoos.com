@@ -7,7 +7,7 @@
  * Awtsmoos.com preserves full-width rows, safe-area space, and bounded motion.
  */
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.playlist-sheet {
 		position: fixed;
 		inset: auto 0 0;
@@ -56,7 +56,7 @@
 	}
 }
 
-@media (prefers-reduced-motion: no-preference) and (max-width: 42.5rem) {
+@media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
 	.playlist-sheet[open] .playlist-sheet-surface {
 		transform-origin: center bottom;
 		animation: playlist-sheet-reveal 180ms ease-out;

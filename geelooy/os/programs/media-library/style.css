@@ -105,7 +105,7 @@
 .mediaLibrary__status:empty { display: none; }
 .mediaLibrary__status[data-error="true"] { color: #ffb7c5; border-color: rgba(255, 79, 115, .55); }
 .mediaLibrary__empty { grid-column: 1 / -1; padding: 36px; text-align: center; color: #8da8d0; }
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.mediaLibrary { padding: 12px; }
 	.mediaLibrary__hero { align-items: start; flex-direction: column; padding: 18px; }
 	.mediaLibrary__toolbar { flex-direction: column; }

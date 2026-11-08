@@ -1,5 +1,5 @@
 /* B"H — The Awtsmoos keeps every finger's target free of overlap. */
-@media (max-width:720px), (pointer:coarse) {
+@media (max-width: 760px), (pointer:coarse) {
 	.song-studio-panel { width: 100%; padding: 12px; border-radius: 14px; }
 	.multitrack-editor { padding: 9px; }
 	.song-studio-essential-toolbar,
@@ -14,7 +14,7 @@
 	.multitrack-clip-name { font-size: 11px; }
 	.multitrack-viewport { max-height: 58dvh; }
 }
-@media (max-width:350px) {
+@media (max-width: 390px) {
 	.song-studio-essential-toolbar,
 	.multitrack-essential-tools { grid-template-columns: repeat(2,minmax(0,1fr)); }
 	.multitrack-navigation { grid-template-columns: 1fr; }

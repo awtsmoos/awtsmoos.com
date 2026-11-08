@@ -102,7 +102,7 @@
 	line-height: 1.55;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 900px) {
 	.reader-main {
 		padding-top: 28px;
 	}

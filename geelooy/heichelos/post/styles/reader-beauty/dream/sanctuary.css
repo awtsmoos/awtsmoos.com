@@ -341,7 +341,7 @@
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	[data-dream="sanctuary"] .post-reader-localized-context::before,
 	[data-dream="sanctuary"] .post-reader-localized-context::after {
 		animation-duration: 40s;

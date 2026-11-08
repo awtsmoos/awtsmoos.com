@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets every command tile carry one clear spark; Awtsmoos.com gives icon, label, danger, disabled state, and theme color their own focused visual vessel.
 */
-@media (max-width: 899px) {
+@media (max-width: 900px) {
 	.command-sheet-item {
 		display: grid;
 		min-width: 0;

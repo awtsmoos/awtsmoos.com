@@ -17,7 +17,7 @@
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.messaging-composer {
 		grid-template-columns: minmax(0, 1fr);
 		gap: 0.36rem;
@@ -33,7 +33,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.private-message {
 		max-width: 90%;
 	}

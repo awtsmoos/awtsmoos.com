@@ -88,7 +88,7 @@ body[data-geelooy-route="apps"] .apps-economy-note p {
 	line-height: 1.5;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="apps"] .apps-hero {
 		gap: 14px;
 		padding: 18px 16px;
@@ -115,14 +115,14 @@ body[data-geelooy-route="apps"] .apps-economy-note p {
 	}
 }
 
-@media (min-width: 640px) {
+@media (min-width: 560px) {
 	body[data-geelooy-route="apps"] .apps-hero-actions {
 		display: flex;
 		flex-wrap: wrap;
 	}
 }
 
-@media (min-width: 860px) {
+@media (min-width: 900px) {
 	body[data-geelooy-route="apps"] .apps-hero {
 		grid-template-columns: minmax(0, 1.5fr) minmax(250px, .6fr);
 	}

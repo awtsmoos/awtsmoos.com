@@ -84,6 +84,6 @@
 	to { opacity: 1; filter: none; transform: none; }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.swipe-wrapper { width: 94%; }
 }

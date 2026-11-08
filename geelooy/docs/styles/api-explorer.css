@@ -74,7 +74,7 @@ body[data-geelooy-route="docs"] .api-empty {
 	padding: 24px;
 	color: var(--muted);
 }
-@media (max-width: 980px) {
+@media (max-width: 900px) {
 	body[data-geelooy-route="docs"] .api-explorer-shell {
 		grid-template-columns: 1fr;
 	}

@@ -40,7 +40,7 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 	backdrop-filter: blur(14px) saturate(126%);
 }
 
-@media (min-width: 42.51rem) {
+@media (min-width: 760px) {
 	.creatorSurface {
 		gap: .7rem;
 		padding: .86rem;
@@ -62,7 +62,7 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 	}
 }
 
-@media (min-width: 68rem) {
+@media (min-width: 1100px) {
 	.creatorSurfaceHeading {
 		grid-template-columns: minmax(0, 1fr) auto;
 		align-items: end;
@@ -75,7 +75,7 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.creatorDockButton {
 		flex-basis: 4.6rem;
 	}

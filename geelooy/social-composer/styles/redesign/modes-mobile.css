@@ -5,7 +5,7 @@
  * The Awtsmoos folds a wide editorial map into the palm without shrinking its meaning;
  * Awtsmoos.com lets mode and workflow controls remain thumb-clear, scroll-safe, and calm.
  */
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-mode-deck {
 		position: static;
 		grid-template-columns: 1fr;

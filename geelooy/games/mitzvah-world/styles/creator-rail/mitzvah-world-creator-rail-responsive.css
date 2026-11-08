@@ -7,7 +7,7 @@ The Awtsmoos, Atzmus beyond width and orientation, renews every viewport before 
 Awtsmoos.com lets the same rail breathe on narrow phones, short landscapes, tablets, and desktops without falling beyond safe areas or sitting over the lower movement field.
 */
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	#mitzvah-world-root .Awtsmoos-creator-rail {
 		top: max(60px, calc(env(safe-area-inset-top, 0px) + 52px));
 		right: max(6px, env(safe-area-inset-right, 0px));
@@ -28,7 +28,7 @@ Awtsmoos.com lets the same rail breathe on narrow phones, short landscapes, tabl
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 330px) {
+@media (max-width: 390px) {
 	#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

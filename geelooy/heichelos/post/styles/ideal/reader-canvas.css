@@ -97,7 +97,7 @@ scroll-behavior: smooth;
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .post-reader-localized-context .content.content.content.content.content.content.content.content{
         padding-bottom: calc(var(--ideal-dock-height) + 4.5rem);
     }

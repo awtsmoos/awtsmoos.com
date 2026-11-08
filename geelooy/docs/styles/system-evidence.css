@@ -95,7 +95,7 @@ body[data-geelooy-route="docs"] .system-evidence-warning p {
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] :where(.system-risk-grid, .system-evidence-grid) {
 		grid-template-columns: 1fr;
 	}

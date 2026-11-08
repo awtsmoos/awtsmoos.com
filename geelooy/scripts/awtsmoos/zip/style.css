@@ -133,7 +133,7 @@ body {
     gap: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 760px) {
     .grid-split {
         grid-template-columns: 1fr 1fr;
     }

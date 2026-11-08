@@ -13,7 +13,7 @@ body[data-geelooy-route="home"] :where(.home, .site-footer) {
 
 body[data-geelooy-route="home"] .site-header {
 	position: relative;
-	z-index: var(--home-layer-launcher-host);
+	z-index: var(--home-layer-header);
 	inline-size: min(1240px, calc(100% - 32px));
 	min-inline-size: 0;
 	margin: 0 auto;
@@ -32,7 +32,7 @@ body[data-geelooy-route="home"] .sr-only {
 	border: 0;
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	body[data-geelooy-route="home"] .site-header {
 		inline-size: calc(100% - 16px);
 		padding-block-start: max(8px, env(safe-area-inset-top));

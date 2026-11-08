@@ -52,7 +52,7 @@
 	text-wrap: pretty;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	:root.heichel-os-document .heichel-semantic-discovery ul {
 		gap: 1.15rem;
 	}

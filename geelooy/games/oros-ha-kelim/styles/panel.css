@@ -55,7 +55,7 @@
 		background: linear-gradient(var(--oros-glass-strong) 72%, transparent);
 	}
 
-	@media (min-width: 780px) {
+	@media (min-width: 760px) {
 		.oros-app #advanced-panel {
 			top: 64px;
 			left: auto;

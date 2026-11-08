@@ -85,7 +85,7 @@
 	cursor: pointer;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.campaign-card {
 		padding: 20px 18px 22px;
 		border-radius: 23px;

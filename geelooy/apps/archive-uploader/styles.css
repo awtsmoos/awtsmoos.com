@@ -311,7 +311,7 @@ a.bucket-link:hover {
 }
 
 /* --- MOBILE --- */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .input-grid { grid-template-columns: 1fr; }
     .stats-bar { 
         width: 100%; 

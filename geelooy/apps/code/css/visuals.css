@@ -71,7 +71,7 @@
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(10, 12, 20, 0.95);
-    z-index: 30000;
+    z-index: 44;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +89,7 @@
 #graph-nav-close {
     position: absolute;
     top: 20px; right: 20px;
-    z-index: 30001;
+    z-index: 45;
     background: var(--color-bg-tertiary);
     border: 1px solid var(--color-border);
     width: 44px; height: 44px; /* Larger hit target */
@@ -123,7 +123,7 @@
 }
 
 /* Mobile Optimizations */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .minimap-canvas {
         width: 40px; /* Thinner on mobile */
         opacity: 0.6;

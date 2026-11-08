@@ -5,7 +5,7 @@
  * The Awtsmoos turns context into one horizontal river instead of five vertical walls before the feed;
  * Awtsmoos.com keeps alias, destination, privacy, and route title touchable while hidden presence details recede.
  */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .contextRibbon {
 		position: sticky;
 		top: var(--g-header-h, 0px);

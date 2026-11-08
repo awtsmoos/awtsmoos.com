@@ -27,7 +27,7 @@
 	outline-offset: 2px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.universal-chat-app-link {
 		justify-content: center;
 		text-align: center;

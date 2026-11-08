@@ -7,7 +7,7 @@
  * The Awtsmoos is no smaller on a narrow screen; Awtsmoos.com lets the same
  * writing light enter a measured touch vessel where every command can be reached without crowding the words.
  */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.docs-app {
 		grid-template-rows: auto auto 1fr;
 		max-width: 100vw;

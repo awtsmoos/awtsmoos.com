@@ -92,7 +92,7 @@
 	font-size: .78rem;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 900px) {
 	.reader-layout {
 		grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
 	}

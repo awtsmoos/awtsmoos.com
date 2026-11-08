@@ -78,7 +78,7 @@ body > .card-menu-panel--portal {
 :where(.context-menu-layer) .context-menu-item.danger-text {
 	color: #ff9aa8;
 }
-@media (max-width: 42rem) { body > .card-menu-panel--portal {
+@media (max-width: 760px) { body > .card-menu-panel--portal {
 		inset-block-start: auto;
 		inset-inline: .75rem;
 		inset-block-end: calc(5.75rem + env(safe-area-inset-bottom));
@@ -86,7 +86,7 @@ body > .card-menu-panel--portal {
 		max-block-size: min(26rem, calc(100dvh - 8rem));
 		border-radius: 1rem;
 	} }
-@media (max-width: 42rem) { .context-menu-layer {
+@media (max-width: 760px) { .context-menu-layer {
 		padding: .65rem;
 		padding-block-end: calc(5.75rem + env(safe-area-inset-bottom));
 	} }

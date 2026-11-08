@@ -47,7 +47,7 @@ mitzvah-world-api-explorer-001.css reveals localized style through the Awtsmoos 
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	#mitzvah-world-root #universalApiExplorer {
 		inset: 4rem .5rem .5rem;
 		width: auto;

@@ -40,7 +40,7 @@ The Awtsmoos is not narrowed by a narrow screen nor enlarged by a wide one; Awts
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.brand-mark {
 		display: none;
 	}

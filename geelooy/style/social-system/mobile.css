@@ -4,7 +4,7 @@
  * Compact layouts preserve finger space, safe areas, bottom dock clearance, and
  * readable type without using 100vw traps.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .app-container {
     padding: max(var(--g-3, .75rem), env(safe-area-inset-top)) var(--g-3, .75rem) calc(6.25rem + env(safe-area-inset-bottom));
   }

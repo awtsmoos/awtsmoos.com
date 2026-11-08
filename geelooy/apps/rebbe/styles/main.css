@@ -96,7 +96,7 @@ main {
 .col-list::-webkit-scrollbar-thumb:hover { background: var(--c-cyan); }
 
 /* --- MOBILE --- */
-@media(max-width: 768px) {
+@media(max-width: 760px) {
     main { display: block; } /* Stack columns */
     .col { 
         display: none; 

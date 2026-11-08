@@ -110,7 +110,7 @@
     object-fit: cover;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
     .awtsmoos-modal-overlay {
         align-items: flex-end;
         padding: 0.75rem;

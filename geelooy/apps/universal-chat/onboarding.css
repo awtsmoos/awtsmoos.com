@@ -70,7 +70,7 @@
 	line-height: 1.55;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.messaging-onboarding-actions { display: grid; grid-template-columns: 1fr; gap: 0.44rem; margin-top: 0.78rem; }
 	.messaging-onboarding-action { width: 100%; min-height: 48px; }
 	.messaging-onboarding-action.is-primary { min-height: 52px; font-size: 0.78rem; }

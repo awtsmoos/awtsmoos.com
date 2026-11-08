@@ -9,7 +9,7 @@
 	--learn-on-gold: #141414;
 }
 
-   Yaakov's laws, enforced here and everywhere below:
+   /* Yaakov's laws, enforced here and everywhere below:
    - NEVER use !important.
    - Sharp corners only: border-radius: 0.
    - Explicit colors for light AND dark themes via theme tokens only

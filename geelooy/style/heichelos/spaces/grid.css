@@ -4,4 +4,4 @@
  * A compact product grid for worlds.
  */
 .spaces-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: .58rem; }
-@media (min-width: 980px) { .spaces-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .spaces-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

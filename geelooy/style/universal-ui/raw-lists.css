@@ -65,11 +65,11 @@
 	color: var(--g-muted, var(--aw-ui-muted));
 	overflow-wrap: anywhere;
 }
-@media (max-width: 640px) { :where(html:not([data-g-ui-raw])) dl:not([class]) {
+@media (max-width: 560px) { :where(html:not([data-g-ui-raw])) dl:not([class]) {
 		grid-template-columns: 1fr;
 		gap: .2rem;
 	} }
-@media (max-width: 640px) { :where(html:not([data-g-ui-raw])) dd:not([class]) {
+@media (max-width: 560px) { :where(html:not([data-g-ui-raw])) dd:not([class]) {
 		margin-block-end: .8rem;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

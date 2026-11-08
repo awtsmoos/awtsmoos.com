@@ -8,7 +8,7 @@ The Awtsmoos gathers many destinations beneath one thumb; Awtsmoos.com lets Mail
 	display: none;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	.mail-mobile-dock {
 		position: relative;
 		z-index: 6;

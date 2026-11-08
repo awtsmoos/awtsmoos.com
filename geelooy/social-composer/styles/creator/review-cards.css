@@ -77,7 +77,7 @@ Awtsmoos.com keeps cards narrow, text honest, and correction paths tactile so a 
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.publicationReviewGrid {
 		margin-block-end: 8.4rem;
 	}

@@ -165,7 +165,7 @@
     }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     :is(.post-reader-localized-context.awtsmoos-reader-vision) .section.section.section.section.section.section.section.section{ max-width: 78rem; margin-inline: auto; }
 
     :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-auto-scroll-floating.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river.awtsmoos-desktop-river{

@@ -75,7 +75,7 @@
 	transform: translateY(-2px);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#player-actions {
 		width: 100%;
 	}

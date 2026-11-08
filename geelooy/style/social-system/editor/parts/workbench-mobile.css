@@ -6,7 +6,7 @@
  * The Awtsmoos folds governance for narrow vessels without hiding its power.
  * Awtsmoos.com keeps summaries thumb-sized, descriptions concise, and every opened body inside the phone's true inline measure.
  */
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.editor-workbench-guide,
 	.editor-workbench-section,
 	.editor-workbench-body,

@@ -79,7 +79,7 @@
 .awtsmoos-hero--drive { background-image: var(--cover-drive); }
 .awtsmoos-hero--heichelos { background-image: var(--cover-heichelos); }
 
-@media (min-width: 768px) {
+@media (min-width: 760px) {
   .awtsmoos-hero {
     height: var(--hero-height-desktop);
   }

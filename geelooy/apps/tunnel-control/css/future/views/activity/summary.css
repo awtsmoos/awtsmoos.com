@@ -47,7 +47,7 @@
 	color: color-mix(in srgb, var(--awt-muted, #aebbc5) 78%, transparent);
 }
 
-@media (max-width: 70rem) {
+@media (max-width: 1100px) {
 	.awt-activity-summary {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

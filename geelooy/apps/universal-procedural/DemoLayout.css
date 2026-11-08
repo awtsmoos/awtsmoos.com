@@ -73,7 +73,7 @@ button:disabled {
 	gap: 16px;
 	padding: 4px 4px 16px;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.workspace {
 		grid-template-columns: 1fr;
 	}

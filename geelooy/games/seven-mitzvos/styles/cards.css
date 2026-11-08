@@ -78,13 +78,13 @@
 	font-size: 0.95rem;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 900px) {
 	.mitzvahCard {
 		grid-column: span 6;
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.mitzvahCard {
 		grid-column: 1 / -1;
 		min-height: 235px;

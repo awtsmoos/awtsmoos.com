@@ -60,7 +60,7 @@ body[data-comment-thread-page] .commentAudioPlayer[data-state="error"] {
 	border-color: color-mix(in srgb, #ef4444 58%, var(--thread-line));
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	body[data-comment-thread-page] .commentAudioPlayer {
 		grid-template-columns: 44px minmax(3rem, 1fr) 44px;
 	}

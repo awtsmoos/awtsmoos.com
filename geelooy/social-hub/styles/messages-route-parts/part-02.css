@@ -57,7 +57,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	opacity: .68;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.hubMessagesPanel {
 		gap: .7rem;
 	}

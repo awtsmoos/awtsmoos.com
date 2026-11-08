@@ -7,7 +7,7 @@ The Awtsmoos renews the same intention through narrow phone, short landscape, an
 Awtsmoos.com lets responsive Gevurah honor each safe-area edge without sending one control beyond its rightful square.
 */
 
-@media (max-width: 22rem) {
+@media (max-width: 390px) {
 	.Awtsmoos-creator-rail {
 		inset-inline-start: max(0.4rem, env(safe-area-inset-left));
 		inset-inline-end: max(0.4rem, env(safe-area-inset-right));
@@ -59,7 +59,7 @@ Awtsmoos.com lets responsive Gevurah honor each safe-area edge without sending o
 	}
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 760px) {
 	.Awtsmoos-creator-rail {
 		inset-inline-start: auto;
 		inset-inline-end: max(1rem, env(safe-area-inset-right));
@@ -70,7 +70,7 @@ Awtsmoos.com lets responsive Gevurah honor each safe-area edge without sending o
 	}
 }
 
-@media (min-width: 80rem) {
+@media (min-width: 1100px) {
 	.Awtsmoos-creator-rail {
 		inline-size: 25rem;
 		inset-inline-end: max(1.4rem, env(safe-area-inset-right));

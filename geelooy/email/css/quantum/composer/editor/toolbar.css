@@ -51,7 +51,7 @@
 	color: var(--mail-cyan);
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.visual-toolbar {
 		flex-wrap: nowrap;
 		overflow-x: auto;

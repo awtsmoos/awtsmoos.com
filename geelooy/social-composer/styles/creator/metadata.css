@@ -84,7 +84,7 @@ Awtsmoos.com begins with one mobile column, then grants wider vessels more room 
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (min-width: 42.51rem) {
+@media (min-width: 760px) {
 	.creatorMetadata {
 		margin-block: .8rem 1rem;
 		border-radius: var(--composer-radius-lg);

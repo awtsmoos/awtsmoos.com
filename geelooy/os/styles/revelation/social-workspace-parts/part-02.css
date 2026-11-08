@@ -61,7 +61,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	background: #fff;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.geelooy-social-workspace {
 		padding: .45rem;
 		grid-template-rows: auto auto minmax(20rem, 1fr);

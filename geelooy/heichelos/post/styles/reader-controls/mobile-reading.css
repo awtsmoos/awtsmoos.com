@@ -9,7 +9,7 @@
  * text colors. B"H: explicit light color overrides were reverted 2026-10-06
  * after they broke the theme system (white-on-white).
  */
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	.awtsmoos-reader-vision .main {
 		display: block;
 		min-inline-size: 0;

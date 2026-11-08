@@ -5,7 +5,7 @@ Blessed is He
 
 The Awtsmoos stretches one studio from palm to desktop without changing its soul; Awtsmoos.com grants wider vessels more columns, never smaller intent.
 */
-@media (min-width: 680px) {
+@media (min-width: 760px) {
 	.app-content {
 		padding-left: 24px;
 		padding-right: 24px;
@@ -37,7 +37,7 @@ The Awtsmoos stretches one studio from palm to desktop without changing its soul
 	}
 }
 
-@media (min-width: 980px) {
+@media (min-width: 900px) {
 	.creation-grid,
 	.asset-library-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -8,7 +8,7 @@
  * history and publication become stacked touch vessels without shrinking control
  * dignity, hiding the selected version, or turning public actions into tiny targets.
  */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.workspace-dialog {
 		width: calc(100vw - 12px);
 		max-height: calc(100vh - 12px);

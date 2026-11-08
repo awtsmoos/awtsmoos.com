@@ -106,7 +106,7 @@ The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mo
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.compact-reference-hint {
 		grid-template-columns: 1fr;
 	}

@@ -97,6 +97,6 @@
 }
 .awt-pairing-input::placeholder { color: rgba(143, 255, 212, .35); }
 .awt-pairing-input:focus { outline: 2px solid #8fffd4; outline-offset: 2px; }
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.awt-pairing-card .button-link { flex: 1 1 100%; }
 }

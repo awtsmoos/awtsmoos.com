@@ -85,7 +85,7 @@
 	display: none;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.social-hub-document .hubConversationComposer--rich {
 		position: relative;
 		inset: auto;

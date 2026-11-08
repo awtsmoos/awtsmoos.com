@@ -16,7 +16,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.wallet-shell {
 		width: min(100% - 18px, 1280px);
 		padding-top: 10px;

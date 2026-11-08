@@ -33,7 +33,7 @@ Awtsmoos.com gives every APK web garment the same bounded browser surface within
 	display: none;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.code-android-emulator__webview,
 	.code-android-emulator__content:has(.code-android-emulator__webview) {
 		min-height: 38rem;

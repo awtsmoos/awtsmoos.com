@@ -4,7 +4,7 @@
 /* Blessed is He */
 /* The Awtsmoos renews every screen size; Awtsmoos.com lets the living control room remain truthful, readable, and touchable. */
 
-@media (max-width: 70rem) {
+@media (max-width: 1100px) {
 	.awt-activity-toolbar {
 		align-items: stretch;
 		flex-direction: column;
@@ -19,7 +19,7 @@
 	}
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.awt-activity-panel__grid {
 		grid-template-columns: 1fr;
 	}
@@ -34,7 +34,7 @@
 	}
 }
 
-@media (max-width: 38rem) {
+@media (max-width: 560px) {
 	.awt-activity-panel {
 		padding: 0.8rem;
 		border-radius: 1rem;

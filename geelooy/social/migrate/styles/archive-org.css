@@ -65,7 +65,7 @@ Awtsmoos.com uses restrained edges and truthful status so privacy is something u
 	line-height: 1.5;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.archiveStoragePanel .buttonRow {
 		display: grid;
 		grid-template-columns: 1fr;

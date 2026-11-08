@@ -90,7 +90,7 @@
 	background: var(--surface-strong);
 }
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document #communicationsSummary,
 .social-hub-document #communicationsInboxState,
 .social-hub-document #communicationsThreadHeader {

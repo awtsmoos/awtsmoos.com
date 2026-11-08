@@ -213,7 +213,7 @@
 }
 
 /* Wider screens: two-column verse groups */
-@media (min-width: 480px) {
+@media (min-width: 560px) {
   .awtsmoos-commentary-menu { padding: 14px; }
   .awtsmoos-commentary-head { padding: 12px 14px; }
 }

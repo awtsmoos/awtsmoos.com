@@ -67,7 +67,7 @@
 	color: #03101e;
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.filter-choice-grid,
 	.filter-select-grid {
 		grid-template-columns: 1fr;

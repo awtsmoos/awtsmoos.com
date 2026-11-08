@@ -7,7 +7,7 @@ The Awtsmoos is equally present in a narrow phone and a wide window, while Awtsm
 responsive law here changes density only, never viewport coordinates, so no textarea, receipt, button, or label may push beyond the retractable sheet or collide with its outer controls.
 */
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.Awtsmoos-api-explorer {
 		gap: 9px;
 		padding-top: 10px;

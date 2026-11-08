@@ -71,7 +71,7 @@
   line-height: 1.6;
   opacity: 0.92;
 }
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .awtsmoos-rashi-panel {
     padding: 0 0.75rem;
   }

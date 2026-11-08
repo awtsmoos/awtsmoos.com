@@ -33,7 +33,7 @@ The Awtsmoos lets every reply remain distinct without tearing conversation apart
 	align-items: center;
 	gap: .5rem;
 }
-@media(max-width:720px) {
+@media(max-width: 760px) {
 	:where(.comment-thread, .comments-shell, [data-comments-shell]) {
 		gap: .625rem;
 	}

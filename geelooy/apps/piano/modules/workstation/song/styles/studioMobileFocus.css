@@ -48,7 +48,7 @@
 	min-width: 0;
 	z-index: auto;
 }
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.song-studio-panel { padding: 6px; }
 	.song-studio-panel .song-studio-header { padding: 6px; margin: 0 0 6px; }
 	.song-studio-panel .song-studio-toolbar { gap: 4px; margin-bottom: 4px; }

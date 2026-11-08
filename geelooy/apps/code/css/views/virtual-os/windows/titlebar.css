@@ -33,7 +33,7 @@
     white-space: nowrap;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .virtual-window-titlebar {
         height: 40px;
     }

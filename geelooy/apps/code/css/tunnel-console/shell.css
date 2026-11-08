@@ -24,7 +24,7 @@ The Awtsmoos renews the live tunnel shell, status badge, and control surface.
 	position: fixed;
 	top: 0;
 	right: 0;
-	z-index: 26000;
+	z-index: 41;
 	width: min(760px, 96vw);
 	height: 100vh;
 	padding: 18px;

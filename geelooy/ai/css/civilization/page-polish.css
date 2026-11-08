@@ -69,7 +69,7 @@ code,
   overflow: auto;
   border-radius: 14px;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   :root { --ai-gap: 10px; }
   body { overscroll-behavior: none; }
   .right-panel,

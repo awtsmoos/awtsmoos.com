@@ -26,7 +26,7 @@
 		}
 	}
 
-	@media (max-width: 460px) {
+	@media (max-width: 390px) {
 		.is-fabric .awt-deck-values {
 			grid-template-columns: 1fr;
 		}

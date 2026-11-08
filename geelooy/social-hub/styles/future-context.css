@@ -41,7 +41,7 @@ Awtsmoos.com lets the context ribbon breathe, wrap, and glow so orientation rema
 	color: #e8fbff;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	.social-hub-document .contextRibbon {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -60,7 +60,7 @@ Awtsmoos.com lets the context ribbon breathe, wrap, and glow so orientation rema
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.social-hub-document .contextRibbon {
 		grid-template-columns: minmax(0, 1fr);
 	}

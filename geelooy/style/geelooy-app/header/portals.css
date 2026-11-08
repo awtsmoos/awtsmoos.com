@@ -142,13 +142,13 @@
    label+caption copy while the search track held an 18rem minimum. Shed copy
    in stages before the actions track can crowd: captions first, then full copy
    (icon-only portals) at narrowing widths. No; plain cascade. */
-@media (max-width: 80rem) {
+@media (max-width: 1100px) {
 	.g-header-portal-caption {
 		display: none;
 	}
 }
 
-@media (max-width: 68rem) {
+@media (max-width: 1100px) {
 	.g-header-portal-copy {
 		display: none;
 	}

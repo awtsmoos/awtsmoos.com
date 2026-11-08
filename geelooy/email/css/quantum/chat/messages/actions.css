@@ -55,7 +55,7 @@
 	right: -3rem;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.msg-actions {
 		opacity: 1;
 	}

@@ -128,7 +128,7 @@
 	color: var(--pp-muted);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.published-creations-root {
 		width: min(100% - 20px, 1120px);
 		margin-top: 20px;

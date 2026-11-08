@@ -60,7 +60,7 @@
 	.ui-panel { width: 100%; padding: 9px 10px; font-size: .9rem; }
 	#table-summary { right: calc(min(34vw, 290px) + 20px); justify-content: flex-start; }
 }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#table-summary { gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
 	#table-summary #leave-table { margin-left: 0; }
 	#player-actions { width: 100%; }

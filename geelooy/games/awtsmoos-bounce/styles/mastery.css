@@ -78,7 +78,7 @@
 	display: none;
 }
 
-@media (min-width: 540px) {
+@media (min-width: 560px) {
 	.result-actions:has(.secondary-button:not([hidden])) {
 		grid-template-columns: 0.82fr 1.18fr;
 	}

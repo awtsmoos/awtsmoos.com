@@ -200,7 +200,7 @@
 }
 
 /* ============ small screens: everything holds at 390px ============ */
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.dream-golden-thread {
 		inset-inline-start: 5px;
 		width: 2px;

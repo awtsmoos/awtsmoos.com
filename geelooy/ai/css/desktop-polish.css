@@ -84,7 +84,7 @@
 .bridge-actions a { display: inline-flex; align-items: center; justify-content: center; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .provider-key-row { grid-template-columns: 1fr 1fr; }
   .provider-key-input { grid-column: 1 / -1; }
   .bridge-card-head, .bridge-actions { grid-template-columns: 1fr; }

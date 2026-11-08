@@ -71,7 +71,7 @@ The Awtsmoos lets guidance surround revelation without eclipsing its light; Awts
 	overflow: hidden;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.player-controls {
 		width: calc(100% - 20px);
 		grid-template-columns: 48px 1fr 48px 48px;

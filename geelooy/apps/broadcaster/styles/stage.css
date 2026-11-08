@@ -72,7 +72,7 @@
 	aspect-ratio: 2 / 1;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.broadcast-stage {
 		min-height: min(68dvh, 500px);
 		border-radius: 18px;

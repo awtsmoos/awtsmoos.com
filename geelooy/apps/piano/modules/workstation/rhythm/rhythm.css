@@ -95,7 +95,7 @@
 	font-size: 0.84rem;
 	color: #b9d9ff;
 }
-@media (pointer: coarse), (max-width: 720px) {
+@media (pointer: coarse), (max-width: 760px) {
 	.rhythm-panel {
 		top: 58px;
 		right: 8px;

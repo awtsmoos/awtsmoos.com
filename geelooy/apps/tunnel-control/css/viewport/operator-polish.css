@@ -10,7 +10,7 @@
  * safe-area command dock, and every live room enough space for identity and chat.
  */
 
-@media (min-width: 761px) {
+@media (min-width: 760px) {
 	.awt-control-main.awt-control-main {
 		grid-template-columns: 184px minmax(0, 1fr);
 		gap: 12px;

@@ -113,7 +113,7 @@
 	white-space: pre-wrap;
 }
 
-@media (max-width: 330px) {
+@media (max-width: 390px) {
 	.detail-grid {
 		grid-template-columns: 1fr;
 	}

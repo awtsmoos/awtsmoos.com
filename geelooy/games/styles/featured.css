@@ -85,7 +85,7 @@
 	}
 }
 
-@media (max-width: 880px) {
+@media (max-width: 900px) {
 	.heroDeck {
 		grid-template-columns: 1fr;
 	}

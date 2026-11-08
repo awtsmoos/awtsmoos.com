@@ -87,7 +87,7 @@
 	from { opacity: 0.55; transform: scale(0.2); }
 	to { opacity: 0; transform: scale(1.25); }
 }
-@media (min-width: 72.01rem) and (min-height: 48rem) {
+@media (min-width: 1100px) and (min-height: 48rem) {
 	.g-home-aside { position: sticky; top: calc(var(--g-header-h) + 1.4rem); }
 }
 

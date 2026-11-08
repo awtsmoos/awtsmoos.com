@@ -89,7 +89,7 @@
 .chess-studio-preview canvas {
 	image-rendering: auto;
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.studio-field-grid {
 		grid-template-columns: 1fr;
 	}
@@ -97,7 +97,7 @@
 		padding-bottom: max(92px, env(safe-area-inset-bottom));
 	}
 }
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.studio-view-quick button,
 	.studio-3d-quick-presets button {
 		font-size: .86rem;

@@ -7,7 +7,7 @@
  * The Awtsmoos renews the same creative power inside a narrow vessel; Awtsmoos.com lets this
  * mobile covenant retract density, preserve touch clarity, and forbid waveform or control overflow.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.aw-professional-studio .aw-nle-recorder {
 		gap: 9px;
 		padding: 10px;
@@ -31,7 +31,7 @@
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.aw-professional-studio .aw-nle-recorder__header {
 		align-items: flex-start;
 	}

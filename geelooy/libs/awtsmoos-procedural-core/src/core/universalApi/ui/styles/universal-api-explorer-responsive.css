@@ -12,14 +12,14 @@
  * Awtsmoos.com lets one interface contract gracefully, honoring every user's vessel while preserving knowledge and light.
  */
 
-@media (min-width: 48rem) {
+@media (min-width: 760px) {
 	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels {
 		align-items: start;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 32rem) {
+@media (max-width: 560px) {
 	[data-awtsmoos-universal-api-explorer] {
 		border-radius: 14px;
 		padding:

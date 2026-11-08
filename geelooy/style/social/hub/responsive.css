@@ -5,82 +5,82 @@
  * The Awtsmoos preserves one Social Hub across workstations, tablets, phones,
  * landscape vessels, safe areas, zoom, and reduced motion.
  */
-@media (max-width: 72rem) { .hub-inputs {
+@media (max-width: 1100px) { .hub-inputs {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	} }
-@media (max-width: 72rem) { .hub-field-wide {
+@media (max-width: 1100px) { .hub-field-wide {
 		grid-column: span 2;
 	} }
-@media (max-width: 52rem) { .hub-shell {
+@media (max-width: 900px) { .hub-shell {
 		grid-template-columns: minmax(0, 1fr);
 		inline-size: min(calc(100% - 1rem), 52rem);
 		padding-block-start: .5rem;
 	} }
-@media (max-width: 52rem) { .hub-rail {
+@media (max-width: 900px) { .hub-rail {
 		position: static;
 		max-block-size: none;
 		overflow: visible;
 	} }
-@media (max-width: 52rem) { .hub-rail-tabs {
+@media (max-width: 900px) { .hub-rail-tabs {
 		display: flex;
 		flex-wrap: wrap;
 		gap: .4rem;
 		overflow-x: visible;
 		padding-block-end: .25rem;
 	} }
-@media (max-width: 52rem) { .hub-rail button {
+@media (max-width: 900px) { .hub-rail button {
 		inline-size: auto;
 		flex: 1 1 9rem;
 		min-inline-size: 0;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 52rem) { .hub-mail-tag {
+@media (max-width: 900px) { .hub-mail-tag {
 		inline-size: auto;
 		flex: 1 1 100%;
 	} }
-@media (max-width: 42rem) { .hub-hero {
+@media (max-width: 760px) { .hub-hero {
 		grid-template-columns: minmax(0, 1fr);
 	} }
-@media (max-width: 42rem) { .hub-hero-actions {
+@media (max-width: 760px) { .hub-hero-actions {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: stretch;
 	} }
-@media (max-width: 42rem) { .hub-hero-actions button {
+@media (max-width: 760px) { .hub-hero-actions button {
 		min-inline-size: 0;
 		overflow-wrap: break-word;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 42rem) { .hub-input-heading {
+@media (max-width: 760px) { .hub-input-heading {
 		display: grid;
 	} }
-@media (max-width: 42rem) { .hub-inputs {
+@media (max-width: 760px) { .hub-inputs {
 		grid-template-columns: minmax(0, 1fr);
 	} }
-@media (max-width: 42rem) { .hub-field-wide {
+@media (max-width: 760px) { .hub-field-wide {
 		grid-column: auto;
 	} }
-@media (max-width: 42rem) { .hub-panel-grid {
+@media (max-width: 760px) { .hub-panel-grid {
 		grid-template-columns: minmax(0, 1fr);
 	} }
-@media (max-width: 28rem) { .hub-shell {
+@media (max-width: 390px) { .hub-shell {
 		inline-size: min(calc(100% - .7rem), 32rem);
 	} }
-@media (max-width: 28rem) { .hub-rail, .hub-hero, .hub-input-section, .hub-card {
+@media (max-width: 390px) { .hub-rail, .hub-hero, .hub-input-section, .hub-card {
 		border-radius: .9rem;
 	} }
-@media (max-width: 28rem) { .hub-hero-actions, .hub-live-actions {
+@media (max-width: 390px) { .hub-hero-actions, .hub-live-actions {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
 	} }
-@media (max-width: 28rem) { .hub-hero-actions button, .hub-live-actions button {
+@media (max-width: 390px) { .hub-hero-actions button, .hub-live-actions button {
 		inline-size: 100%;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 28rem) { .hub-card header {
+@media (max-width: 390px) { .hub-card header {
 		display: grid;
 	} }
-@media (max-width: 28rem) { .hub-card small {
+@media (max-width: 390px) { .hub-card small {
 		max-inline-size: 100%;
 		inline-size: fit-content;
 	

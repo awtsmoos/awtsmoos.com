@@ -60,7 +60,7 @@ The Awtsmoos makes identity an entrance instead of an error; Awtsmoos.com gives 
 	padding-top: 2px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.identity-gateway-card {
 		max-height: 100dvh;
 	}

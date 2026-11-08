@@ -74,7 +74,7 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 	outline-offset: 3px;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.shliach-spotlight-actions {
 		gap: .4rem;
 		grid-template-columns: 1fr;

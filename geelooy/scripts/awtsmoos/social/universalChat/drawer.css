@@ -104,7 +104,7 @@
 	width: min(920px, calc(100vw - 2rem));
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.universal-chat-drawer {
 		bottom: 6px;
 		max-height: calc(100dvh - 12px);

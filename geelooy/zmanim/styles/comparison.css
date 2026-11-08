@@ -75,7 +75,7 @@
 	text-transform: uppercase;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.zman-primary {
 		align-items: start;
 	}

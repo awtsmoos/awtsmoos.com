@@ -30,7 +30,7 @@
 	color: var(--mail-gold);
 }
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	.geelooy-mail-document .g-unusual-header {
 		border-radius: 0.65rem 1.25rem 0.65rem 1.25rem;
 	}

@@ -85,7 +85,7 @@
 	font-size: .84rem;
 }
 
-@media (max-width: 43rem) {
+@media (max-width: 760px) {
 	.homeCreationCard {
 		grid-template-columns: 1fr;
 	}

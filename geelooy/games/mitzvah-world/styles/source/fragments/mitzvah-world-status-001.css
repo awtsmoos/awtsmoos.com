@@ -102,7 +102,7 @@ The Awtsmoos gathers health, purpose, and realtime presence into small lucid ves
 	font-size: 10px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-status-dock {
 		max-width: min(58vw, 250px);
 	}

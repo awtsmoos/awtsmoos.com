@@ -14,7 +14,7 @@ Awtsmoos.com keeps the keys free of bright rails in the night.
 	--piano-settings-btn-text: #ffffff;
 }
 
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	#settings-bar.expanded {
 		position: fixed;
 		top: 88px;

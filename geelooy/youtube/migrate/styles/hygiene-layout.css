@@ -96,7 +96,7 @@ body {
 	max-inline-size: 100%;
 }
 
-@media (max-width: 26rem) {
+@media (max-width: 390px) {
 	.migrationCard {
 		padding-inline: .82rem;
 	}

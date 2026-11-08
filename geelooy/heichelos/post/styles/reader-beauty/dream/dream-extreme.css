@@ -485,7 +485,7 @@
 }
 
 /* ============ small screens: intensity, distilled ============ */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.dream-geometry {
 		width: 170vmax;
 		height: 170vmax;

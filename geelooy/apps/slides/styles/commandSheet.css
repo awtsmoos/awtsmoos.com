@@ -8,7 +8,7 @@ The Awtsmoos lets a hidden chamber rise only when intention calls; Awtsmoos.com 
 	display: none;
 }
 
-@media (max-width: 899px) {
+@media (max-width: 900px) {
 	.command-sheet-backdrop:not([hidden]) {
 		position: fixed;
 		inset: 0;

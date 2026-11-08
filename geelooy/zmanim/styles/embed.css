@@ -104,7 +104,7 @@ awtsmoos-embed-actions {
 	font-size: .6rem;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.embed-preset-grid {
 		grid-template-columns: 1fr;
 	}

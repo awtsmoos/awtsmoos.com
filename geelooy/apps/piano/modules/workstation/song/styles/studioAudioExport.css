@@ -26,7 +26,7 @@
 .multitrack-editor .multitrack-viewport {
 	overscroll-behavior: contain;
 }
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.multitrack-editor .multitrack-essential-tools {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 5px;

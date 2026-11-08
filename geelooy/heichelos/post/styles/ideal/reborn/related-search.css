@@ -106,7 +106,7 @@
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoos-related-pending { animation: none; }
 }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.awtsmoos-related-search-inline {
 		margin-inline: -.2rem;
 		padding: .85rem;

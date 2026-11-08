@@ -596,7 +596,7 @@
 }
 
 /* ============ 11. Tablet ============ */
-@media (min-width: 720px) {
+@media (min-width: 760px) {
 	.ikar-shelf-grid {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -1145,7 +1145,7 @@
 	object-fit: cover;
 	width: 100%;
 }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.heichel-series-cover-hero,
 	.heichel-series-cover-hero img {
 		max-height: 16rem;
@@ -1190,7 +1190,7 @@
 	flex: 1;
 	min-width: 0;
 }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.heichel-discovery-cover {
 		width: 5rem;
 	}

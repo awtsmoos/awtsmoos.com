@@ -87,7 +87,7 @@
 	}
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.social-hub-document .target-human-summary,
 .social-hub-document .target-advanced .targetGrid {
 		grid-template-columns: 1fr;

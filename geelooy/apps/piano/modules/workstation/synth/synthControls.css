@@ -80,7 +80,7 @@
 	color: #c39cff;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.pro-synth-controls-host {
 		grid-template-columns: 1fr;
 	}

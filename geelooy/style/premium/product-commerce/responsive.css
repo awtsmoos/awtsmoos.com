@@ -13,14 +13,14 @@
 			16px auto;
 		border-radius: 24px;
 	} }
-@media (max-width: 420px) { .awts-commerce__launcher {
+@media (max-width: 390px) { .awts-commerce__launcher {
 		min-height: 44px;
 		padding-inline: 12px;
 	} }
-@media (max-width: 420px) { .awts-commerce__offer {
+@media (max-width: 390px) { .awts-commerce__offer {
 		grid-template-columns: minmax(0, 1fr);
 	} }
-@media (max-width: 420px) { .awts-commerce__offer button {
+@media (max-width: 390px) { .awts-commerce__offer button {
 		grid-column: 1;
 		grid-row: auto;
 		width: 100%;
@@ -28,7 +28,7 @@
 		margin-block-start: 8px;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 420px) { .awts-commerce__offer p {
+@media (max-width: 390px) { .awts-commerce__offer p {
 		grid-column: 1;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

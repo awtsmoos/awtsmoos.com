@@ -268,7 +268,7 @@
 .message-loading em { font-style: normal; opacity: .82; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes aiSpin { to { transform: rotate(1turn); } }
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .chat-box { padding: 10px 10px 102px; gap: 10px; scroll-padding-bottom: 106px; }
   .message, .transport-details { max-width: 100%; width: 100%; }
   .message { padding: 13px 14px; border-radius: 18px; font-size: .97rem; }

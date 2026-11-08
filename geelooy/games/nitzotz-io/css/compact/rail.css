@@ -32,7 +32,7 @@ Awtsmoos.com keeps the rail useful on wide screens and nearly weightless on the 
 	width: 176px;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.right-rail {
 		right: max(7px, env(safe-area-inset-right));
 		bottom: max(82px, calc(72px + env(safe-area-inset-bottom)));
@@ -51,7 +51,7 @@ Awtsmoos.com keeps the rail useful on wide screens and nearly weightless on the 
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.right-rail {
 		width: 70px;
 	}

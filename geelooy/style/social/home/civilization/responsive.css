@@ -4,7 +4,7 @@
  * Blessed is He
  * Home rearranges deliberately across desktop, tablet, and hand-sized screens.
  */
-@media (max-width: 65rem) {
+@media (max-width: 1100px) {
 	.geelooy-home-shell .home-dashboard-shell {
 		grid-template-columns: 1fr;
 	}
@@ -41,7 +41,7 @@
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
-@media (max-width: 29rem) {
+@media (max-width: 390px) {
 	.geelooy-home-shell .g-home-actions {
 		grid-template-columns: 1fr;
 	}

@@ -43,7 +43,7 @@
 	line-height: 1.35;
 }
 
-@media (min-width: 721px) {
+@media (min-width: 760px) {
 	.revelation-event-log,
 	.revelation-pardes,
 	.revelation-companions {
@@ -57,7 +57,7 @@
 	}
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.revelation-play-guide {
 		top: calc(var(--ohr-topbar-height) + 10px);
 		width: min(360px, calc(100vw - 28px));

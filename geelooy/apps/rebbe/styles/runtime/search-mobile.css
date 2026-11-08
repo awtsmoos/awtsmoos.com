@@ -4,7 +4,7 @@
  * Blessed is He
  * Mobile Search must breathe: large thumb targets, no sticky action slab covering fields, full-width controls, and a clear vertical path from filters into live results.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.search-modal.search-modal {
 		inline-size: calc(100vw - 10px);
 		width: calc(100vw - 10px);

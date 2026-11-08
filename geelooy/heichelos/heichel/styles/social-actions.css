@@ -60,7 +60,7 @@
 		border-color: color-mix(in srgb, #7c5cff 54%, transparent);
 	}
 }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.heichel-social-rail {
 		gap: 5px;
 	}

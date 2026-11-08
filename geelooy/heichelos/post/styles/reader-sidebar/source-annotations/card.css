@@ -21,7 +21,7 @@
 	box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	:where(.post-reader-localized-context) .awtsmoos-source-annotation-card {
 		border-radius: 12px;
 	}

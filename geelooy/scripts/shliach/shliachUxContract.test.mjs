@@ -62,7 +62,7 @@ test("Shliach pages share the stylesheet crown and module doorway", () => {
 	}
 	for (const route of ["Shliach/index.html", "Shliach/prompts/index.html", "Shliach/poems/index.html", "Shliach/gallery/index.html"]) {
 		const html = source(route);
-		assert.match(html, /\/style\/shliach\/index\.css/);
+		assert.match(html, /\/style\/shliach\/(index|bundle)\.css/);
 		assert.match(html, /\/scripts\/shliach\/index\.js/);
 	}
 });
@@ -72,7 +72,7 @@ test("Home spotlight uses the synchronized spacious responsive composition", () 
 	const copy = source("style/home-simple/shliach-spotlight-copy.css");
 	const actions = source("style/home-simple/shliach-spotlight-actions.css");
 	assert.match(layout, /grid-template-columns:\s*minmax\(190px, 280px\) minmax\(0, 1fr\)/);
-	assert.match(layout, /@media \(max-width:\s*720px\)/);
+	assert.match(layout, /@media \(max-width:\s*760px\)/);
 	assert.match(layout, /grid-template-columns:\s*1fr/);
 	assert.match(copy, /\.shliach-spotlight-trust/);
 	assert.match(actions, /text-overflow:\s*ellipsis/);

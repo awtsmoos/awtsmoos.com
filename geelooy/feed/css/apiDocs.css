@@ -109,7 +109,7 @@ html:has(.api-stage) body {
 	margin: 0 auto;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.api-layout {
 		grid-template-columns: minmax(0, 1fr);
 	}

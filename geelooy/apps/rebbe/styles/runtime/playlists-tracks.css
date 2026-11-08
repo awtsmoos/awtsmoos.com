@@ -57,7 +57,7 @@
 	}
 }
 
-@media (max-width: 820px) {
+@media (max-width: 900px) {
 	.playlist-hero,
 	.playlist-card,
 	.playlist-detail-hero {
@@ -85,7 +85,7 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.playlist-actions,
 	.playlist-detail-actions,
 	.playlist-edit-grid,

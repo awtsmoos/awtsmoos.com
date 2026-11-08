@@ -114,7 +114,7 @@ body.cs-open {
 	min-height: 0;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 900px) {
 	.cs-body {
 		grid-template-columns: minmax(0, 1fr);
 		overflow-y: auto;
@@ -426,7 +426,7 @@ body.cs-open {
 	gap: 8px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.cs-src-add {
 		grid-template-columns: minmax(0, 1fr);
 	}

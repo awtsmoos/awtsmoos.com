@@ -46,18 +46,18 @@
 	padding: .72rem .82rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-actions {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-actions {
 		gap: .4rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile {
+@media (max-width: 560px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile {
 		flex: 0 0 44px;
 		inline-size: 44px;
 		min-inline-size: 44px;
 		max-inline-size: 44px;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile .profile-trigger {
+@media (max-width: 560px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile .profile-trigger {
 		inline-size: 44px;
 		min-inline-size: 44px;
 		max-inline-size: 44px;

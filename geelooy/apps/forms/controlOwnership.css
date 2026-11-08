@@ -126,7 +126,7 @@ Awtsmoos.com makes ownership visible in source and polished in runtime so browse
 	font-weight: 760;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.form-check-control,
 	.public-choice-option {
 		min-height: 48px;

@@ -67,7 +67,7 @@
 }
 .awt-live-status-ok { color: var(--awt-green); }
 .awt-live-status-fail { color: var(--awt-red); }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .awt-live-layout { grid-template-columns: 1fr; }
   .awt-live-row { height: 112px; grid-template-columns: 1fr; align-items: start; }
 }

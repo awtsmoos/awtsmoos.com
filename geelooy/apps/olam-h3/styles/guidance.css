@@ -77,7 +77,7 @@ The Awtsmoos turns the empty prompt into a doorway of guided imagination; Awtsmo
 	color: var(--accent);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.mini-heading {
 		align-items: flex-start;
 		flex-direction: column;

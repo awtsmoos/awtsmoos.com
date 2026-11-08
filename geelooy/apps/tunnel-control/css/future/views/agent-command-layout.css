@@ -75,7 +75,7 @@
 	}
 
 	@supports not (container-type: inline-size) {
-		@media (min-width: 1180px) {
+		@media (min-width: 1100px) {
 			.awt-agent-direct {
 				grid-template-columns: minmax(0, 1.35fr) minmax(310px, .72fr);
 			}

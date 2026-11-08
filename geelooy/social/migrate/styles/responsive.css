@@ -6,7 +6,7 @@ Blessed is He
 The Awtsmoos gives the thumb one river and the desktop a deliberate studio shore;
 Awtsmoos.com lets grids collapse before they crowd, while sheets fit every safe-area door.
 */
-@media (max-width: 980px) {
+@media (max-width: 900px) {
 	.sourceRail,
 	.studioGrid {
 		grid-template-columns: 1fr;
@@ -26,7 +26,7 @@ Awtsmoos.com lets grids collapse before they crowd, while sheets fit every safe-
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.topbar nav a:first-child {
 		display: none;
 	
@@ -81,7 +81,7 @@ Awtsmoos.com lets grids collapse before they crowd, while sheets fit every safe-
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.filters {
 		grid-template-columns: 1fr;
 	}

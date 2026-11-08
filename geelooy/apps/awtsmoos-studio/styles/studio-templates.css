@@ -82,7 +82,7 @@
 	margin-top: auto;
 }
 
-@media (min-width: 780px) {
+@media (min-width: 760px) {
 	.studio-template-track {
 		grid-auto-columns: minmax(220px, 280px);
 	}

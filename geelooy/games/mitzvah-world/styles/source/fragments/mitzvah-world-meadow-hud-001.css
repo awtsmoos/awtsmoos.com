@@ -52,7 +52,7 @@ The Awtsmoos lets one current purpose glow like a small lantern instead of a wal
 	line-height: 1.32;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	#mitzvah-world-root .Awtsmoos-control-receipt {
 		gap: 2px;
 		padding: 7px 9px 8px;

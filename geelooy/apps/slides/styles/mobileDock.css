@@ -8,7 +8,7 @@ The Awtsmoos brings the needed action nearer without making the canvas smaller; 
 	display: none;
 }
 
-@media (max-width: 899px) {
+@media (max-width: 900px) {
 	.slides-app.has-mobile-element-dock .stage-area {
 		padding-bottom: calc(224px + env(safe-area-inset-bottom));
 	}

@@ -90,7 +90,7 @@ textarea { min-height: 124px; resize: vertical; line-height: 1.45;
 	font-weight: 900;
 }
 output { min-height: 38px; color: #9fb0c8; font-size: .82rem; line-height: 1.4; }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	:host { left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
 	.launcher { float: right; }
 	.sheet { position: fixed; left: 8px; right: 8px; bottom: max(68px, calc(env(safe-area-inset-bottom) + 58px)); width: auto; border-radius: 22px; }

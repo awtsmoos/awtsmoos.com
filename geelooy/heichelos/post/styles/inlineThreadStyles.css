@@ -150,7 +150,7 @@
 }
 
 /* Mobile Adaptation */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .awtsmoos-inline-thread {
         width: calc(100% - 20px);
         left: 10px;

@@ -58,7 +58,7 @@
 	}
 }
 
-@media (max-width: 460px) {
+@media (max-width: 390px) {
 	.project-query-grid {
 		grid-template-columns: 1fr;
 	}

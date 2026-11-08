@@ -55,7 +55,7 @@ The Awtsmoos renews mission, agent, action, runtime, and browser-target testimon
 	border-radius: 8px;
 	color: #ffb0b0;
 }
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.code-tunnel-console__grid { grid-template-columns: 1fr; }
 	.code-tunnel-actions { grid-column: auto; }
 	.code-tunnel-console__summary {

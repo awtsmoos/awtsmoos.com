@@ -114,7 +114,7 @@ body.is-awtsmoos-embedded-ai .main{
   width:auto;
   max-width:none;
 }
-@media(max-width:980px){
+@media(max-width: 900px){
   body.is-awtsmoos-embedded-ai .container{
     grid-template-columns:minmax(0,1fr);
     grid-template-areas:"main";

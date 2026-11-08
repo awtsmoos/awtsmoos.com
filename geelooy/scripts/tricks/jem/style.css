@@ -297,7 +297,7 @@ h2 { margin: 0; font-size: 1.2rem; font-weight: 600;
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* --- Mobile / Hybrid Logic --- */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .awtsmoospage { flex-direction: column; }
     
     .sidebar {

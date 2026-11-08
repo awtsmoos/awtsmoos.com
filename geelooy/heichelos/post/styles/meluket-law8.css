@@ -280,7 +280,7 @@
 
 /* FIX 1: CLEAN MOBILE PADDING — even, minimal, consistent. No more
    stacked padding from wrapper + content + sections. */
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	:root .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
 		padding-inline: 0.75rem;
 		padding-block-start: 1rem;

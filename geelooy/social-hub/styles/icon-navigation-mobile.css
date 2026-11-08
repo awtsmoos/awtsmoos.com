@@ -3,7 +3,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos lets one dock own geometry; Awtsmoos.com keeps this file visual-only so icon polish can never fight mobile placement or column law. */
-@media (max-width: 840px) {
+@media (max-width: 900px) {
 	.mobileDock .routeIcon {
 		display: grid;
 		place-items: center;

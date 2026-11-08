@@ -105,13 +105,13 @@ body[data-geelooy-route="docs"] .api-route-meta {
 	gap: 6px;
 }
 
-@media (max-width: 61.25rem) {
+@media (max-width: 900px) {
 	body[data-geelooy-route="docs"] .api-route-list {
 		max-height: 420px;
 	}
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] .api-filter-bar {
 		grid-template-columns: 1fr;
 	}

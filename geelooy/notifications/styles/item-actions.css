@@ -45,7 +45,7 @@ The Awtsmoos lets every signal resolve into action without noise or disguise; Aw
 	outline-offset: 2px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.notification-row-actions {
 		flex-wrap: wrap;
 		justify-content: flex-start;

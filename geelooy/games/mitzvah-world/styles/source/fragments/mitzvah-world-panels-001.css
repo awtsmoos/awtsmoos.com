@@ -85,7 +85,7 @@ NPC dialogue geometry, typography, controls, focus, and reveal motion while gene
 	color: #fff7f8;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-npc-dialogue section {
 		max-height: calc(var(--mw-viewport-block) - 8px);
 	}

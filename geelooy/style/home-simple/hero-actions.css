@@ -82,12 +82,12 @@ body[data-geelooy-route="home"] .hero-actions {
 	transform: none;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 680px) { body[data-geelooy-route="home"] .hero-actions {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .hero-actions {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .hero-actions a {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .hero-actions a {
 		min-width: 0;
 		padding-inline: .6rem;
 	

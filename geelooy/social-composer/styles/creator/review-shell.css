@@ -82,7 +82,7 @@ Awtsmoos.com gives review a safe mobile floor, a calm desktop wall, and enough b
 	font-size: .75rem;
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.publicationReviewHeader {
 		grid-template-columns: 1fr;
 	}
@@ -93,7 +93,7 @@ Awtsmoos.com gives review a safe mobile floor, a calm desktop wall, and enough b
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 1100px) {
 	.publicationReviewDialog {
 		inset: 0 0 0 auto;
 		inline-size: min(34rem, 42vw);

@@ -68,6 +68,6 @@
 .series-source-constellation i:nth-child(3) { left: 48%; top: 38%; width: .68rem; height: .68rem; }
 .series-source-constellation i:nth-child(4) { right: 21%; top: 8%; }
 .series-source-constellation i:nth-child(5) { right: 2%; top: 54%; }
-@media (max-width: 55rem) { .series-source-constellation {
+@media (max-width: 900px) { .series-source-constellation {
 		display: none;
 	} }

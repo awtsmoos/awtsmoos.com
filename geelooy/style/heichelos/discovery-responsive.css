@@ -37,17 +37,17 @@
 @media (max-width: 47.5rem) { .heichel-discovery-document .social-space-card {
 		border-radius: var(--radius-l);
 	} }
-@media (max-width: 30rem) { .social-spaces-shell .spaces-search {
+@media (max-width: 560px) { .social-spaces-shell .spaces-search {
 		grid-template-columns: 1fr;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(.social-spaces-shell) .spaces-search .p-button, :where(.social-spaces-shell) .spaces-command-row .p-button {
+@media (max-width: 560px) { :where(.social-spaces-shell) .spaces-search .p-button, :where(.social-spaces-shell) .spaces-command-row .p-button {
 		width: 100%;
 	} }
-@media (max-width: 30rem) { .heichel-discovery-document .space-title-row, .heichel-discovery-document .space-actions {
+@media (max-width: 560px) { .heichel-discovery-document .space-title-row, .heichel-discovery-document .space-actions {
 		align-items: stretch;
 	} }
-@media (max-width: 30rem) { .heichel-discovery-document .space-actions :where(a, button) {
+@media (max-width: 560px) { .heichel-discovery-document .space-actions :where(a, button) {
 		flex: 1 1 auto;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

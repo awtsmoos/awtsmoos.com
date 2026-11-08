@@ -9,7 +9,7 @@
  * import, rule, and value receives existence anew without confused purpose.
  */
 /** B"H — The gate shrinks without becoming a riddle. */
-@media (max-width: 940px) {
+@media (max-width: 900px) {
 	.modeGrid {
 		grid-template-columns: 1fr 1fr;
 	}
@@ -50,7 +50,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.levelGrid {
 		grid-template-columns: 1fr;
 	}

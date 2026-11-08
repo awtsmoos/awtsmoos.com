@@ -57,7 +57,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	outline-offset: 2px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.geelooy-os-social-panel__hero {
 		grid-template-columns: 1fr;
 	}

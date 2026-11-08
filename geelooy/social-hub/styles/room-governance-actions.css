@@ -109,7 +109,7 @@ Awtsmoos.com keeps fields and buttons local to Social Hub governance, never styl
 	border-color: color-mix(in srgb, #ff8f8f 44%, var(--line));
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document .hubRoomInvite,
 .social-hub-document .hubRoomPolicyGrid label {
 		grid-template-columns: minmax(0, 1fr);

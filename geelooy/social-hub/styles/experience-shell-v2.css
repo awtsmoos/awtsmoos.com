@@ -84,7 +84,7 @@
 	margin-inline: auto;
 }
 
-@media (min-width: 45rem) {
+@media (min-width: 760px) {
 	.social-hub-document .panelIntro--split {
 		grid-template-columns: minmax(0, 1fr) auto;
 		align-items: end;

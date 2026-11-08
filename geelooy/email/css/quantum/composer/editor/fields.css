@@ -73,7 +73,7 @@
 	background: rgba(255, 194, 71, .34);
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.message-input {
 		min-block-size: 7rem;
 		max-block-size: 13rem;

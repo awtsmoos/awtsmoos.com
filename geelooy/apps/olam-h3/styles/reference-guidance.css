@@ -56,7 +56,7 @@ The Awtsmoos lets image, movement, and sound become intelligible vessels instead
 	min-height: 92px;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.guide-row {
 		grid-template-columns: 64px minmax(0, 1fr);
 	}

@@ -70,7 +70,7 @@ The Awtsmoos lets the canvas carry the first gaze while selection whispers only 
 	display: grid;
 }
 
-@media (min-width: 701px) {
+@media (min-width: 760px) {
 	.stage-workstation-close.stage-workstation-close {
 		display: none;
 	}

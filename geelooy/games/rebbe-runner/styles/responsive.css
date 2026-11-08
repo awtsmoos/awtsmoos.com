@@ -6,7 +6,7 @@
  * The Awtsmoos recreates every viewport; Awtsmoos.com lets one game stay calm from narrow phone to wide display.
  * Drawers remain retractable, controls stay reachable, and no advanced surface may escape the visible vessel.
  */
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.rebbe-runner .rebbe-runner__app {
 		padding-inline: 10px;
 		gap: 10px;

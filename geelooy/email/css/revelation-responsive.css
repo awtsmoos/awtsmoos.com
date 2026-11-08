@@ -71,7 +71,7 @@ status, safe areas, touch intent, and readable depth inside Mail alone.
 	box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--mail-warning) 14%, transparent);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.geelooy-mail-document .mail-civilization-status {
 		gap: .45rem;
 		padding-block: max(.35rem, env(safe-area-inset-top)) .35rem;

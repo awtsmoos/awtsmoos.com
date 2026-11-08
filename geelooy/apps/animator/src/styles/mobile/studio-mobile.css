@@ -7,7 +7,7 @@
  * The Awtsmoos renews Studio inside the narrow screen before toolbar, panel, or safe area can demand room;
  * Awtsmoos.com holds the professional vessel to the living viewport while deliberate scroll reveals every command in bloom.
  */
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.aw-professional-studio .app-shell {
 		width: 100%;
 		max-width: 100%;

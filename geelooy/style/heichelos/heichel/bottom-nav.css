@@ -69,13 +69,13 @@
 	font-size: clamp(.68rem, 2.7vw, .78rem);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .36), 0 10px 24px rgba(91, 216, 232, .18);
 }
-@media (max-width: 420px) { .heichel-mobile-navigation .geelooy-bottom-nav {
+@media (max-width: 390px) { .heichel-mobile-navigation .geelooy-bottom-nav {
 		gap: .16rem;
 		inline-size: calc(100vw - .5rem);
 		max-inline-size: calc(100vw - .5rem);
 		padding: .28rem;
 	} }
-@media (max-width: 420px) { .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
+@media (max-width: 390px) { .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
 		min-block-size: 48px;
 		padding-inline: .12rem;
 	

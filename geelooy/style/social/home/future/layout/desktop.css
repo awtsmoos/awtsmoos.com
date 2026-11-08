@@ -4,7 +4,7 @@
  * Blessed is He
  * Legacy desktop compatibility is scoped to Home; it never owns html or body layout.
  */
-@media (min-width: 65.0625rem) {
+@media (min-width: 1100px) {
 	.geelooy-home-shell .g-home {
 		align-items: start;
 	}

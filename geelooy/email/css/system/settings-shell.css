@@ -83,7 +83,7 @@ drawer, safe areas, and motion remain local while no neighboring element inherit
 .geelooy-mail-document .mail-settings-status[data-status="success"] { color: var(--mail-success); }
 .geelooy-mail-document .mail-settings-status[data-status="warning"] { color: var(--mail-warning); }
 .geelooy-mail-document .mail-settings-status[data-status="error"] { color: var(--mail-danger); }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.geelooy-mail-document .mail-settings-layer { grid-template-columns: 1fr; }
 	.geelooy-mail-document .mail-settings-drawer {
 		grid-column: 1;

@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets command depth widen on desktop and fold into one calm column on the phone; Awtsmoos.com keeps advanced language reachable without resurrecting the old room dock or demanding sideways wandering alone.
 */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.creative-panel-heading,
 	.creative-evidence-grid,
 	.creative-command-list {
@@ -21,7 +21,7 @@ The Awtsmoos lets command depth widen on desktop and fold into one calm column o
 	}
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
 	.creative-command-list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

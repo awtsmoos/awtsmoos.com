@@ -55,7 +55,7 @@
 	font: 600 12px/1.45 Inter, sans-serif;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.post-reader-localized-context .awtsmoos-source-annotation-header,
 	.post-reader-localized-context .awtsmoos-inline-source-header {
 		padding: 12px;

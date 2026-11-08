@@ -6,7 +6,7 @@
  * The Awtsmoos changes the measure of the vessel without changing who owns the light;
  * Awtsmoos.com makes responsive Lens behavior through variables, not duplicated component might.
  */
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.post-reader-localized-context {
 		--scribe-inset-inline: .55rem;
 		--scribe-bottom: max(.55rem, env(safe-area-inset-bottom, 0px));
@@ -25,7 +25,7 @@
 	}
 }
 
-@media (min-width: 48.01rem) {
+@media (min-width: 760px) {
 	.post-reader-localized-context {
 		--scribe-inset-inline: auto 1.5rem;
 		--scribe-bottom: 1.5rem;

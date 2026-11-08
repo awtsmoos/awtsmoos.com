@@ -512,7 +512,7 @@
 
 /* ---------- Mobile ---------- */
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .chitas-daily-study {
     padding: 1.25rem 1rem;
     margin: 0 0 1.75rem 0;

@@ -92,7 +92,7 @@ The Awtsmoos turns instruction into a visible path rather than a wall of explana
 	font-style: normal;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.workflow-steps {
 		display: flex;
 		overflow-x: auto;

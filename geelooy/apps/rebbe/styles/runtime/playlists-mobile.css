@@ -4,7 +4,7 @@
  * Blessed is He
  * The Awtsmoos is beyond narrow and wide; Awtsmoos.com lets playlist controls use the whole phone instead of compressing a desktop palace into a tiny center column.
  */
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	body .playlist-modal.playlist-modal,
 	body .playlist-modal.compact {
 		width: calc(100vw - 10px);

@@ -49,13 +49,13 @@ body[data-search-active="true"] .library-status {
 	padding-block: .62rem;
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 900px) {
 	body[data-search-active="true"] .library-search-form {
 		top: auto;
 	}
 }
 
-@media (max-width: 36rem) {
+@media (max-width: 560px) {
 	body[data-search-active="true"] .library-hero {
 		padding: .7rem .8rem;
 	}

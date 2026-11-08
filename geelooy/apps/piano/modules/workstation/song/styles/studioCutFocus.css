@@ -33,7 +33,7 @@
 .multitrack-clip-selected {
 	box-shadow: 0 0 14px rgba(255,211,75,.34);
 }
-@media (max-width:720px), (pointer:coarse) {
+@media (max-width: 760px), (pointer:coarse) {
 	.song-studio-panel { padding: 8px; }
 	.song-studio-panel .song-studio-header { padding: 8px; }
 	.song-studio-toolbar, .multitrack-toolbar { gap: 5px; }

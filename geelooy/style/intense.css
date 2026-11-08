@@ -182,20 +182,20 @@ a:hover {
     border-radius: 50%;
 }
 /* Responsive Design */
-@media (max-width: 800px) { body, p {
+@media (max-width: 900px) { body, p {
         font-size: 7vw; /* Larger text for better readability on small screens */
     
     color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 800px) { a {
+@media (max-width: 900px) { a {
         font-size: 7vw;
     
     color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 800px) { :where(#side-panel), :where(#content-panel) {
+@media (max-width: 900px) { :where(#side-panel), :where(#content-panel) {
         width: 100%;
         padding: 10px;
     } }
-@media (max-width: 800px) { .merkos {
+@media (max-width: 900px) { .merkos {
         width: 80%;
     } }
 /* @tunnel-interactive-states: hover/active/focus-visible for every interactive control */

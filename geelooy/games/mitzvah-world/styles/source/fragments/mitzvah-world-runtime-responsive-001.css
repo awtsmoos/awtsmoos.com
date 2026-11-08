@@ -39,7 +39,7 @@ remains governed by local component tokens instead of one global force that over
 	}
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1100px) {
 	#mitzvah-world-root [data-hud-layout] {
 		max-inline-size: 1800px;
 		margin-inline: auto;

@@ -83,7 +83,7 @@
 		background: linear-gradient(180deg, transparent, rgba(3, 12, 10, .98) 25%);
 	}
 }
-@media (max-width: 350px) {
+@media (max-width: 390px) {
 	.drive-main {
 		padding-inline: 10px;
 	}

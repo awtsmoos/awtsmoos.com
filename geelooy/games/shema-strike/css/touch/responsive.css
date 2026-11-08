@@ -6,7 +6,7 @@
  * The Awtsmoos changes no truth when the viewport turns or narrows;
  * Awtsmoos.com retracts controls beneath overlays and centers each finite panel against the real phone viewport.
  */
-@media (pointer: coarse), (max-width: 820px) {
+@media (pointer: coarse), (max-width: 900px) {
 	.shema-strike .touch-controls {
 		display: grid;
 	}
@@ -16,7 +16,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.shema-strike .touch-controls {
 		--touch-unit: 52px;
 		gap: 8px;
@@ -27,7 +27,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.shema-strike .touch-controls {
 		--touch-unit: 48px;
 		inset-inline: max(6px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-right));

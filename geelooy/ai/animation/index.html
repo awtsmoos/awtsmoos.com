@@ -133,7 +133,7 @@ canvas#animationCanvas {
     border-radius: 4px;
     border: 1px solid #E2E8F0;
 }
-.hidden { display: none !important; }
+html .hidden { display: none; }
 
 /* Exported player minimal style overrides */
 .exported-body {
@@ -1565,7 +1565,7 @@ class Animator {
     <style id="mainStylesheet">
     ${cssContent}
     /* Additional specific styles for player might go here if needed */
-    .exported-body #inputContainer { display: none !important; } /* Ensure input is hidden */
+    .exported-body #inputContainer { display: none; } /* Ensure input is hidden */
     </style>
 </head>
 <body>

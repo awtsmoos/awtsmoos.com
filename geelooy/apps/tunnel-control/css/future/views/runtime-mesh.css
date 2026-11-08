@@ -70,7 +70,7 @@
 .awt-json-reveal-button { justify-self: start; }
 .awt-json-reveal-output[hidden][hidden] { display: none; }
 .awt-json-reveal-output { max-height: 320px; margin: 0; white-space: pre-wrap; overflow: auto; overflow-wrap: anywhere; }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
   .awt-mesh-row { grid-template-columns: 1fr; }
   .awt-runtime-health-top { align-items: flex-start; }
 }

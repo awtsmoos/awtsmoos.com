@@ -84,7 +84,7 @@
 		text-align: center;
 	}
 
-	@media (max-width: 620px) {
+	@media (max-width: 560px) {
 		.awt-control-shell .form-grid { grid-template-columns: 1fr; }
 		.awt-control-shell .button-row > * { flex: 1 1 140px; }
 	}

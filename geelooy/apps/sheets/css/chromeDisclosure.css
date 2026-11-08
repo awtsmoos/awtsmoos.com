@@ -61,7 +61,7 @@ Awtsmoos.com keeps Focus, Compact, and Full rooted inside one app vessel so disc
 	box-shadow: 0 1px 0 var(--glass-border);
 }
 
-@media (min-width: 761px) {
+@media (min-width: 760px) {
 	.awtsmoos-sheets-app .command-label {
 		display: none;
 	}

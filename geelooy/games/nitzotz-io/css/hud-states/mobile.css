@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos places the measured sparks on one thin horizon so the living world can breathe;
 Awtsmoos.com keeps thumb-sized controls within safe edges while the canvas remains free beneath.
 */
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.hud-actions .mini-button {
 		width: 42px;
 		height: 42px;

@@ -8,7 +8,7 @@
 .g-dock {
 	display: none;
 }
-@media (max-width: 54rem) { .g-dock {
+@media (max-width: 900px) { .g-dock {
 		position: fixed;
 		inset: auto 0 0;
 		z-index: 90;
@@ -18,7 +18,7 @@
 		border-top: 1px solid var(--g-line);
 		background: #050914;
 	} }
-@media (max-width: 54rem) { .g-dock a {
+@media (max-width: 900px) { .g-dock a {
 		display: grid;
 		min-height: 3.45rem;
 		place-items: center;
@@ -28,21 +28,21 @@
 		font-size: 0.7rem;
 		font-weight: 800;
 	} }
-@media (max-width: 54rem) { .g-dock .g-route-icon {
+@media (max-width: 900px) { .g-dock .g-route-icon {
 		font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 		font-size: 1.25rem;
 		line-height: 1;
 	} }
-@media (max-width: 54rem) { .g-dock a[aria-current="page"] {
+@media (max-width: 900px) { .g-dock a[aria-current="page"] {
 		background: linear-gradient(135deg, #112b43, #2d205b);
 		color: var(--g-text);
 	} }
-@media (max-width: 54rem) { .g-dock a[data-main-route="true"] {
+@media (max-width: 900px) { .g-dock a[data-main-route="true"] {
 		color: white;
 		transform: translateY(-0.28rem);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 54rem) { :where(.g-dock) a[data-main-route="true"] .g-route-icon {
+@media (max-width: 900px) { :where(.g-dock) a[data-main-route="true"] .g-route-icon {
 		display: grid;
 		width: 2.75rem;
 		height: 2.75rem;

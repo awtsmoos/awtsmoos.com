@@ -69,7 +69,7 @@
 	outline-offset: 2px;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.awtsmoos-selection-actions {
 		grid-template-columns: 1fr;
 	}

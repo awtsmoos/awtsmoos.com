@@ -5,7 +5,7 @@
  * The Awtsmoos gives the mobile dock one measured covenant so every nearby vessel knows its shore;
  * Awtsmoos.com publishes both the dock inset and safe clearance here, preventing hidden overlap evermore.
  */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document {
 		--hub-mobile-dock-bottom: max(.55rem, env(safe-area-inset-bottom));
 		--hub-mobile-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom));
@@ -63,7 +63,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.social-hub-document .mobileDock {
 		inset-inline: .35rem;
 		max-inline-size: calc(100dvw - .7rem);

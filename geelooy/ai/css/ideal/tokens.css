@@ -166,7 +166,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:fo
     --awt-service-pad:10px;
     --awt-rail-size:48px;
   } }
-@media(min-width:1380px) { :root {
+@media(min-width: 1100px) { :root {
     --awt-left:320px;
     --awt-right:350px;
   } }

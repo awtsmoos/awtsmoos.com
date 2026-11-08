@@ -78,7 +78,7 @@ body {
 	outline-offset: -4px;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.adventure-app {
 		gap: 8px;
 		padding-inline: 8px;

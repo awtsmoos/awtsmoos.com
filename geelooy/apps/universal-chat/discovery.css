@@ -83,7 +83,7 @@
 	gap: 0.75rem;
 }
 
-@media (max-width: 820px) {
+@media (max-width: 900px) {
 	.messaging-discovery-start-grid,
 	.messaging-discovery-grid {
 		grid-template-columns: 1fr;

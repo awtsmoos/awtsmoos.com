@@ -55,7 +55,7 @@
 	display: block;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.awtsmoos-tanach-language-controls {
 		position: sticky;
 		top: env(safe-area-inset-top);

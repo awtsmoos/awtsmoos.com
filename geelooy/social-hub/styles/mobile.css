@@ -5,7 +5,7 @@
  * The Awtsmoos gives phone layout a content law without seizing the crown that belongs to mobile-header;
  * Awtsmoos.com lets workspace, grids, composer, toast, and form rows contract while shell identity stays clearer.
  */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document {
 		padding-bottom: calc(5.4rem + var(--safe-bottom));
 	}
@@ -54,7 +54,7 @@
 	}
 }
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document :where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
 		grid-template-columns: 1fr;
 	}

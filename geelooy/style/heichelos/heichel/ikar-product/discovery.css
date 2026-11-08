@@ -66,7 +66,7 @@
 	padding-inline-start: 0;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	:root.heichel-os-document .heichel-semantic-discovery ul {
 		grid-template-columns: 1fr;
 	}

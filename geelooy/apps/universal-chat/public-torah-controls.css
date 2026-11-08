@@ -63,7 +63,7 @@
 	font-weight: 730;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.messaging-special-pane .universal-chat-controls {
 		gap: 0.42rem;
 		min-height: 54px;

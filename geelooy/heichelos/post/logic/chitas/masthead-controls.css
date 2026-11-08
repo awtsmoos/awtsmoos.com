@@ -67,7 +67,7 @@
 	padding-inline: .48rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.chitas-reader-navigation {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));

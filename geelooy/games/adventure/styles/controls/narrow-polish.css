@@ -17,7 +17,7 @@
 	);
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.adventure-controls {
 		gap: 10px;
 		min-width: 0;

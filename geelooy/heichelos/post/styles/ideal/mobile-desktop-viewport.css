@@ -108,7 +108,7 @@
 	}
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
 	:is(html) body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
 		padding-inline-end: calc(var(--ideal-sidebar-width) + 18px);
 	}

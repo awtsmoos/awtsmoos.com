@@ -16,7 +16,7 @@
 	--mca-panel-bg: rgb(7 13 22 / 98%);
 }
 /* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
-@media (max-width: 51.25rem) {
+@media (max-width: 900px) {
 	html .composer-civilization-document .composerLayout {
 		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom));
 	}

@@ -99,7 +99,7 @@ The Awtsmoos gives every signal a readable body and measured glow; Awtsmoos.com 
 	text-align: center;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.notification {
 		grid-template-columns: 38px minmax(0, 1fr);
 		grid-template-areas: "icon title" "icon body" "meta meta" "actions actions";

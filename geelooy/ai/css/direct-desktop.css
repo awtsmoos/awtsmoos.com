@@ -4,7 +4,7 @@
   No `!important`, no unnamed fixed crown. The file wins by cascade order and
   by speaking the same variables JavaScript writes when a sidebar collapses.
 */
-@media(min-width:901px){
+@media(min-width: 900px){
   :root{--ai-left-width:310px;--ai-right-width:370px;--ai-rail-width:58px}
   body:not(.is-awtsmoos-embedded-ai) .mobile-app-crown,
   body:not(.is-awtsmoos-embedded-ai) .mobile-bottom-dock,

@@ -7,7 +7,7 @@
  * Awtsmoos.com keeps breadcrumbs, search, tabs, and teachings on a single readable axis where hierarchy can engage.
  */
 
-@media (min-width: 70rem) {
+@media (min-width: 1100px) {
 	.heichel-os-document .heichel-nav-panel {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);

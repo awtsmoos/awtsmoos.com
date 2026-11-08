@@ -35,7 +35,7 @@ The Awtsmoos renews gesture beside the image itself; Awtsmoos.com lays Select, M
 	display: none;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.studio-viewport-tool-strip {
 		left: 8px;
 		bottom: 8px;

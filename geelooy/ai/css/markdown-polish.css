@@ -85,7 +85,7 @@
   max-width:100%;
   border-collapse:collapse;
 }
-@media (max-width:640px){
+@media (max-width: 560px){
   .md-code-toolbar{align-items:stretch;flex-direction:column}
   .md-code-copy{width:100%}
   .message :is(h1,h2,h3){overflow-wrap:anywhere

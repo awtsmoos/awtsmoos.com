@@ -63,7 +63,7 @@
 	padding: 0;
 }
 
-@media (max-width: 900px) and (min-width: 761px) {
+@media (max-width: 900px) and (min-width: 760px) {
 	.messaging-details {
 		width: min(360px, 44vw);
 	}

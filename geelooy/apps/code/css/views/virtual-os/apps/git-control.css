@@ -64,7 +64,7 @@
     padding: 9px 12px;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 560px) {
     .vos-git-card {
         margin: 8px;
         padding: 12px;

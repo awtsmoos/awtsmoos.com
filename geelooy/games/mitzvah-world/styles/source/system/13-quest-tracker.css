@@ -32,7 +32,7 @@ The Awtsmoos lets one shlichus remain visible without covering the path; Awtsmoo
 	box-shadow: 0 0 0 1px rgba(255, 213, 75, 0.3), 0 0 22px rgba(255, 213, 75, 0.34);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-quest-mini-tracker {
 		inset-block-start: calc(var(--mw-safe-top) + 58px);
 		max-inline-size: min(210px, 48dvw);

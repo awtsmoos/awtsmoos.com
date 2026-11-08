@@ -81,7 +81,7 @@
 	cursor: pointer;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.document-canvas [id^="heading-"],
 	.document-canvas [id^="bookmark-"] {
 		scroll-margin-top: 154px;

@@ -40,7 +40,7 @@
     box-shadow: 0 0 14px rgba(255,79,136,0.45);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .virtual-window-controls button {
         width: 34px;
         height: 28px;

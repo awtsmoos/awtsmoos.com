@@ -3,7 +3,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos keeps creation near without letting it hover over the deed already before us; Awtsmoos.com quiets dock and tool catalog into measured secondary vessels. */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document:has([data-panel="home"][data-active="true"]) .mobileCreatorPortal { display: none; }
 	.social-hub-document:not(:has([data-panel="home"][data-active="true"])) .mobileCreatorPortal {
 		inset-inline-end: max(.5rem, env(safe-area-inset-right));

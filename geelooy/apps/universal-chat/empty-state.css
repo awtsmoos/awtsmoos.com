@@ -79,7 +79,7 @@
 	background: rgb(216 182 109 / 14%);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-empty-state { align-content: start; min-height: 0; width: 100%; padding: clamp(1.5rem, 9vh, 3.7rem) 1rem 1.2rem; }
 	.messaging-special-pane > .messaging-empty-state { min-height: 0; }
 	.messaging-empty-mark { width: 58px; height: 58px; margin-bottom: 0.78rem; border-radius: 19px; }

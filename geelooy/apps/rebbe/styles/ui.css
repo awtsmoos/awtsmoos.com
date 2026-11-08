@@ -58,7 +58,7 @@
     width: 40px; height: 40px; font-weight: bold; cursor: pointer;
     font-size: 20px; display: none; /* Desktop hidden */
 }
-@media(max-width: 768px) { .btn-back { display: block; } }
+@media(max-width: 760px) { .btn-back { display: block; } }
 
 /* --- FOOTER & PLAYER --- */
 footer {
@@ -212,7 +212,7 @@ input[type=range]::-webkit-slider-runnable-track {
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* --- MOBILE FOOTER OVERRIDE --- */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     footer {
         height: auto;
         flex-direction: column;

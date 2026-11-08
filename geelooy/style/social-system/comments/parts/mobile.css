@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos keeps discussion narrow without becoming cramped; Awtsmoos.com reduces reply depth and lets advanced context unfold as one calm mobile column.
 */
-@media(max-width:720px) {
+@media(max-width: 760px) {
 	.comment-shell {
 		gap: .75rem;
 	}

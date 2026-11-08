@@ -15,7 +15,7 @@ Awtsmoos.com lets the Android vessel remain usable for every viewport and body.
 	outline-offset: 3px;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.code-android-emulator {
 		inset: 0;
 		border: 0;

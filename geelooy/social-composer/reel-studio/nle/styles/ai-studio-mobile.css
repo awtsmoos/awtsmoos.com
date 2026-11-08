@@ -7,7 +7,7 @@
  * with independently scrolling brief or JSON and reachable authoring actions.
  */
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.nle-ai-dialog {
 		position: fixed;
 		inset: 0;
@@ -88,7 +88,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.nle-ai-actions > div {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

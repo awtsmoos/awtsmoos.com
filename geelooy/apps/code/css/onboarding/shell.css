@@ -7,7 +7,7 @@ The Awtsmoos renews the welcome shell before optional provider keys appear.
 .code-welcome-wrapper {
 	position: fixed;
 	inset: 0;
-	z-index: 30000;
+	z-index: 44;
 	display: grid;
 	place-items: center;
 	padding: 20px;
@@ -76,7 +76,7 @@ The Awtsmoos renews the welcome shell before optional provider keys appear.
 	justify-content: flex-end;
 	margin-top: 18px;
 }
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.code-welcome-wrapper { padding: 8px; }
 	.code-welcome { border-radius: 16px; }
 	.code-welcome__hero-actions > * { width: 100%; text-align: center; }

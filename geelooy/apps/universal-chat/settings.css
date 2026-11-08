@@ -51,7 +51,7 @@
 	font-size: 0.74rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-settings-list {
 		margin-top: 0.6rem;
 	}
@@ -80,7 +80,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.messaging-setting-row {
 		grid-template-columns: minmax(0, 1fr);
 		gap: 0.35rem;

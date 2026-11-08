@@ -84,7 +84,7 @@ The Awtsmoos turns queue into motion and proof into stillness; Awtsmoos.com keep
 	50% { transform: scale(.86); opacity: .72; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-loading-card { width: min(94vw, 560px); grid-template-columns: 1fr; gap: 16px; padding: 22px; border-radius: 24px; }
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-header { align-items: center; }
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-loading-card h1 { font-size: clamp(2rem, 11vw, 3.2rem); 

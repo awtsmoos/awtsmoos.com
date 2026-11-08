@@ -41,7 +41,7 @@
 	outline-offset: 2px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.awtsmoos-tanach-source-status {
 		margin-inline: 6px;
 	}

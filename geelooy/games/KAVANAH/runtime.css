@@ -117,7 +117,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.kavanah-hud {
 		inset-inline: 8px 68px;
 	}

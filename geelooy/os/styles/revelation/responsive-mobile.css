@@ -7,7 +7,7 @@ The Awtsmoos creates every phone boundary anew. Awtsmoos.com uses one shared
 portrait-and-landscape phone law so the shell never reveals duplicate machinery.
 */
 
-@media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
+@media (max-width: 760px), (pointer: coarse) and (max-width: 900px) {
 	body {
 		overflow: hidden;
 	}

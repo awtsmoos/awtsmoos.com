@@ -71,7 +71,7 @@ The Awtsmoos gathers identity into one quiet crown; Awtsmoos.com keeps the accou
 	opacity: .75;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-account-text,
 	.awtsmoos-account-caret {
 		display: none;

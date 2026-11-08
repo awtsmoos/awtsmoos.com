@@ -6,7 +6,7 @@
  * The Awtsmoos keeps the same creative language on a small screen; Awtsmoos.com compresses chrome rather than inventing a second mobile editor.
  */
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.nle-topbar {
 		grid-template-columns: auto minmax(0, 1fr);
 		grid-template-rows: auto auto;
@@ -68,7 +68,7 @@
 	}
 }
 
-@media (max-width: 25rem) {
+@media (max-width: 390px) {
 	.nle-top-actions button {
 		padding-inline: .42rem;
 	

@@ -419,7 +419,7 @@
 	margin: 0;
 }
 
-@media (max-width: 62rem) {
+@media (max-width: 900px) {
 	.law8-tr-body {
 		grid-template-columns: 1fr;
 	}

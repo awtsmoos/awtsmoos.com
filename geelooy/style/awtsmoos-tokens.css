@@ -214,24 +214,32 @@
   --preset-b: #dbe7f5;
   --trim: #d4a94e;
 
-  /* ---- shared breakpoint scale (qa-sweep3) ----
-   * Canonical responsive tiers for the whole site. The old ~30 ad-hoc
-   * breakpoints (680px vs 760px "mobile" dead zone, etc.) migrate toward
-   * these. NOTE: var() cannot be used inside @media conditions — these
-   * tokens document the single agreed scale and are usable in
-   * min()/max()/clamp() width expressions. New @media rules must use the
-   * canonical values below; do not invent new nearby breakpoints. */
+  /* ---- SUPERSEDED breakpoint scale (qa-sweep3) — DO NOT USE for new code.
+   * Canonical scale is now geelooy/style/awtsmoos-scale-tokens.css:
+   * breakpoints 390 / 560 / 760 / 900 / 1100, z-index tiers 0–69,
+   * nothing live above 99. These old values (--bp-xs:360, --bp-sm:480,
+   * --bp-md:768, --bp-lg:1024, --bp-xl:1280; --z-* up to 1200) are kept
+   * ONLY because --z-* still resolves 72 live var(--z-*) usages and
+   * --bp-* is referenced by no stylesheet. Remapping --z-* onto the new
+   * tiers is follow-up work (it changes 72 stacking contexts at once).
+   * NOTE: var() cannot be used inside @media conditions — these tokens
+   * document the single agreed scale and are usable in min()/max()/clamp()
+   * width expressions. New @media rules must use the canonical values
+   * above; do not invent new nearby breakpoints. */
   --bp-xs: 360px;
   --bp-sm: 480px;
   --bp-md: 768px;
   --bp-lg: 1024px;
   --bp-xl: 1280px;
 
-  /* ---- shared z-index scale (qa-sweep3) ----
-   * One layering ladder for the whole site. Replaces the old 8 competing
-   * "topmost" tiers (9000/9999/10000/20000/99990/100000/2147483000).
-   * Rule: pick the lowest tier that works; never invent a new sky-high
-   * value. --z-topmost is the ceiling — nothing may layer above it. */
+  /* ---- SUPERSEDED z-index scale (qa-sweep3) — DO NOT USE for new code.
+   * Canonical tiers are in geelooy/style/awtsmoos-scale-tokens.css
+   * (base 0, content 1–10, header 20–29, overlay 30–39, drawer/dialog
+   * 40–49, toast 50–59, topmost 60–69; nothing live above 99). These old
+   * values are kept ONLY as grandfathered tokens for the 72 live
+   * var(--z-*) usages. Rule: pick the lowest tier that works; never
+   * invent a new sky-high value. --z-topmost is the ceiling — nothing may
+   * layer above it. */
   --z-base: 1;
   --z-raised: 10;
   --z-dropdown: 100;

@@ -16,7 +16,7 @@
 	pointer-events: none;
 }
 
-@media (min-width: 56rem) {
+@media (min-width: 900px) {
 	.post-reader-localized-context .awtsmoos-floating-controls {
 		inset-block-start: calc(var(--reader-safe-top, 12px) + 4.75rem);
 		inset-block-end: auto;

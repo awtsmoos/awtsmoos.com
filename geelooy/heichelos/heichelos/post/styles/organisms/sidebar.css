@@ -26,7 +26,7 @@
 
 html .sidebar .hidden, html .sidebar[hidden] { display: none; }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     .sidebar {
         position: relative;
         width: var(--sidebar-width, 21rem);

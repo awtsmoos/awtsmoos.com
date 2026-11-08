@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos reveals tablet geometry with a complete navigation dock; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
 */
-@media (max-width: 980px) {
+@media (max-width: 900px) {
 	:root {
 		--nav-height: clamp(74px, 10vh, 92px);
 	}

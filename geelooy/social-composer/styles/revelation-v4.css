@@ -186,7 +186,7 @@ html .publishButton:disabled {
 	filter: none;
 	transform: none;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	html .composerLayout {
 		inline-size: min(calc(100% - 20px), 760px);
 		grid-template-columns: 1fr;

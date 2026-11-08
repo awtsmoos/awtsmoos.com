@@ -121,7 +121,7 @@ display: block;
 .post-reader-localized-context .menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown{ display: grid; gap: .6rem; margin-top: .6rem; }
 .post-reader-localized-context .awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy{ position: fixed; left: -9999px; top: 0; opacity: 0; }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
     .post-reader-localized-context .awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header{ grid-template-columns: 44px minmax(0,1fr); }
     .post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip{ grid-column: 1 / -1; }
 }

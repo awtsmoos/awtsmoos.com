@@ -7,7 +7,7 @@
  * safe breathing room, clear actions, or the full Awtsmoos.com route beyond it.
  */
 
-@media (max-width: 43.75rem) {
+@media (max-width: 760px) {
 	.geelooy-home-composer {
 		margin-inline: -.65rem;
 		border-inline: 0;
@@ -19,7 +19,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.home-compose-title {
 		grid-column: 1 / -1;
 	}

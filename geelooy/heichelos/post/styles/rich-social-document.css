@@ -106,7 +106,7 @@
 	outline-offset: 3px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-chain-app-embed {
 		border-radius: .85rem;
 	}

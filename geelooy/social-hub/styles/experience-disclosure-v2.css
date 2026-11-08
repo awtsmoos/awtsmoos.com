@@ -82,7 +82,7 @@
 	to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	.social-hub-document .socialAdvancedSummary {
 		grid-template-columns: 1fr;
 	}

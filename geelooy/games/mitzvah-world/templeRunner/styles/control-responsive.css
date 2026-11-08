@@ -8,7 +8,7 @@
  * Awtsmoos.com lets Yesod resize the vessel without repainting the interaction soul that Malchus already saw.
  */
 
-@media (hover: hover) and (pointer: fine) and (min-width: 801px) {
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
 	.controls button {
 		width: 66px;
 		height: 54px;
@@ -55,7 +55,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.controls {
 		gap: 5px;
 		padding: 4px;
@@ -68,7 +68,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.controls {
 		gap: 3px;
 		padding: 3px;

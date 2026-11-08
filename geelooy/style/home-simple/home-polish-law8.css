@@ -217,7 +217,7 @@ html[data-geelooy-route="home"] ::selection {
 
 /* ============ 9. Responsive refinements ============ */
 /* B"H — 412px: the crown breathes, the search vessel keeps its question. */
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	:where([data-geelooy-route="home"]) .shortcut-key {
 		display: none;
 	}

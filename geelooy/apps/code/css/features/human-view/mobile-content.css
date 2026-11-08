@@ -58,7 +58,7 @@
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.human-section-header {
 		grid-template-columns: auto 1fr;
 	}

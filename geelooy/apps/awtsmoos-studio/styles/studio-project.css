@@ -94,7 +94,7 @@
 	font: 11px ui-monospace, monospace;
 }
 
-@media (min-width: 780px) {
+@media (min-width: 760px) {
 	.studio-scenes {
 		max-height: calc(100dvh - 240px);
 	}

@@ -76,7 +76,7 @@ geometry, collapse, focus, hover, press, and mobile containment inside one bound
 	opacity: 0.76;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-minimap {
 		width: min(124px, 34vw);
 	}

@@ -86,7 +86,7 @@
 	line-height: 1.45;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.awtsmoos-browser-navigation-actions {
 		gap: 1px;
 	}

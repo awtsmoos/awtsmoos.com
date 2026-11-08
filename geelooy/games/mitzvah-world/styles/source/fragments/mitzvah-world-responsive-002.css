@@ -5,7 +5,7 @@ Blessed is He
 mitzvah-world-responsive-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
 */
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 	#mitzvah-world-root#mitzvah-world-root #mitzvah-world-root .Awtsmoos-status-dock {
 		left: max(6px, env(safe-area-inset-left));
 		right: max(6px, env(safe-area-inset-right));

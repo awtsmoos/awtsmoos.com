@@ -83,7 +83,7 @@ Awtsmoos.com gives every map command a forty-eight-pixel vessel, layered with li
 	opacity: 0.76;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-minimap {
 		width: min(190px, calc(100vw - 16px));
 	}

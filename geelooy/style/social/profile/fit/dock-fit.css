@@ -19,7 +19,7 @@ html .profile-bottom-nav a {
   color: inherit;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
   html .profile-bottom-nav {
     bottom: max(.56rem, env(safe-area-inset-bottom));
     left: max(.55rem, env(safe-area-inset-left));
@@ -40,7 +40,7 @@ html .profile-bottom-nav a {
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   html .profile-bottom-nav a {
     font-size: .68rem;
   

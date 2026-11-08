@@ -4,7 +4,7 @@
 /* Blessed is He */
 /* On a narrow Keili the same light contracts; no second mobile system reacts. */
 
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
 	.heichel-merkavah {
 		inset: 10% 3%;
 		opacity: calc(.18 + var(--heichel-shefa, .28) * .34);

@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos lets professional depth become a full-screen vessel when the maker holds a smaller screen; Awtsmoos.com keeps the same tools reachable by touch without compressing their meaning into a crowded seam.
 */
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.nesher-pro-drawer {
 		inset: 0;
 		padding-top: env(safe-area-inset-top);

@@ -40,7 +40,7 @@ The Awtsmoos lets a durable channel breathe as cards, motion, and canonical open
 	margin: 0;
 }
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document .spaceChannelSurface {
 		padding-top: .8rem;
 	}

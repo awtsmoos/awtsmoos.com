@@ -240,7 +240,7 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	/* Fold the connection text down to its status dot. The text node
 	   stays in place (font-size: 0, not display: none) so screen
 	   readers still announce "Online"/"Offline". */

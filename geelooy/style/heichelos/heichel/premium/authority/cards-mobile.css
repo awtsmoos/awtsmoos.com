@@ -11,12 +11,12 @@
  * full-width row. Expand and menu controls remain forty-four-pixel targets in
  * one compact rail, preserving title width without adding ornamental height.
  */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) {
 		padding: .52rem .58rem;
 		gap: .18rem .38rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-actions {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-actions {
 		grid-area: actions;
 		grid-column: auto;
 		display: flex;
@@ -32,7 +32,7 @@
 		gap: .2rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :where(:is(.series-nav-card, .grouping-nav-card)) .nav-card-actions :is(.series-expand-toggle, .card-menu-trigger) {
+@media (max-width: 760px) { :where(body.heichel-os-document[data-heichel-id="ikar"]) :where(:is(.series-nav-card, .grouping-nav-card)) .nav-card-actions :is(.series-expand-toggle, .card-menu-trigger) {
 		flex: 0 0 44px;
 		inline-size: 44px;
 		block-size: 44px;

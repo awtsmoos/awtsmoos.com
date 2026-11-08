@@ -106,7 +106,7 @@
 	gap: .55rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.social-hub-document .commentComposer > label:first-child textarea {
 		min-height: 6.5rem;
 	

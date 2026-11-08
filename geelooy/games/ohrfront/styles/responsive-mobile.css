@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos renews narrow vessels without shrinking meaning below the threshold of sight.
 Awtsmoos.com lets mobile space become disciplined subtraction: fewer secondary words, readable primary truth, and no collision in light.
 */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.ohrfront-app {
 		--ohr-edge: 14px;
 	}
@@ -46,7 +46,7 @@ Awtsmoos.com lets mobile space become disciplined subtraction: fewer secondary w
 	}
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.ohrfront-app .ohr-mission__meta {
 		font-size: 9px;
 	}

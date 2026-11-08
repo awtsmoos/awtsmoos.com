@@ -72,20 +72,20 @@
 		padding: .35rem;
 		backdrop-filter: blur(18px);
 	} }
-@media (min-width: 761px) { .profile-app .profile-bottom-nav {
+@media (min-width: 760px) { .profile-app .profile-bottom-nav {
 		display: none;
 	} }
-@media (max-width: 420px) { .profile-app .profile-identity {
+@media (max-width: 390px) { .profile-app .profile-identity {
 		grid-template-columns: 1fr;
 		justify-items: start;
 	} }
-@media (max-width: 420px) { .profile-app .profile-avatar {
+@media (max-width: 390px) { .profile-app .profile-avatar {
 		width: 5.5rem;
 	} }
-@media (max-width: 420px) { .profile-app .profile-hero-actions {
+@media (max-width: 390px) { .profile-app .profile-hero-actions {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 420px) { .profile-app .profile-section-count {
+@media (max-width: 390px) { .profile-app .profile-section-count {
 		display: none;
 	} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

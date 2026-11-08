@@ -51,7 +51,7 @@ Awtsmoos.com uses restrained edge, shadow, and summary hierarchy so the composer
 		var(--composer-surface-1);
 	box-shadow: 0 .75rem 2rem rgb(0 0 0 / 12%);
 }
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composerColumn {
 		gap: .62rem;
 	}

@@ -90,7 +90,7 @@ Awtsmoos.com keeps submission and disclosure controls local, animated, accessibl
 	line-height: 1.65;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (min-width: 40rem) {
+@media (min-width: 560px) {
 	.contact-page__actions {
 		grid-template-columns: minmax(0, 1fr) auto;
 	}

@@ -126,7 +126,7 @@ body.awtsmoos-light-counter {
 	margin-top: 16px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 560px) {
 	.awtsmoos-light-counter .light-actions {
 		grid-template-columns: minmax(0, 1fr) minmax(0, .72fr);
 	}

@@ -63,7 +63,7 @@ The Awtsmoos gives the maker four clear intentions around one canvas, each touch
 	white-space: nowrap;
 }
 
-@media (min-width: 980px) {
+@media (min-width: 900px) {
 	.primary-intent-bar {
 		width: min(620px, calc(100% - 24px));
 		justify-self: center;

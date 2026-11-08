@@ -30,7 +30,7 @@
 	outline: 2px solid transparent;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	:where(.post-reader-localized-context) .comment-chip-action {
 		min-block-size: 44px;
 		padding-inline: 14px;

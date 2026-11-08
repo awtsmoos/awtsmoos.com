@@ -8,15 +8,15 @@ world steady, lets fine pointers invite, and lets every press answer without con
 body[data-geelooy-route="home"] .mobile-dock {
 	display: none;
 }
-@media (max-width: 680px) { html[data-geelooy-route="home"] {
+@media (max-width: 760px) { html[data-geelooy-route="home"] {
 		scroll-padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .search textarea, :where(body[data-geelooy-route="home"]) .search input, :where(body[data-geelooy-route="home"]) .hero-actions a, body[data-geelooy-route="home"] .featured-card {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .search textarea, :where(body[data-geelooy-route="home"]) .search input, :where(body[data-geelooy-route="home"]) .hero-actions a, body[data-geelooy-route="home"] .featured-card {
 		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .mobile-dock {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .mobile-dock {
 		position: fixed;
 		right: .5rem;
 		bottom: max(.5rem, env(safe-area-inset-bottom));
@@ -33,7 +33,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 		transition: opacity .2s ease, transform .2s ease;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a {
 		display: grid;
 		place-items: center;
 		gap: .13rem;
@@ -50,45 +50,45 @@ body[data-geelooy-route="home"] .mobile-dock {
 			transform 160ms cubic-bezier(.2, .8, .2, 1);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a[aria-current="page"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a[aria-current="page"] {
 		border-color: var(--panel-border-strong);
 		background: var(--home-accent-soft);
 		color: var(--home-accent-strong);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .mobile-dock a:hover {
+@media (max-width: 760px) { @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .mobile-dock a:hover {
 			border-color: var(--panel-border-strong);
 			background: var(--home-accent-soft);
 			color: var(--home-accent-strong);
 			transform: translateY(-1px);
 		} } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:active {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:active {
 		border-color: var(--home-accent);
 		background: var(--panel-raised);
 		filter: brightness(.96);
 		transform: translateY(1px) scale(.97);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:focus-visible {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:focus-visible {
 		outline: 3px solid var(--focus-ring);
 		outline-offset: 2px;
 	} }
 /* B"H — golden drive icons for the mobile dock (Yaakov 2026-10-13) */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock img.mobile-dock-icon {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock img.mobile-dock-icon {
 		width: 1.75rem;
 		height: 1.75rem;
 		object-fit: contain;
 		border-radius: .45rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock span {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock span {
 		font-size: 1.16rem;
 		line-height: 1;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock small {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock small {
 		overflow: hidden;
 		max-width: 100%;
 		font-size: .56rem;
@@ -97,7 +97,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 		white-space: nowrap;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .site-footer {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .site-footer {
 		display: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

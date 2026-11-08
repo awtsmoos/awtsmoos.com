@@ -33,7 +33,7 @@
   display: grid;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
   .card-menu-spark.open {
     position: relative;
   }

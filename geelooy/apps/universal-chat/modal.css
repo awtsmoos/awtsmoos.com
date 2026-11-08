@@ -71,7 +71,7 @@
 	color: var(--msg-text);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	.messaging-modal-overlay {
 		align-items: flex-end;
 		padding: env(safe-area-inset-top) 0 0;

@@ -14,7 +14,7 @@
 .awt-sefirah { --x: 50%; --y: 50%; --c: var(--awt-cyan); position: absolute; left: var(--x); top: var(--y); width: clamp(54px, 7vw, 76px); aspect-ratio: 1; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--c), white 22%); border-radius: 50%; color: white; background: radial-gradient(circle, color-mix(in srgb, var(--c), white 30%), rgba(0,0,0,.34) 62%); box-shadow: 0 0 28px color-mix(in srgb, var(--c), transparent 42%), inset 0 0 20px rgba(255,255,255,.12); transform: translate(-50%, -50%); font-size: .72rem; font-weight: 950; text-align: center; text-transform: uppercase; z-index: 1; line-height: 1.05; }
 .awt-sefirah small { display: block; color: rgba(255,255,255,.74); font-size: .58rem; font-weight: 700; text-transform: none; }
 .awt-sacred-footer { grid-column: 1 / -1; margin-top: 8px; padding: 18px; border-top: 1px solid rgba(255,215,127,.28); color: var(--awt-gold); text-align: center; letter-spacing: .14em; overflow-wrap: anywhere; background: radial-gradient(ellipse at 50% 100%, rgba(255,215,127,.36), transparent 42%), linear-gradient(90deg, transparent, rgba(255,215,127,.08), transparent); }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .awt-kabbalah-map { min-height: 560px; padding-bottom: 70px; }
   .awt-sefirah { width: 62px; font-size: .66rem; }
   .awt-sefirah small { font-size: .52rem; 

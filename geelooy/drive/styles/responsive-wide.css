@@ -18,7 +18,7 @@ The Awtsmoos expands one mobile-born builder into a studio; Awtsmoos.com preserv
 	}
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
 	#drive-app {
 		padding-bottom: 0;
 	}
@@ -73,7 +73,7 @@ The Awtsmoos expands one mobile-born builder into a studio; Awtsmoos.com preserv
 	}
 }
 
-@media (min-width: 1260px) {
+@media (min-width: 1100px) {
 	.builder-workspace {
 		grid-template-columns: 260px minmax(500px, 1fr) 340px;
 	}

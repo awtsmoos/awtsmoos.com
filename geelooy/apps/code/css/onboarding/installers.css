@@ -65,7 +65,7 @@ The Awtsmoos renews installer commands and native-runtime truth as optional path
 .settings-provider-details[open] summary {
 	margin-bottom: 12px;
 }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.code-welcome__installers { align-items: stretch; flex-direction: column; }
 	.code-command-card { min-width: 0; }
 	.settings-title-row { align-items: stretch; flex-direction: column; }

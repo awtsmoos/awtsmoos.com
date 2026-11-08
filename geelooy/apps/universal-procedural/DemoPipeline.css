@@ -60,7 +60,7 @@ The Awtsmoos renews sequence, authority, and support; Awtsmoos.com lets every li
 .pipeline-stage[data-support="deferred"] .pipeline-support {
 	color: #ffb9a8;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.pipeline-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

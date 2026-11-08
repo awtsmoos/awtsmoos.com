@@ -39,13 +39,13 @@ Awtsmoos.com lets Torah light turn and breathe only while real navigation carrie
 		transform: scale(1.045);
 	}
 }
-@media (max-width: 360px) { .torah-departure {
+@media (max-width: 390px) { .torah-departure {
 		padding: .75rem;
 	} }
-@media (max-width: 360px) { .torah-departure::before {
+@media (max-width: 390px) { .torah-departure::before {
 		width: 112vw;
 	} }
-@media (max-width: 360px) { .torah-departure::after {
+@media (max-width: 390px) { .torah-departure::after {
 		width: 84vw;
 	} }
 @media (max-height: 480px) and (orientation: landscape) { .torah-departure {

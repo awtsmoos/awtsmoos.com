@@ -33,7 +33,7 @@
 	opacity: .42;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 560px) {
 	.cover-actions {
 		grid-template-columns: minmax(0, 1fr) auto;
 	}

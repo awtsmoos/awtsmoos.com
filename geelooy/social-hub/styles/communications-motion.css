@@ -49,7 +49,7 @@
 	}
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .hubMessagesRegion {
 		padding: .72rem;
 		border-radius: 1rem;

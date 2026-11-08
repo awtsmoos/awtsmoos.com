@@ -94,7 +94,7 @@
 .studio-tts-guide article { padding: 10px 12px; }
 .studio-commentary-panel a,
 .studio-tts-guide a { display: inline-block; margin-top: 6px; color: #8de2ff; font-weight: 750; }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.studio-tts-credentials { grid-template-columns: 1fr; }
 	.studio-wide-field { grid-column: auto; }
 	.studio-commentary-list { max-height: 240px; }

@@ -70,7 +70,7 @@
 	transition: transform 160ms ease;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.messaging-thread-identity {
 		min-height: 44px;
 		align-content: center;

@@ -82,7 +82,7 @@ footer {
 	color: #759783;
 	font-size: .8rem;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.hero {
 		padding-top: 48px;
 	}

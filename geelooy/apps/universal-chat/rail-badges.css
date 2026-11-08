@@ -23,7 +23,7 @@
 	box-shadow: 0 5px 14px rgb(0 0 0 / 24%), 0 0 12px rgb(114 216 174 / 12%);
 }
 
-@media (min-width: 761px) {
+@media (min-width: 760px) {
 	.messaging-rail-badge { top: 0.2rem; right: 0.2rem; }
 }
 

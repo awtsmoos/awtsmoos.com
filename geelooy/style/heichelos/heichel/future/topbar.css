@@ -52,6 +52,6 @@
 	letter-spacing: 0.03em;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 520px) { :where(body:not(.geelooy-app-shell)) .heichel-mobile-navigation .heichel-mobile-topbar {
+@media (max-width: 560px) { :where(body:not(.geelooy-app-shell)) .heichel-mobile-navigation .heichel-mobile-topbar {
 		gap: 0.5rem;
 	} }

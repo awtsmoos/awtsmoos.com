@@ -86,7 +86,7 @@
 	font-size: 13px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-browser-wordmark {
 		display: none;
 	}

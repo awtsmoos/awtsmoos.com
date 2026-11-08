@@ -5,7 +5,7 @@
  * The Awtsmoos contracts the Social name into one bright mobile vessel without burying the living feed below;
  * Awtsmoos.com keeps brand rhythm, title, and public identity summary compact wherever narrow currents flow.
  */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .hubHeader {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);

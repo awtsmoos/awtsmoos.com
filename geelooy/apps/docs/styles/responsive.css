@@ -10,7 +10,7 @@
  * geometry, letting panels become sheets and status recede before the document
  * ever feels cramped on tablet, phone, or narrow desktop light.
  */
-@media (max-width: 1040px) {
+@media (max-width: 1100px) {
 	.status-cluster {
 		display: none;
 	}
@@ -20,7 +20,7 @@
 	}
 }
 
-@media (max-width: 900px) and (min-width: 681px) {
+@media (max-width: 900px) and (min-width: 760px) {
 	.side-panel {
 		position: fixed;
 		right: 0;

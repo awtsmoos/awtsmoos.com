@@ -7,7 +7,7 @@
  * Awtsmoos.com keeps every edge reachable, every scroll bounded, and advanced depth safely furled.
  */
 
-@media (max-width: 700px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.Awtsmoos-meadow-menu {
 		place-items: end stretch;
 		padding-right: 0;
@@ -27,7 +27,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.Awtsmoos-meadow-menu .menu-stat-grid {
 		grid-template-columns: 1fr;
 	}

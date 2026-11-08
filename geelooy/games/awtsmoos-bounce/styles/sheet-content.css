@@ -80,7 +80,7 @@
 	color: #7e88b0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.controls-copy {
 		display: block;
 		max-width: 42ch;

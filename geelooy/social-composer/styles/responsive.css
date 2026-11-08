@@ -4,7 +4,7 @@
  * Blessed is He
  * Composer preserves every capability while changing density for smaller vessels.
  */
-@media (max-width: 65.625rem) {
+@media (max-width: 1100px) {
 	.composerLayout {
 		grid-template-columns: 1fr;
 	}
@@ -12,7 +12,7 @@
 		position: static;
 	}
 }
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.pageHeader {
 		align-items: stretch;
 		flex-direction: column;
@@ -37,7 +37,7 @@
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
-@media (max-width: 37.5rem) {
+@media (max-width: 560px) {
 	/* Rails wrap instead of horizontal swipe (gate has no intentional-scroll opt-out). */
 	.creatorIntentRail,
 	.creatorQuickRail,

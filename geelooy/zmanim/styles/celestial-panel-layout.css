@@ -69,7 +69,7 @@
 	}
 }
 
-@media (min-width: 720px) {
+@media (min-width: 760px) {
 	.celestial-panel-body {
 		gap: .85rem;
 		padding: 0 .82rem .86rem;

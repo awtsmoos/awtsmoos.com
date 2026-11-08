@@ -72,7 +72,7 @@ body[data-study-sheet-open="true"] :where(.awtsmoos-study-sheet-mode, .awtsmoos-
 	to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	body[data-study-sheet-open="true"] :where(.awtsmoos-study-sheet) {
 		animation-name: awtsmoosStudySheetUp;
 		transform-origin: center bottom;

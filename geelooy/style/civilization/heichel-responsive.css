@@ -18,37 +18,37 @@
 @media (max-width: 900px) { .sidebar-toggle {
 		display: none;
 	} }
-@media (max-width: 620px) { .heichel-page-container {
+@media (max-width: 560px) { .heichel-page-container {
 		padding: .65rem;
 		padding-bottom: max(5rem, env(safe-area-inset-bottom));
 	} }
-@media (max-width: 620px) { .heichel-header {
+@media (max-width: 560px) { .heichel-header {
 		padding: 1rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* :is() keeps (1,0,0) so the small-screen size still beats the base rule. */
-@media (max-width: 620px) { :is(#heichel-main-title) {
+@media (max-width: 560px) { :is(#heichel-main-title) {
 		font-size: 2rem;
 	} }
-@media (max-width: 620px) { .grid-container {
+@media (max-width: 560px) { .grid-container {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 620px) { .post-card {
+@media (max-width: 560px) { .post-card {
 		min-height: 0;
 	} }
-@media (max-width: 620px) { .content-tabs {
+@media (max-width: 560px) { .content-tabs {
 		position: sticky;
 		top: 0;
 		z-index: 20;
 	} }
-@media (max-width: 620px) { .heichel-shell-boot__panel {
+@media (max-width: 560px) { .heichel-shell-boot__panel {
 		grid-template-columns: 1fr;
 	} }
-@media (max-width: 620px) { .heichel-shell-boot__seal {
+@media (max-width: 560px) { .heichel-shell-boot__seal {
 		height: 3.25rem;
 		width: 3.25rem;
 	} }
-@media (max-width: 620px) { .modal-content, .context-menu, .awtsmoos-notifications-panel, .awtsmoos-platform-body {
+@media (max-width: 560px) { .modal-content, .context-menu, .awtsmoos-notifications-panel, .awtsmoos-platform-body {
 		max-height: calc(100dvh - 1.5rem);
 		max-width: calc(100vw - 1.5rem);
 		overflow-y: auto;

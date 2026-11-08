@@ -4,7 +4,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
 */
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.socialChatPanel,
 	.hubMessagesPanel {
 		gap: .7rem;

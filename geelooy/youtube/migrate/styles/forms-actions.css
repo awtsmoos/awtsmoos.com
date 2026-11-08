@@ -86,7 +86,7 @@ button.secondary {
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.buttonRow > button,
 	.buttonRow > .primaryAction {
 		flex: 1 1 100%;

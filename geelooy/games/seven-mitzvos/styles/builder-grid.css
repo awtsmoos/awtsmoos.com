@@ -89,7 +89,7 @@
 	background: var(--gold);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.builderGrid {
 		gap: 2px;
 		padding: 0.35rem;

@@ -104,7 +104,7 @@ body {
     right: 20px;
 }
 
-@media (min-width: 901px) {
+@media (min-width: 900px) {
     .awtsmoos-floating-controls {
         grid-template-columns: 1fr;
         top: 80px;

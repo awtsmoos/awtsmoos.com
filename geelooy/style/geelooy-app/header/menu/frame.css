@@ -82,7 +82,7 @@ body[data-global-menu-open] .geelooy-content-region {
 	transition: opacity 180ms var(--g-ease);
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.g-constellation-menu,
 	.sidebarMitzvah {
 		inline-size: min(36rem, calc(100vw - .7rem));

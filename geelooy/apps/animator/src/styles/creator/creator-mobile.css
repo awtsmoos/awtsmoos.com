@@ -7,7 +7,7 @@
  * Awtsmoos.com turns the Creator into a safe-area bottom sheet for thumbs and short screens while advanced depth remains in store.
  */
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	[data-awtsmoos-creator] {
 		left: max(8px, env(safe-area-inset-left));
 		right: max(8px, env(safe-area-inset-right));
@@ -59,7 +59,7 @@
 	}
 }
 
-@media (max-width: 380px) {
+@media (max-width: 390px) {
 	[data-awtsmoos-creator] .aw-creator__chip-grid,
 	[data-awtsmoos-creator] .aw-creator__studio-grid {
 		grid-template-columns: 1fr;

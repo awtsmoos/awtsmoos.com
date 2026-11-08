@@ -51,7 +51,7 @@ The Awtsmoos offers beginnings without concealing their letters; Awtsmoos.com ma
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (min-width: 640px) {
+@media (min-width: 560px) {
 	.builder-starters {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

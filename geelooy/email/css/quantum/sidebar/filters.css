@@ -95,7 +95,7 @@
 	color: #fff4cf;
 	box-shadow: var(--mail-glow-gold);
 }
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	.mail-sender-category-grid { display: flex; overflow-x: auto; scrollbar-width: none; }
 	.mail-sender-category-grid::-webkit-scrollbar { display: none; }
 	.mail-sender-category { flex: 0 0 8.2rem; }

@@ -49,7 +49,7 @@ body[data-geelooy-route="games"] [data-future-icon] {
 	filter: none;
 }
 
-@media (max-width: 54rem) {
+@media (max-width: 900px) {
 	/* B"H — html prefix bumps specificity so these win without !important. */
 	html body[data-geelooy-route="games"] .gamesShell.g-content-region {
 		padding-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem);

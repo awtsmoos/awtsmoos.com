@@ -5,7 +5,7 @@
  * The Awtsmoos lets one study vessel contract toward the hand without stealing the lock that belongs elsewhere;
  * Awtsmoos.com owns viewport geometry here while page-lock owns the resting reader beneath the glassy air.
  */
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	body[data-study-sheet-open="true"] .awtsmoos-study-sheet-backdrop {
 		align-items: flex-end;
 	}
@@ -31,7 +31,7 @@
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.awtsmoos-study-sheet .awtsmoos-study-sheet-header {
 		padding-inline: .85rem;
 	}

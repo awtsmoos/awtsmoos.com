@@ -7,12 +7,12 @@
  * The Awtsmoos renews every doorway before a finite header can seem too small to receive them all;
  * Awtsmoos.com lets Malchus compress only visual copy while every action and accessible identity name still answers the call.
  */
-@media (max-width: 30rem) { .geelooy-app-shell .universal-chat-header-launcher {
+@media (max-width: 560px) { .geelooy-app-shell .universal-chat-header-launcher {
 		padding-inline: 0;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* .g-header-profile width consolidated into mobile-shell-compact.css (single 44px law @ <=42rem). */
-@media (max-width: 30rem) { :where(.geelooy-app-shell) .g-header-profile .profile-trigger {
+@media (max-width: 560px) { :where(.geelooy-app-shell) .g-header-profile .profile-trigger {
 		justify-content: center;
 		inline-size: 44px;
 		min-inline-size: 44px;
@@ -20,7 +20,7 @@
 		gap: 0;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(.geelooy-app-shell) .g-header-profile .profile-trigger-copy {
+@media (max-width: 560px) { :where(.geelooy-app-shell) .g-header-profile .profile-trigger-copy {
 		position: absolute;
 		inline-size: 1px;
 		block-size: 1px;
@@ -29,6 +29,6 @@
 		white-space: nowrap;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 30rem) { :where(.geelooy-app-shell) .g-header-profile .profile-chevron {
+@media (max-width: 560px) { :where(.geelooy-app-shell) .g-header-profile .profile-chevron {
 		display: none;
 	} }

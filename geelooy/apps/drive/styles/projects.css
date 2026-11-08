@@ -98,7 +98,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	[data-awtsmoos-drive] .project-stage-grid {
 		grid-template-columns: minmax(0, 1fr);
 	}

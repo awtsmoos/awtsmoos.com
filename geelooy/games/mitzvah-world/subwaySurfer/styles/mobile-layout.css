@@ -52,13 +52,13 @@
 	height: clamp(58px, 16vw, 70px);
 }
 
-@media (pointer: fine) and (min-width: 801px) {
+@media (pointer: fine) and (min-width: 900px) {
 	.peruta-run-route .mobile-controls {
 		display: none;
 	}
 }
 
-@media (max-width: 800px), (pointer: coarse) {
+@media (max-width: 900px), (pointer: coarse) {
 	.peruta-run-route .desktop-guide {
 		display: none;
 	}

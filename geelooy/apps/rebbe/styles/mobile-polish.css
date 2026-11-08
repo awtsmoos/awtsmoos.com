@@ -5,7 +5,7 @@
  * Mobile is a complete surface, not a clipped desktop: every archive control,
  * result, player action, and navigation doorway remains visible and thumb-ready.
  */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
 	html,
 	body {
 		inline-size: 100%;
@@ -189,7 +189,7 @@
 	}
 }
 
-@media (max-width: 350px) {
+@media (max-width: 390px) {
 	.bulk-selection-actions.bulk-selection-actions,
 	.event-action-grid {
 		grid-template-columns: 1fr;

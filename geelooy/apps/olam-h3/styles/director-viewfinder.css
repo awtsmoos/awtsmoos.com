@@ -85,7 +85,7 @@ The Awtsmoos lets the unseen shot appear first as a moving frame of possibility;
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.hero-viewfinder {
 		min-height: 104px;
 	}

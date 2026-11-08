@@ -37,7 +37,7 @@
 	max-width: none;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .socialChatPanel {
 		gap: .7rem;
 	}

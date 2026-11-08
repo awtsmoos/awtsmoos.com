@@ -52,7 +52,7 @@
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .hex-nav-pad button[data-action=left]{grid-area:left
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .hex-nav-pad button[data-action=right]{grid-area:right
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (min-width:769px){.hex-nav-pad.hex-nav-pad{display:none }}
+@media (min-width: 760px){.hex-nav-pad.hex-nav-pad{display:none }}
 
 /* DATA ALTAR */
 #data-altar-container {

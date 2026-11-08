@@ -63,7 +63,7 @@ awtsmoos-opinion-selector {
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.opinion-toolbar {
 		align-items: flex-start;
 		flex-direction: column;

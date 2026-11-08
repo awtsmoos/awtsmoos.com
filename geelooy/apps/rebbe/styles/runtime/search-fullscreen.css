@@ -43,7 +43,7 @@
 	min-block-size: 44px;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.search-results-toolbar {
 		align-items: stretch;
 	}

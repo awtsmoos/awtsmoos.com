@@ -151,7 +151,7 @@
 }
 
 /* Desktop: centered dialog instead of bottom sheet */
-@media (min-width: 769px) {
+@media (min-width: 760px) {
 	.vc-composer-overlay {
 		align-items: center;
 		padding: 2rem;

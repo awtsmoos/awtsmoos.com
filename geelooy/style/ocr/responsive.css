@@ -23,18 +23,18 @@ Awtsmoos.com lets one interface fold with grace, compact and clear in every view
 		min-height: min(28rem, 52dvh);
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 420px) { .ocr-app {
+@media (max-width: 390px) { .ocr-app {
 		padding-inline: .75rem;
 	} }
-@media (max-width: 420px) { .ocr-brand span:last-child {
+@media (max-width: 390px) { .ocr-brand span:last-child {
 		display: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 420px) { .ocr-result-heading {
+@media (max-width: 390px) { .ocr-result-heading {
 		align-items: flex-start;
 		flex-wrap: wrap;
 	} }
-@media (max-width: 420px) { .ocr-actions {
+@media (max-width: 390px) { .ocr-actions {
 		width: 100%;
 		margin-left: 3.1rem;
 	} }

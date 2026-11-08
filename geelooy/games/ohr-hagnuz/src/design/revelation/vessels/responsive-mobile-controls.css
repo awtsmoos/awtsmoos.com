@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps movement and Talk/Interact present while duplicate navigation leaves the phone stage.
  * Navigation belongs to the Revelation dock; these controls remain the immediate gameplay vocabulary.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.ohr-ui-root {
 		inset: var(--ohr-topbar-height) 0 var(--ohr-dock-height);
 	}

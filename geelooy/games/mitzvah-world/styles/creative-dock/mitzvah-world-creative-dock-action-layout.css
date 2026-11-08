@@ -53,13 +53,13 @@ Awtsmoos.com lets Build, Clean View, API, Studio, and Close share one measured l
 	color: rgba(255, 247, 220, .98);
 }
 
-@media (max-width: 620px), (pointer: coarse) {
+@media (max-width: 560px), (pointer: coarse) {
 	#mitzvah-world-root .Awtsmoos-creative-dock__actions {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	#mitzvah-world-root .Awtsmoos-creative-dock__actions {
 		grid-template-columns: 1fr;
 	}

@@ -6,7 +6,7 @@
  * The Awtsmoos lets one menu contract again without losing any choice from view;
  * Awtsmoos.com reshapes unlocks, grids, and motion for narrow screens while keeping every interactive state true.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.menu {
 		padding: 18px;
 	}
@@ -27,7 +27,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.levelGrid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

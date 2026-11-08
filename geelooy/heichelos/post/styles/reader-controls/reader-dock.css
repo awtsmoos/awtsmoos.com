@@ -35,7 +35,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	outline-offset: 3px;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-dock-edge: max(.7rem, env(safe-area-inset-right, 0px));
 		--reader-dock-bottom: max(.7rem, env(safe-area-inset-bottom, 0px));
@@ -90,7 +90,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	}
 }
 
-@media (max-width: 23.75rem) {
+@media (max-width: 390px) {
 	body .all.post-reader-localized-context.awtsmoos-reader-vision
 		> .awtsmoos-floating-controls button {
 		padding-inline: .55rem;
@@ -99,7 +99,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-height: 31.25rem) and (orientation: landscape) and (max-width: 64rem) {
+@media (max-height: 31.25rem) and (orientation: landscape) and (max-width: 1100px) {
 	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-river-size: 54px;
 		--reader-dock-gap: .45rem;

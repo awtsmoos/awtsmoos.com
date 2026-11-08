@@ -92,7 +92,7 @@
 	color: #fff2ad;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.lobbyModeChips {
 		gap: 4px;
 	}
@@ -112,7 +112,7 @@
 	}
 }
 
-@media (max-width: 380px) {
+@media (max-width: 390px) {
 	.victoryCombatStatsGrid {
 		grid-template-columns: 1fr;
 	}

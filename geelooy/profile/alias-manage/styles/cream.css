@@ -316,7 +316,7 @@ body:has(.alias-studio) {
 
 /* ---- Mobile: stack the advanced summary neatly ---- */
 
-@media (max-width: 46rem) {
+@media (max-width: 760px) {
 	.alias-studio .alias-advanced > summary {
 		flex-wrap: wrap;
 		row-gap: .3rem;

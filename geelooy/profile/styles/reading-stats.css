@@ -176,7 +176,7 @@
 }
 
 /* Mobile */
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.pd-reading-grid {
 		grid-template-columns: repeat(2, 1fr);
 	}

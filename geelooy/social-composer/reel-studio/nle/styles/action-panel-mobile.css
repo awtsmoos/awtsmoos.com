@@ -7,7 +7,7 @@
  * full-width deed button without losing safe-area access to the contract footer.
  */
 
-@media (max-width: 52rem) {
+@media (max-width: 900px) {
 	.nle-ai-actions-view {
 		padding: .65rem;
 	}
@@ -26,7 +26,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.nle-action-fields {
 		grid-template-columns: 1fr;
 	}

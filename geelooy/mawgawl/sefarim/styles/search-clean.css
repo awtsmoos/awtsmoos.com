@@ -1129,7 +1129,7 @@ button.library-recent-search:focus-visible,
 }
 
 /* ---------- responsive ---------- */
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.search-page {
 		padding: 2.2rem 1rem 3rem;
 	}

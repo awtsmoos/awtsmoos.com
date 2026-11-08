@@ -19,7 +19,7 @@
   grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(14rem, 20rem);
 }
 :where(.g-sidebar) { position: sticky; top: 5rem; }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   :where(.g-two-column, .g-three-column) { grid-template-columns: 1fr; }
   :where(.g-sidebar) { position: static; }
 }

@@ -107,7 +107,7 @@
    so the name copy was crushed between the avatar and the action cards
    (~9rem) and the display name shattered mid-word. Stack the capped
    column the same way the small-screen rules do. */
-@media (min-width: 861px) {
+@media (min-width: 900px) {
 	.profile-app .profile-identity {
 		grid-template-columns: auto minmax(0, 1fr);
 	}

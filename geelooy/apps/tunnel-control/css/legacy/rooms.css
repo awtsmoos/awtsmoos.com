@@ -21,4 +21,4 @@
 .awt-room-message.is-user { border-color: rgba(153,255,188,.56); background: rgba(31,255,116,.15); box-shadow: 0 0 24px rgba(50,255,126,.08); }
 .awt-room-message :where(p) { margin: 0; overflow-wrap: anywhere; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 860px) { .awt-room-layout { grid-template-columns: 1fr; } .awt-room-list { max-height: 34vh; } }
+@media (max-width: 900px) { .awt-room-layout { grid-template-columns: 1fr; } .awt-room-list { max-height: 34vh; } }

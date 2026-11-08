@@ -46,7 +46,7 @@ Awtsmoos.com lets the sheet rise with restrained motion, lets a drag remain phys
 	}
 }
 
-@media (min-width: 50rem) {
+@media (min-width: 900px) {
 	.draftRecoveryDialog[open] {
 		animation: draft-recovery-desktop-arrive 220ms cubic-bezier(.2, .8, .2, 1) both;
 	}

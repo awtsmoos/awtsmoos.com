@@ -73,7 +73,7 @@
 	.ohrbound-app .editor-toolbar { grid-template-columns: minmax(0, 1fr) minmax(108px, auto); }
 	.ohrbound-app [data-editor-palette] { grid-column: 1 / -1; }
 }
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.ohrbound-app .editor-header { align-items: start; }
 	.ohrbound-app .editor-toolbar { grid-template-columns: 1fr; }
 	.ohrbound-app [data-editor-palette] { grid-column: auto; }

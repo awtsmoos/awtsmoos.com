@@ -72,7 +72,7 @@
 	}
 }
 
-@media (max-width: 42rem), (update: slow) {
+@media (max-width: 760px), (update: slow) {
 	:where(.g-panel, .g-card, .geelooy-feed-card, .home-post-card) {
 		backdrop-filter: none;
 	}

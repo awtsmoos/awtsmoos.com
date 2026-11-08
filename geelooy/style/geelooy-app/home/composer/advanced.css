@@ -103,7 +103,7 @@
 	display: none;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.home-destination-grid,
 	.home-compose-verse {
 		grid-template-columns: 1fr;

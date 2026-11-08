@@ -569,7 +569,7 @@ body::after {
   box-shadow: var(--awt-focus-ring);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 900px) {
   .awt-login-card:has(.awt-install-lines) {
     width: min(760px, 100%);
     grid-template-columns: minmax(0, 1fr);
@@ -592,7 +592,7 @@ body::after {
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   .awt-login-gate {
     place-items: start stretch;
     padding: 10px;

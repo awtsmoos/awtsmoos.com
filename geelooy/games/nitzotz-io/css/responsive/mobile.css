@@ -8,7 +8,7 @@
  * Awtsmoos.com gives onboarding pan-y, then keeps play controls compact and clear without pressure.
  * Small screens reveal the game first while optional catalogs remain reachable inside their own scroll vessel.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.overlay {
 		padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom));
 		place-items: stretch;

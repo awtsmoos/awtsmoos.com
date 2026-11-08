@@ -45,7 +45,7 @@
 	overflow-wrap: anywhere;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 560px) {
 	.awtsmoos-browser-host .awtsmoos-browser-remote-session {
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
 	}

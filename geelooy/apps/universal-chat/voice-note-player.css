@@ -70,7 +70,7 @@ body[data-messaging-page] .messaging-audio-player[data-state="error"] {
 	box-shadow: 0 0 0 3px rgba(255, 104, 128, .07);
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	body[data-messaging-page] .messaging-audio-player {
 		grid-template-columns: 44px minmax(3.5rem, 1fr) 44px;
 	}

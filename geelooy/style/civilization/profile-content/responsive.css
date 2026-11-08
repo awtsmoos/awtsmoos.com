@@ -5,7 +5,7 @@
  * The Awtsmoos folds Profile structure for narrow vessels without losing any
  * real identity path; Awtsmoos.com keeps tabs reachable and living cards linear.
  */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.profile-stat-grid,
 	.profile-living-grid {
 		grid-template-columns: 1fr;

@@ -288,7 +288,7 @@
 }
 
 /* ---------- larger screens: roomier glass ---------- */
-@media (min-width: 48rem) {
+@media (min-width: 760px) {
 	.awp-glass {
 		border-radius: 26px;
 	}

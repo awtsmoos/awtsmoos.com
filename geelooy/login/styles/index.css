@@ -57,8 +57,8 @@ The account gate stands alone: no homepage cascade, remote fonts or unrelated an
 .login-page .login-form button:hover {filter:brightness(1.08);}
 .login-page :is(input,button,.secondary-link):focus-visible {outline:3px solid var(--auth-accent);outline-offset:3px;}
 .login-page .server-message {font-size:14px;color:var(--auth-muted);line-height:1.5;margin:16px 0 0;overflow-wrap:anywhere;}
-@media (max-width:480px) {
+@media (max-width:560px) {
  .login-page .login-shell {place-items:start center;padding:76px 12px 22px;}
  .login-page .login-card {padding:22px 19px;border-radius:15px;}
 }
-@media (prefers-reduced-motion:reduce) { .login-page *, .login-page *::before, .login-page *::after {animation:none!important;transition:none!important;} }
+@media (prefers-reduced-motion:reduce) { .login-page.login-page *, .login-page.login-page *::before, .login-page.login-page *::after {animation:none;transition:none;} }

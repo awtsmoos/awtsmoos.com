@@ -161,7 +161,7 @@
 }
 
 /* --- MOBILE --- */
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     #app-root { grid-template-rows: auto 1fr; }
     #viewInspector { flex-direction: column; flex-wrap: nowrap; }
     .insp-col.insp-col { flex-basis: auto; min-height: 0; border-bottom: 1px solid var(--border-base); }

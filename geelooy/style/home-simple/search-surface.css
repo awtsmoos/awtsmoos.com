@@ -104,9 +104,9 @@ body[data-geelooy-route="home"] .search-symbol {
 	cursor: not-allowed;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 680px) { body[data-geelooy-route="home"] .search { grid-template-columns: auto minmax(0, 1fr) auto; padding: .4rem; } }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .search-symbol { width: 2.8rem; height: 2.8rem; } }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .shortcut-key { display: none; } }
+@media (max-width: 760px) { body[data-geelooy-route="home"] .search { grid-template-columns: auto minmax(0, 1fr) auto; padding: .4rem; } }
+@media (max-width: 760px) { body[data-geelooy-route="home"] .search-symbol { width: 2.8rem; height: 2.8rem; } }
+@media (max-width: 760px) { body[data-geelooy-route="home"] .shortcut-key { display: none; } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .search.is-invalid { animation: none; } }
 /* B"H 2026-10-13 — Golden search icon replaces the ⌕ text glyph.

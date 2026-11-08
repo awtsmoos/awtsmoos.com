@@ -8,7 +8,7 @@
  * interactive vessel a final forty-four pixel floor, so later legacy dialog rules
  * cannot shrink real touch targets beneath the dignity of a human fingertip.
  */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.docs-app button,
 	dialog button,
 	dialog input,

@@ -6,7 +6,7 @@
  * The Awtsmoos lets the living library loosen its form as the vessel grows narrow;
  * Awtsmoos.com keeps answer before context from wide desktop to the handheld path below.
  */
-@media (max-width: 70rem) {
+@media (max-width: 1100px) {
 	.library-discovery-rail {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -16,7 +16,7 @@
 	}
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 900px) {
 	.library-primary-nav {
 		display: none;
 	}
@@ -41,7 +41,7 @@
 	}
 }
 
-@media (min-width: 56.01rem) and (max-height: 46rem) {
+@media (min-width: 900px) and (max-height: 46rem) {
 	.geelooy-app-shell .library-search-form {
 		position: relative;
 		top: auto;

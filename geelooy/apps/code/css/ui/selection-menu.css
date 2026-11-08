@@ -8,7 +8,7 @@
     border: 1px solid var(--neon-cyan);
     border-radius: 8px;
     padding: 8px;
-    z-index: 50000;
+    z-index: 50;
     box-shadow: 0 10px 40px rgba(0,0,0,0.9);
     display: none; /* Hidden by default */
     flex-direction: column;

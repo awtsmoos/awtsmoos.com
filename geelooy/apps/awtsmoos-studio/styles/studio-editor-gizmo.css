@@ -97,7 +97,7 @@
 	pointer-events: none;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.studio-transform-gizmo {
 		width: 140px;
 		height: 140px;

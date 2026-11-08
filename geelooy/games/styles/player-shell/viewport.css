@@ -39,7 +39,7 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.awt-game-shell {
 		align-items: stretch;
 		inline-size: auto;
@@ -71,7 +71,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.awt-game-shell {
 		inset-inline-end: max(6px, env(safe-area-inset-right));
 		inset-inline-start: max(6px, env(safe-area-inset-left));

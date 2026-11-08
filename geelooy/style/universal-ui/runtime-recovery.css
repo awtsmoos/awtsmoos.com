@@ -63,7 +63,7 @@
 	box-shadow: var(--aw-ui-focus);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.awts-runtime-recovery {
 		left: max(9px, env(safe-area-inset-left));
 		bottom: max(9px, env(safe-area-inset-bottom));

@@ -71,7 +71,7 @@ html .folder-button.active {
   border-color: var(--mail-border-softer);
   color: var(--mail-text);
 }
-@media (max-width: 430px) { html .mail-sender-category-grid { grid-template-columns: 1fr; } }
+@media (max-width: 390px) { html .mail-sender-category-grid { grid-template-columns: 1fr; } }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .mail-folder-list button:active {

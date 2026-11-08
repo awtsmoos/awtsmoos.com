@@ -82,15 +82,18 @@ html[data-geelooy-route="home"] {
 	--g4-shadow-1: 0 8px 30px rgba(90, 70, 40, 0.16);
 	--g4-shadow-2: 0 18px 54px rgba(90, 70, 40, 0.22);
 	--g4-shadow-float: 0 28px 90px rgba(90, 70, 40, 0.30);
-	/* Stacking layers (unchanged). */
+	/* Stacking layers — ONE scale (see geelooy/style/awtsmoos-scale-tokens.css).
+	   atmosphere 1 < content 4 < search 8 < search-panel 10 < dock 16 < backdrop 20 <
+	   header 24 < launcher 28 < profile-backdrop 32 < profile 36 < dialog 40.
+	   The header sits at 24 (above the backdrop 20, below the drawer 28); the skip link
+	   is header+10 = 34. Never invent a new layer number — add a token here. */
 	--home-layer-atmosphere: 1;
 	--home-layer-content: 4;
 	--home-layer-search: 8;
 	--home-layer-search-panel: 10;
-	--home-layer-header: 12;
+	--home-layer-header: 24;
 	--home-layer-dock: 16;
 	--home-layer-backdrop: 20;
-	--home-layer-launcher-host: 24;
 	--home-layer-launcher: 28;
 	--home-layer-profile-backdrop: 32;
 	--home-layer-profile: 36;

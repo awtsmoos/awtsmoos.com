@@ -8,7 +8,7 @@
  * without hiding transport truth, identity, telemetry, or direct speech.
  */
 @layer awt.responsive {
-	@media (max-width: 880px) {
+	@media (max-width: 900px) {
 		.awt-agent-live-heading {
 			grid-template-columns: 1fr;
 		}
@@ -22,7 +22,7 @@
 		}
 	}
 
-	@media (max-width: 620px) {
+	@media (max-width: 560px) {
 		.awt-agent-live-console {
 			gap: 14px;
 			padding: 14px;

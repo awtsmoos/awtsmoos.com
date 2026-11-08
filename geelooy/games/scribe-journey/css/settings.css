@@ -96,7 +96,7 @@
 .settings-status[data-type='error'] { color: var(--danger); }
 .settings-footer { border-top: 1px solid var(--border); padding-top: 14px; }
 .quiet-button { opacity: 0.86; }
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	#settings-form { grid-template-columns: 1fr; }
 	.settings-group:last-child { grid-column: auto; }
 	.setting-range { grid-template-columns: 1fr 72px; }

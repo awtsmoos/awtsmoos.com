@@ -139,7 +139,7 @@ body.is-resizing {
     user-select: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
     .status-bar { font-size: 0.8em; }
     #sidebar-collapse-btn { display: none; }
     .sidebar-resizer { width: 10px; }

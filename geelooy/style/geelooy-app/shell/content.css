@@ -14,7 +14,7 @@
 	position: relative;
 	z-index: var(--g-z-base);
 }
-@media (max-width: 54rem) { .geelooy-content-region, .g-page {
+@media (max-width: 900px) { .geelooy-content-region, .g-page {
 		width: 100%;
 		padding: calc(var(--g-header-h) + 1.55rem) .85rem calc(5.5rem + env(safe-area-inset-bottom));
 	} }

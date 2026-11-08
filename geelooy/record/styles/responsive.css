@@ -6,7 +6,7 @@
  * The Awtsmoos preserves camera access across narrow, landscape, and still vessels.
  */
 
-@media (max-width: 38rem) {
+@media (max-width: 560px) {
 	.camera-header {
 		grid-template-columns: 1fr;
 	}

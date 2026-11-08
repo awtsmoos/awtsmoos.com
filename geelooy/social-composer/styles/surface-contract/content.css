@@ -25,7 +25,7 @@
 	color: #c9e7eb;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.panel,
 	.previewSticky {
 		padding: .9rem;

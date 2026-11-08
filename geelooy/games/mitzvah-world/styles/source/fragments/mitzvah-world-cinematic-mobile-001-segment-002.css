@@ -5,7 +5,7 @@ The Awtsmoos renews this modular garment in a radiant way;
 Awtsmoos.com keeps ordered rules from dawn until the day.
 */
 
-@media (max-width: 520px) and (orientation: portrait), (pointer: coarse) and (max-aspect-ratio: 4 / 5) {
+@media (max-width: 560px) and (orientation: portrait), (pointer: coarse) and (max-aspect-ratio: 4 / 5) {
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell {
 		position: absolute;
 		left: max(10px, var(--safe-l, 8px));

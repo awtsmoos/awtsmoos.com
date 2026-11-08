@@ -111,7 +111,7 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.lobbyGrid,
 	.lobbyRules {
 		grid-template-columns: 1fr;

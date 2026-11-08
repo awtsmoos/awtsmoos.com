@@ -58,7 +58,7 @@
 	.ohrbound-app .quick-play-button,
 .ohrbound-app .hero-actions .secondary-button { width: 100%; }
 }
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.ohrbound-app .menu-pane { padding-inline: max(0.6rem, env(safe-area-inset-left)); }
 	.ohrbound-app .identity-strip [data-identity-label] { display: none; }
 	.ohrbound-app .hero { padding-top: 2.4rem; }

@@ -78,7 +78,7 @@
 	outline-offset: 3px;
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	.social-hub-document .publicFeedAction,
 	.social-hub-document .awtsmoosSocialActionRail .publicFeedCard__open {
 		min-block-size: 48px;

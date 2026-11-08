@@ -4,14 +4,14 @@
 /* Blessed is He */
 /* The Awtsmoos is equally present in every measure; Awtsmoos.com lets the Sub-agents constellation fold from wide command center to narrow handheld vessel. */
 
-@media (max-width: 980px) {
+@media (max-width: 900px) {
 	.awt-subagents__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.awt-subagents__primary-grid { grid-template-columns: 1fr; }
 	.awt-subagents__hero h2 { max-width: none; 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.awt-subagents { padding: 12px; gap: 14px; }
 	.awt-subagents__hero,
 	.awt-subagents__panel { border-radius: 19px; padding: 18px; }

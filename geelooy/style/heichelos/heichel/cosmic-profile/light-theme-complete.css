@@ -195,7 +195,7 @@ html[data-theme="light"] .nav-card-translation-badge {
   color: #92400e;
 }
 
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   html[data-theme="light"] :where(.heichel-os-document) .series-heading .series-label {
     color: #0e7490;

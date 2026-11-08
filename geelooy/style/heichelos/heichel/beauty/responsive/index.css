@@ -4,10 +4,10 @@
  * Blessed is He
  * Heichel density changes intentionally across wide, medium, and hand-sized screens.
  */
-@media (max-width: 64rem) { .heichel-mobile-navigation .geelooy-main-stage {
+@media (max-width: 1100px) { .heichel-mobile-navigation .geelooy-main-stage {
 		padding-inline: var(--space-3);
 	} }
-@media (max-width: 64rem) { .heichel-mobile-navigation .heichel-nav-panel {
+@media (max-width: 1100px) { .heichel-mobile-navigation .heichel-nav-panel {
 		padding: var(--space-3);
 	} }
 @media (max-width: 47.5rem) { .heichel-mobile-navigation .geelooy-main-stage {
@@ -24,14 +24,14 @@
 		grid-template-columns: 1fr;
 		justify-items: start;
 	} }
-@media (max-width: 28rem) { .heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
+@media (max-width: 390px) { .heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
 		min-height: 22rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 28rem) { :where(.heichel-mobile-navigation) :where(#heichel-main-title) {
+@media (max-width: 390px) { :where(.heichel-mobile-navigation) :where(#heichel-main-title) {
 		font-size: clamp(2.7rem, 18vw, 4.5rem);
 	} }
-@media (max-width: 28rem) { .heichel-mobile-navigation .geelooy-bottom-nav :where(a, button) {
+@media (max-width: 390px) { .heichel-mobile-navigation .geelooy-bottom-nav :where(a, button) {
 		padding-inline: .35rem;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

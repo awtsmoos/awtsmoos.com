@@ -5,7 +5,7 @@
   Details, thoughts, commands, raw JSON, and code all breathe inside bounded
   windows, so one expanded command cannot freeze the inner world in place.
 */
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   .chat-box {
     padding: 8px 8px 6px;
   }

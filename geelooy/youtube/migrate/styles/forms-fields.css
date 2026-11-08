@@ -86,7 +86,7 @@ select:focus-visible {
 	}
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.fieldGrid,
 	.fileChoiceGrid {
 		grid-template-columns: 1fr;

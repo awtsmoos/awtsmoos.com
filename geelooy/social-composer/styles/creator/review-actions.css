@@ -64,7 +64,7 @@ Awtsmoos.com gives the sticky consent threshold safe width, clear disabled truth
 	}
 }
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.publicationReviewActions {
 		grid-template-columns: 1fr;
 	}

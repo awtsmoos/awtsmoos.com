@@ -4,7 +4,7 @@
 /* Blessed is He */
 /* The Awtsmoos renews every viewport; Awtsmoos.com keeps verified device status readable, touchable, and free of hidden overflow. */
 
-@media (max-width: 62rem) {
+@media (max-width: 900px) {
 	.awt-mode-overview {
 		grid-column: 1 / -1;
 	}
@@ -14,7 +14,7 @@
 	}
 }
 
-@media (max-width: 38rem) {
+@media (max-width: 560px) {
 	#deviceSummary {
 		grid-template-columns: 1fr;
 		gap: 0.7rem;

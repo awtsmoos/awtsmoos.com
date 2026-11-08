@@ -5,7 +5,7 @@
  * The same landing page receives a new spatial garment on smaller screens. The
  * Awtsmoos is one beneath both while Awtsmoos.com preserves every primary action.
  */
-@media (max-width: 1040px) {
+@media (max-width: 1100px) {
 	.premium-home .home-dashboard-shell {
 		grid-template-columns: 1fr;
 	}
@@ -42,7 +42,7 @@
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
-@media (max-width: 460px) {
+@media (max-width: 390px) {
 	.premium-home .g-home-actions {
 		grid-template-columns: 1fr;
 	}

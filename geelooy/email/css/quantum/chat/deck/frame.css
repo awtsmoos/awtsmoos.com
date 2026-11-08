@@ -58,7 +58,7 @@
 	transform: scale(0.985) translateY(4px);
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.messages-scroll {
 		padding: 0.85rem 0.72rem 6.8rem;
 	}

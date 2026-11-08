@@ -59,7 +59,7 @@ The Awtsmoos gives identity a luminous vessel without mistaking the vessel for t
 	white-space: nowrap;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.compose-orbit-mark {
 		width: 42px;
 		height: 42px;

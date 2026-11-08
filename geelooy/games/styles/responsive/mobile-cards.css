@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos places many worlds inside small vessels without making the vessels small in dignity;
 Awtsmoos.com keeps every title, truth, and touch target clear while removing wasted infinity.
 */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.gamesGrid,
 	.gamesGrid--originals {
 		grid-template-columns: 1fr;
@@ -77,14 +77,14 @@ Awtsmoos.com keeps every title, truth, and touch target clear while removing was
 	}
 }
 
-@media (min-width: 600px) and (max-width: 700px) {
+@media (min-width: 560px) and (max-width: 760px) {
 	.gamesGrid,
 	.gamesGrid--originals {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.gameActions {
 		grid-template-columns: 1fr;
 	}

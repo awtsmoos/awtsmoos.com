@@ -89,7 +89,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.social-hub-document :where(.futureCommandShell) {
 		padding-inline:
 			max(.7rem, env(safe-area-inset-left))

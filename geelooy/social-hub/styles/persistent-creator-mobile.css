@@ -9,7 +9,7 @@
 	display: none;
 }
 
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document {
 		padding-bottom: calc(9.8rem + var(--safe-bottom));
 	}
@@ -81,7 +81,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.social-hub-document .mobileCreatorAction {
 		min-inline-size: 0;
 		padding-inline: .62rem;

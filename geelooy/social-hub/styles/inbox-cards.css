@@ -85,7 +85,7 @@
 	cursor: pointer;
 }
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document .communicationsInboxItem {
 		grid-template-columns: 1fr;
 	}

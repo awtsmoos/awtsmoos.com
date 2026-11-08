@@ -25,7 +25,7 @@
 	);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .main,
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .content,
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .scroll-view-wrapper,

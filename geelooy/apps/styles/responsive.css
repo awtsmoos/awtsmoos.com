@@ -7,7 +7,7 @@ Awtsmoos.com keeps mobile the foundation, then adds density only when the vessel
 carry it. Safe areas remain respected and no control must flee beyond the glass.
 */
 
-@media (max-width: 479px) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="apps"] .apps-filter-disclosure > summary {
 		align-items: flex-start;
 		flex-wrap: wrap;

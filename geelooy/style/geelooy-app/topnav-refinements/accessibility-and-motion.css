@@ -23,10 +23,10 @@
 	box-shadow: var(--gnav-focus-ring);
 	border-radius: 8px;
 }
-@media (min-width: 768px) { :root {
+@media (min-width: 760px) { :root {
 		--gnav-rise-distance: 18px;
 	} }
-@media (min-width: 768px) { .g-shell nav.g-dock {
+@media (min-width: 760px) { .g-shell nav.g-dock {
 		perspective: 900px;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

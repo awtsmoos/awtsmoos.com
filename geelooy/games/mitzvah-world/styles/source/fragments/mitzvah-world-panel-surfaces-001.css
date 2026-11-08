@@ -45,7 +45,7 @@ tracking share one restrained overlay language, bounded by safe-area geometry an
 	box-shadow: var(--mw-focus-ring);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#mitzvah-world-root .Awtsmoos-sheet {
 		max-width: calc(var(--mw-viewport-inline) - 4px);
 		max-height: calc(var(--mw-viewport-block) - 4px);

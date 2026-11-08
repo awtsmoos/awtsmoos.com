@@ -56,6 +56,40 @@ body[data-geelooy-route="home"] .world-panel-heading {
 	font-size: clamp(1.25rem, 2vw, 1.8rem);
 	letter-spacing: -.035em;
 }
+/* B"H — the drawer has a visible close control: a 44px round button, always
+   tappable, never covered. It closes via MenuController (data-menu-close).
+   It is a <button>, not a <span>, so the mobile rule below that hides the
+   heading's total <span> can never hide it. */
+:where(body[data-geelooy-route="home"]) .world-panel-close {
+	flex: none;
+	align-self: center;
+	display: inline-grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border: 1px solid var(--panel-border);
+	border-radius: 50%;
+	background: var(--panel-background);
+	color: var(--text-primary);
+	font-size: 1.35rem;
+	line-height: 1;
+	cursor: pointer;
+	transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .world-panel-close:hover {
+	border-color: var(--panel-border-strong);
+	background: var(--home-accent-soft);
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .world-panel-close:active {
+	transform: scale(.96);
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .world-panel-close:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .world-panel::-webkit-scrollbar {
 	width: 10px;
@@ -78,18 +112,18 @@ body[data-geelooy-route="home"] .world-panel-heading {
 		transform: translateY(0) scale(1);
 	}
 }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .world-panel {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .world-panel {
 		top: calc(100% + .4rem);
 		width: calc(100vw - 16px);
 		max-height: calc(100dvh - 78px - env(safe-area-inset-bottom));
 		padding: .72rem;
 		border-radius: 1.05rem;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .world-panel-heading {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .world-panel-heading {
 		padding: .15rem .15rem .7rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .world-panel-heading span {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .world-panel-heading span {
 		display: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

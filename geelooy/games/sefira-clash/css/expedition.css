@@ -97,7 +97,7 @@
 	text-transform: uppercase;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.expeditionPanel {
 		padding-inline: 10px;
 	}

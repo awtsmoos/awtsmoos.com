@@ -39,7 +39,7 @@
   font: 800 12px var(--font-ui);
 }
 .civilization-menu-item:hover { color: var(--neon-cyan); background: rgba(0,246,255,.14); }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .civilization-launcher { width: 36px; letter-spacing: 0; }
   .civilization-launcher-menu { left: -44px; }
 }

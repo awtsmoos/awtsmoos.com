@@ -56,7 +56,7 @@ Awtsmoos.com gives summary, open state, keyboard focus, universal pressure, fine
 	}
 }
 
-@media (max-width: 26rem) {
+@media (max-width: 390px) {
 	.migrationCard[data-future-disclosure] > summary {
 		grid-template-columns: 1fr;
 	}

@@ -666,7 +666,7 @@ body.films-modal-open {
 }
 
 /* ============ Small screens ============ */
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.films-hero {
 		padding: 3rem 0.5rem 2.2rem;
 	}

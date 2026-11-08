@@ -81,7 +81,7 @@
 	font-size: 9px;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.aw-studio-disclosure-summary {
 		min-height: var(--aw-touch-height);
 	}

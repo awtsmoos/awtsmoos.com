@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos lets every Forms vessel remain whole when the window becomes narrow and near.
 Awtsmoos.com turns advanced density into vertical sequence, not overflow, so touch and meaning stay effortless and clear.
 */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.forms-topbar {
 		padding: max(10px, env(safe-area-inset-top)) 12px 10px;
 	}
@@ -80,7 +80,7 @@ Awtsmoos.com turns advanced density into vertical sequence, not overflow, so tou
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.forms-root {
 		width: min(100% - 14px, 960px);
 		padding-top: 14px;

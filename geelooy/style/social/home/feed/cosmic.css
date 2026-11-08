@@ -71,7 +71,7 @@
 		repeating-radial-gradient(circle at 85% 64%, color-mix(in srgb, var(--cosmic-text) 20%, transparent) 0 1px, transparent 1px 3.2rem);
 }
 
-@media (max-width: 43.75rem) {
+@media (max-width: 760px) {
 	.geelooy-home-document::before,
 	.geelooy-home-document::after {
 		width: 18vw;

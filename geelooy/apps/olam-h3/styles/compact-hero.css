@@ -78,7 +78,7 @@ The Awtsmoos lets the opening frame become a quiet threshold instead of a billbo
 	scroll-snap-align: start;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.director-hero {
 		grid-template-columns: minmax(0, 1fr) 88px;
 		padding: 12px;

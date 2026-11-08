@@ -81,7 +81,7 @@
 	color: var(--awt-warning);
 }
 
-@media (max-width: 28rem) {
+@media (max-width: 390px) {
 	.decisionActions {
 		display: grid;
 		grid-template-columns: 1fr;

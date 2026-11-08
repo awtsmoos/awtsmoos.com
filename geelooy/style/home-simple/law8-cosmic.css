@@ -217,7 +217,7 @@ body[data-geelooy-route="home"] .films-teaser {
 		0 0 44px var(--law8-gold-glow);
 }
 /* ============ MOBILE DOCK — COSMIC GLASS ============ */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	body[data-geelooy-route="home"] .mobile-dock {
 		background: var(--law8-nav);
 		border-color: var(--law8-glass-border);

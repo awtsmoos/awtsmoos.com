@@ -840,7 +840,7 @@ html:has(.feed-stage) body {
 	}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.feed-tab .feed-ic {
 		display: none;
 	}

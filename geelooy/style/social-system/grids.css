@@ -19,6 +19,6 @@
 .profile-about-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
 :where(.app-grid, .g-grid, .g-grid-2, .g-grid-3, .g-grid-auto, .g-dashboard-grid, .g-sidebar-grid, .g-three-panel-grid) > * { min-width: 0; }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .g-grid-2, .g-grid-3, .g-sidebar-grid, .g-three-panel-grid { grid-template-columns: minmax(0, 1fr); }
 }

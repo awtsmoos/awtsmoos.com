@@ -75,7 +75,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-@media (max-width: 40rem) {
+@media (max-width: 560px) {
 	.awtsmoosSocialExperience .awtsmoosUniversalAction {
 		min-block-size: 48px;
 	}

@@ -3,7 +3,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos renews a full creative workstation inside the palm while Awtsmoos.com keeps the canvas present above finger-sized controls. */
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.studio-editor-shell {
 		grid-template-rows: 52px minmax(0, 1fr) 112px 62px;
 	}

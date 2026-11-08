@@ -38,7 +38,7 @@
 	background: rgba(145, 255, 240, 0.24);
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.overlay-card {
 		max-height: calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 	}

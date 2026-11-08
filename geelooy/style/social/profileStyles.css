@@ -132,14 +132,14 @@ html .awtsmoosDrop :focus-visible {
 	outline-offset: 2px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 600px) { html .awtsmoos-profile-dropdown, html :where(#awtsmoosDrop) {
+@media (max-width: 560px) { html .awtsmoos-profile-dropdown, html :where(#awtsmoosDrop) {
 		max-width: calc(100vw - .75rem);
 	} }
-@media (max-width: 600px) { html .awtsmoosDrop .prim {
+@media (max-width: 560px) { html .awtsmoosDrop .prim {
 		max-width: 5.6rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 600px) { html :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
+@media (max-width: 560px) { html :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
 		position: fixed;
 		left: max(.55rem, env(safe-area-inset-left));
 		right: max(.55rem, env(safe-area-inset-right));

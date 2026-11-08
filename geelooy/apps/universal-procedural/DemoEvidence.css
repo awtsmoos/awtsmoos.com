@@ -95,7 +95,7 @@ pre {
 	color: #9fc8ad;
 	font-size: .84rem;
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	.summary-shell {
 		grid-template-columns: 1fr;
 	}

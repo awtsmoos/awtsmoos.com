@@ -34,7 +34,7 @@ body.social-hub-document.geelooy-app-shell {
 	color: #b9f5fb;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.social-hub-document :where(.filterRow, .actionRow, .mediaActions) {
 		align-items: stretch;
 		flex-direction: column;

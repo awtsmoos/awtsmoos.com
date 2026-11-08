@@ -74,7 +74,7 @@ body[data-geelooy-route="docs"] .api-example pre {
 	white-space: pre-wrap;
 	word-break: break-word;
 }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] .api-evidence-grid {
 		grid-template-columns: 1fr;
 	}

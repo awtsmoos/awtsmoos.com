@@ -18,7 +18,7 @@
 	box-shadow: 0 0 16px rgba(91, 203, 231, 0.12);
 }
 
-@media (max-width: 600px) and (min-height: 521px) {
+@media (max-width: 560px) and (min-height: 521px) {
 	.run-drawer {
 		top: auto;
 		left: max(5px, env(safe-area-inset-left));
@@ -54,7 +54,7 @@
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.run-rail {
 		max-width: calc(100vw - 116px - var(--safe-left));
 	}
@@ -65,7 +65,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.run-rail {
 		max-width: calc(100vw - 108px - var(--safe-left));
 	}

@@ -57,7 +57,7 @@ Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundati
 .about-page__primary:active {
 	transform: translateY(1px) scale(.985);
 }
-@media (min-width: 46rem) {
+@media (min-width: 760px) {
 	.about-page__hero {
 		grid-template-columns: minmax(0, 1fr) auto;
 		align-items: end;

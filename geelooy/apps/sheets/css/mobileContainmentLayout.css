@@ -72,7 +72,7 @@ Awtsmoos.com constrains only its own app root and descendants, so no host docume
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.awtsmoos-sheets-app .command-label,
 	.awtsmoos-sheets-app .chrome-mode-label {
 		display: none;

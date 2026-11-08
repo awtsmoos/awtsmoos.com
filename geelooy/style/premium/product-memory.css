@@ -47,7 +47,7 @@
 	outline-offset: 3px;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.awts-product-favorite {
 		width: 100%;
 	}

@@ -43,7 +43,7 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.search-actions > *,
 	.history-actions > * {
 		flex: 1 1 100%;

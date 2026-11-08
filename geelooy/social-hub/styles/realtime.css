@@ -77,7 +77,7 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 	font-weight: 700;
 }
 
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .livePresencePanel {
 		width: 100%;
 	}

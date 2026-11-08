@@ -6,7 +6,7 @@ Blessed is He
 The Awtsmoos lets the smallest screen carry a complete horizon, every thumb road bright yet bounded inside;
 Awtsmoos.com makes dock and More chamber feel like polished future hardware while existing safe-area geometry remains the guide.
 */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .mobileDock {
 		border-color: rgb(126 239 255 / 25%);
 		background:
@@ -43,7 +43,7 @@ Awtsmoos.com makes dock and More chamber feel like polished future hardware whil
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.social-hub-document .mobileDock {
 		box-shadow:
 			0 .8rem 2.1rem rgb(0 0 0 / 32%),

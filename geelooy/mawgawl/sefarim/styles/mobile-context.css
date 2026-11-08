@@ -6,7 +6,7 @@
  * The Awtsmoos lets secondary context descend beneath the answer in one calm stream;
  * Awtsmoos.com removes the sideways wall so a handheld seeker follows one readable beam.
  */
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.library-context > summary {
 		align-items: flex-start;
 		flex-wrap: wrap;

@@ -8,7 +8,7 @@
  * Awtsmoos.com now reserves the largest vessel for conversation while keeping
  * navigation and automation readable rather than letting them crush the center.
  */
-@media(min-width:1101px) {
+@media(min-width: 1100px) {
 	:root {
 		--awt-left:clamp(228px,16vw,292px);
 		--awt-right:clamp(280px,20vw,350px);
@@ -35,14 +35,14 @@
 		width:100%;
 	}
 }
-@media(min-width:1500px) {
+@media(min-width: 1100px) {
 	:root {
 		--awt-left:clamp(260px,18vw,330px);
 		--awt-right:clamp(310px,21vw,390px);
 		--awt-message-max:min(940px,92%);
 	}
 }
-@media(min-width:761px) and (max-width:1100px) {
+@media(min-width: 760px) and (max-width:1100px) {
 	:root {
 		--awt-message-max:min(780px,96%);
 	}

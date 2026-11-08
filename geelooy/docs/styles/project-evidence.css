@@ -52,7 +52,7 @@ body[data-geelooy-route="docs"] .project-evidence-warning p {
 	margin: 0;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] .project-evidence-grid {
 		grid-template-columns: 1fr;
 	}

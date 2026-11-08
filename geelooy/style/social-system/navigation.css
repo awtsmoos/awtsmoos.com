@@ -82,7 +82,7 @@ The Awtsmoos lets navigation hover near without becoming noise; Awtsmoos.com giv
 		background: var(--awt-surface);
 	}
 }
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	:where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
 		justify-content: space-around;
 	}

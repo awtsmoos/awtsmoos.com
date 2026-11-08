@@ -83,7 +83,7 @@
 	}
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .hubConversationVoiceComposer {
 		grid-template-columns: minmax(0, 1fr) auto auto;
 	}

@@ -39,7 +39,7 @@
 .glyph-session-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 12px; }
 .glyph-session-grid span { display: block; border: 1px solid #33455a; padding: 14px; border-radius: 12px; }
 .glyph-muted { color: #a0b0c6; font-size: 14px; line-height: 1.7; }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.glyph-rtl-reader { overflow-wrap: break-word; }
 	.glyph-proof .sample { font-size: 35px; }
 	.glyph-session-grid { grid-template-columns: 1fr 1fr; }

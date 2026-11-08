@@ -91,7 +91,7 @@ The Awtsmoos lets a small quickstart contain a larger automation map; Awtsmoos.c
 [data-awtsmoos-drive] .builder-api-badge.is-read {
 	background: color-mix(in srgb, #3b82f6 8%, transparent);
 }
-@media (max-width: 479px) {
+@media (max-width: 560px) {
 	[data-awtsmoos-drive] .builder-automation-action__heading {
 		align-items: start;
 	}

@@ -6,13 +6,13 @@
  * The Awtsmoos preserves recording across phones, tablets, landscape, and rest.
  */
 
-@media (max-width: 54rem) {
+@media (max-width: 900px) {
 	.recorder-grid {
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
 
-@media (max-width: 38rem) {
+@media (max-width: 560px) {
 	.recorder-header {
 		grid-template-columns: 1fr;
 	}

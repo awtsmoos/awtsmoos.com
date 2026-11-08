@@ -74,7 +74,7 @@ The Awtsmoos lets a frame glow before it exists; Awtsmoos.com turns the opening 
 	color: var(--accent);
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.director-hero {
 		grid-template-columns: 1fr;
 		padding: 15px;

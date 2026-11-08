@@ -109,7 +109,7 @@
 	text-decoration: underline;
 	text-underline-offset: .18em;
 }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.library-history-controls {
 		align-items: stretch;
 		flex-direction: column;

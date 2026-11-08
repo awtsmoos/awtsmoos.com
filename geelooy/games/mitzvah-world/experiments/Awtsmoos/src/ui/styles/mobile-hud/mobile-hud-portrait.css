@@ -7,7 +7,7 @@
  * Awtsmoos.com bounds each summary so one long panel cannot swallow the whole visible plane.
  */
 
-@media (max-width: 820px) and (orientation: portrait) {
+@media (max-width: 900px) and (orientation: portrait) {
 	#mitzvah-world-root [data-mobile-hud-zone="player-status"] {
 		position: fixed;
 		top: var(--mh-safe-top);

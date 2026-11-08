@@ -100,7 +100,7 @@
 	background: #020202;
 	box-shadow: 0 16px 44px rgba(0, 0, 0, .42);
 }
-@media (max-width: 620px) and (orientation: portrait) {
+@media (max-width: 560px) and (orientation: portrait) {
 	.boards:has(.player-container:not([hidden]) + .player-container:not([hidden])) {
 		align-items: center;
 	}

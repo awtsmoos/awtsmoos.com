@@ -95,7 +95,7 @@
     word-spacing: .045em;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .post-reader-localized-context .awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root.awtsmoos-inline-commentary-root{
         border-radius: 16px;
         box-shadow: 0 12px 28px rgba(77, 53, 24, .12);

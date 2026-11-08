@@ -10,7 +10,7 @@
  * the smallest vessel is the base truth, and larger garments arrive only where measured space has been seen.
  */
 
-@media (min-width: 42rem) {
+@media (min-width: 760px) {
 	.minimal-meadow-bootstrap-actions {
 		inset-inline-start: auto;
 		inset-inline-end: max(1rem, env(safe-area-inset-right));
@@ -19,7 +19,7 @@
 	}
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 1100px) {
 	.minimal-meadow-bootstrap-actions {
 		inset-block-end: max(1.1rem, env(safe-area-inset-bottom));
 	}

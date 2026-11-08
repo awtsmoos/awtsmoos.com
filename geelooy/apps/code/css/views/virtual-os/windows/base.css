@@ -52,7 +52,7 @@
     background: rgba(0, 0, 0, 0.82);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .virtual-window {
         min-width: 240px;
         min-height: 180px;

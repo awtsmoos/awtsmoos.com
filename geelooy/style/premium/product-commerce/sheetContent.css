@@ -75,7 +75,7 @@
 	border-radius: 8px;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.awts-commerce__footer {
 		justify-content: flex-start;
 	}

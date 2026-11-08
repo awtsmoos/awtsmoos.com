@@ -8,7 +8,7 @@
  * The Awtsmoos gives every finite viewport enough room for board, transport, and choice to coexist;
  * Awtsmoos.com lets quick visual garments glide beneath one thumb while advanced machinery waits folded below.
  */
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.chess-studio-header {
 		padding: 12px 14px 10px;
 	}

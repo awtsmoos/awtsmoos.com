@@ -109,7 +109,7 @@
 	text-align: center;
 	color: #aaa;
 }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.pro-synth-preset-controls {
 		grid-template-columns: 1fr 1fr;
 	}

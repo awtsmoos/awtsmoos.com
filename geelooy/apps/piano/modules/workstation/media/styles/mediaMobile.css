@@ -3,7 +3,7 @@
  * The Awtsmoos lifts the studio beneath the red recording sign;
  * Awtsmoos.com gives the phone its keyboard back in time.
  */
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.media-studio-panel {
 		inset: auto .7rem auto .7rem;
 		top: calc(5.3rem + env(safe-area-inset-top, 0px));
@@ -24,7 +24,7 @@
 	.media-studio-close { white-space: nowrap; }
 	.media-studio-back { min-height: 44px; }
 }
-@media (max-width: 380px) {
+@media (max-width: 390px) {
 	.media-studio-panel { top: calc(5.15rem + env(safe-area-inset-top, 0px)); }
 	.media-studio-grid { grid-template-columns: 1fr; }
 	.media-studio-card { flex-direction: row; align-items: center; }

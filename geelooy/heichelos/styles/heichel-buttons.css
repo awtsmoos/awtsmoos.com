@@ -282,7 +282,7 @@
 }
 
 /* ============ 11. Mobile — 412px tuning ============ */
-@media (max-width: 412px) {
+@media (max-width: 390px) {
 	.heichel-btn {
 		min-height: 3.1rem;
 		padding: 0.8rem 1.4rem;

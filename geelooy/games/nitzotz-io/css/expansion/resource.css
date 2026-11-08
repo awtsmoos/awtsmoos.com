@@ -60,7 +60,7 @@
 	min-width: 42px;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.resource-rail {
 		display: none;
 	}

@@ -71,6 +71,101 @@
       "name": "--spaces-shadow",
       "owner": "heichelos-spaces",
       "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--aw-bp-390",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-bp-560",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-bp-760",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-bp-900",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-bp-1100",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-base",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-content",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-content-top",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-header",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-header-top",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-overlay",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-overlay-top",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-dialog",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-dialog-top",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-toast",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-toast-top",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-topmost",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-ceiling",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
+    },
+    {
+      "name": "--aw-z-max",
+      "owner": "awtsmoos-scale",
+      "files": ["geelooy/style/awtsmoos-scale-tokens.css"]
     }
   ]
 }

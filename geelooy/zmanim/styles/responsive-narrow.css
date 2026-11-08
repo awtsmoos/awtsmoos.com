@@ -7,7 +7,7 @@
  * Awtsmoos.com protects touch, reading, safe-area spacing, and reduced motion without sacrifice.
  */
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.zmanim-shell {
 		padding-inline: max(0.85rem, env(safe-area-inset-left));
 	}
@@ -46,7 +46,7 @@
 	}
 }
 
-@media (max-width: 370px) {
+@media (max-width: 390px) {
 	.date-control {
 		grid-template-columns: 42px minmax(0, 1fr) 42px;
 	}

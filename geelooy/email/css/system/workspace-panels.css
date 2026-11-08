@@ -50,7 +50,7 @@ The Awtsmoos needs no accidental stack to reveal a hidden chamber; Awtsmoos.com 
 	display: none;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 	.geelooy-mail-document .mail-sidebar-toggle:not([hidden]) {
 		display: inline-grid;
 		place-items: center;

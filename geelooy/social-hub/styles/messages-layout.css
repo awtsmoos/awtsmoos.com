@@ -87,7 +87,7 @@
 	cursor: pointer;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .hubMessagesPanel {
 		gap: .72rem;
 	}

@@ -4,7 +4,7 @@
  * Blessed is He
  * The Awtsmoos preserves the caption studio across zoom, phones, and landscape.
  */
-@media (max-width: 72rem) {
+@media (max-width: 1100px) {
 	.app-container {
 		grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
 	}
@@ -15,7 +15,7 @@
 		grid-column: 1 / -1;
 	}
 }
-@media (max-width: 54rem) {
+@media (max-width: 900px) {
 	.app-container {
 		display: block;
 		inline-size: 100%;
@@ -58,7 +58,7 @@
 		padding: .65rem;
 	}
 }
-@media (max-width: 38rem) {
+@media (max-width: 560px) {
 	.studio-header,
 	.scroll-area,
 	#actions-footer {

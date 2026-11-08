@@ -65,10 +65,10 @@
 @media(max-width:900px) { .message-action-root {
 		max-width:100%;
 	} }
-@media(max-width:360px) { body[data-mobile-scene] .message, body[data-mobile-scene] .bubble {
+@media(max-width: 390px) { body[data-mobile-scene] .message, body[data-mobile-scene] .bubble {
 		padding:12px;
 	} }
-@media(max-width:360px) { .mobile-bottom-dock em {
+@media(max-width: 390px) { .mobile-bottom-dock em {
 		font-size:9px;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

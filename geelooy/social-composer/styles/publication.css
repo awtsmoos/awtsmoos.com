@@ -81,7 +81,7 @@
 	max-width: none;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.headerStats,
 	.questionFields {
 		grid-template-columns: 1fr;

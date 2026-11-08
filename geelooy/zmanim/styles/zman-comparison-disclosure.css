@@ -20,13 +20,13 @@
 	gap: .28rem;
 }
 
-@media (min-width: 521px) {
+@media (min-width: 560px) {
 	.zman-comparison-details > .zman-comparison-body {
 		display: grid;
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.zman-comparison-details {
 		width: min(100%, 11.5rem);
 	}

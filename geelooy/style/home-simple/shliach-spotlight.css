@@ -29,7 +29,7 @@ Awtsmoos.com keeps layout small and readable so mobile visitors can find the wor
 	position: relative;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.shliach-spotlight-card {
 		align-items: start;
 		gap: 1.15rem;

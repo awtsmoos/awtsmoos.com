@@ -160,7 +160,7 @@
     white-space: pre-wrap;
 }
 
-@media (max-width: 820px) {
+@media (max-width: 900px) {
     .browser-runtime-studio-grid { grid-template-columns: 1fr; }
     .browser-runtime-toolbar { flex-wrap: wrap; }
 }

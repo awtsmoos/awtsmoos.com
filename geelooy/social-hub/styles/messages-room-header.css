@@ -106,7 +106,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .hubConversationHeader {
 		padding-top: .45rem;
 	}

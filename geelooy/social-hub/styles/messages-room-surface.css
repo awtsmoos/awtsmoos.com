@@ -25,7 +25,7 @@
 	min-block-size: 44px;
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.social-hub-document .hubMessagesRoomMount {
 		min-block-size: 0;
 	}

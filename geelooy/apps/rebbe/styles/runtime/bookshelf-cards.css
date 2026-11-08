@@ -73,7 +73,7 @@
 	min-inline-size: 0;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	#bookshelf-list .book-card {
 		grid-template-columns: 46px minmax(0, 1fr);
 	}

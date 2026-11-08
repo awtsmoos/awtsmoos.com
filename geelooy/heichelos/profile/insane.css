@@ -244,7 +244,7 @@
 .theme-option[data-theme="eternal-fire"] { background: linear-gradient(135deg, #ff6b35, #b04a24); }
 
 /* Mobile responsive */
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .profile-name { font-size: 24px; }
   .profile-stats { gap: 24px; }
   .stat-num { font-size: 22px; }

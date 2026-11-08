@@ -6,17 +6,17 @@
  * The Awtsmoos lets desktop identity breathe beneath the one true global roof without forcing geometry through brittle decree;
  * Awtsmoos.com keeps profile density here while final route layout owns page clearance, so each vessel reveals one responsibility cleanly.
  */
-@media (min-width: 70rem) { .heichel-os-document .all {
+@media (min-width: 1100px) { .heichel-os-document .all {
 		padding-top: 0;
 		padding-bottom: 0;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .geelooy-main-stage {
+@media (min-width: 1100px) { .heichel-os-document .geelooy-main-stage {
 		width: min(calc(100% - 2rem), var(--heichel-profile-width));
 		margin: 0 auto;
 		padding-inline: 0;
 		padding-bottom: 2rem;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .cosmic-heichel-profile {
+@media (min-width: 1100px) { .heichel-os-document .cosmic-heichel-profile {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;
 		grid-template-areas:
@@ -24,14 +24,14 @@
 			"actions tabs";
 		min-height: 0;
 	} }
-@media (min-width: 70rem) { .heichel-profile-cover {
+@media (min-width: 1100px) { .heichel-profile-cover {
 		position: absolute;
 		inset: 0;
 		height: auto;
 		opacity: 0.38;
 		pointer-events: none;
 	} }
-@media (min-width: 70rem) { .heichel-profile-identity {
+@media (min-width: 1100px) { .heichel-profile-identity {
 		position: relative;
 		z-index: 1;
 		grid-area: identity;
@@ -41,20 +41,20 @@
 		margin: 0;
 		padding: 0.85rem 1rem 0.65rem;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .heichel-seal {
+@media (min-width: 1100px) { .heichel-os-document .heichel-seal {
 		width: 4.6rem;
 		height: 4.6rem;
 		font-size: 1.2rem;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .hero-kicker {
+@media (min-width: 1100px) { .heichel-os-document .hero-kicker {
 		margin-bottom: 0.2rem;
 		font-size: 0.58rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(#heichel-main-title) {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(#heichel-main-title) {
 		font-size: clamp(1.8rem, 3vw, 2.65rem);
 	} }
-@media (min-width: 70rem) { .heichel-os-document .hero-description {
+@media (min-width: 1100px) { .heichel-os-document .hero-description {
 		display: -webkit-box;
 		overflow: hidden;
 		margin-top: 0.35rem;
@@ -63,7 +63,7 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	} }
-@media (min-width: 70rem) { .heichel-os-document .heichel-profile-stats {
+@media (min-width: 1100px) { .heichel-os-document .heichel-profile-stats {
 		position: relative;
 		z-index: 1;
 		grid-area: stats;
@@ -72,7 +72,7 @@
 		margin: 0 1rem 0 0;
 		padding: 0.65rem 0;
 	} }
-@media (min-width: 70rem) { .heichel-profile-actions {
+@media (min-width: 1100px) { .heichel-profile-actions {
 		position: relative;
 		z-index: 1;
 		grid-area: actions;
@@ -80,10 +80,10 @@
 		align-content: center;
 		padding: 0.55rem 1rem 0.7rem;
 	} }
-@media (min-width: 70rem) { .heichel-profile-action {
+@media (min-width: 1100px) { .heichel-profile-action {
 		min-height: 2.35rem;
 	} }
-@media (min-width: 70rem) { .heichel-profile-tabs {
+@media (min-width: 1100px) { .heichel-profile-tabs {
 		position: relative;
 		z-index: 1;
 		grid-area: tabs;

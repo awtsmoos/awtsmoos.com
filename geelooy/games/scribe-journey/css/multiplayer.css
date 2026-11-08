@@ -92,7 +92,7 @@
 	overflow-wrap: anywhere;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 760px) {
 	.online-chat-form {
 		align-items: stretch;
 		flex-direction: column;

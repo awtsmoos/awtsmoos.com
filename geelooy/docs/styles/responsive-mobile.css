@@ -6,7 +6,7 @@
  * The Awtsmoos lets a wide documentation map become a quiet mobile path; Awtsmoos.com turns the nav rail
  * into a retractable drawer and search into a thumb-reachable command without covering the document beneath.
  */
-@media (max-width: 51.25rem) {
+@media (max-width: 900px) {
 	body[data-geelooy-route="docs"] .topbar {
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 10px;
@@ -71,7 +71,7 @@
 	}
 }
 
-@media (max-width: 32.5rem) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] .top-actions .icon-button:not(.mobile-only) {
 		padding-inline: 9px;
 	}

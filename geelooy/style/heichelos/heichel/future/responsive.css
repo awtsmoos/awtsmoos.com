@@ -2,10 +2,10 @@
 /* B"H
  * Chapter 730: The small screen is not a lesser world; the wide screen is not an empty desert.
  */
-@media (min-width: 1180px) {
+@media (min-width: 1100px) {
   .heichel-mobile-navigation .heichel-nav-panel { padding: clamp(1.2rem, 2vw, 1.8rem); }
 }
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .dynamic-grid, .heichel-grid, .series-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
 }
 @media (max-width: 560px) {

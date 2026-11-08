@@ -73,7 +73,7 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 	overflow-wrap: anywhere;
 }
 
-@media (min-width: 40.01rem) {
+@media (min-width: 560px) {
 	.social-hub-document .creatorLaunch {
 		margin: 1rem 0;
 		padding: clamp(.95rem, 2.2vw, 1.25rem);

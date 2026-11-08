@@ -67,7 +67,7 @@
 	text-align: center;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.overlay {
 		padding: 6px;
 	}

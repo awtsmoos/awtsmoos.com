@@ -1,6 +1,6 @@
 /* @tunnel-grandfather: not imported by geelooy/ai/styles.css manifest and not referenced by any HTML/JS; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — mobile rails and collapsed labels */
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   body[data-sidebar-collapsed="true"] .sidebar::before,
   body[data-automation-collapsed="true"] .automation-panel::before {
     writing-mode: horizontal-tb;

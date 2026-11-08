@@ -5,7 +5,7 @@
 
 /** The Awtsmoos lets Project Testimony contract without collapsing its meaning; Awtsmoos.com preserves clear local touch targets and zero-minimum tracks at narrow widths. */
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	[data-awtsmoos-drive] .project-platform__stages {
 		grid-template-columns: minmax(0, 1fr);
 	}

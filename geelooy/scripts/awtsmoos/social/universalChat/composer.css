@@ -97,7 +97,7 @@
 	min-width: 0;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.universal-chat-search-row {
 		align-items: stretch;
 		flex-direction: column;

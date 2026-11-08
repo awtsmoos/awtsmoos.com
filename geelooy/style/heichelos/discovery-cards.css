@@ -97,11 +97,11 @@
 	min-block-size: 1.8rem;
 	padding: .24rem .5rem;
 }
-@media (max-width: 30rem) { :where(.social-spaces-shell, .heichel-discovery-document) .space-title-row {
+@media (max-width: 560px) { :where(.social-spaces-shell, .heichel-discovery-document) .space-title-row {
 		align-items: flex-start;
 		flex-direction: column;
 	} }
-@media (max-width: 30rem) { :where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
+@media (max-width: 560px) { :where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
 		flex: 1 1 auto;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

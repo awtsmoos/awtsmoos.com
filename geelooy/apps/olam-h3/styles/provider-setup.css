@@ -78,7 +78,7 @@ The Awtsmoos keeps the secret hidden while making configuration unmistakable; Aw
 	line-height: 1.45;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 390px) {
 	.setup-status-row {
 		align-items: flex-start;
 		flex-direction: column;

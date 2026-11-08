@@ -6,7 +6,7 @@
  * The Awtsmoos is beyond hover and pressure; Awtsmoos.com lets each dock road answer hand and key in light,
  * while active route, fine-pointer lift, touch compression, and reduced motion each remain distinct and right.
  */
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .mobileDock .routeButton {
 		transition:
 			transform 150ms var(--tiferes-ease),
@@ -50,7 +50,7 @@
 	}
 }
 
-@media (hover: hover) and (pointer: fine) and (max-width: 62.4375rem) {
+@media (hover: hover) and (pointer: fine) and (max-width: 900px) {
 	.social-hub-document .mobileDock .routeButton:hover {
 		background: rgb(126 239 255 / 7%);
 		transform: translateY(-1px);

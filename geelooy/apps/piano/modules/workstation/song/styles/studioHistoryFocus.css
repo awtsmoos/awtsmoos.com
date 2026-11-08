@@ -38,7 +38,7 @@
 	grid-column: 1 / -1;
 	width: 100%;
 }
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.multitrack-editor .multitrack-heading {
 		padding: 2px 1px 4px;
 		flex-wrap: nowrap;

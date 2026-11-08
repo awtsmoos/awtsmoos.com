@@ -145,7 +145,7 @@
 	color: var(--g-dim);
 	text-shadow: none;
 }
-@media (min-width: 42rem) { .universal-chat-header-launcher {
+@media (min-width: 760px) { .universal-chat-header-launcher {
 		inline-size: auto;
 		min-inline-size: 44px;
 		max-inline-size: none;
@@ -153,7 +153,7 @@
 		font-size: .82rem;
 		line-height: 1.2;
 	} }
-@media (min-width: 42rem) { .universal-chat-header-launcher::before {
+@media (min-width: 760px) { .universal-chat-header-launcher::before {
 		content: none;
 	} }
 @media (prefers-reduced-motion: reduce) { .g-header-action, .g-header-profile .profile-trigger {
@@ -162,7 +162,7 @@
 /* B"H 2026-10-08: narrow-desktop profile compaction. Below 68rem the profile
    trigger sheds its text copy and becomes a 46px identity button, matching the
    42rem mobile law, so the actions track keeps breathing room. */
-@media (max-width: 68rem) {
+@media (max-width: 1100px) {
 	.g-header-profile {
 		flex: 0 0 auto;
 		inline-size: 46px;

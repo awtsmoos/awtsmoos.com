@@ -11,7 +11,7 @@
 	display: none;
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-mobile-identity {
 		display: grid;
 		grid-template-columns: 2.55rem minmax(0, 1fr) auto;

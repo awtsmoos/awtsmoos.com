@@ -10,7 +10,7 @@
 .social-hub-document .homeDisclosureSummary { display: flex; align-items: center; justify-content: space-between; gap: .55rem; }
 .social-hub-document .homeDisclosureSummary span { display: flex; gap: .6rem; align-items: baseline; min-inline-size: 0; }
 .social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; padding: .12rem .55rem; border: 1px solid rgb(126 239 255 / 18%); border-radius: 999px; background: rgb(126 239 255 / 8%); color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document .homePanel { display: flex; flex-direction: column; gap: .5rem; }
 	.social-hub-document .homeCreationCard {
 		order: 0;
@@ -89,6 +89,6 @@
 	}
 	.social-hub-document .homeActionsDisclosure .quickActionGrid > *::before { display: none; }
 }
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.social-hub-document .homePulseDisclosure .pulseGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

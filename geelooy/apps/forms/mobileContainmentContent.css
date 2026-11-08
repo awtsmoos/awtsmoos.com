@@ -57,7 +57,7 @@ Awtsmoos.com keeps advanced content readable and bounded so deeper power expands
 	overflow: hidden;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.advanced-summary,
 	.field-advanced-summary {
 		align-items: center;
@@ -68,7 +68,7 @@ Awtsmoos.com keeps advanced content readable and bounded so deeper power expands
 	}
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.advanced-summary-badge,
 	.field-advanced-summary small {
 		max-width: 46%;

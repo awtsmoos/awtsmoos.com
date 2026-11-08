@@ -4,23 +4,23 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos compresses deep context on small Awtsmoos.com vessels without hiding state.
 */
-@media (max-width: 58rem) { .g-context-ribbon {
+@media (max-width: 900px) { .g-context-ribbon {
 		top: max(5.35rem, calc(env(safe-area-inset-top) + 5.35rem));
 		width: calc(100% - 1rem);
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 0.45rem;
 		border-radius: 1.15rem;
 	} }
-@media (max-width: 58rem) { .g-context-trail, .g-context-actions {
+@media (max-width: 900px) { .g-context-trail, .g-context-actions {
 		display: none;
 	} }
-@media (max-width: 58rem) { .g-context-identity {
+@media (max-width: 900px) { .g-context-identity {
 		grid-template-columns: auto minmax(0, 1fr);
 	} }
-@media (max-width: 58rem) { .g-context-details {
+@media (max-width: 900px) { .g-context-details {
 		grid-column: 1 / -1;
 	} }
-@media (max-width: 58rem) { body[data-g-context-visible] .geelooy-content-region, body[data-g-context-visible] .g-page {
+@media (max-width: 900px) { body[data-g-context-visible] .geelooy-content-region, body[data-g-context-visible] .g-page {
 		padding-top: 11.5rem;
 	} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

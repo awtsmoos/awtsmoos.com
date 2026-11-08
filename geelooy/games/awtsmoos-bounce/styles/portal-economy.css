@@ -45,7 +45,7 @@
 	color: #c8fff5;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 	.hit-testimony {
 		font-size: 0.58rem;
 		text-align: center;

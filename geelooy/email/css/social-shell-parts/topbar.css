@@ -55,7 +55,7 @@ html .mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content { background: v
 html .mail-sidebar-profile-mount .dropdown-content a { color: var(--mail-text); }
 html .mail-sidebar-profile-mount .dropdown-content a:hover { background: var(--mail-soft); }
 html .mail-sidebar-profile-mount .dropdown-content a:focus-visible { outline: 2px solid var(--mail-accent); outline-offset: 2px; }
-@media (max-width: 620px) { html .mail-social-topbar { align-items: stretch; display: grid; } html .mail-top-links { order: 2; } }
+@media (max-width: 560px) { html .mail-social-topbar { align-items: stretch; display: grid; } html .mail-top-links { order: 2; } }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .mail-sidebar-profile-mount .awtsmoosDrop .btn.dropt:hover {

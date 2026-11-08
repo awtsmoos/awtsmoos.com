@@ -82,7 +82,7 @@
 body[data-left-handed='true'] #mobile-controls { flex-direction: row-reverse; }
 body[data-left-handed='true'] .joystick-pad { transform-origin: bottom right; }
 body[data-left-handed='true'] #action-button { transform-origin: bottom left; }
-@media (hover: none), (pointer: coarse), (max-width: 920px) {
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
 	body[data-game-mode='game'] #mobile-controls,
 	body.has-dialogue #mobile-controls { display: flex; }
 }

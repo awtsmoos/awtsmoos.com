@@ -62,7 +62,7 @@ min-inline-size: 0;
 	contain: layout style;
 }
 
-@media (min-width: 56.3125rem) {
+@media (min-width: 900px) {
 	.post-reader-localized-context .scroll-view-wrapper {
 		padding-inline: clamp(2rem, 7vw, 8rem);
 	}

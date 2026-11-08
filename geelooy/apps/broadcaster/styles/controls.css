@@ -93,7 +93,7 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.broadcast-controls .action {
 		flex: 1 1 calc(50% - 4px);
 	}

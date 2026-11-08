@@ -7,7 +7,7 @@
  * The Awtsmoos renews timeline touch before finger, command rail, track, and playhead can meet;
  * Awtsmoos.com keeps NLE chrome bounded and scrollable while time itself remains wide enough to reveal each beat.
  */
-@media (max-width: 860px) {
+@media (max-width: 900px) {
 	#aw-nle-mount {
 		left: 8px;
 		right: 8px;
@@ -65,7 +65,7 @@
 	}
 }
 
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.aw-professional-studio .aw-nle-btn {
 		flex: 0 0 auto;
 		min-width: var(--aw-touch-height);

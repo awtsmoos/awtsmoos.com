@@ -71,7 +71,7 @@
 	box-shadow: 0 0 0 3px rgba(255, 214, 109, 0.26);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.peruta-run-route .advanced-drawer {
 		border-radius: 22px;
 	}

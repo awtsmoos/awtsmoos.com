@@ -7,7 +7,7 @@
  * Awtsmoos.com lets the first mitzvah-door fit before the fold, with supporting worlds still present below in ordered calm.
  */
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.Awtsmoos-menu {
 		--menu-bar-height: calc(54px + var(--menu-safe-top));
 	}

@@ -37,7 +37,7 @@ body[data-future-page="about"][data-future-particles] {
 body[data-future-page="apps"][data-future-particles] {
 	--future-particle-opacity: .2;
 }
-@media (max-width: 48rem) { body[data-future-page][data-future-particles] {
+@media (max-width: 760px) { body[data-future-page][data-future-particles] {
 		--future-particle-opacity: .18;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

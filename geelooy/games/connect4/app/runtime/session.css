@@ -50,7 +50,7 @@
 	outline-offset: 3px;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
 	.connect4ResultActions {
 		grid-template-columns: 1fr;
 	}

@@ -71,7 +71,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	overflow: visible;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	body .all.post-reader-localized-context.awtsmoos-reader-vision
 		> .awtsmoos-floating-controls {
 		right: max(.55rem, env(safe-area-inset-right));

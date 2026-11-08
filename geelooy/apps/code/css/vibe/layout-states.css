@@ -68,7 +68,7 @@
 	}
 }
 
-@media (max-width: 750px) {
+@media (max-width: 760px) {
 	.vibe-container.vibe-container {
 		flex-direction: column;
 	}

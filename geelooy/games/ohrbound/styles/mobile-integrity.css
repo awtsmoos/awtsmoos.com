@@ -78,7 +78,7 @@
 		text-align: center;
 	}
 }
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.ohrbound-app .primary-button,
 	.ohrbound-app .secondary-button,
 	.ohrbound-app .quiet-button {

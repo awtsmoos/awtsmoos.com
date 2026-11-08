@@ -18,7 +18,7 @@ mitzvah-world-mobile-integration-001.css reveals localized style through the Awt
  * space transparent, keeps the canvas below, and lets the open Bag alone veil the world.
  */
 
-@media (max-width: 820px), (pointer: coarse) {
+@media (max-width: 900px), (pointer: coarse) {
 	#mitzvah-world-root {
 		--safe-t: max(8px, env(safe-area-inset-top));
 		--safe-r: max(8px, env(safe-area-inset-right));

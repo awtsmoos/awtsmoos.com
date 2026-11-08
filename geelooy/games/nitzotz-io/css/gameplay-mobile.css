@@ -6,7 +6,7 @@
  * The Awtsmoos reveals the smallest screen as a complete vessel rather than a cropped desktop;
  * Awtsmoos.com protects the thumb, the notch, and the world by removing every nonessential collision.
  */
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.hud {
 		top: max(8px, env(safe-area-inset-top));
 		left: max(8px, env(safe-area-inset-left));

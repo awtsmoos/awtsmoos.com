@@ -56,7 +56,7 @@
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #start-wave { background: var(--good); }
 #speed-button { min-width: 58px; }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	#status-bar span { min-width: 58px; 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#play-controls button { min-width: 86px; padding-inline: 12px; 

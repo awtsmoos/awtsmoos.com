@@ -57,7 +57,7 @@ the same compiler forge remain usable in a desktop, OS window, tablet, or phone.
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 58rem) {
+@media (max-width: 900px) {
 	.evidence-grid {
 		grid-template-columns: 1fr;
 	}
@@ -67,7 +67,7 @@ the same compiler forge remain usable in a desktop, OS window, tablet, or phone.
 	}
 }
 
-@media (max-width: 44rem) {
+@media (max-width: 760px) {
 	.app-body {
 		align-items: stretch;
 		justify-content: flex-start;

@@ -87,7 +87,7 @@
 	text-shadow: 0 0 16px rgba(213, 132, 255, 0.35);
 }
 
-@media (min-width: 701px) {
+@media (min-width: 760px) {
 	.score-strip {
 		top: max(72px, calc(env(safe-area-inset-top) + 64px));
 	}
@@ -97,7 +97,7 @@
 	}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.score-strip {
 		grid-template-columns: minmax(104px, 1.5fr) repeat(3, minmax(46px, 0.72fr));
 	}

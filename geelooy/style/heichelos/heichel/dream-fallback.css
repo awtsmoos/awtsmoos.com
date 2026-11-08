@@ -112,7 +112,7 @@
 	contain-intrinsic-size: auto 4.5rem;
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	:root.heichel-os-document .heichel-semantic-discovery ul {
 		grid-template-columns: minmax(0, 1fr);
 		gap: .55rem;

@@ -59,7 +59,7 @@
 	background: #58c7d8;
 	color: #061018;
 }
-@media (max-width: 680px) { .notifications-console, .g-search-form, .g-app-filter {
+@media (max-width: 760px) { .notifications-console, .g-search-form, .g-app-filter {
 		grid-template-columns: 1fr;
 		padding: .85rem;
 	} }

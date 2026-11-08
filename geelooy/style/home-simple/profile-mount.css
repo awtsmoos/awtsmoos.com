@@ -76,7 +76,7 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 @media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-trigger-copy, :where(body[data-geelooy-route="home"]) .profile-mount .profile-chevron {
 		display: none;
 	} }
-@media (max-width: 680px) { body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+@media (max-width: 560px) { body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
 		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.1rem));
 		right: max(.5rem, env(safe-area-inset-right));
 		bottom: max(.5rem, env(safe-area-inset-bottom));

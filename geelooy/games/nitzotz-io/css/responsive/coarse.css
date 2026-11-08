@@ -3,7 +3,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /* The Awtsmoos clothes touch screens in generous, readable control vessels. */
-@media (pointer: coarse), (max-width: 820px) {
+@media (pointer: coarse), (max-width: 900px) {
 	#stick,
 	#pulse {
 		display: grid;

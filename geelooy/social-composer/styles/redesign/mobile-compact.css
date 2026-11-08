@@ -7,7 +7,7 @@
  * controls without creating horizontal overflow or hiding truthful actions.
  */
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.composer-civilization-header {
 		grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem;
 		gap: .3rem;

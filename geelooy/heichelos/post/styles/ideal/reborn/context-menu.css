@@ -66,7 +66,7 @@
 }
 .awtsmoos-reader-portal-surface button:active { transform: scale(.985); }
 .awtsmoos-reader-portal-surface button:focus-visible { outline: 3px solid rgba(91,209,255,.5); outline-offset: 1px; }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.awtsmoos-reader-portal-surface { inline-size: calc(100dvi - 16px); max-inline-size: none; max-block-size: min(70dvh, 30rem); border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .awtsmoos-reader-portal-surface, .awtsmoos-reader-portal-surface * { transition: none; } }

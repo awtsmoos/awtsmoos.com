@@ -86,7 +86,7 @@
 	font-size: 1.05rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.home-empty-actions {
 		grid-template-columns: 1fr;
 	}

@@ -68,7 +68,7 @@ body {
 .ac-pager { display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 22px; }
 .ac-pageinfo { color: var(--ac-muted); font-size: 14px; }
 .ac-empty { color: var(--ac-muted); padding: 30px 10px; text-align: center; }
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.ac-title { font-size: 24px; }
 	.ac-field input { min-width: 0; width: 100%; 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

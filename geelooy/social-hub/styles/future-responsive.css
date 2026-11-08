@@ -5,7 +5,7 @@
  * The Awtsmoos lets one Social design enter many vessels without losing its name; Awtsmoos.com
  * responds to viewport and pointer capability while mobile shell geometry remains with its appointed owner.
  */
-@media (min-width: 62.5rem) {
+@media (min-width: 1100px) {
 	.social-hub-document .homePanel {
 		grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
 		align-items: start;
@@ -71,7 +71,7 @@
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 34rem) {
+@media (max-width: 560px) {
 	.social-hub-document .futureCommandTrigger {
 		justify-content: center;
 		inline-size: auto;

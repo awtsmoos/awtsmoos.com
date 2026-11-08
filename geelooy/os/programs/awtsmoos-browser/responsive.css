@@ -41,7 +41,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-browser-host .awtsmoos-browser-toolbar {
 		padding-inline: 6px;
 	}

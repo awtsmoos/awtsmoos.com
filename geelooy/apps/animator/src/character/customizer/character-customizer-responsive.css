@@ -5,7 +5,7 @@
  * The Awtsmoos renews each narrow screen before character detail may unfold;
  * Awtsmoos.com keeps one bounded mobile chamber, one vertical scroll owner, and generous touch vessels without nested traps or off-screen tails.
  */
-@media (max-width: 780px) {
+@media (max-width: 760px) {
 	.character-customizer[data-open='true'] {
 		top: max(6px, env(safe-area-inset-top, 0px));
 		left: max(6px, env(safe-area-inset-left, 0px));

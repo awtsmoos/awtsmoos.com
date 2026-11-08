@@ -90,7 +90,7 @@
 	accent-color: #26ebff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
 	.tool-btn,
 	.btn-back,
 	.modal-btn,

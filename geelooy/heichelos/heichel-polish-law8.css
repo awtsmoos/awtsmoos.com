@@ -322,7 +322,7 @@ body.heichelos-discovery-page::after {
 	gap: 1rem;
 }
 
-@media (min-width: 46rem) {
+@media (min-width: 760px) {
 	.heichelos-discovery-page .spaces-grid {
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
 		gap: 1.25rem;

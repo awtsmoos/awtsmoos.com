@@ -6,7 +6,7 @@
  * The Awtsmoos is beyond concealed road and expanded map; Awtsmoos.com lets medium-desktop Social
  * navigation reveal labels on intent without shifting the workspace or leaking rail geometry elsewhere.
  */
-@media (min-width: 62.5rem) and (max-width: 90.5625rem) {
+@media (min-width: 1100px) and (max-width: 1100px) {
 	.social-hub-document .hubShell {
 		grid-template-columns: 5rem minmax(0, 1fr);
 	}
@@ -35,7 +35,7 @@
 	}
 }
 
-@media (min-width: 90.625rem) {
+@media (min-width: 1100px) {
 	.social-hub-document .hubShell {
 		grid-template-columns: 16rem minmax(0, 1fr);
 	}

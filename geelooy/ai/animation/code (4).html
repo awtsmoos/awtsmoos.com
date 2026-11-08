@@ -97,7 +97,7 @@ canvas#animationCanvas {
     flex-wrap: wrap;
     gap: 15px;
 }
-.hidden { display: none !important; }
+.hidden.hidden { display: none; }
 
 .exported-body {
     justify-content: center;
@@ -107,8 +107,8 @@ canvas#animationCanvas {
 }
 .exported-h1 { margin-bottom: 10px; font-size: 1.6em; }
 /* Exported player minimal style overrides */
-#inputContainer.hidden-exported { display: none !important; }
-#exportBtn.hidden-exported { display: none !important; }
+#inputContainer.hidden-exported.hidden-exported { display: none; }
+#exportBtn.hidden-exported.hidden-exported { display: none; }
 </style>
 </head>
 <body>
@@ -1507,8 +1507,8 @@ class Animator {
         const minimalStyleOverride = `
         body.exported-body { justify-content: center; align-items: center; min-height: 100vh; padding-top: 20px; }
         h1.exported-h1 { margin-bottom: 10px; font-size: 1.6em; }
-        #inputContainer.hidden-exported { display: none !important; } 
-        #exportBtn.hidden-exported { display: none !important; }
+        #inputContainer.hidden-exported.hidden-exported { display: none; } 
+        #exportBtn.hidden-exported.hidden-exported { display: none; }
         `;
         if (finalHtml.includes('/* Exported player minimal style overrides */')) { 
              finalHtml = finalHtml.replace('/* Exported player minimal style overrides */', 

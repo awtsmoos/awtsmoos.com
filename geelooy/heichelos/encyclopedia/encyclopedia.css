@@ -842,7 +842,7 @@ a.enc-badge-link:focus-visible {
 
 /* ---------- mobile ---------- */
 
-@media (max-width: 44rem) {
+@media (max-width: 760px) {
 	.enc-article-grid {
 		grid-template-columns: 1fr;
 	}

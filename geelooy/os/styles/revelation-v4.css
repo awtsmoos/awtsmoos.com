@@ -74,7 +74,7 @@ html .shell-command-card {
 	box-shadow: var(--g4-shadow-float);
 	backdrop-filter: blur(32px) saturate(1.2);
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	html .shell-brand-copy,
 	html #shell-status,
 	html #shell-command-button {

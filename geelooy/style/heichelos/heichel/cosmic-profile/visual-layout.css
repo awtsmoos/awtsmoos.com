@@ -24,51 +24,51 @@
 	padding-block-start: var(--heichel-global-roof-clearance);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) .living-path-browser .dynamic-grid {
+@media (min-width: 1100px) { :where(.heichel-os-document) .living-path-browser .dynamic-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(.living-path-browser) .dynamic-grid .living-tree {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(.living-path-browser) .dynamic-grid .living-tree {
 		grid-column: 1 / -1;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		inline-size: 100%;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) .living-path-browser .living-tree-node, :where(.heichel-os-document) .living-path-browser .living-tree {
+@media (min-width: 1100px) { :where(.heichel-os-document) .living-path-browser .living-tree-node, :where(.heichel-os-document) .living-path-browser .living-tree {
 		min-inline-size: 0;
 		max-inline-size: 100%;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) .living-tree-node .nav-card {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) .living-tree-node .nav-card {
 		grid-template-columns: 3.5rem minmax(0, 1fr) 3.25rem;
 		gap: .55rem;
 		min-block-size: 0;
 		padding: .65rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-body {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-body {
 		padding: .65rem .25rem .65rem .65rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-media {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-media {
 		inline-size: auto;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-actions {
+@media (min-width: 1100px) { :where(.heichel-os-document) :where(.living-path-browser) :where(.living-tree) :where(.living-tree-node) .nav-card .nav-card-actions {
 		inline-size: auto;
 		gap: .25rem;
 		padding: .2rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (min-width: 70rem) { :where(.heichel-os-document) .living-path-browser .nav-card {
+@media (min-width: 1100px) { :where(.heichel-os-document) .living-path-browser .nav-card {
 		inline-size: auto;
 		min-inline-size: 0;
 	} }
-@media (max-width: 55rem) { :root {
+@media (max-width: 900px) { :root {
 		--heichel-global-roof-clearance: 82px;
 	} }
-@media (max-width: 55rem) { .heichel-os-document .geelooy-main-stage {
+@media (max-width: 900px) { .heichel-os-document .geelooy-main-stage {
 		padding-block-start: var(--heichel-global-roof-clearance);
 	} }

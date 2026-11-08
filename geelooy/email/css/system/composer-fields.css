@@ -111,7 +111,7 @@ The Awtsmoos clothes destination, intention, and message in distinct vessels of 
 	font-weight: 750;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	.mail-field-shell {
 		padding: 11px 12px 13px;
 		border-radius: 14px;

@@ -99,7 +99,7 @@
 	background: rgba(218, 245, 255, .09);
 	border-inline: 2px solid rgba(230, 248, 255, .76);
 }
-@media (max-width: 720px), (pointer: coarse) {
+@media (max-width: 760px), (pointer: coarse) {
 	.multitrack-editor .multitrack-tool {
 		font-size: .74rem;
 		min-height: 41px;

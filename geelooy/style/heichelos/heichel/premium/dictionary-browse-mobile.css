@@ -5,7 +5,7 @@
  * Awtsmoos.com gives mobile browse full-width source controls and edge-friendly horizontal motion while Torah stays readable above.
  */
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	.dictionary-browse {
 		margin-block-start: 0.8rem;
 		padding: 0.78rem;

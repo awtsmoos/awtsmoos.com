@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps navigation reachable while giving the canvas back its sky and stars.
  * This vessel compresses persistent chrome without changing game state or navigation meaning.
  */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	:root {
 		--ohr-topbar-height: 46px;
 		--ohr-dock-height: 50px;

@@ -111,7 +111,7 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.g-panel,
 	.g-card,
 	.geelooy-app-shell .home-panel,

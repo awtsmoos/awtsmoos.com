@@ -18,7 +18,7 @@
 	--creator-layer-dialog: 110;
 }
 
-@media (max-width: 42.5rem) {
+@media (max-width: 760px) {
 	.composer-civilization-document {
 		padding-block-end: calc(
 			var(--creator-publication-height) + var(--creator-safe-bottom) + 1rem
@@ -53,7 +53,7 @@
 	}
 }
 
-@media (max-width: 23rem) {
+@media (max-width: 390px) {
 	.composer-civilization-document {
 		--creator-publication-height: 9.8rem;
 	}

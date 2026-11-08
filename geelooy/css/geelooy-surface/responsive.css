@@ -53,7 +53,7 @@ Awtsmoos.com lets the same owned surface contract bend with dignity, keeping con
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 760px) {
 	[data-awtsmoos-surface] [data-awtsmoos-mobile-stack] {
 		flex-direction: column;
 	}
@@ -77,7 +77,7 @@ Awtsmoos.com lets the same owned surface contract bend with dignity, keeping con
 	}
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	[data-awtsmoos-surface] {
 		--aw-surface-gap-lg: 1.1rem;
 		--aw-surface-radius-lg: 1.2rem;

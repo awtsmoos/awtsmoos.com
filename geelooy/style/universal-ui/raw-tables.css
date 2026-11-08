@@ -44,13 +44,13 @@
 	font-weight: 650;
 	text-align: start;
 }
-@media (max-width: 700px) { :where(html:not([data-g-ui-raw])) table:not([class]) {
+@media (max-width: 760px) { :where(html:not([data-g-ui-raw])) table:not([class]) {
 		display: block;
 		overflow-x: auto;
 		overscroll-behavior-inline: contain;
 		-webkit-overflow-scrolling: touch;
 	} }
-@media (max-width: 700px) { :where(html:not([data-g-ui-raw])) :where(th:not([class]), td:not([class])) {
+@media (max-width: 760px) { :where(html:not([data-g-ui-raw])) :where(th:not([class]), td:not([class])) {
 		min-width: 8rem;
 		white-space: normal;
 	

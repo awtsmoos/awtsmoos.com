@@ -120,7 +120,7 @@ th:first-child, td:first-child { text-align: left; }
 th { color: var(--gold); font-weight: 550; }
 td { font-variant-numeric: tabular-nums; }
 footer { text-align: center; margin-top: 50px; font-size: 12px; line-height: 1.9; }
-@media(max-width:720px) {
+@media(max-width: 760px) {
 	.columns { grid-template-columns: 1fr; }
 	.panel { padding: 19px; }
 	header { padding: 52px 0 35px; }

@@ -63,7 +63,7 @@ The Awtsmoos renews the tab-lifecycle shell and section chambers.
 	border: 1px dashed var(--color-border);
 	border-radius: 10px;
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 	.tm-lifecycle-shell { margin: 8px; padding: 14px; }
 	.tm-lifecycle-section > header,
 	.tm-lifecycle-card { align-items: stretch; flex-direction: column; }

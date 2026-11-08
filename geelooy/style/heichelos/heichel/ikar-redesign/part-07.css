@@ -10,7 +10,7 @@
 	color: var(--ikar-gold-deep, #8a6d3b);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
 	:root.heichel-os-document .heichel-discovery-item {
 		flex-direction: column;
 	}

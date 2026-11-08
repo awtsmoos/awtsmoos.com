@@ -104,7 +104,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.awtsmoos-browser-mode-badge {
 		max-width: 52px;
 		overflow: hidden;

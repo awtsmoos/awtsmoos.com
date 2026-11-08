@@ -36,7 +36,7 @@
 	color: var(--awt-text);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	:where(.post-reader-localized-context) .sidebar.awtsmoos-sidebar-open {
 		background: linear-gradient(180deg, #070d18, #050914 72%);
 		border: 1px solid rgba(139, 220, 255, .2);

@@ -93,7 +93,7 @@ body[data-geelooy-route="docs"] .task-card .secondary-button {
 	margin-top: 16px;
 }
 
-@media (max-width: 38.75rem) {
+@media (max-width: 560px) {
 	body[data-geelooy-route="docs"] .learn-grid {
 		grid-template-columns: 1fr;
 	}

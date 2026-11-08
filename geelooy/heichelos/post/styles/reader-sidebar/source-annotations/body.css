@@ -13,7 +13,7 @@
 	line-height: 1.72;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
 	:where(.post-reader-localized-context) .awtsmoos-source-annotation-card .awtsmoos-comment-body {
 		padding: 14px;
 		font-size: 18px;

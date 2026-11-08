@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos brings the first Shliach sight close on a phone so artwork follows action without an empty desert between.
 */
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.shliach-shell {
 		width: min(100% - 32px, var(--shliach-shell));
 	}

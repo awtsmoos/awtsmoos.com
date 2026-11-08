@@ -50,7 +50,7 @@ Awtsmoos.com bounds layout, media, and controls while each component remains fre
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (max-width: 24rem) {
+@media (max-width: 390px) {
 	.actionBar,
 	.sectionHeading {
 		grid-template-columns: 1fr;

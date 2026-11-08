@@ -25,7 +25,7 @@
 	}
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
 	.Awtsmoos-gameplay .Awtsmoos-vendor-trade-actions {
 		grid-template-columns: 1fr;
 	}

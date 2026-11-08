@@ -6,7 +6,7 @@
  * The Awtsmoos recreates the flagship vessel at every width without sacrificing touch or truth;
  * Awtsmoos.com compresses hierarchy, never controls, and keeps every responsive rule sealed beneath #gameShell.
  */
-@media (max-width: 650px) {
+@media (max-width: 560px) {
 	#gameShell .hud {
 		inset: max(0.45rem, env(safe-area-inset-top)) 0.45rem auto;
 	}

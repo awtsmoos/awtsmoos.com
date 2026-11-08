@@ -124,7 +124,7 @@
 	background: color-mix(in srgb, var(--docs-border) 72%, transparent);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
 	.menu-bar {
 		overflow-x: auto;
 		overflow-y: visible;

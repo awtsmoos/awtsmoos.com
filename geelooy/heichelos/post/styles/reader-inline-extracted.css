@@ -1952,7 +1952,7 @@
 		}
 
 		/* ---------- wide screens ---------- */
-		@media (min-width: 60rem) {
+		@media (min-width: 900px) {
 			:root .post-reader-localized-context #realPost .meluket-sefer {
 				--dream-pad: 3.25rem 3.5rem;
 			}
@@ -2628,7 +2628,7 @@
 		}
 
 		/* ---------- 5. small screens: the dream fits in one hand ---------- */
-		@media (max-width: 26rem) {
+		@media (max-width: 390px) {
 			:root .post-reader-localized-context #awtsmoos-social-discussion {
 				padding-inline: 0.25rem;
 			}

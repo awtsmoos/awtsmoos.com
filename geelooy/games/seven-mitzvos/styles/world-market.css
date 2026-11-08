@@ -66,13 +66,13 @@
 	font-size: 0.72rem;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 	.marketLayout {
 		grid-template-columns: 1fr;
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 560px) {
 	.marketStalls {
 		grid-template-columns: 1fr;
 	}

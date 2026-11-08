@@ -24,7 +24,7 @@
 :where(html[data-g-performance="lean"]) body.geelooy-app-shell :where( .premium-sky, .ambient-orb, .cosmic-field, .hero-orbit, .particle-field ) {
 	display: none;
 }
-@media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) { body.geelooy-app-shell :where(
+@media (pointer: coarse), (max-width: 900px), (prefers-reduced-motion: reduce) { body.geelooy-app-shell :where(
 		.g-unusual-header,
 		.g-dock,
 		.g-context-ribbon,
@@ -40,7 +40,7 @@
 		backdrop-filter: none;
 		-webkit-backdrop-filter: none;
 	} }
-@media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) { body.geelooy-app-shell :where(
+@media (pointer: coarse), (max-width: 900px), (prefers-reduced-motion: reduce) { body.geelooy-app-shell :where(
 		.g-panel,
 		.geelooy-feed-card,
 		.home-post-card,
@@ -50,7 +50,7 @@
 	):is(:hover, :focus-within) {
 		transform: none;
 	} }
-@media (max-width: 34rem) { body.geelooy-app-shell :where(
+@media (max-width: 560px) { body.geelooy-app-shell :where(
 		.g-page,
 		.geelooy-main-stage,
 		.social-spaces-shell,

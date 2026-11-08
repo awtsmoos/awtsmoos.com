@@ -9,7 +9,7 @@
 	}
 }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
 	.constellation-root {
 		max-height: min(66dvh, 560px);
 	}

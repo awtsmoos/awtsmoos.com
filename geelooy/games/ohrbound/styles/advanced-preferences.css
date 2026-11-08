@@ -38,7 +38,7 @@
 	accent-color: var(--glow);
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-@media (max-width: 360px) {
+@media (max-width: 390px) {
 	.ohrbound-app .advanced-actions {
 		grid-template-columns: 1fr;
 	}
@@ -50,7 +50,7 @@
 		width: 116px;
 	}
 }
-@media (min-width: 800px) {
+@media (min-width: 900px) {
 	.ohrbound-app .advanced-overlay {
 		align-items: stretch;
 		justify-content: end;

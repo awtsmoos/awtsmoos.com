@@ -60,7 +60,7 @@
 .awtsmoosSocialSheet__option:active {
 	transform: scale(.985);
 }
-@media (max-width: 30rem) {
+@media (max-width: 560px) {
 	.awtsmoosSocialSheet,
 	.awtsmoosIdentitySheet,
 	.awtsmoosCommandPalette {

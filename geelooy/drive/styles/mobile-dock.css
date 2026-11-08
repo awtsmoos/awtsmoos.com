@@ -100,7 +100,7 @@ small, and unmistakable without letting navigation cover the work it exists to s
 	}
 }
 
-@media (max-width: 350px) {
+@media (max-width: 390px) {
 	.dock-button { min-height: 56px; }
 	.dock-label { font-size: 8px; }
 }

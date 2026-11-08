@@ -25,7 +25,7 @@
 	box-shadow: none;
 }
 .social-hub-document .hubContextDisclosure .identityCluster { margin-block-start: .45rem; }
-@media (max-width: 62.4375rem) {
+@media (max-width: 900px) {
 	.social-hub-document { padding-bottom: calc(5.8rem + var(--safe-bottom)); }
 	.social-hub-document .hubHeader {
 		display: block;

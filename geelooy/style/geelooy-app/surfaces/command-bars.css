@@ -59,7 +59,7 @@
 	border-color: color-mix(in srgb, var(--g-cyan) 38%, var(--g-line));
 }
 
-@media (max-width: 42rem) {
+@media (max-width: 760px) {
 	.g-command-bar {
 		align-items: stretch;
 		flex-direction: column;

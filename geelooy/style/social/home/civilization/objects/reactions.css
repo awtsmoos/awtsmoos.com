@@ -50,7 +50,7 @@
 	color: var(--home-faint);
 	font-size: .76rem;
 }
-@media (max-width: 520px) { .geelooy-reaction-summary {
+@media (max-width: 560px) { .geelooy-reaction-summary {
 		inline-size: 100%;
 		margin-inline-start: 0;
 	} }
