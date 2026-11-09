@@ -298,16 +298,33 @@ export function wirePostContentInteractions(vessel) {
 		if (!sup || !vessel.contains(sup)) return;
 		const num = (sup.textContent || '').trim();
 		if (!/^\d+$/.test(num)) return;
-		// The notes section is at the end of the post (after "הערות"), so
-		// the footnote body is the LAST <sup> carrying this number; every
-		// earlier one is a body marker pointing at it.
+		// The notes section starts at the "הערות" marker. The footnote
+		// body is the FIRST <sup> carrying this number AFTER that marker
+		// in document order — not the last. A footnote body can cite an
+		// earlier note (a cross-reference sup with the same number inside
+		// a later footnote), so the last match can land in the wrong
+		// footnote entirely (note 1 landing near notes 57–58).
 		const vesselText = vessel.textContent || '';
 		if (vesselText.indexOf('הערות') < 0) return;
-		const matches = Array.from(vessel.querySelectorAll('sup'))
+		const allSups = Array.from(vessel.querySelectorAll('sup'))
 			.filter(s => (s.textContent || '').trim() === num);
-		if (!matches.length) return;
-		const target = matches[matches.length - 1];
-		if (target === sup && matches.length === 1) return;
+		if (!allSups.length) return;
+		// Find the "הערות" boundary node in the DOM.
+		const walker = document.createTreeWalker(vessel, NodeFilter.SHOW_TEXT);
+		let boundary = null;
+		let node;
+		while ((node = walker.nextNode())) {
+			if (/הערות/.test(node.textContent || '')) { boundary = node; break; }
+		}
+		let target = null;
+		if (boundary) {
+			for (const s of allSups) {
+				// DOCUMENT_POSITION_FOLLOWING (4): s comes after boundary.
+				if (boundary.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING) { target = s; break; }
+			}
+		}
+		if (!target) target = allSups[allSups.length - 1];
+		if (target === sup && allSups.length === 1) return;
 		target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 		target.classList.add('awtsmoos-footnote-target');
 		window.setTimeout(() => target.classList.remove('awtsmoos-footnote-target'), 2000);
