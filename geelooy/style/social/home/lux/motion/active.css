@@ -1,7 +1,0 @@
-/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-/* B"H — active press returns to the hand. */
-.home-action-card:active,
-.home-command-dock a:active,
-.home-filter-button:active {
-  transform: translate3d(0,1px,0) scale(.99);
-}

@@ -67,8 +67,8 @@ export const ENEMY_CAST_HUD_CSS = `
 	}
 }
 @media (prefers-reduced-motion: reduce) {
-	.Mitzvah-enemy-cast i {
-		transition: none !important;
+	.Mitzvah-enemy-cast.Mitzvah-enemy-cast i {
+		transition: none;
 	}
 }
 @media (forced-colors: active) {

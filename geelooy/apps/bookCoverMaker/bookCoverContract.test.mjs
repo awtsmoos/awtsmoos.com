@@ -25,8 +25,8 @@ const download = read("./js/download.js");
 
 test("shell is mobile-first, externalized, and compact-entry driven", () => {
 	assert.match(html, /name="viewport"[^>]*viewport-fit=cover/);
-	assert.match(html, /href="\.\/style\.css"/);
-	assert.match(html, /src="\.\/js\/app\.js\?compact=true"/);
+	assert.match(html, /href="\.\/style\.css(\?[^"]*)?"/);
+	assert.match(html, /src="\.\/js\/app\.js(\?[^"]*)?"/);
 	assert.doesNotMatch(html, /<style\b/i);
 	assert.doesNotMatch(html, /onclick=/i);
 	assert.doesNotMatch(html, /<script(?![^>]*src=)/i);

@@ -18,8 +18,8 @@ export function movieStudioUtilityResponsiveCss() {
 			content-visibility: auto;
 			contain: layout paint style;
 		}
-		.movie-utility-panel[hidden] {
-			display: none !important;
+		.movie-utility-panel.movie-utility-panel[hidden] {
+			display: none;
 		}
 		.movie-utility-panel-body {
 			overscroll-behavior: contain;

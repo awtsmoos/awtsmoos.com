@@ -8,6 +8,7 @@
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { responsiveActionBudget } from '../shared/social/ui/ActionOverflow.js';
 import { createProfileIdentityTools } from './modules/ProfileIdentityTools.js';
 import { composerUrl, launchActions } from './modules/SocialLaunchpad.js';
@@ -15,7 +16,25 @@ import { nextTabIndex } from './modules/tabs.js';
 import { TestDocument } from '../shared/social/test/SocialUxTestDom.mjs';
 
 const entry = readFileSync('geelooy/profile/script.js', 'utf8');
-const styles = readFileSync('geelooy/profile/styles/social-launchpad-v4.css', 'utf8');
+// B"H — Social sweep 2026-11-09: social-launchpad-v4.css is now a thin
+// @import shell over layout + controls; the contract follows its imports
+// (as the dashboard contract follows its CSS graph) instead of reading
+// only the shell, so the 46px touch sizing in the controls file is seen.
+const cleanPath = value => String(value).split(/[?#]/, 1)[0];
+function cssGraph(entryFile, seen = new Set()) {
+	const normalized = cleanPath(path.normalize(entryFile).replace(/\\/g, '/'));
+	if (seen.has(normalized)) return '';
+	seen.add(normalized);
+	const source = readFileSync(normalized, 'utf8');
+	const directory = path.dirname(normalized);
+	const children = [...source.matchAll(/@import\s+(?:url\()?['"]?([^'")]+)['"]?\)?/g)]
+		.map(match => match[1])
+		.filter(target => target.startsWith('.'))
+		.map(target => cssGraph(path.join(directory, cleanPath(target)), seen))
+		.join('\n');
+	return `${source}\n${children}`;
+}
+const styles = cssGraph('geelooy/profile/styles/social-launchpad-v4.css');
 const cockpit = readFileSync('geelooy/profile/styles/social-cockpit.css', 'utf8');
 const ambient = readFileSync('geelooy/shared/social/styles/ambient.css', 'utf8');
 const actions = launchActions('teacher');

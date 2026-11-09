@@ -11,7 +11,7 @@ import {
 	subscribeWardrobe
 } from '/games/scripts/wardrobe/ChossidWardrobe.js';
 
-const GLB_URL = '/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
+const GLB_URL = '/games/mitzvah-world/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 
 function tagSlot(material, slot) {
 	material.userData = material.userData || {};

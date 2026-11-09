@@ -33,65 +33,65 @@ export function shabbosCss(opts = {}) {
 	}, opts.palette || {});
 	const extra = Array.isArray(opts.expandSelectors) ? opts.expandSelectors : [];
 	const expandRule = extra.length
-		? `\n${S} ${extra.join(`,\n${S} `)} {\n\tdisplay: block !important;\n\tvisibility: visible !important;\n\tmax-height: none !important;\n\theight: auto !important;\n\topacity: 1 !important;\n}`
+		? `\n${S}${S} ${extra.join(`,\n${S} `)} {\n\tdisplay: block;\n\tvisibility: visible;\n\tmax-height: none;\n\theight: auto;\n\topacity: 1;\n}`
 		: "";
 
 	return `/* B"H — Shabbos Mode: stillness as design. No motion, no interaction, only rest. */
-${S} {
+${S}${S} {
 	--shabbos-paper: ${palette.paper};
 	--shabbos-ink: ${palette.ink};
 	--shabbos-accent: ${palette.accent};
 	--shabbos-muted: ${palette.muted};
-	scroll-behavior: auto !important;
+	scroll-behavior: auto;
 }
 
 /* 1. All motion dies. */
-${S} *,
-${S} *::before,
-${S} *::after {
-	animation: none !important;
-	-webkit-animation: none !important;
-	transition: none !important;
-	-webkit-transition: none !important;
-	scroll-behavior: auto !important;
-	caret-color: transparent !important;
+${S}${S} *,
+${S}${S} *::before,
+${S}${S} *::after {
+	animation: none;
+	-webkit-animation: none;
+	transition: none;
+	-webkit-transition: none;
+	scroll-behavior: auto;
+	caret-color: transparent;
 }
 
 /* 2. Warm sefer surface. */
-${S} body {
-	background: var(--shabbos-paper) !important;
-	background-image: none !important;
-	color: var(--shabbos-ink) !important;
-	font-family: Georgia, "Times New Roman", "Noto Serif Hebrew", "Frank Ruhl Libre", serif !important;
-	line-height: 1.9 !important;
-	font-size: 1.15em !important;
+${S}${S} body {
+	background: var(--shabbos-paper);
+	background-image: none;
+	color: var(--shabbos-ink);
+	font-family: Georgia, "Times New Roman", "Noto Serif Hebrew", "Frank Ruhl Libre", serif;
+	line-height: 1.9;
+	font-size: 1.15em;
 	letter-spacing: 0.01em;
 }
 
 /* 3. Focused reading column — like an open sefer. */
-${S} main,
-${S} article,
-${S} .content,
-${S} .post-body,
-${S} .teaching-body {
-	max-width: 42em !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
-	padding: 3rem 1.5rem !important;
-	float: none !important;
+${S}${S} main,
+${S}${S} article,
+${S}${S} .content.content,
+${S}${S} .post-body.post-body,
+${S}${S} .teaching-body.teaching-body {
+	max-width: 42em;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3rem 1.5rem;
+	float: none;
 }
 
 /* 4. Headings breathe. */
-${S} h1, ${S} h2, ${S} h3, ${S} h4 {
-	font-family: Georgia, "Times New Roman", "Noto Serif Hebrew", serif !important;
-	color: var(--shabbos-ink) !important;
-	font-weight: 600 !important;
-	line-height: 1.4 !important;
-	margin-top: 2.2em !important;
-	margin-bottom: 0.8em !important;
+${S}${S} h1, ${S}${S} h2, ${S}${S} h3, ${S}${S} h4 {
+	font-family: Georgia, "Times New Roman", "Noto Serif Hebrew", serif;
+	color: var(--shabbos-ink);
+	font-weight: 600;
+	line-height: 1.4;
+	margin-top: 2.2em;
+	margin-bottom: 0.8em;
 	text-align: center;
 }
-${S} h1 { font-size: 2em !important; }
+${S}${S} h1 { font-size: 2em; }
 ${S} h1::after {
 	content: "";
 	display: block;
@@ -101,97 +101,97 @@ ${S} h1::after {
 }
 
 /* 5. Hebrew sings. */
-${S} [lang="he"], ${S} .hebrew, ${S} .he-text {
-	font-size: 1.25em !important;
-	line-height: 2 !important;
+${S}${S} [lang="he"][lang="he"], ${S}${S} .hebrew.hebrew, ${S}${S} .he-text.he-text {
+	font-size: 1.25em;
+	line-height: 2;
 	text-align: right;
 	direction: rtl;
 }
 
 /* 6. Interactive chrome hides — nothing to click on Shabbos. */
-${S} .no-shabbos,
-${S} nav.site-nav,
-${S} .site-header .menu,
-${S} .sidebar,
-${S} .comments-section,
-${S} .comment-form,
-${S} form,
-${S} .search-box,
-${S} .share-buttons,
-${S} .social-buttons,
-${S} .carousel,
-${S} .slider,
-${S} .tab-nav,
-${S} .modal,
-${S} .popup,
-${S} .tooltip,
-${S} .toast,
-${S} .shabbos-toggle,
-${S} video,
-${S} audio {
-	display: none !important;
+${S}${S} .no-shabbos.no-shabbos,
+${S}${S} nav.site-nav.site-nav,
+${S}${S} .site-header.site-header .menu.menu,
+${S}${S} .sidebar.sidebar,
+${S}${S} .comments-section.comments-section,
+${S}${S} .comment-form.comment-form,
+${S}${S} form,
+${S}${S} .search-box.search-box,
+${S}${S} .share-buttons.share-buttons,
+${S}${S} .social-buttons.social-buttons,
+${S}${S} .carousel.carousel,
+${S}${S} .slider.slider,
+${S}${S} .tab-nav.tab-nav,
+${S}${S} .modal.modal,
+${S}${S} .popup.popup,
+${S}${S} .tooltip.tooltip,
+${S}${S} .toast.toast,
+${S}${S} .shabbos-toggle.shabbos-toggle,
+${S}${S} video,
+${S}${S} audio {
+	display: none;
 }
 
 /* 7. Everything hidden expands — accordions, tabs, collapsibles all open. */
-${S} details > *,
-${S} .accordion-panel,
-${S} .collapsible-content,
-${S} .tab-panel,
-${S} .spoiler-content {
-	display: block !important;
-	visibility: visible !important;
-	max-height: none !important;
-	height: auto !important;
-	opacity: 1 !important;
-	overflow: visible !important;
+${S}${S} details > *,
+${S}${S} .accordion-panel.accordion-panel,
+${S}${S} .collapsible-content.collapsible-content,
+${S}${S} .tab-panel.tab-panel,
+${S}${S} .spoiler-content.spoiler-content {
+	display: block;
+	visibility: visible;
+	max-height: none;
+	height: auto;
+	opacity: 1;
+	overflow: visible;
 }
-${S} .accordion-toggle::after,
-${S} .collapsible-toggle::after {
-	content: none !important;
+${S}${S} .accordion-toggle.accordion-toggle::after,
+${S}${S} .collapsible-toggle.collapsible-toggle::after {
+	content: none;
 }
 
 /* 8. Controls that remain become inert text. */
-${S} button,
-${S} .btn,
-${S} input,
-${S} select,
-${S} textarea {
-	pointer-events: none !important;
-	user-select: text !important;
+${S}${S} button,
+${S}${S} .btn.btn,
+${S}${S} input,
+${S}${S} select,
+${S}${S} textarea {
+	pointer-events: none;
+	user-select: text;
 }
 
 /* 9. Links rest — readable, no hover tricks. */
-${S} a { color: var(--shabbos-accent) !important; text-decoration: underline; }
-${S} a:hover, ${S} a:focus, ${S} a:active {
-	color: var(--shabbos-accent) !important;
-	text-decoration: underline !important;
-	background: none !important;
-	outline: none !important;
+${S}${S} a { color: var(--shabbos-accent); text-decoration: underline; }
+${S}${S} a:hover, ${S}${S} a:focus, ${S}${S} a:active {
+	color: var(--shabbos-accent);
+	text-decoration: underline;
+	background: none;
+	outline: none;
 }
 
 /* 10. Images sit quietly. */
-${S} img {
+${S}${S} img {
 	max-width: 100%;
 	height: auto;
 	border-radius: 2px;
-	filter: sepia(0.18) !important;
+	filter: sepia(0.18);
 }
 
 /* 11. Footnotes come home — shown inline at the article's end. */
-${S} .footnotes,
-${S} .footnote-list,
-${S} [data-footnotes] {
-	display: block !important;
-	margin-top: 3em !important;
-	padding-top: 1.5em !important;
-	border-top: 1px solid var(--shabbos-accent) !important;
-	font-size: 0.92em !important;
-	color: var(--shabbos-muted) !important;
+${S}${S} .footnotes.footnotes,
+${S}${S} .footnote-list.footnote-list,
+${S}${S} [data-footnotes][data-footnotes] {
+	display: block;
+	margin-top: 3em;
+	padding-top: 1.5em;
+	border-top: 1px solid var(--shabbos-accent);
+	font-size: 0.92em;
+	color: var(--shabbos-muted);
 }
 
 /* 12. The Shabbos notice — a candle at the top of the page. */
-${S} .shabbos-notice {
-	display: block !important;
+${S}${S} .shabbos-notice.shabbos-notice {
+	display: block;
 	text-align: center;
 	padding: 1.1em 1em 1em;
 	margin: 0 0 2em;
@@ -204,8 +204,8 @@ ${S} .shabbos-notice {
 ${S} .shabbos-notice .shabbos-candle { font-style: normal; }
 
 /* 13. Reveal Shabbos-only content, hide weekday-only content. */
-${S} .only-shabbos { display: block !important; }
-${S} .only-weekday { display: none !important; }${expandRule}
+${S}${S} .only-shabbos.only-shabbos { display: block; }
+${S}${S} .only-weekday.only-weekday { display: none; }${expandRule}
 `;
 }
 
@@ -223,24 +223,24 @@ export function printCss(opts = {}) {
 	margin: 2cm 1.8cm;
 }
 @media print {
-	${S}.no-print,
-	${S}.shabbos-notice,
-	${S}nav,
-	${S}.sidebar,
-	${S}form,
-	${S}button,
-	${S}.btn,
-	${S}.share-buttons,
-	${S}.comments-section,
-	${S}video,
-	${S}audio {
-		display: none !important;
+	${S}.no-print.no-print,
+	${S}.shabbos-notice.shabbos-notice,
+	${S}${S}nav,
+	${S}.sidebar.sidebar,
+	${S}${S}form,
+	${S}${S}button,
+	${S}.btn.btn,
+	${S}.share-buttons.share-buttons,
+	${S}.comments-section.comments-section,
+	${S}${S}video,
+	${S}${S}audio {
+		display: none;
 	}
-	${S}body {
-		background: #ffffff !important;
-		color: #111111 !important;
-		font-size: 12pt !important;
-		line-height: 1.8 !important;
+	${S}${S}body {
+		background: #ffffff;
+		color: #111111;
+		font-size: 12pt;
+		line-height: 1.8;
 	}
 	${S}h1, ${S}h2, ${S}h3 {
 		break-after: avoid;
@@ -250,18 +250,18 @@ export function printCss(opts = {}) {
 		orphans: 3;
 		widows: 3;
 	}
-	${S}img {
-		max-width: 100% !important;
+	${S}${S}img {
+		max-width: 100%;
 		break-inside: avoid;
 		page-break-inside: avoid;
 	}
-	${S}article, ${S}main {
-		max-width: none !important;
-		padding: 0 !important;
+	${S}${S}article, ${S}${S}main {
+		max-width: none;
+		padding: 0;
 	}
-	${S}a {
-		color: #111111 !important;
-		text-decoration: none !important;
+	${S}${S}a {
+		color: #111111;
+		text-decoration: none;
 	}
 	${S}a[href^="http"]::after {
 		content: " (" attr(href) ")";

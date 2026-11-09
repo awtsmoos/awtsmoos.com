@@ -71,7 +71,10 @@ for (const token of [
 ]) {
 	assert.ok(css.includes(token), `Notifications V5 styles missing ${token}`);
 }
-assert.match(css, /@media \(max-width:\s*38\.75rem\)/);
+// B"H — Social sweep 2026-11-09: the mobile action-sheet breakpoint follows
+// the shared scale (560px) since the CSS comprehensive fix (a79c08b68),
+// which moved it from 38.75rem; the contract guards the rule, not the old value.
+assert.match(css, /@media \(max-width:\s*560px\)/);
 assert.match(ambient, /\.notifications-workspace/);
 assert.ok(css.split('\n').length <= 120, 'notification V5 action styles exceed 120 lines');
 console.log('B"H notificationSocialUxV4Contract.test passed');

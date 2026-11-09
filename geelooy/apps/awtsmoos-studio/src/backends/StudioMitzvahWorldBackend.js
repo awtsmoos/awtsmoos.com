@@ -10,7 +10,7 @@
 
 import { convertSharedMovieToCore } from '../../../shared/movie/compat/SharedToCoreMovie.js';
 
-const MITZVAH_WORLD_ROUTE = '/games/mitzvahWorld/?studioHandoff=1';
+const MITZVAH_WORLD_ROUTE = '/games/mitzvah-world/?studioHandoff=1';
 
 /** Describe the separate MitzvahWorld backend without importing its runtime. */
 export function describeMitzvahWorldBackend() {
@@ -23,14 +23,14 @@ export function describeMitzvahWorldBackend() {
 		gltfCharacters: true,
 		remoteMaterials: true,
 		canonicalMovieAdapter: true,
-		previewOwnership: 'games/mitzvahWorld'
+		previewOwnership: 'games/mitzvah-world'
 	};
 }
 
 /** Convert a shared movie and lazily delegate compilation to MitzvahWorld's own movie adapter. */
 export async function compileMovieForMitzvahWorld(sharedMovie) {
 	const coreMovie = convertSharedMovieToCore(sharedMovie);
-	const module = await import('../../../../games/mitzvahWorld/movies/unified/MitzvahWorldMovieAdapter.js');
+	const module = await import('../../../../games/mitzvah-world/movies/unified/MitzvahWorldMovieAdapter.js');
 	if (typeof module.compileForMitzvahWorld !== 'function') {
 		throw new Error('MitzvahWorld movie adapter does not expose compileForMitzvahWorld().');
 	}

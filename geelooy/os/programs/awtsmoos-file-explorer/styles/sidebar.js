@@ -17,8 +17,8 @@ export default /*css*/ `
 	border-right: 1px solid #9fb4cf;
 }
 
-.file-explorer.sidebar-collapsed .file-explorer-sidebar {
-	width: 0 !important;
+.file-explorer.file-explorer.sidebar-collapsed.sidebar-collapsed .file-explorer-sidebar.file-explorer-sidebar {
+	width: 0;
 	min-width: 0;
 	padding: 0;
 	border-right: 0;

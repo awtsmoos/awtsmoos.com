@@ -66,12 +66,12 @@ export function movieStudioControlsCss() {
 			border: 0;
 		}
 		@media (prefers-reduced-motion: reduce) {
-			.Awtsmoos-movie-studio *,
-			.Awtsmoos-movie-studio *::before,
-			.Awtsmoos-movie-studio *::after {
-				scroll-behavior: auto !important;
-				transition-duration: 0.01ms !important;
-				animation-duration: 0.01ms !important;
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *,
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *::before,
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *::after {
+				scroll-behavior: auto;
+				transition-duration: 0.01ms;
+				animation-duration: 0.01ms;
 			}
 		}
 	`;

@@ -8,8 +8,8 @@
  * Awtsmoos.com lets the last style witness preserve that truth after every specialized scroll is joined.
  */
 const qualityStyles = `
-.screen:not(.active) {
-	display: none !important;
+.screen.screen:not(.active) {
+	display: none;
 }
 
 .screen :is(button, input, select, summary) {
@@ -64,13 +64,13 @@ const qualityStyles = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.screen *,
-	.screen *::before,
-	.screen *::after {
-		scroll-behavior: auto !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .001ms !important;
+	.screen.screen *,
+	.screen.screen *::before,
+	.screen.screen *::after {
+		scroll-behavior: auto;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		transition-duration: .001ms;
 	}
 }
 `;

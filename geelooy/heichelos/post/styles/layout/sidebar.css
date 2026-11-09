@@ -1,6 +1,0 @@
-/* B"H
-   Legacy shim: sidebar layout is now owned only by
-   `styles/ideal/sidebar-shell.css` through the final `forever-ui-fixes.css`
-   import. This file intentionally emits no sidebar rules so mobile and desktop
-   drawer motion cannot fight the ideal layer.
-*/

@@ -11,16 +11,16 @@
 
 export function movieStudioInclusiveCss() {
 	return `
-		.movie-sr-only {
-			position: absolute !important;
-			width: 1px !important;
-			height: 1px !important;
-			padding: 0 !important;
-			margin: -1px !important;
-			overflow: hidden !important;
-			clip: rect(0, 0, 0, 0) !important;
-			white-space: nowrap !important;
-			border: 0 !important;
+		.movie-sr-only.movie-sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
 		}
 		.Awtsmoos-movie-studio :focus-visible {
 			outline: 2px solid var(--movie-focus);
@@ -42,8 +42,8 @@ export function movieStudioInclusiveCss() {
 			margin-left: 4px;
 			animation: movie-busy-pulse .9s ease-in-out infinite alternate;
 		}
-		.Awtsmoos-movie-studio [aria-invalid="true"] {
-			border-color: var(--movie-danger) !important;
+		.Awtsmoos-movie-studio.Awtsmoos-movie-studio [aria-invalid="true"][aria-invalid="true"] {
+			border-color: var(--movie-danger);
 			box-shadow: 0 0 0 2px rgb(255 128 140 / .16);
 		}
 		.Awtsmoos-movie-studio [data-status-tone="success"] { color: var(--movie-success); }
@@ -54,13 +54,13 @@ export function movieStudioInclusiveCss() {
 			to { opacity: 1; }
 		}
 		@media (prefers-reduced-motion: reduce) {
-			.Awtsmoos-movie-studio *,
-			.Awtsmoos-movie-studio *::before,
-			.Awtsmoos-movie-studio *::after {
-				scroll-behavior: auto !important;
-				animation-duration: .01ms !important;
-				animation-iteration-count: 1 !important;
-				transition-duration: .01ms !important;
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *,
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *::before,
+			.Awtsmoos-movie-studio.Awtsmoos-movie-studio *::after {
+				scroll-behavior: auto;
+				animation-duration: .01ms;
+				animation-iteration-count: 1;
+				transition-duration: .01ms;
 			}
 		}
 		@media (forced-colors: active) {

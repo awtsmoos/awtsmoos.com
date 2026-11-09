@@ -37,14 +37,15 @@ test("mobile desktop selector matches the living compact surface", async () => {
 	assert.match(css, /grid-template-columns: repeat\(2/);
 	assert.match(css, /min-height: 88px/);
 	assert.match(css, /\.desktop-icon-badge/);
-	assert.match(css, /display: none !important/);
+	assert.match(css, /display: none;/);
+	assert.doesNotMatch(css, /!important/);
 });
 
 test("phone styles share the coarse-pointer landscape boundary", async () => {
 	const launcher = await source("styles/revelation/launcher-mobile.css");
 	const shell = await source("styles/revelation/responsive-mobile.css");
 	for (const css of [launcher, shell]) {
-		assert.match(css, /max-width: 720px/);
+		assert.match(css, /max-width: 760px/);
 		assert.match(css, /pointer: coarse/);
 		assert.match(css, /max-width: 900px/);
 	}
@@ -64,10 +65,11 @@ test("tablet launcher is explicitly contained inside the viewport", async () => 
 
 test("phone window sheet bounds its padded desktop vessel", async () => {
 	const css = await source("styles/base/mobile/windowSheet.js");
-	assert.match(css, /box-sizing: border-box !important/);
-	assert.match(css, /width: 100vw !important/);
+	assert.match(css, /box-sizing: border-box;/);
+	assert.match(css, /width: 100vw;/);
 	assert.match(css, /\.awts-window/);
-	assert.match(css, /width: 100% !important/);
+	assert.match(css, /width: 100%;/);
+	assert.doesNotMatch(css, /!important/);
 });
 
 test("legacy menu animation never overrides structural centering", async () => {
@@ -93,7 +95,8 @@ test("skip link stays quiet until keyboard focus reveals it", async () => {
 	const css = await source("styles/revelation/skip-link.css");
 	assert.match(css, /clip-path: inset\(50%\)/);
 	assert.match(css, /\.g-skip-link:focus-visible/);
-	assert.match(css, /clip-path: none !important/);
+	assert.match(css, /clip-path: none/);
+	assert.doesNotMatch(css, /!important/);
 });
 
 function source(path) {

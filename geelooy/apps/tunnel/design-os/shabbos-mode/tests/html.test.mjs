@@ -62,7 +62,8 @@ const SAMPLE = `<!DOCTYPE html><html lang="en" class="theme-light"><head><title>
 {
 	const out = applyShabbosHtml(SAMPLE, { lat: 31.7, lon: 35.2, utcOffsetMin: 180 });
 	assert.ok(out.includes("shabbos-mode"), "class applied");
-	assert.ok(out.includes("animation: none !important"), "css injected");
+	assert.ok(out.includes("animation: none"), "css injected");
+	assert.ok(!out.includes("!important"), "no !important in injected css");
 	assert.ok(out.includes("@media print"), "print css injected");
 	assert.ok(out.includes("<details open>"), "details expanded");
 	assert.ok(out.includes("shabbos-notice"), "notice present");

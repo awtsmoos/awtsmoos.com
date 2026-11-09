@@ -37,9 +37,9 @@ export function movieStudioShellPolishCss() {
 			max-width: min(33vw, 420px);
 			line-height: 1.15;
 		}
-		.movie-studio-kicker {
+		.movie-studio-kicker.movie-studio-kicker {
 			color: var(--movie-accent);
-			font-size: 9px !important;
+			font-size: 9px;
 			font-weight: 800;
 			letter-spacing: .14em;
 			text-transform: uppercase;

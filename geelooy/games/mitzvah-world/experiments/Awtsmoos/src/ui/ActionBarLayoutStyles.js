@@ -123,11 +123,11 @@ export const ACTION_BAR_LAYOUT_CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.Mitzvah-combat-host *,
-	.Mitzvah-combat-host *::before,
-	.Mitzvah-combat-host *::after {
-		scroll-behavior: auto !important;
-		transition-duration: .001ms !important;
+	.Mitzvah-combat-host.Mitzvah-combat-host *,
+	.Mitzvah-combat-host.Mitzvah-combat-host *::before,
+	.Mitzvah-combat-host.Mitzvah-combat-host *::after {
+		scroll-behavior: auto;
+		transition-duration: .001ms;
 	}
 }
 `;

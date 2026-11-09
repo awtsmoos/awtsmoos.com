@@ -15,61 +15,61 @@ export function ensurePullTreeStyles() {
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
-        #git-pull-tree.awts-git-pull-tree {
-            display: block !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 0 !important;
-            max-height: 340px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            border: 1px solid var(--color-border) !important;
-            border-radius: 8px !important;
-            padding: 10px !important;
-            margin-top: 10px !important;
-            box-sizing: border-box !important;
-            white-space: normal !important;
+        #git-pull-tree.awts-git-pull-tree.awts-git-pull-tree {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+            white-space: normal;
         }
-        #git-pull-tree .awts-pull-dir {
-            display: block !important;
-            width: 100% !important;
-            margin: 4px 0 !important;
-            min-width: 0 !important;
+        #git-pull-tree#git-pull-tree .awts-pull-dir.awts-pull-dir {
+            display: block;
+            width: 100%;
+            margin: 4px 0;
+            min-width: 0;
         }
-        #git-pull-tree .awts-pull-summary {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            cursor: pointer !important;
-            user-select: none !important;
-            padding: 4px 0 !important;
-            white-space: normal !important;
-            min-width: 0 !important;
+        #git-pull-tree#git-pull-tree .awts-pull-summary.awts-pull-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 0;
+            white-space: normal;
+            min-width: 0;
         }
-        #git-pull-tree .awts-pull-children {
-            display: block !important;
-            margin-left: 20px !important;
-            min-width: 0 !important;
+        #git-pull-tree#git-pull-tree .awts-pull-children.awts-pull-children {
+            display: block;
+            margin-left: 20px;
+            min-width: 0;
         }
-        #git-pull-tree .awts-pull-file {
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 7px !important;
-            margin: 4px 0 4px 16px !important;
-            min-width: 0 !important;
-            white-space: normal !important;
+        #git-pull-tree#git-pull-tree .awts-pull-file.awts-pull-file {
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            margin: 4px 0 4px 16px;
+            min-width: 0;
+            white-space: normal;
         }
-        #git-pull-tree .awts-pull-name {
-            flex: 1 1 auto !important;
-            min-width: 0 !important;
-            overflow-wrap: anywhere !important;
-            word-break: break-word !important;
-            white-space: normal !important;
-            line-height: 1.35 !important;
+        #git-pull-tree#git-pull-tree .awts-pull-name.awts-pull-name {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            white-space: normal;
+            line-height: 1.35;
         }
-        #git-pull-tree input[type="checkbox"] {
-            flex: 0 0 auto !important;
-            margin-top: 2px !important;
+        #git-pull-tree#git-pull-tree input[type="checkbox"][type="checkbox"] {
+            flex: 0 0 auto;
+            margin-top: 2px;
         }
     `;
     document.head.appendChild(style);

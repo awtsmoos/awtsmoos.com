@@ -1,6 +1,0 @@
-/* B"H
-   Legacy shim: the final ideal UI now owns action surfaces through focused
-   modules (`floating-rail`, `global-actions`, `sidebar-panels`, and inline
-   comment styles). This broad button layer is silent to prevent global button
-   paint from colliding with mobile drawer controls, student rows, and chrome.
-*/

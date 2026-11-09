@@ -13,16 +13,16 @@ const toolbarDisclosure = `
 	position: relative;
 	flex: 0 0 auto;
 }
-.toolbar-overflow-summary {
-	display: inline-flex !important;
+.toolbar-overflow-summary.toolbar-overflow-summary {
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 40px !important;
-	padding: 0 12px !important;
-	border: 1px solid rgba(255, 255, 255, .11) !important;
-	border-radius: 11px !important;
-	background: rgba(255, 255, 255, .045) !important;
-	color: #f6f8ff !important;
+	min-height: 40px;
+	padding: 0 12px;
+	border: 1px solid rgba(255, 255, 255, .11);
+	border-radius: 11px;
+	background: rgba(255, 255, 255, .045);
+	color: #f6f8ff;
 	cursor: pointer;
 	list-style: none;
 }
@@ -34,9 +34,9 @@ const toolbarDisclosure = `
 	margin-left: 7px;
 	opacity: .64;
 }
-.toolbar-overflow[open] > .toolbar-overflow-summary {
-	background: rgba(124, 156, 255, .14) !important;
-	border-color: rgba(124, 156, 255, .28) !important;
+.toolbar-overflow.toolbar-overflow[open] > .toolbar-overflow-summary.toolbar-overflow-summary {
+	background: rgba(124, 156, 255, .14);
+	border-color: rgba(124, 156, 255, .28);
 }
 .toolbar-overflow-panel {
 	position: absolute;
@@ -54,15 +54,15 @@ const toolbarDisclosure = `
 	box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
 	backdrop-filter: blur(28px) saturate(1.18);
 }
-.toolbar-overflow-panel .toolbar-group {
+.toolbar-overflow-panel.toolbar-overflow-panel .toolbar-group.toolbar-group {
 	align-content: start;
 	flex-wrap: wrap;
-	padding: 6px !important;
-	border-radius: 12px !important;
-	background: rgba(255, 255, 255, .025) !important;
+	padding: 6px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .025);
 }
-.toolbar-overflow-panel .toolbar-group button {
-	min-height: 40px !important;
+.toolbar-overflow-panel.toolbar-overflow-panel .toolbar-group.toolbar-group button {
+	min-height: 40px;
 }
 @media (max-width: 760px) {
 	.toolbar-overflow {

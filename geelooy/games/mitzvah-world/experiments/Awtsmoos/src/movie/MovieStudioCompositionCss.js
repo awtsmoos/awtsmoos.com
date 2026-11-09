@@ -57,8 +57,8 @@ export function movieStudioCompositionCss() {
 			padding-block: var(--movie-space-2);
 			resize: vertical;
 		}
-		.movie-composition-check {
-			grid-template-columns: auto 1fr !important;
+		.movie-composition-check.movie-composition-check {
+			grid-template-columns: auto 1fr;
 			align-items: center;
 		}
 		.movie-composition-check input {

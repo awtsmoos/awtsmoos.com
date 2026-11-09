@@ -48,13 +48,13 @@ export default /*css*/ `
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.awts-command,
-	.awts-command *,
-	.awts-command *::before,
-	.awts-command *::after {
-		animation: none !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
+	.awts-command.awts-command,
+	.awts-command.awts-command *,
+	.awts-command.awts-command *::before,
+	.awts-command.awts-command *::after {
+		animation: none;
+		transition-duration: 0.01ms;
+		scroll-behavior: auto;
 	}
 }
 `;

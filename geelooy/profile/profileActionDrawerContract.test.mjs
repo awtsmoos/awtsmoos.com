@@ -1,6 +1,6 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 /**
  * @module ProfileActionDrawerContractTest
  * @description
@@ -32,7 +32,15 @@ const modules = [
 	read('geelooy/style/civilization/profile-content/responsive.css')
 ];
 
-assert.match(page, /profile-content\.css/);
+// B"H — Social sweep 2026-11-09: the profile page no longer loads the
+// profile-content.css manifest — the drawer lives in the dream sheet
+// (profile-dream.css), which must carry the drawer shell, header, and
+// list. The manifest itself is still guarded below as a split-vessel file.
+assert.match(page, /profile\/styles\/profile-dream\.css/);
+const dreamCss = read('geelooy/profile/styles/profile-dream.css');
+assert.match(dreamCss, /\.profile-dream \.pd-drawer \{/);
+assert.match(dreamCss, /\.profile-dream \.profile-action-head \{/);
+assert.match(dreamCss, /\.profile-dream \.profile-action-list/);
 assert.match(manifest, /profile-content\/surfaces\.css/);
 assert.match(manifest, /profile-content\/responsive\.css/);
 assert.match(manifest, /profile-action-drawer\.css/);

@@ -1,9 +1,0 @@
-/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
-/* B"H Reader tokens: silence around the letters. */
-.post-reader-localized-context {
-  --reader-paper: #fffaf0;
-  --reader-panel: rgba(255,252,246,.88);
-  --reader-line: rgba(122,82,31,.16);
-  --reader-text: #21160a;
-  --reader-muted: #6d5a43;
-}

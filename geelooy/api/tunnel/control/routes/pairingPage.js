@@ -76,7 +76,7 @@ p.sub { color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 20px; }
 .success p { margin:0;color:var(--muted);font-size:14px;line-height:1.6; }
 .card .hidden { display:none; }
 @media (max-width:380px) { body {padding:12px;} .card {padding:20px;} }
-@media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important;transition:none!important; } }
+@media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto;transition:none; } }
 </style>
 </head>
 <body>

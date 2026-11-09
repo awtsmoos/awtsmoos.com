@@ -16,9 +16,11 @@ import {
  * ensuring journal grouping preserves order, external paths never become links, and transparency labels remain plain statements of existing owner preferences.
  */
 
-const first = new Date("2026-08-12T09:00:00-04:00");
-const second = new Date("2026-08-12T08:00:00-04:00");
-const third = new Date("2026-08-11T20:00:00-04:00");
+// Local-time construction: groupActivityByDay groups by the viewer's local day,
+// so the two-day shape below must hold in any runtime timezone, not only America/New_York.
+const first = new Date(2026, 7, 12, 9, 0, 0);
+const second = new Date(2026, 7, 12, 8, 0, 0);
+const third = new Date(2026, 7, 11, 20, 0, 0);
 const groups = groupActivityByDay([
 	{ id: "a", createdAt: first.toISOString() },
 	{ id: "b", createdAt: second.toISOString() },

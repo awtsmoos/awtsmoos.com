@@ -258,6 +258,7 @@ function setupEventListeners() {
     const addBtn = document.getElementById('add-track-btn');
     const fileInput = document.getElementById('file-input');
     const playBtn = document.getElementById('play-pause-btn');
+    const toStartBtn = document.getElementById('to-start-btn');
     const stopBtn = document.getElementById('stop-btn');
     const splitBtn = document.getElementById('split-btn');
     const deleteBtn = document.getElementById('delete-btn');
@@ -267,6 +268,11 @@ function setupEventListeners() {
     addBtn.onclick = () => fileInput.click();
     fileInput.onchange = handleFileUpload;
     playBtn.onclick = togglePlay;
+    toStartBtn.onclick = () => {
+        stopPlayback();
+        state.playHeadTime = 0;
+        state.scrollX = 0;
+    };
     stopBtn.onclick = stopPlayback;
     splitBtn.onclick = splitSelectedClip;
     deleteBtn.onclick = deleteSelectedClip;

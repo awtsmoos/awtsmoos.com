@@ -11,21 +11,21 @@
  */
 export default /*css*/ `
 @media (prefers-reduced-motion: reduce) {
-	.drive-chip,
-	.tree-node-content,
-	.toolbar-action,
-	.sidebar-toggle-btn,
-	.nav-btn,
-	.edit-path-btn,
-	.input-dialog,
-	.input-dialog-overlay,
-	.file-explorer-sidebar,
-	.drive-chip-state::before,
-	.node-meta::before,
-	.ssh-drive-status::before {
-		animation: none !important;
-		transition-duration: .001ms !important;
-		scroll-behavior: auto !important;
+	.drive-chip.drive-chip,
+	.tree-node-content.tree-node-content,
+	.toolbar-action.toolbar-action,
+	.sidebar-toggle-btn.sidebar-toggle-btn,
+	.nav-btn.nav-btn,
+	.edit-path-btn.edit-path-btn,
+	.input-dialog.input-dialog,
+	.input-dialog-overlay.input-dialog-overlay,
+	.file-explorer-sidebar.file-explorer-sidebar,
+	.drive-chip-state.drive-chip-state::before,
+	.node-meta.node-meta::before,
+	.ssh-drive-status.ssh-drive-status::before {
+		animation: none;
+		transition-duration: .001ms;
+		scroll-behavior: auto;
 	}
 }
 `;

@@ -25,10 +25,10 @@ export default /*css*/ `
 		padding: 13px 9px;
 	}
 
-	.file-item .icon-img {
+	.file-item.file-item .icon-img.icon-img {
 		grid-row: auto;
-		width: 58px !important;
-		height: 58px !important;
+		width: 58px;
+		height: 58px;
 	}
 
 	.file-name {

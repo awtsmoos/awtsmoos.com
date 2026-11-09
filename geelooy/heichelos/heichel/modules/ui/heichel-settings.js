@@ -211,7 +211,7 @@ function injectStyle() {
 		.heichel-settings-row button{padding:9px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:inherit;cursor:pointer;font-size:14px}
 		.heichel-settings-danger-title{color:#ff9c9c}
 		.heichel-settings-scope{font-size:14px;line-height:1.5;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.3);border-radius:8px;padding:10px 12px}
-		.heichel-settings-delete{background:rgba(160,30,30,.85)!important;border-color:rgba(255,120,120,.6)!important;color:#fff!important}
+		.heichel-settings-delete.heichel-settings-delete{background:rgba(160,30,30,.85);border-color:rgba(255,120,120,.6);color:#fff}
 		.heichel-settings-delete:disabled{opacity:.4;cursor:not-allowed}
 		.heichel-settings-status{font-size:13px;opacity:.9}
 	`;

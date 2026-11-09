@@ -12,56 +12,56 @@
 
 export default desktopId => /* css */ `
 @media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
-	html,
-	body {
-		max-width: 100vw !important;
-		overflow: hidden !important;
+	html:root,
+	html body {
+		max-width: 100vw;
+		overflow: hidden;
 	}
-	.${desktopId}.desktop {
-		box-sizing: border-box !important;
-		width: 100vw !important;
-		height: calc(100svh - var(--geo-topbar-height, 52px)) !important;
-		min-height: 0 !important;
-		overflow: hidden !important;
+	.${desktopId}.desktop.desktop {
+		box-sizing: border-box;
+		width: 100vw;
+		height: calc(100svh - var(--geo-topbar-height, 52px));
+		min-height: 0;
+		overflow: hidden;
 		overscroll-behavior: contain;
 	}
-	.window,
-	.awts-window {
-		left: 0 !important;
-		top: 0 !important;
-		width: 100% !important;
-		height: calc(100% - var(--geo-dock-height, 66px) - env(safe-area-inset-bottom)) !important;
-		max-width: 100% !important;
-		max-height: none !important;
-		border-width: 0 0 1px !important;
-		border-radius: 0 0 18px 18px !important;
-		box-shadow: none !important;
+	.window.window,
+	.awts-window.awts-window {
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: calc(100% - var(--geo-dock-height, 66px) - env(safe-area-inset-bottom));
+		max-width: 100%;
+		max-height: none;
+		border-width: 0 0 1px;
+		border-radius: 0 0 18px 18px;
+		box-shadow: none;
 	}
-	.window.is-fullscreen,
-	.awts-window.is-fullscreen {
-		height: 100% !important;
-		border-radius: 0 !important;
+	.window.window.is-fullscreen.is-fullscreen,
+	.awts-window.awts-window.is-fullscreen.is-fullscreen {
+		height: 100%;
+		border-radius: 0;
 	}
-	.window .window-header,
-	.awts-window .window-header {
-		height: 46px !important;
-		min-height: 46px !important;
+	.window.window .window-header.window-header,
+	.awts-window.awts-window .window-header.window-header {
+		height: 46px;
+		min-height: 46px;
 		padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right));
 		touch-action: none;
 	}
-	.window .header-btn,
-	.window .awtsBtn,
-	.awts-window .header-btn,
-	.awts-window .awtsBtn {
-		min-width: 44px !important;
-		min-height: 44px !important;
-		border-radius: 12px !important;
-		font-size: 15px !important;
+	.window.window .header-btn.header-btn,
+	.window.window .awtsBtn.awtsBtn,
+	.awts-window.awts-window .header-btn.header-btn,
+	.awts-window.awts-window .awtsBtn.awtsBtn {
+		min-width: 44px;
+		min-height: 44px;
+		border-radius: 12px;
+		font-size: 15px;
 	}
-	.window .window-content,
-	.awts-window .window-content {
-		height: calc(100% - 46px) !important;
-		overflow: auto !important;
+	.window.window .window-content.window-content,
+	.awts-window.awts-window .window-content.window-content {
+		height: calc(100% - 46px);
+		overflow: auto;
 		-webkit-overflow-scrolling: touch;
 	}
 }

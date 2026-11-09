@@ -13,7 +13,7 @@
  * (sha256-folder) GLB of that exact build. This provider reads that manifest
  * at runtime, so a future game build can move the asset without breaking the
  * studio. The previous constant froze one build's hash inside a retired
- * directory layout (/games/mitzvahWorld/assets/models/player/<sha>/), a path
+ * directory layout (/games/mitzvah-world/assets/models/player/<sha>/), a path
  * that exists in no deployed tree, so every character load answered 404.
  * When the manifest cannot be read, resolution falls back to the build's
  * stable canonical copy (build/generated/assets/canonical-chossid.glb, the
@@ -21,8 +21,8 @@
  * ProductionBuildContentTests).
  */
 
-const CHOSSID_MANIFEST_URL = '/games/mitzvahWorld/build/generated/mitzvah-world-essential-assets.json';
-const CHOSSID_FALLBACK_URL = '/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb';
+const CHOSSID_MANIFEST_URL = '/games/mitzvah-world/build/generated/mitzvah-world-essential-assets.json';
+const CHOSSID_FALLBACK_URL = '/games/mitzvah-world/build/generated/assets/canonical-chossid.glb';
 
 let chossidUrlPromise = null;
 

@@ -1,6 +1,6 @@
 // B"H — verify the app's engine-adapter.js (hit-test, click dispatch, anchor
 // nav, popup seam) against the VENDORED engine copy, in browser load order.
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { runInThisContext } from "vm";
 import { pathToFileURL } from "url";
 
@@ -30,7 +30,14 @@ runInThisContext(readFileSync(`${ENG}/vm-core.js`, "utf8"), { filename: "vm-core
 // 2. engine + the app's adapter module
 const { createMerkavaEngine } = await import(pathToFileURL(`${ENG}/merkava-engine.js`).href);
 const adapter = await import(pathToFileURL(`${APP}/js/engine-adapter.js`).href);
-const engine = await createMerkavaEngine(readFileSync(`${ENG}/merkava-pixel.wasm`));
+// B"H — merkava-pixel.wasm is a gitignored build artifact; when it is absent
+// (clean clone, live site) the engine falls back to JS pixels. Test whichever
+// backend the tree actually provides, and assert the honest backend label.
+const wasmFile = `${ENG}/merkava-pixel.wasm`;
+const wasmPresent = existsSync(wasmFile);
+const expectedBackend = wasmPresent ? "merkava-wasm/1.0" : "merkava-js/1.0";
+const engine = await createMerkavaEngine(wasmPresent ? readFileSync(wasmFile) : "./engine/merkava-pixel.wasm");
+assert("engine uses the available pixel backend", engine.backend === expectedBackend, `backend=${engine.backend}`);
 assert("engine has renderPage + createPage", typeof engine.renderPage === "function" && typeof engine.createPage === "function");
 
 // 3. interactive page with a JS-driven button and an <a href>
@@ -105,7 +112,7 @@ assert("blitRender paints canvas", stubCanvas.width === 400 && stubCanvas.height
 // 10. static path still works (JS-off fallback)
 const stub2 = { width: 0, height: 0, getContext: () => ({ putImageData: () => {} }) };
 const st = adapter.renderToCanvas(engine, stub2, "<html><body><p>static</p></body></html>", { width: 200, height: 100 });
-assert("renderToCanvas static path", st.width === 200 && st.height === 100 && st.backend === "merkava-wasm/1.0", st.backend);
+assert("renderToCanvas static path", st.width === 200 && st.height === 100 && st.backend === expectedBackend, st.backend);
 
 console.log(`\n==== adapter-integration: ${pass} pass, ${fail} fail ====`);
 process.exit(fail ? 1 : 0);

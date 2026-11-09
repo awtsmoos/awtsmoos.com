@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 /**
  * @module RouteSourceScanner
  * @description
@@ -46,7 +46,14 @@ class RouteSourceScanner {
 	/** @param {string} file Candidate file. @returns {boolean} Whether the path belongs to tests. */
 	isTestPath(file) {
 		const normalized = file.split(path.sep).join('/');
-		return normalized.includes('/test/') || normalized.includes('/tests/');
+		// B"H — Social sweep 2026-11-09: test files also live beside their
+		// subjects (helper/mail/settingsService.test.js and 48 others), not
+		// only under /test/ trees. Their fixture object literals (database
+		// seed paths such as '/users/…/mail/emailSettings') are not route
+		// declarations; scanning them flagged a false "duplicate route key".
+		// A *.test.* filename is a test file wherever it lives.
+		return normalized.includes('/test/') || normalized.includes('/tests/') ||
+			normalized.endsWith('.test.js') || normalized.endsWith('.test.mjs') || normalized.endsWith('.test.cjs');
 	}
 
 	/** @param {string} file Route-bearing candidate. @returns {Object} Source description. */

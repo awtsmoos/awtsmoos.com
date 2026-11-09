@@ -24,7 +24,7 @@ export function movieStudioMediaWorkspaceCss() {
 		.movie-media-workspace-filters,
 		.movie-media-workspace-searches,
 		.movie-source-monitor-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--movie-space-2); }
-		.movie-media-workspace-check { display: flex !important; align-items: center; gap: var(--movie-space-2) !important; }
+		.movie-media-workspace-check.movie-media-workspace-check { display: flex; align-items: center; gap: var(--movie-space-2); }
 		.movie-media-workspace-check input { width: auto; }
 		.movie-media-workspace-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--movie-space-1); align-items: end; }
 		.movie-media-workspace-list { display: grid; gap: var(--movie-space-1); max-height: 240px; overflow: auto; }

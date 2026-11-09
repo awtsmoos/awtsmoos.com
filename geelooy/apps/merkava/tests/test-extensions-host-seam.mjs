@@ -12,9 +12,9 @@ import path from "path";
 import vm from "vm";
 
 const require = createRequire(import.meta.url);
-const HOME = os.homedir();
-const APP = path.join(HOME, "workspace/mw-repo/geelooy/apps/merkava");
-const BROWSER_DIR = path.join(HOME, "workspace/mw-repo/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser");
+const TEST_DIR = path.dirname(new URL(import.meta.url).pathname);
+const APP = path.resolve(TEST_DIR, "..");
+const BROWSER_DIR = path.resolve(TEST_DIR, "..", "..", "..", "scripts/awtsmoos/MerkavaExecutor/merkava-browser");
 
 let pass = 0, fail = 0;
 const failures = [];

@@ -16,8 +16,8 @@ export const GlobalStyles = `
         touch-action: none; /* Prevents mortal scrolling on mobile */
     }
 
-    .overworld-btn:hover {
-        background: rgba(0, 229, 255, 0.2) !important;
+    .overworld-btn.overworld-btn:hover {
+        background: rgba(0, 229, 255, 0.2);
         transform: scale(1.05);
     }
     
@@ -25,8 +25,8 @@ export const GlobalStyles = `
         transform: scale(0.95);
     }
 
-    #btn-close-bag:hover {
-        background: #f44336 !important;
+    #btn-close-bag#btn-close-bag:hover {
+        background: #f44336;
         transform: scale(1.05);
     }
 

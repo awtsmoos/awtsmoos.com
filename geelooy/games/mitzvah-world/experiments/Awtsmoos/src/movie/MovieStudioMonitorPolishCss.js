@@ -88,10 +88,10 @@ export function movieStudioMonitorPolishCss() {
 			background: #000;
 			box-shadow: 0 0 0 1px rgb(255 255 255 / .03), var(--movie-shadow-lg);
 		}
-		.movie-studio-preview-frame canvas {
+		.movie-studio-preview-frame.movie-studio-preview-frame canvas {
 			display: block;
-			width: 100% !important;
-			height: 100% !important;
+			width: 100%;
+			height: 100%;
 			max-width: 100%;
 			max-height: 100%;
 			object-fit: contain;

@@ -1,6 +1,0 @@
-/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-@media (max-width: 760px) {
-  .home-surface-main { padding: .7rem; }
-  .home-surface-grid { grid-template-columns: 1fr; }
-  .home-command-card, .home-feed-phone, .home-discovery-card, .home-post-card { border-radius: 1rem; }
-}

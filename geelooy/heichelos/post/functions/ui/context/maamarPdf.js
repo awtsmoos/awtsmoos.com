@@ -417,8 +417,8 @@ function ensureInlinePrintCss() {
 	style.id = INLINE_PRINT_CSS_ID;
 	style.textContent =
 		'@media print {\n' +
-		'  body.awtsmoos-maamar-printing > *:not(.' + INLINE_PRINT_SHEET_CLASS + ') { display: none !important; }\n' +
-		'  .' + INLINE_PRINT_SHEET_CLASS + ' { display: block !important; }\n' +
+		'  body.awtsmoos-maamar-printing.awtsmoos-maamar-printing > *:not(.' + INLINE_PRINT_SHEET_CLASS + '.' + INLINE_PRINT_SHEET_CLASS + ') { display: none; }\n' +
+		'  .' + INLINE_PRINT_SHEET_CLASS + '.' + INLINE_PRINT_SHEET_CLASS + ' { display: block; }\n' +
 		'}\n' +
 		'.' + INLINE_PRINT_SHEET_CLASS + ' { display: none; }\n' +
 		printCss();

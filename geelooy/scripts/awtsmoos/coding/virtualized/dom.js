@@ -124,9 +124,9 @@ export const DOMMethods = {
             .token-selector { color: ${this.colors.selector}; } .token-property { color: ${this.colors.property}; }
             
             /* B"H - Folded Token Style */
-            .token-folded { 
+            .token-folded.token-folded { 
                 background-color: rgba(255, 255, 255, 0.1);
-                color: transparent !important;
+                color: transparent;
                 border-radius: 4px;
                 padding: 0 4px;
                 position: relative;
@@ -135,7 +135,7 @@ export const DOMMethods = {
                 height: 1.2em;
                 vertical-align: middle;
                 overflow: hidden;
-                pointer-events: auto !important; /* Critical for interaction */
+                pointer-events: auto; /* Critical for interaction */
                 cursor: pointer;
                 z-index: 50;
             }

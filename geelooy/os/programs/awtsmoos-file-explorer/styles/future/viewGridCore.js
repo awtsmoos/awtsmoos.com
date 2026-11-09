@@ -36,10 +36,10 @@ export default /*css*/ `
 	contain: layout paint style;
 }
 
-.file-item .icon-img {
+.file-item.file-item .icon-img.icon-img {
 	grid-row: 1 / 3;
-	width: 46px !important;
-	height: 46px !important;
+	width: 46px;
+	height: 46px;
 	margin-inline: auto;
 	filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .30));
 }
@@ -69,21 +69,21 @@ export default /*css*/ `
 	background: rgba(4, 17, 31, .36);
 }
 
-.mount-badge {
+.mount-badge.mount-badge {
 	max-width: 48%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border-color: var(--awt-line2) !important;
-	background: rgba(4, 17, 31, .55) !important;
-	color: var(--awt-cyan) !important;
+	border-color: var(--awt-line2);
+	background: rgba(4, 17, 31, .55);
+	color: var(--awt-cyan);
 }
 
-.file-item.selected,
-.file-explorer [aria-selected="true"] {
-	background: linear-gradient(135deg, rgba(58, 167, 255, .55), rgba(82, 255, 184, .22)) !important;
-	border-color: var(--awt-cyan) !important;
-	color: white !important;
+.file-item.file-item.selected.selected,
+.file-explorer.file-explorer [aria-selected="true"][aria-selected="true"] {
+	background: linear-gradient(135deg, rgba(58, 167, 255, .55), rgba(82, 255, 184, .22));
+	border-color: var(--awt-cyan);
+	color: white;
 }
 
 .file-item:focus-visible {

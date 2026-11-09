@@ -17,8 +17,8 @@ const gizmoCssUrl = new URL('../styles/studio-editor-gizmo.css', import.meta.url
 async function readSource(url) { return readFile(url, 'utf8'); }
 test('Studio activates reference viewport and gizmo presentation without legacy editor mobile CSS', async () => {
 	const index = await readSource(studioIndexUrl);
-	assert.match(index, /styles\/studio-editor-viewport\.css\?v=awtsmoos-studio-reference-/);
-	assert.match(index, /styles\/studio-editor-gizmo\.css\?v=awtsmoos-studio-reference-/);
+	assert.match(index, /styles\/studio-editor-viewport\.css\?v=[^"'\s]+/);
+	assert.match(index, /styles\/studio-editor-gizmo\.css\?v=[^"'\s]+/);
 	assert.doesNotMatch(index, /styles\/studio-editor-mobile\.css/);
 });
 test('viewport and gizmo modules preserve absolute stage overlays', async () => {

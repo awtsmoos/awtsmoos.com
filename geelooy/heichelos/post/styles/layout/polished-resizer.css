@@ -1,5 +1,0 @@
-/* B"H
-   Legacy shim: the resize seam is now drawn only by
-   `styles/ideal/sidebar-shell.css` so there are no duplicate pseudo-elements or
-   hover transitions on the same handle.
-*/

@@ -8,7 +8,7 @@
 .human-view-root {
 	position: fixed;
 	inset: 0;
-	z-index: 2400;
+	z-index: 54;
 	color: var(--human-text);
 	background:
 		radial-gradient(circle at 8% 4%, rgba(34, 216, 255, 0.15), transparent 28rem),

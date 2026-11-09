@@ -9,7 +9,7 @@
  */
 
 import { fetchHebcalCalendar, readIsraelMode } from '/heichelos/heichel/modules/chitas/hebcal-provider.js?v=native-chitas-005';
-import { buildStudyCards, findNextParsha } from '/heichelos/heichel/modules/chitas/schedule.js?v=native-chitas-005';
+import { buildStudyCards, findNextParsha } from '/heichelos/heichel/modules/chitas/schedule.js?v=native-chitas-006';
 import { resolvePostRange } from '../reference-posts/rangeResolver.js?v=native-reference-post-001';
 import { parseChitasRange } from './rangeParser.js?v=native-chitas-005';
 import { initChitasPostCommentary } from '/heichelos/heichel/modules/chitas/commentary.js?v=chitas-commentary-001';

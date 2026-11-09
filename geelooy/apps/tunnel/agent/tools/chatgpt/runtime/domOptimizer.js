@@ -37,7 +37,7 @@ function optimizerScript(options = {}) {
     const installCss = () => {
       if (document.getElementById(styleId)) return false;
       const st = document.createElement('style'); st.id = styleId;
-      st.textContent = '[data-testid*="conversation-turn"],article:has([data-message-author-role]){content-visibility:auto!important;contain-intrinsic-size:1px 360px!important;contain:layout paint style!important}.awtsmoos-tunnel-pruned-shell{contain:size layout paint style!important;content-visibility:hidden!important;overflow:hidden!important;pointer-events:none!important;user-select:none!important}';
+      st.textContent = '[data-testid*="conversation-turn"][data-testid*="conversation-turn"],article:has([data-message-author-role]):has([data-message-author-role]){content-visibility:auto;contain-intrinsic-size:1px 360px;contain:layout paint style}.awtsmoos-tunnel-pruned-shell.awtsmoos-tunnel-pruned-shell{contain:size layout paint style;content-visibility:hidden;overflow:hidden;pointer-events:none;user-select:none}';
       document.documentElement.appendChild(st); return true;
     };
     const label = (el, i, total) => (el.querySelector?.('[data-message-author-role]')?.getAttribute('data-message-author-role') || el.tagName || 'node') + ' ' + (i + 1) + '/' + total;

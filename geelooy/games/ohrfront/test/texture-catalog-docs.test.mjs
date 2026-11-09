@@ -13,7 +13,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const CORE = new URL("../../../libs/awtsmoos-procedural-core/", import.meta.url);
-const MITZVAH = new URL("../../mitzvahWorld/experiments/Awtsmoos/src/assets/", import.meta.url);
+const MITZVAH = new URL("../../mitzvah-world/experiments/Awtsmoos/src/assets/", import.meta.url);
 const FAMILIES = Object.freeze({
 	ARCHITECTURE: "RemoteTextureArchitectureNames.js",
 	CRAFT: "RemoteTextureCraftNames.js",

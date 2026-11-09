@@ -39,7 +39,7 @@ test("compiler styles remain local and responsive", async () => {
 
 test("mobile controls retain full-width layout", async () => {
 	const css = await readFile(new URL("responsive.css", ROOT), "utf8");
-	assert.match(css, /max-width:\s*44rem/);
+	assert.match(css, /max-width:\s*760px/);
 	assert.match(css, /min-height:\s*100dvh/);
 	assert.match(css, /grid-template-columns:\s*1fr/);
 });
@@ -47,6 +47,6 @@ test("mobile controls retain full-width layout", async () => {
 test("compiler page loads each local style vessel", async () => {
 	const html = await readFile(new URL("index.html", ROOT), "utf8");
 	for (const file of STYLE_FILES) {
-		assert.match(html, new RegExp(`href=[\"']${file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[\"']`));
+		assert.match(html, new RegExp(`href=[\"']${file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\?[^\"']*)?[\"']`));
 	}
 });

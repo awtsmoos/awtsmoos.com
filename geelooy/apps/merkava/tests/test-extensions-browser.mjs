@@ -34,12 +34,13 @@ import vm from "vm";
 
 const require = createRequire(import.meta.url);
 const HOME = os.homedir();
-const BROWSER_DIR = path.join(HOME, "workspace/mw-repo/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser");
-const BIN_DIR = path.join(HOME, "workspace/mw-repo/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary");
+const TEST_DIR = path.dirname(new URL(import.meta.url).pathname);
+const BROWSER_DIR = path.resolve(TEST_DIR, "..", "..", "..", "scripts/awtsmoos/MerkavaExecutor/merkava-browser");
+const BIN_DIR = path.resolve(TEST_DIR, "..", "..", "..", "scripts/awtsmoos/MerkavaExecutor/merkava-binary");
 const MERK_ROOT = path.join(BIN_DIR, "..");
 const EXT_HOST_SRC = path.join(BROWSER_DIR, "ExtensionHost.js");
 const VM_RUNNER_SRC = path.join(BROWSER_DIR, "VmScriptRunner.js");
-const NET_SRC = path.join(HOME, "workspace/mw-repo/geelooy/apps/merkava/js/net.js");
+const NET_SRC = path.join(TEST_DIR, "..", "js/net.js");
 const REAL_EXT_DIR = "/tmp/realext/getting-started";
 const SHOT_DIR = path.join(HOME, "workspace/merkava-screenshots");
 

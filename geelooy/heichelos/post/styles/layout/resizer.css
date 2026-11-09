@@ -1,5 +1,0 @@
-/* B"H
-   Legacy shim: active resizer geometry and cursors are owned only by
-   `styles/ideal/sidebar-shell.css`. This file is silent to prevent resize
-   handle duplication and mobile/desktop cursor conflicts.
-*/

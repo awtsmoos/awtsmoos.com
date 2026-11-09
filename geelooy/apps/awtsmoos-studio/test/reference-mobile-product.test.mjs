@@ -21,7 +21,7 @@ test('Edit, Animate, and Audio primary sheets expose real canonical systems', as
 });
 test('mobile dimensional control attaches visually to the stage with blue selected state', async () => {
 	const css = await read('../styles/studio-native-viewport.css');
-	assert.match(css, /@media \(max-width: 820px\)[\s\S]*?\.studio-viewport-mode-bar\s*\{[\s\S]*?position:\s*absolute;/);
+	assert.match(css, /@media \(max-width: 900px\)[\s\S]*?\.studio-viewport-mode-bar\s*\{[\s\S]*?position:\s*absolute;/);
 	assert.match(css, /background:\s*#237ff5/);
 });
 test('eager index loads real timeline presentation', async () => {

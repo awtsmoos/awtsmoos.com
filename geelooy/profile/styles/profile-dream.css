@@ -695,6 +695,53 @@
 	display: none;
 }
 
+/* B"H — Social sweep 2026-11-09: the drawer header and action list had no
+ * styles on this page. Their rules lived in
+ * style/civilization/profile-action-drawer.css, which the profile page no
+ * longer loads (its shell moved to .pd-drawer above); the header (title +
+ * close button) and the list rendered unstyled. Defined here, in the dream
+ * vocabulary, so the settings/actions drawer keeps its layout. */
+.profile-dream .profile-action-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	padding-block: .25rem .5rem;
+	background: var(--pd-card);
+}
+.profile-dream .profile-action-head h2 {
+	margin: 0;
+	font-size: clamp(1.05rem, 3vw, 1.3rem);
+	color: var(--pd-ink);
+}
+.profile-dream .profile-action-head button {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	border: 1px solid var(--pd-line);
+	border-radius: .7rem;
+	background: var(--pd-cream-2);
+	color: var(--pd-ink);
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+.profile-dream .profile-action-head button:hover {
+	border-color: var(--pd-gold);
+}
+.profile-dream .profile-action-head button:focus-visible {
+	outline: 2px solid var(--pd-gold);
+	outline-offset: 2px;
+}
+.profile-dream .profile-action-list,
+.profile-dream .inline-notification-list,
+.profile-dream [data-profile-action-body] {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+}
+
 /* settings popup (gear button) — B"H */
 .profile-dream button.pd-topbar-btn {
 	font: inherit;

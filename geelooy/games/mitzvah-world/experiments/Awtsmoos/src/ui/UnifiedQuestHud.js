@@ -49,6 +49,6 @@ export function installUnifiedQuestHudStyle(documentValue = document) {
 	if (documentValue.getElementById(id)) return;
 	const style = documentValue.createElement('style');
 	style.id = id;
-	style.textContent = '.Awtsmoos-quest-mini-tracker[data-unified-hidden="true"]{display:none!important}';
+	style.textContent = '.Awtsmoos-quest-mini-tracker[data-unified-hidden="true"][data-unified-hidden="true"]{display:none}';
 	documentValue.head.appendChild(style);
 }

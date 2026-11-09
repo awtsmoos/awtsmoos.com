@@ -21,10 +21,10 @@ body.spotlight-mode::after {
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85);
     pointer-events: none;
-    z-index: 498;
+    z-index: 30;
 }
 body.spotlight-mode #editor-wrapper {
-    z-index: 499;
+    z-index: 31;
     position: relative;
     box-shadow: 0 0 50px rgba(0, 246, 255, 0.2);
 }

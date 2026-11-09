@@ -2,12 +2,13 @@
 import { strict as assert } from "node:assert";
 import { shabbosCss, printCss } from "../css.mjs";
 
-// 1. Motion is killed.
+// 1. Motion is killed — by doubled specificity, never by !important.
 {
 	const css = shabbosCss();
-	assert.ok(css.includes("animation: none !important"), "kills animation");
-	assert.ok(css.includes("transition: none !important"), "kills transition");
-	assert.ok(css.includes("scroll-behavior: auto !important"), "kills smooth scroll");
+	assert.ok(css.includes("animation: none"), "kills animation");
+	assert.ok(css.includes("transition: none"), "kills transition");
+	assert.ok(css.includes("scroll-behavior: auto"), "kills smooth scroll");
+	assert.ok(!css.includes("!important"), "no !important anywhere in shabbos css");
 	console.log("ok 1 - all motion killed");
 }
 

@@ -17,8 +17,8 @@ export const Animations = `
     }
 
     /* THE GREAT ASCENDING STRIKE (From Bottom-Right to Top-Left) */
-    .anim-hero-attack {
-        animation: heroLunge 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+    .anim-hero-attack.anim-hero-attack {
+        animation: heroLunge 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
     @keyframes heroLunge {
         0% { transform: translate(0, 0) scale(1); }
@@ -28,8 +28,8 @@ export const Animations = `
     }
 
     /* THE DESCENDING VOID STRIKE (From Top-Left to Bottom-Right) */
-    .anim-enemy-attack {
-        animation: enemyLunge 0.5s ease-in forwards !important;
+    .anim-enemy-attack.anim-enemy-attack {
+        animation: enemyLunge 0.5s ease-in forwards;
     }
     @keyframes enemyLunge {
         0% { transform: translate(0, 0) scale(1); }
@@ -70,8 +70,8 @@ export const Animations = `
         100% { opacity: 0; background-position: 0% 0%; }
     }
 
-    .anim-redeem-spark {
-        animation: redeemEffect 2s forwards !important;
+    .anim-redeem-spark.anim-redeem-spark {
+        animation: redeemEffect 2s forwards;
     }
     @keyframes redeemEffect {
         0% { transform: scale(1); filter: brightness(1); opacity: 1; }
@@ -80,8 +80,8 @@ export const Animations = `
         100% { transform: scale(0); opacity: 0; }
     }
 
-    .anim-vanquish {
-        animation: vanquishEffect 1.5s forwards !important;
+    .anim-vanquish.anim-vanquish {
+        animation: vanquishEffect 1.5s forwards;
     }
     @keyframes vanquishEffect {
         0% { transform: scale(1); filter: brightness(1); opacity: 1; }
@@ -89,8 +89,8 @@ export const Animations = `
         100% { transform: scale(0) rotate(90deg); filter: brightness(0) blur(20px); opacity: 0; }
     }
 
-    .anim-ascension {
-        animation: ascensionEffect 2.5s forwards !important;
+    .anim-ascension.anim-ascension {
+        animation: ascensionEffect 2.5s forwards;
     }
     @keyframes ascensionEffect {
         0% { text-shadow: 0 0 10px #ffd54f; transform: scale(1); }

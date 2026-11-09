@@ -1,5 +1,0 @@
-/* B"H
-   Legacy shim: sidebar depth and hover shadows are now owned by
-   `styles/ideal/sidebar-shell.css`. Silent by design to prevent janky resize
-   shadows and duplicate hover transitions.
-*/

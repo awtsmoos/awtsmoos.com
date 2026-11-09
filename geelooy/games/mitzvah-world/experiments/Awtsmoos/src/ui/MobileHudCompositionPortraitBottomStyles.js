@@ -10,62 +10,62 @@
  */
 
 export const MOBILE_HUD_PORTRAIT_BOTTOM_CSS = `
-	body .Awtsmoos-action-host,
-	body .Awtsmoos-combat-host {
-		position: fixed !important;
-		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 8px) var(--Awtsmoos-hud-side) !important;
-		width: auto !important;
-		max-width: none !important;
-		margin: 0 !important;
-		transform: none !important;
-		z-index: 830 !important;
+	body .Awtsmoos-action-host.Awtsmoos-action-host,
+	body .Awtsmoos-combat-host.Awtsmoos-combat-host {
+		position: fixed;
+		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 8px) var(--Awtsmoos-hud-side);
+		width: auto;
+		max-width: none;
+		margin: 0;
+		transform: none;
+		z-index: 830;
 	}
-	body .Mitzvah-combat-host {
-		position: fixed !important;
-		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 132px) var(--Awtsmoos-hud-side) !important;
-		width: auto !important;
-		max-width: none !important;
-		max-height: 122px !important;
-		margin: 0 !important;
-		overflow: hidden !important;
-		transform: none !important;
-		z-index: 828 !important;
+	body .Mitzvah-combat-host.Mitzvah-combat-host {
+		position: fixed;
+		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 132px) var(--Awtsmoos-hud-side);
+		width: auto;
+		max-width: none;
+		max-height: 122px;
+		margin: 0;
+		overflow: hidden;
+		transform: none;
+		z-index: 828;
 	}
-	body .Awtsmoos-cast-meter,
-	body .Mitzvah-castbar {
-		position: fixed !important;
-		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 86px) var(--Awtsmoos-hud-side) !important;
-		box-sizing: border-box !important;
-		width: auto !important;
-		min-width: 0 !important;
-		max-width: none !important;
-		max-height: 56px !important;
-		margin: 0 !important;
-		overflow: hidden !important;
-		transform: none !important;
-		z-index: 836 !important;
+	body .Awtsmoos-cast-meter.Awtsmoos-cast-meter,
+	body .Mitzvah-castbar.Mitzvah-castbar {
+		position: fixed;
+		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 86px) var(--Awtsmoos-hud-side);
+		box-sizing: border-box;
+		width: auto;
+		min-width: 0;
+		max-width: none;
+		max-height: 56px;
+		margin: 0;
+		overflow: hidden;
+		transform: none;
+		z-index: 836;
 	}
-	body .Awtsmoos-cast-meter header,
-	body .Mitzvah-castbar header {
-		min-width: 0 !important;
-		overflow: hidden !important;
+	body .Awtsmoos-cast-meter.Awtsmoos-cast-meter header,
+	body .Mitzvah-castbar.Mitzvah-castbar header {
+		min-width: 0;
+		overflow: hidden;
 	}
-	body .Awtsmoos-cast-meter strong,
-	body .Mitzvah-castbar strong {
-		min-width: 0 !important;
-		overflow: hidden !important;
-		text-overflow: ellipsis !important;
-		white-space: nowrap !important;
+	body .Awtsmoos-cast-meter.Awtsmoos-cast-meter strong,
+	body .Mitzvah-castbar.Mitzvah-castbar strong {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
-	body .Mitzvah-status-effects {
-		position: fixed !important;
-		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 262px) var(--Awtsmoos-hud-side) !important;
-		width: auto !important;
-		max-height: 32px !important;
-		overflow: hidden !important;
-		transform: none !important;
+	body .Mitzvah-status-effects.Mitzvah-status-effects {
+		position: fixed;
+		inset: auto var(--Awtsmoos-hud-rail-reserve) calc(var(--Awtsmoos-hud-safe-bottom) + 262px) var(--Awtsmoos-hud-side);
+		width: auto;
+		max-height: 32px;
+		overflow: hidden;
+		transform: none;
 	}
-	body [data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
-		display: none !important;
+	body [data-awtsmoos-minimized="true"][data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
+		display: none;
 	}
 `;

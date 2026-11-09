@@ -7,9 +7,9 @@ import {
 	resolveMitzvahWorldChossidUrl
 } from '../src/providers/StudioMitzvahWorldAssetProvider.js';
 
-const MANIFEST_URL = '/games/mitzvahWorld/build/generated/mitzvah-world-essential-assets.json';
-const FALLBACK_URL = '/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb';
-const MANIFEST_CHOSSID_URL = '/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
+const MANIFEST_URL = '/games/mitzvah-world/build/generated/mitzvah-world-essential-assets.json';
+const FALLBACK_URL = '/games/mitzvah-world/build/generated/assets/canonical-chossid.glb';
+const MANIFEST_CHOSSID_URL = '/games/mitzvah-world/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 
 function fetchReturning(body, ok = true) {
 	return async (url) => {

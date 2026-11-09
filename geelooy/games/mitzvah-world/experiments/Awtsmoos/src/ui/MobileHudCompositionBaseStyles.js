@@ -10,8 +10,8 @@
  */
 
 export const MOBILE_HUD_BASE_CSS = `
-.Mitzvah-combat-host [hidden] {
-	display: none !important;
+.Mitzvah-combat-host.Mitzvah-combat-host [hidden][hidden] {
+	display: none;
 }
 .Mitzvah-castbar {
 	position: absolute;

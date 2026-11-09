@@ -75,9 +75,9 @@ function hudCss() {
 			}
 		}
 		@media (prefers-reduced-motion: reduce) {
-			.Awtsmoos-vertical-slice-hud * {
-				animation: none !important;
-				transition: none !important;
+			.Awtsmoos-vertical-slice-hud.Awtsmoos-vertical-slice-hud * {
+				animation: none;
+				transition: none;
 			}
 		}
 		@media (forced-colors: active) {

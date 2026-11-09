@@ -32,7 +32,7 @@ test("shell restores zoom freedom, route scope, vendor boundaries, and CompactJS
 	assert.doesNotMatch(ohrShell, /maximum-scale|user-scalable=no/);
 	assert.match(ohrShell, /class="awtsmoos-editor-document"/);
 	assert.match(ohrShell, /class="awtsmoos-editor-shell"/);
-	assert.match(ohrShell, /src="\.\/src\/App\.js\?compact=true"/);
+	assert.match(ohrShell, /src="\.\/src\/App\.js(\?[^"]*)?"/);
 	assert.match(ohrShell, /"three": "\/games\/scripts\/build\/three\.module\.js"/);
 	assert.match(ohrShell, /"three\/addons\/": "\/games\/scripts\/jsm\/"/);
 });

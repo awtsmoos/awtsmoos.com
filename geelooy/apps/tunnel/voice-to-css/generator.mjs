@@ -91,7 +91,7 @@ function buildDeclarations(intent) {
 
   // --- hide / show ---
   if (action === 'hide') {
-    return { decls: { 'display': 'none !important' }, pct: null };
+    return { decls: { 'display': 'none' }, pct: null };
   }
   // "show" must emit a real declaration that overrides a hide — a
   // comment-only block (display: '') does nothing when applied.
@@ -101,10 +101,10 @@ function buildDeclarations(intent) {
 
   // --- language-only views (targeted hide of the other language) ---
   if (value === 'english only' || value === 'english-only' || value === 'englishonly') {
-    return { decls: { 'display': 'none !important' }, pct: null, overrideSelector: HEBREW_SELECTOR };
+    return { decls: { 'display': 'none' }, pct: null, overrideSelector: HEBREW_SELECTOR };
   }
   if (value === 'hebrew only' || value === 'hebrew-only' || value === 'hebrewonly') {
-    return { decls: { 'display': 'none !important' }, pct: null, overrideSelector: ENGLISH_SELECTOR };
+    return { decls: { 'display': 'none' }, pct: null, overrideSelector: ENGLISH_SELECTOR };
   }
 
   // --- direct set: pass the value through ---
@@ -171,6 +171,34 @@ function summarize(intent, decls) {
   return `${target} updated`;
 }
 
+// B"H — no !important, ever: a hide must beat the reader's own display
+// rules by specificity, not by force. Doubling a class or attribute atom
+// (`.x.x`, `[a][a]`) raises the selector one level without changing what
+// it matches; bare element selectors are left alone.
+function raiseSpecificity(selector) {
+  return selector.split(',').map(part => {
+    let out = '', i = 0;
+    while (i < part.length) {
+      const ch = part[i];
+      if (ch === '[') {
+        let j = i + 1, d = 1;
+        while (j < part.length && d > 0) { if (part[j] === '[') d++; else if (part[j] === ']') d--; j++; }
+        const attr = part.slice(i, j);
+        out += attr + attr;
+        i = j;
+        continue;
+      }
+      if (ch === '.') {
+        const m = /^\.(-?[_a-zA-Z][_a-zA-Z0-9-]*)/.exec(part.slice(i));
+        if (m) { out += m[0] + m[0]; i += m[0].length; continue; }
+      }
+      out += ch;
+      i++;
+    }
+    return out;
+  }).join(',');
+}
+
 /**
  * @param {object} intent - INTENT SHAPE per SPEC.mjs
  * @returns {{selector, declarations, css, summary}}
@@ -180,7 +208,13 @@ export function generateCss(intent) {
     throw new Error('voice-css: intent must be an object');
   }
   const built = buildDeclarations(intent);
-  const selector = built.overrideSelector || selectorFor(intent.target);
+  let selector = built.overrideSelector || selectorFor(intent.target);
+  // Hide/show are a pair: both use the raised selector, so a later "show"
+  // still wins over an earlier "hide" by source order, while the hide
+  // still beats the reader's own display rules by specificity.
+  if (built.decls.display === 'none' || built.decls.display === 'block') {
+    selector = raiseSpecificity(selector);
+  }
   const css = renderCss(selector, built.decls);
   const summary = summarize(intent, built.decls);
   return {

@@ -10,10 +10,10 @@
  */
 
 /** Canonical schema id for the movie-project contract. */
-export const MOVIE_SCHEMA_ID = '/games/mitzvahWorld/movies/movie-project.schema.json';
+export const MOVIE_SCHEMA_ID = '/games/mitzvah-world/movies/movie-project.schema.json';
 
 /** Base route of the game's movie maker; projects travel as base64url JSON in the `movie` param. */
-export const MOVIE_MODE_ROUTE = '/games/mitzvahWorld/?mode=movie';
+export const MOVIE_MODE_ROUTE = '/games/mitzvah-world/?mode=movie';
 
 export const MOVIE_VERSION = 1;
 export const MOVIE_FPS = 24;
@@ -228,7 +228,7 @@ function base64UrlEncode(text) {
  * Builds the exact movie-maker URL for a project.
  * @param {object} project Validated movie-project document.
  * @param {boolean} autoRender When true, appends `&autoRender=1` so rendering starts on load.
- * @returns {string} `/games/mitzvahWorld/?mode=movie&movie=<base64url>[&autoRender=1]`
+ * @returns {string} `/games/mitzvah-world/?mode=movie&movie=<base64url>[&autoRender=1]`
  */
 export function movieMakerUrl(project, autoRender) {
 	const encoded = base64UrlEncode(JSON.stringify(project));

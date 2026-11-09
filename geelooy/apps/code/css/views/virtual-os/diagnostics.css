@@ -12,7 +12,7 @@
         #05070c;
     color: var(--vos-cyan);
     font-family: var(--font-code, monospace);
-    z-index: 100;
+    z-index: 30;
 }
 
 .vos-boot-card,
@@ -41,7 +41,7 @@
     position: absolute;
     right: 8px;
     top: 8px;
-    z-index: 600;
+    z-index: 31;
     max-width: 360px;
     padding: 8px 10px;
     border: 1px solid rgba(0, 246, 255, 0.55);

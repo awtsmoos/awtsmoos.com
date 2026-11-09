@@ -1,6 +1,6 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 /**
  * @module CommentMediaUxContractTest
  * @description
@@ -34,7 +34,10 @@ for (const hodToken of [':hover', ':active', ':focus-visible', ':disabled', 'pre
 	assert.ok(tiferesInteraction.includes(hodToken), `Comment audio interaction CSS missing ${hodToken}`);
 }
 assert.match(tiferesStructure, /44px/);
-assert.match(tiferesStructure, /max-width: 420px/);
+// B"H — Social sweep 2026-11-09: the audio-player mobile breakpoint follows
+// the shared scale (390px) since the CSS comprehensive fix (a79c08b68),
+// which moved it from 420px; the contract guards the rule, not the old value.
+assert.match(tiferesStructure, /max-width: 390px/);
 assert.match(malchusManifest, /thread-media-player\.css/);
 assert.match(malchusManifest, /thread-media-player-interaction\.css/);
 

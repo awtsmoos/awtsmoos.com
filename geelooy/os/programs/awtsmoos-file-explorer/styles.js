@@ -148,8 +148,8 @@ export default /*css*/`
     border-right: 1px solid var(--border-color);
     padding-bottom: 20px;
 }
-.file-explorer.sidebar-collapsed .file-explorer-sidebar {
-    width: 0 !important; border-right: none;
+.file-explorer.file-explorer.sidebar-collapsed.sidebar-collapsed .file-explorer-sidebar.file-explorer-sidebar {
+    width: 0; border-right: none;
 }
 .sidebar-resizer {
     width: 4px;
@@ -217,8 +217,8 @@ export default /*css*/`
     position: relative;
 }
 /* Drag Over State */
-.file-explorer-body.drag-over, .tree-node-content.drag-over, .file-item.drag-over, .details-row.drag-over {
-    background-color: rgba(0, 123, 255, 0.1) !important;
+.file-explorer-body.file-explorer-body.drag-over.drag-over, .tree-node-content.tree-node-content.drag-over.drag-over, .file-item.file-item.drag-over.drag-over, .details-row.details-row.drag-over.drag-over {
+    background-color: rgba(0, 123, 255, 0.1);
     outline: 2px dashed var(--accent-blue);
     outline-offset: -2px;
 }

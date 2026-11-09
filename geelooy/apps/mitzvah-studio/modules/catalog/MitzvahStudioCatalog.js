@@ -14,7 +14,7 @@ import {
 } from '../../../../libs/awtsmoos-procedural-core/src/core/geometry/primitiveGeometryGenerator.js';
 import {
 	mitzvahWorldCreatorCatalog
-} from '../../../../games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorCatalog.js';
+} from '../../../../games/mitzvah-world/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorCatalog.js';
 
 /** @returns {object[]} Frozen Studio-ready Mitzvah buildable definitions. */
 export function mitzvahStudioCatalog() {

@@ -67,16 +67,16 @@ export default /*css*/ `
 }
 
 @media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
-	.contextMenu.explorer-context-menu,
-	.contextMenu {
-		position: fixed !important;
-		left: 10px !important;
-		right: 10px !important;
-		top: auto !important;
-		bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important;
-		width: auto !important;
-		min-width: 0 !important;
-		max-width: none !important;
+	.contextMenu.contextMenu.explorer-context-menu.explorer-context-menu,
+	.contextMenu.contextMenu {
+		position: fixed;
+		left: 10px;
+		right: 10px;
+		top: auto;
+		bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+		width: auto;
+		min-width: 0;
+		max-width: none;
 	}
 
 	.contextMenu .menuItem {

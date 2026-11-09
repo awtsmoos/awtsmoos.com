@@ -76,7 +76,9 @@ function assertIntentContract() {
 
 /** Confirms phone Canvas priority and deliberate professional-workstation disclosure. */
 function assertResponsiveDisclosure() {
-	assert.ok(mobileStyle.includes('@media (max-width: 700px)'));
+	// 760px is the site-wide mobile breakpoint (scale 390/560/760/900/1100);
+	// the older 700px literal predates the scale and matches nothing in the CSS.
+	assert.ok(mobileStyle.includes('@media (max-width: 760px)'));
 	assert.ok(mobileStyle.includes('.stage-dock'));
 	assert.ok(mobileStyle.includes('display: none'));
 	assert.ok(mobileStyle.includes('.stage-workstation-open .stage-dock'));

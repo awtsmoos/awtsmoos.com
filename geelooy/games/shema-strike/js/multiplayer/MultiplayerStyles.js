@@ -13,7 +13,7 @@ export const MULTIPLAYER_CSS = `
 .online-grid { display: grid; gap: .75rem; grid-template-columns: repeat(3, 1fr); }
 .online-grid label { display: grid; gap: .35rem; text-align: left; }
 .online-grid input, .online-grid select { background: #0c1020; border: 1px solid #6bc6e8; border-radius: .4rem; color: #fff; font: inherit; padding: .65rem; }
-.online-check { align-content: center; grid-template-columns: auto 1fr !important; }
+.online-check.online-check { align-content: center; grid-template-columns: auto 1fr; }
 #online-accessibility { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1rem 0; text-align: left; }
 #online-accessibility label { display: flex; gap: .35rem; }
 .online-actions, .arena-card-actions { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: 1rem; }

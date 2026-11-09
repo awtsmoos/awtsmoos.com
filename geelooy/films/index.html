@@ -224,7 +224,10 @@ every card degrades gracefully to its poster with a "coming soon" mark.
 			if (card.hasAttribute('data-available')) {
 				modalVideo.src = url;
 				var poster = card.querySelector('.film-card-poster');
-				if (poster) modalVideo.poster = poster.src;
+				/* Broken posters are hidden by the error handler above; never
+				   hand a dead poster URL to the player (all five posters
+				   404 live as of Nov 9, 2026 — see note below). */
+				if (poster && !poster.hidden) modalVideo.poster = poster.src;
 			} else {
 				modalVideo.removeAttribute('src');
 				modalVideo.hidden = true;
@@ -271,10 +274,13 @@ every card degrades gracefully to its poster with a "coming soon" mark.
 			var ready = results.filter(Boolean).length;
 			if (note) {
 				note.hidden = false;
+				/* Do not promise posters as a preview: the five poster files
+				   do not exist live (all five /films/posters/*.jpg 404), so
+				   the cards show no preview at all until posters land. */
 				note.textContent = ready === cards.length
 					? 'All five films are ready to watch.'
 					: (ready === 0
-						? 'The films are on their way to the site — the posters above are a preview.'
+						? 'The films are on their way to the site — check back soon.'
 						: ready + ' of 5 films ready to watch; the rest are on their way.');
 			}
 		});

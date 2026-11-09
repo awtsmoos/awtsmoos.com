@@ -1,2 +1,0 @@
-/* B"H Reader color grid. */
-.awtsmoos-reader-color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(2.4rem, 1fr)); gap: .45rem; }

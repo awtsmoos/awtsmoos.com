@@ -34,9 +34,17 @@ assert.equal(
 	'mobile calm must own the final cascade'
 );
 assert.match(source.bar, /grid-template-columns: auto minmax\(0, 1fr\)/);
-assert.match(source.bar, /#previewButton[\s\S]*display: none !important/);
-assert.match(source.tools, /\.creatorDock,[\s\S]*position: static !important/);
-assert.match(source.tools, /\.creatorCommandLauncher[\s\S]*display: none !important/);
+// B"H — Social sweep 2026-11-09: the CSS comprehensive fix (a79c08b68)
+// removed every !important from live CSS; these mobile-calm rules now win
+// by doubled-class/html-prefixed specificity instead. The contract guards
+// the rules themselves, and that no live declaration still uses !important.
+assert.match(source.bar, /#previewButton[\s\S]*display: none;/);
+assert.match(source.tools, /\.creatorDock,[\s\S]*position: static;/);
+assert.match(source.tools, /\.creatorCommandLauncher[\s\S]*display: none;/);
+for (const name of ['calm', 'bar', 'tools', 'surface']) {
+	const declarations = source[name].replace(/\/\*[\s\S]*?\*\//g, '');
+	assert.doesNotMatch(declarations, /!important/, `${name} must not use !important`);
+}
 assert.match(source.surface, /\.majorPanelBody[\s\S]*padding:/);
 
 for (const [name, text] of Object.entries(source)) {

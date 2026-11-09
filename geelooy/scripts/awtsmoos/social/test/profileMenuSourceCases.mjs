@@ -1,6 +1,6 @@
 //B"H
 // Boruch Hashem
-// Blessed is He
+//Blessed is He
 
 /**
  * @module ProfileMenuSourceCases
@@ -60,9 +60,13 @@ function testProfileStyles() {
 	const aliasCss = read("geelooy/style/social/alias.css");
 	assert.match(css, /\.awtsmoos-dropdown-backdrop/);
 	assert.match(css, /inset:\s*0/);
-	assert.match(css, /@media \(max-width: 600px\)/);
+	// B"H — Social sweep 2026-11-09: the mobile breakpoints follow the
+	// shared scale (560px) since the CSS comprehensive fix (a79c08b68),
+	// which moved profileStyles.css from 600px and alias.css from 640px;
+	// the contract guards the rules, not the old values.
+	assert.match(css, /@media \(max-width: 560px\)/);
 	assert.match(aliasCss, /alias-activity-summary/);
-	assert.match(aliasCss, /@media \(max-width: 640px\)/);
+	assert.match(aliasCss, /@media \(max-width: 560px\)/);
 }
 
 /**

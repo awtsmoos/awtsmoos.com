@@ -51,7 +51,7 @@ body.zen-mode .main-content {
     flex-direction: column;
     background-color: var(--color-bg-secondary);
     border-bottom: 2px solid var(--color-border);
-    z-index: 300;
+    z-index: 20;
     overflow-y: visible; 
     overflow-x: hidden;
 }
@@ -75,7 +75,7 @@ body.zen-mode .main-content {
     border-right: 2px solid var(--color-border);
     transition: transform var(--timing-med) ease, width var(--timing-med) ease; flex-shrink: 0;
     position: relative;
-    z-index: 3200;
+    z-index: 21;
     overflow: hidden;
 }
 .sidebar-header { 
@@ -116,7 +116,7 @@ body.zen-mode .main-content {
     background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
     color: var(--color-bg-deep); 
     display: flex; align-items: center; justify-content: space-between; 
-    padding: 0 16px; font-size: 0.9em; font-weight: 700; user-select: none; z-index: 100;
+    padding: 0 16px; font-size: 0.9em; font-weight: 700; user-select: none; z-index: 10;
     letter-spacing: 1px;
 }
 
@@ -125,7 +125,7 @@ body.zen-mode .main-content {
     grid-row: 1 / 4; 
     grid-column: 1 / 2; 
     justify-self: end; 
-    z-index: 3201; 
+    z-index: 22; 
     position: relative;
     width: 6px; 
     cursor: col-resize; 

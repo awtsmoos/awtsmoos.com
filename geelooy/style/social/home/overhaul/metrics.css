@@ -1,9 +1,0 @@
-/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-/* B"H
- * @file metrics.css
- * Three tiny counters, not three giant monuments.
- */
-.civilization-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .42rem; }
-.civilization-metrics > * { min-height: 3.05rem; border: 1px solid var(--home-line); border-radius: .78rem; padding: .5rem; background: #fff; box-shadow: 0 4px 12px rgba(8,24,39,.045); }
-.civilization-metrics strong, .civilization-metrics b { display: block; color: var(--home-text); font-size: 1.05rem; line-height: 1; }
-.civilization-metrics span, .civilization-metrics small { color: var(--home-muted); font-size: .76rem; }

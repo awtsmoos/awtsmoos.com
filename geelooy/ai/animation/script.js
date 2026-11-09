@@ -1291,7 +1291,7 @@ class Animator {
             html=html.replace(/<script id="animationDataJson" type="application\/json"[\s\S]*?>[\s\S]*?<\/script>/, `<script id="animationDataJson" type="application/json">${animDataStr}<\/script>`);
         } else { html=html.replace('</body>', `<script id="animationDataJson" type="application/json">${animDataStr}<\/script>\n</body>`); }
         const stylesMarker = '/* Exported player minimal style overrides */';
-        const stylesContent = `body.exported-body{justify-content:center;align-items:center;min-height:100vh;padding-top:10px;} h1.exported-h1{margin-bottom:10px;font-size:1.6em;} #inputContainer.hidden-exported,#exportBtn.hidden-exported{display:none!important;} #playbackControlsContainer.full-width-exported{width:auto;max-width:${this.canvas.width}px;box-shadow:none;background-color:transparent;padding:10px 0;margin-bottom:10px;}`;
+        const stylesContent = `body.exported-body{justify-content:center;align-items:center;min-height:100vh;padding-top:10px;} h1.exported-h1{margin-bottom:10px;font-size:1.6em;} #inputContainer.hidden-exported.hidden-exported,#exportBtn.hidden-exported.hidden-exported{display:none;} #playbackControlsContainer.full-width-exported{width:auto;max-width:${this.canvas.width}px;box-shadow:none;background-color:transparent;padding:10px 0;margin-bottom:10px;}`;
         if(!html.includes(stylesMarker)){
             if(html.match(/<\/style>/i)) html=html.replace(/<\/style>/i,`\n${stylesMarker}\n${stylesContent}\n<\/style>`);
             else html=html.replace('</head>',`<style>\n${stylesMarker}\n${stylesContent}\n</style>\n</head>`);

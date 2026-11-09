@@ -98,7 +98,7 @@ export function mountMoviePanel(container, context = {}) {
 	const root = el('section', { class: 'mitzvah-movie-studio', 'aria-label': 'Movie Studio' }, [
 		el('h2', { text: 'Movie Studio', style: { margin: '0 0 4px' } }),
 		el('p', {
-			text: 'Turn your studio scene into a cinematic movie. Add shots, pick a camera move for each one, write dialogue, then open it in the Movie Maker or render it straight to WebM video. For an MP4 release with dialogue mixed in, run: node geelooy/games/mitzvahWorld/movies/tools/finalizeMovie.mjs',
+			text: 'Turn your studio scene into a cinematic movie. Add shots, pick a camera move for each one, write dialogue, then open it in the Movie Maker or render it straight to WebM video. For an MP4 release with dialogue mixed in, run: node geelooy/games/mitzvah-world/movies/tools/finalizeMovie.mjs',
 			style: { margin: '0 0 12px', opacity: '0.85' }
 		})
 	]);

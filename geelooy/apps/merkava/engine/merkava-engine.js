@@ -11,9 +11,10 @@ import { paintLayout } from "./merkava-service/snapshots/software/domPainter.js"
 import { Framebuffer } from "./merkava-service/snapshots/software/framebuffer.js";
 import { ScaledFramebuffer } from "./merkava-service/snapshots/software/supersample.js";
 import { parseColor } from "./merkava-service/snapshots/software/color.js";
-import { initPixelWasm } from "./pixel-wasm.js";
+import { initPixelWasm, createJsPixelFallback } from "./pixel-wasm.js";
 
 export const MERKAVA_BACKEND = "merkava-wasm/1.0";
+export const MERKAVA_BACKEND_JS = "merkava-js/1.0";
 export const MERKAVA_MAX_VIEWPORT = { width: 1920, height: 1200 };
 
 const GRAD_RE = /linear-gradient\((.*)\)/i;
@@ -64,7 +65,18 @@ class WasmFramebuffer extends Framebuffer {
 }
 
 export async function createMerkavaEngine(wasmSource) {
-  const px = await initPixelWasm(wasmSource);
+  let px;
+  let backend = MERKAVA_BACKEND;
+  try {
+    px = await initPixelWasm(wasmSource);
+  } catch (error) {
+    // B"H — the .wasm is a gitignored build artifact and 404s live; a failed
+    // fetch must not kill every tab. Fall back to the JS pixel engine and
+    // report the honest backend so the UI never claims WASM acceleration.
+    console.warn("B\"H Merkava WASM pixel engine unavailable; using JS pixel fallback.", error);
+    px = createJsPixelFallback();
+    backend = MERKAVA_BACKEND_JS;
+  }
   function renderPage(html, opts = {}) {
     const t0 = performance.now();
     const width = Math.max(1, Math.min(MERKAVA_MAX_VIEWPORT.width, opts.width || 960));
@@ -79,7 +91,7 @@ export async function createMerkavaEngine(wasmSource) {
       data: fb.data, width, height,
       ms: performance.now() - t0,
       layoutItems: layout.length,
-      backend: MERKAVA_BACKEND,
+      backend,
     };
   }
   // Interactive pages: <script> runs in the Merkava VM (never V8); DOM
@@ -87,5 +99,5 @@ export async function createMerkavaEngine(wasmSource) {
   function createPage(html, opts = {}) {
     return createInteractivePage(html, { ...opts, px });
   }
-  return { renderPage, createPage, stats: px.stats, backend: MERKAVA_BACKEND };
+  return { renderPage, createPage, stats: px.stats, backend };
 }

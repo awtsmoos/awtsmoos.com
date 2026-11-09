@@ -13,7 +13,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import {
 	remoteTextureRecords
-} from "../../mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js";
+} from "../../mitzvah-world/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js";
 
 const CATALOG_URL = new URL(
 	"../../../libs/awtsmoos-procedural-core/docs/textures/CATALOG.json",

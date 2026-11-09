@@ -29,7 +29,7 @@
     font-family: var(--font-code, monospace);
     font-weight: 900;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.46);
-    z-index: 470;
+    z-index: 21;
 }
 
 .virtual-os-start,

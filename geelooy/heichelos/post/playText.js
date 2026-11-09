@@ -41,10 +41,10 @@ async function addTextWithPopEffect(text) {
                 text-shadow: 0 0 9px rgb(255 247 0 / 80%), 0 0 5px rgb(22 0 255 / 80%);
             }
 
-            .pop {
+            .pop.pop {
                 display: inline-block;
                 opacity: 0;
-                padding: 0px !important;
+                padding: 0px;
                  white-space: pre-wrap;
                 transform: scale(0);
                 animation: popAnimation 0.3s ease forwards, typingEffect 0.1s ease forwards;

@@ -37,8 +37,11 @@ test("Public Torah runtime belongs to the Public Torah workspace path", async ()
 
 test("standalone page keeps one critical stylesheet and versioned deferred boot scripts", async () => {
 	const source = await read("index.html");
-	assert.match(source, /critical\.css\?v=messaging-boot-003/);
-	assert.match(source, /MessagingStyleBootstrap\.js\?v=messaging-boot-003/);
+	// The version stamp is a content hash from the site-wide versioning pass
+	// (the older messaging-boot-003 tag is still accepted); what matters is
+	// one versioned critical stylesheet and one versioned deferred boot script.
+	assert.match(source, /critical\.css\?v=(messaging-boot-003|[0-9a-f]{6,})/);
+	assert.match(source, /MessagingStyleBootstrap\.js\?v=(messaging-boot-003|[0-9a-f]{6,})/);
 	assert.doesNotMatch(source, /rel="stylesheet"[^>]+style\.css/);
 });
 

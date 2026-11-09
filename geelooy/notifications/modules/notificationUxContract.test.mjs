@@ -68,7 +68,10 @@ for (const token of [
 ]) {
 	assert.ok(actionsV5.includes(token), `Notifications V5 action CSS missing ${token}`);
 }
-assert.match(actionsV5, /@media \(max-width:\s*38\.75rem\)/);
+// B"H — Social sweep 2026-11-09: the mobile action-sheet breakpoint follows
+// the shared scale (560px) since the CSS comprehensive fix (a79c08b68),
+// which moved it from 38.75rem; the contract guards the rule, not the old value.
+assert.match(actionsV5, /@media \(max-width:\s*560px\)/);
 
 for (const [name, source] of Object.entries({
 	workspace,

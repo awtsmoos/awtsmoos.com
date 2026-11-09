@@ -4,8 +4,8 @@
 
 import { MalchusCobyKApp } from "./app/MalchusCobyKApp.js";
 import { CobyKStarfield } from "./ui/CobyKStarfield.js";
-// B"H — fixed 2026-10-13: from src/ the shared module is ../../mitzvahWorld.
-import { getGameTimeOfDay } from "../../mitzvahWorld/shared/gameTimeOfDay.js";
+// B"H — fixed 2026-10-13: from src/ the shared module is ../../mitzvah-world.
+import { getGameTimeOfDay } from "../../mitzvah-world/shared/gameTimeOfDay.js";
 
 // B"H — Yaakov 2026-10-13: wardrobe has one canonical home — the top HUD bar
 // (data-cobyk-wardrobe). No floating button; bottom is controls only.

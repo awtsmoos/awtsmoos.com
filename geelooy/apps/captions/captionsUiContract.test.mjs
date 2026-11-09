@@ -83,5 +83,5 @@ test("closed mobile studio leaves pixels pointer input and focus tree", () => {
 test("futuristic motion stays brief and reduced-motion safe", () => {
 	assert.doesNotMatch(motionCss, /animation\s*:[^;]*infinite/i);
 	assert.match(motionCss, /prefers-reduced-motion:\s*reduce/);
-	assert.match(motionCss, /animation-iteration-count:\s*1\s*!important/);
+	assert.match(motionCss, /animation-iteration-count:\s*1(\s*!important)?/);
 });

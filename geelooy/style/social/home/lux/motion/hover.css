@@ -1,7 +1,0 @@
-/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-/* B"H — hover rises by one breath. */
-.home-orb-brand:hover,
-.home-bell-button:hover,
-.home-filter-button:hover {
-  transform: translate3d(0,-2px,0);
-}

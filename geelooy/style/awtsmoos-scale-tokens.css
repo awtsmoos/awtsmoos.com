@@ -9,9 +9,10 @@
  * (--bp-xs:360 / --bp-sm:480 / --bp-md:768 / --bp-lg:1024 / --bp-xl:1280 and
  * --z-base:1 ... --z-topmost:1200, qa-sweep3). Those old tokens are
  * deprecated and grandfathered only: --bp-* is used nowhere, and --z-*
- * still resolves 72 live var(--z-*) usages to 100–1200. Do NOT add new
- * usages of the old tokens. Remapping the old --z-* values onto the tiers
- * below is follow-up work (it changes 72 stacking contexts at once).
+ * still resolves live var(--z-*) usages. Do NOT add new
+ * usages of the old tokens. The old --z-* VALUES were remapped Nov 9, 2026
+ * onto the tiers below (100->20, 200->21, 300->22, 500->30, 1000->40,
+ * 1100->50, 1200->60), so every usage now resolves inside 0–69.
  *
  * ---- BREAKPOINT SCALE (px): 390 / 560 / 760 / 900 / 1100 ----
  * Media queries CANNOT use var() — write the literal px value from this
@@ -67,12 +68,17 @@
  *   250000 -> 60 (dialogs overlay)
  *   300000 -> 65 (#context-menu, #main-menu)
  *   400000 -> 69 (task-notification stack — ceiling)
- * KNOWN REMAINING CONFLICT (follow-up, NOT fixed here — task forbids
- * touching z-index below 9000): geelooy/apps/code/css still holds
- * 100–6500 literals (e.g. layout.css 3200/3201, components.css 5000,
- * launcher 6400, account-panel 6500) that now sit ABOVE the migrated
- * 40–69 tier in the same app. A full code-app normalization into the
- * tiers above is still open.
+ * CODE-APP NORMALIZATION (Nov 9, 2026 — the conflict above is FIXED):
+ * all 31 literals in 100–6500 across 20 geelooy/apps/code/css files were
+ * normalized into the tiers (e.g. layout.css 3200/3201 -> 21/22,
+ * components.css 5000 -> 41, launcher 6400 -> 42, account-panel
+ * 6500 -> 43; visuals.css 100/150/200 -> 51/52/53, above the pre-existing
+ * in-tier 44/45/50 in the same file), 0 inversions per file, and the old
+ * --z-* token values were remapped (see above). No code-app literal
+ * remains >= 100. Known cross-file notes: the in-editor canvases
+ * (51–53) still sit numerically above the overlay tier, and the sidebar
+ * (21) now sits below the spotlight dim overlay (30), so the sidebar
+ * dims in spotlight mode — both match the documented intent.
  * DOCUMENTED EXCEPTION — geelooy/mawgawl/sefarim/styles/search-clean.css
  * keeps z-index:9990 on .search-loading-overlay. It is NOT the code app,
  * and migrating it to <=69 would INVERT it against shell.css z-index:1000

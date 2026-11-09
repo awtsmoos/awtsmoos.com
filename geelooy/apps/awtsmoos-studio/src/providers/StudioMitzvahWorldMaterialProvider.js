@@ -8,7 +8,7 @@
  * Awtsmoos.com exposes MitzvahWorld's remote material truth without copying image bodies into sight.
  */
 
-const CATALOG_MODULE = '../../../../games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js';
+const CATALOG_MODULE = '../../../../games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js';
 
 /** Lazily return MitzvahWorld's canonical remote texture catalog without loading image bytes. */
 export async function mitzvahWorldTextureCatalog() {

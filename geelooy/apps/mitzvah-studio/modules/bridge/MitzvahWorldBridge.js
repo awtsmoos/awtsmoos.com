@@ -13,7 +13,7 @@ const HANDOFF_KEY = 'awtsmoos.mitzvahStudio.handoff.v1';
 
 export function openMitzvahWorld(documentState, environment = globalThis) {
 	environment.localStorage?.setItem?.(HANDOFF_KEY, JSON.stringify(documentState));
-	environment.location.href = '/games/mitzvahWorld/?studioHandoff=1';
+	environment.location.href = '/games/mitzvah-world/?studioHandoff=1';
 }
 
 export function readMitzvahStudioHandoff(storage = globalThis.localStorage) {

@@ -47,7 +47,7 @@ function documentCss() {
 		'code{display:inline-block;max-width:100%;padding:3px 6px;border:1px solid rgba(255,255,255,.1);border-radius:7px;background:#202733;color:#f4f2ec;font-family:ui-monospace,monospace;overflow-wrap:anywhere}',
 		':focus-visible{outline:3px solid #87d9e9;outline-offset:3px}',
 		'@media(max-width:520px){.oauthActions{flex-direction:column}.oauthActions a{width:100%}}',
-		'@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}'
+		'@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none}}'
 	].join('');
 }
 

@@ -60,7 +60,7 @@
 /* B"H - INTELLIGENCE TOOLTIP (VS CODE STYLE) */
 .intelligence-tooltip {
     position: fixed;
-    z-index: 600;
+    z-index: 32;
     max-width: 500px;
     background: rgba(13, 17, 23, 0.94);
     border: 1px solid rgba(0, 246, 255, 0.4);

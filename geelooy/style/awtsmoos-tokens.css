@@ -219,9 +219,13 @@
    * breakpoints 390 / 560 / 760 / 900 / 1100, z-index tiers 0–69,
    * nothing live above 99. These old values (--bp-xs:360, --bp-sm:480,
    * --bp-md:768, --bp-lg:1024, --bp-xl:1280; --z-* up to 1200) are kept
-   * ONLY because --z-* still resolves 72 live var(--z-*) usages and
-   * --bp-* is referenced by no stylesheet. Remapping --z-* onto the new
-   * tiers is follow-up work (it changes 72 stacking contexts at once).
+   * ONLY because --z-* still resolves live var(--z-*) usages and
+   * --bp-* is referenced by no stylesheet. The --z-* VALUES were remapped
+   * Nov 9, 2026 onto the new tiers (100->20, 200->21, 300->22, 500->30,
+   * 1000->40, 1100->50, 1200->60; --z-base 1 and --z-raised 10 were already
+   * in-tier), so every var(--z-*) usage now resolves inside 0–69. The old
+   * NAMES are kept for compatibility — do not add new usages; use --aw-z-*
+   * instead.
    * NOTE: var() cannot be used inside @media conditions — these tokens
    * document the single agreed scale and are usable in min()/max()/clamp()
    * width expressions. New @media rules must use the canonical values
@@ -235,18 +239,19 @@
   /* ---- SUPERSEDED z-index scale (qa-sweep3) — DO NOT USE for new code.
    * Canonical tiers are in geelooy/style/awtsmoos-scale-tokens.css
    * (base 0, content 1–10, header 20–29, overlay 30–39, drawer/dialog
-   * 40–49, toast 50–59, topmost 60–69; nothing live above 99). These old
-   * values are kept ONLY as grandfathered tokens for the 72 live
-   * var(--z-*) usages. Rule: pick the lowest tier that works; never
-   * invent a new sky-high value. --z-topmost is the ceiling — nothing may
-   * layer above it. */
+   * 40–49, toast 50–59, topmost 60–69; nothing live above 99). These names
+   * are kept ONLY as compatibility aliases for the live var(--z-*) usages
+   * — the VALUES were remapped Nov 9, 2026 onto the canonical tiers (see
+   * the breakpoint comment above). Rule: pick the lowest tier that works;
+   * never invent a new sky-high value. --z-topmost (60) is the ceiling —
+   * nothing may layer above it. */
   --z-base: 1;
   --z-raised: 10;
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-fixed: 300;
-  --z-overlay: 500;
-  --z-modal: 1000;
-  --z-toast: 1100;
-  --z-topmost: 1200;
+  --z-dropdown: 20;
+  --z-sticky: 21;
+  --z-fixed: 22;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+  --z-topmost: 60;
 }

@@ -326,8 +326,8 @@ function ensurePrintCss() {
 	style.id = PRINT_CSS_ID;
 	style.textContent = `
 @media print {
-  body.awtsmoos-printing > *:not(.awtsmoos-print-sheet) { display: none !important; }
-  .awtsmoos-print-sheet { display: block !important; }
+  body.awtsmoos-printing.awtsmoos-printing > *:not(.awtsmoos-print-sheet.awtsmoos-print-sheet) { display: none; }
+  .awtsmoos-print-sheet.awtsmoos-print-sheet { display: block; }
 }
 .awtsmoos-print-sheet { display: none; }
 .awtsmoos-print-sheet {
