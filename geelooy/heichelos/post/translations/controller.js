@@ -11,6 +11,7 @@
 
 import { fetchPostTranslations } from './api.js';
 import { refreshTranslationStatus, renderTranslationReport } from './render.js';
+import { activatePhraseReaderFromApi } from './phraseReaderActivation.js';
 import { mountNativeTanachTranslations } from './tanach/controller.js?v=tanach-native-003';
 
 function seriesIdFor(post = {}, series = {}) {
@@ -64,6 +65,13 @@ async function mountRegisteredTranslation(viewport, post, seriesId, heichelId) {
 			postId: post.id || post.postId
 		});
 		const render = renderTranslationReport(viewport, report);
+		// B"H — Coby's rule (Nov 10, 2026): English ALWAYS rides per phrase.
+		// When the API returns aligned phrases and no sefer mounted yet,
+		// restructure the post into interleaved phrase pairs (Hebrew, then
+		// ITS English directly beneath) instead of leaving the English
+		// gathered in a separate section below the Hebrew. Runs before the
+		// status refresh so the toolbar reads the restructured DOM.
+		try { await activatePhraseReaderFromApi(post, report.rows); } catch (_) { /* per-phrase activation is best-effort; the report above already rendered */ }
 		// B"H — the page may already show English the API cannot see (server
 		// annotation previews, a sefer reader that mounted first). Re-check the
 		// live DOM so the toolbar never contradicts visible English.
