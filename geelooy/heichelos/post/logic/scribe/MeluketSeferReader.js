@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=e56010eae3'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=fec210af89'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=f9a25e06a0'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
 ];
 
@@ -1033,12 +1033,28 @@ function buildSourcesSheetContent(post, sefer) {
 			srcCurrentTab = key;
 			srcTabsEl.querySelectorAll('.awtsmoos-src-tab').forEach(t =>
 				t.setAttribute('aria-selected', String(t === tab)));
+			paintSrcTabs();
 			renderSourcesTab();
 		});
 		srcTabsEl.appendChild(tab);
 	});
+	paintSrcTabs();
 
 	renderSourcesTab();
+}
+
+// B"H — Coby Nov 10: the selected tab stayed white-on-cream because the
+// sheet's --sefer-ink variable resolves to cream on this phone while the
+// sheet background is light, and the stylesheet override never won the
+// cascade. Inline styles beat every stylesheet rule, so paint the tabs
+// directly: dark ink on cream when selected, cream ink on dark when not.
+function paintSrcTabs() {
+	if (!srcTabsEl) return;
+	srcTabsEl.querySelectorAll('.awtsmoos-src-tab').forEach(t => {
+		const selected = t.getAttribute('aria-selected') === 'true';
+		t.style.color = selected ? '#2b2118' : '#f0e7d3';
+		t.style.background = selected ? '#efe4cd' : '#1d2a44';
+	});
 }
 
 function renderSourcesTab() {

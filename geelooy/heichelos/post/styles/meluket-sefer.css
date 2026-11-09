@@ -162,7 +162,9 @@
 	border-radius: 10px;
 	box-shadow: var(--sefer-shadow);
 	margin: 0 0 2rem;
-	padding: 2rem 0.75rem;
+	/* B"H — top padding clears the section-number badge (0.9rem + 2.8rem),
+	   so the first pair's English never slides under it. */
+	padding: 4rem 0.75rem 2rem;
 	overflow: hidden;
 }
 
@@ -191,15 +193,18 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 8.4rem;
-	height: 8.4rem;
-	padding: 0 1.6rem;
+	/* B"H — Coby Nov 10: the 8.4rem badge overlapped the first pair's
+	   English on the left ("B"S." lost its B). Small badge now, and the
+	   section's top padding clears it. */
+	min-width: 2.8rem;
+	height: 2.8rem;
+	padding: 0 0.5rem;
 	border-radius: 50%;
 	background: var(--sefer-paper-deep);
-	border: 6px solid var(--sefer-accent);
+	border: 2px solid var(--sefer-accent);
 	color: var(--sefer-accent);
 	font-weight: 800;
-	font-size: 4rem;
+	font-size: 1.3rem;
 	line-height: 1;
 }
 
