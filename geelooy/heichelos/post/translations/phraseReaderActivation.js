@@ -98,22 +98,28 @@ export function alignedPhrasesCoverPost(phrases, content) {
  * the phrase reader mounted (the post now shows Hebrew + English per phrase).
  */
 export async function activatePhraseReaderFromApi(post, rows) {
+	const mark = (outcome) => {
+		try {
+			const el = typeof document !== "undefined" ? document.getElementById("realPost") : null;
+			if (el) el.setAttribute("data-phrase-reader", outcome);
+		} catch (_) { /* diagnostic never breaks the mount */ }
+	};
 	try {
 		const realPost = typeof document !== "undefined" ? document.getElementById("realPost") : null;
-		if (!realPost) return false;
+		if (!realPost) { mark("skipped:no-realPost"); return false; }
 		// B"H — never clobber a sefer that already mounted (Torah Ohr posts
 		// mount their phrase reader in boot; Meluket posts mount theirs).
-		if (realPost.querySelector(".meluket-sefer")) return false;
+		if (realPost.querySelector(".meluket-sefer")) { mark("skipped:already-mounted"); return false; }
 		const phrases = buildPhraseTranslations(post, rows);
-		if (phrases.length < MIN_ALIGNED_PHRASES) return false;
+		if (phrases.length < MIN_ALIGNED_PHRASES) { mark("skipped:few-phrases:" + phrases.length); return false; }
 		// B"H — the rows must be ALIGNED phrases (Hebrew source + English),
 		// not a bare English list. Require a Hebrew source on nearly all rows.
 		const withHebrew = phrases.filter((p) => p.source && p.source.hebrew && p.source.hebrew.trim()).length;
-		if (withHebrew < phrases.length * 0.9) return false;
+		if (withHebrew < phrases.length * 0.9) { mark("skipped:no-hebrew:" + withHebrew + "/" + phrases.length); return false; }
 		// B"H — the aligned phrases must cover the post's Hebrew, or the
 		// sefer would show only part of the teaching. Fall back to the
 		// canonical rendering when coverage is thin.
-		if (!alignedPhrasesCoverPost(phrases, post && post.content)) return false;
+		if (!alignedPhrasesCoverPost(phrases, post && post.content)) { mark("skipped:low-coverage"); return false; }
 		// B"H — footnote bodies live only in the post content's הערות section.
 		// The phrase reader replaces the content, so carry them onto the post
 		// (and window.post) or tapping a footnote shows "not available".
@@ -131,6 +137,7 @@ export async function activatePhraseReaderFromApi(post, rows) {
 		);
 		const mounted = awakenPhraseTranslationReader(enriched);
 		if (mounted) {
+			mark("mounted:" + phrases.length);
 			try {
 				console.log(
 					"B\"H per-phrase English activated:",
@@ -140,12 +147,15 @@ export async function activatePhraseReaderFromApi(post, rows) {
 					"footnotes carried over"
 				);
 			} catch (_) { /* logging never breaks the mount */ }
+		} else {
+			mark("skipped:reader-returned-false");
 		}
 		return !!mounted;
 	} catch (error) {
 		try {
 			console.warn("B\"H per-phrase English activation failed safely", error);
 		} catch (_) { /* logging never breaks the page */ }
+		mark("error:" + String((error && error.message) || error || "unknown").slice(0, 80));
 		return false;
 	}
 }
