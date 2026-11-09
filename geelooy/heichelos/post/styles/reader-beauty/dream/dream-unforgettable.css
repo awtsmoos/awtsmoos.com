@@ -235,3 +235,6 @@
 		opacity: 0;
 	}
 }
+
+/* B"H no glowing effects on the reader, ever — fixed cinematic overlays removed. They stayed fixed while the text scrolled underneath (parallax/choppy) and carried gold glows. */
+.dream-parallax-mid, .dream-golden-thread { display: none; }

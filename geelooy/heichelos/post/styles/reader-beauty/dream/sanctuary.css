@@ -9,56 +9,24 @@
 [data-dream="sanctuary"] .post-reader-localized-context.post-reader-localized-context.post-reader-localized-context {
 	color: var(--dream-ink);
 	background-color: var(--dream-bg);
-	background-image:
-		radial-gradient(130% 55% at 50% -12%, rgba(46, 64, 116, 0.60) 0%, rgba(20, 30, 64, 0.22) 42%, rgba(6, 10, 20, 0) 68%),
-		radial-gradient(60% 40% at 12% 30%, rgba(64, 48, 120, 0.16) 0%, transparent 70%),
-		radial-gradient(60% 40% at 88% 62%, rgba(30, 70, 110, 0.14) 0%, transparent 70%),
-		linear-gradient(180deg, var(--dream-bg-lift) 0%, var(--dream-bg) 30%, var(--dream-bg-deep) 100%);
+	/* B"H no glowing effects on the reader, ever — background glow gradients removed; flat dark. */
+	background-image: none;
 }
 
-/* light rays breathing from above */
-[data-dream="sanctuary"] .post-reader-localized-context::before {
-	content: "";
-	position: fixed;
-	inset: -4% 0 0 0;
-	pointer-events: none;
-	z-index: 0;
-	background-image:
-		conic-gradient(from 180deg at 50% -22%, transparent 0deg, var(--dream-ray) 7deg, transparent 14deg, transparent 22deg, var(--dream-ray) 29deg, transparent 36deg, transparent 46deg, var(--dream-ray) 53deg, transparent 60deg, transparent 70deg, var(--dream-ray) 76deg, transparent 84deg),
-		radial-gradient(95% 48% at 50% 0%, rgba(248, 224, 164, 0.10) 0%, transparent 70%);
-	/* B"H no animations on the reader, ever — ray drift removed. */
-}
+/* B"H no glowing effects on the reader, ever — the fixed light-ray overlay
+   is removed entirely. It stayed fixed while the text scrolled underneath
+   (parallax) and its conic gold rays are a glowing effect. */
+/* [data-dream="sanctuary"] .post-reader-localized-context::before — removed. */
 
 @keyframes dream-ray-drift {
 	from { opacity: 0.65; transform: translateX(-1.6%) scaleX(0.99); }
 	to { opacity: 1; transform: translateX(1.6%) scaleX(1.02); }
 }
 
-/* faint starfield — one element, many tiny lights */
-[data-dream="sanctuary"] .post-reader-localized-context::after {
-	content: "";
-	position: fixed;
-	inset: 0;
-	pointer-events: none;
-	z-index: 0;
-	width: 2px;
-	height: 2px;
-	border-radius: 50%;
-	background: transparent;
-	box-shadow:
-		8vw 12vh 0 rgba(248, 224, 164, 0.5), 22vw 6vh 0 rgba(255, 255, 255, 0.35),
-		37vw 18vh 0 rgba(248, 224, 164, 0.4), 51vw 8vh 0 rgba(255, 255, 255, 0.28),
-		66vw 14vh 0 rgba(248, 224, 164, 0.45), 79vw 5vh 0 rgba(255, 255, 255, 0.32),
-		92vw 20vh 0 rgba(248, 224, 164, 0.38), 14vw 34vh 0 rgba(255, 255, 255, 0.22),
-		30vw 42vh 0 rgba(248, 224, 164, 0.3), 58vw 38vh 0 rgba(255, 255, 255, 0.2),
-		74vw 44vh 0 rgba(248, 224, 164, 0.32), 88vw 36vh 0 rgba(255, 255, 255, 0.24),
-		6vw 58vh 0 rgba(248, 224, 164, 0.28), 26vw 66vh 0 rgba(255, 255, 255, 0.18),
-		44vw 58vh 0 rgba(248, 224, 164, 0.26), 62vw 68vh 0 rgba(255, 255, 255, 0.2),
-		82vw 60vh 0 rgba(248, 224, 164, 0.3), 95vw 72vh 0 rgba(255, 255, 255, 0.16),
-		18vw 84vh 0 rgba(248, 224, 164, 0.24), 48vw 88vh 0 rgba(255, 255, 255, 0.18),
-		70vw 82vh 0 rgba(248, 224, 164, 0.26), 90vw 90vh 0 rgba(255, 255, 255, 0.14);
-	/* B"H no animations on the reader, ever — star twinkle removed. */
-}
+/* B"H no glowing effects on the reader, ever — the fixed starfield overlay
+   is removed entirely. It stayed fixed while the text scrolled underneath
+   (parallax) and its glowing dots are a glowing effect. */
+/* [data-dream="sanctuary"] .post-reader-localized-context::after — removed. */
 
 @keyframes dream-star-twinkle {
 	from { opacity: 0.55; }
@@ -165,12 +133,10 @@
 	border: 1px solid var(--dream-gold-line);
 	border-radius: 20px;
 	padding: 2.6rem 2.2rem 2.1rem;
-	background:
-		radial-gradient(80% 60% at 50% 0%, rgba(233, 196, 106, 0.10) 0%, transparent 70%),
-		linear-gradient(180deg, rgba(233, 196, 106, 0.07), rgba(233, 196, 106, 0.015)),
-		var(--dream-panel);
-	backdrop-filter: blur(16px);
-	-webkit-backdrop-filter: blur(16px);
+	/* B"H no glowing effects on the reader, ever — title-card gold glow
+	   gradient removed; flat panel. Backdrop blur removed too (it forces
+	   expensive compositing on phones and reads as choppy). */
+	background: var(--dream-panel);
 	box-shadow: 0 30px 80px var(--dream-shadow), inset 0 1px 0 rgba(248, 224, 164, 0.12);
 	position: relative;
 }
@@ -271,14 +237,10 @@
 	color: var(--dream-ink);
 }
 
-/* ---- the awakening: a cinematic bloom when the dream turns on ---- */
+/* B"H no glowing effects on the reader, ever — the awakening veil (a fixed
+   gold radial bloom) is removed entirely. */
 .dream-awakening-veil {
-	position: fixed;
-	inset: 0;
-	z-index: 1197;
-	pointer-events: none;
-	opacity: 0;
-	background: radial-gradient(60% 60% at 50% 50%, rgba(248, 224, 164, 0.9) 0%, rgba(233, 196, 106, 0.45) 34%, rgba(233, 196, 106, 0) 70%);
+	display: none;
 }
 
 /* B"H no animations on the reader, ever — veil bloom removed. */

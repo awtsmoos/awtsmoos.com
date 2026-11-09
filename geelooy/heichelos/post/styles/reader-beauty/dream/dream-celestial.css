@@ -204,3 +204,6 @@
 		/* B"H no animations on the reader, ever. */
 	}
 }
+
+/* B"H no glowing effects on the reader, ever — fixed cinematic overlays removed. They stayed fixed while the text scrolled underneath (parallax/choppy) and carried gold glows. */
+.dream-celestial-tint { display: none; }
