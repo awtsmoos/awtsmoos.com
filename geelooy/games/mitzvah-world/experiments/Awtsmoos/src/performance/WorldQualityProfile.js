@@ -9,6 +9,8 @@
  * Awtsmoos.com gives survival one honest vessel, then lets richer garments return when budgets declare.
  */
 
+import { survivalDeviceDprCap } from './SurvivalQualityPolicy.js';
+
 const LIMITED_HARDWARE_DPR = 1.0;
 const MOBILE_DPR = 1.25;
 const DESKTOP_DPR = 1.5;
@@ -31,11 +33,24 @@ export function resolveWorldQuality(options = {}, environment = globalThis) {
 	const selected = explicit || 'high';
 	const base = PROFILES[selected];
 	const deviceCap = resolveDeviceDprCap(environment);
+	let maxDpr = Math.min(base.maxDpr, deviceCap.maxDpr);
+	let deviceDprCapReason = deviceCap.reason;
+	if (selected === 'survival') {
+		// Chapter 4 survival DPR caps: a NAMED device class (options.deviceClass or
+		// ?deviceClass=) is an explicit cap for that hardware — macbook-air-2015 at 1.0,
+		// pixel-6-pro at ~1.25 — and wins over the generic 1.0 survival default.
+		// With no named class, survival keeps its 1.0 default via the min() above.
+		const namedCap = survivalDeviceDprCap(options, environment);
+		if (namedCap) {
+			maxDpr = namedCap.maxDpr;
+			deviceDprCapReason = namedCap.reason;
+		}
+	}
 	return {
 		...base,
-		deviceDprCapReason: deviceCap.reason,
+		deviceDprCapReason,
 		explicit: Boolean(explicit),
-		maxDpr: Math.min(base.maxDpr, deviceCap.maxDpr),
+		maxDpr,
 		reason: explicit ? 'explicit-override' : PROFILES.high.reason
 	};
 }

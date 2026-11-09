@@ -57,23 +57,26 @@ body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:n
 body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 	overflow: hidden;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* B"H 2026-11-09 — mobile readability: the 760px rule used to crush the whole
+   mount (and the trigger) to a 44px icon-only circle and hide the alias name,
+   so the far-right button was a tiny unreadable dot. The mount now stays a
+   labelled pill at every width: 48px tap target, alias name visible (truncated
+   with ellipsis), chevron hidden only to save width. The trigger keeps its
+   dark-navy pill identity; only its size and label survive. */
 @media (max-width: 760px) { body[data-geelooy-route="home"] .profile-mount, :where(body[data-geelooy-route="home"]) .profile-mount .awtsmoosDrop, :where(body[data-geelooy-route="home"]) .profile-mount .loggedIn, :where(body[data-geelooy-route="home"]) .profile-mount .notLoggedIn {
-		width: 44px;
-		min-width: 44px;
-		max-width: 44px;
+		width: auto;
+		min-width: 48px;
+		max-width: 150px;
 	} }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-trigger {
-		width: 44px;
-		min-width: 44px;
-		max-width: 44px;
-		height: 44px;
-		min-height: 44px;
-		padding: 4px;
+		width: auto;
+		min-width: 48px;
+		max-width: 150px;
+		height: 48px;
+		min-height: 48px;
+		padding: 4px 10px 4px 6px;
 	} }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-trigger-copy, :where(body[data-geelooy-route="home"]) .profile-mount .profile-chevron {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-chevron {
 		display: none;
 	} }
 @media (max-width: 560px) { body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {

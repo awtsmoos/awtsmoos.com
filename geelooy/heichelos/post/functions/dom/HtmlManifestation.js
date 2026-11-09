@@ -177,13 +177,22 @@ export function sanitizePostHtml(raw) {
  * dangerous markup stripped, then manifested through the existing HTML
  * path, so <sup> footnote markers render as real superscripts (never as
  * literal "<sup>" text) and headings render as headings.
+ * B"H 2026-11-09 (re-fix): the parsed HTML is wrapped in the post body
+ * card (.awtsmoos-plain-post-content) before it reaches the viewport.
+ * The reader CSS scopes every body rule (sup gold superscripts, h3
+ * headings, body size/color) under that card; without the wrapper the
+ * HTML path's direct children never matched those rules, so even a
+ * correctly parsed post rendered small, dark and unstyled.
  * @param {unknown} html Authored post HTML.
  * @param {Node|null} parent Destination.
  * @returns {void}
  */
 export function appendSafePostHtml(html, parent) {
 	if (!parent) return;
-	appendHTML(sanitizePostHtml(markdownMarkersToHtml(html)), parent);
+	const vessel = document.createElement('div');
+	vessel.className = 'awtsmoos-plain-post-content';
+	appendHTML(sanitizePostHtml(markdownMarkersToHtml(html)), vessel);
+	parent.append(vessel);
 }
 
 /** @param {Node} node Source node. @param {Node|null} parent Destination. @param {Node[]} siblings Sibling context. @returns {void} */

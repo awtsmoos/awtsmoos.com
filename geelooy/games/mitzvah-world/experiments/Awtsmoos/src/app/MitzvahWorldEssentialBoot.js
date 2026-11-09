@@ -11,6 +11,7 @@
 import { MitzvahWorldEssentialLedger } from './MitzvahWorldEssentialLedger.js';
 import { dismissMitzvahWorldEssentialFailure } from './MitzvahWorldEssentialFailurePresenter.js';
 import { ESSENTIAL_MILESTONES as CATALOG_MILESTONES } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import { recordEssentialBootMilestone } from './MitzvahWorldBootMilestones.js';
 import {
 	probeMitzvahWorldWebGlCapability,
 	readMitzvahWorldWebGlCapability,
@@ -127,7 +128,12 @@ export function updateMitzvahWorldEssentialMilestone(environment, name, details 
 }
 
 export function completeMitzvahWorldEssentialMilestone(environment, name, details = {}) {
-	return initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
+	const snapshot = initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
+	/* Chapter 4: mirror every essential completion onto the seven boot milestones. Never let a milestone failure break the ledger. */
+	try {
+		recordEssentialBootMilestone(name, details, environment);
+	} catch {}
+	return snapshot;
 }
 
 export function failMitzvahWorldEssentialMilestone(environment, name, details = {}) {

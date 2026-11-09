@@ -10714,6 +10714,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Resolves six ecological terrain garments from real remote Awtsmoos Drive imagery.
 	 * The Awtsmoos renews all earth beyond photograph; Awtsmoos.com nevertheless prefers actual
 	 * remote material captures and never manufactures a substitute texture unless an API explicitly allows it.
+	 * A caller may forward its measured UV repeat (derived from real source pixels at the tier texel
+	 * density for the terrain extent) as `mapRepeat`; every layer then tiles at that measured repeat
+	 * instead of the historic per-layer `[5 + index, 5 + index]`. The images themselves load
+	 * asynchronously after construction and the terrain extent is not an input here, so the Core
+	 * cannot derive the repeat from pixels at this step — the caller already did, and the Core
+	 * honors it. Without a valid `mapRepeat` the historic default is kept, so existing callers
+	 * are unchanged.
 	 */
 	const createAwtsmoosDriveTextureService = __awtsmoosModule_46.createAwtsmoosDriveTextureService;
 	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_48.awtsmoosDriveTexturePathUrl;
@@ -10726,7 +10733,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		const service = options.textureService
 			|| createAwtsmoosDriveTextureService(options.textureServiceOptions);
 		const loader = options.textureLoader || loadRemoteTextureImage;
-		const layers = CINEMATIC_TERRAIN_LAYER_SPECS.map(createLayer);
+		const layerRepeat = validRepeatPair(options.mapRepeat);
+		const layers = CINEMATIC_TERRAIN_LAYER_SPECS.map((item, index) => createLayer(item, index, layerRepeat));
 		const ready = Promise.all(layers.map((layer, index) => hydrateLayer(
 			layer,
 			CINEMATIC_TERRAIN_LAYER_SPECS[index],
@@ -10739,12 +10747,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createCinematicTerrainTextureLayers = createCinematicTerrainTextureLayers;
-	function createLayer(item, index) {
+	function createLayer(item, index, layerRepeat) {
 		return {
 			angle: (index % 3) * 0.37,
 			height: [...item.height],
 			image: null,
-			repeat: [5 + index, 5 + index],
+			repeat: layerRepeat ? [...layerRepeat] : [5 + index, 5 + index],
 			role: item.role,
 			slope: [...item.slope],
 			strength: 1,
@@ -10770,6 +10778,13 @@ const __awtsmoosModule_0 = Object.create(null);
 		})).catch(() => null);
 		if (record?.ok && record.image) layer.image = record.image;
 		return layer;
+	}
+
+	/** Accept only a finite positive UV-repeat pair; anything else keeps the historic per-layer default. */
+	function validRepeatPair(value) {
+		if (!Array.isArray(value) || value.length < 2) return null;
+		const pair = [Number(value[0]), Number(value[1])];
+		return pair.every(item => Number.isFinite(item) && item > 0) ? pair : null;
 	}
 
 }
@@ -10958,22 +10973,32 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Binds Core's six remote ecological texture layers through the shared layered-terrain material authority.
 	 * The cinematic preset chooses remote semantic garments and readiness, while native material construction and terrain-vector
 	 * ownership remain centralized so Studio, MitzvahWorld, and future products cannot grow contradictory terrain renderers.
+	 * A caller may forward its measured ground sampling — anisotropy, map repeat, and texture policy — and this module
+	 * passes it through to the layered material instead of silently dropping it; without those options the historic
+	 * Core defaults (anisotropy 3, repeat [1, 1]) still apply, so existing callers are unchanged.
 	 */
 	const createCinematicTerrainTextureLayers = __awtsmoosModule_45.createCinematicTerrainTextureLayers;
 	const createLayeredTerrainMaterial = __awtsmoosModule_70.createLayeredTerrainMaterial;
 
 	/**
 	 * Create the cinematic six-layer terrain material and its asynchronous remote-image readiness promise.
-	 * @param {object} options Texture discovery, seed, and hydration dependencies.
+	 * @param {object} options Texture discovery, seed, hydration dependencies, and measured ground sampling.
+	 * @param {number} [options.anisotropy] Near-field anisotropy the caller measured (8 desktop / 4 mobile in Mitzvah World).
+	 * @param {Array<number>} [options.mapRepeat] Caller-derived UV repeat from real source pixels at the tier texel density.
+	 * @param {object} [options.texturePolicy] Caller sampling policy (color space, mipmaps, filters, wrap); Core covenant fields always win.
 	 * @returns {{material: object, ready: Promise}} Shared native material plus bounded hydration readiness.
 	 */
 	function createCinematicTerrainMaterial(options = {}) {
-		const textureState = createCinematicTerrainTextureLayers(options);
+		const samplingRepeat = validRepeatPair(options.mapRepeat);
+		const textureState = createCinematicTerrainTextureLayers({ ...options, mapRepeat: samplingRepeat });
 		const material = createLayeredTerrainMaterial({
+			anisotropy: options.anisotropy,
 			liveTextureLayers: true,
+			mapRepeat: samplingRepeat,
 			name: 'Awtsmoos Core Cinematic Terrain',
 			textureLayers: textureState.layers,
 			texturePolicy: {
+				...(options.texturePolicy || {}),
 				generatedTextureAllowed: false,
 				layerCount: 6,
 				remoteOnly: true,
@@ -10990,7 +11015,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		};
 	}
 
+
 	__exports.createCinematicTerrainMaterial = createCinematicTerrainMaterial;
+	/** Accept only a finite positive UV-repeat pair; anything else falls back to the historic Core defaults. */
+	function validRepeatPair(value) {
+		if (!Array.isArray(value) || value.length < 2) return undefined;
+		const pair = [Number(value[0]), Number(value[1])];
+		return pair.every(item => Number.isFinite(item) && item > 0) ? pair : undefined;
+	}
 
 }
 
@@ -130647,127 +130679,6 @@ const __awtsmoosModule_0 = Object.create(null);
 	function positive(value, fallback) {
 		const number = Number(value);
 		return Number.isFinite(number) && number > 0 ? number : fallback;
-	}
-
-}
-
-// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skin/SemanticSkinQuality.js ----
-{
-	const __exports = __awtsmoosModule_1712;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file SemanticSkinQuality.js
-	 * @description Measures finished semantic skin weights without changing one deformation byte.
-	 * The Awtsmoos gives every joint a portion and every portion a meaning; Awtsmoos.com reads confidence,
-	 * ambiguity, entropy, rigidity, and fallback evidence after binding so Creator tooling can distinguish valid from excellent.
-	 */
-
-	const ACTIVE_WEIGHT = 1e-5;
-	const AMBIGUOUS_DOMINANT = 0.62;
-	const AMBIGUOUS_SECONDARY = 0.32;
-	const RIGID_DOMINANT = 0.98;
-
-	/** Returns deterministic bounded quality evidence for one renderer-neutral binding. */
-	function analyzeSemanticSkinQuality(binding) {
-		const stride = Math.max(1, Number(binding.maximumInfluences || 1));
-		const vertexCount = Math.floor(binding.jointWeights.length / stride);
-		let activeInfluences = 0;
-		let ambiguousVertices = 0;
-		let dominantWeight = 0;
-		let effectiveInfluences = 0;
-		let normalizedEntropy = 0;
-		let rigidVertices = 0;
-		for (let vertex = 0; vertex < vertexCount; vertex += 1) {
-			const metrics = vertexMetrics(binding.jointWeights, vertex * stride, stride);
-			activeInfluences += metrics.active;
-			ambiguousVertices += metrics.ambiguous ? 1 : 0;
-			dominantWeight += metrics.dominant;
-			effectiveInfluences += metrics.effective;
-			normalizedEntropy += metrics.entropy;
-			rigidVertices += metrics.rigid ? 1 : 0;
-		}
-		const divisor = Math.max(1, vertexCount);
-		const summary = {
-			ambiguousRatio: boundedRatio(ambiguousVertices, vertexCount),
-			ambiguousVertexCount: ambiguousVertices,
-			candidateCount: binding.coverage?.candidateCount || 0,
-			effectiveInfluenceMean: effectiveInfluences / divisor,
-			fallbackUsed: binding.coverage?.fallbackUsed === true,
-			meanActiveInfluences: activeInfluences / divisor,
-			meanDominantWeight: dominantWeight / divisor,
-			meanNormalizedEntropy: normalizedEntropy / divisor,
-			rigidRatio: boundedRatio(rigidVertices, vertexCount),
-			rigidVertexCount: rigidVertices,
-			semanticRegionCount: binding.coverage?.semanticRegionCount || 0,
-			vertexCount
-		};
-		return Object.freeze({
-			...summary,
-			confidenceScore: confidenceScore(summary),
-			warnings: Object.freeze(qualityWarnings(summary))
-		});
-	}
-
-
-	__exports.analyzeSemanticSkinQuality = analyzeSemanticSkinQuality;
-	function vertexMetrics(weights, offset, stride) {
-		let active = 0;
-		let dominant = 0;
-		let entropy = 0;
-		let secondary = 0;
-		for (let influence = 0; influence < stride; influence += 1) {
-			const weight = Math.max(0, Number(weights[offset + influence]) || 0);
-			if (weight <= ACTIVE_WEIGHT) continue;
-			active += 1;
-			if (weight > dominant) {
-				secondary = dominant;
-				dominant = weight;
-			} else if (weight > secondary) {
-				secondary = weight;
-			}
-			entropy -= weight * Math.log(weight);
-		}
-		const normalized = stride > 1 ? entropy / Math.log(stride) : 0;
-		return {
-			active,
-			ambiguous: dominant < AMBIGUOUS_DOMINANT || secondary > AMBIGUOUS_SECONDARY,
-			dominant,
-			effective: Math.exp(entropy),
-			entropy: clamp01(normalized),
-			rigid: dominant >= RIGID_DOMINANT
-		};
-	}
-
-	function qualityWarnings(summary) {
-		const warnings = [];
-		if (summary.fallbackUsed) warnings.push(issue('CREATURE.SKIN_QUALITY_FALLBACK', 1));
-		if (summary.ambiguousRatio > 0.25) warnings.push(issue('CREATURE.SKIN_QUALITY_AMBIGUOUS', summary.ambiguousRatio));
-		if (summary.meanNormalizedEntropy > 0.72) warnings.push(issue('CREATURE.SKIN_QUALITY_DIFFUSE', summary.meanNormalizedEntropy));
-		if (summary.vertexCount && summary.meanDominantWeight < 0.62) warnings.push(issue('CREATURE.SKIN_QUALITY_LOW_DOMINANCE', summary.meanDominantWeight));
-		return warnings;
-	}
-
-	function confidenceScore(summary) {
-		if (!summary.vertexCount) return 1;
-		return clamp01(summary.meanDominantWeight
-			* (1 - summary.meanNormalizedEntropy * 0.34)
-			* (1 - summary.ambiguousRatio * 0.22)
-			* (summary.fallbackUsed ? 0.72 : 1));
-	}
-
-	function issue(code, value) {
-		return Object.freeze({ code, severity: 'quality', value });
-	}
-
-	function boundedRatio(count, total) {
-		return total > 0 ? clamp01(count / total) : 0;
-	}
-
-	function clamp01(value) {
-		return Math.max(0, Math.min(1, Number(value) || 0));
 	}
 
 }

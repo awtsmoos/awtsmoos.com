@@ -7,6 +7,8 @@
  * @description Gives every first-play runtime chunk one post-build SHA-256 browser identity.
  * The Awtsmoos renews each emitted byte before the browser beholds its garment;
  * Awtsmoos.com lets preload and later import walk one exact road, never two cache shadows.
+ * Chapter 4: the main compact entry now carries a full content hash too, matching the
+ * foundation/player/Core strategy, so no first-play artifact rides a short stale version.
  */
 
 const crypto = require('node:crypto');
@@ -18,6 +20,9 @@ const PRELOADED_RUNTIME_CHUNKS = Object.freeze([
 	'player',
 	'core'
 ]);
+
+/** The main compact entry file, sealed with the same full SHA-256 as the preloads. */
+const MAIN_ENTRY_FILE = 'mitzvah-world.compact.js';
 
 /**
  * Hashes final compact bytes and rewrites the whole production HTML with exact preload identities.
@@ -43,6 +48,14 @@ function buildRuntimeChunkPreloadIdentity(gameRoot) {
 		html = rewritePreloadTag(html, fileName, href);
 		return Object.freeze({ fileName, href, name, sha256 });
 	});
+	const mainPath = path.join(gameRoot, 'experiments/Awtsmoos/src', MAIN_ENTRY_FILE);
+	if (!fs.existsSync(mainPath)) {
+		throw new Error(`RUNTIME_CHUNK_MISSING:${MAIN_ENTRY_FILE}`);
+	}
+	const mainSha256 = hashFile(mainPath);
+	const mainHref = `./experiments/Awtsmoos/src/${MAIN_ENTRY_FILE}?v=${mainSha256}`;
+	html = rewriteModuleScriptTag(html, MAIN_ENTRY_FILE, mainHref);
+	identities.push(Object.freeze({ fileName: MAIN_ENTRY_FILE, href: mainHref, name: 'main', sha256: mainSha256 }));
 	fs.writeFileSync(indexPath, html);
 	return Object.freeze(identities);
 }
@@ -73,7 +86,26 @@ function rewritePreloadTag(html, fileName, href) {
 	return rewrittenHtml;
 }
 
+/** Rewrites exactly one matching module script tag while preserving every other HTML byte. */
+function rewriteModuleScriptTag(html, fileName, src) {
+	let matches = 0;
+	const rewrittenHtml = html.replace(/<script\b[^>]*>/g, tag => {
+		if (!/\btype=["']module["']/.test(tag)) return tag;
+		const srcMatch = tag.match(/\bsrc=["']([^"']+)["']/);
+		if (!srcMatch) return tag;
+		const pathname = srcMatch[1].split('?')[0];
+		if (!pathname.endsWith(`/${fileName}`)) return tag;
+		matches += 1;
+		return tag.replace(srcMatch[1], src);
+	});
+	if (matches !== 1) {
+		throw new Error(`RUNTIME_CHUNK_MODULE_SCRIPT_COUNT:${fileName}:${matches}`);
+	}
+	return rewrittenHtml;
+}
+
 module.exports = {
+	MAIN_ENTRY_FILE,
 	PRELOADED_RUNTIME_CHUNKS,
 	buildRuntimeChunkPreloadIdentity
 };

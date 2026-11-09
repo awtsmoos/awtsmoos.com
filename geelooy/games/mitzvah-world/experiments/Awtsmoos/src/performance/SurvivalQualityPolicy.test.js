@@ -18,7 +18,11 @@ import {
 } from './WorldQualityProfile.js';
 import {
 	isSurvivalQuality,
-	survivalFeatureOverride
+	survivalDeviceClass,
+	survivalDeviceDprCap,
+	survivalDeviceDprCaps,
+	survivalFeatureOverride,
+	survivalOptionalFeatures
 } from './SurvivalQualityPolicy.js';
 import { eretzWorldFeatureEnabled } from '../app/EretzWorldFeaturePolicy.js';
 import { shouldSerializeEretzVisualPromotion } from '../app/EretzVisualPromotionSequence.js';
@@ -69,4 +73,47 @@ test('survival overrides a rich world manifest before optional work starts', () 
 	assert.equal(shouldSerializeEretzVisualPromotion(survival), false);
 	assert.equal(eretzWorldFeatureEnabled(survival, 'richRenderer', true), false);
 	assert.equal(eretzWorldFeatureEnabled(survival, 'performanceMonitor', false), true);
+});
+
+test('survival gates dynamic shadows, post-processing, and distant vegetation too', () => {
+	const options = { qualityProfile: { quality: 'survival' } };
+	assert.equal(survivalFeatureOverride(options, 'dynamicShadows'), false);
+	assert.equal(survivalFeatureOverride(options, 'postProcessing'), false);
+	assert.equal(survivalFeatureOverride(options, 'distantVegetation'), false);
+	assert.equal(survivalFeatureOverride(options, 'bladeGrass'), false);
+	assert.equal(eretzWorldFeatureEnabled(options, 'dynamicShadows', true), false);
+	assert.equal(eretzWorldFeatureEnabled(options, 'postProcessing', true), false);
+	assert.equal(eretzWorldFeatureEnabled(options, 'distantVegetation', true), false);
+	assert.ok(survivalOptionalFeatures().includes('dynamicShadows'));
+	assert.ok(survivalOptionalFeatures().includes('postProcessing'));
+	assert.ok(survivalOptionalFeatures().includes('distantVegetation'));
+});
+
+test('named device class caps DPR at 1.0 for the 2015 MacBook Air and 1.25 for the Pixel 6 Pro', () => {
+	const macbook = resolveWorldQuality({ quality: 'survival', deviceClass: 'macbook-air-2015' }, DESKTOP);
+	assert.equal(macbook.maxDpr, 1);
+	assert.equal(macbook.deviceDprCapReason, 'device-class:macbook-air-2015');
+	const pixel = resolveWorldQuality({ quality: 'survival', deviceClass: 'pixel-6-pro' }, DESKTOP);
+	assert.equal(pixel.maxDpr, 1.25);
+	assert.equal(pixel.deviceDprCapReason, 'device-class:pixel-6-pro');
+	assert.equal(survivalDeviceDprCaps()['macbook-air-2015'], 1);
+	assert.equal(survivalDeviceDprCaps()['pixel-6-pro'], 1.25);
+});
+
+test('device class also arrives through the URL query and never changes other qualities', () => {
+	const environment = { ...DESKTOP, location: { search: '?quality=survival&deviceClass=pixel-6-pro' } };
+	assert.equal(resolveWorldQuality({}, environment).maxDpr, 1.25);
+	const high = resolveWorldQuality({ quality: 'high', deviceClass: 'pixel-6-pro' }, DESKTOP);
+	assert.equal(high.maxDpr, 1.5);
+	assert.equal(survivalDeviceClass({ deviceClass: 'pixel-6-pro' }, DESKTOP), 'pixel-6-pro');
+	assert.equal(survivalDeviceClass({}, environment), 'pixel-6-pro');
+});
+
+test('auto and unknown device classes keep the survival 1.0 default instead of inventing a cap', () => {
+	assert.equal(survivalDeviceClass({}, DESKTOP), 'auto');
+	assert.equal(survivalDeviceDprCap({}, DESKTOP), null);
+	assert.equal(survivalDeviceDprCap({ deviceClass: 'auto' }, DESKTOP), null);
+	assert.equal(survivalDeviceDprCap({ deviceClass: 'some-future-phone' }, DESKTOP), null);
+	assert.equal(resolveWorldQuality({ quality: 'survival', deviceClass: 'some-future-phone' }, DESKTOP).maxDpr, 1);
+	assert.equal(resolveWorldQuality({ quality: 'survival', deviceClass: 'auto' }, DESKTOP).maxDpr, 1);
 });

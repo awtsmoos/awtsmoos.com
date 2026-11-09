@@ -45,7 +45,8 @@ test('production page uses one hashed entry and three critical preloads', () => 
 	assert.match(stylesheets[2], /^\/games\/css\/awtsmoos-webgl-check\.css\?v=[a-f0-9]{10}$/);
 	assert.match(stylesheets[3], /^\/games\/css\/awtsmoos-game-base\.css\?v=[a-f0-9]{10}$/);
 	assert.equal(modules.length, 1);
-	assert.match(modules[0], /^\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js\?v=[a-f0-9]{10}$/);
+	/* Chapter 4: the main compact entry carries a full content hash, matching the foundation/player/Core strategy. */
+	assert.match(modules[0], /^\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js\?v=[a-f0-9]{64}$/);
 	for (const name of ['foundation', 'player', 'core']) {
 		assert.ok(html.includes(`rel="modulepreload" href="${runtimeChunkHref(name)}"`));
 	}

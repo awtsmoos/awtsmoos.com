@@ -8227,13 +8227,33 @@ const __awtsmoosModule_0 = Object.create(null);
 		'cinematicHero',
 		'cinematicLandscape',
 		'deepWorldStreaming',
+		'distantVegetation',
 		'districtStreaming',
+		'dynamicShadows',
 		'particles',
 		'postPlayTerrainHydration',
+		'postProcessing',
 		'richRenderer',
 		'water',
 		'wildlife'
 	]);
+
+	/**
+	 * Named device-class DPR caps for the Chapter 4 survival profile (Mitzvah World Ch. 4, Task 1).
+	 * A named class is an explicit owner/device cap for that hardware, never a fingerprint:
+	 * the 2015 MacBook Air class renders at most 1.0 device pixels per CSS pixel, the
+	 * Pixel 6 Pro class at most ~1.25. Unknown hardware falls back to the generic
+	 * limited-hardware / touch-device / desktop detection in WorldQualityProfile, and
+	 * survival with no named class keeps its 1.0 default.
+	 */
+	const SURVIVAL_DEVICE_DPR_CAPS = Object.freeze({
+		'desktop': 1.5,
+		'limited-hardware': 1.0,
+		'macbook-air-2015': 1.0,
+		'mobile': 1.25,
+		'pixel-6-pro': 1.25,
+		'touch-device': 1.25
+	});
 
 	/** Returns true when a string, profile, or runtime options object selects survival quality. */
 	function isSurvivalQuality(value) {
@@ -8258,7 +8278,57 @@ const __awtsmoosModule_0 = Object.create(null);
 		return Object.freeze([...SURVIVAL_OPTIONAL_FEATURES]);
 	}
 
+
 	__exports.survivalOptionalFeatures = survivalOptionalFeatures;
+	/**
+	 * Resolves the named survival device class from options or the URL query.
+	 * Returns 'auto' when no class is named, so generic hardware detection decides.
+	 */
+	function survivalDeviceClass(options = {}, environment = globalThis) {
+		const named = typeof options?.deviceClass === 'string' && options.deviceClass.trim()
+			? options.deviceClass.trim()
+			: searchParameter(options, environment, 'deviceClass');
+		if (!named) return 'auto';
+		return named;
+	}
+
+
+	__exports.survivalDeviceClass = survivalDeviceClass;
+	/**
+	 * Returns the explicit DPR cap for a NAMED survival device class, otherwise null.
+	 * Null means "no explicit class": the caller keeps its existing hardware-aware
+	 * detection (and survival's 1.0 default). 'auto' and unknown strings also return null
+	 * instead of inventing a cap for hardware nobody named.
+	 */
+	function survivalDeviceDprCap(options = {}, environment = globalThis) {
+		const deviceClass = survivalDeviceClass(options, environment);
+		if (!Object.hasOwn(SURVIVAL_DEVICE_DPR_CAPS, deviceClass)) return null;
+		return Object.freeze({
+			deviceClass,
+			maxDpr: SURVIVAL_DEVICE_DPR_CAPS[deviceClass],
+			reason: `device-class:${deviceClass}`
+		});
+	}
+
+
+	__exports.survivalDeviceDprCap = survivalDeviceDprCap;
+	/** Exposes the named device-class caps for diagnostics and tests without allowing mutation. */
+	function survivalDeviceDprCaps() {
+		return Object.freeze({ ...SURVIVAL_DEVICE_DPR_CAPS });
+	}
+
+
+	__exports.survivalDeviceDprCaps = survivalDeviceDprCaps;
+	/** Reads one query parameter from explicit options search text or the environment location. */
+	function searchParameter(options, environment, name) {
+		const search = options?.search ?? environment?.location?.search ?? '';
+		if (!search) return null;
+		try {
+			return new URLSearchParams(search).get(name);
+		} catch {
+			return null;
+		}
+	}
 
 }
 
@@ -32400,6 +32470,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Resolves six ecological terrain garments from real remote Awtsmoos Drive imagery.
 	 * The Awtsmoos renews all earth beyond photograph; Awtsmoos.com nevertheless prefers actual
 	 * remote material captures and never manufactures a substitute texture unless an API explicitly allows it.
+	 * A caller may forward its measured UV repeat (derived from real source pixels at the tier texel
+	 * density for the terrain extent) as `mapRepeat`; every layer then tiles at that measured repeat
+	 * instead of the historic per-layer `[5 + index, 5 + index]`. The images themselves load
+	 * asynchronously after construction and the terrain extent is not an input here, so the Core
+	 * cannot derive the repeat from pixels at this step — the caller already did, and the Core
+	 * honors it. Without a valid `mapRepeat` the historic default is kept, so existing callers
+	 * are unchanged.
 	 */
 	const createAwtsmoosDriveTextureService = __awtsmoosModule_264.createAwtsmoosDriveTextureService;
 	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_266.awtsmoosDriveTexturePathUrl;
@@ -32412,7 +32489,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		const service = options.textureService
 			|| createAwtsmoosDriveTextureService(options.textureServiceOptions);
 		const loader = options.textureLoader || loadRemoteTextureImage;
-		const layers = CINEMATIC_TERRAIN_LAYER_SPECS.map(createLayer);
+		const layerRepeat = validRepeatPair(options.mapRepeat);
+		const layers = CINEMATIC_TERRAIN_LAYER_SPECS.map((item, index) => createLayer(item, index, layerRepeat));
 		const ready = Promise.all(layers.map((layer, index) => hydrateLayer(
 			layer,
 			CINEMATIC_TERRAIN_LAYER_SPECS[index],
@@ -32425,12 +32503,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createCinematicTerrainTextureLayers = createCinematicTerrainTextureLayers;
-	function createLayer(item, index) {
+	function createLayer(item, index, layerRepeat) {
 		return {
 			angle: (index % 3) * 0.37,
 			height: [...item.height],
 			image: null,
-			repeat: [5 + index, 5 + index],
+			repeat: layerRepeat ? [...layerRepeat] : [5 + index, 5 + index],
 			role: item.role,
 			slope: [...item.slope],
 			strength: 1,
@@ -32456,6 +32534,13 @@ const __awtsmoosModule_0 = Object.create(null);
 		})).catch(() => null);
 		if (record?.ok && record.image) layer.image = record.image;
 		return layer;
+	}
+
+	/** Accept only a finite positive UV-repeat pair; anything else keeps the historic per-layer default. */
+	function validRepeatPair(value) {
+		if (!Array.isArray(value) || value.length < 2) return null;
+		const pair = [Number(value[0]), Number(value[1])];
+		return pair.every(item => Number.isFinite(item) && item > 0) ? pair : null;
 	}
 
 }
@@ -32644,22 +32729,32 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Binds Core's six remote ecological texture layers through the shared layered-terrain material authority.
 	 * The cinematic preset chooses remote semantic garments and readiness, while native material construction and terrain-vector
 	 * ownership remain centralized so Studio, MitzvahWorld, and future products cannot grow contradictory terrain renderers.
+	 * A caller may forward its measured ground sampling — anisotropy, map repeat, and texture policy — and this module
+	 * passes it through to the layered material instead of silently dropping it; without those options the historic
+	 * Core defaults (anisotropy 3, repeat [1, 1]) still apply, so existing callers are unchanged.
 	 */
 	const createCinematicTerrainTextureLayers = __awtsmoosModule_263.createCinematicTerrainTextureLayers;
 	const createLayeredTerrainMaterial = __awtsmoosModule_288.createLayeredTerrainMaterial;
 
 	/**
 	 * Create the cinematic six-layer terrain material and its asynchronous remote-image readiness promise.
-	 * @param {object} options Texture discovery, seed, and hydration dependencies.
+	 * @param {object} options Texture discovery, seed, hydration dependencies, and measured ground sampling.
+	 * @param {number} [options.anisotropy] Near-field anisotropy the caller measured (8 desktop / 4 mobile in Mitzvah World).
+	 * @param {Array<number>} [options.mapRepeat] Caller-derived UV repeat from real source pixels at the tier texel density.
+	 * @param {object} [options.texturePolicy] Caller sampling policy (color space, mipmaps, filters, wrap); Core covenant fields always win.
 	 * @returns {{material: object, ready: Promise}} Shared native material plus bounded hydration readiness.
 	 */
 	function createCinematicTerrainMaterial(options = {}) {
-		const textureState = createCinematicTerrainTextureLayers(options);
+		const samplingRepeat = validRepeatPair(options.mapRepeat);
+		const textureState = createCinematicTerrainTextureLayers({ ...options, mapRepeat: samplingRepeat });
 		const material = createLayeredTerrainMaterial({
+			anisotropy: options.anisotropy,
 			liveTextureLayers: true,
+			mapRepeat: samplingRepeat,
 			name: 'Awtsmoos Core Cinematic Terrain',
 			textureLayers: textureState.layers,
 			texturePolicy: {
+				...(options.texturePolicy || {}),
 				generatedTextureAllowed: false,
 				layerCount: 6,
 				remoteOnly: true,
@@ -32676,7 +32771,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		};
 	}
 
+
 	__exports.createCinematicTerrainMaterial = createCinematicTerrainMaterial;
+	/** Accept only a finite positive UV-repeat pair; anything else falls back to the historic Core defaults. */
+	function validRepeatPair(value) {
+		if (!Array.isArray(value) || value.length < 2) return undefined;
+		const pair = [Number(value[0]), Number(value[1])];
+		return pair.every(item => Number.isFinite(item) && item > 0) ? pair : undefined;
+	}
 
 }
 

@@ -109,6 +109,17 @@ html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 		border-radius: .72rem;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
+/* B"H 2026-11-09 — constellation sections must stack: the `.constellation-root`
+   single-column rule in constellation-groups.css is specificity (0,1,0) and
+   loses to this file's `body[data-geelooy-route="home"] .world-grid` two-column
+   rule (0,2,1) at 560px, so Core/Apps/Games sat side-by-side in ~160px columns
+   and every tile label truncated to 2–3 letters. This (0,3,1) override restores
+   the intended single-column stack, so each section is full panel width and
+   tile labels read in full. It only matches grids carrying the constellation
+   class, so the flat world renderer is untouched. */
+body[data-geelooy-route="home"] .world-grid.constellation-root {
+	grid-template-columns: minmax(0, 1fr);
+}
 @media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .world-tile {
 		transition: none;
 	} }

@@ -412,19 +412,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 14519,
+			"bytes": 14502,
 			"encoding": "br",
-			"sha256": "423d3d1df1a38d87e87a5c0d29ea6bde90d5ecb40a45f11dc98688c63d605f81"
+			"sha256": "0b194d8a62257accad927cf2884ee3eabe2658b2761fae988cee5d2b5a76311d"
 		},
 		"gzip": {
-			"bytes": 17460,
+			"bytes": 17439,
 			"encoding": "gzip",
-			"sha256": "7f11b1e25e56e2869039d42ed7c19604f5d846889f83fbf3919507942a055f2e"
+			"sha256": "bcdec275737588109b732eb4d24e7b9812380272621f5be5a58595197cfb73c8"
 		},
 		"identity": {
 			"bytes": 115241,
 			"encoding": "identity",
-			"sha256": "f51bd8bbdc72f1c3c8ac5bf9f31a9ab23ad856ba2dcf77e4a97d46b23132c529"
+			"sha256": "834aa3637969963ef44939817f9c606d35e58339800413361992f5a041fe043c"
 		}
 	}
 }

@@ -83,6 +83,10 @@
 	font-style: normal;
 }
 .constellation-identity b {
+	/* B"H 2026-11-09 — the group name had no colour, so it inherited the light
+	   theme's dark ink (#2b2118) onto this dark-navy section and read as dark
+	   on dark. Pin it to a light value that reads on the section. */
+	color: #dbe7f5;
 	font-size: .79rem;
 	letter-spacing: .02em;
 }

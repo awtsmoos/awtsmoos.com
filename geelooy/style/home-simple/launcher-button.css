@@ -58,18 +58,21 @@ body[data-geelooy-route="home"] .launcher-glyph {
 :where(body[data-geelooy-route="home"]) .launcher-button:active {
 	transform: translateY(1px) scale(.96);
 }
-/* @tunnel-specificity: base :where()-reduced for :focus-visible budget W4 2026-10-08 */
+/* B"H 2026-11-09 — mobile readability: the 390px rule used to collapse this
+   button to a 44px icon-only square and hide the "Worlds" label, leaving a
+   faint 18px nine-dot glyph nobody could read. The button now stays a labelled
+   pill at every width, with a 48px tap target and a larger, bolder glyph. */
 @media (max-width: 390px) { :where(body[data-geelooy-route="home"]) .launcher-button {
-		width: 44px;
-		padding: 0;
-		overflow: hidden;
+		min-height: 48px;
+		padding: .55rem .7rem;
+		font-size: .78rem;
 	} }
-/* B"H 2026-10-09 — Dream audit: same intent without. The chained
-   route + launcher selector (0,4,1) outranks the :where()-reduced base rules. */
-@media (max-width: 390px) { body[data-geelooy-route="home"] .world-launcher .launcher-button > span:last-child {
-		display: none;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
+@media (max-width: 390px) { body[data-geelooy-route="home"] .launcher-glyph {
+		width: 22px;
+		height: 22px;
+		background-image: radial-gradient(circle, currentColor 0 1.9px, transparent 2.3px);
+		background-size: 9px 9px;
+	} }
 /* @tunnel-specificity: base :where()-reduced for :focus-visible budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .launcher-button {
 		transition: none;

@@ -14,10 +14,12 @@ import test from 'node:test';
 import {
 	MEADOW_SIM_HZ,
 	MEADOW_SIM_DT,
+	MEADOW_STATE_FIELDS,
 	advanceMeadowState,
 	catchUpMeadowState,
 	createMeadowState,
-	disturbMeadowState
+	disturbMeadowState,
+	meadowGrassCover
 } from './MeadowChunkSimulation.js';
 
 const SEED = 25851;
@@ -52,7 +54,13 @@ test('B"H mathematical unloaded catch-up preserves compact JSON state', () => {
 	const caughtUp = catchUpMeadowState(state, SEED, 10);
 	const continuouslySimulated = simulateFrames(60, 10);
 	assert.ok(Math.abs(caughtUp.growth - continuouslySimulated.growth) < 1e-12);
-	assert.ok(Math.abs(caughtUp.grass - continuouslySimulated.grass) < 1e-12);
+	assert.equal(
+		meadowGrassCover(caughtUp),
+		meadowGrassCover(continuouslySimulated)
+	);
 	assert.equal(typeof JSON.parse(JSON.stringify(caughtUp)).lastSimTime, 'number');
-	assert.equal(Object.keys(caughtUp).length, 4);
+	for (const field of MEADOW_STATE_FIELDS) {
+		assert.ok(field in caughtUp, `canonical field missing after catch-up: ${field}`);
+	}
+	assert.ok(!('grass' in caughtUp), 'grass cover is derived, never stored');
 });

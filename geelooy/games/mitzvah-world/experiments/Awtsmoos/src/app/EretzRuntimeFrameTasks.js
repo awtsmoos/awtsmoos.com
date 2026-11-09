@@ -14,7 +14,7 @@ import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { updateEretzWorldServices } from './EretzWorldServiceFrame.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
-import { createWorldChunkStreamingCoordinator } from '../world/streaming/WorldChunkStreamingCoordinator.js';
+import { updateMitzvahWorldBudgetedGeneration } from './MitzvahWorldBudgetedGenerationWiring.js';
 
 export function runEretzRuntimeFrameTasks(runtime, context, deltaTime, now, costs) {
 	measureTask(costs, 'streaming', updateStreaming, runtime, context, deltaTime, now);
@@ -37,35 +37,25 @@ function measureTask(costs, name, task, runtime, context, deltaTime, now) {
 }
 
 function updateStreaming(runtime, context, deltaTime, now) {
+	// Chapter 4 Task 3: the budgeted generation-and-simulation loop runs every
+	// frame from the frame step. It owns the ONE streaming coordinator
+	// (runtime.streamingCoordinator is the loop's internal coordinator), so no
+	// second coordinator is ever created. Open-world and creator streaming stay
+	// on the chunks cadence; material hydration stays on its own cadence.
+	updateMitzvahWorldBudgetedGeneration(runtime, {
+		at: now,
+		cameraDirection: readCameraDirection(runtime.camera),
+		frameTimeMilliseconds: runtime.chunkRuntime?.frameTimeMilliseconds ?? null,
+		playerPosition: runtime.model.position,
+		playerVelocity: readPlayerVelocity(runtime)
+	});
 	if (context.cadence.due('chunks', now)) {
 		const playerPosition = runtime.model.position;
-		updateChunkStreaming(runtime, now, playerPosition);
 		runtime.openWorldStreaming?.update?.(playerPosition);
 		runtime.creatorWorldStreaming?.update?.(playerPosition);
 	}
 	if (!context.cadence.due('materialHydration', now)) return;
 	runtime.materialHydrationStats = context.residency.update(runtime.scene);
-}
-
-/**
- * Runs the budgeted generation-simulation loop around the chunk runtime:
- * distance+heading prioritization, reversal cancellation, one GPU upload
- * per frame, and fixed-rate meadow simulation. Falls back to the plain
- * runtime update when no coordinator is attached.
- */
-function updateChunkStreaming(runtime, now, playerPosition) {
-	if (!runtime.chunkRuntime) return;
-	if (!runtime.streamingCoordinator) {
-		runtime.streamingCoordinator = createWorldChunkStreamingCoordinator({
-			chunkRuntime: runtime.chunkRuntime
-		});
-	}
-	runtime.streamingCoordinator.update({
-		at: now,
-		cameraDirection: readCameraDirection(runtime.camera),
-		playerPosition,
-		playerVelocity: readPlayerVelocity(runtime)
-	});
 }
 
 function readPlayerVelocity(runtime) {

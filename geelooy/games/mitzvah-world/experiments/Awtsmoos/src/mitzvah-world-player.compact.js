@@ -154,21 +154,23 @@ const __awtsmoosModule_54 = Object.create(null);
 
 const __awtsmoosModule_67 = Object.create(null);
 
+const __awtsmoosModule_68 = Object.create(null);
+
 const __awtsmoosModule_53 = Object.create(null);
 
-const __awtsmoosModule_68 = Object.create(null);
+const __awtsmoosModule_69 = Object.create(null);
 
 const __awtsmoosModule_52 = Object.create(null);
 
 const __awtsmoosModule_2 = Object.create(null);
 
-const __awtsmoosModule_70 = Object.create(null);
+const __awtsmoosModule_71 = Object.create(null);
+
+const __awtsmoosModule_73 = Object.create(null);
 
 const __awtsmoosModule_72 = Object.create(null);
 
-const __awtsmoosModule_71 = Object.create(null);
-
-const __awtsmoosModule_69 = Object.create(null);
+const __awtsmoosModule_70 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -5682,9 +5684,185 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootMilestones.js ----
 {
 	const __exports = __awtsmoosModule_67;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldBootMilestones.js
+	 * @description Records the seven Chapter 4 boot milestones separately: navigation, entry import,
+	 * renderer-ready, first frame, terrain-ready, Chossid-ready, and movement-ready.
+	 * The Awtsmoos gives first control seven honest marks; Awtsmoos.com keeps each milestone on one
+	 * shared clock so ten cold and ten warm loads can prove one release and one boot path.
+	 * State lives on globalThis so every compiled bundle copy reads and writes the same registry.
+	 */
+
+	const BOOT_MILESTONE_NAMES = Object.freeze([
+		'navigation',
+		'entryImport',
+		'rendererReady',
+		'firstFrame',
+		'terrainReady',
+		'chossidReady',
+		'movementReady'
+	]);
+
+
+	__exports.BOOT_MILESTONE_NAMES = BOOT_MILESTONE_NAMES;
+	/** Maps the five essential milestone names onto the seven boot milestone names. */
+	const ESSENTIAL_TO_BOOT_MILESTONE = Object.freeze({
+		entryModuleExecuted: 'entryImport',
+		rendererFirstFrame: 'firstFrame',
+		spawnTerrainExists: 'terrainReady',
+		canonicalChossidDecoded: 'chossidReady',
+		playerMovementEnabled: 'movementReady'
+	});
+
+
+	__exports.ESSENTIAL_TO_BOOT_MILESTONE = ESSENTIAL_TO_BOOT_MILESTONE;
+	const REGISTRY_KEY = 'AwtsmoosMitzvahWorldBootMilestones';
+	const RECEIPT_KEY = 'AwtsmoosMitzvahWorldBootMilestonesReceipt';
+
+	/** Returns the shared milestone registry, creating it when absent. */
+	function bootMilestoneRegistry(environment = globalThis) {
+		if (!environment || typeof environment !== 'object') return {};
+		if (!environment[REGISTRY_KEY] || typeof environment[REGISTRY_KEY] !== 'object') {
+			environment[REGISTRY_KEY] = {};
+		}
+		return environment[REGISTRY_KEY];
+	}
+
+
+	__exports.bootMilestoneRegistry = bootMilestoneRegistry;
+	/** Returns milliseconds since the navigation time origin, or null when unavailable. */
+	function bootMilestoneNow(environment = globalThis) {
+		const value = typeof environment?.performance?.now === 'function'
+			? environment.performance.now()
+			: Date.now();
+		return Number.isFinite(Number(value)) ? Number(value) : null;
+	}
+
+
+	__exports.bootMilestoneNow = bootMilestoneNow;
+	/**
+	 * Records one boot milestone at the current clock. Keeps the earliest timestamp when a
+	 * milestone is recorded twice, so a restart cannot move a milestone later than its first truth.
+	 */
+	function recordBootMilestone(name, detail = null, environment = globalThis) {
+		if (!BOOT_MILESTONE_NAMES.includes(name)) {
+			throw new Error(`UNKNOWN_BOOT_MILESTONE:${name}`);
+		}
+		const registry = bootMilestoneRegistry(environment);
+		const elapsedMs = bootMilestoneNow(environment);
+		if (elapsedMs == null) return null;
+		const existing = registry[name];
+		if (existing && existing.elapsedMs <= elapsedMs) return existing;
+		const record = Object.freeze({
+			detail: detail == null ? null : detail,
+			elapsedMs,
+			name,
+			status: 'complete'
+		});
+		registry[name] = record;
+		return record;
+	}
+
+
+	__exports.recordBootMilestone = recordBootMilestone;
+	/** Records the navigation milestone from the Navigation Timing entry when available. */
+	function recordNavigationMilestone(environment = globalThis) {
+		const registry = bootMilestoneRegistry(environment);
+		if (registry.navigation) return registry.navigation;
+		let entry = null;
+		try {
+			entry = environment?.performance?.getEntriesByType?.('navigation')?.[0] || null;
+		} catch {}
+		const elapsedMs = entry && Number.isFinite(Number(entry.responseEnd))
+			? Number(entry.responseEnd)
+			: bootMilestoneNow(environment);
+		if (elapsedMs == null) return null;
+		const detail = entry ? Object.freeze({
+			domContentLoadedEventEnd: Number.isFinite(Number(entry.domContentLoadedEventEnd)) ? Number(entry.domContentLoadedEventEnd) : null,
+			fetchStart: Number.isFinite(Number(entry.fetchStart)) ? Number(entry.fetchStart) : null,
+			responseEnd: Number(entry.responseEnd),
+			transferSize: Number.isFinite(Number(entry.transferSize)) ? Number(entry.transferSize) : null
+		}) : null;
+		const record = Object.freeze({
+			detail,
+			elapsedMs,
+			name: 'navigation',
+			status: 'complete'
+		});
+		registry.navigation = record;
+		return record;
+	}
+
+
+	__exports.recordNavigationMilestone = recordNavigationMilestone;
+	/** Records one essential milestone under its Chapter 4 boot milestone name. */
+	function recordEssentialBootMilestone(essentialName, detail = null, environment = globalThis) {
+		const bootName = ESSENTIAL_TO_BOOT_MILESTONE[essentialName];
+		if (!bootName) return null;
+		return recordBootMilestone(bootName, detail, environment);
+	}
+
+
+	__exports.recordEssentialBootMilestone = recordEssentialBootMilestone;
+	/**
+	 * Publishes one frozen receipt with all seven milestones and the release ID when known.
+	 * Missing milestones are listed as pending, never invented.
+	 */
+	function publishBootMilestonesReceipt(environment = globalThis) {
+		const registry = bootMilestoneRegistry(environment);
+		const milestones = {};
+		for (const name of BOOT_MILESTONE_NAMES) {
+			milestones[name] = registry[name] || Object.freeze({
+				detail: null,
+				elapsedMs: null,
+				name,
+				status: 'pending'
+			});
+		}
+		const releaseId = readReleaseId(environment);
+		const receipt = Object.freeze({
+			milestones: Object.freeze(milestones),
+			recordedAtMs: bootMilestoneNow(environment),
+			releaseId
+		});
+		environment[RECEIPT_KEY] = receipt;
+		return receipt;
+	}
+
+
+	__exports.publishBootMilestonesReceipt = publishBootMilestonesReceipt;
+	/** Returns the published boot milestones receipt when one exists, otherwise null. */
+	function readBootMilestonesReceipt(environment = globalThis) {
+		return environment?.[RECEIPT_KEY] || null;
+	}
+
+
+	__exports.readBootMilestonesReceipt = readBootMilestonesReceipt;
+	/** Reads the release ID from the HTML meta tag when present. */
+	function readReleaseId(environment = globalThis) {
+		try {
+			const meta = environment?.document?.querySelector?.('meta[name="mitzvah-world-release"]');
+			const content = meta?.getAttribute?.('content');
+			return typeof content === 'string' && content.length > 0 ? content : null;
+		} catch {
+			return null;
+		}
+	}
+
+	__exports.readReleaseId = readReleaseId;
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
+{
+	const __exports = __awtsmoosModule_68;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5897,11 +6075,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const MitzvahWorldEssentialLedger = __awtsmoosModule_54.MitzvahWorldEssentialLedger;
 	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_63.dismissMitzvahWorldEssentialFailure;
 	const CATALOG_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
+	const recordEssentialBootMilestone = __awtsmoosModule_67.recordEssentialBootMilestone;
 	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_66.probeMitzvahWorldWebGlCapability;
 	const readMitzvahWorldWebGlCapability = __awtsmoosModule_66.readMitzvahWorldWebGlCapability;
 	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_66.rememberMitzvahWorldWebGlCapability;
 	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_66.WEBGL_UNAVAILABLE_CODE;
-	const transitionMitzvahWorldBootState = __awtsmoosModule_67.transitionMitzvahWorldBootState;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_68.transitionMitzvahWorldBootState;
 	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
@@ -6025,7 +6204,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.updateMitzvahWorldEssentialMilestone = updateMitzvahWorldEssentialMilestone;
 	function completeMitzvahWorldEssentialMilestone(environment, name, details = {}) {
-		return initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
+		const snapshot = initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
+		/* Chapter 4: mirror every essential completion onto the seven boot milestones. Never let a milestone failure break the ledger. */
+		try {
+			recordEssentialBootMilestone(name, details, environment);
+		} catch {}
+		return snapshot;
 	}
 
 
@@ -6058,7 +6242,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_68;
+	const __exports = __awtsmoosModule_69;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6124,7 +6308,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_53.ESSENTIAL_MILESTONES;
 	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_53.updateMitzvahWorldEssentialMilestone;
-	const PLAYER_MODEL_URL = __awtsmoosModule_68.PLAYER_MODEL_URL;
+	const PLAYER_MODEL_URL = __awtsmoosModule_69.PLAYER_MODEL_URL;
 
 	const GLOBAL_NAME = 'AwtsmoosMitzvahWorldCanonicalChossidTiming';
 
@@ -6219,7 +6403,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const beginCanonicalChossidTiming = __awtsmoosModule_52.beginCanonicalChossidTiming;
 	const completeCanonicalChossidTiming = __awtsmoosModule_52.completeCanonicalChossidTiming;
 	const recordCanonicalChossidStage = __awtsmoosModule_52.recordCanonicalChossidStage;
-	const PLAYER_MODEL_URL = __awtsmoosModule_68.PLAYER_MODEL_URL;
+	const PLAYER_MODEL_URL = __awtsmoosModule_69.PLAYER_MODEL_URL;
 	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_53.completeMitzvahWorldEssentialMilestone;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_53.ESSENTIAL_MILESTONES;
 	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_53.failMitzvahWorldEssentialMilestone;
@@ -6337,7 +6521,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzDeferredHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_70;
+	const __exports = __awtsmoosModule_71;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6400,7 +6584,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_73;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -6438,7 +6622,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_72;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6450,7 +6634,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so playable earth arrives with speed while later beauty crosses the same truthful path when its appointed light is kindled.
 	 */
 
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_72.resolveDeferredAppModuleUrl;
+	const resolveDeferredAppModuleUrl = __awtsmoosModule_73.resolveDeferredAppModuleUrl;
 
 	const SOURCE_FILE_NAME = 'EretzEssentialHydrationUrls.js';
 	const MATERIAL_SPECIFIER = 'EretzAssetLoader.js?v=20260722-rich-assets-01';
@@ -6491,7 +6675,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_69;
+	const __exports = __awtsmoosModule_70;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6503,10 +6687,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com names the idle state canonical-stable, so diagnostics agree with the GLB-only covenant in every route.
 	 */
 
-	const createDeferredHydrationState = __awtsmoosModule_70.createDeferredHydrationState;
-	const essentialActorLoaderUrl = __awtsmoosModule_71.essentialActorLoaderUrl;
-	const essentialActorProfilesUrl = __awtsmoosModule_71.essentialActorProfilesUrl;
-	const essentialMaterialHydrationUrl = __awtsmoosModule_71.essentialMaterialHydrationUrl;
+	const createDeferredHydrationState = __awtsmoosModule_71.createDeferredHydrationState;
+	const essentialActorLoaderUrl = __awtsmoosModule_72.essentialActorLoaderUrl;
+	const essentialActorProfilesUrl = __awtsmoosModule_72.essentialActorProfilesUrl;
+	const essentialMaterialHydrationUrl = __awtsmoosModule_72.essentialMaterialHydrationUrl;
 
 	function createEssentialActorHydration(options = {}, dependencies = {}) {
 		const enabled = options.streamCanonicalActors === true;
@@ -6587,8 +6771,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const createEssentialAssetRecord = __awtsmoosModule_1.createEssentialAssetRecord;
 	const loadEretzEssentialPlayerGlb = __awtsmoosModule_2.loadEretzEssentialPlayerGlb;
-	const createEssentialActorHydration = __awtsmoosModule_69.createEssentialActorHydration;
-	const createEssentialMaterialHydration = __awtsmoosModule_69.createEssentialMaterialHydration;
+	const createEssentialActorHydration = __awtsmoosModule_70.createEssentialActorHydration;
+	const createEssentialMaterialHydration = __awtsmoosModule_70.createEssentialMaterialHydration;
 
 	/**
 	 * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.

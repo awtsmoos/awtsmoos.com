@@ -21,6 +21,7 @@ const DESKTOP = Object.freeze({
 });
 
 export const RUNTIME_ACCEPTANCE_SCENES = Object.freeze([
+	scene('survival-spawn', 'Survival spawn — one chunk', [0, 2, -5], [-2, 4, 15], [0, 2, 4], ['survival', 'spawn', 'single-chunk']),
 	scene('village-golden-hour', 'Village golden hour', [0, 2, -5], [-18, 20, 24], [4, 2, -6], ['lighting', 'atmosphere']),
 	scene('village-path', 'Village path', [-10, 2, -10], [-2, 4, 15], [0, 2, 4], ['path', 'characters']),
 	scene('lake', 'Lake', [18, 1, -2], [5, 8, -12], [18, 0, -2], ['water', 'reflections']),

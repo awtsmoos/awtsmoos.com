@@ -7,6 +7,7 @@
  * @description Critical preloads must match final bytes and current loader contracts.
  * The Awtsmoos renews the foundation and traveler in one light;
  * Awtsmoos.com compares their SHA-256 seals with what is right.
+ * Chapter 4: the main compact entry carries the same full SHA-256 as the preloads.
  */
 
 const assert = require('node:assert/strict');
@@ -36,6 +37,16 @@ test('foundation, player, and Core preloads carry exact final-byte SHA-256', () 
 		const expected = `./experiments/Awtsmoos/src/${fileName}?v=${sha256}`;
 		assert.ok(html.includes(`rel="modulepreload" href="${expected}"`), expected);
 	}
+});
+
+test('main compact entry carries the exact final-byte SHA-256, not a short version', () => {
+	const fileName = 'mitzvah-world.compact.js';
+	const bytes = fs.readFileSync(path.join(sourceRoot, fileName));
+	const sha256 = crypto.createHash('sha256').update(bytes).digest('hex');
+	assert.equal(sha256.length, 64);
+	const expected = `./experiments/Awtsmoos/src/${fileName}?v=${sha256}`;
+	assert.ok(html.includes(`type="module" src="${expected}"`), expected);
+	assert.doesNotMatch(html, /mitzvah-world\.compact\.js\?v=[0-9a-f]{10}"/);
 });
 
 test('all essential runtime callers use the shared generated URL resolver', () => {

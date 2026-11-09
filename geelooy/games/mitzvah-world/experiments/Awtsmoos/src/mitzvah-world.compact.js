@@ -83,15 +83,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	/**
 	 * @file MinimalMeadowCompactBootstrap.js
 	 * @description Keeps first control tiny while sharing essential boot truth and leaving release certification beyond an opaque dynamic boundary.
-	 * The Awtsmoos gives the doorway one swift spark before deeper vessels unfold;
-	 * Awtsmoos.com keeps ordinary travel light while an explicit release query may summon its examiner without letting CompactJS swallow that world whole.
+	 * The Awtsmoos gives the doorway one swift spark before deeper vessels unfold.
+	 * Chapter 4: one preflight rejects a mixed release before the renderer starts and records the seven boot milestones.
 	 */
 
 	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
 
-	// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the
-	// shared overlay explains + offers Try Again; halt boot here (module top-level
-	// return is illegal, so throw the equivalent halt).
+	// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the overlay explains + offers Try Again; halt boot here (module top-level return is illegal, so throw the equivalent halt).
 	if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Mitzvah World' })) {
 		throw new Error('[Mitzvah World] WebGL unavailable — help overlay shown');
 	}
@@ -100,6 +98,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const ENTRY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';
 	const ESSENTIAL = new URL('./app/MitzvahWorldEssentialBoot.js', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
 	const RELEASE = new URL('./app/MitzvahWorldReleaseGateSession.js', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
+	const PREFLIGHT = new URL('./app/MitzvahWorldBootPreflight.js', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
 
 	publish('loading');
 	const bootPromise = boot();
@@ -110,10 +109,13 @@ const __awtsmoosModule_0 = Object.create(null);
 			.catch(report);
 	}
 
-	/** Proves entry through the shared ledger before opening canonical page boot. */
+	/** Proves the release seal, then entry, before opening canonical page boot. A mixed release fails closed here. */
 	async function boot() {
 		try {
+			const preflight = await import(PREFLIGHT);
+			const session = preflight.beginMitzvahWorldBoot(globalThis);
 			const essential = await import(ESSENTIAL);
+			session.recordEntryImport();
 			essential.initializeMitzvahWorldEssentialBoot(globalThis);
 			essential.completeMitzvahWorldEssentialMilestone(
 				globalThis,
@@ -122,6 +124,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			);
 			const result = await bootMinimalSharedMeadowPage();
 			publish('loaded');
+			session.publishReceipt();
 			return result;
 		} catch (error) {
 			publish('failed', error);
@@ -130,7 +133,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
-	/** Publishes immutable entry evidence and mirrors state on the root. */
+	/** Publishes immutable entry evidence on the root. */
 	function publish(state, error = null) {
 		const receipt = Object.freeze({
 			entry: ENTRY,
@@ -144,7 +147,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		globalThis.AwtsmoosMitzvahWorldBoot = receipt;
 	}
 
-	/** Reports failed asynchronous boot or optional examiner launch without swallowing evidence. */
+	/** Reports failed boot or examiner launch without swallowing evidence. */
 	function report(error) {
 		globalThis.AwtsmoosMitzvahWorldReleaseGateLaunchFailure = Object.freeze({
 			message: error?.message || String(error),

@@ -19,6 +19,7 @@ import {
 	setProgressiveRendererSize
 } from './ProgressiveWebGLState.js';
 import { createWebGlRequiredError } from './WebGlRequiredError.js';
+import { recordBootMilestone } from './MitzvahWorldBootMilestones.js';
 
 export class ProgressiveWebGLRenderer {
 	constructor({ alpha = true, antialias = false, canvas } = {}) {
@@ -34,6 +35,10 @@ export class ProgressiveWebGLRenderer {
 		if (!this.gl) {
 			throw createWebGlRequiredError(['webgl']);
 		}
+		/* Chapter 4 boot milestone: the WebGL context exists, so the renderer is ready. Never let a milestone failure break rendering. */
+		try {
+			recordBootMilestone('rendererReady', { backend: 'webgl' }, globalThis);
+		} catch {}
 		this.backend = 'webgl';
 		this.contextName = 'webgl';
 		this.clearColor = [0.36, 0.56, 0.72, 1];

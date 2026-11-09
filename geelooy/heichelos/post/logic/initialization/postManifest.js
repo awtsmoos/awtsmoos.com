@@ -12,7 +12,7 @@
 import { makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
-import { appendSafePostHtml, isHtmlPostContent } from '/heichelos/post/functions/dom/HtmlManifestation.js?v=safe-post-html-001';
+import { appendSafePostHtml, isHtmlPostContent } from '/heichelos/post/functions/dom/HtmlManifestation.js?v=safe-post-html-002';
 import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-002';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';

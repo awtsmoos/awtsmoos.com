@@ -8,6 +8,10 @@
  * while Core alone owns reusable native geometry, remote photographic materials, shader law, and hydration.
  */
 import { createCinematicWorldBuildingApi } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
+import {
+	createGrassGroundMaterialSpec,
+	grassGroundTexturePolicy
+} from './terrain/GrassGroundMaterial.js';
 
 const WORLD = createCinematicWorldBuildingApi();
 
@@ -17,17 +21,34 @@ export function createTerrainMesh(data, _grassImage, _pathImage, _fallbackUrl, q
 	const zoneWeights = new Float32Array(data.zones.flatMap((zone, index) => (
 		minimalMeadowZoneWeight(zone, data.roadMasks?.[index] || 0)
 	)));
+	// Chapter 4 Task 4: the live grass sampling contract, passed into the Core
+	// cinematic terrain API — anisotropy 8 desktop / 4 mobile, repeat derived
+	// from real source pixels at the per-tier texel density, sRGB + mipmaps +
+	// LinearMipmapLinear, and the anti-stretch guard (one tile <= 40 m).
+	// The game passes the spec here; the visible fix also needs the Core to
+	// forward these options in createCinematicTerrainMaterial (it currently
+	// drops them, so the Core keeps its anisotropy-3 / repeat-[1,1] defaults
+	// until that forwarding lands). See the Task 4 wiring note in the report.
+	const grassSpec = createGrassGroundMaterialSpec({
+		mobile: quality === 'low',
+		quality,
+		worldDepth: Number(data.size) || 540,
+		worldWidth: Number(data.size) || 540
+	});
 	const mesh = WORLD.terrainGeometry({
 		positions,
 		normals: data.normals,
 		uvs: data.uvs,
 		indices: data.indices
 	}, {
+		anisotropy: grassSpec.anisotropy,
 		frustumCulled: false,
+		mapRepeat: [...grassSpec.repeat],
 		name: 'Awtsmoos high detail village terrain',
 		quality,
 		remoteOnly: true,
 		seed: Number(data.seed || data.AwtsmoosTerrainValley?.seed || 613),
+		texturePolicy: grassGroundTexturePolicy({ mobile: quality === 'low', quality }),
 		waterLevel: Number(data.AwtsmoosTerrainValley?.waterLevel || 0),
 		zoneWeights
 	});

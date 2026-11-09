@@ -12,6 +12,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { buildEssentialReleaseAssets } = require('./EssentialReleaseAssetBuilder.cjs');
+const { buildMitzvahWorldReleaseIdentity } = require('./MitzvahWorldReleaseIdentity.cjs');
 const { buildRuntimeChunkPreloadIdentity } = require('./RuntimeChunkPreloadIdentity.cjs');
 const { compilerFunction } = require('./js/CompactJsAdapter.cjs');
 const { writeCompactJsBuild } = require('./js/CompactJsBuildWriter.cjs');
@@ -65,7 +66,9 @@ async function main() {
 	console.error('[Mitzvah World build] world split final identities:', JSON.stringify(finalizedWorld));
 	const preloadIdentity = buildRuntimeChunkPreloadIdentity(gameRoot);
 	console.error('[Mitzvah World build] preload identity:', JSON.stringify(preloadIdentity));
-	console.log(JSON.stringify({ chunks, essentialAssets, finalizedWorld, main: mainManifest, preloadIdentity, worldSplit: splitReceipt }));
+	const releaseIdentity = buildMitzvahWorldReleaseIdentity(gameRoot);
+	console.error('[Mitzvah World build] release identity:', releaseIdentity.releaseId);
+	console.log(JSON.stringify({ chunks, essentialAssets, finalizedWorld, main: mainManifest, preloadIdentity, releaseIdentity, worldSplit: splitReceipt }));
 }
 
 /** Compiles the tiny first-control graph with its necessary source map. */

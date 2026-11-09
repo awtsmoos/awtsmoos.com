@@ -79,11 +79,24 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	);
 	const completedAt = environment.performance?.now?.() ?? Date.now();
 	core.runtime.essentialAssemblyMilliseconds = Math.max(0, completedAt - startedAt);
+	startSurvivalSixtyFpsRunIfRequested(core.runtime, options, environment);
 	return {
 		...core,
 		foundation,
 		qualityProfile
 	};
+}
+
+/**
+ * Starts the Chapter 4 survival 5-minute recorder only when the owner asked for it
+ * (?quality=survival&survival60=1). Fire-and-forget: the hook never blocks boot and
+ * never throws; an absent flag simply means ordinary play.
+ */
+function startSurvivalSixtyFpsRunIfRequested(runtime, options, environment) {
+	import(compact('../performance/SurvivalSixtyFpsProfile.js')).then(
+		module => module.maybeStartSurvivalSixtyFpsRun(runtime, options, environment),
+		() => {}
+	);
 }
 
 function compact(specifier) {

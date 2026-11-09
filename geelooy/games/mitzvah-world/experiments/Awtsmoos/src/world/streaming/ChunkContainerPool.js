@@ -5,10 +5,13 @@
 /**
  * @file ChunkContainerPool.js
  * @description Reuses chunk geometry vessels locally in the game: typed vertex/index
- * buffers keyed by length class and plain mesh containers. The Awtsmoos lets one
- * vessel carry many fields in turn; Awtsmoos.com returns emptied buffers to the
- * pool on unload instead of abandoning them, keeping travel out and back near
- * the memory baseline. No shared-Core code is touched.
+ * buffers keyed by length class, plain mesh containers, shared materials keyed by
+ * material key, and vegetation instance batches keyed by capacity class. The
+ * Awtsmoos lets one vessel carry many fields in turn; Awtsmoos.com returns emptied
+ * buffers to the pool on unload instead of abandoning them, keeping travel out
+ * and back near the memory baseline. Materials are shared by key with a reference
+ * count (one material object per key, never one per chunk load); vegetation
+ * batches are cleared and reused by capacity class. No shared-Core code is touched.
  */
 
 const DEFAULT_MAX_RETAINED_BYTES = 64 * 1024 * 1024;
@@ -20,7 +23,20 @@ export function createChunkContainerPool({ maxRetainedBytes = DEFAULT_MAX_RETAIN
 	const float32Bins = new Map();
 	const uint32Bins = new Map();
 	const containers = [];
-	const stats = { containerHits: 0, containerMisses: 0, float32Hits: 0, float32Misses: 0, uint32Hits: 0, uint32Misses: 0 };
+	const materials = new Map();
+	const vegetationBins = new Map();
+	const stats = {
+		containerHits: 0,
+		containerMisses: 0,
+		float32Hits: 0,
+		float32Misses: 0,
+		materialHits: 0,
+		materialMisses: 0,
+		uint32Hits: 0,
+		uint32Misses: 0,
+		vegetationBatchHits: 0,
+		vegetationBatchMisses: 0
+	};
 	let retainedBytes = 0;
 
 	function takeBin(bins, length) {
@@ -100,17 +116,101 @@ export function createChunkContainerPool({ maxRetainedBytes = DEFAULT_MAX_RETAIN
 			containers.push(container);
 			return true;
 		},
+		/**
+		 * Borrows the shared material record for a key. The first acquire for a
+		 * key builds the record with `create` (called once per key); later
+		 * acquires return the SAME object with an incremented reference count,
+		 * so ten chunk loads share one material instead of allocating ten.
+		 */
+		acquireMaterial(key, create) {
+			if (typeof key !== 'string' || key.length === 0) {
+				throw new TypeError('Material key must be a nonempty string.');
+			}
+			const existing = materials.get(key);
+			if (existing) {
+				existing.refs += 1;
+				stats.materialHits += 1;
+				return existing.record;
+			}
+			if (typeof create !== 'function') {
+				throw new TypeError('A material factory is required for a new key.');
+			}
+			const record = create(key);
+			if (!record || typeof record !== 'object') {
+				throw new TypeError('Material factory must return an object.');
+			}
+			materials.set(key, { record, refs: 1 });
+			stats.materialMisses += 1;
+			return record;
+		},
+		/**
+		 * Releases one reference to a shared material. The record stays pooled
+		 * (retained for the next chunk that needs the same key); it is only
+		 * dropped when its reference count reaches zero and `drop` is true.
+		 * Returns the remaining reference count, or -1 for an unknown key.
+		 */
+		releaseMaterial(key, { drop = false } = {}) {
+			const existing = materials.get(key);
+			if (!existing) return -1;
+			existing.refs = Math.max(0, existing.refs - 1);
+			if (existing.refs === 0 && drop) materials.delete(key);
+			return existing.refs;
+		},
+		/** Returns the pooled material record for a key without changing refs, or null. */
+		peekMaterial(key) {
+			return materials.get(key)?.record ?? null;
+		},
+		/**
+		 * Borrows one vegetation instance batch: a plain array stamped with its
+		 * capacity class. Released batches are cleared (length 0) and reused,
+		 * so per-chunk vegetation lists never allocate a fresh array per load.
+		 */
+		acquireVegetationBatch(capacity) {
+			const size = Math.max(0, Math.trunc(capacity) || 0);
+			const bin = vegetationBins.get(size);
+			if (bin && bin.length > 0) {
+				stats.vegetationBatchHits += 1;
+				return bin.pop();
+			}
+			stats.vegetationBatchMisses += 1;
+			const batch = [];
+			batch.capacity = size;
+			return batch;
+		},
+		/** Returns a vegetation batch; its entries are cleared before reuse. */
+		releaseVegetationBatch(batch) {
+			if (!Array.isArray(batch) || !Number.isFinite(batch.capacity)) return false;
+			batch.length = 0;
+			let bin = vegetationBins.get(batch.capacity);
+			if (!bin) {
+				bin = [];
+				vegetationBins.set(batch.capacity, bin);
+			}
+			bin.push(batch);
+			return true;
+		},
 		/** Immutable pool diagnostics. */
 		diagnostics() {
+			let materialRefs = 0;
+			for (const entry of materials.values()) materialRefs += entry.refs;
+			let vegetationBatchesRetained = 0;
+			for (const bin of vegetationBins.values()) vegetationBatchesRetained += bin.length;
 			return Object.freeze({
 				containerHits: stats.containerHits,
 				containerMisses: stats.containerMisses,
 				float32Hits: stats.float32Hits,
 				float32Misses: stats.float32Misses,
+				materialCount: materials.size,
+				materialHits: stats.materialHits,
+				materialMisses: stats.materialMisses,
+				materialRefs,
 				maxRetainedBytes,
 				retainedBytes,
 				uint32Hits: stats.uint32Hits,
-				uint32Misses: stats.uint32Misses
+				uint32Misses: stats.uint32Misses,
+				vegetationBatchHits: stats.vegetationBatchHits,
+				vegetationBatchMisses: stats.vegetationBatchMisses,
+				vegetationBatchesRetained
 			});
 		}
 	};

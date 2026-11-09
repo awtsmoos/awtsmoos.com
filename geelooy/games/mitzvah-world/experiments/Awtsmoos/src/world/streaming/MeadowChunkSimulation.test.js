@@ -13,29 +13,49 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	MEADOW_SIM_HZ,
+	MEADOW_STATE_FIELDS,
 	advanceMeadowState,
 	catchUpMeadowState,
 	createMeadowState,
 	disturbMeadowState,
 	grassTarget,
 	hash01,
+	meadowGrassCover,
 	moistureBase,
 	normalizeMeadowState
 } from './MeadowChunkSimulation.js';
 
 const SEED = 0x9e3779b9;
 
-test('initial record contains canonical Chapter 3 state at five hertz', () => {
+test('initial record contains canonical Chapter 4 state at five hertz', () => {
 	const state = createMeadowState(SEED, 100);
 	assert.equal(MEADOW_SIM_HZ, 5);
+	assert.deepEqual([...MEADOW_STATE_FIELDS], [
+		'seed',
+		'moisture',
+		'windPhase',
+		'grassDisturbance',
+		'lastUpdateTime'
+	]);
+	for (const field of MEADOW_STATE_FIELDS) {
+		assert.ok(field in state, `canonical field missing: ${field}`);
+	}
 	assert.equal(state.seed, SEED >>> 0);
-	assert.equal(state.grass, grassTarget(SEED));
 	assert.equal(state.moisture, moistureBase(SEED));
 	assert.equal(state.grassDisturbance, 0);
 	assert.equal(state.lastUpdateTime, 100);
 	assert.equal(state.growth, state.grassDisturbance);
 	assert.equal(state.lastSimTime, state.lastUpdateTime);
 	assert.ok(state.windPhase >= 0 && state.windPhase < 1);
+});
+
+test('grass cover is derived from seed alone and never stored', () => {
+	const state = createMeadowState(SEED, 100);
+	assert.equal(meadowGrassCover(state), grassTarget(SEED));
+	assert.ok(!('grass' in state), 'grass must not be a stored field');
+	const advanced = advanceMeadowState(state, SEED, 1000);
+	assert.equal(meadowGrassCover(advanced), grassTarget(SEED));
+	assert.ok(!('grass' in advanced));
 });
 
 test('legacy state normalizes into canonical fields and synchronized durable aliases', () => {
@@ -50,6 +70,7 @@ test('legacy state normalizes into canonical fields and synchronized durable ali
 	assert.equal(legacy.grassDisturbance, 0.8);
 	assert.equal(legacy.growth, legacy.grassDisturbance);
 	assert.equal(legacy.lastSimTime, legacy.lastUpdateTime);
+	assert.ok(!('grass' in legacy), 'legacy grass value is dropped, not stored');
 	const parsed = JSON.parse(JSON.stringify(legacy));
 	assert.equal(parsed.growth, parsed.grassDisturbance);
 	assert.equal(parsed.lastSimTime, parsed.lastUpdateTime);
@@ -95,7 +116,7 @@ test('same seed and elapsed time always yield the same state and hashes', () => 
 });
 
 function assertStateClose(left, right, tolerance) {
-	for (const key of ['grass', 'moisture', 'grassDisturbance', 'lastUpdateTime', 'windPhase']) {
+	for (const key of ['moisture', 'grassDisturbance', 'lastUpdateTime', 'windPhase']) {
 		const difference = Math.abs(left[key] - right[key]);
 		assert.ok(difference <= tolerance, `${key} diverged by ${difference}`);
 	}
