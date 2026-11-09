@@ -79,7 +79,11 @@
 	position: relative;
 	border-radius: 1rem;
 	padding: 0.7rem 1rem;
-	margin-inline: -1rem;
+	/* B"H — Coby Nov 10: NO negative inline margin. It pulled the pair
+	   1rem past the sefer's edge on a phone, and the LTR English — which
+	   starts at the pair's left edge — was clipped off-screen ("B"S."
+	   showed only "S."). The pair stays inside the sefer now. */
+	margin-inline: 0;
 	margin-block-end: 1.6em;
 	/* B"H 2026-10-22 (frontend-fixes): pairs render VISIBLE by default. The
 	   scroll-reveal trigger (.is-visible) was never wired to any JS, so every
