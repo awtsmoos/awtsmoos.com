@@ -7,6 +7,7 @@
  * The Awtsmoos gives parsed markup a measured vessel instead of a tangled flood,
  * while Awtsmoos.com manifests each child in order and preserves the reader's living hooks.
  */
+import { renderTranslationTextWithFootnotes } from '../../translations/render.js';
 
 /**
  * @class BeriahHtmlManifestation
@@ -42,6 +43,26 @@ export class BeriahHtmlManifestation {
 		if (!parentKli) {
 			return;
 		}
+		// B"H — English footnote digits baked into the stored content HTML.
+		// A post's content carries Hebrew footnotes as real <sup> elements
+		// but English footnotes as plain digits glued to words ("Yitzchak10",
+		// "etc.1", "Torah Or27"). The Meluket reader and the translation API
+		// blocks convert those at render time, but a post with no enrichment
+		// renders its English straight from the canonical content HTML, which
+		// neither of them touches — so the digits stayed plain. Convert them
+		// here, in the text nodes, with the same rules as
+		// renderTranslationTextWithFootnotes (same patterns, same safety:
+		// only digits glued to a Latin letter/quote/paren, after an
+		// abbreviation period, trailing a Hebrew year, or bare at the end;
+		// standalone numbers are never touched). Only Latin/English text is
+		// converted — Hebrew text nodes are left alone, and the Hebrew <sup>
+		// already in the content is an element node, never a text node, so
+		// it is untouched. A converted <sup> is plain (no class) and takes
+		// the .awtsmoos-plain-post-content sup styling (0.62em, super, gold,
+		// 700), exactly like the Hebrew <sup> beside it.
+		if (sourceOhr.nodeType === 3 && this.appendEnglishFootnoteText(sourceOhr, parentKli)) {
+			return;
+		}
 		if (this.shouldLiftSuperscript(sourceOhr)) {
 			this.appendNode(sourceOhr.firstChild, parentKli, siblingOros);
 			return;
@@ -69,6 +90,29 @@ export class BeriahHtmlManifestation {
 				this.appendNode(childOhr, manifestedKli, siblingOros);
 			}
 		}
+	}
+
+	/**
+	 * Converts one text node's English footnote digits to real <sup> elements.
+	 * @param {Node} textOhr Source text node.
+	 * @param {Node} parentKli Destination node.
+	 * @returns {boolean} True when the node was converted and appended (the
+	 * caller must not manifest it again); false when there was nothing to
+	 * convert and the caller should fall through to the normal path.
+	 */
+	appendEnglishFootnoteText(textOhr, parentKli) {
+		const text = textOhr.textContent || '';
+		// No Latin letters — Hebrew-only text (or a number alone) can never
+		// carry these English footnote digits. Leave it exactly as it is.
+		if (!/[A-Za-z]/.test(text)) return false;
+		const html = renderTranslationTextWithFootnotes(text);
+		if (!html.includes('<sup')) return false;
+		// Parse the converted HTML into real nodes (text + <sup>) and append
+		// them. The converter escapes the rest, so no markup can leak in.
+		const template = document.createElement('template');
+		template.innerHTML = html;
+		parentKli.append(...template.content.childNodes);
+		return true;
 	}
 
 	/** @param {Node} sourceOhr Candidate node. @returns {boolean} Whether a paragraph only wraps a SUP node. */
