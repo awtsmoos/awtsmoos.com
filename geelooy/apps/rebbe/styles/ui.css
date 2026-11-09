@@ -30,7 +30,12 @@
 }
 .item.item.active * { color: #000; border-color: #000; }
 
-.item .icon { font-size: 20px; margin-right: 12px; opacity: 0.9; }
+.item .icon { font-size: 20px; margin-right: 12px; opacity: 0.9; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.item .icon svg { width: 22px; height: 22px; display: block; }
+.item .icon svg,
+.mini-btn svg,
+.cmd-icon svg,
+.book-spine svg { flex: 0 0 auto; }
 .year-item { color: var(--c-yellow); font-weight: bold; }
 .folder-item { color: var(--c-text-main); }
 
@@ -44,6 +49,10 @@
     display: flex; align-items: center; justify-content: center;
     transition: 0.2s;
 }
+.mini-btn svg { width: 20px; height: 20px; display: block; }
+.cmd-icon { display: inline-flex; align-items: center; justify-content: center; }
+.cmd-icon svg { width: 18px; height: 18px; display: block; }
+.book-spine svg { width: 22px; height: 22px; display: block; }
 .mini-btn:hover { 
     border-color: var(--c-cyan); 
     color: var(--c-cyan); 
@@ -85,6 +94,10 @@ footer {
 }
 .ctrl-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); transform: scale(1.1); box-shadow: 0 0 15px var(--c-cyan); background: #000; }
 .ctrl-btn svg { width: 28px; height: 28px; fill: currentColor; }
+
+/* Player collapse toggle: hidden on desktop (room to spare); mobile shows it. */
+.player-toggle { display: none; }
+.player-toggle svg { width: 22px; height: 22px; display: block; transition: transform 0.2s ease; }
 
 #btn-play { 
     width: 70px; height: 70px; 

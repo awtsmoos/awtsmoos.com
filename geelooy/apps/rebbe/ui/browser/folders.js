@@ -4,6 +4,7 @@
 
 import { cleanArchiveName } from '../../modules/network/archive.js';
 import { runPendingNavigation } from './PendingNavigation.js';
+import { ICON_BOLT, ICON_DOWNLOAD, ICON_FOLDER_OPEN, ICON_STAR } from '../icons.js';
 
 /**
  * @module RebbeFolderBrowser
@@ -55,7 +56,7 @@ function label(title) {
 	wrap.className = 'folder-label';
 	const icon = document.createElement('span');
 	icon.className = 'icon';
-	icon.textContent = '📂';
+	icon.innerHTML = ICON_FOLDER_OPEN;
 	const text = document.createElement('span');
 	text.className = 'item-text';
 	text.style.fontFamily = 'monospace';
@@ -69,21 +70,22 @@ function actions(id, rawTitle, title, onAction) {
 	const wrap = document.createElement('div');
 	wrap.className = 'item-actions folder-actions';
 	wrap.append(
-		mini('⬇', 'Download this event as ZIP', 'download-event', id, rawTitle, title, onAction),
-		mini('⚡', 'Cache all files in this event', 'cache-event', id, rawTitle, title, onAction),
-		mini('☆', 'Save this event to bookshelf', 'bookmark-folder', id, rawTitle, title, onAction)
+		mini(ICON_DOWNLOAD, 'Download this event as ZIP', 'download-event', id, rawTitle, title, onAction),
+		mini(ICON_BOLT, 'Cache all files in this event', 'cache-event', id, rawTitle, title, onAction),
+		mini(ICON_STAR, 'Save this event to bookshelf', 'bookmark-folder', id, rawTitle, title, onAction)
 	);
 	return wrap;
 }
 
 /** Builds one secondary action button that never bubbles into folder opening. */
-function mini(text, title, action, id, rawTitle, cleanTitle, onAction) {
+function mini(iconSvg, title, action, id, rawTitle, cleanTitle, onAction) {
 	const button = document.createElement('button');
 	button.type = 'button';
 	button.className = 'mini-btn';
 	button.title = title;
 	button.setAttribute('aria-label', title);
-	button.textContent = text;
+	// Trusted icon constant from ui/icons.js only — never archive or user data.
+	button.innerHTML = iconSvg;
 	button.onclick = event => {
 		event.stopPropagation();
 		onAction?.(action, { id, rawTitle, title: cleanTitle });

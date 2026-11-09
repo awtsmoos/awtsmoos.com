@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createIconElement, ICON_BOOKMARK, ICON_FOLDER } from '../icons.js';
+
 /**
  * @class MalchusBookshelfCardFactory
  * @description
@@ -36,7 +38,7 @@ export class MalchusBookshelfCardFactory {
 		const malchusCard = this.root.createElement('div');
 		malchusCard.className = `book-card ${gevurahFolder ? 'book-folder' : 'book-track'}`;
 		malchusCard.setAttribute('role', 'listitem');
-		const hodSpine = this.text('span', gevurahFolder ? '📁' : '🔖', 'book-spine');
+		const hodSpine = this.icon('span', gevurahFolder ? ICON_FOLDER : ICON_BOOKMARK, 'book-spine');
 		hodSpine.setAttribute('aria-hidden', 'true');
 		const tiferesBody = this.root.createElement('div');
 		tiferesBody.className = 'book-body';
@@ -67,6 +69,22 @@ export class MalchusBookshelfCardFactory {
 		const malchusElement = this.root.createElement(tag);
 		malchusElement.className = malchusClass;
 		malchusElement.textContent = String(hodText ?? '');
+		return malchusElement;
+	}
+
+	/**
+	 * Creates one icon element from a trusted icon constant (ui/icons.js only).
+	 * The icon markup is a fixed module constant, never saved-item data, and
+	 * it is parsed with DOMParser per this file's safe-DOM contract. A
+	 * missing parser leaves the spine empty rather than breaking.
+	 */
+	icon(tag, iconSvg, malchusClass) {
+		const malchusElement = this.root.createElement(tag);
+		malchusElement.className = malchusClass;
+		const svgElement = createIconElement(this.root, iconSvg);
+		if (svgElement) {
+			malchusElement.appendChild(svgElement);
+		}
 		return malchusElement;
 	}
 

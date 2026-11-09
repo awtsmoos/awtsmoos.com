@@ -4,6 +4,7 @@
 
 import { openModal } from '../modals.js';
 import { updatePlayIcon } from '../player.js';
+import { bindPlayerCollapse } from './PlayerCollapse.js';
 
 /**
  * @module RebbePrimaryControlBindings
@@ -26,6 +27,7 @@ export function bindPrimaryControls(tiferesCallbacks = {}) {
 	bindSeeker(tiferesCallbacks);
 	bindHeaderActions(tiferesCallbacks);
 	bindBackActions(tiferesCallbacks);
+	bindPlayerCollapse();
 }
 
 /** Connects play/pause while keeping the icon synchronized with actual state. */

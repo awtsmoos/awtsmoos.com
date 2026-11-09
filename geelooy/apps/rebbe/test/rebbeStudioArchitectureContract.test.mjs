@@ -43,8 +43,9 @@ assert.match(project, /minimumSavedAt: lightweightSavedAt/);
 assert.match(projectProps, /await Project\.restoreAutoSaveProject\(\)/);
 assert.match(background, /return false;[\s\S]*netzachBackgroundSession\.resume\(\)/);
 assert.match(backgroundSession, /removeEventListener\('resize'/);
-assert.match(polish, /overflow-y: hidden !important/);
-assert.match(polish, /height: 100dvh !important/);
+assert.match(polish, /overflow-y:\s*hidden;/);
+assert.match(polish, /height:\s*100dvh;/);
+assert.doesNotMatch(polish, /!important/);
 
 const boundedOwners = [
 	'modules/studio/core/preview-space.js',

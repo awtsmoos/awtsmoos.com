@@ -1,6 +1,8 @@
 //B"H
 // view.js - DOM Manipulation
 
+import { ICON_FOLDER, ICON_FOLDER_OPEN } from './ui/icons.js';
+
 export function initUI(cb) {
     console.log("VIEW: Initializing UI...");
     
@@ -150,7 +152,7 @@ export function renderYears(years, onSelect) {
     Object.keys(years).forEach(y => {
         const d = document.createElement('div');
         d.className = 'item year-item';
-        d.innerHTML = `<span class="icon">📁</span> ${y}`;
+        d.innerHTML = `<span class="icon">${ICON_FOLDER}</span> ${y}`;
         d.onclick = () => {
              document.querySelectorAll('.year-item').forEach(i=>i.classList.remove('active'));
              d.classList.add('active');
@@ -168,7 +170,7 @@ export function renderFolders(folders, onSelect) {
         const d = document.createElement('div');
         d.className = 'item folder-item';
         const title = (typeof f === 'object' && f.title) ? f.title : f;
-        d.innerHTML = `<span class="icon">📂</span> ${title}`;
+        d.innerHTML = `<span class="icon">${ICON_FOLDER_OPEN}</span> ${title}`;
         d.onclick = () => {
              document.querySelectorAll('.folder-item').forEach(i=>i.classList.remove('active'));
              d.classList.add('active');

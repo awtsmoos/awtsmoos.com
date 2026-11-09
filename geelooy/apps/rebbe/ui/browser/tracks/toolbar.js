@@ -5,6 +5,7 @@
 import { openAddToPlaylist, playlistTrackItem, selectedPlaylistItems } from '../../playlists.js';
 import { createCommandButton } from './commands.js';
 import { openSelectedPlaylistPicker, selectAllVisible } from './selection.js';
+import { ICON_BOLT, ICON_CHECK_SQUARE, ICON_DOWNLOAD, ICON_MUSIC, ICON_PLUS, ICON_STAR } from '../../icons.js';
 
 /**
  * @class TiferesEventToolbarFactory
@@ -69,15 +70,15 @@ export function renderEventToolbar(hodFolderTitle, tiferesTracks = [], gevurahAc
 function buttonSpecs(tiferesTracks, gevurahAction) {
 	const gevurahSingle = tiferesTracks.length === 1;
 	return [
-		localSpec('☑', 'Select', 'Select all visible files', 'select-all-tracks', 'neutral'),
+		localSpec(ICON_CHECK_SQUARE, 'Select', 'Select all visible files', 'select-all-tracks', 'neutral'),
 		{
-			...localSpec('+', 'Add', 'Add selected files to playlist', 'playlist-selected-tracks', 'accent'),
+			...localSpec(ICON_PLUS, 'Add', 'Add selected files to playlist', 'playlist-selected-tracks', 'accent'),
 			disabled: !selectedPlaylistItems().length
 		},
-		localSpec('♫', 'Playlist', 'Add whole event to playlist', 'playlist-event', 'accent'),
-		controllerSpec('⬇', gevurahSingle ? 'Download' : 'ZIP', gevurahSingle ? 'Download this file' : 'Download this event as a newest-first ZIP', 'download-event', 'primary', gevurahAction),
-		controllerSpec('⚡', 'Cache', 'Cache this event offline', 'cache-event', 'cache', gevurahAction),
-		controllerSpec('☆', 'Save', 'Save event to bookshelf', 'bookmark-folder', 'accent', gevurahAction)
+		localSpec(ICON_MUSIC, 'Playlist', 'Add whole event to playlist', 'playlist-event', 'accent'),
+		controllerSpec(ICON_DOWNLOAD, gevurahSingle ? 'Download' : 'ZIP', gevurahSingle ? 'Download this file' : 'Download this event as a newest-first ZIP', 'download-event', 'primary', gevurahAction),
+		controllerSpec(ICON_BOLT, 'Cache', 'Cache this event offline', 'cache-event', 'cache', gevurahAction),
+		controllerSpec(ICON_STAR, 'Save', 'Save event to bookshelf', 'bookmark-folder', 'accent', gevurahAction)
 	];
 }
 

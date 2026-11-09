@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { runPendingNavigation } from './PendingNavigation.js';
+import { ICON_FOLDER, ICON_GLOBE } from '../icons.js';
 
 /**
  * @module RebbeYearBrowser
@@ -52,7 +53,7 @@ function label(year) {
 	content.style.flex = '1';
 	const icon = document.createElement('span');
 	icon.className = 'icon';
-	icon.textContent = '📁';
+	icon.innerHTML = ICON_FOLDER;
 	const text = document.createElement('span');
 	text.className = 'item-text';
 	text.style.fontFamily = 'monospace';
@@ -65,7 +66,7 @@ function label(year) {
 function openArchiveButton(archiveId) {
 	const button = document.createElement('button');
 	button.type = 'button';
-	button.textContent = '🌐';
+	button.innerHTML = ICON_GLOBE;
 	button.className = 'mini-btn';
 	button.title = 'Open whole year on Archive.org';
 	button.setAttribute('aria-label', 'Open whole year on Archive.org');

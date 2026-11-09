@@ -5,6 +5,7 @@
 import { fmt } from '../../utils.js';
 import { createCommandButton, durationPill } from './commands.js';
 import { selectionBox } from './selection.js';
+import { ICON_BOLT, ICON_DOWNLOAD, ICON_MUSIC, ICON_PLAY, ICON_STAR } from '../../icons.js';
 
 /**
  * @class MalchusTrackRowFactory
@@ -76,10 +77,10 @@ export function renderTrackRow(tiferesArgs) {
 /** Returns the established row command vocabulary. */
 function commandSpecs() {
 	return [
-		{ icon: '▶', label: 'Play', title: 'Play this file', action: 'play-row', variant: 'primary' },
-		{ icon: '♫', label: 'Add', title: 'Add this file to playlist', action: 'playlist-track', variant: 'accent' },
-		{ icon: '⬇', label: 'Download', title: 'Download this file', action: 'download', variant: 'primary' },
-		{ icon: '⚡', label: 'Cache', title: 'Cache this file offline', action: 'cache', variant: 'cache' },
-		{ icon: '☆', label: 'Save', title: 'Save this file to bookshelf', action: 'bookmark-track', variant: 'accent' }
+		{ icon: ICON_PLAY, label: 'Play', title: 'Play this file', action: 'play-row', variant: 'primary' },
+		{ icon: ICON_MUSIC, label: 'Add', title: 'Add this file to playlist', action: 'playlist-track', variant: 'accent' },
+		{ icon: ICON_DOWNLOAD, label: 'Download', title: 'Download this file', action: 'download', variant: 'primary' },
+		{ icon: ICON_BOLT, label: 'Cache', title: 'Cache this file offline', action: 'cache', variant: 'cache' },
+		{ icon: ICON_STAR, label: 'Save', title: 'Save this file to bookshelf', action: 'bookmark-track', variant: 'accent' }
 	];
 }

@@ -38,7 +38,7 @@ class ChesedTrackCommandFactory {
 		].join(' ');
 		malchusButton.disabled = Boolean(disabled);
 		malchusButton.append(
-			this.cell('cmd-icon', icon),
+			this.iconCell('cmd-icon', icon),
 			this.cell('cmd-label', label)
 		);
 		malchusButton.addEventListener('click', event => {
@@ -53,6 +53,18 @@ class ChesedTrackCommandFactory {
 		const malchusSpan = document.createElement('span');
 		malchusSpan.className = malchusClass;
 		malchusSpan.textContent = hodText;
+		return malchusSpan;
+	}
+
+	/**
+	 * Creates one icon cell from a trusted icon constant (ui/icons.js only).
+	 * The icon markup is a fixed module constant, never archive or user data,
+	 * so innerHTML here cannot turn a title into executable markup.
+	 */
+	iconCell(malchusClass, iconSvg) {
+		const malchusSpan = document.createElement('span');
+		malchusSpan.className = malchusClass;
+		malchusSpan.innerHTML = iconSvg;
 		return malchusSpan;
 	}
 

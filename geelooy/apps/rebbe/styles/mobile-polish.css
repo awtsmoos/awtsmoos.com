@@ -75,10 +75,86 @@
 	footer {
 		inline-size: 100%;
 		max-inline-size: 100%;
-		max-block-size: 170px;
+		flex-shrink: 0;
 		padding: 8px 10px max(8px, env(safe-area-inset-bottom));
 		gap: 7px;
 	}
+
+	/* Player collapse toggle: a thumb-ready chevron that hides the full
+	 * player on a phone, so it never covers the timeline. In the collapsed
+	 * slim row it sits first (in flow); once expanded it floats at the
+	 * footer's top-right corner so it takes no row of its own. */
+	.player-toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: 44px;
+		block-size: 44px;
+		flex: 0 0 44px;
+		background: rgba(0, 243, 255, 0.08);
+		border: 1px solid var(--c-cyan);
+		color: var(--c-cyan);
+		border-radius: 10px;
+		cursor: pointer;
+	}
+
+	footer:not(.player-collapsed) .player-toggle {
+		position: absolute;
+		inset-block-start: 8px;
+		inset-inline-end: 10px;
+	}
+
+	footer:not(.player-collapsed) .info .track-title {
+		padding-inline-end: 52px;
+	}
+
+	/* Collapsed player: one slim row — title plus transport only. The
+	 * progress bar and clock hide until the user expands the player, and
+	 * the Studio doorway hides too; play/pause/prev/next keep working. */
+	footer.player-collapsed {
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 10px max(6px, env(safe-area-inset-bottom));
+	}
+
+	footer.player-collapsed .player-toggle { order: 1; }
+
+	footer.player-collapsed .info {
+		order: 2;
+		flex: 1;
+		min-inline-size: 0;
+		text-align: left;
+	}
+
+	footer.player-collapsed .info .track-title {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	footer.player-collapsed .info .progress-container,
+	footer.player-collapsed .info .time-display {
+		display: none;
+	}
+
+	footer.player-collapsed .controls {
+		order: 3;
+		display: flex;
+		inline-size: auto;
+		gap: 6px;
+	}
+
+	footer.player-collapsed .controls .ctrl-btn {
+		inline-size: 44px;
+		block-size: 44px;
+	}
+
+	footer.player-collapsed #btn-slice { display: none; }
+
+	/* Chevron points up while collapsed (tap to expand); down once open. */
+	footer.player-collapsed .player-toggle svg { transform: rotate(0deg); }
+	footer:not(.player-collapsed) .player-toggle svg { transform: rotate(180deg); }
 
 	footer .info {
 		gap: 7px;
