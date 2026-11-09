@@ -1,5 +1,5 @@
 B"H
-1.0.716
+1.0.717
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -822,11 +822,8 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/nle/logic/InteractionManager.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/nle/ui/ClipRenderer.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/nle/ui/manifest/components/TrackGroupUI.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/nle/ui/PropertyInspector.js
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/components/controls-grid.css
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/components/editor-ui.css
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/components/loading-immersion.css
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/components/nle-advanced.css
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/effects/glows.css
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/layout/main-grid.css
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/src/ui/styles/layout/mobile.css
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/state/actions/comments/add.js
