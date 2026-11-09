@@ -94,7 +94,7 @@ export async function bootApplication() {
 
         if (post.dayuh) await interpretPostDayuh(post);
         else if (post.content) {
-            const { appendHTML, wirePostContentInteractions } = await import("../../functions/utils.js?v=fce41deabf");
+            const { appendHTML, wirePostContentInteractions } = await import("../../functions/utils.js?v=acd0c11267");
             appendHTML(post.content, viewport);
             // B"H 2026-11-10: boot.js renders via appendHTML (not
             // appendSafePostHtml), so the English-jump button and the
