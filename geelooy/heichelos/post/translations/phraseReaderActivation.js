@@ -102,6 +102,12 @@ export async function activatePhraseReaderFromApi(post, rows) {
 		try {
 			const el = typeof document !== "undefined" ? document.getElementById("realPost") : null;
 			if (el) el.setAttribute("data-phrase-reader", outcome);
+			// B"H — the verification browser cannot read attributes or the
+			// console, but it CAN read the page title. With
+			// ?awtsmoos-debug-phrase=1, surface the outcome in the title.
+			if (typeof document !== "undefined" && typeof location !== "undefined" && /awtsmoos-debug-phrase=1/.test(location.search || "")) {
+				document.title = "[phrase:" + outcome + "] " + document.title.replace(/^\[phrase:[^\]]*\]\s*/, "");
+			}
 		} catch (_) { /* diagnostic never breaks the mount */ }
 	};
 	try {
