@@ -42,6 +42,12 @@ async function mountLanguageTools(root, discovery) {
 		if (discovery) discovery.hidden = true;
 	} catch (error) {
 		console.error('B"H — language tools stayed on their server fallback:', error);
+		// B"H 2026-11-09: never leave a dangling "while tools finish loading"
+		// note behind a failed mount — say plainly the tools are unavailable
+		// and drop the empty mount section.
+		mount.remove();
+		const note = discovery?.querySelector('.heichel-discovery-description');
+		if (note) note.textContent = 'Dictionary tools are unavailable right now — use Search the Living Library instead.';
 	}
 }
 

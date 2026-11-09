@@ -32,7 +32,20 @@ function createShellRenderer($i) {
 	async function getHeichel(heichelId, seriesId, context) {
 		return traceAsync('shell:heichel', async () => {
 			if (isFastIkarRoot(heichelId, seriesId)) {
-				return { id: 'ikar', name: 'Ikar — Torah Library' };
+				// B"H 2026-11-09: the stored ikar record carries no description,
+				// so the hero fell back to generic copy. State the true shape
+				// of this page instead: nine section cards, not a count of
+				// heichelos. (Live verification 2026-11-09: the whole Living
+				// Library holds 8 public heichelos — discover API total 8,
+				// heichel sitemap 8 — and this page lists Ikar's 9 sections.
+				// No "18 heichelos" string exists anywhere in the code, the
+				// served HTML, or git history; there is nothing to correct
+				// except stating the true number here.)
+				return {
+					id: 'ikar',
+					name: 'Ikar — Torah Library',
+					description: 'The Entire Torah in nine sections — open a section to begin learning.'
+				};
 			}
 			const path = `/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`;
 			const heichel = await cachedPublic(path).catch(() => null);
@@ -45,7 +58,18 @@ function createShellRenderer($i) {
 		return traceAsync('shell:series', async () => {
 			const path = `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}`;
 			const response = await cachedPublic(path).catch(() => null);
-			return normalizeSeries(response, seriesId);
+			const series = normalizeSeries(response, seriesId);
+			if (series && heichelId === 'ikar' && seriesId === 'midrash') {
+				// B"H 2026-11-09: the stored midrash prateem still promises
+				// "Midrash Rabbah and its commentaries", but the library holds
+				// exactly one section — Rashi on Bereshit Rabbah, 20 posts
+				// (packed ∪ native exact union, verified 2026-11-09). The 14
+				// other midrash-* native dirs hold only a 1-byte placeholder
+				// and zero posts, so they are not listed either. Correct the
+				// copy at render until the stored prateem is fixed.
+				series.description = 'Midrashic literature — Rashi on Bereshit Rabbah (Midrash Rabbah on Genesis).';
+			}
+			return series;
 		}, context);
 	}
 

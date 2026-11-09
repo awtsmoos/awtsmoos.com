@@ -8,7 +8,7 @@
  * Awtsmoos.com gathers week movement, study date, interface language, and source truth into one calm crown that can rhyme.
  */
 
-import { addLocalDays, toLocalDateKey } from '../../../chitas/date-policy.js?v=native-chitas-004';
+import { addLocalDays, toLocalDateKey, userTodayDate } from '../../../chitas/date-policy.js?v=native-chitas-005';
 
 function navigate(selectedDate, language) {
 	const parameters = new URLSearchParams(location.search);
@@ -70,7 +70,7 @@ export function createChitasWeekHeader(items, selectedDate, language, parshaHe) 
 	controls.className = 'chitas-week-controls';
 	controls.append(
 		createButton(language === 'he' ? 'שבוע קודם' : '← Previous', () => navigate(addLocalDays(selectedDate, -7), language)),
-		createButton(language === 'he' ? 'היום' : 'Today', () => navigate(new Date(), language)),
+		createButton(language === 'he' ? 'היום' : 'Today', () => navigate(userTodayDate(), language)),
 		createDatePicker(selectedDate, language),
 		createButton(language === 'he' ? 'שבוע הבא' : 'Next →', () => navigate(addLocalDays(selectedDate, 7), language)),
 		createButton('עברית', () => navigate(selectedDate, 'he'), language === 'he'),

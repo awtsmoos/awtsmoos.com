@@ -13,8 +13,8 @@
 
 import { CHITAS_SERIES_ID, shouldOfferChitas } from './constants.js';
 import { fetchHebcalCalendar } from './hebcal-provider.js?v=native-chitas-003';
-import { buildStudyCards, findNextParsha } from './schedule.js?v=native-chitas-003';
-import { selectedStudyDate } from './week-state.js?v=native-chitas-003';
+import { buildStudyCards, findNextParsha } from './schedule.js?v=native-chitas-004';
+import { selectedStudyDate } from './week-state.js?v=native-chitas-004';
 import { hebrewDateFromGregorian } from './hebrew-date.js';
 import { tanyaForDate } from './daily-tanya.js';
 import { tehillimForDate } from './daily-tehillim.js';

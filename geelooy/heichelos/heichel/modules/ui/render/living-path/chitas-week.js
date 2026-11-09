@@ -9,10 +9,10 @@
  * followed by the seven-day week navigation.
  */
 
-import { selectedLanguage, selectedStudyDate } from '../../../chitas/week-state.js?v=native-chitas-004';
-import { toLocalDateKey } from '../../../chitas/date-policy.js?v=native-chitas-004';
+import { selectedLanguage, selectedStudyDate } from '../../../chitas/week-state.js?v=native-chitas-005';
+import { toLocalDateKey } from '../../../chitas/date-policy.js?v=native-chitas-005';
 import { createChitasDayRow } from './chitas-day-row.js?v=native-chitas-004';
-import { createChitasWeekHeader } from './chitas-week-header.js?v=native-chitas-004';
+import { createChitasWeekHeader } from './chitas-week-header.js?v=native-chitas-005';
 import { createDailyStudySection } from './chitas-daily-study.js';
 
 const STYLE_HREF = '/heichelos/heichel/modules/ui/render/living-path/chitas-week.css?v=native-chitas-005';

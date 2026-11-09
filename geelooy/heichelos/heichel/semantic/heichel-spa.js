@@ -22,7 +22,8 @@
 const INSTALLED_KEY = '__awtsmoosHeichelSpaInstalled';
 const FRAGMENT_SELECTOR = '#heichel-semantic-fallback';
 const SHELL_SELECTOR = '[data-heichel-client-shell]';
-const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-004&persistent-geometry=true';
+const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-005&persistent-geometry=true';
+const IKAR_SPECIAL_SERIES_SRC = '/heichelos/heichel/ikar-special-series.js?v=ikar-special-series-001';
 const CACHE_PREFIX = 'awtsmoos:spa-frag:';
 
 if (!window[INSTALLED_KEY]) {
@@ -353,6 +354,16 @@ function enhanceFragment(node) {
 		import(IKAR_FIRST_SRC)
 			.then(mod => {
 				if (mod && typeof mod.boot === 'function') mod.boot();
+			})
+			.catch(() => {});
+		// B"H 2026-11-09: the fragment swap replaces ikar-first's boot, but
+		// the language-tools mount lives in ikar-stable (direct load only).
+		// Re-arm it here so SPA travel to torah-language-tools mounts the
+		// translation hub instead of leaving only the server fallback.
+		import(IKAR_SPECIAL_SERIES_SRC)
+			.then(mod => {
+				if (mod && typeof mod.mountIkarSpecialSeries === 'function') return mod.mountIkarSpecialSeries();
+				return null;
 			})
 			.catch(() => {});
 	}

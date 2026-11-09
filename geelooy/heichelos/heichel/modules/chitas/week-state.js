@@ -6,9 +6,13 @@
  * @description
  * The Awtsmoos lets one civil date choose a week without letting query strings become masters of time;
  * Awtsmoos.com keeps date, language, and schedule choices bookmarkable while every local day stays aligned.
+ *
+ * B"H — with no chitasDate in the URL, the study date defaults to the user's
+ * home "today" (America/New_York, computed live), not the browser machine's
+ * own timezone, so a VM in UTC never opens tomorrow's portion early.
  */
 
-import { toLocalDateKey } from './date-policy.js?v=native-chitas-002';
+import { toLocalDateKey, userTodayDate } from './date-policy.js?v=native-chitas-003';
 
 export function parseLocalDateKey(value) {
 	const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
@@ -17,7 +21,7 @@ export function parseLocalDateKey(value) {
 	return toLocalDateKey(date) === value ? date : null;
 }
 
-export function selectedStudyDate(search = globalThis.location?.search || '', fallback = new Date()) {
+export function selectedStudyDate(search = globalThis.location?.search || '', fallback = userTodayDate()) {
 	const selected = new URLSearchParams(search).get('chitasDate');
 	return parseLocalDateKey(selected) || fallback;
 }

@@ -12,7 +12,7 @@
 import { appState } from '../state.js';
 import * as api from '../api.js';
 import { isChitasSeries } from '../chitas/constants.js?v=native-chitas-003';
-import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=native-chitas-003';
+import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=native-chitas-004';
 import { annotateTranslationState } from '../living-path/translation-context.js';
 import { annotateTorahHostSummaries } from '../torahHostSummary.js?v=torah-tree-006';
 import { isTorahLibrarySeries } from '../torahLibraryIds.js?v=torah-tree-006';

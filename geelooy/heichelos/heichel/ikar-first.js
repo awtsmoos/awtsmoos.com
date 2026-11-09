@@ -56,7 +56,8 @@ async function mountDailyChitas(root, discovery) {
 	if (root.querySelector('[data-chitas-daily-mount]')) return;
 	const mount = document.createElement('div');
 	mount.setAttribute('data-chitas-daily-mount', 'true');
-	// Place the study before the (empty) discovery list for virtual series.
+	// Place the study where the discovery list was (virtual series have no
+	// discovery links, so enhanceDiscovery removes that section entirely).
 	if (discovery && discovery.parentNode === root) {
 		root.insertBefore(mount, discovery);
 	} else {
@@ -64,8 +65,8 @@ async function mountDailyChitas(root, discovery) {
 	}
 	try {
 		const [{ loadChitasVirtualSeries }, { renderChitasWeek }] = await Promise.all([
-			import('./modules/chitas/virtual-series.js?v=native-chitas-003'),
-			import('./modules/ui/render/living-path/chitas-week.js?v=native-chitas-004')
+			import('./modules/chitas/virtual-series.js?v=native-chitas-004'),
+			import('./modules/ui/render/living-path/chitas-week.js?v=native-chitas-005')
 		]);
 		const virtual = await loadChitasVirtualSeries();
 		const appState = {
@@ -106,8 +107,33 @@ function installNavigation(root) {
 		createSeparator(),
 		createLink(IKAR_ROOT, 'Torah Library', location.pathname === IKAR_ROOT)
 	);
+	const seriesLabel = seriesCrumbLabel(root);
+	if (seriesLabel) {
+		navigation.append(
+			createSeparator(),
+			createCurrentCrumb(seriesLabel)
+		);
+	}
 	root.append(navigation);
 	return navigation;
+}
+
+/** Returns the current series title for the breadcrumb, or '' on the Ikar root. */
+function seriesCrumbLabel(root) {
+	const parts = location.pathname.split('/').filter(Boolean);
+	const idx = parts.indexOf('series');
+	if (idx < 0 || !parts[idx + 1]) return '';
+	const title = root.querySelector('#heichel-boot-title');
+	const label = title ? title.textContent.trim() : '';
+	return label || decodeURIComponent(parts[idx + 1]);
+}
+
+/** Builds the current-page crumb (plain text, never a link to itself). */
+function createCurrentCrumb(label) {
+	const crumb = document.createElement('span');
+	crumb.textContent = label;
+	crumb.setAttribute('aria-current', 'page');
+	return crumb;
 }
 
 /** Builds one same-origin anchor and marks the exact active Torah surface. */
@@ -140,6 +166,15 @@ function enhanceDiscovery(root, discovery) {
 	}
 
 	const items = [...discovery.querySelectorAll('li')];
+
+	// B"H — virtual series (Daily Chitas) have no discovery links: remove the
+	// empty section outright instead of leaving a bare "Choose a section"
+	// heading with nothing under it. Also skips the "0 Torah pathways" status.
+	if (items.length === 0) {
+		discovery.remove();
+		return;
+	}
+
 	updateReadyStatus(root, items.length);
 
 	// B"H — dream heichel: split bilingual titles, add category icons.

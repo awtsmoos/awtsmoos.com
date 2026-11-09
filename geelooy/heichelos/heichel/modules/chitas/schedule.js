@@ -9,7 +9,7 @@
  */
 
 import { PORTION_NAMES, WEEKDAY_NAMES } from './constants.js?v=native-chitas-003';
-import { addLocalDays, toLocalDateKey, weekDates } from './date-policy.js?v=native-chitas-003';
+import { addLocalDays, toLocalDateKey, userTodayDate, weekDates } from './date-policy.js?v=native-chitas-004';
 
 const WEEKDAY_HEBREW = ['יום ראשון', 'יום שני', 'יום שלישי', 'יום רביעי', 'יום חמישי', 'יום שישי', 'שבת'];
 const PORTION_HEBREW = ['חלק א׳', 'חלק ב׳', 'חלק ג׳', 'חלק ד׳', 'חלק ה׳', 'חלק ו׳', 'חלק ז׳'];
@@ -67,11 +67,13 @@ function transitionDescription(items, date, index, referenceText, israel) {
  * @param {Object|null} parsha Upcoming weekly parsha event.
  * @param {Array<Object>} items Calendar items for Torah-cycle transitions.
  * @param {{israel?:boolean,todayDate?:Date}} options Stable rendering options.
+ *   todayDate defaults to the user's home "today" (America/New_York, live),
+ *   never the browser machine's own timezone.
  * @returns {Array<Object>} Seven Daily Chitas cards.
  */
 export function buildStudyCards(studyDate, parsha, items = [], {
 	israel = false,
-	todayDate = new Date()
+	todayDate = userTodayDate()
 } = {}) {
 	const readings = sevenAliyahReadings(parsha);
 	const todayKey = toLocalDateKey(todayDate);

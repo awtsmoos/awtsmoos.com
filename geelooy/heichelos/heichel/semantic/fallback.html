@@ -13,7 +13,12 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		return String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 	}
 	if (!cover) return "";
-	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" onerror="this.closest(\'.heichel-series-cover-hero\').hidden=true;"></div>';
+	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" decoding="async" onerror="this.closest(\'.heichel-series-cover-hero\').hidden=true;"></div>';
+	</script>?>
+	<?<script>
+	var model = typeof semantic === "object" && semantic ? semantic : null;
+	if (!model || !model.hasSeries || !model.heading) return "";
+	return '<nav class="ikar-first-actions" data-ikar-stable-navigation aria-label="Torah navigation"><a href="/">Home</a><span class="ikar-first-separator" aria-hidden="true"> / </span><a href="/heichelos/ikar">Torah Library</a><span class="ikar-first-separator" aria-hidden="true"> / </span><span aria-current="page">' + model.heading + '</span></nav>';
 	</script>?>
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
@@ -39,6 +44,15 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		var model = typeof semantic === "object" && semantic ? semantic : null;
 		return model && model.canonicalPath === "/heichelos/ikar" ? "Enter the library" : "Explore";
 		</script>?></h2>
+		<?<script>
+		var bag = typeof discovery === "object" && discovery ? discovery : null;
+		var note = bag && typeof bag.note === "string" ? bag.note : "";
+		if (!note) return "";
+		function escNote(value) {
+			return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+		}
+		return '<p class="heichel-discovery-note">' + escNote(note) + "</p>";
+		</script>?>
 		<ul id="heichel-discovery-list"><?<script>
 		var bag = typeof discovery === "object" && discovery ? discovery : null;
 		var links = bag && Array.isArray(bag.links) ? bag.links : [];
@@ -51,11 +65,16 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 			if (!item || !item.path) return "";
 			var label = item.title || "Open";
 			var description = item.description ? '<p class="heichel-discovery-description">' + esc(item.description) + "</p>" : "";
+			// B"H 2026-11-09: the Ikar root cards carry a real measured count
+			// (sections/posts from the library data — see ikarRootDiscovery.js).
+			// Render it as its own line so a card never shows a bare dot where
+			// the count belongs; other pages simply have no count to show.
+			var count = item.count ? '<p class="heichel-discovery-count">' + esc(item.count) + "</p>" : "";
 			var cover = "";
 			if (item.coverImage && item.kind === "series") {
 				cover = '<span class="heichel-discovery-cover"><img src="' + esc(item.coverImage) + '" alt="' + esc(label) + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></span>';
 			}
-			return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + esc(item.path) + '">' + esc(label) + "</a>" + description + "</span></li>";
+			return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + esc(item.path) + '">' + esc(label) + "</a>" + description + count + "</span></li>";
 		}).join("");
 		</script>?></ul>
 	</nav>
@@ -79,6 +98,13 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	if (descriptionNode) descriptionNode.hidden = !descriptionNode.textContent.trim();
 	var discoveryTitle = document.getElementById("heichel-discovery-title");
 	if (discoveryTitle && !discoveryTitle.textContent.trim()) discoveryTitle.textContent = isIkarRoot ? "Enter the library" : "Explore";
+	// B"H — virtual series (Daily Chitas) have no discovery links: remove the
+	// empty section outright instead of leaving a bare heading with nothing under it.
+	var discoveryList = document.getElementById("heichel-discovery-list");
+	if (discoveryList && !discoveryList.querySelector("li")) {
+		var discoveryNav = discoveryList.closest("nav");
+		if (discoveryNav) discoveryNav.remove();
+	}
 })();
 </script>
 <script type="module" src="/heichelos/heichel/semantic/heichel-spa.js?v=heichel-spa-002"></script>
