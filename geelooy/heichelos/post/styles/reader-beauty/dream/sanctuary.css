@@ -26,7 +26,7 @@
 	background-image:
 		conic-gradient(from 180deg at 50% -22%, transparent 0deg, var(--dream-ray) 7deg, transparent 14deg, transparent 22deg, var(--dream-ray) 29deg, transparent 36deg, transparent 46deg, var(--dream-ray) 53deg, transparent 60deg, transparent 70deg, var(--dream-ray) 76deg, transparent 84deg),
 		radial-gradient(95% 48% at 50% 0%, rgba(248, 224, 164, 0.10) 0%, transparent 70%);
-	animation: dream-ray-drift 24s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever — ray drift removed. */
 }
 
 @keyframes dream-ray-drift {
@@ -57,7 +57,7 @@
 		82vw 60vh 0 rgba(248, 224, 164, 0.3), 95vw 72vh 0 rgba(255, 255, 255, 0.16),
 		18vw 84vh 0 rgba(248, 224, 164, 0.24), 48vw 88vh 0 rgba(255, 255, 255, 0.18),
 		70vw 82vh 0 rgba(248, 224, 164, 0.26), 90vw 90vh 0 rgba(255, 255, 255, 0.14);
-	animation: dream-star-twinkle 7s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever — star twinkle removed. */
 }
 
 @keyframes dream-star-twinkle {
@@ -74,13 +74,10 @@
 /* ---- sacred type: Hebrew glowing from within ---- */
 [data-dream="sanctuary"] .dream-glow-title {
 	color: var(--dream-gold-bright);
-	text-shadow:
-		0 0 12px rgba(248, 224, 164, 0.65),
-		0 0 34px var(--dream-glow-soft),
-		0 0 90px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever — title glow removed. */
+	text-shadow: none;
 	letter-spacing: 0.015em;
 	line-height: 1.5;
-	animation: dream-title-breathe 6s ease-in-out infinite alternate;
 }
 
 @keyframes dream-title-breathe {
@@ -103,10 +100,8 @@
 	line-height: 2.15;
 	letter-spacing: 0.02em;
 	font-feature-settings: "kern" 1;
-	text-shadow:
-		0 0 8px rgba(250, 230, 170, 0.55),
-		0 0 22px var(--dream-glow-soft),
-		0 0 64px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever — Hebrew glow removed. */
+	text-shadow: none;
 }
 
 /* ---- verse vessels: glass that ignites ---- */
@@ -119,30 +114,23 @@
 	box-shadow:
 		0 20px 55px var(--dream-shadow),
 		inset 0 1px 0 rgba(248, 224, 164, 0.09);
-	opacity: 0.55;
-	transform: translateY(14px);
-	transition: opacity 1s ease, transform 1s ease, border-color 1s ease, box-shadow 1s ease;
+	/* B"H no animations on the reader, ever — verse reveal removed. */
+	opacity: 1;
+	transform: none;
 }
 
 [data-dream="sanctuary"] .dream-verse:hover {
 	background: var(--dream-panel);
 	border-color: var(--dream-gold);
-	box-shadow:
-		0 20px 55px var(--dream-shadow),
-		0 0 26px var(--dream-glow-wide),
-		inset 0 1px 0 rgba(248, 224, 164, 0.14);
-	transform: translateY(-2px);
+	box-shadow: 0 20px 55px var(--dream-shadow), inset 0 1px 0 rgba(248, 224, 164, 0.14);
 }
 
 [data-dream="sanctuary"] .dream-verse.dream-verse-lit {
 	opacity: 1;
-	transform: translateY(0);
+	transform: none;
 	border-color: var(--dream-gold-line);
-	box-shadow:
-		0 20px 55px var(--dream-shadow),
-		0 0 40px var(--dream-glow-wide),
-		inset 0 1px 0 rgba(248, 224, 164, 0.13);
-	animation: dream-verse-ignite 1.4s ease-out;
+	/* B"H no glowing effects on the reader, ever — verse glow removed. */
+	box-shadow: 0 20px 55px var(--dream-shadow), inset 0 1px 0 rgba(248, 224, 164, 0.13);
 }
 
 @keyframes dream-verse-ignite {
@@ -160,14 +148,15 @@
 	width: 3px;
 	border-radius: 3px;
 	background: linear-gradient(180deg, var(--dream-gold-bright), var(--dream-gold-deep));
-	box-shadow: 0 0 18px var(--dream-glow-soft), 0 0 44px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever. */
 }
 
 /* verse numbers: small gold seals */
 [data-dream="sanctuary"] .awtsmoos-verse-number {
 	color: var(--dream-gold);
 	font-weight: 900;
-	text-shadow: 0 0 14px var(--dream-glow-soft);
+	/* B"H no glowing effects on the reader, ever. */
+	text-shadow: none;
 }
 
 /* ---- filigree frame for the title vessel ---- */
@@ -182,10 +171,7 @@
 		var(--dream-panel);
 	backdrop-filter: blur(16px);
 	-webkit-backdrop-filter: blur(16px);
-	box-shadow:
-		0 30px 80px var(--dream-shadow),
-		0 0 60px var(--dream-glow-wide),
-		inset 0 1px 0 rgba(248, 224, 164, 0.12);
+	box-shadow: 0 30px 80px var(--dream-shadow), inset 0 1px 0 rgba(248, 224, 164, 0.12);
 	position: relative;
 }
 
@@ -208,7 +194,7 @@
 	-webkit-backdrop-filter: blur(10px);
 	position: relative;
 	overflow: hidden;
-	transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+	/* B"H no animations on the reader, ever. */
 }
 
 [data-dream="sanctuary"] .dream-control::after {
@@ -223,8 +209,6 @@
 
 [data-dream="sanctuary"] .dream-control:hover {
 	border-color: var(--dream-gold);
-	box-shadow: 0 0 24px var(--dream-glow-wide), 0 0 60px rgba(233, 196, 106, 0.08);
-	transform: translateY(-1px);
 }
 
 [data-dream="sanctuary"] .dream-control:hover::after {
@@ -234,7 +218,6 @@
 [data-dream="sanctuary"] .dream-control:focus-visible {
 	outline: 2px solid var(--dream-gold);
 	outline-offset: 2px;
-	box-shadow: 0 0 22px var(--dream-glow-soft);
 }
 
 [data-dream="sanctuary"] .dream-control:active {
@@ -248,7 +231,6 @@
 
 [data-dream="sanctuary"] .dream-link:hover {
 	color: var(--dream-gold-bright);
-	text-shadow: 0 0 16px var(--dream-glow-soft);
 }
 
 [data-dream="sanctuary"] .dream-link:focus-visible {
@@ -264,7 +246,7 @@
 	border-radius: 20px;
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
-	box-shadow: 0 34px 90px var(--dream-shadow), 0 0 50px var(--dream-glow-wide);
+	box-shadow: 0 34px 90px var(--dream-shadow);
 }
 
 [data-dream="sanctuary"] .typography-details .control-label {
@@ -299,18 +281,14 @@
 	background: radial-gradient(60% 60% at 50% 50%, rgba(248, 224, 164, 0.9) 0%, rgba(233, 196, 106, 0.45) 34%, rgba(233, 196, 106, 0) 70%);
 }
 
-.dream-awakening-veil.dream-awakening-veil--bloom {
-	animation: dream-veil-bloom 0.7s ease-out forwards;
-}
+/* B"H no animations on the reader, ever — veil bloom removed. */
 
 @keyframes dream-veil-bloom {
 	from { opacity: 0; transform: scale(0.6); }
 	to { opacity: 1; transform: scale(1.35); }
 }
 
-.dream-awakening-veil.dream-awakening-veil--reveal {
-	animation: dream-veil-reveal 1s ease-in forwards;
-}
+/* B"H no animations on the reader, ever — veil reveal removed. */
 
 @keyframes dream-veil-reveal {
 	from { opacity: 1; transform: scale(1.35); }
@@ -341,9 +319,4 @@
 	}
 }
 
-@media (max-width: 560px) {
-	[data-dream="sanctuary"] .post-reader-localized-context::before,
-	[data-dream="sanctuary"] .post-reader-localized-context::after {
-		animation-duration: 40s;
-	}
-}
+/* B"H no animations on the reader, ever — the 40s duration override is moot. */

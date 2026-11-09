@@ -185,19 +185,21 @@
 
 /* B"H 2026-11-09: jump button to the English translation, added at the
    top of the post body. The English starts ~27% down the page with no
-   anchor, so the owner could not find it. */
+   anchor, so the owner could not find it. Made big and solid gold so it
+   cannot be missed on a phone. */
 .post-reader-localized-context .awtsmoos-plain-post-content .awtsmoos-english-jump {
-	display: inline-flex;
-	align-items: center;
-	margin: 0 0 1rem;
-	padding: 0.6rem 1.1rem;
-	border: 1px solid var(--awt-gold, var(--law8-gold));
-	border-radius: 999px;
-	background: transparent;
-	color: var(--awt-gold, var(--law8-gold));
+	display: block;
+	width: 100%;
+	margin: 0 0 1.25rem;
+	padding: 0.9rem 1.1rem;
+	border: none;
+	border-radius: 12px;
+	background: var(--awt-gold, var(--law8-gold, #d4a94e));
+	color: #16110a;
 	font-family: var(--law8-ui);
-	font-size: 1rem;
-	font-weight: 700;
+	font-size: 1.15rem;
+	font-weight: 800;
+	text-align: center;
 	cursor: pointer;
 }
 

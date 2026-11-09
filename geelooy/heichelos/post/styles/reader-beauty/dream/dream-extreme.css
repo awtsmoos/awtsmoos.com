@@ -24,32 +24,24 @@
  * the text settles back into its theme glow while the long breathing begins. */
 @keyframes dream-ember-flare {
 	0% {
-		text-shadow: 0 0 4px var(--dream-ember-glow);
+		/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 	}
 	35% {
-		text-shadow:
-			0 0 22px var(--dream-ember),
-			0 0 60px var(--dream-ember-glow),
-			0 0 110px var(--dream-ember-deep);
+		/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 	}
 }
 
 @keyframes dream-hebrew-breathe {
 	from {
-		text-shadow: var(--dream-hebrew-glow);
+		/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 	}
 	to {
-		text-shadow:
-			0 0 14px var(--dream-ember-glow),
-			0 0 34px var(--dream-glow-soft),
-			0 0 80px var(--dream-glow-wide);
+		/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 	}
 }
 
 [data-dream] .dream-verse-lit :lang(he) {
-	animation:
-		dream-ember-flare 1.9s ease-out,
-		dream-hebrew-breathe 9s ease-in-out 2s infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ flame spread: the verse kindles child by child ============
@@ -63,7 +55,7 @@
 }
 
 [data-dream] .dream-verse-lit > * {
-	animation: dream-ember-rise 0.7s ease-out backwards;
+	/* B"H no animations on the reader, ever. */
 }
 
 [data-dream] .dream-verse-lit > *:nth-child(2) { animation-delay: 0.09s; }
@@ -109,7 +101,7 @@
 		-18px 22px 0 0 var(--dream-ember-deep);
 	opacity: 0;
 	pointer-events: none;
-	animation: dream-embers-rise 2.1s ease-out 0.25s;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ sacred geometry: the deep turns, imperceptibly ============
@@ -150,7 +142,7 @@
 	height: 130vmax;
 	transform: translate(-50%, -50%);
 	opacity: 0.55;
-	animation: dream-geometry-spin 420s linear infinite;
+	/* B"H no animations on the reader, ever. */
 	background-image:
 		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
 		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
@@ -180,7 +172,7 @@
 	background: repeating-conic-gradient(from 0deg, var(--dream-geometry) 0deg 0.8deg, transparent 0.8deg 15deg);
 	-webkit-mask: radial-gradient(circle, transparent 0 62%, #000 62.5% 78%, transparent 78.5%);
 	mask: radial-gradient(circle, transparent 0 62%, #000 62.5% 78%, transparent 78.5%);
-	animation: dream-geometry-spin-rev 560s linear infinite;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ near bokeh: the foreground breathes past ============
@@ -225,7 +217,7 @@
 	background:
 		radial-gradient(120% 70% at 50% 115%, var(--dream-pillar) 0%, transparent 60%),
 		radial-gradient(90% 50% at 50% -10%, var(--dream-radiance) 0%, transparent 55%);
-	animation: dream-flicker 7s ease-in-out infinite;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ twin pillars: light standing at the margins ============
@@ -245,7 +237,7 @@
 		bottom: 0;
 		width: 110px;
 		pointer-events: none;
-		animation: dream-pillar-breathe 9s ease-in-out infinite alternate;
+		/* B"H no animations on the reader, ever. */
 	}
 	.dream-flicker::before {
 		left: max(6px, calc(50% - 600px));
@@ -285,7 +277,7 @@
 	opacity: 0.55;
 	transform: translateX(-50%);
 	transform-origin: 50% 0;
-	animation: dream-radiance-spin 160s linear infinite;
+	/* B"H no animations on the reader, ever. */
 	background:
 		conic-gradient(from 0deg at 50% 0%,
 			transparent 0deg, var(--dream-radiance) 6deg, transparent 12deg,
@@ -311,7 +303,7 @@
 	position: absolute;
 	inset: 0;
 	background: radial-gradient(42% 70% at 50% 0%, var(--dream-glow-soft) 0%, transparent 70%);
-	animation: dream-radiance-pulse 11s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ reading aura: a spotlight of attention ============
@@ -339,7 +331,7 @@
 
 .dream-aura.dream-aura-on {
 	opacity: 1;
-	animation: dream-aura-breathe 5.5s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 /* ============ letter crowns: tagin that shimmer ============
@@ -373,7 +365,7 @@
 	background-position: 2px 0, 11.5px 2px, 21px 0;
 	background-repeat: no-repeat;
 	filter: drop-shadow(0 0 4px var(--dream-glow-soft));
-	animation: dream-crown-shimmer 3.2s ease-in-out infinite;
+	/* B"H no animations on the reader, ever. */
 	pointer-events: none;
 }
 
@@ -406,7 +398,7 @@
 	-webkit-mask-composite: xor;
 	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 	mask-composite: exclude;
-	animation: dream-halo-angle-spin 90s linear infinite;
+	/* B"H no animations on the reader, ever. */
 	opacity: 0.7;
 }
 
@@ -526,7 +518,7 @@
 	[data-dream="dawn"] .dream-verse-lit .awtsmoos-verse-number::before,
 	[data-dream="sanctuary"] .awtsmoos-reader-title-shell::before,
 	[data-dream="dawn"] .awtsmoos-reader-title-shell::before {
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 	.dream-flicker {
 		opacity: 0.35;

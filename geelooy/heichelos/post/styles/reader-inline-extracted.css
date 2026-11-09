@@ -1384,13 +1384,15 @@
 		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
 		:root[data-theme="dark"] .post-reader-localized-context .heb {
 			color: var(--dream-he-lume);
-			text-shadow: 0 0 18px var(--dream-gold-glow), 0 0 46px rgb(212 169 78 / 12%);
+			/* B"H no glowing effects on the reader, ever — Hebrew glow removed. */
+			text-shadow: none;
 		}
 		/* Title: bigger luminous gold */
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-sefer-title-he,
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-qa-title {
 			color: var(--dream-gold-soft);
-			text-shadow: 0 0 22px var(--dream-gold-glow), 0 0 60px rgb(212 169 78 / 14%);
+			/* B"H no glowing effects on the reader, ever — title glow removed. */
+			text-shadow: none;
 		}
 		/* English: light warm gray, readable */
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-english {

@@ -130,7 +130,8 @@
 :is(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
 :is(.post-reader-localized-context[data-theme="dark"]) .heb.heb.heb.heb.heb.heb.heb.heb{
     color: var(--sefer-reader-ink);
-    text-shadow: 0 0 18px color-mix(in srgb, var(--sefer-accent) 32%, transparent);
+    /* B"H no glowing effects on the reader, ever — Hebrew glow removed. */
+    text-shadow: none;
 }
 /* B"H dark theme: force dark chamber background (overrides transparent) */
 :is(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision,

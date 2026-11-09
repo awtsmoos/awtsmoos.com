@@ -5,7 +5,7 @@
  * structure arrive first and canonical scale speak last.
  */
 @import "./width.css";
-@import "./title-crown.css";
+@import "./title-crown.css?v=cd48bc0e66";
 @import "./chunk.css";
 @import "./section-card.css";
 @import "./typography.css";

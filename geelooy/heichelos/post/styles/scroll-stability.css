@@ -51,7 +51,7 @@
 		var(--aw-surface, #f5f0e1) 60%
 	);
 	background-size: 200% 100%;
-	animation: image-placeholder-shimmer 1.5s linear infinite;
+	/* B"H no animations on the reader, ever — placeholder shimmer removed. */
 }
 
 .post-reader-localized-context #realPost img[loading="lazy"]:not([src=""]) {

@@ -61,7 +61,7 @@
 		0 0 34px 12px rgba(255, 214, 140, calc(0.30 + var(--celestial-warmth) * 0.35)),
 		0 0 90px 38px rgba(255, 186, 105, calc(0.14 + var(--celestial-warmth) * 0.22)),
 		0 0 190px 80px rgba(255, 160, 80, calc(0.06 + var(--celestial-warmth) * 0.12));
-	animation: dream-sun-breathe 9s ease-in-out infinite;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-sun-breathe {
@@ -111,7 +111,7 @@
 		0 0 30px 12px rgba(200, 215, 245, calc(0.16 + var(--moon-lit) * 0.26)),
 		0 0 84px 36px rgba(175, 195, 230, calc(0.07 + var(--moon-lit) * 0.13)),
 		0 0 170px 70px rgba(150, 175, 215, calc(0.03 + var(--moon-lit) * 0.06));
-	animation: dream-moon-breathe 12s ease-in-out infinite;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-moon-breathe {
@@ -201,6 +201,6 @@
 	.dream-celestial-tint,
 	:where(.dream-celestial[data-body="moon"])::after {
 		transition: none;
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 }

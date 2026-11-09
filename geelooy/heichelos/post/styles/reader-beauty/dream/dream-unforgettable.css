@@ -48,7 +48,7 @@
 		88vw 52vh 0 rgba(248, 224, 164, 0.3), 20vw 74vh 0 rgba(255, 240, 200, 0.28),
 		48vw 80vh 0 rgba(248, 224, 164, 0.32), 66vw 72vh 0 rgba(248, 224, 164, 0.26),
 		84vw 84vh 0 rgba(255, 240, 200, 0.3), 96vw 66vh 0 rgba(248, 224, 164, 0.24);
-	animation: dream-mote-drift 18s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 [data-dream="dawn"] .dream-parallax-far {
@@ -78,7 +78,7 @@
 		58vw 50vh 0 rgba(192, 143, 46, 0.3), 74vw 64vh 0 rgba(220, 170, 80, 0.32),
 		88vw 54vh 0 rgba(192, 143, 46, 0.34), 24vw 78vh 0 rgba(220, 170, 80, 0.28),
 		52vw 82vh 0 rgba(192, 143, 46, 0.3), 70vw 76vh 0 rgba(192, 143, 46, 0.26);
-	animation: dream-mote-drift 22s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-mote-drift {
@@ -159,7 +159,7 @@
 	inset: -0.25em -0.8em;
 	pointer-events: none;
 	transform: translateX(-135%);
-	animation: dream-title-sheen 12s ease-in-out infinite;
+	/* B"H no animations on the reader, ever. */
 }
 
 [data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after {
@@ -187,7 +187,7 @@
 	margin-inline-end: 0.14em;
 	margin-top: 0.06em;
 	padding-inline-start: 0.02em;
-	text-shadow: 0 0 20px var(--dream-glow-soft), 0 0 60px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 }
 
 /* ============ even more generous Hebrew line rhythm ============ */
@@ -227,11 +227,11 @@
 @media (prefers-reduced-motion: reduce) {
 	[data-dream="sanctuary"] .dream-parallax-mid::after,
 	[data-dream="dawn"] .dream-parallax-mid::after {
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 	[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after,
 	[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title::after {
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 		opacity: 0;
 	}
 }

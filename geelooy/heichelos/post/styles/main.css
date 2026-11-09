@@ -7,7 +7,7 @@
 @import url("./ideal/reborn/tokens.css?v=11a0d336e2");
 @import url("./ideal/reborn/shell.css?v=35a4a4af48");
 @import url("./ideal/reborn/scroll-root.css?v=97f0a0ecc5");
-@import url("./ideal/reborn/reader.css?v=08c50677c1");
+@import url("./ideal/reborn/reader.css?v=bf5f016f4e");
 @import url("./translations.css?v=ba9ae30608");
 @import url("./translations/tanach-native.css?v=5fac006aa7");
 @import url("./ideal/reborn/settings.css?v=3ac5f75ee1");
@@ -21,7 +21,7 @@
 @import url("./ideal/reborn/inline-action-menu.css?v=9fb3c5ac6b");
 @import url("./ideal/reborn/context-menu.css?v=451fc8fc90");
 @import url("./ideal/reborn/tanach-panel.css?v=3a52b86ef9");
-@import url("./ideal/reborn/related-search.css?v=cf9dc08a87");
+@import url("./ideal/reborn/related-search.css?v=cc58a37645");
 @import url("./ideal/reborn/details.css?v=0cee0cc62a");
 @import url("./ideal/reborn/actions.css?v=2667f04e99");
 @import url("./ideal/reborn/button-hover.css?v=6eb898c7ef");
@@ -47,4 +47,4 @@
 @import url("./ideal/reborn/study-sheet-page-lock.css?v=3543977736");
 @import url("./ideal/reborn/study-sheet-motion.css?v=cf9e0e349c");
 @import url("./meluket-sefer.css?v=1c005bc9b3");
-@import url("./reader-content/index.css?v=reader-scale-010");
+@import url("./reader-content/index.css?v=reader-scale-011");

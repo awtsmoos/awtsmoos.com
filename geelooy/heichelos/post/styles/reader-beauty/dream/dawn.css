@@ -23,7 +23,7 @@
 	background-image:
 		conic-gradient(from 180deg at 50% -22%, transparent 0deg, var(--dream-ray) 9deg, transparent 18deg, transparent 28deg, var(--dream-ray) 37deg, transparent 46deg, transparent 58deg, var(--dream-ray) 66deg, transparent 76deg),
 		radial-gradient(85% 38% at 50% 0%, rgba(255, 202, 132, 0.22) 0%, transparent 70%);
-	animation: dream-dawn-breathe 28s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-dawn-breathe {
@@ -39,12 +39,10 @@
 /* ---- sacred type: bronze Hebrew in morning light ---- */
 [data-dream="dawn"] .dream-glow-title {
 	color: var(--dream-gold-deep);
-	text-shadow:
-		0 1px 0 rgba(255, 255, 255, 0.75),
-		0 0 30px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 	letter-spacing: 0.015em;
 	line-height: 1.5;
-	animation: dream-dawn-title 7s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-dawn-title {
@@ -66,9 +64,7 @@
 	line-height: 2.15;
 	letter-spacing: 0.02em;
 	font-feature-settings: "kern" 1;
-	text-shadow:
-		0 1px 0 rgba(255, 255, 255, 0.7),
-		0 0 24px var(--dream-glow-wide);
+	/* B"H no glowing effects on the reader, ever. */ text-shadow: none;
 }
 
 /* ---- verse vessels: warm glass that warms further ---- */
@@ -104,7 +100,7 @@
 		0 16px 44px var(--dream-shadow),
 		0 0 36px var(--dream-glow-wide),
 		inset 0 1px 0 rgba(255, 255, 255, 0.85);
-	animation: dream-dawn-ignite 1.4s ease-out;
+	/* B"H no animations on the reader, ever. */
 }
 
 @keyframes dream-dawn-ignite {
@@ -250,11 +246,11 @@
 
 @media (prefers-reduced-motion: reduce) {
 	[data-dream="dawn"] .post-reader-localized-context::before {
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 	[data-dream="dawn"] .dream-glow-title {
 		color: var(--dream-gold-deep);
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 	[data-dream="dawn"] .dream-verse {
 		transition: none;
@@ -262,7 +258,7 @@
 		transform: none;
 	}
 	[data-dream="dawn"] .dream-verse.dream-verse-lit {
-		animation: none;
+		/* B"H no animations on the reader, ever. */
 	}
 }
 

@@ -98,7 +98,7 @@
 	opacity: .72;
 }
 .awtsmoos-related-pending {
-	animation: awtsmoos-related-breathe 1.4s ease-in-out infinite alternate;
+	/* B"H no animations on the reader, ever — related breathe removed. */
 }
 @keyframes awtsmoos-related-breathe {
 	to { opacity: .42; }
