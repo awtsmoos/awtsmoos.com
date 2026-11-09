@@ -36,6 +36,28 @@ required = (
     ("/לקוטי-תורה/", "\tlocation ^~ /לקוטי-תורה/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
     ("/igeres-hakodesh/", "\tlocation ^~ /igeres-hakodesh/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
     ("/אגרות-קודש/", "\tlocation ^~ /אגרות-קודש/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    # B"H — public alias pages: geelooy/@/_awtsmoos.derech.js resolves
+    # /@/alias, /@/sitemap.xml and /@/alias/comments/:page server-side.
+    # Without this, nginx serves /@/ statically and the alias routes never
+    # reach Node (the derech is deployed and waiting, but /@/ 404s at nginx).
+    # The ^~ /@/ prefix does NOT match the canonical /@alias form (no slash
+    # after @), so the static alias template served by the identity-pages
+    # regex location is untouched.
+    ("/@/", "\tlocation ^~ /@/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+)
+# B"H — canonical profile redirects. Each entry is (marker, block): the marker
+# is the exact location line to look for in the vhost plus its includes, so an
+# already-installed redirect is never duplicated.
+required_redirects = (
+    # B"H — feed author links point at /profile/<alias>; the canonical public
+    # profile is /@<alias> (see geelooy/@/seo/aliasPage.js). Redirect so every
+    # author link lands on the profile. The negative lookahead keeps
+    # /profile/alias/ (static template) out of the redirect, and
+    # /profile/alias-manage/ is already shielded by its ^~ location, which
+    # outranks this regex. 302, not 301, matching the codebase's canonical
+    # redirect convention (friendly sefer IDs) and staying reversible.
+    ("location ~ ^/profile/(?!alias-manage|alias)([^/]+)/?$",
+     "\tlocation ~ ^/profile/(?!alias-manage|alias)([^/]+)/?$ {\n\t\treturn 302 /@$1;\n\t}\n"),
 )
 # B"H — modular Nginx vhosts place the authoritative location blocks inside
 # explicitly included snippet files. Read and validate those includes before
@@ -51,12 +73,14 @@ for include in includes:
         snippets.append(snippet.read_text())
 combined = text + "\n" + "\n".join(snippets)
 missing = [(route, block) for route, block in required if f"location ^~ {route}" not in combined]
-if not missing:
+missing_redirects = [(marker, block) for marker, block in required_redirects if marker not in combined]
+missing_all = missing + missing_redirects
+if not missing_all:
     raise SystemExit(0)
 marker = "\n\tlocation / {"
 if marker not in text:
-    raise SystemExit("modular_dynamic_routes_missing:" + ",".join(route for route, _ in missing))
-insert = "\n" + "\n".join(block.rstrip("\n") for _, block in missing) + "\n"
+    raise SystemExit("modular_dynamic_routes_missing:" + ",".join(route for route, _ in missing_all))
+insert = "\n" + "\n".join(block.rstrip("\n") for _, block in missing_all) + "\n"
 path.write_text(text.replace(marker, insert + marker, 1))
 PY
 

@@ -89,12 +89,23 @@ export async function refreshSnippets() {
         const list = listFrom(await jsonFetch(url));
         state.snippets = list.sort((a, b) => (b.timeSent || 0) - (a.timeSent || 0));
         state.mailLoadError = null;
+        state.mailAuthError = false;
         state.isLoadingHistory = false;
         notify('snippets', state.snippets);
         return state.snippets;
     } catch (error) {
         console.error('Mail thread fetch failed:', error);
-        state.mailLoadError = errorMessage(error?.payload, error?.status) || 'Could not load conversations.';
+        const raw = errorMessage(error?.payload, error?.status) || 'Could not load conversations.';
+        // B"H 2026-11-09 (mail "not logged in"): the server answers NO_LOGIN
+        // when the session cookie is gone. A Retry loop can never fix that —
+        // surface a plain message and flag it so the sidebar offers Sign in.
+        if (/not logged in/i.test(raw)) {
+            state.mailLoadError = 'You are not signed in. Sign in to open your mailbox.';
+            state.mailAuthError = true;
+        } else {
+            state.mailLoadError = raw;
+            state.mailAuthError = false;
+        }
         state.isLoadingHistory = false;
         notify('mailError', error);
         notify('snippets', state.snippets);

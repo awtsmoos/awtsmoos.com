@@ -34,7 +34,22 @@ function cacheSet(key, value) {
 
 function postsFromIndex($i) {
 	try {
-		return list({ $i, shard: 'search', predicate: r => r.meta && r.meta.index === 'postsByHeichel' })
+		const indexed = list({ $i, shard: 'search', predicate: r => r.meta && r.meta.index === 'postsByHeichel' })
+			.map(r => r.value)
+			.filter(Boolean);
+		if (indexed.length) return indexed;
+	} catch (_) {
+		/* The search index shard is absent — fall through to the allPosts fallback below. */
+	}
+	// B"H 2026-11-09 (feed empty): the platform feed read ONLY the search-shard
+	// index (postsByHeichel). That store was deleted Nov 6 (search deletion) and
+	// the bulk importer deliberately skips writing search records while it is
+	// absent, so the index can never rebuild and the feed rendered nothing,
+	// silently (the try/catch above swallowed the missing file). allPosts is
+	// the canonical post store and holds the same compact post values the
+	// search index held, so read from it when the index is empty.
+	try {
+		return list({ $i, shard: 'allPosts' })
 			.map(r => r.value)
 			.filter(Boolean);
 	} catch (_) {

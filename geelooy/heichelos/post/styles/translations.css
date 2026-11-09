@@ -148,6 +148,20 @@
 	color: var(--sefer-ink, #f0e7d3);
 }
 
+/* B"H 2026-11-09: footnote numbers in the English translation render as
+   the same small gold superscripts as the Hebrew body. The translation API
+   carries them as plain digits ("Yitzchak10", "56543"); the renderer wraps
+   them in <sup class="awtsmoos-translation-fn">, and this rule styles them
+   exactly like .awtsmoos-plain-post-content sup (0.62em, super, gold, 700).
+   Without it they sat on the baseline, full-size and cream. */
+.post-reader-localized-context .awtsmoos-translation-block sup {
+	font-size: 0.62em;
+	vertical-align: super;
+	line-height: 0;
+	color: var(--awt-gold, var(--law8-gold));
+	font-weight: 700;
+}
+
 /* B"H — Hidden translations: :root prefix (0,2,0+) hides without. */
 :root .post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
 	display: none;

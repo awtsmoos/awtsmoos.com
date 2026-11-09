@@ -89,13 +89,26 @@
    (--awt-text #f8fbff), never the law8 light-theme brown ink-soft (#6e6151)
    that rendered near-invisible on the dark page. Body text follows the
    reader scale (--post-text-size, default 48px): the old fixed 1.06rem
-   defeated the Aa control and read far too small. */
+   defeated the Aa control and read far too small.
+   B"H 2026-11-09: the card and text carry the SETTLED dark-navy/cream
+   values as fallbacks, not the light-theme ones. Before this, law8
+   (loaded 11th) painted a light card with dark-ink text, then tokens.css
+   (@import #1 of the later passive-reader.css) turned the text cream while
+   the card was STILL light cream (reader-shell.css is @import #13) —
+   cream on light cream, nearly invisible, for one stylesheet load. Now
+   the card is dark navy and the text cream from the moment law8 loads;
+   the settled appearance is UNCHANGED in both themes, because once
+   tokens.css and reader-shell.css load, --awt-text and --social-panel are
+   defined and reader-shell.css (same 0,2,0, loaded later) overrides the
+   background with its gradient+panel anyway. The p / .heb / strong rules
+   below must all keep the cream fallback with it — dark ink on this dark
+   card would be dark-on-dark in the same window. */
 .post-reader-localized-context .awtsmoos-plain-post-content {
 	padding: clamp(1.4rem, 4vw, 2.4rem);
 	border: 1px solid var(--law8-rule);
 	border-radius: var(--law8-radius);
-	background: var(--law8-card);
-	color: var(--awt-text, var(--law8-ink));
+	background: var(--social-panel, rgb(15 27 45));
+	color: var(--awt-text, #f8fbff);
 	/* B"H 2026-11-09 (re-fix): the HTML path appends bare text nodes
 	   (no <p> wrapper), so the size must live on the card itself for
 	   them to inherit it; the p rule below keeps paragraphs identical. */
@@ -106,7 +119,7 @@
 
 .post-reader-localized-context .awtsmoos-plain-post-content p {
 	margin: 0 0 1.15rem;
-	color: var(--awt-text, var(--law8-ink));
+	color: var(--awt-text, #f8fbff);
 	font-family: var(--law8-ui);
 	font-size: var(--post-text-size, 1.35rem);
 	line-height: 1.7;
@@ -114,7 +127,7 @@
 
 .post-reader-localized-context :where(.awtsmoos-plain-post-content) p:last-child {
 	margin-bottom: 0;
-	color: var(--awt-text, var(--law8-ink));
+	color: var(--awt-text, #f8fbff);
 }
 
 /* Hebrew paragraphs — (0,4,0) justified: must beat the inline head contrast-fix
@@ -122,7 +135,7 @@
    after stylesheets; a CSS-only pass cannot restructure that inline block. */
 .post-reader-localized-context .awtsmoos-plain-post-content .heb,
 .post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb {
-	color: var(--awt-text, var(--law8-ink));
+	color: var(--awt-text, #f8fbff);
 	font-family: var(--law8-heb);
 	font-size: var(--post-text-size, 1.35rem);
 	line-height: 1.75;
@@ -161,7 +174,7 @@
 .post-reader-localized-context .awtsmoos-plain-post-content strong,
 .post-reader-localized-context .awtsmoos-plain-post-content em,
 .post-reader-localized-context .awtsmoos-plain-post-content i {
-	color: var(--awt-text, var(--law8-ink));
+	color: var(--awt-text, #f8fbff);
 }
 
 /* ---------- discussion shell ---------- */

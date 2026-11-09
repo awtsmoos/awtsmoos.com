@@ -69,7 +69,13 @@
     overflow: hidden;
     scroll-margin-top: calc(var(--awt-header-space) + 12px);
     transform: translateZ(0);
-    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease;
+    /* B"H 2026-11-09: background is NOT transitioned. The text colour snaps
+       instantly on a theme flip / scroll-highlight, while a .22s background
+       fade passed through low contrast (dark text on a half-faded dark
+       background) — the same pale-on-dark window the body card had on
+       load. Border and shadow still ease; the background now snaps with
+       the text. */
+    transition: border-color .22s ease, box-shadow .22s ease;
 }
 
 :is(.post-reader-localized-context) .section.active.active.active.active.active.active.active.active,

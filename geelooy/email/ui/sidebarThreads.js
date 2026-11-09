@@ -54,22 +54,33 @@ export function renderThreadList(ui, onOpen) {
 }
 
 function renderLoadError(ui, list) {
+	// B"H 2026-11-09 (mail "not logged in"): when the server says the session
+	// is gone, Retry can never succeed — offer Sign in instead of a dead loop.
+	const children = [
+		{ tag: 'span', classList: ['thread-empty-icon'], textContent: '⚠' },
+		{ tag: 'strong', textContent: "Couldn't load conversations" },
+		{ tag: 'span', textContent: String(state.mailLoadError || 'The inbox could not be reached. Try again.') }
+	];
+	if (state.mailAuthError) {
+		children.push({
+			tag: 'a',
+			classList: ['soft-btn'],
+			textContent: 'Sign in',
+			attributes: { href: '/login/?next=%2Femail%2F' }
+		});
+	}
+	children.push({
+		tag: 'button',
+		classList: ['soft-btn'],
+		textContent: 'Retry',
+		attributes: { type: 'button' },
+		events: { click: () => refreshSnippets() }
+	});
 	ui.html({
 		parent: list,
 		tag: 'div',
 		classList: ['thread-empty-state', 'thread-load-error'],
-		children: [
-			{ tag: 'span', classList: ['thread-empty-icon'], textContent: '⚠' },
-			{ tag: 'strong', textContent: "Couldn't load conversations" },
-			{ tag: 'span', textContent: String(state.mailLoadError || 'The inbox could not be reached. Try again.') },
-			{
-				tag: 'button',
-				classList: ['soft-btn'],
-				textContent: 'Retry',
-				attributes: { type: 'button' },
-				events: { click: () => refreshSnippets() }
-			}
-		]
+		children
 	});
 }
 

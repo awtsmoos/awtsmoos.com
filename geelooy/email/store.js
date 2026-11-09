@@ -18,7 +18,7 @@ import { ensureDefaultAlias, isValidAlias, cleanAlias } from '/scripts/awtsmoos/
 export const state = {
   alias: null, threads: {}, snippets: [], activeThread: null, view: 'inbox', searchQuery: '', senderCategory: 'all', pagination: {},
   settings: { gatekeeperMode: false, approved: {}, rules: [] }, replyingTo: null,
-  isLoadingHistory: true, mailLoadError: null, listeners: new Set()
+  isLoadingHistory: true, mailLoadError: null, mailAuthError: false, listeners: new Set()
 };
 
 export function subscribe(fn) { state.listeners.add(fn); return () => state.listeners.delete(fn); }
@@ -32,7 +32,13 @@ export async function initAuth(ui) {
   const requested = cleanAlias(params.get('alias') || window.curAlias);
   if (requested) return login(requested, ui);
   const identity = await ensureDefaultAlias();
-  if (identity.alias) return login(identity.alias, ui);
+  // B"H 2026-11-09 (mail "not logged in"): a remembered alias alone is NOT
+  // a server session. ensureDefaultAlias returns mode 'local' with the
+  // remembered alias when the awtsmoosKey session cookie is gone, and the
+  // mail API then answers NO_LOGIN — while the UI looked signed in. Only
+  // proceed when the identity carries a real server session; otherwise
+  // show the sign-in gateway instead of a dead "couldn't load" error.
+  if (identity.alias && identity.session) return login(identity.alias, ui);
   showLoginOverlay(ui, true);
   window.addEventListener('awtsmoosAliasChange', async event => {
     const id = cleanAlias(event.detail?.id);

@@ -280,8 +280,17 @@ function footnoteMarkerHtml(fnNum) {
  * - A literal `<sup data-fn="N">N</sup>` carried as TEXT in the data becomes
  *   a real marker (textContent used to escape it — that is why Yaakov saw
  *   raw markup on the page).
+ * - Year+footnote ("56543" = year 5654 + footnote 3): the year stays as
+ *   text, only the trailing 1-2 digits become a marker.
+ * - Footnote after an abbreviation period ("etc.1", "etc.2"): a letter, a
+ *   period, then 1-3 digits and a boundary. A digit before the period
+ *   ("3.14") is a decimal, never a footnote.
+ * - Digits glued to a word ("Yitzchak10", "discourses33", "etc.\"2"),
+ *   mid-phrase or at phrase end: a letter (or closing quote/paren/bracket)
+ *   immediately followed by 1-3 digits, then a boundary.
  * - Bare trailing footnote digits ("…Israel 5.") become a marker. Only 1-3
  *   digits, so years like 1967 are left alone.
+ * Standalone numbers ("in 1967", "chapter 3") are never touched.
  * Everything else is HTML-escaped, so innerHTML is safe here.
  */
 export function renderEnglishWithFootnotes(enText) {
@@ -302,6 +311,35 @@ export function renderEnglishWithFootnotes(enText) {
 	text = text.replace(SUP_ILLEGIBLE_RE, () => {
 		illegible.push(true);
 		return `\u0000FX${illegible.length - 1}\u0000`;
+	});
+	// B"H 2026-11-09 — year+footnote and digits glued to a word, mid-phrase.
+	// The old trailing-only pass never saw these: a year+footnote is 5-6
+	// digits ("56543" = year 5654 + footnote 3), and a mid-phrase marker
+	// ("Yitzchak10", "discourses33", "etc.\"2") is not at phrase end — so
+	// they stayed plain inline numbers. Same placeholder flow as above.
+	// Year+footnote: 4-digit Hebrew year (55xx-58xx) + 1-2 footnote digits;
+	// the year stays as text. The (?!\d) lookahead is safe here: this
+	// pattern can never match a \u0000FN…\u0000 placeholder (no "5" in it).
+	text = text.replace(/(^|[^\dA-Za-z])(5[5-8]\d{2})([1-9]\d?)(?!\d)/g, (m, prefix, year, fnNum) => {
+		placeholders.push(fnNum);
+		return `${prefix}${year}\u0000FN${placeholders.length - 1}\u0000`;
+	});
+	// Footnote after an abbreviation period ("etc.1", "etc.2"): a letter, a
+	// period, then 1-3 digits and a boundary. A digit before the period
+	// ("3.14") is a decimal, never a footnote, so it never matches.
+	text = text.replace(/([A-Za-z])\.(\d{1,3})([\s.,;:!?…‥"”"'')\]\):—–-]|$)/g, (m, letter, digits, tail) => {
+		placeholders.push(digits);
+		return `${letter}.\u0000FN${placeholders.length - 1}\u0000${tail}`;
+	});
+	// Digits glued to a word: a letter (or closing quote/paren/bracket)
+	// immediately followed by 1-3 digits, then a boundary. Standalone
+	// numbers ("in 1967", "chapter 3") are never touched — they are
+	// preceded by a space, not a letter. Tail-capture, never a lookahead:
+	// a NUL after a placeholder digit can never satisfy the tail, so
+	// stashed markers are never re-matched.
+	text = text.replace(/([A-Za-z"”'’\)\]\}])(\d{1,3})([\s.,;:!?…‥"”"'')\]\):—–-]|$)/g, (m, letter, digits, tail) => {
+		placeholders.push(digits);
+		return `${letter}\u0000FN${placeholders.length - 1}\u0000${tail}`;
 	});
 	// Bare trailing digits: preceded by a non-digit (or start of phrase),
 	// 1-3 digits, then only closing punctuation/whitespace to phrase end.

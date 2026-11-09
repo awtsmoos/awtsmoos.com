@@ -18,6 +18,92 @@ import { groupTranslationRows, translationText } from "./alignment.js";
 const STORAGE_KEY = "awtsmoos.post.translation.visible";
 
 /**
+ * B"H — Footnote markers in translation text (2026-11-09).
+ * The translation API carries footnote numbers as plain digits glued to the
+ * English text ("Yitzchak10", "discourses33", "etc.\"2", year+footnote
+ * "56543") — no <sup> in the data. Set as textContent they render as plain
+ * inline numbers, the same colour and size as the body text, sitting on the
+ * baseline — never as the small gold superscripts the Hebrew body gets.
+ * This renderer wraps them in real <sup> markers (same 0.62em / super /
+ * gold treatment as .awtsmoos-plain-post-content sup) so the reader CSS
+ * can style them. Only the numbers change — the words and the digits
+ * themselves are never altered, and standalone numbers ("in 1967",
+ * "chapter 3") are never touched: a footnote digit is always glued to a
+ * letter, a closing quote, or a 4-digit Hebrew year.
+ *
+ * Placeholder flow (same as the sefer's renderEnglishWithFootnotes):
+ * matches are stashed as \u0000FN{index}\u0000 before escaping, so the
+ * escaper never meets a real tag and later passes never re-match a
+ * placeholder (a NUL blocks every tail the patterns accept).
+ */
+const TRANSLATION_FN_PLACEHOLDER_RE = /\u0000FN(\d+)\u0000/g;
+
+function translationFnMarkerHtml(fnNum) {
+	const n = String(fnNum);
+	return `<sup class="awtsmoos-translation-fn" data-fn="${n}">${n}</sup>`;
+}
+
+/**
+ * Renders one English translation string as HTML with footnote markers.
+ * - A literal `<sup data-fn="N">N</sup>` carried as TEXT becomes a real marker.
+ * - Year+footnote ("56543" = year 5654 + footnote 3): the year stays as
+ *   text, only the trailing 1-2 digits become a marker. Only Hebrew years
+ *   55xx-58xx qualify, so a genuine 5-digit number is never split.
+ * - Footnote after an abbreviation period ("etc.1", "etc.2"): a letter, a
+ *   period, then 1-3 digits and a boundary. A digit before the period
+ *   ("3.14") is a decimal, never a footnote.
+ * - Digits glued to a word ("Yitzchak10", "discourses33", "etc.\"2"):
+ *   a letter (or closing quote/paren/bracket) immediately followed by 1-3
+ *   digits, then a boundary. Mid-phrase markers included — the old
+ *   trailing-only pass never saw them.
+ * - Bare trailing digits ("…Israel 5."): 1-3 digits at phrase end.
+ * Everything else is HTML-escaped, so innerHTML is safe here.
+ * @param {unknown} value Translation text.
+ * @returns {string} HTML with footnote digits as <sup> markers.
+ */
+export function renderTranslationTextWithFootnotes(value) {
+	const placeholders = [];
+	const stash = (fnNum) => {
+		placeholders.push(String(fnNum));
+		return `\u0000FN${placeholders.length - 1}\u0000`;
+	};
+	// (0) Literal <sup data-fn="N">N</sup> carried as text.
+	let text = String(value || '').replace(
+		/<sup\b[^>]*\bdata-fn="(\d+)"[^>]*>\s*(\d+)\s*<\/sup\s*>/gi,
+		(m, fnNum) => stash(fnNum)
+	);
+	// (1) Year+footnote: 4-digit Hebrew year + 1-2 footnote digits.
+	text = text.replace(
+		/(^|[^\dA-Za-z])(5[5-8]\d{2})([1-9]\d?)(?!\d)/g,
+		(m, prefix, year, fnNum) => `${prefix}${year}${stash(fnNum)}`
+	);
+	// (1.5) Footnote after an abbreviation period ("etc.1", "etc.2"): a
+	// letter, a period, then 1-3 digits and a boundary. A digit before the
+	// period ("3.14") is a decimal, never a footnote, so it never matches.
+	text = text.replace(
+		/([A-Za-z])\.(\d{1,3})([\s.,;:!?…‥"”"'')\]\):—–-]|$)/g,
+		(m, letter, digits, tail) => `${letter}.${stash(digits)}${tail}`
+	);
+	// (2) Digits glued to a word: letter/closing-punct + 1-3 digits + boundary.
+	// Tail-capture (never a lookahead): a NUL after a placeholder digit can
+	// never satisfy the tail, so stashed markers are never re-matched.
+	text = text.replace(
+		/([A-Za-z"”'’\)\]\}])(\d{1,3})([\s.,;:!?…‥"”"'')\]\):—–-]|$)/g,
+		(m, letter, digits, tail) => `${letter}${stash(digits)}${tail}`
+	);
+	// (3) Bare trailing digits at phrase end.
+	text = text.replace(
+		/(^|\D)(\d{1,3})([.!?…‥"”"'')\];:—–-]*\s*)$/,
+		(m, prefix, digits, tail) => `${prefix}${stash(digits)}${tail}`
+	);
+	const escaped = text
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
+	return escaped.replace(TRANSLATION_FN_PLACEHOLDER_RE, (m, idx) => translationFnMarkerHtml(placeholders[Number(idx)]));
+}
+
+/**
  * B"H — every vessel that can carry visible English on a post page.
  * The toolbar banner must never contradict what the reader can already see:
  * API-mounted blocks, the Meluket sefer reader's phrase/section English
@@ -171,7 +257,10 @@ function makeBlock(group, showKicker) {
 	}
 	for (const row of group.rows) {
 		const paragraph = document.createElement("p");
-		paragraph.textContent = translationText(row);
+		// B"H — innerHTML, never textContent, so footnote numbers become
+		// real <sup> markers (renderTranslationTextWithFootnotes escapes the
+		// rest); textContent left them as plain inline numbers.
+		paragraph.innerHTML = renderTranslationTextWithFootnotes(translationText(row));
 		block.appendChild(paragraph);
 	}
 	return block;
