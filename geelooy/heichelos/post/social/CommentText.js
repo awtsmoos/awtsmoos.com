@@ -23,6 +23,12 @@ export function commentAuthor(comment) {
  * Imported rows may keep fuller prose in sourceContent/dayuh than in the flattened
  * content string, so every candidate is measured and the fullest one wins: a card
  * must show the whole thought, never a dropped remainder.
+ * Footnote numbers survive as \u0000#N\u0000 placeholders (real <sup data-fn> tags
+ * in the stored data, plus plain glued digits like "etc.1") so the card can render
+ * them as gold superscripts instead of the tag-stripper flattening them to plain
+ * baseline digits. The NULs around the marker keep the reader's plain-digit
+ * patterns from double-converting it, and the marker has no spaces so excerpt
+ * truncation cuts at word boundaries around it, never through it.
  */
 export function commentVisibleText(comment) {
 	const candidates = [
@@ -37,7 +43,7 @@ export function commentVisibleText(comment) {
 	];
 	let best = "";
 	for (const candidate of candidates) {
-		const text = flattenText(candidate)
+		const text = footnotePlaceholders(flattenText(candidate))
 			.replace(/<[^>]*>/g, " ")
 			.replace(/\s+/g, " ")
 			.trim();
@@ -46,6 +52,47 @@ export function commentVisibleText(comment) {
 		}
 	}
 	return best.slice(0, 8000);
+}
+
+const FOOTNOTE_MARK = /\u0000#(\d+)\u0000/g;
+
+/**
+ * Converts stored footnote numbers to \u0000#N\u0000 placeholders: real
+ * <sup data-fn> tags first, then plain glued digits (same patterns as the
+ * reader's renderTranslationTextWithFootnotes). Hebrew text is untouched
+ * (the patterns only match Latin letters) and standalone numbers stay plain.
+ */
+function footnotePlaceholders(value) {
+	let text = String(value ?? "");
+	text = text.replace(/<sup[^>]*>(\d+)<\/sup>/gi, (m, digits) => `\u0000#${digits}\u0000`);
+	const YEAR = /([^\d]|^)(5[5-8]\d\d)(\d{1,2})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const ABBR = /([A-Za-z][\.\u2024])(\d{1,3})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const GLUED = /([A-Za-z""''\)\]\}])(\d{1,3})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const TRAIL = /([^\d\s])(\d{1,3})($|[\s.,;:!?…‥""'')\]\):—–-]+$)/g;
+	text = text.replace(YEAR, (m, prefix, year, digits, tail) => `${prefix}${year}\u0000#${digits}\u0000${tail}`);
+	text = text.replace(ABBR, (m, prefix, digits, tail) => `${prefix}\u0000#${digits}\u0000${tail}`);
+	text = text.replace(GLUED, (m, prefix, digits, tail) => `${prefix}\u0000#${digits}\u0000${tail}`);
+	text = text.replace(TRAIL, (m, prefix, digits, tail) => `${prefix}\u0000#${digits}\u0000${tail}`);
+	return text;
+}
+
+/**
+ * Appends text to an element, turning \u0000#N\u0000 footnote placeholders
+ * into real <sup> elements and everything else into plain text nodes.
+ * No innerHTML: the markers are the only markup, built as DOM nodes.
+ */
+export function appendFootnoteText(element, text) {
+	const parts = String(text ?? "").split(FOOTNOTE_MARK);
+	for (let index = 0; index < parts.length; index++) {
+		if (index % 2 === 0) {
+			if (parts[index]) element.appendChild(document.createTextNode(parts[index]));
+		} else {
+			const sup = document.createElement("sup");
+			sup.textContent = parts[index];
+			element.appendChild(sup);
+		}
+	}
+	return element;
 }
 
 const LEGACY_REPLY_QUOTE = /^>\s*\[Reply to @[^\]]*\]\(#comment-[^)]*\):?\s*/;

@@ -10,7 +10,7 @@ import {
 import { startCommentReadingIntelligence } from "../intelligence/CommentReadingIntelligence.js";
 import { createCommentReactionBar } from "./CommentReactions.js";
 import { createConnectRequestGroup } from "./CommentSocialActions.js";
-import { commentAuthor, commentVisibleText } from "./CommentText.js";
+import { commentAuthor, commentVisibleText, appendFootnoteText } from "./CommentText.js";
 import { cleanExcerpt } from "./textExcerpt.js";
 
 /**
@@ -62,10 +62,11 @@ function commentBody(text) {
 	const full = String(text || "").trim() || "Comment";
 	const { display, truncated } = cleanExcerpt(full, COMMENT_EXCERPT_CHARS);
 	if (!truncated) {
-		body.textContent = full;
+		appendFootnoteText(body, full);
 		return body;
 	}
-	body.append(document.createTextNode(`${display} `), readMoreToggle(body, full, display));
+	appendFootnoteText(body, `${display} `);
+	body.appendChild(readMoreToggle(body, full, display));
 	return body;
 }
 
@@ -79,7 +80,9 @@ function readMoreToggle(body, full, collapsed) {
 		const expanded = button.getAttribute("aria-expanded") !== "true";
 		button.setAttribute("aria-expanded", String(expanded));
 		button.textContent = expanded ? "Show less" : "Read more";
-		body.replaceChildren(document.createTextNode(`${expanded ? full : collapsed} `), button);
+		body.replaceChildren();
+		appendFootnoteText(body, `${expanded ? full : collapsed} `);
+		body.appendChild(button);
 	});
 	return button;
 }

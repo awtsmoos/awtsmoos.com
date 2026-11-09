@@ -287,6 +287,19 @@
 	line-height: 1.65;
 }
 
+/* B"H 2026-11-09: footnote numbers in community comment bodies render as
+   the same small gold superscripts as the reader body. The stored comment
+   data already carries them as <sup data-fn> (and plain glued digits like
+   "etc.1"); CommentText keeps them as markers and CommentCard builds real
+   <sup> nodes, and this rule styles them (0.62em, super, gold, 700). */
+.post-reader-localized-context .awtsmoos-social-comment-body sup {
+	font-size: 0.62em;
+	vertical-align: super;
+	line-height: 0;
+	color: var(--awt-gold, var(--law8-gold));
+	font-weight: 700;
+}
+
 .post-reader-localized-context .awtsmoos-social-actions,
 .post-reader-localized-context .awtsmoos-social-reactions {
 	display: flex;
