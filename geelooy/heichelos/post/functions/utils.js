@@ -15,7 +15,8 @@ export {
 	appendSafePostHtml,
 	isHtmlPostContent,
 	markdownMarkersToHtml,
-	sanitizePostHtml
+	sanitizePostHtml,
+	wirePostContentInteractions
 } from "./dom/HtmlManifestation.js";
 
 export {

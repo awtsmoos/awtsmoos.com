@@ -256,8 +256,12 @@ export function appendSafePostHtml(html, parent) {
  * @param {Element} vessel The rendered .awtsmoos-plain-post-content card.
  * @returns {void}
  */
-function wirePostContentInteractions(vessel) {
+export function wirePostContentInteractions(vessel) {
 	if (!vessel || typeof document === 'undefined') return;
+	// Idempotent: boot.js and postManifest.js can both reach this for one
+	// post — never add a second jump button or a second click listener.
+	if (vessel.dataset && vessel.dataset.awtsmoosInteractionsWired === '1') return;
+	if (vessel.dataset) vessel.dataset.awtsmoosInteractionsWired = '1';
 	// --- English jump: tag the "English translation:" marker and add a button.
 	const walker = document.createTreeWalker(vessel, NodeFilter.SHOW_TEXT);
 	let englishAnchor = null;
@@ -277,7 +281,7 @@ function wirePostContentInteractions(vessel) {
 		}
 		if (englishAnchor && notesBoundary) break;
 	}
-	if (englishAnchor) {
+	if (englishAnchor && !vessel.querySelector('.awtsmoos-english-jump')) {
 		const jump = document.createElement('button');
 		jump.type = 'button';
 		jump.className = 'awtsmoos-english-jump';

@@ -94,8 +94,13 @@ export async function bootApplication() {
 
         if (post.dayuh) await interpretPostDayuh(post);
         else if (post.content) {
-            const { appendHTML } = await import("../../functions/utils.js?v=922ccb6123");
+            const { appendHTML, wirePostContentInteractions } = await import("../../functions/utils.js?v=fce41deabf");
             appendHTML(post.content, viewport);
+            // B"H 2026-11-10: boot.js renders via appendHTML (not
+            // appendSafePostHtml), so the English-jump button and the
+            // footnote-tap handler were never wired on this path. Wire
+            // them on the rendered viewport now (idempotent).
+            wirePostContentInteractions(viewport);
         } else if (post.phraseTranslations && Array.isArray(post.phraseTranslations) && post.phraseTranslations.length) {
             // B"H — Torah Ohr-style posts: no dayuh/content, but complete
             // bilingual phraseTranslations (+ translation.readable). Render
