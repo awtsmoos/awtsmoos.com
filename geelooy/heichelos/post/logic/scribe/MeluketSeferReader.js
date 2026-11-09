@@ -18,7 +18,7 @@
  * enrichment.hebrew_phrases + enrichment.translation_en (Meluket).
  */
 
-import { refreshTranslationStatus } from '../../translations/render.js';
+import { refreshTranslationStatus } from '../../translations/render.js?v=acd1f7ed5c';
 import { loadFontSize } from '../../functions/ui/Dimensionality.js';
 
 /**
