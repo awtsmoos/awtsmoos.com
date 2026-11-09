@@ -237,6 +237,77 @@ export function appendSafePostHtml(html, parent) {
 	vessel.className = 'awtsmoos-plain-post-content';
 	appendHTML(sanitizePostHtml(markdownMarkersToHtml(html)), vessel);
 	parent.append(vessel);
+	wirePostContentInteractions(vessel);
+}
+
+/**
+ * B"H 2026-11-09 (Coby phone screenshots): two reader interactions were
+ * missing on authored-HTML posts (Meluket), because the Meluket reader
+ * (which owns the footnote popup and the עברית/English/Both toggle) only
+ * mounts when the post carries enrichment — and this post has none.
+ * 1. Footnote tap: tapping a <sup> number in the body now scrolls to the
+ *    matching footnote in the הערות section at the end, and highlights it.
+ *    The notes section is the part after the "הערות" marker; a body marker
+ *    is a <sup> before it, a footnote body is a <sup> after it.
+ * 2. English jump: the English translation starts ~27% down the page with
+ *    no anchor, so the owner could not find it. The "English translation:"
+ *    marker is tagged with an id and a small jump button is added at the
+ *    top of the post body that scrolls to it.
+ * @param {Element} vessel The rendered .awtsmoos-plain-post-content card.
+ * @returns {void}
+ */
+function wirePostContentInteractions(vessel) {
+	if (!vessel || typeof document === 'undefined') return;
+	// --- English jump: tag the "English translation:" marker and add a button.
+	const walker = document.createTreeWalker(vessel, NodeFilter.SHOW_TEXT);
+	let englishAnchor = null;
+	let notesBoundary = null;
+	let textNode;
+	while ((textNode = walker.nextNode())) {
+		const text = textNode.textContent || '';
+		if (!englishAnchor && /English translation/i.test(text)) {
+			const parentEl = textNode.parentElement;
+			if (parentEl && !parentEl.closest('#awtsmoos-english-translation')) {
+				parentEl.id = 'awtsmoos-english-translation';
+				englishAnchor = parentEl;
+			}
+		}
+		if (!notesBoundary && /הערות/.test(text)) {
+			notesBoundary = textNode;
+		}
+		if (englishAnchor && notesBoundary) break;
+	}
+	if (englishAnchor) {
+		const jump = document.createElement('button');
+		jump.type = 'button';
+		jump.className = 'awtsmoos-english-jump';
+		jump.textContent = 'English ↓';
+		jump.addEventListener('click', () => {
+			englishAnchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		});
+		vessel.prepend(jump);
+	}
+	// --- Footnote tap: delegated click on <sup> markers scrolls to the
+	// matching footnote body in the הערות section.
+	vessel.addEventListener('click', (event) => {
+		const sup = event.target && event.target.closest ? event.target.closest('sup') : null;
+		if (!sup || !vessel.contains(sup)) return;
+		const num = (sup.textContent || '').trim();
+		if (!/^\d+$/.test(num)) return;
+		// The notes section is at the end of the post (after "הערות"), so
+		// the footnote body is the LAST <sup> carrying this number; every
+		// earlier one is a body marker pointing at it.
+		const vesselText = vessel.textContent || '';
+		if (vesselText.indexOf('הערות') < 0) return;
+		const matches = Array.from(vessel.querySelectorAll('sup'))
+			.filter(s => (s.textContent || '').trim() === num);
+		if (!matches.length) return;
+		const target = matches[matches.length - 1];
+		if (target === sup && matches.length === 1) return;
+		target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		target.classList.add('awtsmoos-footnote-target');
+		window.setTimeout(() => target.classList.remove('awtsmoos-footnote-target'), 2000);
+	});
 }
 
 /** @param {Node} node Source node. @param {Node|null} parent Destination. @param {Node[]} siblings Sibling context. @returns {void} */

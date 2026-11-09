@@ -14,7 +14,9 @@ import { GevurahReaderScalePolicy } from '../functions/ReaderScalePolicy.js';
 const gevurahPolicy = new GevurahReaderScalePolicy();
 
 assert.equal(gevurahPolicy.normalize('48px'), 48);
-assert.equal(gevurahPolicy.normalize('not-a-size'), 48);
+// B"H 2026-11-09: default raised 48 -> 144 (Coby: default text at least
+// 3x bigger). A non-numeric size falls back to the new default.
+assert.equal(gevurahPolicy.normalize('not-a-size'), 144);
 assert.equal(gevurahPolicy.normalize(2), 18);
 assert.equal(gevurahPolicy.normalize(999), 999);
 assert.equal(gevurahPolicy.toPixels(42.126), '42.13px');
@@ -26,7 +28,9 @@ assert.equal(gevurahPolicy.adjust(19, 'decrease'), 18);
 
 const tiferesScale = gevurahPolicy.buildScale(50);
 assert.equal(tiferesScale['--post-text-size'], '50px');
-assert.equal(tiferesScale['--post-scale-ratio'], '1.0417');
+// B"H 2026-11-09: ratio is mainSize/defaultSize; default is now 144,
+// so 50/144 = 0.3472 (was 50/48 = 1.0417).
+assert.equal(tiferesScale['--post-scale-ratio'], '0.3472');
 assert.equal(tiferesScale['--post-inline-body-size'], '43px');
 assert.equal(tiferesScale['--post-sidebar-comment-size'], '31px');
 assert.equal(tiferesScale['--post-inline-summary-size'], '13px');

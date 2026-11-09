@@ -14,7 +14,10 @@ export class GevurahReaderScalePolicy {
 	constructor() {
 		// B"H — Yaakov 2026-10-15: larger default (was 42); NO maximum —
 		// users can increase indefinitely.
-		this.defaultSize = 48;
+		// B"H — 2026-11-09 (Coby: "by default text should be like at least
+		// 3 times bigger"): default raised 48 -> 144 (3x). He reads on his
+		// phone and the old default was too small to read comfortably.
+		this.defaultSize = 144;
 		this.minimumSize = 18;
 		this.maximumSize = Infinity;
 		this.stepSize = 4;

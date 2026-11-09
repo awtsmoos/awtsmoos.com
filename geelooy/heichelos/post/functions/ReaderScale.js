@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { GevurahReaderScalePolicy } from './ReaderScalePolicy.js?v=7feae7f5c';
+import { GevurahReaderScalePolicy } from './ReaderScalePolicy.js?v=34338deea7';
 import { ChaiReaderScaleRuntimeGate } from './ReaderScaleRuntimeGate.js?v=7feae7f5c';
 import { resolveReaderScaleStorage } from './ReaderScaleStorage.js?v=7feae7f5c';
 import { TiferesReaderScaleDisplay } from './ui/ReaderScaleDisplay.js?v=7feae7f5c';

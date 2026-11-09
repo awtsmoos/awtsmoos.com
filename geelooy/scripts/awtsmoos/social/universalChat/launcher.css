@@ -63,7 +63,11 @@
 body:has(.all.post-reader-localized-context.awtsmoos-reader-vision) .universal-chat-floating-launcher {
 	bottom: auto;
 	right: max(8px, env(safe-area-inset-right, 0px));
-	top: calc(64px + env(safe-area-inset-top, 0px));
+	/* B"H 2026-11-09 (Coby phone screenshot): the launcher sat at top:64px
+	   and overlapped the post title's second line ("זקן תשמ״ו"). The title
+	   is two lines at ~48px each, so it spans roughly 64–170px from the
+	   viewport top. Moved down to clear it. */
+	top: calc(180px + env(safe-area-inset-top, 0px));
 }
 
 @keyframes awtsmoos-chat-arrive {

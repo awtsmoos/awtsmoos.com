@@ -147,7 +147,13 @@
    they carry need real styles — otherwise the reader-shell blanket
    (font-size: var(--post-text-size) on *) leaves sup full-size and the
    heading unstyled. */
-.post-reader-localized-context .awtsmoos-plain-post-content h3 {
+/* B"H 2026-11-09 (Coby phone screenshot): the subtitle <h3> rendered
+   dark-on-dark (black on black) on the dark navy card. Root cause: the
+   reader-padding-fix rule `.post-reader-localized-context #realPost h3`
+   (1,1,1) sets --sefer-ink (dark #2b2118 in light theme) and beat this
+   gold rule (0,2,1). This selector now carries #realPost (1,2,1) so the
+   gold applies on the dark card in every theme. */
+.post-reader-localized-context #realPost .awtsmoos-plain-post-content h3 {
 	margin: 0 0 1rem;
 	color: var(--awt-gold, var(--law8-gold));
 	font-family: var(--law8-heb);
@@ -163,6 +169,36 @@
 	line-height: 0;
 	color: var(--awt-gold, var(--law8-gold));
 	font-weight: 700;
+	/* B"H 2026-11-09: footnote numbers are tappable — they scroll to the
+	   footnote body in the הערות section. Show a pointer so the owner
+	   knows they can tap them. */
+	cursor: pointer;
+}
+
+/* B"H 2026-11-09: the footnote a tap just jumped to, briefly highlighted
+   so the eye lands on it. */
+.post-reader-localized-context .awtsmoos-plain-post-content sup.awtsmoos-footnote-target {
+	outline: 2px solid var(--awt-gold, var(--law8-gold));
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+/* B"H 2026-11-09: jump button to the English translation, added at the
+   top of the post body. The English starts ~27% down the page with no
+   anchor, so the owner could not find it. */
+.post-reader-localized-context .awtsmoos-plain-post-content .awtsmoos-english-jump {
+	display: inline-flex;
+	align-items: center;
+	margin: 0 0 1rem;
+	padding: 0.6rem 1.1rem;
+	border: 1px solid var(--awt-gold, var(--law8-gold));
+	border-radius: 999px;
+	background: transparent;
+	color: var(--awt-gold, var(--law8-gold));
+	font-family: var(--law8-ui);
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
 }
 
 .post-reader-localized-context .awtsmoos-plain-post-content hr {
