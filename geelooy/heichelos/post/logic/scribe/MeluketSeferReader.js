@@ -28,8 +28,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=e56010eae3'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=f9a25e06a0'],
+	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=a3a7dc9c82'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=62d7ce6d44'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
 ];
 
@@ -373,23 +373,54 @@ export function convertBareFootnoteDigits(root) {
 			return NodeFilter.FILTER_ACCEPT;
 		}
 	});
-	let last = null;
+	const nodes = [];
 	let cur;
-	while ((cur = walker.nextNode())) last = cur;
-	if (!last || !last.parentNode) return;
-	const value = last.nodeValue;
-	const m = value.match(/(^|\D)(\d{1,3})([.!?…‥"”"'')\];:—–-]*\s*)$/);
-	if (!m) return;
-	const prefix = m[1];
-	const digits = m[2];
-	const tail = m[3];
-	last.nodeValue = value.slice(0, value.length - m[0].length) + prefix;
-	const sup = document.createElement('sup');
-	sup.setAttribute('data-fn', digits);
-	sup.textContent = digits;
-	const parent = last.parentNode;
-	parent.insertBefore(sup, last.nextSibling);
-	if (tail) parent.insertBefore(document.createTextNode(tail), sup.nextSibling);
+	while ((cur = walker.nextNode())) nodes.push(cur);
+	// B"H — Coby Nov 10: some footnotes still render as plain digits.
+	// The old pass converted only the LAST text node's trailing digits
+	// (one footnote per phrase). A phrase can carry several markers, and a
+	// marker can sit mid-phrase glued to a Hebrew word. Convert every
+	// footnote digit in every text node: 1-2 digits glued to a Hebrew
+	// letter, or bare trailing digits. A standalone 4-digit year (5746)
+	// is never touched: it is not glued to a Hebrew letter, and the
+	// 1-2 digit glued match refuses a following digit.
+	const HEB = '\\u0590-\\u05FF';
+	const GLUED_RE = new RegExp(`([${HEB}])(\\d{1,2})(?!\\d)`, 'g');
+	const TRAILING_RE = /(^|\D)(\d{1,3})([.!?…‥""'')\];:—–-]*\s*)$/;
+	for (const node of nodes) {
+		const value = node.nodeValue;
+		if (!value) continue;
+		const parent = node.parentNode;
+		if (!parent) continue;
+		const matches = [];
+		let m;
+		GLUED_RE.lastIndex = 0;
+		while ((m = GLUED_RE.exec(value))) {
+			matches.push({ start: m.index + m[1].length, end: m.index + m[0].length, digits: m[2] });
+		}
+		const tm = value.match(TRAILING_RE);
+		if (tm) {
+			const tStart = value.length - tm[0].length + tm[1].length;
+			const tEnd = tStart + tm[2].length;
+			if (!matches.some(x => x.start === tStart)) {
+				matches.push({ start: tStart, end: tEnd, digits: tm[2] });
+			}
+		}
+		if (!matches.length) continue;
+		matches.sort((a, b) => a.start - b.start);
+		const frag = document.createDocumentFragment();
+		let pos = 0;
+		for (const match of matches) {
+			if (match.start > pos) frag.appendChild(document.createTextNode(value.slice(pos, match.start)));
+			const sup = document.createElement('sup');
+			sup.setAttribute('data-fn', match.digits);
+			sup.textContent = match.digits;
+			frag.appendChild(sup);
+			pos = match.end;
+		}
+		if (pos < value.length) frag.appendChild(document.createTextNode(value.slice(pos)));
+		parent.replaceChild(frag, node);
+	}
 }
 
 /**

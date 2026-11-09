@@ -35,6 +35,42 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	outline-offset: 3px;
 }
 
+/* B"H — Coby Nov 10: the river button lives IN the dock now, next to the
+   Aa and i buttons. When it is a child of the dock it is a dock button:
+   same 44px size, no fixed position, icon only (label + pace stay in the
+   settings panel). This overrides the big standalone floating style. */
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating {
+	position: static;
+	inset: auto;
+	width: 44px;
+	min-width: 44px;
+	height: 44px;
+	min-height: 44px;
+	min-block-size: 44px;
+	padding: 0;
+	border-radius: .75rem;
+	border: 1px solid rgba(133, 229, 255, .16);
+	background: linear-gradient(180deg, rgba(23, 43, 65, .96), rgba(10, 24, 40, .96));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+	flex-direction: row;
+	gap: 0;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-speed {
+	display: none;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
+	font-size: 1.2rem;
+}
+
 @media (max-width: 760px) {
 	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-dock-edge: max(.7rem, env(safe-area-inset-right, 0px));

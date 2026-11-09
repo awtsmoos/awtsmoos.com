@@ -61,7 +61,11 @@ export function ensureAutoScrollButton() {
 		button.dataset.autoScrollControl = 'true';
 		button.setAttribute('aria-pressed', 'false');
 		populateButton(button);
-		const host = document.querySelector('.post-reader-localized-context') || document.body;
+		// B"H — Coby Nov 10: the river button lives IN the dock now, next to
+		// the Aa and i buttons, instead of floating big above them. Prefer
+		// the dock as host; fall back to the reader context.
+		const dock = document.querySelector('.awtsmoos-floating-controls');
+		const host = dock || document.querySelector('.post-reader-localized-context') || document.body;
 		host.append(button);
 	}
 	bindButton(button);

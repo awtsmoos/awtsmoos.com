@@ -100,20 +100,13 @@
 	opacity: 1;
 	translate: 0 0;
 }
-/* Gold spine that grows on hover — the pair lights as one. */
+/* Gold spine that grows on hover — the pair lights as one.
+   B"H — Coby Nov 10: REMOVED. The gold spine is a glowing effect on the
+   left side of every pair; on a phone the hover sticks after a tap, so it
+   reads as a weird yellow glow down the left edge. No glowing effects
+   on the reader, ever. The pair keeps its hover background wash only. */
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair::before {
-	content: "";
-	position: absolute;
-	inset-inline-start: 0;
-	top: 0.9rem;
-	bottom: 0.9rem;
-	inline-size: 3px;
-	border-radius: 3px;
-	background: var(--over-progress);
-	opacity: 0;
-	transform: scaleY(0.5);
-	transition: opacity 0.25s ease, transform 0.25s ease;
-	pointer-events: none;
+	display: none;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair:hover {
 	background-color: var(--over-wash);

@@ -69,13 +69,15 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	.post-reader-localized-context.post-reader-localized-context > .awtsmoos-floating-controls {
 		align-items: flex-end;
 		bottom: max(12px, env(safe-area-inset-bottom));
-		min-height: 72px;
+		/* B"H — Coby Nov 10: the Aa button was 72px and covered the text.
+		   Dock is 44px buttons now; the dock height matches. */
+		min-height: 52px;
 	}
 
 	.post-reader-localized-context.post-reader-localized-context #typographyBtn {
-		font-size: 24px;
-		height: 72px;
-		width: 72px;
+		font-size: 18px;
+		height: 44px;
+		width: 44px;
 	}
 
 	.post-reader-localized-context.post-reader-localized-context #commentaryBtn {

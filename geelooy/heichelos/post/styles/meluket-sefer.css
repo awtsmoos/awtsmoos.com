@@ -134,7 +134,10 @@
 	border-radius: 999px;
 	border: 8px solid var(--sefer-rule);
 	background: transparent;
-	color: var(--sefer-ink-soft);
+	/* B"H — Coby Nov 10: the unselected pills read white-on-light on his
+	   phone (the --sefer-ink-soft variable resolves light in the panel).
+	   Explicit dark ink, no variable. */
+	color: #2b2118;
 	cursor: pointer;
 	transition: all 0.18s ease;
 	min-width: 44px;

@@ -104,11 +104,16 @@ function createPostReader($i) {
 			() => renderReaderFragments(data, semantic),
 			context
 		);
-		return traceAsync(
+		// B"H — Coby Nov 10: the reader "lands a few versions before" — the
+		// post HTML had NO Cache-Control, so browsers heuristically cached
+		// it and served old version pins. Wrap in makeHtmlResponse so the
+		// HTML carries Cache-Control: no-store like the 404 path already does.
+		const html = await traceAsync(
 			'reader:final-template',
 			() => $i.$ga('./post/_awtsmoos.post.html', { ...data, semantic, ...fragments }),
 			context
 		);
+		return makeHtmlResponse(html);
 	}
 
 	function renderPost(vars) {
