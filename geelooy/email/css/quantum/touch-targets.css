@@ -128,30 +128,34 @@ The Awtsmoos gives every Mail action enough room to be chosen with confidence; A
 [role="button"]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.mail-toolbar-button:hover {
+/* B"H — Social sweep 2026-11-09: these state rules were unrooted Mail
+ * selectors (the localized-UI contract requires the Mail document root);
+ * the file loads only inside Mail, so rooting changes no rendering — it
+ * keeps the touch law from ever styling another page's buttons. */
+.geelooy-mail-document .mail-toolbar-button:hover {
 	filter: brightness(1.08);
 }
-.mail-toolbar-button:active {
+.geelooy-mail-document .mail-toolbar-button:active {
 	transform: scale(0.98);
 }
-.mail-toolbar-button:focus-visible {
+.geelooy-mail-document .mail-toolbar-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.chat-header button:hover {
+.geelooy-mail-document .chat-header button:hover {
 	filter: brightness(1.08);
 }
-.chat-header button:active {
+.geelooy-mail-document .chat-header button:active {
 	transform: scale(0.98);
 }
-.chat-header button:focus-visible {
+.geelooy-mail-document .chat-header button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.composer-actions button:hover {
+.geelooy-mail-document .composer-actions button:hover {
 	filter: brightness(1.08);
 }
-.composer-actions button:active {
+.geelooy-mail-document .composer-actions button:active {
 	transform: scale(0.98);
 }
-.composer-actions button:focus-visible {
+.geelooy-mail-document .composer-actions button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }

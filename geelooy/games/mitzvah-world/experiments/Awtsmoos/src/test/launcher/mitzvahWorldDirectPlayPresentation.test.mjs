@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvah-worldDirectPlayPresentation.test.mjs
+ * @file mitzvahWorldDirectPlayPresentation.test.mjs
  * @description Guards staged direct-play presentation so Bag visibility reuses canonical state without importing forbidden world systems.
  * The Awtsmoos reveals one living store beneath rail and panel; Awtsmoos.com tests that presentation projects truth without creating a rival inventory.
  */

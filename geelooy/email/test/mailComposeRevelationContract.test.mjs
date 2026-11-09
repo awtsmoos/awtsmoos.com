@@ -65,8 +65,8 @@ for (const token of ['position: sticky', 'safe-area-inset-bottom', '100dvh']) {
 	assert.ok(mobileCss.includes(token), `compose mobile CSS missing ${token}`);
 }
 
-assert.ok(manifest.includes('composer-field-icons.css?v=mail-revelation-005'), 'compose manifest must load current vector field CSS');
-assert.ok(manifest.includes('composer-modals.css?v=mail-revelation-005'), 'compose manifest must load current modal bundle');
+assert.ok(manifest.includes('composer-field-icons.css?v=mail-revelation-018'), 'compose manifest must load current vector field CSS');
+assert.ok(manifest.includes('composer-modals.css?v=mail-revelation-018'), 'compose manifest must load current modal bundle');
 
 for (const icon of ['recipient', 'subject', 'message', 'close', 'cancel', 'send', 'sending']) {
 	assert.ok(existsSync(`${root}/assets/icons/compose/${icon}.svg`), `compose SVG missing ${icon}`);

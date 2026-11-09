@@ -50,8 +50,14 @@ test("distinguishes legacy high bytes from REX low bytes", () => {
 		get(index) {
 			return values[index];
 		},
+		getUnsignedBigInt(index) {
+			return BigInt.asUintN(64, BigInt(values[index] ?? 0));
+		},
 		set(index, value) {
 			values[index] = value;
+		},
+		setBigInt(index, value) {
+			values[index] = Number(BigInt.asUintN(64, BigInt(value)));
 		}
 	};
 	const ah = decodeByteRegister(4, false, false);

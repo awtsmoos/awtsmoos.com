@@ -28670,7 +28670,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 			);
 		}
 		installProtocolHelpers(runtimeMalchus, executorTiferes, nextId);
-		runtimeMalchus.mitzvah-world = {
+		runtimeMalchus.mitzvahWorld = {
 			builder: runtimeMalchus.builder,
 			houses: runtimeMalchus.houses,
 			humans: runtimeMalchus.humans,
@@ -29478,7 +29478,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvah-worldBuilderDefinitions.js ----
+// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvahWorldBuilderDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2081;
 	// B"H
@@ -29486,7 +29486,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	// Blessed is He
 
 	/**
-	 * @file mitzvah-worldBuilderDefinitions.js
+	 * @file mitzvahWorldBuilderDefinitions.js
 	 * @description Reveals portable creator resources for build parts and obstacle-course collections through the universal transaction registry.
 	 * The Awtsmoos gives free creation a measured vessel, while Awtsmoos.com lets every wall, platform, checkpoint, and course remain JSON before sight;
 	 * one document may travel from game to studio to another person without hiding world truth inside a renderer's night.
@@ -29534,7 +29534,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 				exampleId: 'builder-part-example',
 				id: 'builder.parts.create',
 				label: 'Create build part',
-				type: 'mitzvah-world.builder.part'
+				type: 'mitzvahWorld.builder.part'
 			}),
 			createBuilderDefinition({
 				bucket: 'collections',
@@ -29542,7 +29542,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 				exampleId: 'builder-course-example',
 				id: 'builder.courses.create',
 				label: 'Create obstacle course',
-				type: 'mitzvah-world.builder.course'
+				type: 'mitzvahWorld.builder.course'
 			})
 		];
 	}
@@ -29551,14 +29551,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 }
 
-// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvah-worldDefinitions.js ----
+// ---- libs/awtsmoos-procedural-core/src/core/universalApi/definitions/mitzvahWorldDefinitions.js ----
 {
 	const __exports = __awtsmoosModule_2082;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 	/**
-	 * @file mitzvah-worldDefinitions.js
+	 * @file mitzvahWorldDefinitions.js
 	 * @description Defines semantic Mitzvah World resource identities without owning game routes, deployment URLs, or assets.
 	 * The Awtsmoos renews each enduring identity before a renderer may choose the garment it will wear;
 	 * Awtsmoos.com keeps universal documents free of game paths, so procedural vessels may answer everywhere.
@@ -48542,14 +48542,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 */
 	function ensureCreatorWorldIdentity(documentMalchus, environmentKli = globalThis) {
 		const metadata = documentMalchus.metadata ||= {};
-		const creator = metadata.mitzvah-worldCreator ||= {};
+		const creator = metadata.mitzvahWorldCreator ||= {};
 		creator.worldId ||= createCreatorWorldId(environmentKli);
 		return creator.worldId;
 	}
 	function remixCreatorWorld(documentMalchus, environmentKli = globalThis) {
 		const remixMalchus = structuredClone(documentMalchus);
 		const sourceId = ensureCreatorWorldIdentity(documentMalchus, environmentKli);
-		const creator = remixMalchus.metadata.mitzvah-worldCreator ||= {};
+		const creator = remixMalchus.metadata.mitzvahWorldCreator ||= {};
 		creator.remixOf = sourceId;
 		creator.worldId = createCreatorWorldId(environmentKli);
 		return remixMalchus;
@@ -48861,14 +48861,14 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	/** Returns the immutable ordered creator catalog: legacy primitives first, then the
 	 *  player universe vocabulary (structures, nature, characters, mission beacons).
 	 *  Yaakov 2026-10-11: every player creates their own universe. */
-	function mitzvah-worldCreatorCatalog() {
+	function mitzvahWorldCreatorCatalog() {
 		return MERGED_CATALOG;
 	}
 
 
-	__exports.mitzvah-worldCreatorCatalog = mitzvah-worldCreatorCatalog;
+	__exports.mitzvahWorldCreatorCatalog = mitzvahWorldCreatorCatalog;
 	/** Resolves one creator entry (legacy or universe part) or throws a deterministic domain error. */
-	function mitzvah-worldCreatorPart(id) {
+	function mitzvahWorldCreatorPart(id) {
 		const binah = MERGED_CATALOG.find(candidateKli => candidateKli.id === id);
 		if (!binah) {
 			throw new Error(`CREATOR_PART_UNKNOWN:${id}`);
@@ -48877,7 +48877,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	}
 
 
-	__exports.mitzvah-worldCreatorPart = mitzvah-worldCreatorPart;
+	__exports.mitzvahWorldCreatorPart = mitzvahWorldCreatorPart;
 	/** Merged once: legacy ids win on collision so saved worlds keep their meaning. */
 	const MERGED_CATALOG = Object.freeze(mergeCatalogs(CREATOR_CATALOG, universeCatalog()));
 
@@ -48909,7 +48909,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	 */
 
 	const WORLD_FORMAT = __awtsmoosModule_2052.WORLD_FORMAT;
-	const mitzvah-worldCreatorPart = __awtsmoosModule_2345.mitzvah-worldCreatorPart;
+	const mitzvahWorldCreatorPart = __awtsmoosModule_2345.mitzvahWorldCreatorPart;
 
 	const MAXIMUM_COORDINATE = 1000000;
 	const MAXIMUM_DIMENSION = 1024;
@@ -48939,7 +48939,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	function creatorWorldParts(documentMalchus) {
 		const objects = documentMalchus?.resources?.objects || {};
 		return Object.values(objects)
-			.filter(resource => resource?.type === 'mitzvah-world.builder.part')
+			.filter(resource => resource?.type === 'mitzvahWorld.builder.part')
 			.map(resource => Object.freeze({
 				definition: validateDefinition(resource.definition, resource.id),
 				kind: validateKind(resource.kind)
@@ -48968,7 +48968,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 	__exports.validateCreatorWorld = validateCreatorWorld;
 	function validateKind(kindOhr) {
-		mitzvah-worldCreatorPart(kindOhr);
+		mitzvahWorldCreatorPart(kindOhr);
 		return kindOhr;
 	}
 
@@ -54302,12 +54302,12 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_8xt7gs = {
+	const __awtsmoosDefault_vvgon7 = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_8xt7gs;
+	__exports.default = __awtsmoosDefault_vvgon7;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -58940,7 +58940,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 	const MitzvahWorldCreatorDocument = __awtsmoosModule_2342.MitzvahWorldCreatorDocument;
 	const MitzvahWorldCreatorPersistence = __awtsmoosModule_2347.MitzvahWorldCreatorPersistence;
 	const MitzvahWorldCreatorRuntimeAdapter = __awtsmoosModule_2348.MitzvahWorldCreatorRuntimeAdapter;
-	const mitzvah-worldCreatorPart = __awtsmoosModule_2345.mitzvah-worldCreatorPart;
+	const mitzvahWorldCreatorPart = __awtsmoosModule_2345.mitzvahWorldCreatorPart;
 	const commitCreatorPlacement = __awtsmoosModule_2477.commitCreatorPlacement;
 	const undoCreatorPlacement = __awtsmoosModule_2477.undoCreatorPlacement;
 	const creatorWorldParts = __awtsmoosModule_2344.creatorWorldParts;
@@ -58978,7 +58978,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 		/** Commits Creator placement then compensates it fully when durable save fails. */
 		async build() {
 			if (this.built) return Object.freeze({ alreadyBuilt: true });
-			const catalog = mitzvah-worldCreatorPart('stone-platform');
+			const catalog = mitzvahWorldCreatorPart('stone-platform');
 			const definition = createVillageBridgeRestorationDefinition();
 			const receipt = await commitCreatorPlacement(this, catalog, definition);
 			const saved = this.persistence.save(this.documentStore.serialize());
@@ -58992,7 +58992,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 
 		/** Required by the shared undo compensation path. */
 		catalogPart(id) {
-			return mitzvah-worldCreatorPart(id);
+			return mitzvahWorldCreatorPart(id);
 		}
 
 		/** Releases live bridge-owned geometry without deleting durable truth. */
@@ -82252,7 +82252,7 @@ const __awtsmoosModule_2886 = __awtsmoosSharedModules[2886];
 		if (documentValue.getElementById(id)) return;
 		const style = documentValue.createElement('style');
 		style.id = id;
-		style.textContent = '.Awtsmoos-quest-mini-tracker[data-unified-hidden="true"]{display:none!important}';
+		style.textContent = '.Awtsmoos-quest-mini-tracker[data-unified-hidden="true"][data-unified-hidden="true"]{display:none}';
 		documentValue.head.appendChild(style);
 	}
 

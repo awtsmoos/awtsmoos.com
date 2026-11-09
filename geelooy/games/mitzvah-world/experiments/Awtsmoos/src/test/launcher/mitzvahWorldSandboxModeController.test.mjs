@@ -3,7 +3,7 @@
 //Blessed be He
 
 /**
- * @file mitzvah-worldSandboxModeController.test.mjs
+ * @file mitzvahWorldSandboxModeController.test.mjs
  * @description Proves Sandbox always exposes a reversible Create/Play doorway and tears it down without orphaned state.
  * The Awtsmoos joins authorship and lived play while Awtsmoos.com verifies that one native control can reveal either vessel safely.
  */

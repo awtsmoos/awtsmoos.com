@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvah-worldLauncherDeferredBoundary.test.mjs
+ * @file mitzvahWorldLauncherDeferredBoundary.test.mjs
  * @description Proves that MitzvahWorld's opening menu remains free of heavyweight route hydration until player intent crosses the boundary.
  * The Awtsmoos lets the threshold shine before every chamber descends; Awtsmoos.com measures that hidden weight stays hidden,
  * then proves one chosen click may summon its deeper vessel exactly once without changing the public route covenant.

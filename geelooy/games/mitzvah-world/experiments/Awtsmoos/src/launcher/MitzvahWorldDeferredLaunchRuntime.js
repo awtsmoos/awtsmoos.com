@@ -10,7 +10,7 @@
  */
 
 import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
-import { mitzvah-worldSessionMode } from './MitzvahWorldSessionMode.js';
+import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 const MODE_LOADERS_URL = resolveMitzvahWorldReleaseResourceUrl(
 	'./MitzvahWorldModeLoaders.js',
@@ -34,7 +34,7 @@ export async function launchDeferredMitzvahWorldRoute(context, route) {
 			onProgress: context.dependencies.onProgress,
 			worldId: context.parameters.get('worldId') || undefined
 		});
-		return mitzvah-worldSessionMode(context.parameters) === 'singleplayer'
+		return mitzvahWorldSessionMode(context.parameters) === 'singleplayer'
 			? routes.handlers.openSinglePlayer(selection)
 			: routes.handlers.openMultiplayer(selection);
 	}

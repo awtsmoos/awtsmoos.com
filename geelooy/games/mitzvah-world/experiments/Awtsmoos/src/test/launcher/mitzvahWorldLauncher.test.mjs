@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvah-worldLauncher.test.mjs
+ * @file mitzvahWorldLauncher.test.mjs
  * @description Proves route isolation and the truthful realtime boundary used by local study versus shared worlds.
  * The Awtsmoos gives each world its own gate; Awtsmoos.com keeps static localhost silent while explicit or
  * non-local realtime vessels remain available without waking any unchosen heavy mode.

@@ -44,7 +44,7 @@ export function publishMitzvahWorldApi(environmentKli, publicApiKli, proceduralK
 		procedural: proceduralKli,
 		publicApi: publicApiKli
 	};
-	awtsmoosNamespace.mitzvah-world = publicApiKli;
+	awtsmoosNamespace['mitzvah-world'] = publicApiKli;
 	if (proceduralKli) publishProceduralCompatibility(awtsmoosNamespace, proceduralKli, publicationKli);
 	environmentKli.Awtsmoos = awtsmoosNamespace;
 	publicationYesod.set(publicApiKli, publicationKli);

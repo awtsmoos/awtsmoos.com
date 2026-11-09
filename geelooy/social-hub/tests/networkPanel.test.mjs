@@ -34,7 +34,7 @@ test('network is assembled, initialized, and routed through named owners', () =>
 	assert.match(assembly, /new NetworkPanel/);
 	assert.match(lifecycle, /'network'/);
 	assert.match(lifecycle, /initializePanels\(\)/);
-	assert.match(coordinator, /route\.id === 'network'/);
+	assert.match(coordinator, /id === 'network'/); // coordinator routes by the destructured id now, not route.id
 	assert.match(coordinator, /this\.app\.network\.load/);
 });
 

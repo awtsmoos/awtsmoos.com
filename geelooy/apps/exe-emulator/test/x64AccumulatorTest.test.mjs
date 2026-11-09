@@ -19,6 +19,7 @@ test("TEST AL immediate sets zero without changing exact RAX", async () => {
 	assert.equal(outcome.result.registers.registers.rax, "0x1122334455667782");
 	assert.deepEqual(outcome.result.registers.flags, {
 		carry: false,
+		direction: false,
 		negative: false,
 		overflow: false,
 		parity: true,

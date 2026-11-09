@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvah-worldPortalSchema.test.mjs
+ * @file mitzvahWorldPortalSchema.test.mjs
  * @description Proves Mitzvah World semantic kinds expose truthful typed inspector data derived from canonical architecture and region catalogs.
  * The Awtsmoos renews field and catalog before either can drift apart; Awtsmoos.com lets these witnesses keep generated UI choices
  * bound to real Eretz data while Core remains the single Portal vocabulary and no game-specific panel invents a second schema language.
@@ -39,7 +39,7 @@ const MITZVAH_KINDS = Object.freeze([
  * @description Proves every Mitzvah semantic kind exposes non-empty fields using only Core-supported renderer-neutral field kinds.
  * @returns {void}
  */
-function mitzvah-worldPortalSchemasExposeSupportedFields() {
+function mitzvahWorldPortalSchemasExposeSupportedFields() {
 	const portal = createMitzvahWorldPortal({ budget: 'preview' });
 	for (const kind of MITZVAH_KINDS) {
 		const fields = portal.describe(kind).inspector.groups.flatMap(group => group.fields);
@@ -54,7 +54,7 @@ function mitzvah-worldPortalSchemasExposeSupportedFields() {
  * @description Proves select options are derived from the exact canonical house, region, and village catalogs rather than duplicated UI constants.
  * @returns {void}
  */
-function mitzvah-worldPortalSelectOptionsMatchCanonicalCatalogs() {
+function mitzvahWorldPortalSelectOptionsMatchCanonicalCatalogs() {
 	const portal = createMitzvahWorldPortal({ budget: 'preview' });
 	const house = fieldByKey(portal, 'mitzvah.architecture.house', 'archetypeId');
 	const region = fieldByKey(portal, 'mitzvah.world.region', 'regionId');
@@ -68,7 +68,7 @@ function mitzvah-worldPortalSelectOptionsMatchCanonicalCatalogs() {
  * @description Proves installing Mitzvah-specific semantic kinds does not mutate a separately created Core default Portal registry.
  * @returns {void}
  */
-function mitzvah-worldPortalExtensionsRemainInstanceLocal() {
+function mitzvahWorldPortalExtensionsRemainInstanceLocal() {
 	const core = createProceduralPortal({ budget: 'preview' });
 	const mitzvah = createMitzvahWorldPortal({ budget: 'preview' });
 	assert.equal(core.registry.has('mitzvah.architecture.house'), false);
@@ -89,6 +89,6 @@ function fieldByKey(portal, kind, key) {
 	return field;
 }
 
-test('B"H | Mitzvah Portal schemas expose supported Core fields', mitzvah-worldPortalSchemasExposeSupportedFields);
-test('B"H | Mitzvah Portal select options match canonical catalogs', mitzvah-worldPortalSelectOptionsMatchCanonicalCatalogs);
-test('B"H | Mitzvah Portal extensions remain instance-local', mitzvah-worldPortalExtensionsRemainInstanceLocal);
+test('B"H | Mitzvah Portal schemas expose supported Core fields', mitzvahWorldPortalSchemasExposeSupportedFields);
+test('B"H | Mitzvah Portal select options match canonical catalogs', mitzvahWorldPortalSelectOptionsMatchCanonicalCatalogs);
+test('B"H | Mitzvah Portal extensions remain instance-local', mitzvahWorldPortalExtensionsRemainInstanceLocal);

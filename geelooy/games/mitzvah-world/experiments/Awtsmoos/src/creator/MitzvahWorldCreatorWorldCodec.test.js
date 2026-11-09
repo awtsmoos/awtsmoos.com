@@ -68,9 +68,9 @@ test('save -> reopen round-trip preserves a universe exactly', async () => {
 
 	// And a remix keeps every definition while minting a fresh world identity.
 	const remixed = new MitzvahWorldCreatorDocument({ environment: {} });
-	const sourceId = JSON.parse(json).metadata.mitzvah-worldCreator.worldId;
+	const sourceId = JSON.parse(json).metadata.mitzvahWorldCreator.worldId;
 	remixed.remix(JSON.parse(json));
-	const remixedMeta = JSON.parse(remixed.serialize()).metadata.mitzvah-worldCreator;
+	const remixedMeta = JSON.parse(remixed.serialize()).metadata.mitzvahWorldCreator;
 	assert.equal(remixedMeta.remixOf, sourceId, 'remix must remember its source world');
 	assert.ok(remixedMeta.worldId && remixedMeta.worldId !== sourceId, 'remix must mint a fresh world id');
 	const remixedDefinitions = creatorWorldParts(parseCreatorWorld(remixed.serialize())).map(part => part.definition);

@@ -37,7 +37,7 @@ test('remix preserves geometry but changes world identity and records provenance
 	const portable = await createPortableCreatorWorld(fixture.environment);
 	await fixture.session.reopenWorld(portable.json);
 	const remixed = await fixture.session.remixWorld();
-	const metadata = fixture.session.documentStore.document.metadata.mitzvah-worldCreator;
+	const metadata = fixture.session.documentStore.document.metadata.mitzvahWorldCreator;
 	assert.notEqual(remixed.worldId, portable.worldId);
 	assert.equal(metadata.remixOf, portable.worldId);
 	assert.deepEqual(fixture.session.runtimeAdapter.diagnostics().ids, ['creator-timber-wall-0042']);

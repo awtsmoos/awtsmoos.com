@@ -50,5 +50,24 @@ test('client hydration uses DOM-owned public content instead of appendHTML', () 
 	assert.match(clientSource, /BH_POST_/u);
 	assert.doesNotMatch(clientSource, /innerHTML/u);
 	assert.match(manifestSource, /appendPublicPlainContent/u);
-	assert.doesNotMatch(manifestSource, /appendHTML/u);
+	// B"H 2026-11-09: authored HTML post content (a Meluket maamar's <sup>
+	// footnote markers, <h3>, <i>, <br/>) must parse as HTML — the plain
+	// path rendered every tag as literal text. The manifest routes ONLY
+	// tag-carrying content through the sanitized HTML path; plain/Markdown
+	// prose keeps the safe plain path, and raw unsanitized appendHTML is
+	// never called from the manifest.
+	assert.match(manifestSource, /appendSafePostHtml/u);
+	assert.match(manifestSource, /isHtmlPostContent/u);
+	assert.doesNotMatch(manifestSource, /appendHTML\(/u);
+});
+
+test('sanitized HTML path strips executable markup before manifesting', () => {
+	const htmlManifestation = readFileSync('geelooy/heichelos/post/functions/dom/HtmlManifestation.js', 'utf8');
+	assert.match(htmlManifestation, /sanitizePostHtml/u);
+	assert.match(htmlManifestation, /appendSafePostHtml/u);
+	assert.match(htmlManifestation, /isHtmlPostContent/u);
+	assert.match(htmlManifestation, /script, style, iframe, object, embed/u);
+	assert.match(htmlManifestation, /\^on\/i/u);
+	assert.match(htmlManifestation, /javascript:/u);
+	assert.match(htmlManifestation, /sanitizePostHtml\(markdownMarkersToHtml\(html\)\)/u);
 });

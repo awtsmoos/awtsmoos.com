@@ -24,7 +24,8 @@ for (const name of futureFiles) {
 	const text = readFileSync(resolve(styles, name), 'utf8');
 	const lines = text.split(/\r?\n/).length - 1;
 	assert.ok(lines <= 120, `${name} exceeds 120 lines`);
-	assert.match(text, /^\/\* B"H/);
+	// B"H must lead, allowing the one-line @tunnel-grandfather tooling annotation that precedes it in the future-* files.
+	assert.match(text, /^(\/\* @tunnel-grandfather[^\n]*\n)?\/\* B"H/);
 	assert.match(text, /Awtsmoos/);
 	assert.match(text, /Awtsmoos\.com/);
 	assert.doesNotMatch(text, /transition:\s*all\b/);

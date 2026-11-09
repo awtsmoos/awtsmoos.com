@@ -41,10 +41,12 @@ test('validateShare rejects members mode with no members', () => {
 	assert.match(checked.errors.join(' '), /at least one member/);
 });
 
-test('validateShare derives a publicId for public mode', () => {
-	const checked = validateShare({ mode: 'public' }, '/Sites/My Demo!');
+test('validateShare leaves publicId empty for the server to generate; setShare derives one offline', async () => {
+	const checked = validateShare({ mode: 'public' });
 	assert.equal(checked.ok, true);
-	assert.equal(checked.share.publicId, 'my-demo');
+	assert.equal(checked.share.publicId, '');
+	const record = await setShare('/Sites/My Demo!', { mode: 'public' }, { metadata: memStore() });
+	assert.equal(record.publicId, 'my-demo-shared-site');
 });
 
 test('validateShare rejects bad publicId values', () => {

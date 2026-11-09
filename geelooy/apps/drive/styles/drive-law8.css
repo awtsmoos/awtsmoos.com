@@ -56,7 +56,7 @@ body[data-awtsmoos-drive]::before {
 	content: "א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת";
 	position: fixed;
 	inset: 0;
-	z-index: -1;
+	z-index: var(--layer-behind);
 	padding: 5vh 3vw;
 	color: var(--law8-star);
 	font-size: 12px;

@@ -56,7 +56,12 @@ test('primary route is one tiny files-first v5 shell', () => {
 	assert.match(html, /styles\/drive-v5\.css/);
 	assert.match(html, /js\/app\.js/);
 	assert.doesNotMatch(html, forbidden);
-	assert.equal((html.match(/stylesheet/g) || []).length, 1);
+	const sheets = (html.match(/<link[^>]*rel="stylesheet"[^>]*>/g) || []);
+	const driveSheets = sheets.filter(tag => tag.includes('./styles/'));
+	const sharedSheets = sheets.filter(tag => tag.includes('/css/golden-icons.css') || tag.includes('/css/awtsmoos-visual-assets.css'));
+	assert.equal(driveSheets.length, 1);
+	assert.equal(sheets.length, driveSheets.length + sharedSheets.length);
+	assert.match(html, /styles\/drive-v5\.css/);
 });
 test('primary product exposes human file verbs without infrastructure copy', () => {
 	const source = userFacingSource();

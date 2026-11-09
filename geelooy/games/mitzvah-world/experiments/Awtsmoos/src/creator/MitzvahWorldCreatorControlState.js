@@ -9,13 +9,13 @@
  * grid, and rotation remain pure state so touch, keyboard, tests, and future collaboration may share one language.
  */
 
-import { mitzvah-worldCreatorCatalog, mitzvah-worldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorCatalog, mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 
 /** Pure creator-control state consumed by session and UI adapters. */
 export class MitzvahWorldCreatorControlState {
 	/** Creates the default selected part and neutral free-placement offsets. */
 	constructor(optionsChesed = {}) {
-		this.selectedId = optionsChesed.selectedId || mitzvah-worldCreatorCatalog()[0].id;
+		this.selectedId = optionsChesed.selectedId || mitzvahWorldCreatorCatalog()[0].id;
 		this.controls = {
 			distance: finite(optionsChesed.distance, 3.4),
 			elevation: finite(optionsChesed.elevation, 0),
@@ -28,12 +28,12 @@ export class MitzvahWorldCreatorControlState {
 
 	/** Resolves the currently selected immutable catalog entry. */
 	selectedPart() {
-		return mitzvah-worldCreatorPart(this.selectedId);
+		return mitzvahWorldCreatorPart(this.selectedId);
 	}
 
 	/** Selects one valid creator material identity. */
 	select(idOhr) {
-		this.selectedId = mitzvah-worldCreatorPart(idOhr).id;
+		this.selectedId = mitzvahWorldCreatorPart(idOhr).id;
 		return this.snapshot();
 	}
 

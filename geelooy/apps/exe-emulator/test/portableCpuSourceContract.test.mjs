@@ -59,13 +59,15 @@ test("portable CPU exposes bounded RIP-relative and width-aware memory", async (
 	const width = await readFile(fileUrl(FILES[8]), "utf8");
 	const word = await readFile(fileUrl(FILES[9]), "utf8");
 	const stack = await readFile(fileUrl(FILES[1]), "utf8");
-	assert.match(decoder, /decodeMemoryInstruction/);
+	assert.match(decoder, /decodeLockedInstruction/);
+	assert.match(decoder, /decodeLegacyPrefixedInstruction/);
+	assert.match(addressing, /decodeMemoryInstruction/);
 	assert.match(addressing, /ripRelative/);
 	assert.match(addressing, /operandWidth/);
 	assert.match(addressing, /memory\.i32/);
 	assert.match(operations, /memory\.write32/);
-	assert.match(operations, /memory\.write64/);
-	assert.match(operations, /memory\.i64/);
+	assert.match(operations, /memory\.write64BigInt/);
+	assert.match(operations, /memory\.u64BigInt/);
 	assert.match(width, /VALID_WIDTHS/);
 	assert.match(word, /width:\s*16/);
 	assert.match(stack, /maximumStackBytes/);

@@ -1,0 +1,27 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+Doorway: /heichel/submit/ forwards to the rich social composer, preserving the
+alias, Heichel, series, question, and return context in the query string.
+(The template geelooy/heichel/submit/_awtsmoos.makePost.html does the same
+redirect, but it is a template file, not a served page — this directory had
+no index.html and no derech route, so the live path returned 403.) -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<title>Opening the rich social composer…</title>
+	<meta http-equiv="refresh" content="0; url=/social-composer/">
+</head>
+<body>
+	<p>Opening the Awtsmoos rich social composer…</p>
+	<p><a href="/social-composer/">Open the rich social composer</a></p>
+	<noscript><p><a href="/social-composer/">Open the rich social composer</a></p></noscript>
+	<script>
+		/* B"H · Preserve the existing query string and hash; destination is fixed. */
+		window.location.replace('/social-composer/' + window.location.search + window.location.hash);
+	</script>
+</body>
+</html>

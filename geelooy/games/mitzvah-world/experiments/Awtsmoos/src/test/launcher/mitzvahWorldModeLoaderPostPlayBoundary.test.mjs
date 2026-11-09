@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvah-worldModeLoaderPostPlayBoundary.test.mjs
+ * @file mitzvahWorldModeLoaderPostPlayBoundary.test.mjs
  * @description Guards deferred creative loading, centralized release identity, and renderer-gated post-play hydration.
  * The Awtsmoos is beyond every import path; Awtsmoos.com lets one release identity flow through the gate,
  * while optional experience waits for rendered truth before ornament enters the playable state.

@@ -10,7 +10,7 @@
  */
 
 import { POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS } from './PostPlayableVisualTiming.js';
-import { mitzvah-worldDynamicImportUrl } from '../launcher/MitzvahWorldDynamicImportUrl.js';
+import { mitzvahWorldDynamicImportUrl } from '../launcher/MitzvahWorldDynamicImportUrl.js';
 
 const SCHEDULER_URL = './RendererHydrationScheduler.js?compact=true&v=20260901-visible-handoff-01';
 
@@ -25,7 +25,7 @@ export function startEretzRendererHydration(
 		return diagnostics.rendererHydrationPromise;
 	}
 	diagnostics.rendererHydrationStage = 'loading-scheduler';
-	const promise = import(mitzvah-worldDynamicImportUrl(SCHEDULER_URL))
+	const promise = import(mitzvahWorldDynamicImportUrl(SCHEDULER_URL))
 		.then(module => module.scheduleRendererHydration(
 			diagnostics,
 			environment,

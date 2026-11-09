@@ -11,7 +11,11 @@
 
 export {
 	appendHTML,
-	appendWithSubChildren
+	appendWithSubChildren,
+	appendSafePostHtml,
+	isHtmlPostContent,
+	markdownMarkersToHtml,
+	sanitizePostHtml
 } from "./dom/HtmlManifestation.js";
 
 export {

@@ -22,9 +22,9 @@ function revealStyle(relativePath) {
 	return readFileSync(resolve(social, relativePath), 'utf8');
 }
 
-/** Reveals the bounded mobile portion beginning at the current 620px control breakpoint. */
+/** Reveals the bounded mobile portion beginning at the current 560px control breakpoint (shared scale; was 620px before the Nov 8 CSS fix). */
 function revealMobileControls(styleText) {
-	const breakpoint = '@media (max-width: 620px)';
+	const breakpoint = '@media (max-width: 560px)';
 	const index = styleText.indexOf(breakpoint);
 	assert.ok(index >= 0, 'mobile feed-control breakpoint must exist');
 	return styleText.slice(index);

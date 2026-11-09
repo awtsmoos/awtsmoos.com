@@ -12,7 +12,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { HistoryLedger } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
-import { mitzvah-worldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 import { MitzvahWorldCreatorDocument } from './MitzvahWorldCreatorDocument.js';
 import { MitzvahWorldCreatorRuntimeAdapter } from './MitzvahWorldCreatorRuntimeAdapter.js';
 import { resolveUniverseShape } from './MitzvahWorldUniverseShapeResolver.js';
@@ -56,7 +56,7 @@ function fakeRuntimeAdapter(failOnIds = new Set()) {
 
 function makeSession(overrides = {}) {
 	return {
-		catalogPart: id => mitzvah-worldCreatorPart(id),
+		catalogPart: id => mitzvahWorldCreatorPart(id),
 		documentStore: new MitzvahWorldCreatorDocument({ environment: {} }),
 		history: new HistoryLedger(),
 		inventory: fakeInventory({ 'oak-sapling': 10, 'timber-house-kit': 10, 'wood-log': 10 }),
@@ -66,7 +66,7 @@ function makeSession(overrides = {}) {
 }
 
 function universeDefinitions(partId, groupId) {
-	const part = mitzvah-worldCreatorPart(partId);
+	const part = mitzvahWorldCreatorPart(partId);
 	return {
 		definitions: resolveUniverseShape(partId, {
 			id: groupId,
@@ -124,7 +124,7 @@ test('commitUniversePlacement compensates a mid-commit mount failure', async () 
 
 test('commitUniversePlacement refuses empty definitions and short material', async () => {
 	const session = makeSession();
-	const part = mitzvah-worldCreatorPart('oak-tree');
+	const part = mitzvahWorldCreatorPart('oak-tree');
 	await assert.rejects(() => commitUniversePlacement(session, part, []), /UNIVERSE_PLACEMENT_EMPTY/);
 	await assert.rejects(() => commitUniversePlacement(session, part, null), /UNIVERSE_PLACEMENT_EMPTY/);
 
@@ -170,7 +170,7 @@ test('undo/redo restores a universe placement exactly', async () => {
 
 test('undo/redo still handles single-primitive receipts', async () => {
 	const session = makeSession();
-	const part = mitzvah-worldCreatorPart('timber-wall');
+	const part = mitzvahWorldCreatorPart('timber-wall');
 	const definition = {
 		color: part.color,
 		id: 'creator-timber-wall-0001',

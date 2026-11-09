@@ -32,6 +32,7 @@ test("LOCK ADD memory/register preserves an unsafe exact source", () => {
 	);
 	assert.deepEqual(result.registers.flags, {
 		carry: false,
+		direction: false,
 		negative: false,
 		overflow: false,
 		parity: true,

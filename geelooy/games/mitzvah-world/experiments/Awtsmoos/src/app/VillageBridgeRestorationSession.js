@@ -13,7 +13,7 @@ import { HistoryLedger } from '../../../../../../libs/awtsmoos-procedural-core/s
 import { MitzvahWorldCreatorDocument } from '../creator/MitzvahWorldCreatorDocument.js';
 import { MitzvahWorldCreatorPersistence } from '../creator/MitzvahWorldCreatorPersistence.js';
 import { MitzvahWorldCreatorRuntimeAdapter } from '../creator/MitzvahWorldCreatorRuntimeAdapter.js';
-import { mitzvah-worldCreatorPart } from '../creator/MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorPart } from '../creator/MitzvahWorldCreatorCatalog.js';
 import { commitCreatorPlacement, undoCreatorPlacement } from '../creator/MitzvahWorldCreatorTransactions.js';
 import { creatorWorldParts } from '../creator/MitzvahWorldCreatorWorldCodec.js';
 import { createVillageBridgeRestorationDefinition } from '../world/village/VillageBridgeRestorationDefinition.js';
@@ -49,7 +49,7 @@ export class VillageBridgeRestorationSession {
 	/** Commits Creator placement then compensates it fully when durable save fails. */
 	async build() {
 		if (this.built) return Object.freeze({ alreadyBuilt: true });
-		const catalog = mitzvah-worldCreatorPart('stone-platform');
+		const catalog = mitzvahWorldCreatorPart('stone-platform');
 		const definition = createVillageBridgeRestorationDefinition();
 		const receipt = await commitCreatorPlacement(this, catalog, definition);
 		const saved = this.persistence.save(this.documentStore.serialize());
@@ -63,7 +63,7 @@ export class VillageBridgeRestorationSession {
 
 	/** Required by the shared undo compensation path. */
 	catalogPart(id) {
-		return mitzvah-worldCreatorPart(id);
+		return mitzvahWorldCreatorPart(id);
 	}
 
 	/** Releases live bridge-owned geometry without deleting durable truth. */

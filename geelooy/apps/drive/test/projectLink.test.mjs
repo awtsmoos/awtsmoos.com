@@ -72,8 +72,9 @@ test('linkProjectAndFolder links both directions at once', async () => {
 	assert.equal(read.libraryPath, '/Sites/demo');
 });
 
-test('linkProjectLibrary rejects missing resource or projectId', async () => {
+test('linkProjectLibrary rejects missing resource or projectId; empty projectId unlinks a folder', async () => {
 	await assert.rejects(() => linkProjectLibrary(null, 'p1', '/x'), /projects resource/);
 	await assert.rejects(() => linkProjectLibrary(mockProjects(), '', '/x'), /projectId/);
-	await assert.rejects(() => setFolderProject('/x', '', { metadata: mockMetadata() }), /projectId/);
+	const unlinked = await setFolderProject('/x', '', { metadata: mockMetadata() });
+	assert.equal(unlinked.projectId, null);
 });

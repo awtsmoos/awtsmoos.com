@@ -30,7 +30,7 @@ assert.match(shell, /overscroll-behavior:\s*contain/);
 assert.match(shell, /mobileMoreSheet__close:active/);
 assert.match(shell, /mobileMoreSheet__close:focus-visible/);
 assert.match(shell, /@media \(hover: hover\) and \(pointer: fine\)/);
-assert.match(responsive, /@media \(max-width: 25rem\)/);
+assert.match(responsive, /@media \(max-width: 390px\)/); // shared scale; was 25rem (400px) before the Nov 8 CSS fix
 assert.match(responsive, /100dvw/);
 assert.match(responsive, /safe-area-inset-left/);
 assert.match(responsive, /safe-area-inset-right/);

@@ -25,6 +25,7 @@ test("exact CMP compares full-width unsigned registers without changing them", a
 	assert.equal(outcome.result.registers.registers.rcx, "0x0fffffffffffffff");
 	assert.deepEqual(outcome.result.registers.flags, {
 		carry: false,
+		direction: false,
 		negative: false,
 		overflow: false,
 		parity: false,

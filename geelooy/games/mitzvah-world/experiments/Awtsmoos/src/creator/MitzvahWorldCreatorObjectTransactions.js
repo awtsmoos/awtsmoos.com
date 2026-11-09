@@ -95,7 +95,7 @@ export async function restoreCreatorObjectState(sessionTiferes, definitionMalchu
 /** Resolves one immutable creator resource or refuses stale selection truth. */
 export function requiredCreatorResource(sessionTiferes, idOhr) {
 	const resourceBinah = sessionTiferes.documentStore.readPart(idOhr);
-	if (!resourceBinah || resourceBinah.type !== 'mitzvah-world.builder.part') {
+	if (!resourceBinah || resourceBinah.type !== 'mitzvahWorld.builder.part') {
 		throw new Error(`CREATOR_OBJECT_NOT_FOUND:${idOhr}`);
 	}
 	return resourceBinah;

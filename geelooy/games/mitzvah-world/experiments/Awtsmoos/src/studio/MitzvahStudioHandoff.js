@@ -231,7 +231,7 @@ export async function maybeApplyStudioHandoff(gameContext = {}) {
 		let lookupCreatorPart = null;
 		try {
 			const catalogModule = await importCreatorModule(CREATOR_CATALOG_SPECIFIER, 'MitzvahWorldCreatorCatalog');
-			lookupCreatorPart = catalogModule.mitzvah-worldCreatorPart;
+			lookupCreatorPart = catalogModule.mitzvahWorldCreatorPart;
 		} catch (error) {
 			return receipt({ name: validation.name, reason: 'creator-catalog-unavailable', error: String(error?.message || error) });
 		}

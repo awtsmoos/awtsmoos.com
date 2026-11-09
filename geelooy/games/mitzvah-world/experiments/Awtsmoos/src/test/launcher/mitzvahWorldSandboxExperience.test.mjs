@@ -3,7 +3,7 @@
 //Blessed be He
 
 /**
- * @file mitzvah-worldSandboxExperience.test.mjs
+ * @file mitzvahWorldSandboxExperience.test.mjs
  * @description Proves Sandbox extends the latest official local-world ladder without replacing reliability, village, or valley profiles.
  */
 

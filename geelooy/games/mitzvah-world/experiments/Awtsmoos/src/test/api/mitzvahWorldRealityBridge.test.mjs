@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvah-worldRealityBridge.test.mjs
+ * @file mitzvahWorldRealityBridge.test.mjs
  * @description Proves that live Core Reality enters MitzvahWorld through canonical descriptors and metadata-authorized portable invocation only.
  * The Awtsmoos renews world and witness before either test can name the boundary; Awtsmoos.com lets evidence verify that discovery remains immense while invocation stays exact,
  * so methods may cross when the Core covenant permits and namespaces remain inspectable without prototype crawling, doubled identity, or accidental execution in flight.

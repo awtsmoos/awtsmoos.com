@@ -11,7 +11,7 @@
 
 export function ensureCreatorWorldIdentity(documentMalchus, environmentKli = globalThis) {
 	const metadata = documentMalchus.metadata ||= {};
-	const creator = metadata.mitzvah-worldCreator ||= {};
+	const creator = metadata.mitzvahWorldCreator ||= {};
 	creator.worldId ||= createCreatorWorldId(environmentKli);
 	return creator.worldId;
 }
@@ -19,7 +19,7 @@ export function ensureCreatorWorldIdentity(documentMalchus, environmentKli = glo
 export function remixCreatorWorld(documentMalchus, environmentKli = globalThis) {
 	const remixMalchus = structuredClone(documentMalchus);
 	const sourceId = ensureCreatorWorldIdentity(documentMalchus, environmentKli);
-	const creator = remixMalchus.metadata.mitzvah-worldCreator ||= {};
+	const creator = remixMalchus.metadata.mitzvahWorldCreator ||= {};
 	creator.remixOf = sourceId;
 	creator.worldId = createCreatorWorldId(environmentKli);
 	return remixMalchus;

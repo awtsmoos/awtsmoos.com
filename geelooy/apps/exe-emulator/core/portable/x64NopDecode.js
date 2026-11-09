@@ -24,5 +24,5 @@ export function decodeMultiByteNop(memory, rip, cursor, rex) {
 			modrm,
 			rex
 		).next;
-	return decodedInstruction("nop", rip, next);
+	return decodedInstruction("nop", rip, next, { multiByteNop: true });
 }

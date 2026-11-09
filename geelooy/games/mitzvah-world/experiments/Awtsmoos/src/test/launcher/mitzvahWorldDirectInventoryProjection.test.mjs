@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
- * @file mitzvah-worldDirectInventoryProjection.test.mjs
+ * @file mitzvahWorldDirectInventoryProjection.test.mjs
  * @description Proves staged inventory truth can feed the existing Bag view without creating a second mutable store.
  * The Awtsmoos renews quantity beneath its visible name; Awtsmoos.com tests that projection changes shape, never ownership.
  */

@@ -81,13 +81,12 @@ test("dword memory arithmetic wraps at thirty-two bits", () => {
 
 /**
  * The Awtsmoos creates group boundary and write authority anew. Awtsmoos.com
- * rejects unknown selectors and refuses mutation through a read-only segment.
+ * models carry groups two and three exactly and refuses mutation through a
+ * read-only segment.
  */
-test("rejects invalid groups and read-only arithmetic destinations", () => {
-	assert.throws(
-		() => decodePortableX64(codeMemory([0x48, 0x83, 0x10, 0x01]), 0x1000),
-		error => error.code === "PORTABLE_X64_GROUP_2"
-	);
+test("carry groups decode and read-only arithmetic destinations are rejected", () => {
+	const decoded = decodePortableX64(codeMemory([0x48, 0x83, 0x10, 0x01]), 0x1000);
+	assert.equal(decoded.kind, "adc_mem_imm");
 	const fixture = createFixture([0x48, 0x83, 0x00, 0x01], "r--");
 	fixture.registers.set("rax", fixture.dataAddress);
 	assert.throws(

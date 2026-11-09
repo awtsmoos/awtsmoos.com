@@ -109,6 +109,6 @@ export class MitzvahWorldCreatorObjectActions extends MitzvahWorldCreatorSession
 /** Returns stable creator-object ids in current universal-document order. */
 function creatorObjectIds(sessionTiferes) {
 	return Object.values(sessionTiferes.documentStore.document.resources.objects || {})
-		.filter(resourceBinah => resourceBinah.type === 'mitzvah-world.builder.part')
+		.filter(resourceBinah => resourceBinah.type === 'mitzvahWorld.builder.part')
 		.map(resourceBinah => resourceBinah.id);
 }

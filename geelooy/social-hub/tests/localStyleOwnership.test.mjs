@@ -81,7 +81,9 @@ for (const netivRelative of guardedFiles) {
 	for (const binahGroup of selectorGroups(ohrSource)) {
 		for (const malchusSelector of splitSelectorList(binahGroup)) {
 			assert.ok(
-				malchusSelector.startsWith('.social-hub-document'),
+				malchusSelector.startsWith('.social-hub-document')
+					// body.social-hub-document is page-scoped too: the class exists only on the hub document body.
+					|| malchusSelector.startsWith('body.social-hub-document'),
 				`${netivRelative} leaks selector: ${malchusSelector}`
 			);
 		}

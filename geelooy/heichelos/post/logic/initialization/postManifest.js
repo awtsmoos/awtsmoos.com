@@ -12,6 +12,7 @@
 import { makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
+import { appendSafePostHtml, isHtmlPostContent } from '/heichelos/post/functions/dom/HtmlManifestation.js?v=safe-post-html-001';
 import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-002';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
@@ -29,6 +30,24 @@ function hasUnitsContent(post) {
 	return Array.isArray(post?.units) && post.units.length > 0;
 }
 
+/**
+ * B"H — Renders post.content: authored HTML (a Meluket maamar's <sup>
+ * footnote markers, <h3>, <i>, <br/>) goes through the sanitized HTML path
+ * so it parses as HTML; plain/Markdown prose keeps the safe plain path, so
+ * untrusted stored text never gains the power of HTML. The description
+ * fallback below stays plain-text on purpose (it is prose, never markup).
+ * @param {HTMLElement} viewport Canonical post viewport.
+ * @param {unknown} content Stored post content.
+ * @returns {boolean} True when content was rendered.
+ */
+function appendPostContent(viewport, content) {
+	if (isHtmlPostContent(content)) {
+		appendSafePostHtml(content, viewport);
+		return viewportHasVisibleText(viewport);
+	}
+	return appendPublicPlainContent(viewport, content);
+}
+
 async function manifestPrimaryContent(viewport, post) {
 	const richRoot = renderRootDocument(viewport, post?.rootDocument);
 	const structuredPost = prepareStructuredPost(post);
@@ -38,9 +57,9 @@ async function manifestPrimaryContent(viewport, post) {
 			await interpretPostDayuh(structuredPost);
 		} else if (!richRoot && hasUnitsContent(post)) {
 			unitsRendered = renderUnitsPost(viewport, post);
-			if (!unitsRendered && post?.content) appendPublicPlainContent(viewport, post.content);
+			if (!unitsRendered && post?.content) appendPostContent(viewport, post.content);
 		} else if (!richRoot && post?.content) {
-			appendPublicPlainContent(viewport, post.content);
+			appendPostContent(viewport, post.content);
 		}
 	} catch (error) {
 		console.error('B"H primary content manifestation failed; falling back to units/plain:', error);

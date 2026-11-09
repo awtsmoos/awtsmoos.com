@@ -56,7 +56,7 @@ const yesodUniqueGenerations = new Set(hodGenerations);
 assert.match(malchusPage, /id="socialHubMount"/);
 assert.match(malchusPage, /geelooy-social-surface/);
 assert.match(malchusPage, /\.\/js\/main\.js/);
-assert.doesNotMatch(malchusPage, /social\/shell\/boot\.js/);
+assert.match(malchusPage, /social\/shell\/boot\.js/); // the hub loads the shared shell boot like every other social page (eligible route; was banned before the shared boot was adopted)
 assert.match(keterMain, /KeterSocialHubShell/);
 assert.match(keterMain, /keterShell\.mount\(\)/);
 assert.match(keterMain, /createSocialHub\(document\)/);

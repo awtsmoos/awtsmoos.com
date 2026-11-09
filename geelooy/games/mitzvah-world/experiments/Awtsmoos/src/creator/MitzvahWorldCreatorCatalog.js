@@ -47,12 +47,12 @@ function creatorPart(id, label, icon, itemId, color, size, walkable) {
 /** Returns the immutable ordered creator catalog: legacy primitives first, then the
  *  player universe vocabulary (structures, nature, characters, mission beacons).
  *  Yaakov 2026-10-11: every player creates their own universe. */
-export function mitzvah-worldCreatorCatalog() {
+export function mitzvahWorldCreatorCatalog() {
 	return MERGED_CATALOG;
 }
 
 /** Resolves one creator entry (legacy or universe part) or throws a deterministic domain error. */
-export function mitzvah-worldCreatorPart(id) {
+export function mitzvahWorldCreatorPart(id) {
 	const binah = MERGED_CATALOG.find(candidateKli => candidateKli.id === id);
 	if (!binah) {
 		throw new Error(`CREATOR_PART_UNKNOWN:${id}`);

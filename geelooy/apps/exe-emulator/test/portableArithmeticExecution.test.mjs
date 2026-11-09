@@ -55,8 +55,10 @@ test("executes register ADD, SUB, CMP and signed branch families", async () => {
 	assert.equal(outcome.result.exitCode, 79);
 	assert.deepEqual(outcome.result.registers.flags, {
 		carry: true,
+		direction: false,
 		negative: true,
 		overflow: false,
+		parity: true,
 		zero: false
 	});
 });

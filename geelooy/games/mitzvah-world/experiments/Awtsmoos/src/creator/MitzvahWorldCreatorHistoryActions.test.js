@@ -13,7 +13,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { HistoryLedger } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
-import { mitzvah-worldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 import { MitzvahWorldCreatorDocument } from './MitzvahWorldCreatorDocument.js';
 import {
 	redoCreatorAction,
@@ -53,7 +53,7 @@ function fakeRuntimeAdapter() {
 
 function makeSession() {
 	return {
-		catalogPart: id => mitzvah-worldCreatorPart(id),
+		catalogPart: id => mitzvahWorldCreatorPart(id),
 		documentStore: new MitzvahWorldCreatorDocument({ environment: {} }),
 		history: new HistoryLedger(),
 		inventory: fakeInventory({ 'timber-house-kit': 10, 'oak-sapling': 10 }),
@@ -66,7 +66,7 @@ function semanticObjects(session) {
 }
 
 async function placeHouse(session, groupId = 'creator-timber-house-0001') {
-	const part = mitzvah-worldCreatorPart('timber-house');
+	const part = mitzvahWorldCreatorPart('timber-house');
 	const definitions = resolveUniverseShape('timber-house', {
 		id: groupId,
 		position: { x: 6, y: part.size.y / 2, z: 1 },

@@ -1,0 +1,31 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+Social sweep (2026-11-09): /heichel/ was a bare 403 even though people
+naturally type it — the directory holds only the submit doorway and no
+index. This doorway forwards to the Heichelos listing, preserving any
+query string and fragment.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Heichelos — Awtsmoos</title>
+	<meta http-equiv="refresh" content="0;url=/heichelos/">
+	<link rel="canonical" href="/heichelos/">
+	<script>
+		const destination = new URL('/heichelos/', location.origin);
+		destination.search = location.search;
+		destination.hash = location.hash;
+		location.replace(destination);
+	</script>
+</head>
+<body>
+	<main>
+		<h1>Heichelos</h1>
+		<p>Heichelos live at their home address.</p>
+		<a href="/heichelos/">Open Heichelos</a>
+	</main>
+</body>
+</html>

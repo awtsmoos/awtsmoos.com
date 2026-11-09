@@ -1,0 +1,26 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+Doorway: /heichelos/settings/ forwards to the community settings page, the
+only settings page under this path. (This directory had no index.html and no
+derech route, so the bare path returned 403; the per-Heichel settings live at
+/heichelos/settings/community/.) -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<title>Heichel settings — Awtsmoos</title>
+	<meta http-equiv="refresh" content="0; url=/heichelos/settings/community/">
+</head>
+<body>
+	<p>Opening Heichel community settings…</p>
+	<p><a href="/heichelos/settings/community/">Open Heichel community settings</a></p>
+	<noscript><p><a href="/heichelos/settings/community/">Open Heichel community settings</a></p></noscript>
+	<script>
+		/* B"H · Preserve the existing query string and hash; destination is fixed. */
+		window.location.replace('/heichelos/settings/community/' + window.location.search + window.location.hash);
+	</script>
+</body>
+</html>

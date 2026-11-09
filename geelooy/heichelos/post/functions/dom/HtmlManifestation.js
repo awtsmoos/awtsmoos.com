@@ -102,6 +102,90 @@ export function appendHTML(html, parent) {
 	malchusHtmlManifestation.append(html, parent);
 }
 
+/**
+ * B"H — Authored-HTML detection.
+ * Stored post text that carries real markup (a Meluket maamar's <sup>
+ * footnote markers, <h3> heading, <i> words, <br/> breaks) must be parsed
+ * as HTML. Plain/Markdown prose carries no such tags and keeps the safe
+ * plain path. A stray "<" in prose never matches: a tag name is required.
+ */
+const HTML_CONTENT_TAG_RE = /<\/?(?:h[1-6]|p|div|span|sup|sub|br|hr|i|em|b|strong|u|ul|ol|li|a|blockquote|table|thead|tbody|tr|td|th|section|article|header|footer|img|figure|figcaption)\b[^>]*>/i;
+
+/** @param {unknown} value Stored post text. @returns {boolean} True when it carries authored HTML markup. */
+export function isHtmlPostContent(value) {
+	return HTML_CONTENT_TAG_RE.test(String(value || ''));
+}
+
+const INLINE_MARKDOWN_RE = /(\*\*[^*\n]+\*\*|`[^`\n]+`|\*[^*\n]+\*)/gu;
+
+/** Converts one text line's small Markdown subset to HTML (same markers as the plain renderer). */
+function convertInlineMarkers(text) {
+	return String(text || '').replace(INLINE_MARKDOWN_RE, (token) => {
+		if (token.startsWith('**')) return `<strong>${token.slice(2, -2)}</strong>`;
+		if (token.startsWith('`')) return `<code>${token.slice(1, -1)}</code>`;
+		return `<em>${token.slice(1, -1)}</em>`;
+	});
+}
+
+/**
+ * B"H — Hybrid authored content (Meluket): mostly HTML, with a few Markdown
+ * markers left in it (**section headings**, *se'if* lines, standalone ---
+ * rules). Converts those markers to HTML so nothing renders as literal
+ * markup. Tag-aware: segments inside <...> are never touched, so footnote
+ * asterisks and <sup> contents are never mangled.
+ * @param {unknown} value Stored post text.
+ * @returns {string} HTML with the Markdown markers converted.
+ */
+export function markdownMarkersToHtml(value) {
+	const parts = String(value || '').split(/(<[^>]*>)/g);
+	return parts.map((part) => {
+		if (part.startsWith('<')) return part;
+		return part.split('\n').map((line) => {
+			if (line.trim() === '---') return '<hr>';
+			return convertInlineMarkers(line);
+		}).join('\n');
+	}).join('');
+}
+
+/**
+ * B"H — Sanitizes authored post HTML before it is manifested.
+ * Decodes nothing here (the string is already HTML); strips executable and
+ * dangerous elements plus event-handler attributes and javascript: links.
+ * Safe inline markup (b, i, em, strong, sup, sub, br, h1-h6, p, ul, ol, li,
+ * a, hr) survives. Same pattern as the footnote sanitizer: without this,
+ * the manifestation path would eval an inline <script> in stored text.
+ * @param {unknown} raw Authored post HTML.
+ * @returns {string} Sanitized HTML safe to manifest.
+ */
+export function sanitizePostHtml(raw) {
+	if (typeof document === 'undefined') return String(raw || '');
+	const div = document.createElement('div');
+	div.innerHTML = String(raw || '');
+	div.querySelectorAll('script, style, iframe, object, embed, link, meta, form, input, button').forEach(n => n.remove());
+	div.querySelectorAll('*').forEach(n => {
+		for (const attr of Array.from(n.attributes)) {
+			if (/^on/i.test(attr.name) || attr.name === 'srcdoc') n.removeAttribute(attr.name);
+		}
+		const href = n.getAttribute('href');
+		if (href && /^\s*javascript:/i.test(href)) n.removeAttribute('href');
+	});
+	return div.innerHTML;
+}
+
+/**
+ * B"H — Renders authored post HTML safely: Markdown markers converted,
+ * dangerous markup stripped, then manifested through the existing HTML
+ * path, so <sup> footnote markers render as real superscripts (never as
+ * literal "<sup>" text) and headings render as headings.
+ * @param {unknown} html Authored post HTML.
+ * @param {Node|null} parent Destination.
+ * @returns {void}
+ */
+export function appendSafePostHtml(html, parent) {
+	if (!parent) return;
+	appendHTML(sanitizePostHtml(markdownMarkersToHtml(html)), parent);
+}
+
 /** @param {Node} node Source node. @param {Node|null} parent Destination. @param {Node[]} siblings Sibling context. @returns {void} */
 export function appendWithSubChildren(node, parent, siblings) {
 	malchusHtmlManifestation.appendNode(node, parent, siblings);

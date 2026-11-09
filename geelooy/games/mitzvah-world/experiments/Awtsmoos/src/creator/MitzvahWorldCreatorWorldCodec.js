@@ -10,7 +10,7 @@
  */
 
 import { WORLD_FORMAT } from '../../../../../../libs/awtsmoos-procedural-core/src/core/universalApi/index.js';
-import { mitzvah-worldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 
 const MAXIMUM_COORDINATE = 1000000;
 const MAXIMUM_DIMENSION = 1024;
@@ -38,7 +38,7 @@ export function parseCreatorWorld(sourceOhr) {
 export function creatorWorldParts(documentMalchus) {
 	const objects = documentMalchus?.resources?.objects || {};
 	return Object.values(objects)
-		.filter(resource => resource?.type === 'mitzvah-world.builder.part')
+		.filter(resource => resource?.type === 'mitzvahWorld.builder.part')
 		.map(resource => Object.freeze({
 			definition: validateDefinition(resource.definition, resource.id),
 			kind: validateKind(resource.kind)
@@ -63,7 +63,7 @@ export function validateCreatorWorld(documentMalchus) {
 }
 
 function validateKind(kindOhr) {
-	mitzvah-worldCreatorPart(kindOhr);
+	mitzvahWorldCreatorPart(kindOhr);
 	return kindOhr;
 }
 

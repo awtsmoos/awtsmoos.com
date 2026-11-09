@@ -37,7 +37,7 @@ test('people is assembled, initialized, and routed through named owners', () => 
 	assert.match(assembly, /new PeoplePanel/);
 	assert.match(lifecycle, /'people'/);
 	assert.match(lifecycle, /initializePanels\(\)/);
-	assert.match(coordinator, /route\.id === 'people'/);
+	assert.match(coordinator, /id === 'people'/); // coordinator routes by the destructured id now, not route.id
 	assert.match(coordinator, /this\.app\.people\.load/);
 });
 

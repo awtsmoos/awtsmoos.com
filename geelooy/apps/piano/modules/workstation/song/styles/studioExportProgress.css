@@ -1,0 +1,26 @@
+/* B"H — Every finite exported measure reveals its true current progress. */
+.multitrack-export-progress {
+	display: grid;
+	gap: 5px;
+	padding: 7px 10px;
+	border: 1px solid rgba(84, 185, 237, .55);
+	border-radius: 10px;
+	color: #def6ff;
+	background: #0b2034;
+	font-size: .78rem;
+}
+.multitrack-export-progress[hidden] { display: none; }
+.multitrack-export-progress progress {
+	width: 100%;
+	height: 13px;
+	border-radius: 20px;
+	accent-color: #36c7f5;
+}
+.multitrack-export-progress progress::-webkit-progress-bar {
+	border-radius: 20px;
+	background: #34475c;
+}
+.multitrack-export-progress progress::-webkit-progress-value {
+	border-radius: 20px;
+	background: linear-gradient(90deg, #1278d4, #41d1f5);
+}

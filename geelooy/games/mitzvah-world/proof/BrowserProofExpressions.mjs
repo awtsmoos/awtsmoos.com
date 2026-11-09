@@ -46,7 +46,7 @@ export function browserSnapshotExpression() {
 			catch { return null; }
 		}
 		function findRuntime() {
-			const names = ['__AWTSMOOS_RUNTIME__','awtsmoosRuntime','mitzvah-worldRuntime','runtime'];
+			const names = ['__AWTSMOOS_RUNTIME__','awtsmoosRuntime','mitzvahWorldRuntime','runtime'];
 			for (const name of names) if (window[name]?.state) return window[name];
 			for (const key of Object.getOwnPropertyNames(window)) {
 				let value;

@@ -11,7 +11,7 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { mitzvah-worldCreatorPart } from '../../creator/MitzvahWorldCreatorCatalog.js';
+import { mitzvahWorldCreatorPart } from '../../creator/MitzvahWorldCreatorCatalog.js';
 import {
 	createCreatorSessionFixture,
 	creatorDefinition
@@ -19,7 +19,7 @@ import {
 
 test('far-spanning saved world reopens with every ID indexed and only nearby geometry mounted', async () => {
 	const fixture = createCreatorSessionFixture();
-	const part = mitzvah-worldCreatorPart('timber-wall');
+	const part = mitzvahWorldCreatorPart('timber-wall');
 	await fixture.session.documentStore.createPart(part, creatorDefinition('creator-near-0001', {
 		position: { x: 4, y: 1, z: 4 }
 	}));

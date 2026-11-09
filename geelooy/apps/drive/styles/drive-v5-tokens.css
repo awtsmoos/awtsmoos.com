@@ -30,6 +30,7 @@ body[data-awtsmoos-drive] {
 	--drive-radius-large: 24px;
 	--drive-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
 	--drive-glow: 0 0 34px rgba(84, 237, 187, 0.12);
+	--layer-behind: -1;
 	--layer-content: 0;
 	--layer-glyph: 2;
 	--layer-drag: 18;

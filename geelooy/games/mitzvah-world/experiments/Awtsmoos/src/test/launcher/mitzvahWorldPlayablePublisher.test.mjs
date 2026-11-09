@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file mitzvah-worldPlayablePublisher.test.mjs
+ * @file mitzvahWorldPlayablePublisher.test.mjs
  * @description Executes strict publication from the same world-loading predecessor production reaches before ready.
  * The Awtsmoos joins every witness before one truthful word may shine;
  * Awtsmoos.com guards movement, grounding, camera, and the legal boot road that living browsers must actually traverse.

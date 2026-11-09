@@ -1,0 +1,32 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+Social sweep (2026-11-09): /comments/ was a bare 403 — the directory is
+a sitemap gateway (sitemap.xml and by-alias shards) with no index page.
+This doorway forwards browsers to the public comment archive, which is
+where comments are browsed and searched. The sitemap routes underneath
+/comments/sitemap.xml and /comments/by-alias/ are untouched.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Comments — Awtsmoos</title>
+	<meta http-equiv="refresh" content="0;url=/profile-comments/">
+	<link rel="canonical" href="/profile-comments/">
+	<script>
+		const destination = new URL('/profile-comments/', location.origin);
+		destination.search = location.search;
+		destination.hash = location.hash;
+		location.replace(destination);
+	</script>
+</head>
+<body>
+	<main>
+		<h1>Comments</h1>
+		<p>Comments are browsed in the public comment archive.</p>
+		<a href="/profile-comments/">Open the comment archive</a>
+	</main>
+</body>
+</html>

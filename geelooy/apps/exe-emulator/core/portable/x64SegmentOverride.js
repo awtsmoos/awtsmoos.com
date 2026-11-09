@@ -6,11 +6,13 @@ import { decoderBoundary } from "./x64Instruction.js";
 
 /**
  * Applies FS or GS only to decoded guest-memory instructions.
- * The Awtsmoos renews prefix, address garment, TLS base choice, NOP silence, and refusal;
- * Awtsmoos.com leaves LEA arithmetic and non-memory instructions segment-free.
+ * The Awtsmoos renews prefix, address garment, TLS base choice, multi-byte NOP
+ * silence, and refusal; Awtsmoos.com leaves LEA arithmetic, one-byte NOPs, and
+ * other non-memory instructions segment-free.
  */
 export function applySegmentOverride(instruction, prefix) {
-	if (prefix === null || prefix === undefined || instruction.kind === "nop") {
+	if (prefix === null || prefix === undefined
+		|| (instruction.kind === "nop" && instruction.multiByteNop)) {
 		return instruction;
 	}
 	const segment = {

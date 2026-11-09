@@ -84,26 +84,32 @@
 }
 
 /* ---------- post body card: Hebrew / English rhythm ---------- */
+/* B"H 2026-11-09: the reader's real background is dark navy
+   (--social-panel rgb(15 27 45)), so body text uses the reborn near-white
+   (--awt-text #f8fbff), never the law8 light-theme brown ink-soft (#6e6151)
+   that rendered near-invisible on the dark page. Body text follows the
+   reader scale (--post-text-size, default 48px): the old fixed 1.06rem
+   defeated the Aa control and read far too small. */
 .post-reader-localized-context .awtsmoos-plain-post-content {
 	padding: clamp(1.4rem, 4vw, 2.4rem);
 	border: 1px solid var(--law8-rule);
 	border-radius: var(--law8-radius);
 	background: var(--law8-card);
-	color: var(--law8-ink);
+	color: var(--awt-text, var(--law8-ink));
 	box-shadow: var(--law8-shadow);
 }
 
 .post-reader-localized-context .awtsmoos-plain-post-content p {
 	margin: 0 0 1.15rem;
-	color: var(--law8-ink-soft);
+	color: var(--awt-text, var(--law8-ink));
 	font-family: var(--law8-ui);
-	font-size: 1.06rem;
+	font-size: var(--post-text-size, 1.35rem);
 	line-height: 1.7;
 }
 
 .post-reader-localized-context :where(.awtsmoos-plain-post-content) p:last-child {
 	margin-bottom: 0;
-	color: var(--law8-ink-soft);
+	color: var(--awt-text, var(--law8-ink));
 }
 
 /* Hebrew paragraphs — (0,4,0) justified: must beat the inline head contrast-fix
@@ -111,11 +117,46 @@
    after stylesheets; a CSS-only pass cannot restructure that inline block. */
 .post-reader-localized-context .awtsmoos-plain-post-content .heb,
 .post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb {
-	color: var(--law8-ink);
+	color: var(--awt-text, var(--law8-ink));
 	font-family: var(--law8-heb);
-	font-size: 1.32rem;
+	font-size: var(--post-text-size, 1.35rem);
 	line-height: 1.75;
 	text-align: right;
+}
+
+/* B"H 2026-11-09: authored HTML posts (Meluket) now parse as HTML, so the
+   <h3> heading, <sup> footnote markers, <hr> rules and <strong>/<em> markers
+   they carry need real styles — otherwise the reader-shell blanket
+   (font-size: var(--post-text-size) on *) leaves sup full-size and the
+   heading unstyled. */
+.post-reader-localized-context .awtsmoos-plain-post-content h3 {
+	margin: 0 0 1rem;
+	color: var(--awt-gold, var(--law8-gold));
+	font-family: var(--law8-heb);
+	font-size: calc(var(--post-text-size, 1.35rem) * 0.85);
+	line-height: 1.3;
+	font-weight: 700;
+	text-align: right;
+}
+
+.post-reader-localized-context .awtsmoos-plain-post-content sup {
+	font-size: 0.62em;
+	vertical-align: super;
+	line-height: 0;
+	color: var(--awt-gold, var(--law8-gold));
+	font-weight: 700;
+}
+
+.post-reader-localized-context .awtsmoos-plain-post-content hr {
+	border: none;
+	border-top: 1px solid var(--law8-rule);
+	margin: 1.5rem 0;
+}
+
+.post-reader-localized-context .awtsmoos-plain-post-content strong,
+.post-reader-localized-context .awtsmoos-plain-post-content em,
+.post-reader-localized-context .awtsmoos-plain-post-content i {
+	color: var(--awt-text, var(--law8-ink));
 }
 
 /* ---------- discussion shell ---------- */
