@@ -1828,8 +1828,8 @@ body[data-geelooy-route="home"] .brand-copy {
 :where(body[data-geelooy-route="home"]) .brand-copy strong {
 	font-size: .91rem;
 	letter-spacing: .01em;
-
-  color: var(--aw-text); }
+	color: var(--text-primary);
+}
 
 :where(body[data-geelooy-route="home"]) .brand-copy small {
 	color: var(--text-muted);
@@ -1855,8 +1855,7 @@ body[data-geelooy-route="home"] .brand-copy {
 
 @media (max-width: 390px) { :where(body[data-geelooy-route="home"]) .brand-copy small {
 		display: none;
-	
-	color: var(--aw-text); } }
+	} }
 @media (max-width: 390px) { body[data-geelooy-route="home"] .brand-mark {
 		width: 2.15rem;
 		height: 2.15rem;
