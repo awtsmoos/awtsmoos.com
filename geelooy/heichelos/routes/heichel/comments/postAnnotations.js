@@ -5,7 +5,7 @@
 const { annotationOf } = require('../../../../api/social/helper/comments/richCommentPolicy.js');
 const reader = require('../../../../api/social/helper/comments/richCommentReader.js');
 const { postTranslations } = require('../../../../api/social/helper/comments/translations/reader.js');
-const { encodeSegment, escapeHtml, excerpt } = require('../../../../seo/html.js');
+const { encodeSegment, escapeHtml, escapeHtmlWithFootnoteSup, excerpt } = require('../../../../seo/html.js');
 const { traceAsync } = require('../torahRouteTrace.js');
 const { renderCommentHtml } = require('./commentHtml.js');
 
@@ -80,7 +80,7 @@ async function renderPostAnnotations($i, data) {
 		const sourceSection = commentSection('Torah sources', grouped.sources);
 		const communitySection = commentSection('Public discussion', grouped.community);
 		const translationHref = `/heichelos/${encodeSegment(point.heichelId)}/series/${encodeSegment(point.seriesId)}/post/${encodeSegment(point.postId)}/translations`;
-		const translationPreview = rows.slice(0, 3).map((row, index) => `<article><h3>English translation ${index + 1}</h3><p lang="en">${escapeHtml(excerpt(row.content || row.text || '', 500))}</p></article>`).join('');
+		const translationPreview = rows.slice(0, 3).map((row, index) => `<article><h3>English translation ${index + 1}</h3><p lang="en">${escapeHtmlWithFootnoteSup(excerpt(row.content || row.text || '', 500))}</p></article>`).join('');
 		const translationSection = rows.length ? `<section><h2>English translations</h2>${translationPreview}<p><a href="${translationHref}">Read all ${rows.length} public translation${rows.length === 1 ? '' : 's'}</a></p></section>` : '';
 		return sourceSection || communitySection || translationSection
 			? `<aside data-awtsmoos-indexed-annotations>${sourceSection}${communitySection}${translationSection}</aside>`

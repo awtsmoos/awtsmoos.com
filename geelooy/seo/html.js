@@ -24,6 +24,32 @@ function encodeSegment(value) {
 	return encodeURIComponent(String(value ?? ''));
 }
 
+/**
+ * @description Escapes public English prose and turns footnote digits into real <sup> elements.
+ * Server-side mirror of the client renderTranslationTextWithFootnotes patterns (Hebrew-year +
+ * footnote, abbreviation period, glued digits, bare trailing digits). Hebrew text is untouched
+ * by the patterns (they only match Latin letters), and the <sup> elements are inserted after
+ * escaping so they are never escaped themselves.
+ */
+function escapeHtmlWithFootnoteSup(value) {
+	const placeholders = [];
+	const mark = (digits) => {
+		placeholders.push(digits);
+		return `\u0000FN${placeholders.length - 1}\u0000`;
+	};
+	let text = String(value ?? '');
+	const YEAR = /([^\d]|^)(5[5-8]\d\d)(\d{1,2})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const ABBR = /([A-Za-z][\.\u2024])(\d{1,3})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const GLUED = /([A-Za-z""''\)\]\}])(\d{1,3})([\s.,;:!?…‥""'')\]\):—–-]|$)/g;
+	const TRAIL = /([^\d\s])(\d{1,3})($|[\s.,;:!?…‥""'')\]\):—–-]+$)/g;
+	text = text.replace(YEAR, (m, prefix, year, digits, tail) => `${prefix}${year}${mark(digits)}${tail}`);
+	text = text.replace(ABBR, (m, prefix, digits, tail) => `${prefix}${mark(digits)}${tail}`);
+	text = text.replace(GLUED, (m, prefix, digits, tail) => `${prefix}${mark(digits)}${tail}`);
+	text = text.replace(TRAIL, (m, prefix, digits, tail) => `${prefix}${mark(digits)}${tail}`);
+	const escaped = escapeHtml(text);
+	return escaped.replace(/\u0000FN(\d+)\u0000/g, (m, index) => `<sup>${placeholders[Number(index)]}</sup>`);
+}
+
 /** @description Reduces arbitrary public text to normalized visible prose. */
 function cleanPlain(value, maximum = 500) {
 	return String(value ?? '')
@@ -46,5 +72,6 @@ module.exports = {
 	cleanPlain,
 	encodeSegment,
 	escapeHtml,
+	escapeHtmlWithFootnoteSup,
 	excerpt
 };

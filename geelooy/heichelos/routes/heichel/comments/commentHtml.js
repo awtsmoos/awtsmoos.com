@@ -3,7 +3,7 @@
 //Blessed be He
 
 const { annotationOf } = require('../../../../api/social/helper/comments/richCommentPolicy.js');
-const { encodeSegment, escapeHtml } = require('../../../../seo/html.js');
+const { encodeSegment, escapeHtml, escapeHtmlWithFootnoteSup } = require('../../../../seo/html.js');
 const { commentExcerpt } = require('./commentText.js');
 
 /**
@@ -38,7 +38,7 @@ function renderSourceHtml(comment, annotation, headingLevel, text, replyHtml) {
 	const kind = KIND_LABELS[String(annotation.kind || '')] || 'Torah Source';
 	const descriptor = [kind, annotation.language].filter(Boolean).join(' · ');
 	const heading = `${escapeHtml(annotation.name)}${descriptor ? ` <small>${escapeHtml(descriptor)}</small>` : ''}`;
-	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment data-awtsmoos-torah-source><h${headingLevel}>${heading}</h${headingLevel}><p>${escapeHtml(text || annotation.name || 'Torah source')}</p><p><a href="${commentUrl(comment)}">Canonical source</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
+	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment data-awtsmoos-torah-source><h${headingLevel}>${heading}</h${headingLevel}><p>${escapeHtmlWithFootnoteSup(text || annotation.name || 'Torah source')}</p><p><a href="${commentUrl(comment)}">Canonical source</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
 }
 
 /** Renders one ordinary community comment with its social author link. */
@@ -47,7 +47,7 @@ function renderCommunityHtml(comment, headingLevel, text, replyHtml) {
 	const authorHtml = comment.aliasId
 		? `<a href="/@${encodeSegment(comment.aliasId)}">${escapeHtml(author)}</a>`
 		: escapeHtml(author);
-	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment><h${headingLevel}>Comment by ${authorHtml}</h${headingLevel}><p>${escapeHtml(text || 'Public comment')}</p><p><a href="${commentUrl(comment)}">Canonical comment</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
+	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment><h${headingLevel}>Comment by ${authorHtml}</h${headingLevel}><p>${escapeHtmlWithFootnoteSup(text || 'Public comment')}</p><p><a href="${commentUrl(comment)}">Canonical comment</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
 }
 
 /** Renders one public source/comment preview and any already-bounded reply children. */

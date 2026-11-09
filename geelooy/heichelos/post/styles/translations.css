@@ -162,6 +162,19 @@
 	font-weight: 700;
 }
 
+/* B"H 2026-11-09: the server-rendered community/translation fragments below
+   the reader (annotations aside) carry the same plain-digit footnote numbers
+   as the translation API did; the server now wraps them in <sup>, and this
+   rule gives them the same small gold superscript treatment as the reader
+   body (0.62em, super, gold, 700). */
+.post-reader-localized-context [data-awtsmoos-indexed-annotations] sup {
+	font-size: 0.62em;
+	vertical-align: super;
+	line-height: 0;
+	color: var(--awt-gold, var(--law8-gold));
+	font-weight: 700;
+}
+
 /* B"H — Hidden translations: :root prefix (0,2,0+) hides without. */
 :root .post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
 	display: none;

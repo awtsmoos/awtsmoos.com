@@ -34,6 +34,13 @@
 	}
 }
 
+[data-awtsmoos-translation-page] sup {
+	font-size: 0.62em;
+	vertical-align: super;
+	color: var(--awt-gold, var(--law8-gold, #b8860b));
+	font-weight: 700;
+}
+
 [data-awtsmoos-translation-page] a {
 	border-radius: .25rem;
 	padding: .1em .3em;

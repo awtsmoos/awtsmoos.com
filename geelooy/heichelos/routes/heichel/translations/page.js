@@ -26,7 +26,7 @@ const {
  * health gate treats its :hover/:active rules like the rest of the site's
  * linked stylesheets. The body hook below scopes every rule to this template.
  */
-const TRANSLATION_PAGE_CSS = '<link rel="stylesheet" href="/style/translations.css?v=translations-001" data-awtsmoos-translation-page-style>';
+const TRANSLATION_PAGE_CSS = '<link rel="stylesheet" href="/style/translations.css?v=translations-002" data-awtsmoos-translation-page-style>';
 
 /** Returns a noindex 404 when a public translation collection cannot be proven. */
 function missingPage() {
