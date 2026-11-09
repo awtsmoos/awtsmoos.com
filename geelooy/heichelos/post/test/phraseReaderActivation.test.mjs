@@ -11,11 +11,23 @@
  */
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
 import {
 	alignedPhrasesCoverPost,
 	buildPhraseTranslations,
 	extractPostFootnotes
 } from "../translations/phraseReaderActivation.js";
+
+// B"H — the dynamic import path must resolve to a real file. A wrong
+// relative path 404s in the browser and the sefer silently never mounts.
+test("dynamic import of MeluketSeferReader resolves to an existing file", () => {
+	const src = readFileSync(new URL("../translations/phraseReaderActivation.js", import.meta.url), "utf8");
+	const m = src.match(/await import\(\s*"([^"]+MeluketSeferReader\.js[^"]*)"/);
+	assert.ok(m, "phraseReaderActivation.js must dynamically import MeluketSeferReader.js");
+	const specifier = m[1].split("?")[0];
+	const resolved = new URL(specifier, new URL("../translations/phraseReaderActivation.js", import.meta.url));
+	assert.ok(existsSync(resolved), "MeluketSeferReader.js must exist at " + resolved.pathname);
+});
 
 const POST = { id: "BH_POST_TEST", postId: "BH_POST_TEST", content: "" };
 
