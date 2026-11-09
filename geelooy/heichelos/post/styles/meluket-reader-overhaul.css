@@ -126,6 +126,10 @@
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--en {
 	border-radius: 0.6rem;
 	transition: background-color 0.25s ease;
+	/* B"H — Coby Nov 10: the English gloss is smaller than the Hebrew it
+	   translates, so the Hebrew stays the main text. */
+	font-size: 0.68em;
+	line-height: 1.45;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he:hover + .meluket-phrase--en {
 	background-color: var(--over-wash);

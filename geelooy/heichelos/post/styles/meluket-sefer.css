@@ -1597,3 +1597,36 @@
     0 -0.5rem 3rem rgba(0, 0, 0, 0.25),
     0 0 60px rgba(232, 185, 35, 0.06);
 }
+
+/* B"H — Coby Nov 10: Sources sheet legibility + overlap fixes.
+   The sheet is a light paper card, so its text is explicit dark ink —
+   the page-theme --sefer-ink variable resolves to cream on this phone
+   and made the selected tab white-on-cream. */
+.awtsmoos-src-tab {
+  white-space: nowrap;
+}
+.awtsmoos-src-sheet .awtsmoos-src-tab,
+.awtsmoos-src-sheet .awtsmoos-src-tab[aria-selected="true"] {
+  color: #2b2118;
+}
+.awtsmoos-src-sheet .awtsmoos-src-tab[aria-selected="true"] {
+  background: #efe4cd;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-text,
+.awtsmoos-src-sheet .awtsmoos-src-preview,
+.awtsmoos-src-sheet .awtsmoos-src-title {
+  color: #2b2118;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-item {
+  background: none;
+}
+/* B"H — room for the fixed Aa button, so the last list items scroll clear. */
+.awtsmoos-src-list {
+  padding-bottom: 7rem;
+}
+/* B"H — hide the fixed "N online" launcher pill while the sheet is open,
+   so it never covers the sheet's close button. */
+body.awtsmoos-src-open .universal-chat-launcher,
+body.awtsmoos-src-open .universal-chat-floating-launcher {
+  display: none;
+}

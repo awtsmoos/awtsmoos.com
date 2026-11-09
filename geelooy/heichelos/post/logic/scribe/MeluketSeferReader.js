@@ -28,8 +28,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=e1b9fff44d'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=e28d530e4'],
+	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=d64138cdfb'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=fec210af89'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
 ];
 
@@ -1110,14 +1110,18 @@ function renderSourcesSections(post, sections) {
 
 function sourcesFootnoteText(fn) {
 	// B"H — Yaakov 2026-10-15: Handle both DOM elements and API data objects.
+	// Coby Nov 10: the footnote list must show the HEBREW first — English
+	// was winning and the Hebrew never showed.
 	let raw;
 	if (fn && typeof fn === 'object' && !(fn instanceof Element)) {
-		// API object: {n, hebrew, english, ...}
-		raw = String(fn.english || fn.hebrew || fn.text || '').replace(/\s+/g, ' ').trim();
+		// API object: {n, hebrew, english, ...} — Hebrew first, then English.
+		const he = String(fn.hebrew || '').replace(/\s+/g, ' ').trim();
+		const en = String(fn.english || fn.text || '').replace(/\s+/g, ' ').trim();
+		raw = he && en ? he + ' — ' + en : (he || en);
 	} else {
 		raw = String(fn.textContent || '').replace(/\s+/g, ' ').trim();
 	}
-	return raw.length > 140 ? raw.slice(0, 140) + '…' : raw;
+	return raw.length > 200 ? raw.slice(0, 200) + '…' : raw;
 }
 
 function sourcesFootnoteNum(fn, index) {
@@ -1272,6 +1276,9 @@ function openSourcesSheet(post, sefer) {
 	srcOverlayEl.classList.add('is-open');
 	srcSheetEl.classList.add('is-open');
 	srcOpen = true;
+	// B"H — hide the fixed "N online" launcher pill while the sheet is
+	// open, so it never covers the sheet's close button.
+	try { document.body.classList.add('awtsmoos-src-open'); } catch (_) { /* best effort */ }
 	const btn = document.getElementById('commentaryBtn');
 	if (btn) {
 		btn.classList.add('pushed');
@@ -1286,6 +1293,7 @@ function closeSourcesSheet() {
 	srcOverlayEl.classList.remove('is-open');
 	srcSheetEl.classList.remove('is-open');
 	srcOpen = false;
+	try { document.body.classList.remove('awtsmoos-src-open'); } catch (_) { /* best effort */ }
 	const btn = document.getElementById('commentaryBtn');
 	if (btn) {
 		btn.classList.remove('pushed');
@@ -1855,43 +1863,14 @@ export function awakenPhraseTranslationReader(post) {
 			: (secSummaryRaw && (secSummaryRaw.detailed || secSummaryRaw.short)) || '';
 		return { index, sectionId, items, englishText, sectionSummary };
 	});
-	// Render the first 3 sections synchronously (above the fold), then stream the rest.
-	const FIRST_PAINT_COUNT = 3;
-	for (let i = 0; i < Math.min(FIRST_PAINT_COUNT, sectionQueue.length); i++) {
-		const s = sectionQueue[i];
+	// B"H — Coby Nov 10: the sefer must land all at once, simple and fast.
+	// Render EVERY section synchronously before mounting — no streaming.
+	// 7 sections / 271 phrases is small; the idle-callback drip is what
+	// made the page feel like it "keeps loading big sections".
+	for (const s of sectionQueue) {
 		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
 	}
-	// Mount immediately so the user sees content, then stream remaining sections.
+	// Mount the complete sefer.
 	finalizeSeferMount(sefer, post);
-	let queueIdx = FIRST_PAINT_COUNT;
-	function renderNextChunk(deadline) {
-		const start = Date.now();
-		// Render sections until we run out of idle time or hit 50ms max.
-		while (queueIdx < sectionQueue.length) {
-			if (deadline && deadline.timeRemaining() <= 0 && Date.now() - start > 50) break;
-			const s = sectionQueue[queueIdx++];
-			try {
-				sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
-			} catch (e) {
-				console.warn('B"H section render failed', s.sectionId, e);
-			}
-			// Yield every 5 sections even with time remaining (keep UI responsive).
-			if ((queueIdx - FIRST_PAINT_COUNT) % 5 === 0) break;
-		}
-		if (queueIdx < sectionQueue.length) {
-			if (typeof requestIdleCallback === 'function') {
-				requestIdleCallback(renderNextChunk, { timeout: 1000 });
-			} else {
-				setTimeout(() => renderNextChunk(null), 0);
-			}
-		}
-	}
-	if (queueIdx < sectionQueue.length) {
-		if (typeof requestIdleCallback === 'function') {
-			requestIdleCallback(renderNextChunk, { timeout: 1000 });
-		} else {
-			setTimeout(() => renderNextChunk(null), 0);
-		}
-	}
 	return true;
 }
