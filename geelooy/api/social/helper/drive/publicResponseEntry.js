@@ -6,16 +6,16 @@
 /**
  * @module publicResponseEntry
  * @description
- * Public entry, hash and immutable entry responses. Public reads take
- * no transfer lease and pass no quota gate: one serving, one single
- * accounting mutation (accountPublicDownload) replaces the old
- * begin+finish pair of locked full-state rewrites. Validators answer
- * before the object is read, so a 304 costs no object disk I/O.
+ * Public entry, hash and immutable entry responses. Public reads are
+ * served straight from the object store: no transfer lease, no per-request
+ * quota gate, and no locked state rewrite on the request path (see
+ * publicDownloadAccounting for the aggregated off-path accounting).
+ * Validators answer before the object is read, so a 304 costs no disk I/O.
  */
 
 const { readObject } = require('./objectRepository.js');
 const { readDriveState } = require('./stateRepository.js');
-const { accountPublicDownload } = require('./usageService.js');
+const { notePublicDownload } = require('./publicDownloadAccounting.js');
 const {
 	etagForHash,
 	isNotModified
@@ -55,7 +55,7 @@ async function buildMeteredResponse(options, method) {
 	const entry = options.entry;
 	const etag = etagForHash(entry.objectHash);
 	if (isNotModified(options.headers, etag, entry.updatedAt)) {
-		await accountPublicDownload(options.aliasId, 0, options.$i);
+		notePublicDownload(options.aliasId, 0, options.$i);
 		return { statusCode: 304, headers: commonHeaders(entry, etag), response: Buffer.alloc(0) };
 	}
 	const fullBody = await readObject(options.aliasId, entry.objectHash, options.$i);
@@ -66,7 +66,7 @@ async function buildMeteredResponse(options, method) {
 	const headers = commonHeaders(truthfulEntry, etag);
 	const selected = selectBody(fullBody, options.headers, headers);
 	const responseBytes = method === 'HEAD' ? 0 : selected.body.length;
-	await accountPublicDownload(options.aliasId, responseBytes, options.$i);
+	notePublicDownload(options.aliasId, responseBytes, options.$i);
 	headers['Content-Length'] = String(selected.body.length);
 	return {
 		statusCode: selected.statusCode,
