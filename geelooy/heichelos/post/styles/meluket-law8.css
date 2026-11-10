@@ -447,7 +447,7 @@ section[data-awtsmoos-unit].is-reading,
 	display: block;
 	direction: rtl;
 	text-align: right;
-	font-family: "Frank Ruhl Libre", "Noto Serif Hebrew", serif;
+	font-family: "David Libre", "Frank Ruhl Libre", serif;
 }
 .awtsmoos-src-sheet .awtsmoos-src-fn-en {
 	display: block;

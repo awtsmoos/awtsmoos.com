@@ -105,7 +105,7 @@
 }
 
 .meluket-sefer-active .meluket-sefer-title-he {
-	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size, 3rem) * 2.2);
 	line-height: 1.25;
 	color: var(--sefer-title-ink);
@@ -270,7 +270,7 @@
    sefer's 1.45 at (0,2,0) simply lost to the Dream 1.85. Scoped to
    (0,4,0) with real descendant spaces, so the sefer file governs. */
 :root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--he {
-	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: var(--sefer-phrase-size);
 	font-weight: 700;
 	/* B"H 2026-11-10 round 6: line-height 1.9 left ~50px of dead air under
@@ -362,7 +362,7 @@
 	min-width: 0;
 }
 .awtsmoos-initial-unit-he {
-	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1));
 	font-weight: 700;
 	text-align: right;
@@ -386,7 +386,7 @@
 /* ---------- Hebrew vessel : RTL by default, nikkud-safe ----------
    (Legacy container — kept for any non-interleaved render path.) */
 .meluket-sefer-active .meluket-hebrew {
-	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size, 3rem) * var(--hebrew-optical, 1));
 	line-height: 1.9;
 	color: var(--sefer-ink);
@@ -554,7 +554,7 @@
 }
 
 .meluket-sefer-active .meluket-qa-title {
-	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", Georgia, serif;
 	/* B"H — Yaakov 2026-10-15: Q&A scales with Aa, subordinate to body. */
 	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.62);
 	color: var(--sefer-title-ink);
@@ -600,7 +600,7 @@
 }
 
 .meluket-sefer-active .meluket-footnotes-title {
-	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", Georgia, serif;
 	/* B"H — Yaakov 2026-10-15: scales with Aa, stays a title above body text. */
 	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.15);
 	color: var(--sefer-title-ink);
@@ -659,7 +659,7 @@
 
 .meluket-sefer-active .meluket-footnote-he {
 	display: block;
-	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-family: "David Libre", "Frank Ruhl Libre", Georgia, serif;
 	/* B"H 2026-11-10 — Hebrew and English are the exact same size,
 	   footnotes included: no optical multiplier here. */
 	font-size: 1em;
