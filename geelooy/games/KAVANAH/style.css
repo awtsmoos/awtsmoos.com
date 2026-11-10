@@ -110,7 +110,8 @@ body {
 	transform: scale(0.97);
 }
 
-.hidden {
+.hidden,
+#teachings-screen.hidden {
 	display: none;
 }
 
