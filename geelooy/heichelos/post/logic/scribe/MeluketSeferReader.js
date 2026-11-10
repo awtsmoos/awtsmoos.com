@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=68c694429d'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=595605ac4d'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=38ec0cf94c'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
 ];
 
@@ -1032,9 +1032,20 @@ function buildSourcesSheetContent(post, sefer) {
 	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
 	// B"H — Yaakov 2026-10-15: Use post.footnotes array (API data), not DOM query.
 	// The DOM may not have all footnotes rendered; the API array is authoritative.
+	// B"H 2026-11-10 round 6: when the API data has not arrived yet the
+	// sheet said "0 footnotes" / "No footnotes in this post" even though
+	// the markers (1–64) were already in the text — the dialog looked
+	// broken on a fresh load. Fall back to the shelf, then to the gold
+	// <sup> markers in the sefer itself (number + the phrase they sit in,
+	// so the list is never empty while the API is still loading).
 	const footnotes = Array.isArray(post.footnotes) && post.footnotes.length
 		? post.footnotes
-		: Array.from(sefer.querySelectorAll('.meluket-footnote'));
+		: (Array.from(sefer.querySelectorAll('.meluket-footnote')).length
+			? Array.from(sefer.querySelectorAll('.meluket-footnote'))
+			: Array.from(sefer.querySelectorAll('.meluket-fn-marker')).map((m) => {
+				const phrase = m.closest('.meluket-phrase');
+				return { n: m.dataset.fn || m.textContent.trim(), _marker: m, _context: phrase ? String(phrase.textContent || '').replace(/\s+/g, ' ').trim() : '' };
+			}));
 	// Cache for tab switching.
 	srcCachedData = { post, sefer, sections, footnotes };
 
@@ -1183,16 +1194,22 @@ function sourcesFootnoteText(fn) {
 	// B"H — Yaakov 2026-10-15: Handle both DOM elements and API data objects.
 	// Coby Nov 10: the footnote list must show the HEBREW first — English
 	// was winning and the Hebrew never showed.
+	// B"H 2026-11-10 round 6 — Coby: footnote text must be as full as the
+	// rest. The 200-char cut hid most of every footnote. Show the whole
+	// body (the CSS clamp is gone too); the list is scrollable, so length
+	// costs nothing.
 	let raw;
 	if (fn && typeof fn === 'object' && !(fn instanceof Element)) {
 		// API object: {n, hebrew, english, ...} — Hebrew first, then English.
+		// Marker fallback: {_marker, _context} — the phrase the marker sits in.
+		if (fn._context) return fn._context;
 		const he = String(fn.hebrew || '').replace(/\s+/g, ' ').trim();
 		const en = String(fn.english || fn.text || '').replace(/\s+/g, ' ').trim();
 		raw = he && en ? he + ' — ' + en : (he || en);
 	} else {
 		raw = String(fn.textContent || '').replace(/\s+/g, ' ').trim();
 	}
-	return raw.length > 200 ? raw.slice(0, 200) + '…' : raw;
+	return raw;
 }
 
 function sourcesFootnoteNum(fn, index) {
@@ -1219,19 +1236,25 @@ function renderSourcesFootnotes(footnotes) {
 		txt.setAttribute('dir', 'auto');
 		btn.append(txt);
 		btn.addEventListener('click', () => {
+			// B"H 2026-11-10 round 6 — Coby: tapping a footnote did NOTHING
+			// visible. The old handler scrolled to the shelf and added a
+			// "flash" class whose animation is none (no animations on the
+			// reader, ever), so the tap looked dead. Now the tap does three
+			// plain things: it marks this item as the one you are reading
+			// (it stays open, full body, until you tap another), it closes
+			// the sheet, and it scrolls to the footnote in the text with a
+			// static gold highlight that stays until you tap another one.
+			srcListEl.querySelectorAll('.awtsmoos-src-fn-item.is-open').forEach(b => b.classList.remove('is-open'));
+			btn.classList.add('is-open');
 			closeSourcesSheet();
-			if (isDomEl) {
-				fn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-				fn.classList.add('awtsmoos-fn-flash');
-				setTimeout(() => fn.classList.remove('awtsmoos-fn-flash'), 1600);
-			} else {
-				// B"H — API data: try to find the DOM footnote by number.
-				const domFn = document.querySelector(`.meluket-footnote[data-fn="${num}"], #meluket-fn-${num}`);
-				if (domFn) {
-					domFn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-					domFn.classList.add('awtsmoos-fn-flash');
-					setTimeout(() => domFn.classList.remove('awtsmoos-fn-flash'), 1600);
-				}
+			// Marker fallback (API still loading): the target is the gold
+			// <sup> marker in the text itself. Otherwise the shelf item.
+			const target = isDomEl ? fn
+				: (document.querySelector(`.meluket-footnote[data-fn="${num}"], #meluket-fn-${num}`) || (fn && fn._marker) || null);
+			if (target) {
+				document.querySelectorAll('.awtsmoos-fn-active').forEach(n => n.classList.remove('awtsmoos-fn-active'));
+				target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				target.classList.add('awtsmoos-fn-active');
 			}
 		});
 		srcListEl.appendChild(btn);

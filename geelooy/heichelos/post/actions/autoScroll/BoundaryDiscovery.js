@@ -6,12 +6,19 @@
  * @description The Awtsmoos locates punctuation and semantic vessels at the
  * chosen eye line, letting measured rests arise from the actual rendered text.
  */
+/* B"H 2026-11-10 round 6 — Coby: auto-scroll must be CONTINUOUS smooth
+   scrolling, never stop-start. The boundary pauses (180–1100ms at every
+   sentence, paragraph, verse and heading) made the river stutter — at the
+   default Contemplate pace it stopped ~0.5s at every sentence and ~1.3s
+   at every verse. All pauses are zero now: the scroll is purely the
+   WPM-derived px/s, continuous. The pause mechanism stays (planner +
+   gate), so a future pace can reintroduce rests deliberately. */
 export const BOUNDARY_PAUSES = Object.freeze({
-	minor: 180,
-	sentence: 320,
-	paragraph: 520,
-	verse: 800,
-	heading: 1100
+	minor: 0,
+	sentence: 0,
+	paragraph: 0,
+	verse: 0,
+	heading: 0
 });
 const BLOCK_SELECTOR = 'h1, h2, h3, h4, h5, h6, [data-verse], [data-awtsmoos-sub], .sub-awtsmoos, .section, p, li, blockquote';
 const PUNCTUATION = /[,;:،؛.!?׃]/gu;

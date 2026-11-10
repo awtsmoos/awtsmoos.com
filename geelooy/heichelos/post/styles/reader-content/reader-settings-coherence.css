@@ -260,3 +260,33 @@
 	border-radius: 12px;
 	white-space: normal;
 }
+
+/* B"H 2026-11-10 round 6 — language toggle + chapter nav.
+   The "Hide English" toggle (the Hebrew-only lang button) rendered white
+   text on a near-white pill wherever it sits outside #typographyDetails
+   (the panel pin above does not reach it), and the chapter nav links
+   ("· Chapter 10" / "· Chapter 12") are pale light blue on white — the
+   nav container's color does not cascade into its <a> elements, which
+   take the blue accent. Pin both, variable-free, in both themes. */
+.post-reader-localized-context .meluket-lang-btn {
+	background: #fffdf6;
+	border: 2px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context .meluket-lang-btn.is-active {
+	background: #bd8f3f;
+	border-color: #bd8f3f;
+	color: #211809;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-nav a {
+	color: #2b2118;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-nav a:hover {
+	color: #8a6d2b;
+}
+[data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a {
+	color: #f5efe2;
+}
+[data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a:hover {
+	color: #d4a94e;
+}

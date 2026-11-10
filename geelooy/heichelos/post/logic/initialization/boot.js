@@ -83,7 +83,7 @@ export async function bootApplication() {
         // fetches now, in parallel with the post fetch; the transform below
         // awaits the module (already in flight) and the ownership result is
         // only needed for window.doesOwn, so it is awaited after the awaken.
-        const seferModulePromise = import("../scribe/MeluketSeferReader.js?v=5bf58e06cf");
+        const seferModulePromise = import("../scribe/MeluketSeferReader.js?v=9aa27b3ceb");
         const doesOwnPromise = checkOwnership(hId);
         // B"H 2026-11-10 round 5: build the sefer from the embedded phrases
         // NOW — the text is already in the HTML, no API wait. Runs in

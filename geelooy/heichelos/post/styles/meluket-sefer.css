@@ -96,8 +96,11 @@
 /* White fire: the title rests in generous emptiness before the teaching begins. */
 .meluket-sefer-active .meluket-sefer-title {
 	text-align: center;
-	padding: 2.5rem 1rem 1.5rem;
-	margin-bottom: 2rem;
+	/* B"H 2026-11-10 round 6: the title block's 2.5rem top + 1.5rem bottom
+	   + 2rem margin left a ~250px dead gap between the Contents bar and
+	   the first card. Tightened so the text starts promptly. */
+	padding: 1rem 1rem 0.75rem;
+	margin-bottom: 1rem;
 	border-bottom: 3px double var(--sefer-rule);
 }
 
@@ -246,7 +249,11 @@
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical));
 	font-weight: 700;
-	line-height: 1.9;
+	/* B"H 2026-11-10 round 6: line-height 1.9 left ~50px of dead air under
+	   every Hebrew line (the line box is far taller than the glyphs), which
+	   read as a 130–200px empty hole inside each card. 1.6 still clears
+	   nikkud and tightens the card. */
+	line-height: 1.6;
 	color: var(--sefer-ink);
 	/* B"H — right-aligned (not justified): text-align: justify with huge
 	   fonts causes severe layout thrashing on phones. Right alignment is
@@ -275,8 +282,12 @@
 	line-height: 1.7;
 	color: var(--sefer-ink);
 	border-top: 2px dashed var(--sefer-rule);
-	margin-top: 1em;
-	padding-top: 1em;
+	/* B"H 2026-11-10 round 6: the 1em margin + 1em padding above the English
+	   added ~114px of dead air inside every card (on top of the Hebrew
+	   line-height slack) — the 130–200px hole the visual check found.
+	   0.25em + 0.5em keeps the dashed rule breathing without the hole. */
+	margin-top: 0.25em;
+	padding-top: 0.5em;
 	direction: ltr;
 	/* B"H — prevent clipping on narrow screens. Words wrap whole. */
 	overflow-wrap: break-word;
@@ -1470,10 +1481,9 @@
   font-size: 0.88rem;
   line-height: 1.55;
   color: var(--sefer-ink, #2c2416);
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  /* B"H 2026-11-10 round 6 — Coby: footnote text must be as full as the
+     rest. The 3-line clamp + 200-char cut hid most of every footnote.
+     Show the whole body, no clamp, no truncation. */
 }
 /* Comments list */
 .awtsmoos-src-comment {
@@ -1525,12 +1535,18 @@
   }
 }
 
-/* B"H — Footnote jump flash (from Sources sheet). B"H 2026-11-10: animation
-   removed — the reader page carries no animations, ever. The jump still
-   scrolls to the footnote; only the flash is gone. */
-.awtsmoos-fn-flash {
+/* B"H — Footnote jump highlight (from Sources sheet). B"H 2026-11-10 round 6:
+   the old "flash" was an animation, and the reader page carries no
+   animations, ever — so the animation was set to none and tapping a
+   footnote did NOTHING visible. The highlight is now a plain static
+   background (no animation): it stays until the reader taps another
+   footnote or scrolls away, so the jump is always visible. */
+.awtsmoos-fn-flash,
+.awtsmoos-fn-active {
   animation: none;
   border-radius: 0.5rem;
+  background: rgba(184, 134, 11, 0.18);
+  outline: 1px solid rgba(184, 134, 11, 0.45);
 }
 @keyframes awtsmoos-fn-flash {
   0%, 100% { background: transparent; }
@@ -1677,4 +1693,84 @@
 body.awtsmoos-src-open .universal-chat-launcher,
 body.awtsmoos-src-open .universal-chat-floating-launcher {
   display: none;
+}
+
+/* ==========================================================================
+ * B"H 2026-11-10 round 6 — PRINT: Coby: "print as pdf is really bad,
+ * should be black text on white, plain." The reader renders a dark
+ * sanctuary theme on screen (dark cards, gold text); the print stylesheet
+ * never existed, so the PDF came out black-on-gold. Print is plain paper:
+ * black ink on white, no backgrounds, no shadows, no chrome (dock,
+ * floating buttons, nav, settings, related posts, comments, Sources
+ * sheet). The sefer text + footnotes print in full, both languages.
+ * No !important — the print rules win by being the only rules in the
+ * print cascade that set these properties on these elements.
+ * ========================================================================== */
+@media print {
+  :root,
+  html,
+  body,
+  .post-reader-localized-context,
+  .meluket-sefer-active,
+  .meluket-sefer-active .meluket-sefer,
+  .meluket-sefer-active .meluket-sefer-section,
+  .meluket-sefer-active .meluket-phrase-pair,
+  .meluket-sefer-active .meluket-phrase--he,
+  .meluket-sefer-active .meluket-phrase--en,
+  .meluket-sefer-active .meluket-sefer-title,
+  .meluket-sefer-active .meluket-post-summary,
+  .meluket-sefer-active .meluket-footnotes-shelf,
+  .meluket-sefer-active .meluket-footnote {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  .meluket-sefer-active .meluket-phrase--he,
+  .meluket-sefer-active .meluket-phrase--en,
+  .meluket-sefer-active .meluket-sefer-title-he,
+  .meluket-sefer-active .meluket-footnote-body,
+  .meluket-sefer-active .meluket-footnote-he,
+  .meluket-sefer-active .meluket-footnote-en,
+  .meluket-sefer-active .meluket-post-summary,
+  .meluket-sefer-active .meluket-summary {
+    color: #000000;
+  }
+  .meluket-sefer-active .meluket-phrase--en {
+    border-top-color: #000000;
+  }
+  .meluket-sefer-active .meluket-sefer-section {
+    border: 1px solid #999999;
+    break-inside: avoid;
+  }
+  .meluket-sefer-active .meluket-phrase-pair {
+    break-inside: avoid;
+  }
+  .meluket-sefer-active .meluket-section-number,
+  .meluket-sefer-active .meluket-footnote-num,
+  .meluket-sefer-active .meluket-fn-marker {
+    color: #000000;
+    background: #ffffff;
+    border-color: #000000;
+  }
+  /* Hide everything that is not the reading itself. */
+  .awtsmoos-dock,
+  .awtsmoos-reader-dock,
+  #typographyBtn,
+  #commentaryBtn,
+  #typographyDetails,
+  #readerInfoPanel,
+  .awtsmoos-src-sheet,
+  .awtsmoos-src-overlay,
+  .awtsmoos-chapter-nav,
+  .related-posts,
+  .related-posts-slot,
+  .meluket-lang-toggle,
+  .universal-chat-launcher,
+  .universal-chat-floating-launcher,
+  .awtsmoos-auto-scroll,
+  .reader-index,
+  .meluket-qa {
+    display: none;
+  }
 }
