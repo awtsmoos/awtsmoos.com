@@ -354,7 +354,7 @@
    equal at every size. */
 .awtsmoos-initial-unit-he,
 .awtsmoos-initial-unit-en {
-	font-size: var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem));
+	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * 1.6);
 	line-height: 1.8;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
@@ -446,7 +446,7 @@
    (Legacy section-level fallback — kept for posts without phrase data.) */
 .meluket-sefer-active .meluket-english {
 	font-family: "Source Serif 4", Georgia, serif;
-	font-size: var(--sefer-phrase-size, 2.4rem);
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.6);
 	line-height: 1.7;
 	color: var(--sefer-ink-soft);
 	border-top: 4px dashed var(--sefer-rule);
@@ -487,7 +487,7 @@
 	margin-top: 0;
 	padding-top: 0;
 	color: var(--sefer-ink);
-	font-size: var(--sefer-phrase-size, 2.4rem);
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.6);
 }
 
 /* English-only mode: interleaved English phrases grow, no dashed rule. */
@@ -497,7 +497,7 @@
 	margin-top: 0;
 	padding-top: 0;
 	color: var(--sefer-ink);
-	font-size: var(--sefer-phrase-size, 2.4rem);
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.6);
 }
 
 /* ---------- Summaries ---------- */
