@@ -63,10 +63,15 @@ async function send($i, identity, route, operation, permission, params) {
 		autoPreview: false }, identity, route);
 	const vessel = resolveFsVessel({ $i, identity, tunnelName: route,
 		payload, permission, timeoutMs: 120000 });
-	if (!vessel?.ok) {
-		const error = new Error(vessel?.body?.error || vessel?.error || "device_route_unavailable");
-		error.status = vessel?.status || 409;
-		error.details = vessel?.body || vessel;
+	// Vessels are dispatch handles ({kind, send()}), never result objects:
+	// error vessels carry their testimony inside send()'s result, exactly as
+	// protectedFs consumes them. Gating on a result field here made every
+	// device-pumped transfer fail with device_route_unavailable.
+	if (vessel?.kind === "missing-tunnel") {
+		const result = await vessel.send().catch(() => null);
+		const error = new Error(result?.error || "device_route_unavailable");
+		error.status = result?.status || 409;
+		error.details = result;
 		throw error;
 	}
 	return vessel.send();

@@ -14,10 +14,27 @@ const { currentIdentity } = require("../../core/auth.js");
 
 /** Returns merged GET and POST parameter carriers. */
 function parameters(context) {
-	return {
+	// The production derech context carries parsed carriers as $_GET/$_POST
+	// (TemplateObjectGenerator); paramKinds exists only in unit-test fakes.
+	// Reading paramKinds alone dropped every production parameter, so create
+	// always minted the default preview and revoke/update could find nothing.
+	const merged = {
 		...(context?.paramKinds?.GET || {}),
-		...(context?.paramKinds?.POST || {})
+		...(context?.$_GET || {}),
+		...(context?.paramKinds?.POST || {}),
+		...(context?.$_POST || {})
 	};
+	// The Tunnel Control UI ships the whole descriptor as one preview64
+	// carrier (base64 JSON); decode it into fields so the shipped UI works.
+	if (merged.preview64) {
+		const decoded = parseJson(from64(merged.preview64), null);
+		if (decoded && typeof decoded === "object") {
+			for (const [field, value] of Object.entries(decoded)) {
+				if (merged[field] === undefined) merged[field] = value;
+			}
+		}
+	}
+	return merged;
 }
 
 /** Parses one JSON carrier or returns the supplied fallback. */
