@@ -83,6 +83,26 @@
 	background: #fffdf6;
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
+	max-inline-size: 100%;
+}
+/* B"H 2026-11-10, visual check after deploy: the readout pill ("45 WPM ·
+   Contemplate · 3 px/s") is long, and on a 390px panel its flex row ran
+   out of room — the pill crowded the "Reading flow speed" label. Let the
+   row wrap so the pill drops to its own line instead of squeezing. */
+.post-reader-localized-context #typographyDetails .speed-readout-row {
+	flex-wrap: wrap;
+}
+.post-reader-localized-context #typographyDetails .speed-readout-row > span {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+/* Belt and braces for the same pill: same pin scoped to the panel's
+   content wrapper, in case the panel is ever rendered outside
+   #typographyDetails. */
+.post-reader-localized-context .typography-content #autoScrollSpeedDisplay {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
 }
 .post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle {
 	background: #fffdf6;
@@ -163,4 +183,29 @@
 	.post-reader-localized-context #typographyDetails .typography-content {
 		padding-inline: 12px;
 	}
+}
+
+/* B"H 2026-11-10, visual check after deploy: the "i" Reading guide dialog
+   (#readerInfoPanel) has the same white-on-white defect the settings panel
+   had — its action buttons are white text on near-white pills, effectively
+   invisible, and its Close button too. Same treatment: dark ink on a light
+   pill, variable-free, so it reads in either theme. */
+.post-reader-localized-context #readerInfoPanel {
+	background: #f9f4ea;
+	color: #2b2118;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-heading h2 {
+	color: #2b2118;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-actions button,
+.post-reader-localized-context #readerInfoPanel #readerInfoClose,
+.post-reader-localized-context #readerInfoPanel #readerInfoBack {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-actions a {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
 }

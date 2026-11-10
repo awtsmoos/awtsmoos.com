@@ -41,7 +41,15 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-3">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-2">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-3">
+	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
+	     via JS after mount, so first paint showed the preview in fallback
+	     styles and then visibly switched. These three links load them with
+	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
+	     them by id and does not inject duplicates. -->
+	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=68c694429d">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=907f2db3ab">
+	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=99b0f58a4">
 	<script>
 		try {
 			const theme = localStorage.getItem('awtsmoos-theme');
@@ -109,7 +117,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-019');
+				import('/heichelos/post/postLogic.js?v=reader-passive-020');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});
