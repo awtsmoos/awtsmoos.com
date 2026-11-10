@@ -17,7 +17,7 @@ const template = source('../_awtsmoos.post.html');
 const popover = source('../logic/listeners/PopoverGate.js');
 const primary = source('../logic/listeners/ReaderPrimarySurfaceGate.js');
 
-assert.match(template, /postLogic\.js\?v=reader-passive-030/);
+assert.match(template, /postLogic\.js\?v=reader-passive-031/);
 assert.match(popover, /ReaderPrimarySurfaceGate\.js\?v=reader-a11y-001/);
 assert.match(popover, /new TiferesReaderPrimarySurfaceGate\([\s\S]*ohrDocument/);
 assert.match(primary, /getElementById\?\.\('commentaryBtn'\)/);

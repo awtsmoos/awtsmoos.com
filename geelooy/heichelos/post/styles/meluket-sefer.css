@@ -1527,7 +1527,7 @@
    click handler adds .is-open, but no rule ever styled it — the marking
    existed only in the DOM. Now the row you are reading stays visibly
    marked (gold tint + gold left edge) until you tap another one. */
-.awtsmoos-src-fn-item.is-open {
+.awtsmoos-src-sheet .awtsmoos-src-fn-item.is-open {
   /* B"H round 12: the old 0.16 tint + left edge read as "only a gold
      accent on the row's left edge" at normal view — the tapped footnote
      must be unmistakable on reopen. Full gold fill now. */

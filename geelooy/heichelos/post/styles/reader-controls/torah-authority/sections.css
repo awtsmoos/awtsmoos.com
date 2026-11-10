@@ -38,7 +38,7 @@
 	background: rgba(255, 255, 255, .018);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]):not(.meluket-phrase):not(.meluket-hebrew) {
 	direction: rtl;
 	text-align: start;
 	line-height: 1.78;

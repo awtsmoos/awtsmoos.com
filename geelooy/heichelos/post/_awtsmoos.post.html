@@ -46,7 +46,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     paint already uses the stored size instead of the 144px default.
 	     Parser-blocking on purpose; the file is ~1KB, same origin. -->
 	<script src="/heichelos/post/logic/initialization/ReaderEarlyThemeBoot.js?v=reader-theme-20261028-2"></script>
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=6677e0d97c">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=b98a812f7b">
 	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=61817defef">
 	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
 	<link rel="stylesheet" href="/heichelos/post/comments/panel/commentaryMenu.css?v=commentary-menu-001">
@@ -54,12 +54,12 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/critical-shell.css?v=aeac4c6fcb">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/live-template.css?v=5627f3dda2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/mobile-reading.css?v=b07bbcf2e6">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/torah-authority.css?v=04a6028e35">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/torah-authority.css?v=6d10b58183">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/reader-recovery.css?v=95afb684f9">
 	<link rel="stylesheet" href="/heichelos/post/styles/law8/law8-post-reader.css?v=750a56f723">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-padding-fix.css?v=99b0f58a4-pad-001">
 	<link rel="stylesheet" href="/heichelos/post/styles/scroll-stability.css?v=99b0f58a4-stable-002">
-	<link rel="stylesheet" href="/heichelos/post/styles/passive-reader.css?v=reader-passive-005">
+	<link rel="stylesheet" href="/heichelos/post/styles/passive-reader.css?v=reader-passive-006">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/mobile-layout-stability.css?v=reader-layout-001">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-visual-stability.css?v=reader-visual-002">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-20261028-3">
@@ -68,13 +68,19 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-12">
+	<!-- B"H 2026-11-10 round 13 — comments.css was NEVER in the reader's
+	     bundle chain: rounds 10–12 wrote the Reply-pill rules here, but
+	     the page only loads the five bundles above, so no pill rule ever
+	     reached the browser. This link puts the shared comments sheet
+	     (and the (0,19,0) pill rule) into the bundle. -->
+	<link rel="stylesheet" href="/heichelos/post/styles/ideal/reborn/comments.css?v=a786bd8db9">
 	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
 	     via JS after mount, so first paint showed the preview in fallback
 	     styles and then visibly switched. These three links load them with
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
-	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513">
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=797934e1db">
+	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=5862879306">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=676bc3852a">
 	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=0199420043">
 	<script>
 		try {
@@ -92,7 +98,23 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     directly on THIS div, so it needs the same vars inline on
 		     itself before its children paint. Runs while parsing, before
 		     the sefer below is even read. -->
-		<script>try { window.__awtsmoosApplyEarlyScale && window.__awtsmoosApplyEarlyScale(document.currentScript.parentElement); } catch (e) {}</script>
+		<script>try { window.__awtsmoosApplyEarlyScale && window.__awtsmoosApplyEarlyScale(document.currentScript.parentElement); } catch (e) {}
+		/* B"H 2026-11-10 round 13 — back/forward-cache restore: the
+		   verifier's Chapter-12-then-back view came back with giant
+		   narrow-column text that never settled (cold loads are fine).
+		   On a persisted pageshow, re-apply the early scale and force
+		   every phrase pair to render once so the browser re-measures
+		   the content-visibility estimates before the restored scroll
+		   position is painted. */
+		window.addEventListener('pageshow', function (e) {
+			if (!e.persisted) return;
+			try {
+				window.__awtsmoosApplyEarlyScale && window.__awtsmoosApplyEarlyScale(document.documentElement);
+				var pairs = document.querySelectorAll('.meluket-phrase-pair');
+				pairs.forEach(function (p) { p.style.contentVisibility = 'visible'; });
+				setTimeout(function () { pairs.forEach(function (p) { p.style.contentVisibility = ''; }); }, 1500);
+			} catch (err) {}
+		});</script>
 		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
 		<div class="main">
 			<div class="scroll-view-wrapper">
@@ -149,7 +171,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-030');
+				import('/heichelos/post/postLogic.js?v=reader-passive-031');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

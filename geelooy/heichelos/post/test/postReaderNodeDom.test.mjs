@@ -29,7 +29,7 @@ const previewPath = '/heichelos/post/styles/reader-content/server-preview.css';
 
 assert.ok(has('post-reader-localized-context'), 'reader root missing');
 assert.ok(hasAsset(`${criticalPath}?v=`), 'versioned critical css missing');
-assert.ok(hasAsset('/heichelos/post/styles/passive-reader.css?v=reader-passive-005'));
+assert.ok(hasAsset('/heichelos/post/styles/passive-reader.css?v=reader-passive-006'));
 assert.ok(hasAsset('/heichelos/post/styles/reader-controls/live-template.css?v='));
 assert.match(html, /\/heichelos\/post\/postLogic\.js\?v=[^"']+/);
 assert.ok(has('id="realPost"'), 'realPost vessel missing');

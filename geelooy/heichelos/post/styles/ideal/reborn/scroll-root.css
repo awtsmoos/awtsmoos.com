@@ -50,9 +50,9 @@ width: 100%;
     align-items: center;
                                                                             
     padding-top: 10vh; 
-    padding-bottom: 40vh;
+    padding-bottom: 2rem;
     isolation: isolate;
-padding-block-start: clamp(9rem, 24vh, 17rem);
+padding-block-start: 1rem;
     scroll-padding-block-start: clamp(10rem, 28vh, 20rem);
 scroll-padding-top: clamp(12rem, 28vh, 22rem);
 scroll-behavior: smooth;

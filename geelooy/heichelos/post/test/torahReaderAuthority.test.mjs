@@ -21,7 +21,7 @@ const controls = read(`${root}/torah-authority/controls.css`);
 
 test('Torah reader authority owns the final cascade', () => {
 	assert.ok(template.indexOf('torah-authority.css') > template.indexOf('mobile-reading.css'));
-	assert.match(template, /reader-final-005/);
+	assert.match(manifest, /sections\.css\?v=reader-final-006/);
 });
 
 test('Torah reader authority remains modular and bounded', () => {

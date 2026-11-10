@@ -64,6 +64,15 @@ export class SemanticPaceEngine {
 		if (!this.metrics || now - this.lastRefresh >= REFRESH_INTERVAL_MS) {
 			return this.calibrate(currentTop, now);
 		}
+		/* B"H round 13 — a clamped 640 px/s means the first calibration ran
+		   on degenerate density (content not yet rendered); the label shows
+		   640 until the 10s refresh. Recalibrate early (at most once a
+		   second) while the value is still clamped, so the label corrects
+		   in ~1s instead of ~10s. Bounded: the 1s gate keeps the expensive
+		   full-post recalibration from running every frame. */
+		if (this.pixels >= MAXIMUM_PIXELS_PER_SECOND && now - this.lastRefresh >= 1000) {
+			return this.calibrate(currentTop, now);
+		}
 		return this.snapshot();
 	}
 	pauseForCrossing(before, after, now = Date.now()) {

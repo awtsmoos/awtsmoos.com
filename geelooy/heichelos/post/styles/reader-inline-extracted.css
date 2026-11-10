@@ -1758,7 +1758,7 @@
 			color: var(--sefer-ink-soft);
 		}
 		:root .post-reader-localized-context .meluket-phrase {
-			margin-block-end: 0.35em;
+			margin-block-end: 0.05em;
 		}
 
 		/* ---------- Q&A ---------- */

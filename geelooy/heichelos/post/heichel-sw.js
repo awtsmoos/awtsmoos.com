@@ -17,9 +17,9 @@ const PAGES_CACHE = CACHE_VERSION + '-pages';
 const PRECACHE_URLS = [
   '/heichelos/post/styles/meluket-sefer.css',
   '/heichelos/post/styles/reader-controls/torah-authority/settings-mobile.css',
-  '/heichelos/post/postLogic.js?v=reader-passive-030',
+  '/heichelos/post/postLogic.js?v=reader-passive-031',
   '/shared/MeaningfulActivity.js',
-  '/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-032',
+  '/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-033',
   '/heichelos/post/logic/initialization/ReaderBootState.js?v=reader-runtime-004',
   '/heichelos/post/logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-008',
   '/heichelos/post/logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005',
