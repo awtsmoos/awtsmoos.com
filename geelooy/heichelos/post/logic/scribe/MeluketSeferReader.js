@@ -863,6 +863,16 @@ function openFootnotePopup(fnNum, marker, sefer) {
 			[];
 		apiFn = apiFootnotes.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === String(fnNum)) || null;
 	}
+	// B"H 2026-11-10 — last fallback: the bodies live in the post's own
+	// content after the הערות: heading (the API array above is empty for
+	// these posts). Parse them so a tap shows the real note instead of
+	// "content not available".
+	if (!note && !apiFn) {
+		const content = (typeof window !== 'undefined' && window.post && window.post.content)
+			|| (srcCachedData && srcCachedData.post && srcCachedData.post.content) || '';
+		const parsed = parseContentFootnotes(content);
+		apiFn = parsed.find(fn => String(fn.n) === String(fnNum)) || null;
+	}
 	ensureFootnoteModal();
 	fnNumEl.textContent = fnNum;
 	fnBodyEl.innerHTML = '';
@@ -1580,8 +1590,9 @@ function isSourcesSheetOpen() {
 }
 
 /**
- * B"H — Yaakov 2026-10-15: Opens the Sources sheet directly to a specific tab.
- * Used by footnote <sup> markers in the reader text.
+ * B"H — Opens the Sources sheet directly to a specific tab.
+ * (Footnote markers open the popup directly since 2026-11-10; this
+ * helper remains for sheet callers that want a specific tab.)
  */
 function openSourcesToTab(post, sefer, tab) {
 	srcCurrentTab = tab;
@@ -1768,7 +1779,18 @@ function buildQaSection(enrichment) {
 
 /** Footnotes shelf — null when there are no footnotes. */
 function buildFootnotesShelf(post) {
-	const footnotes = Array.isArray(post?.footnotes) ? post.footnotes : [];
+	// B"H 2026-11-10 — the post API returns no footnotes field for these
+	// posts (see parseContentFootnotes), so a shelf built only from
+	// post.footnotes was always empty and openFootnotePopup had no
+	// .meluket-footnote to find. Fall back to the bodies parsed out of
+	// the post's own content, and number each note by its real footnote
+	// number (fn.n) instead of its list position, so data-fn on the
+	// shelf always matches data-fn on the marker that opens it.
+	let footnotes = Array.isArray(post?.footnotes) ? post.footnotes : [];
+	if (!footnotes.length) {
+		const parsed = parseContentFootnotes((post && post.content) || '');
+		if (parsed.length) footnotes = parsed;
+	}
 	if (!footnotes.length) return null;
 	const shelf = document.createElement('aside');
 	shelf.className = 'meluket-footnotes-shelf';
@@ -1779,13 +1801,14 @@ function buildFootnotesShelf(post) {
 	const list = document.createElement('ol');
 	list.className = 'meluket-footnotes-list';
 	footnotes.forEach((fn, idx) => {
+		const fnNum = String((fn && (fn.n ?? fn.num ?? fn.number)) ?? (idx + 1));
 		const li = document.createElement('li');
 		li.className = 'meluket-footnote';
-		li.id = `meluket-fn-${idx + 1}`;
-		li.setAttribute('data-fn', String(idx + 1));
+		li.id = `meluket-fn-${fnNum}`;
+		li.setAttribute('data-fn', fnNum);
 		const num = document.createElement('span');
 		num.className = 'meluket-footnote-num';
-		num.textContent = String(idx + 1);
+		num.textContent = fnNum;
 		li.appendChild(num);
 		const body = document.createElement('span');
 		body.className = 'meluket-footnote-body';
@@ -2124,9 +2147,12 @@ function finalizeSeferMount(sefer, post) {
 	// never contradicts the English visibly on the page.
 	try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 
-	// B"H — Yaakov 2026-10-15: Footnote markers open the Sources panel to the
-	// footnotes tab. Only <sup class="meluket-fn-marker"> triggers this; the
-	// shelf notes themselves are not triggers.
+	// B"H — Footnote markers open the footnote popup with that note's own
+	// text (never a scroll to the bottom, never the whole list). Only
+	// <sup class="meluket-fn-marker"> triggers this; the shelf notes
+	// themselves are not triggers. The live post (window.post) is
+	// preferred over the mount-time stub so the popup finds the bodies
+	// parsed from the post content.
 	sefer.addEventListener('click', (e) => {
 		const marker = e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn]') : null;
 		if (!marker) return;
@@ -2134,7 +2160,7 @@ function finalizeSeferMount(sefer, post) {
 		if (!fnNum) return;
 		e.preventDefault();
 		e.stopPropagation();
-		openSourcesToTab(post, sefer, 'footnotes');
+		openFootnotePopup(fnNum, marker, sefer);
 	});
 
 	// B"H (2026-10-13, Yaakov): document-level safety net. If a footnote

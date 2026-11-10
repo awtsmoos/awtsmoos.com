@@ -604,9 +604,12 @@
 	/* B"H — Yaakov 2026-10-15: scales with Aa, stays a title above body text. */
 	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.15);
 	color: var(--sefer-title-ink);
-	margin: 0 0 4rem;
-	padding-bottom: 2.4rem;
-	border-bottom: 8px solid var(--sefer-accent);
+	/* B"H 2026-11-10 — quiet hierarchy: the title rule was 8px thick with
+	   4rem of dead space under it. A sefer notes heading is a heading,
+	   not a monument. */
+	margin: 0 0 1rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 2px solid var(--sefer-accent);
 }
 
 .meluket-sefer-active .meluket-footnotes-list {
@@ -617,9 +620,12 @@
 
 .meluket-sefer-active .meluket-footnote {
 	display: flex;
-	gap: 3.6rem;
-	padding: 3.2rem 0;
-	border-bottom: 4px dotted var(--sefer-rule);
+	/* B"H 2026-11-10 — notes sit close under their number, like a printed
+	   sefer: 3.6rem gap / 3.2rem padding tore each note away from its
+	   number and from the next note. */
+	gap: 1rem;
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--sefer-rule);
 	/* B"H — Yaakov 2026-10-15: footnotes scale with Aa but stay subordinate
 	   to body text. */
 	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.72);
@@ -654,9 +660,10 @@
 .meluket-sefer-active .meluket-footnote-he {
 	display: block;
 	font-family: "Frank Ruhl Libre", Georgia, serif;
-	/* B"H — Yaakov 2026-10-15: Hebrew footnote keeps the optical multiplier
-	   so it looks the same size as the English footnote. */
-	font-size: calc(1em * var(--hebrew-optical, 1.3));
+	/* B"H 2026-11-10 — Hebrew and English are the exact same size,
+	   footnotes included: no optical multiplier here. */
+	font-size: 1em;
+	font-size-adjust: none;
 	color: var(--sefer-ink);
 	margin-bottom: 0.35rem;
 	direction: rtl;
@@ -1135,11 +1142,11 @@
 }
 .awtsmoos-fn-he {
   font-family: "Frank Ruhl Libre", "Taamey Frank CLM", "Noto Serif Hebrew", serif;
-  /* B"H (2026-10-13, Yaakov law): Hebrew must scale WITH the reader's Aa
-     size controls, not stay fixed. The 1.3x optical multiplier sits on top
-     of the dynamic --post-text-size so Hebrew and English stay visually
-     equal at every size. Falls back to 1rem outside the reader context. */
-  font-size: calc(var(--post-text-size, 1rem) * 1.3);
+  /* B"H 2026-11-10 — Hebrew scales WITH the reader's Aa size controls
+     and stays the exact same size as the English beside it: no optical
+     multiplier. Falls back to 1rem outside the reader context. */
+  font-size: var(--post-text-size, 1rem);
+  font-size-adjust: none;
   line-height: 1.9;
   color: var(--sefer-ink, #2c2416);
   margin: 0 0 0.7rem 0;

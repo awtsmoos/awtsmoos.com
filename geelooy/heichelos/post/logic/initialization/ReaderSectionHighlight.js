@@ -22,13 +22,51 @@ const INTERACTIVE_SELECTOR = [
 let initialized = false;
 let frameGate = null;
 let selectedPair = null;
+let selectedSection = null;
+let selectedSubs = [];
 
-/** Toggle a single CSS class; no text, dimensions, scroll or focus changes. */
+/**
+ * Toggle the reading classes; no text, dimensions, scroll or focus changes.
+ * B"H 2026-11-10 — the CSS contract in meluket-law8.css expects
+ * .is-reading on the section nearest the viewport middle and
+ * .is-reading-sub on the active Hebrew/English phrases, but this module
+ * only ever painted .is-pair-selected on the pair, so the section mark
+ * the stylesheet defines never appeared. Paint all three now: the pair
+ * keeps its existing selection class, its section gains .is-reading,
+ * and the pair's Hebrew and English blocks gain .is-reading-sub.
+ */
 function paintReaderPair(pair) {
 	if (selectedPair === pair) return pair;
 	selectedPair?.classList.remove('is-pair-selected');
+	for (const sub of selectedSubs) sub.classList.remove('is-reading-sub');
+	selectedSubs = [];
+	if (selectedSection) {
+		selectedSection.classList.remove('is-reading');
+		selectedSection = null;
+	}
 	selectedPair = pair;
-	pair?.classList.add('is-pair-selected');
+	if (pair) {
+		pair.classList.add('is-pair-selected');
+		const section = pair.closest('.meluket-sefer-section, .awtsmoos-initial-unit, section[data-awtsmoos-unit]');
+		if (section && section !== pair) {
+			section.classList.add('is-reading');
+			selectedSection = section;
+		} else if (section === pair) {
+			pair.classList.add('is-reading');
+			selectedSection = pair;
+		}
+		const subs = typeof pair.querySelectorAll === 'function'
+			? pair.querySelectorAll('.meluket-phrase--he, .meluket-phrase--en, .awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')
+			: [];
+		for (const sub of subs) {
+			sub.classList.add('is-reading-sub');
+			selectedSubs.push(sub);
+		}
+		if (!subs.length && typeof pair.matches === 'function' && pair.matches('.awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')) {
+			pair.classList.add('is-reading-sub');
+			selectedSubs.push(pair);
+		}
+	}
 	return pair;
 }
 
