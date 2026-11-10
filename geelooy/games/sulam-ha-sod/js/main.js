@@ -38,7 +38,6 @@ function awakenSulamHaSod() {
   ui.webcamBtn.addEventListener('click', () => toggleWebcam(ui, webcam));
   ui.confirmExit.addEventListener('click', () => confirmExit(ui, game));
   ui.cancelExit.addEventListener('click', () => { ui.exitConfirm.hidden = true; });
-  ui.instructionsBtn.addEventListener('click', () => { ui.instructions.hidden = !ui.instructions.hidden; });
   ui.levelsTab.addEventListener('click', () => ui.levelGrid.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   ui.shopTab.addEventListener('click', () => ui.shopGrid.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   ui.coinHelp.addEventListener('click', () => { ui.coinModal.hidden = false; });
