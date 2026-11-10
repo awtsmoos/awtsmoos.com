@@ -55,6 +55,10 @@
 	padding: 20px;
 }
 
+.partySetup[hidden] {
+	display: none;
+}
+
 .setupGrid {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -64,6 +68,10 @@
 .partyField {
 	display: grid;
 	gap: 7px;
+}
+
+.partyField[hidden] {
+	display: none;
 }
 
 .partyField label {

@@ -3,9 +3,11 @@
 // Blessed is He
 
 import {
+	hasRecordedScores,
 	recordAutomatedTurn,
 	recordCurrentTurn,
 	reloadCurrentTurn,
+	resetToSetup,
 	startChallenge
 } from "./challenge.mjs";
 import { dom } from "./dom.mjs";
@@ -24,10 +26,14 @@ installPartyResultBridge(recordAutomatedTurn);
 
 dom.setupForm.addEventListener("submit", event => {
 	event.preventDefault();
+	if (hasRecordedScores() && !window.confirm("Starting a new challenge will discard the current standings. Continue?")) {
+		return;
+	}
 	const values = setupValues();
 	renderGameSummary(values.game);
 	startChallenge(values);
 });
 
 dom.reloadTurn.addEventListener("click", reloadCurrentTurn);
+dom.newChallenge.addEventListener("click", resetToSetup);
 dom.recordTurn.addEventListener("click", recordCurrentTurn);

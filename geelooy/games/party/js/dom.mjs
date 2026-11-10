@@ -35,6 +35,7 @@ export const dom = Object.freeze({
 	scoreboard: byId("partyScoreboard"),
 	scoreRows: byId("scoreRows"),
 	winner: byId("partyWinner"),
+	newChallenge: byId("newChallenge"),
 	soloLink: byId("soloLink"),
 	gamesLink: byId("gamesLink")
 });

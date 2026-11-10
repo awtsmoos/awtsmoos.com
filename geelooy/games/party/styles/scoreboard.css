@@ -15,6 +15,10 @@
 	padding: 16px;
 }
 
+.partyScoreboard[hidden] {
+	display: none;
+}
+
 .partyScoreboard h2 {
 	margin: 0;
 	font-size: 1.35rem;

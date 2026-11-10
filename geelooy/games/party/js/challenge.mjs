@@ -27,8 +27,24 @@ export function startChallenge(config) {
 	dom.arena.hidden = false;
 	dom.scoreboard.hidden = false;
 	dom.winner.hidden = true;
+	dom.recordTurn.disabled = false;
+	dom.reloadTurn.disabled = false;
+	dom.turnScore.disabled = false;
 	renderStandings(session);
 	beginCurrentTurn();
+}
+
+/** Whether the active session already holds recorded results worth protecting. */
+export function hasRecordedScores() {
+	return Boolean(session && session.players.some(player => player.scores.length > 0));
+}
+
+/** Return to the setup panel so another challenge can be configured. */
+export function resetToSetup() {
+	dom.setupPanel.hidden = false;
+	dom.arena.hidden = true;
+	dom.scoreboard.hidden = true;
+	dom.winner.hidden = true;
 }
 
 /** Reload the same player's game without altering tournament score. */

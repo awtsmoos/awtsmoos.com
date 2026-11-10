@@ -16,6 +16,10 @@
 	margin-top: 16px;
 }
 
+.partyArena[hidden] {
+	display: none;
+}
+
 .partyGameStage {
 	display: grid;
 	min-width: 0;
