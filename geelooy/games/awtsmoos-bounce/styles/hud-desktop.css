@@ -10,7 +10,7 @@
 @media (min-width: 760px) {
 	.hud {
 		left: 24px;
-		right: 24px;
+		right: calc(24px + 58px); /* keep the base rule's shell-launcher clearance */
 	}
 
 	.brand-copy {

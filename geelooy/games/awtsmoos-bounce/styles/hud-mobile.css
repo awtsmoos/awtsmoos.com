@@ -10,7 +10,7 @@
 @media (max-width: 390px) {
 	.hud {
 		left: 8px;
-		right: 8px;
+		right: calc(8px + 58px); /* keep the base rule's shell-launcher clearance */
 	}
 
 	.hud-actions {
