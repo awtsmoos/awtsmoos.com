@@ -55,11 +55,46 @@ function agentBehavior() {
 		"Never use POST in this connector protocol."
 	];
 }
+/**
+ * ChatGPT GPT Actions cannot execute the external-agent PKCE handoff:
+ * they cannot generate a verifier, poll a status URL, or hold tokens.
+ * Their only credential vessel is OpenAI's own Action OAuth linking,
+ * which speaks to the `chatgpt` compatibility client. When the caller
+ * identifies as ChatGPT/OpenAI, recommend that flow first and say so
+ * plainly, instead of sending the model down the handoff path.
+ */
+function chatgptBehavior() {
+	return [
+		"You are a ChatGPT GPT Action. Use client_id=chatgpt, not external-agent.",
+		"Do NOT attempt the agent-handoff/PKCE flow; a GPT Action cannot generate PKCE, poll statusUrl, or store tokens itself.",
+		"Credentials live in OpenAI's Action Authentication (OAuth) panel for this GPT: Authorization URL https://awtsmoos.com/api/oauth/authorize, Token URL https://awtsmoos.com/api/oauth/token, Client ID chatgpt, no client secret required, no PKCE required, scope: profile tunnel.read tunnel.write tunnel.command tunnel.browser tunnel.mission tunnel.room.",
+		"If calls return not_authenticated, the GPT's OAuth is not linked yet; the user links it once from the sign-in prompt OpenAI presents, signing in to awtsmoos.com as the account that owns the tunnel.",
+		"After OAuth, call /api/tunnel/control/my-device. When the account owns more than one live tunnel, select explicitly with the tunnelId or routeReference query parameter instead of relying on automatic selection.",
+		"On retryable tunnel_not_alive, call my-device again and follow retryPolicy/recoveringRoutes instead of declaring death.",
+		"Never ask the human to paste a bearer token or API key into the chat; OpenAI attaches the stored OAuth credential automatically once linked."
+	];
+}
+function chatgptFlow() {
+	return {
+		clientId: oauth.chatgpt.clientId,
+		authorizationUrl: oauth.authorizationEndpoint,
+		tokenUrl: oauth.tokenEndpoint,
+		redirectUri: oauth.chatgpt.redirectUri,
+		requiresClientSecret: oauth.chatgpt.requiresClientSecret,
+		pkceRequired: oauth.chatgpt.pkceRequired,
+		defaultScope: oauth.chatgpt.defaultScope,
+		tokenStorage: "Held by OpenAI after the user links this GPT's Action OAuth once; ChatGPT attaches the bearer credential automatically on every call."
+	};
+}
 async function bootstrap($i) {
 	const behavior = agentBehavior();
+	const userAgent = String($i?.request?.headers?.["user-agent"] || "");
+	const isChatgptCaller = /chatgpt|openai/i.test(userAgent);
 	return json($i, {
 		BH: "B\"H", ok: true, name: "Awtsmoos Tunnel Control Bootstrap",
-		recommendedClientId: oauth.recommendedClientId,
+		callerDetected: isChatgptCaller ? "chatgpt" : "generic-agent",
+		...(isChatgptCaller ? { chatgptFlow: chatgptFlow() } : {}),
+		recommendedClientId: isChatgptCaller ? oauth.chatgpt.clientId : oauth.recommendedClientId,
 		setupUrl: agentLinks.tunnelControl,
 		install: installer(), oauthMetadata: agentLinks.oauthMetadata,
 		agentManifest: agentLinks.agentManifest, docsHuman: agentLinks.docs,
@@ -78,7 +113,7 @@ async function bootstrap($i) {
 		},
 		compatibility: { grok: grokFlow(), chatgpt: oauth.chatgpt },
 		howToGetRouteReference: routeInstructions(),
-		agentBehavior: behavior, gptBehavior: behavior
+		agentBehavior: behavior, gptBehavior: isChatgptCaller ? chatgptBehavior() : behavior
 	});
 }
-module.exports = { agentBehavior, bootstrap, externalAgentFlow, grokFlow, headlessDeviceFlow, missionPlanning: missionPlanningBody, routeInstructions, routeRecovery: routeRecoveryBody };
+module.exports = { agentBehavior, bootstrap, chatgptBehavior, chatgptFlow, externalAgentFlow, grokFlow, headlessDeviceFlow, missionPlanning: missionPlanningBody, routeInstructions, routeRecovery: routeRecoveryBody };

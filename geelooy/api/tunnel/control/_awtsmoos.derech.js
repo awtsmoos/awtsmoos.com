@@ -146,7 +146,15 @@ module.exports = {
     await $i.use("my-device", async (vars) => {
       try {
         const { myDevice } = require("./routes/myDevice.js");
-        return await myDevice($i, vars || {});
+        const result = await myDevice($i, vars || {});
+        // A bare string is normalized to HTTP 200 by the dynamic dispatcher.
+        // Carry the validated status explicitly, including 401, 404 and 409,
+        // so standards-based clients can see the authentication challenge.
+        const statusCode = Number($i.response?.statusCode);
+        return typeof result === "string" && Number.isInteger(statusCode) &&
+          statusCode >= 100 && statusCode <= 599 && statusCode !== 200
+          ? { statusCode, response: result }
+          : result;
       } catch (err) {
         return {
           statusCode: 500,
@@ -178,7 +186,14 @@ module.exports = {
     });
     await $i.use("devices", async (vars) => {
       const { devices } = require("./routes/devices.js");
-      return devices($i, vars || {});
+      const result = await devices($i, vars || {});
+      // Same status carry as fs/awtsmoos-os: a bare string would be
+      // normalized to HTTP 200 by the dynamic dispatcher, hiding 401s.
+      const statusCode = Number($i.response?.statusCode);
+      return typeof result === "string" && Number.isInteger(statusCode) &&
+        statusCode >= 100 && statusCode <= 599 && statusCode !== 200
+        ? { statusCode, response: result }
+        : result;
     });
     await $i.use("docs", async (vars) => {
       const { docsHtml } = require("./routes/docsHtml.js");

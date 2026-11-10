@@ -12,7 +12,7 @@
 
 const { currentIdentity } = require("../core/auth.js");
 const { query } = require("../core/request.js");
-const { json } = require("../core/respond.js");
+const { json, setHeader } = require("../core/respond.js");
 const Discovery = require("./deviceDiscovery.js");
 const Projection = require("./devicePublicProjection.js");
 const RouteSelection = require("./deviceRouteSelection.js");
@@ -20,6 +20,11 @@ const RouteSelection = require("./deviceRouteSelection.js");
 async function myDevice($i) {
 	const identity = currentIdentity($i);
 	if (!identity.ok) {
+		// Standards-compliant Bearer challenge so OAuth-capable clients
+		// (MCP connectors, GPT Actions) can discover how to authenticate
+		// instead of receiving a dead-end error body.
+		setHeader($i, "WWW-Authenticate",
+			'Bearer <redacted>"https://awtsmoos.com/.well-known/oauth-protected-resource", scope="profile tunnel.read", error="invalid_token"');
 		return json($i, response(false, "not_authenticated"), 401);
 	}
 	const parameters = query($i);

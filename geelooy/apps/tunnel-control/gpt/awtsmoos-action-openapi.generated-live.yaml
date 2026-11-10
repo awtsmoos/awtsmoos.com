@@ -21,6 +21,10 @@ paths:
       operationId: awtsmoosMyDevice
       summary: Discover active connected tunnel.
       security: [{ OAuth2: [profile, tunnel.read] }]
+      parameters:
+        - { name: tunnelId, in: query, required: false, schema: { type: string }, description: "Immutable tunnel route ID for explicit selection when the account owns more than one live tunnel." }
+        - { name: routeReference, in: query, required: false, schema: { type: string }, description: "Alias of tunnelId." }
+        - { name: tunnelName, in: query, required: false, schema: { type: string }, description: "Friendly tunnel name; resolves only when unambiguous." }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/fs/awtsmoos-os:
