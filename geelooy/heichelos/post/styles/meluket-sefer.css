@@ -48,7 +48,7 @@
 	max-width: 1180px;
 	margin: 0 auto;
 	/* B"H — Yaakov 2026-10-15: minimal horizontal padding, text gets the room. */
-	padding: 1rem 0.25rem 4rem;
+	padding: 1rem 0.25rem 8rem;
 	background: var(--sefer-paper);
 	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
 	border-radius: 6px;
@@ -179,7 +179,7 @@
 	background: var(--sefer-card);
 	border: 1px solid var(--sefer-rule);
 	border-radius: 10px;
-	box-shadow: var(--sefer-shadow);
+	box-shadow: none;
 	margin: 0 0 2rem;
 	/* B"H — top padding clears the section-number badge (0.9rem + 2.8rem),
 	   so the first pair's English never slides under it. */
@@ -549,7 +549,7 @@
 	background: var(--sefer-card);
 	border: 1px solid var(--sefer-rule);
 	border-radius: 10px;
-	box-shadow: var(--sefer-shadow);
+	box-shadow: none;
 	padding: 1.5rem clamp(1rem, 3vw, 2rem);
 }
 
@@ -930,7 +930,7 @@
 	border: 1px solid var(--sefer-rule);
 	border-radius: 12px;
 	padding: 1.5rem clamp(1rem, 3vw, 2rem);
-	box-shadow: var(--sefer-shadow);
+	box-shadow: none;
 }
 .torah-ohr-flowchart .flow > h2 {
 	margin: 0 0 1.25rem;
@@ -975,11 +975,11 @@
 	border-radius: 999px;
 	padding: 0.25rem 0.85rem;
 	text-decoration: none;
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	transition: none;
 }
 .torah-ohr-flowchart .fsec :where(a):hover {
 	transform: translateY(-1px);
-	box-shadow: var(--sefer-shadow);
+	box-shadow: none;
 }
 .torah-ohr-flowchart .fsec :where(a):focus-visible {
 	outline: 2px solid var(--sefer-focus);

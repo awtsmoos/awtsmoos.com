@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=5862879306'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=3b1594e67f'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=6566345e0d'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=0199420043'],
 ];
 
