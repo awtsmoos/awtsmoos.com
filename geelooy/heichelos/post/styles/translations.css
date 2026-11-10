@@ -51,8 +51,13 @@
    .post-reader-localized-context (the toolbar sits outside it), and the
    background was transparent with a var() color that resolves white in
    the reader context. Global selector, explicit light background and
-   dark text in light theme, explicit dark pill in dark theme. */
+   dark text in light theme, explicit dark pill in dark theme.
+   B"H round 10: the round-9 global pin STILL did not show — tokens.css
+   paints every button in the reader with `color: var(--aw-text)` at
+   (0,1,1), and button-hover.css does it at (0,16,0), and --aw-text is
+   white. Set the var itself on the toggle so those rules resolve dark. */
 .awtsmoos-translation-toggle {
+	--aw-text: #2b2118;
 	min-width: 116px;
 	min-height: 44px;
 	padding: .65rem .85rem;
@@ -64,11 +69,13 @@
 	cursor: pointer;
 }
 :root[data-theme="dark"] .awtsmoos-translation-toggle {
+	--aw-text: #f0e7d3;
 	border-color: #d4a94e;
 	background: rgba(255,255,255,0.08);
 	color: #f0e7d3;
 }
 :root[data-dream="sanctuary"] .awtsmoos-translation-toggle {
+	--aw-text: #f0e7d3;
 	border-color: #d4a94e;
 	background: rgba(255,255,255,0.08);
 	color: #f0e7d3;

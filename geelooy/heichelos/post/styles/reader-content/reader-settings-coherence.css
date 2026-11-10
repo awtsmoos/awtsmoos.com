@@ -291,20 +291,45 @@
    comments section, the dialog, the composer), so they never matched.
    Global selectors, one place, both themes. Covers the Sources dialog
    close, the reply composer add/remove-section buttons, and the same
-   white-on-white pill bug the browser found on all of them. */
+   white-on-white pill bug the browser found on all of them.
+   B"H round 10: the round-9 global pins STILL did not show. Root cause,
+   measured: button-hover.css and mobile-desktop-viewport.css paint every
+   .comment-chip-action (and every button in the reader) with
+   `color: var(--aw-text)` at specificity (0,10,0)–(0,16,0) — and
+   --aw-text is #f8fbff (white) in the dark token palette, defined
+   unconditionally in tokens.css. No direct color rule can beat (0,16,0)
+   without !important (banned). So set the VAR itself on the pill: a
+   custom property set directly on the element beats the inherited white,
+   and button-hover's own color rule then resolves dark. The dock keeps
+   its white (its dark-navy background needs it) because it is not in
+   this list. The same trick covers the wysiwyg B/I/U buttons, every
+   button in the Contents panel (#readerInfoPanel), and every button in
+   the Sources dialog sheet. */
 :root:not([data-theme="dark"]) .comment-chip-action,
 :root:not([data-theme="dark"]) .awtsmoos-src-close,
 :root:not([data-theme="dark"]) .reply-add-section,
-:root:not([data-theme="dark"]) .awtsmoos-remove-section-btn {
+:root:not([data-theme="dark"]) .awtsmoos-remove-section-btn,
+:root:not([data-theme="dark"]) .wysiwyg-btn {
+	--aw-text: #2b2118;
 	background: #fffdf6;
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 }
+:root:not([data-theme="dark"]) #readerInfoPanel,
+:root:not([data-theme="dark"]) .awtsmoos-src-sheet {
+	--aw-text: #2b2118;
+}
 [data-theme="dark"] .comment-chip-action,
 [data-theme="dark"] .awtsmoos-src-close,
 [data-theme="dark"] .reply-add-section,
-[data-theme="dark"] .awtsmoos-remove-section-btn {
+[data-theme="dark"] .awtsmoos-remove-section-btn,
+[data-theme="dark"] .wysiwyg-btn {
+	--aw-text: #f5efe2;
 	background: rgba(255,255,255,0.08);
 	border: 1px solid rgba(255,255,255,0.18);
 	color: #f5efe2;
+}
+[data-theme="dark"] #readerInfoPanel,
+[data-theme="dark"] .awtsmoos-src-sheet {
+	--aw-text: #f5efe2;
 }

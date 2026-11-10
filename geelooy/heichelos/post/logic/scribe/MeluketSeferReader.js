@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=00d2a59dcc'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=0be9cbae52'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
 ];
 
@@ -1027,6 +1027,39 @@ function humanizeSeriesId(raw) {
 	return spaced.replace(/\b\w/g, c => c.toUpperCase());
 }
 
+// B"H 2026-11-10 round 10 — Coby: the Sources dialog showed 55 footnotes
+// with anchor text only, never the 64 with bodies. Root cause, proven
+// by curling the live API: the post API returns NO footnotes field at
+// all, the translations API rows carry no footnotes, and there is no
+// /footnotes endpoint — window.post.footnotes is ALWAYS empty, so the
+// round-9 refresh poll could never fire. But the bodies ARE in the data
+// the client already has: the post's `content` HTML ends with the
+// footnotes section after the `הערות:` heading — `<sup>N</sup> Hebrew
+// body<br/>English body` for N = 1..64, verified against the live post
+// (133 numbered sups: 69 in-text + 64 bodies). Parse them out of the
+// content. Returns [{n, hebrew, english}] in number order, or [] when
+// the content has no footnotes section (other posts keep the old paths).
+function parseContentFootnotes(content) {
+	if (typeof content !== 'string' || !content) return [];
+	const marker = content.lastIndexOf('הערות:');
+	if (marker === -1) return [];
+	const tail = content.slice(marker + 'הערות:'.length);
+	const parts = tail.split(/<sup>(\d+)<\/sup>/);
+	const out = [];
+	for (let i = 1; i + 1 < parts.length; i += 2) {
+		const n = Number(parts[i]);
+		if (!n) continue;
+		const body = String(parts[i + 1] || '');
+		const split = body.split(/<br\s*\/?>/i);
+		const strip = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+		const hebrew = strip(split[0]);
+		const english = strip(split.slice(1).join(' '));
+		if (hebrew || english) out.push({ n, hebrew, english });
+	}
+	out.sort((a, b) => a.n - b.n);
+	return out;
+}
+
 function buildSourcesSheetContent(post, sefer) {
 	ensureSourcesSheet();
 	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
@@ -1040,14 +1073,27 @@ function buildSourcesSheetContent(post, sefer) {
 	// post has no footnotes.
 	const liveFootnotes = (typeof window !== 'undefined' && window.post && Array.isArray(window.post.footnotes) && window.post.footnotes.length) ? window.post.footnotes : null;
 	const apiFootnotes = (Array.isArray(post.footnotes) && post.footnotes.length) ? post.footnotes : liveFootnotes;
+	// B"H 2026-11-10 round 10 — the API footnotes are ALWAYS empty for
+	// this post (the live post API returns no footnotes field, the
+	// translations rows carry none, there is no /footnotes endpoint —
+	// proven by curl). The bodies live in the post's `content` HTML
+	// after the `הערות:` heading, so parse them there. This is the
+	// primary fallback now; the marker list below is only a last resort
+	// for posts whose content carries no footnotes section.
+	const contentFootnotes = (!apiFootnotes) ? (() => {
+		const content = (post && post.content) || (typeof window !== 'undefined' && window.post && window.post.content) || '';
+		const parsed = parseContentFootnotes(content);
+		return parsed.length ? parsed : null;
+	})() : null;
+	const resolvedFootnotes = apiFootnotes || contentFootnotes;
 	// B"H 2026-11-10 round 6: when the API data has not arrived yet the
 	// sheet said "0 footnotes" / "No footnotes in this post" even though
 	// the markers (1–64) were already in the text — the dialog looked
 	// broken on a fresh load. Fall back to the shelf, then to the gold
 	// <sup> markers in the sefer itself (number + the phrase they sit in,
 	// so the list is never empty while the API is still loading).
-	const footnotes = apiFootnotes
-		? apiFootnotes
+	const footnotes = resolvedFootnotes
+		? resolvedFootnotes
 		: (Array.from(sefer.querySelectorAll('.meluket-footnote')).length
 			? Array.from(sefer.querySelectorAll('.meluket-footnote'))
 			: (() => {
@@ -1127,24 +1173,6 @@ function buildSourcesSheetContent(post, sefer) {
 	paintSrcTabs();
 
 	renderSourcesTab();
-
-	// B"H 2026-11-10 round 9 — when the dialog was built from markers the
-	// list is anchor-only (no bodies) and only as complete as the markers
-	// the hydrate has built so far. The API footnotes (all 64, with
-	// bodies) arrive after the page loads. If they land while the dialog
-	// is still open, rebuild it with the real data instead of leaving the
-	// stopgap list on screen.
-	if (!apiFootnotes) {
-		let tries = 0;
-		const refresh = setInterval(() => {
-			tries++;
-			const live = (typeof window !== 'undefined' && window.post && Array.isArray(window.post.footnotes) && window.post.footnotes.length) ? window.post.footnotes : null;
-			if (live || tries >= 14 || !srcOpen) {
-				clearInterval(refresh);
-				if (live && srcOpen) buildSourcesSheetContent(post, sefer);
-			}
-		}, 600);
-	}
 }
 
 // B"H — Coby Nov 10: the selected tab stayed white-on-cream because the
@@ -1289,23 +1317,36 @@ function renderSourcesFootnotes(footnotes) {
 			// <sup> marker in the text itself. Otherwise the shelf item.
 			const target = isDomEl ? fn
 				: (document.querySelector(`.meluket-footnote[data-fn="${num}"], #meluket-fn-${num}`) || (fn && fn._marker) || null);
-			if (target) {
+			// B"H 2026-11-10 round 8 — Coby: tapping a footnote did
+			// NOTHING visible. The old code put the highlight on the
+			// tiny <sup> marker (or the shelf item inside the closed
+			// sheet), so no gold showed. Highlight the whole phrase
+			// card the marker sits in — that is what the eye lands on.
+			// B"H round 9: when the footnote came from the API (not
+			// the marker fallback) there is no _marker, and the shelf
+			// item has no phrase-pair ancestor — the class landed on
+			// the hidden shelf item. Find the visible marker in the
+			// sefer by number and highlight ITS card instead.
+			// B"H round 10: the list now comes from the post content
+			// (parseContentFootnotes), so most entries have NO _marker
+			// and NO shelf item — target is null and the old code did
+			// nothing at all. Find the marker first, from any source:
+			// the gold .meluket-fn-marker, or a plain Hebrew <sup>
+			// whose text is the number (the Hebrew markers are plain
+			// sups — enhanceFootnoteSup only runs on the English side,
+			// which is why 31, 48, 58–64 had no clickable marker).
+			// Scroll + highlight whenever ANY card is found.
+			const markerEl = (fn && fn._marker) || null;
+			const liveMarker = markerEl
+				|| (sefer && sefer.querySelector(`.meluket-fn-marker[data-fn="${num}"]`))
+				|| (sefer && Array.from(sefer.querySelectorAll('.meluket-phrase--he sup')).find(s => s.textContent.trim() === String(num)))
+				|| null;
+			const card = (liveMarker && liveMarker.closest && liveMarker.closest('.meluket-phrase-pair'))
+				|| (target && target.closest && target.closest('.meluket-phrase-pair'))
+				|| target
+				|| null;
+			if (card) {
 				document.querySelectorAll('.awtsmoos-fn-active').forEach(n => n.classList.remove('awtsmoos-fn-active'));
-				// B"H 2026-11-10 round 8 — Coby: tapping a footnote did
-				// NOTHING visible. The old code put the highlight on the
-				// tiny <sup> marker (or the shelf item inside the closed
-				// sheet), so no gold showed. Highlight the whole phrase
-				// card the marker sits in — that is what the eye lands on.
-				// B"H round 9: when the footnote came from the API (not
-				// the marker fallback) there is no _marker, and the shelf
-				// item has no phrase-pair ancestor — the class landed on
-				// the hidden shelf item. Find the visible marker in the
-				// sefer by number and highlight ITS card instead.
-				const markerEl = (fn && fn._marker) || null;
-				const liveMarker = markerEl || (sefer && sefer.querySelector(`.meluket-fn-marker[data-fn="${num}"]`));
-				const card = (liveMarker && liveMarker.closest && liveMarker.closest('.meluket-phrase-pair'))
-					|| (target.closest && target.closest('.meluket-phrase-pair'))
-					|| target;
 				card.scrollIntoView({ behavior: 'smooth', block: 'center' });
 				card.classList.add('awtsmoos-fn-active');
 			}

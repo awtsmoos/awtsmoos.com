@@ -220,7 +220,7 @@
    followed by ITS English block — never a separate English vessel.
    (Yaakov defect #3: English beneath each Hebrew phrase.) */
 .meluket-sefer-active .meluket-phrase-pair {
-	margin: 0 0 0.9em;
+	margin: 0 0 0.3em;
 	/* B"H — Coby Nov 10: scrolling was choppy with 271 pairs. The
 	   browser must not paint off-screen pairs on every scroll frame. */
 	content-visibility: auto;
@@ -359,8 +359,15 @@
 }
 
 /* Phrase blocks — split by Yaakov's punctuation rule (., ()[]). */
+/* B"H 2026-11-10 round 10 — Coby: the cards still had ~70px of dead air
+   between the Hebrew and the dashed rule. Root cause, measured: EVERY
+   .meluket-phrase block (Hebrew AND English) carries margin-bottom
+   0.85em (~53px at the 62px phrase size) — the Hebrew's own bottom
+   margin was the gap, not the line-height. 0.1em keeps a breath between
+   the Hebrew and the rule without the hole. The pair's own margin is
+   0.3em (round 9's 0.9em was still ~56px of dead air below the English). */
 .meluket-sefer-active .meluket-phrase {
-	margin: 0 0 0.85em;
+	margin: 0 0 0.1em;
 }
 
 :where(.meluket-sefer-active) .meluket-phrase:last-child {
@@ -1474,6 +1481,15 @@
 .awtsmoos-src-fn-item:hover {
   background: var(--sefer-paper-deep, #f5efe0);
 }
+/* B"H 2026-11-10 round 10 — Coby: tapping a footnote in the Sources
+   dialog left the tapped row looking identical to every other row. The
+   click handler adds .is-open, but no rule ever styled it — the marking
+   existed only in the DOM. Now the row you are reading stays visibly
+   marked (gold tint + gold left edge) until you tap another one. */
+.awtsmoos-src-fn-item.is-open {
+  background: rgba(184, 134, 11, 0.16);
+  border-left: 3px solid #b8860b;
+}
 .awtsmoos-src-fn-num {
   flex-shrink: 0;
   font-weight: 700;
@@ -1546,12 +1562,21 @@
    B"H round 9: the (0,1,0) rule never showed — the card's own background
    (set by higher-specificity sefer rules) beat it. The pair selector
    (0,2,0) wins over the card background; the plain selector stays as a
-   fallback for non-pair targets. */
+   fallback for non-pair targets.
+   B"H round 10: the round-9 highlight STILL did not show in the browser.
+   Two causes: (a) the 0.18-alpha tint over the already pale-cream card is
+   too faint to see in a screenshot; (b) the English block paints its own
+   --over-wash background over the pair's background, hiding the tint on
+   the English half. So the highlight now paints the pair AND both child
+   blocks at a stronger alpha, with a solid 2px gold outline (an outline
+   can never be covered by a child's background). */
 .meluket-phrase-pair.awtsmoos-fn-active,
+.meluket-phrase-pair.awtsmoos-fn-active .meluket-phrase--he,
+.meluket-phrase-pair.awtsmoos-fn-active .meluket-phrase--en,
 .awtsmoos-fn-active {
   border-radius: 0.5rem;
-  background: rgba(184, 134, 11, 0.18);
-  outline: 1px solid rgba(184, 134, 11, 0.45);
+  background: rgba(184, 134, 11, 0.32);
+  outline: 2px solid #b8860b;
 }
 
 /* ============================================================================

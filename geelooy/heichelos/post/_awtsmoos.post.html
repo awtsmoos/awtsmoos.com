@@ -25,12 +25,20 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   overflowing the viewport. Literal values only (no vars — the
 		   bundles that define them have not loaded yet). */
 		.meluket-sefer { max-width: min(68ch, calc(100% - 1rem)); margin-inline: auto; }
-		.meluket-phrase-pair { margin: 0 0 0.9em; }
+		.meluket-phrase-pair { margin: 0 0 0.3em; }
+		.meluket-phrase { margin: 0 0 0.1em; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
 		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.55; direction: ltr; border-top: 2px dashed #c6ad76; margin-top: 0.1em; padding-top: 0.25em; }
+		/* B"H round 10 — the title area above card 1 renders as a blank
+		   peach band in the settled view and the title is invisible. The
+		   title color lives in the sefer bundle (dark #2b2118 in light
+		   theme); paint it dark from the first byte so it is never
+		   white-on-peach while the bundles load. Size stays with the
+		   bundle (105px at the default scale) — no layout shift. */
+		.meluket-sefer-title-he { color: #2b2118; text-align: center; }
 	</style>
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=7f492902d8">
-	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=b43f3e8940">
+	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=61817defef">
 	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
 	<link rel="stylesheet" href="/heichelos/post/comments/panel/commentaryMenu.css?v=commentary-menu-001">
 	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=95471619a6">
@@ -50,14 +58,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-3">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-2">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-10">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-11">
 	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
 	     via JS after mount, so first paint showed the preview in fallback
 	     styles and then visibly switched. These three links load them with
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
 	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513">
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=00d2a59dcc">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=0be9cbae52">
 	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=6ea15252da">
 	<script>
 		try {
@@ -126,7 +134,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-027');
+				import('/heichelos/post/postLogic.js?v=reader-passive-028');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});
