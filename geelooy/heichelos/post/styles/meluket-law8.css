@@ -398,3 +398,9 @@ section[data-awtsmoos-unit].is-reading,
 	font-size: calc(var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1.3));
 	color: var(--law8-ink);
 }
+
+:root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--he,
+:root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--en {
+  font-size: var(--sefer-phrase-size) ;
+}
+
