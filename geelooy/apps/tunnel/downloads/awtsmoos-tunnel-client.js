@@ -14,7 +14,7 @@ const EventEmitter = require("events");
 
 const HOME = os.homedir();
 const CONFIG_PATH = path.join(HOME, ".awtsmoos-tunnel", "config.json");
-const DEFAULT_RELAY = "wss://awtsmoos.com";
+const DEFAULT_RELAY = "wss://awtsmoos.com/api/tunnel/ws";
 
 const SKIP = new Set([
   "node_modules",

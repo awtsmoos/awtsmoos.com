@@ -19,7 +19,7 @@ const HOME = os.homedir();
 const ROOT = path.join(HOME, ".awtsmoos-tunnel");
 const CONFIG_PATH = path.join(ROOT, "config.json");
 const LOG_PATH = path.join(ROOT, "logs.txt");
-const DEFAULT_RELAY = "wss://awtsmoos.com";
+const DEFAULT_RELAY = "wss://awtsmoos.com/api/tunnel/ws";
 const DEFAULT_LOCAL = "http://localhost:3000";
 
 const SKIP = new Set([
