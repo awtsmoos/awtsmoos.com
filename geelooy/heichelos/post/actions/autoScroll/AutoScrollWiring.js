@@ -15,7 +15,7 @@ import { AutoScrollRuntime } from './AutoScrollRuntime.js?v=reader-river-002';
 import { AutoScrollSession } from './AutoScrollSession.js';
 import { AutoScrollState } from './AutoScrollState.js';
 import { readAutoScrollPreferences } from './AutoScrollStorage.js';
-import { SemanticPaceEngine } from './SemanticPaceEngine.js';
+import { SemanticPaceEngine } from './SemanticPaceEngine.js?v=pace-001';
 
 export function createAutoScrollWiring(owner) {
 	const state = new AutoScrollState(readAutoScrollPreferences());

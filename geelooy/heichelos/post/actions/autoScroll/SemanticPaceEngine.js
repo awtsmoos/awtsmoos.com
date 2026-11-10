@@ -8,7 +8,7 @@
  */
 import { autoScrollTop, documentMax } from './AutoScrollDocument.js';
 import { BoundaryPausePlanner } from './BoundaryPausePlanner.js';
-import { discoverSemanticBoundaries } from './BoundaryDiscovery.js';
+import { discoverSemanticBoundaries } from './BoundaryDiscovery.js?v=boundary-001';
 import { estimateCompletionSeconds, formatCompletionEstimate } from './CompletionEstimate.js';
 import { measureReaderDensity } from './ReaderDensity.js';
 import {

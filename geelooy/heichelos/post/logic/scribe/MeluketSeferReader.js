@@ -28,8 +28,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=68c694429d'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=38ec0cf94c'],
+	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=d9b5d5b34c'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
 ];
 
@@ -1261,8 +1261,17 @@ function renderSourcesFootnotes(footnotes) {
 				: (document.querySelector(`.meluket-footnote[data-fn="${num}"], #meluket-fn-${num}`) || (fn && fn._marker) || null);
 			if (target) {
 				document.querySelectorAll('.awtsmoos-fn-active').forEach(n => n.classList.remove('awtsmoos-fn-active'));
-				target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-				target.classList.add('awtsmoos-fn-active');
+				// B"H 2026-11-10 round 8 — Coby: tapping a footnote did
+				// NOTHING visible. The old code put the highlight on the
+				// tiny <sup> marker (or the shelf item inside the closed
+				// sheet), so no gold showed. Highlight the whole phrase
+				// card the marker sits in — that is what the eye lands on.
+				const markerEl = (fn && fn._marker) || null;
+				const card = (markerEl && markerEl.closest && markerEl.closest('.meluket-phrase-pair'))
+					|| (target.closest && target.closest('.meluket-phrase-pair'))
+					|| target;
+				card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				card.classList.add('awtsmoos-fn-active');
 			}
 		});
 		srcListEl.appendChild(btn);

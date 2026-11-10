@@ -47,14 +47,6 @@
 	scrollbar-gutter: stable;
 }
 
-.awts-sticky-tools {
-	backdrop-filter: blur(14px);
-	background: color-mix(in srgb, white 88%, transparent);
-	position: sticky;
-	top: var(--awts-safe-top);
-	z-index: var(--z-sticky, 60);
-}
-
 :where(.modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments, [aria-hidden="true"].modal-gate-hidden) {
 	pointer-events: none;
 }

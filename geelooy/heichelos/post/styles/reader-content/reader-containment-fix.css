@@ -21,8 +21,10 @@
 	overflow-y: auto;
 }
 
-.post-reader-localized-context #realPost,
-.post-reader-localized-context #realPost.content,
+/* B"H round 8: #realPost leaves this group — its max-width lived here
+   (100%) AND in reader-padding-fix.css (min(68ch, 100%), which wins),
+   so one property had two values. #realPost now carries its own box
+   rules in the rule below; this group keeps .content and the rest. */
 .post-reader-localized-context .content,
 .post-reader-localized-context .awtsmoos-reader-content,
 .post-reader-localized-context .awtsmoos-initial-post-body,
@@ -36,7 +38,11 @@
 }
 
 .post-reader-localized-context #realPost {
-	max-width: min(68ch, calc(100% - 1rem));
+	width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+	overflow-wrap: anywhere;
+	word-break: normal;
 	margin-inline: auto;
 	padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
 }

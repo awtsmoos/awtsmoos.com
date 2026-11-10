@@ -1535,25 +1535,14 @@
   }
 }
 
-/* B"H — Footnote jump highlight (from Sources sheet). B"H 2026-11-10 round 6:
-   the old "flash" was an animation, and the reader page carries no
-   animations, ever — so the animation was set to none and tapping a
-   footnote did NOTHING visible. The highlight is now a plain static
-   background (no animation): it stays until the reader taps another
-   footnote or scrolls away, so the jump is always visible. */
-.awtsmoos-fn-flash,
+/* B"H — Footnote jump highlight (from Sources sheet). B"H 2026-11-10 round 8:
+   the old "flash" animation is deleted entirely (no animations on the
+   reader, ever). The highlight is a plain static background: it stays
+   until the reader taps another footnote, so the jump is always visible. */
 .awtsmoos-fn-active {
-  animation: none;
   border-radius: 0.5rem;
   background: rgba(184, 134, 11, 0.18);
   outline: 1px solid rgba(184, 134, 11, 0.45);
-}
-@keyframes awtsmoos-fn-flash {
-  0%, 100% { background: transparent; }
-  25%, 60% { background: rgba(184, 134, 11, 0.22); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .awtsmoos-fn-flash { animation: none; }
 }
 
 /* ============================================================================

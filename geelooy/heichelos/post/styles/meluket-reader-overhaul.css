@@ -127,8 +127,10 @@
 	   a third of the Hebrew). Yaakov's law says Hebrew and English must
 	   LOOK the same size — the sefer's own --sefer-phrase-size already
 	   does that. No size override here at all. No transition either:
-	   transitions on scroll-affected elements cause jank. */
-	line-height: 1.45;
+	   transitions on scroll-affected elements cause jank.
+	   B"H round 8: line-height deleted — meluket-sefer.css sets 1.7 and
+	   wins (same selector, later file); two values for one property is
+	   a conflict, not a style. */
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he:hover + .meluket-phrase--en {
 	background-color: var(--over-wash);
@@ -289,9 +291,6 @@
 	gap: 0.45rem;
 	padding: 0.65rem 0.5rem;
 	border-radius: 999px;
-	background: var(--over-rail-bg);
-	border: 1px solid var(--over-rule);
-	box-shadow: var(--over-shadow);
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	max-block-size: 70vh;
@@ -304,7 +303,6 @@
 	border-radius: 999px;
 	border: 1px solid transparent;
 	background: transparent;
-	color: var(--over-ink-soft);
 	font-size: 0.72rem;
 	font-weight: 800;
 	font-variant-numeric: tabular-nums;
@@ -321,22 +319,15 @@
 		box-shadow 0.18s ease;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:hover {
-	border-color: var(--over-gold);
-	color: var(--over-gold-deep);
 	transform: scale(1.14);
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:focus-visible {
-	outline: 2px solid var(--over-focus);
 	outline-offset: 2px;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:active {
 	transform: scale(0.92);
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot.is-active {
-	background: var(--over-gold);
-	border-color: var(--over-gold);
-	color: var(--over-on-gold);
-	box-shadow: 0 0 14px var(--over-wash-strong);
 	transform: scale(1.1);
 }
 @media (max-width: 900px) {
