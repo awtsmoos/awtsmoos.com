@@ -281,8 +281,16 @@
    reader.css:236 gives it color: var(--inline-text-blue, #cbd5e1) at
    (0,8,0) — pale slate-blue, unreadable on the white card in light
    theme. This light rule repeats the class ×8 to (0,11,0) and pins it
-   dark. Dark theme keeps the pale blue, which reads fine there. */
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number {
+   dark. Dark theme keeps the pale blue, which reads fine there.
+   The gate LINK itself has the same defect: reborn reader.css:211
+   gives it color: var(--sefer-ink) at (0,8,0), but --sefer-ink is
+   scoped to .meluket-sefer-active (sefer.css:24) and the nav is a
+   SIBLING of the sefer, so the var is undefined there and the label
+   ("Previous"/"Next") inherits white from the context — white on the
+   white card. The gate and its label get the same (0,11,0) pin. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number,
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate,
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label {
 	color: #2b2118;
 }
 [data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a {
