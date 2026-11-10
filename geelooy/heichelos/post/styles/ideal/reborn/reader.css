@@ -5,10 +5,15 @@
  * Hebrew paragraphs with smooth luminous vessels that scroll without flicker.
  */
 
-/* B"H 2026-11-09 (Coby: default text at least 3x bigger): the CSS-level
+/* B"H 2026-11-10 (Coby: default text at least 3x bigger): the CSS-level
    default was clamp(34px, 9.5vw) — ~37px on a phone, too small to read.
-   Raised to ~96px+ so the text is big even before JS sets the var. */
-.post-reader-localized-context { --post-text-size: clamp(96px, 24vw, 9999px); }
+   Raised to ~96px+ so the text is big even before JS sets the var.
+   B"H round 11: the 24vw fallback made the FIRST PAINT show a giant
+   Hebrew glyph (~460px at a 1919px viewport — the top of the bet in
+   בס"ד, ~270px wide, cut off by the viewport) before JS applied the
+   stored size. Cap the fallback at the 144px default Coby ordered, so
+   first paint is big but never a single giant letter. */
+.post-reader-localized-context { --post-text-size: clamp(48px, 12vw, 144px); }
 
 .post-reader-localized-context .awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown{
     width: min(820px, calc(100% - 1.5rem));

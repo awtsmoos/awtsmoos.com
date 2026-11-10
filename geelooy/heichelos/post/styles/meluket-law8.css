@@ -191,14 +191,20 @@
 :root .post-reader-localized-context.meluket-sefer-active .meluket-hebrew sup {
 	display: inline-block;
 	min-width: 1.6em;
-	padding: 0.12em 0.34em;
+	/* B"H round 11: the pill was ~67px tall at the 62px Hebrew size and,
+	   raised above the baseline, inflated the Hebrew line box by ~15–25px
+	   on every line carrying a marker (card 1 measured ~60px Hebrew→rule
+	   vs ~40px on unmarked card 2). Slimmer pill, still clearly tappable
+	   per LAW 8: line-height 1.5 -> 1.2, padding 0.12em -> 0.08em,
+	   font-size 0.62em -> 0.58em. */
+	padding: 0.08em 0.34em;
 	margin-inline-start: 0.24em;
 	border-radius: 999px;
 	background: linear-gradient(160deg, var(--law8-gold-bright), var(--law8-gold) 58%, var(--law8-gold-deep));
 	color: var(--law8-on-gold);
-	font-size: 0.62em;
+	font-size: 0.58em;
 	font-weight: 800;
-	line-height: 1.5;
+	line-height: 1.2;
 	text-align: center;
 	text-decoration: none;
 	vertical-align: super;

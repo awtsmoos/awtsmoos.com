@@ -29,8 +29,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=0be9cbae52'],
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=019038f384'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=0199420043'],
 ];
 
 function ensureSeferStyle(id, href) {
@@ -947,6 +947,12 @@ let srcListEl = null;
 let srcOpen = false;
 let srcCurrentTab = 'sections';
 let srcCachedData = null;
+// B"H round 11: the footnote list is rebuilt on every dialog open, which
+// wiped the .is-open mark on the tapped item. Remember the last tapped
+// footnote number (and its highlighted card) across rebuilds so the mark
+// and the gold survive a reopen.
+let lastTappedFootnoteNum = null;
+let lastFnActiveCard = null;
 
 function sourcesReaderRoot() {
 	return document.querySelector('.post-reader-localized-context') || document.body;
@@ -1191,10 +1197,10 @@ function paintSrcTabs() {
 
 function renderSourcesTab() {
 	if (!srcCachedData) return;
-	const { post, sections, footnotes } = srcCachedData;
+	const { post, sections, footnotes, sefer } = srcCachedData;
 	srcListEl.innerHTML = '';
 	if (srcCurrentTab === 'sections') renderSourcesSections(post, sections);
-	else if (srcCurrentTab === 'footnotes') renderSourcesFootnotes(footnotes);
+	else if (srcCurrentTab === 'footnotes') renderSourcesFootnotes(footnotes, sefer);
 	else if (srcCurrentTab === 'comments') renderSourcesComments(post);
 }
 
@@ -1286,7 +1292,7 @@ function sourcesFootnoteNum(fn, index) {
 	return fn.dataset.fnNum || fn.getAttribute('data-footnote') || String(index + 1);
 }
 
-function renderSourcesFootnotes(footnotes) {
+function renderSourcesFootnotes(footnotes, sefer) {
 	if (!footnotes.length) {
 		srcListEl.appendChild(el('div', 'awtsmoos-src-empty', 'No footnotes in this post.'));
 		return;
@@ -1297,6 +1303,9 @@ function renderSourcesFootnotes(footnotes) {
 		const btn = el('button', 'awtsmoos-src-fn-item');
 		btn.type = 'button';
 		btn.setAttribute('aria-label', `Go to footnote ${num}`);
+		// B"H round 11: the list is rebuilt on every open — re-apply the
+		// mark on the footnote tapped last time, so it stays marked.
+		if (lastTappedFootnoteNum !== null && String(num) === String(lastTappedFootnoteNum)) btn.classList.add('is-open');
 		btn.append(el('span', 'awtsmoos-src-fn-num', String(num)));
 		const txt = el('span', 'awtsmoos-src-fn-text', sourcesFootnoteText(fn));
 		txt.setAttribute('dir', 'auto');
@@ -1312,6 +1321,7 @@ function renderSourcesFootnotes(footnotes) {
 			// static gold highlight that stays until you tap another one.
 			srcListEl.querySelectorAll('.awtsmoos-src-fn-item.is-open').forEach(b => b.classList.remove('is-open'));
 			btn.classList.add('is-open');
+			lastTappedFootnoteNum = num;
 			closeSourcesSheet();
 			// Marker fallback (API still loading): the target is the gold
 			// <sup> marker in the text itself. Otherwise the shelf item.
@@ -1336,10 +1346,22 @@ function renderSourcesFootnotes(footnotes) {
 			// sups — enhanceFootnoteSup only runs on the English side,
 			// which is why 31, 48, 58–64 had no clickable marker).
 			// Scroll + highlight whenever ANY card is found.
+			// B"H round 11: the old code read a bare `sefer` here — but
+			// renderSourcesFootnotes took only (footnotes), and no
+			// module-level `sefer` exists, so every tap threw a
+			// ReferenceError AFTER the dialog closed and BEFORE any
+			// scroll or highlight. That is why go-to-1 only LOOKED
+			// right (the dialog-close focus restore landed on the card
+			// the dialog was opened from) and go-to-58 landed on the
+			// footnote-1 card, and why the gold highlight never showed
+			// in rounds 8–10 although the CSS was served correctly.
+			// The sefer now arrives as a parameter (see renderSourcesTab).
+			const liveSefer = sefer || (typeof document !== 'undefined' && document.querySelector('#realPost .meluket-sefer')) || null;
 			const markerEl = (fn && fn._marker) || null;
 			const liveMarker = markerEl
-				|| (sefer && sefer.querySelector(`.meluket-fn-marker[data-fn="${num}"]`))
-				|| (sefer && Array.from(sefer.querySelectorAll('.meluket-phrase--he sup')).find(s => s.textContent.trim() === String(num)))
+				|| (liveSefer && liveSefer.querySelector(`.meluket-fn-marker[data-fn="${num}"]`))
+				|| (liveSefer && liveSefer.querySelector(`.meluket-phrase--he sup[data-fn="${num}"], .meluket-phrase--en sup[data-fn="${num}"]`))
+				|| (liveSefer && Array.from(liveSefer.querySelectorAll('.meluket-phrase--he sup')).find(s => s.textContent.trim() === String(num)))
 				|| null;
 			const card = (liveMarker && liveMarker.closest && liveMarker.closest('.meluket-phrase-pair'))
 				|| (target && target.closest && target.closest('.meluket-phrase-pair'))
@@ -1347,8 +1369,18 @@ function renderSourcesFootnotes(footnotes) {
 				|| null;
 			if (card) {
 				document.querySelectorAll('.awtsmoos-fn-active').forEach(n => n.classList.remove('awtsmoos-fn-active'));
+				if (lastFnActiveCard && lastFnActiveCard !== card) {
+					lastFnActiveCard.style.background = '';
+					lastFnActiveCard.style.outline = '';
+				}
+				lastFnActiveCard = card;
 				card.scrollIntoView({ behavior: 'smooth', block: 'center' });
 				card.classList.add('awtsmoos-fn-active');
+				// B"H round 11: paint the highlight inline as well as
+				// the class — inline beats any cascade mystery, so the
+				// gold shows even if a stylesheet rule ever loses again.
+				card.style.background = 'rgba(184, 134, 11, 0.32)';
+				card.style.outline = '2px solid #b8860b';
 			}
 		});
 		srcListEl.appendChild(btn);

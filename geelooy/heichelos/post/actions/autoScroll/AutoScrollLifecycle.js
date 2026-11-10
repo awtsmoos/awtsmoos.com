@@ -7,8 +7,11 @@
  * hidden, left, or dissolved, while remembered speed remains untouched.
  */
 export class AutoScrollLifecycle {
-	constructor(stop) {
+	constructor(stop, resume, isActive) {
 		this.stop = stop;
+		this.resume = resume ?? null;
+		this.isActive = isActive ?? null;
+		this.wasRunning = false;
 		this.connected = false;
 	}
 
@@ -21,7 +24,16 @@ export class AutoScrollLifecycle {
 		window.addEventListener('beforeunload', () => this.stop());
 		document.addEventListener('visibilitychange', () => {
 			if (document.visibilityState === 'hidden') {
-				this.stop();
+				// B"H round 11: the old code stopped the river when the
+				// tab hid and NEVER resumed it — the page sat still with
+				// a stale "Scrolling" status (the browser check watched
+				// it not move for 20s). Remember it was running, and
+				// restart it when the tab comes back.
+				this.wasRunning = Boolean(this.isActive?.());
+				if (this.wasRunning) this.stop();
+			} else if (document.visibilityState === 'visible' && this.wasRunning) {
+				this.wasRunning = false;
+				this.resume?.();
 			}
 		});
 	}

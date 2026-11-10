@@ -16,7 +16,11 @@ import {
 	normalizeSemanticPreferences,
 	pauseScaleForPreferences
 } from './SemanticPacePolicy.js';
-const REFRESH_INTERVAL_MS = 1500;
+/* B"H round 11: recalibration walks the whole post (innerText + a
+   TreeWalker over every text node) — every 1.5s it stole the main thread
+   for ~100–300ms, stuttering the river. Density and boundaries barely
+   change while scrolling; recalibrate at most every 10s. */
+const REFRESH_INTERVAL_MS = 10000;
 const MINIMUM_PIXELS_PER_SECOND = 1;
 const MAXIMUM_PIXELS_PER_SECOND = 640;
 

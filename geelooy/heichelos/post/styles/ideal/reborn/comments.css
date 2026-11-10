@@ -131,3 +131,18 @@ display: block;
  * testable, and not duplicated across the import river.
  */
 .post-reader-localized-context .awtsmoos-sidebar-comment-card { scroll-margin-block: .75rem; }
+
+/* B"H 2026-11-10 round 11: in LIGHT theme the dock rule above paints
+   these buttons dark-navy with white text — but the browser check shows
+   the Reply pill pale with white (unreadable) text. Whatever wins the
+   background, the white color wins the text. Force light-theme dock
+   buttons dark-on-pale at (0,11,1), above the dock rule's (0,9,1) and
+   button-hover's (0,10,0). Dark theme keeps the dark pill + light text. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock button,
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more summary,
+:root:not([data-theme="dark"]) .post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip,
+:root:not([data-theme="dark"]) .post-reader-localized-context .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item {
+	color: #2b2118;
+	background: #fffdf6;
+	border-color: #d9c9a8;
+}

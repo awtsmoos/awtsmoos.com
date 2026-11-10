@@ -8,7 +8,7 @@
  * continuous while preserving pace preferences and explicit public controls.
  */
 import { applyAutoScrollStartOptions } from './AutoScrollStartOptions.js';
-import { createAutoScrollWiring } from './AutoScrollWiring.js?v=wiring-001';
+import { createAutoScrollWiring } from './AutoScrollWiring.js?v=wiring-002';
 
 export class AutoScrollController {
 	constructor() {

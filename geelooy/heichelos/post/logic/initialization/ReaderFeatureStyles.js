@@ -3,7 +3,7 @@
 // Blessed is He
 
 const FULL_STYLE_ID = 'awtsmoos-reader-feature-styles';
-const FULL_STYLE_URL = '/heichelos/post/styles/main.css?v=reader-features-015';
+const FULL_STYLE_URL = '/heichelos/post/styles/main.css?v=reader-features-016';
 const SETTINGS_STYLE_ID = 'awtsmoos-reader-settings-styles';
 const SETTINGS_STYLE_URL = '/heichelos/post/styles/reader-settings.css?v=reader-settings-001';
 const COMMENTS_STYLE_ID = 'awtsmoos-reader-comments-styles';

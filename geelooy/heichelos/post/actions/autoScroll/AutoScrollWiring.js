@@ -8,14 +8,14 @@
  * Awtsmoos.com keeps explicit pause APIs available without hidden gesture or
  * surface interruptions becoming part of ordinary motion.
  */
-import { AutoScrollLifecycle } from './AutoScrollLifecycle.js';
+import { AutoScrollLifecycle } from './AutoScrollLifecycle.js?v=lifecycle-001';
 import { AutoScrollPause } from './AutoScrollPause.js';
 import { AutoScrollPreferences } from './AutoScrollPreferences.js';
 import { AutoScrollRuntime } from './AutoScrollRuntime.js?v=reader-river-002';
 import { AutoScrollSession } from './AutoScrollSession.js';
 import { AutoScrollState } from './AutoScrollState.js';
 import { readAutoScrollPreferences } from './AutoScrollStorage.js';
-import { SemanticPaceEngine } from './SemanticPaceEngine.js?v=pace-001';
+import { SemanticPaceEngine } from './SemanticPaceEngine.js?v=pace-002';
 
 export function createAutoScrollWiring(owner) {
 	const state = new AutoScrollState(readAutoScrollPreferences());
@@ -40,6 +40,10 @@ export function createAutoScrollWiring(owner) {
 			pauseController
 		}),
 		preferences: new AutoScrollPreferences(state, semantic),
-		lifecycle: new AutoScrollLifecycle(() => owner.stop())
+		lifecycle: new AutoScrollLifecycle(
+			() => owner.stop(),
+			() => owner.start(),
+			() => owner.state.value.active
+		)
 	};
 }
