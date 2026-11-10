@@ -16,7 +16,11 @@ const rawNames=[
  'awaitingPong','executionHealthSupported','executionHealthy','executionHealthState','executionHealthAt',
  'acceptanceHealthSupported','acceptanceHealthy','acceptanceHealthState','acceptanceHealthAt',
  'acceptanceFailureAt','acceptanceLastFailureAt','acceptanceSuccessAt','acceptanceFailureStreak',
- 'lastAcceptedAt','lastAcceptedReceiptId','parentCustody','registrationKey'
+ 'lastAcceptedAt','lastAcceptedReceiptId','parentCustody','registrationKey',
+ 'protocolVersion','targetVessel','virtualOs','hostedVirtualOs','releaseSourceSha',
+ 'actionManifestHash','actionSchemaDigest','publicActionDigest','publicActionCount',
+ 'supportedActions','actionManifest','capabilityProfile','runtime','limits','workspaceId',
+ 'missionSurface','actions','allowCommands'
  ];
 function profile(client){const o={};for(const key of rawNames)if(client[key]!==undefined)o[key]=client[key];return o;}
 function clientsOf(ws){return Array.from(ws.tunnelClients?.values()||[]).filter(x=>x?.isTunnel).map(profile);}
