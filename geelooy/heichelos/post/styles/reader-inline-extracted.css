@@ -363,7 +363,7 @@
 			align-items: center;
 		}
 		:root .post-reader-localized-context .text-controls::after {
-			content: "Adjust reading size · Default: 16";
+			content: "Adjust reading size";
 			grid-column: 1 / -1;
 			justify-self: end;
 			font-size: .78rem;

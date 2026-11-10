@@ -209,3 +209,36 @@
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 }
+
+/* B"H 2026-11-10 round 3: the LIVE speed readout is NOT #autoScrollSpeedDisplay.
+   ensureAutoScrollSemanticControls() deletes .speed-readout-row on mount and
+   rebuilds it as #autoScrollSemanticControls > label.auto-scroll-semantic-range
+   > span "Speed" + output#autoScrollPaceDisplay + range. That rebuilt output
+   has ZERO CSS rules anywhere — hence the dark navy pill with dark text
+   (round 1 and round 2 both pinned the deleted element). Pin the live one.
+   The old #autoScrollSpeedDisplay pins above stay as fallback for when the
+   semantic controls do not mount. */
+.post-reader-localized-context #autoScrollPaceDisplay {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+	max-inline-size: 100%;
+}
+.post-reader-localized-context .auto-scroll-semantic-range {
+	flex-wrap: wrap;
+}
+.post-reader-localized-context .auto-scroll-semantic-range > span {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+/* B"H 2026-11-10 round 3: "Sources & community" renders as a too-small
+   circle with its label wrapping into broken lines — the floating-button
+   sizing (56px, round) leaks into the dialog. In the dialog it is a
+   full-width pill like its siblings. (2,2,0) beats the floating rules. */
+.post-reader-localized-context #readerInfoPanel .reader-info-actions #commentaryBtn {
+	width: 100%;
+	height: auto;
+	min-height: 44px;
+	border-radius: 12px;
+	white-space: normal;
+}

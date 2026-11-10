@@ -77,13 +77,20 @@ export async function bootApplication() {
     try {
         const coords = resolvePathCoordinates();
         const { hId, pIdx } = coords;
+        // B"H 2026-11-10 round 3, load: the sefer module and the ownership
+        // check used to wait behind the post fetch, one after another, and
+        // the sefer transform only started after all of them. Start both
+        // fetches now, in parallel with the post fetch; the transform below
+        // awaits the module (already in flight) and the ownership result is
+        // only needed for window.doesOwn, so it is awaited after the awaken.
+        const seferModulePromise = import("../scribe/MeluketSeferReader.js?v=1ea1d9d1b6");
+        const doesOwnPromise = checkOwnership(hId);
         const { series, post, bread, pId } = await loadPostContext(coords);
         post.id = post.id || pId;
 
         window.post = post;
         window.series = series;
         window.breadcrumb = bread;
-        window.doesOwn = await checkOwnership(hId);
 
         if (document.querySelector("title")) {
             document.querySelector("title").innerText = `${series.prateem.name} | ${post.title}`;
@@ -105,7 +112,7 @@ export async function bootApplication() {
             // B"H — Torah Ohr-style posts: no dayuh/content, but complete
             // bilingual phraseTranslations (+ translation.readable). Render
             // them as a bilingual sefer via the shared Meluket section builder.
-            const { awakenPhraseTranslationReader } = await import("../scribe/MeluketSeferReader.js?v=c402c2fe5f");
+            const { awakenPhraseTranslationReader } = await seferModulePromise;
             const phraseResult = awakenPhraseTranslationReader(post);
             console.log("B\"H phrase-translation reader result:", phraseResult, "phrases:", post.phraseTranslations.length);
         }
@@ -115,7 +122,7 @@ export async function bootApplication() {
         // B"H (2026-10-11): the TEMP DEBUG page banners are removed — diagnostics
         // stay in the console; nothing debug may ever paint over the reader.
         try {
-            const { awakenMeluketSeferReader, wireSourcesButton } = await import("../scribe/MeluketSeferReader.js?v=c402c2fe5f");
+            const { awakenMeluketSeferReader, wireSourcesButton } = await seferModulePromise;
             const seferResult = awakenMeluketSeferReader(post);
             // Wire Sources button even if Meluket reader didn't activate (non-Meluket posts)
             if (!seferResult) {
@@ -125,6 +132,10 @@ export async function bootApplication() {
         } catch (seferError) {
             console.error("B\"H meluket sefer reader FAILED", seferError);
         }
+
+        // B"H 2026-11-10 round 3: ownership was awaited after the awaken
+        // (see the parallel start above); checkOwnership never rejects.
+        window.doesOwn = await doesOwnPromise;
 
         appendFooterNavigation(viewport, post, series, pIdx);
         await initConduit({ post, mainParent: document.body, parent: window.commentTab.actual, tab: window.commentTab });

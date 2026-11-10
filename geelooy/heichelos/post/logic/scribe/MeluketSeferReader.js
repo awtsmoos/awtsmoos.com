@@ -29,14 +29,23 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=68c694429d'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=907f2db3ab'],
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=595605ac4d'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
 ];
 
 function ensureSeferStyle(id, href) {
 	if (!document?.head) return null;
 	const existing = document.getElementById(id);
 	if (existing) return existing;
+	// B"H 2026-11-10 round 3: the server bundles consecutive head links, so
+	// the trio may already be loaded inside one bundle link (which keeps
+	// only the first id). Skip injection when any link already loads this
+	// file, or the file downloads twice.
+	const fileName = String(href).split('/').pop().split('?')[0];
+	if (fileName) {
+		const bundled = document.querySelector(`link[href*="${fileName}"]`);
+		if (bundled) return bundled;
+	}
 	const link = document.createElement('link');
 	link.id = id;
 	link.rel = 'stylesheet';

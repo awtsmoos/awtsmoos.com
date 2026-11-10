@@ -379,11 +379,16 @@ section[data-awtsmoos-unit].is-reading,
 
 /* FIX 4+5: Connect Hebrew/English size to the Aa --post-text-size variable
    so +/- buttons actually scale the article text (they set the variable on
-   .post-reader-localized-context). font-size-adjust keeps them visually equal. */
+   .post-reader-localized-context). font-size-adjust keeps them visually equal.
+   B"H 2026-11-10 round 3: the preview must carry the SAME 1.3 optical
+   multiplier as the sefer cards. At 1.0x the preview text jumped ~30%
+   bigger when the cards appeared — half the choppy switch Coby feels.
+   (The fallback var is 1.3 because --hebrew-optical lives on
+   .meluket-sefer, which does not exist yet while the preview shows.) */
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
-	font-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
+	font-size: calc(var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1.3));
 	color: var(--law8-ink);
 }

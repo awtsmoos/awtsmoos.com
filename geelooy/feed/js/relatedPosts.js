@@ -499,6 +499,23 @@ function ensureStyles() {
 	.related-post-card { transition: none; }
 	.related-posts-loading .rp-skel { animation: none; }
 }
+/* B"H 2026-11-10 round 3: the [data-theme="light"] overrides above only
+   apply when html carries data-theme="light". When the attribute is absent
+   (or the page never sets a theme) the dark defaults apply instead — light
+   cream text (#f5efe2) on the light reader page, i.e. white on white:
+   headings, excerpts, Preview buttons and card text all invisible. These
+   rules cover every non-dark page, not only explicitly light ones. */
+:root:not([data-theme="dark"]) .related-posts { color: #241a05; }
+:root:not([data-theme="dark"]) .related-posts-title { color: #241a05; }
+:root:not([data-theme="dark"]) .related-posts-sub { color: #6b5c40; }
+:root:not([data-theme="dark"]) .related-post-card { background: rgba(255, 255, 255, 0.65); }
+:root:not([data-theme="dark"]) .related-post-title a { color: #241a05; }
+:root:not([data-theme="dark"]) .related-post-author { color: #6b5c40; }
+:root:not([data-theme="dark"]) .related-post-excerpt { color: #2c2110; }
+:root:not([data-theme="dark"]) .related-post-expand { color: #241a05; }
+:root:not([data-theme="dark"]) .related-post-more { color: #2c2110; }
+:root:not([data-theme="dark"]) .related-post-meta { color: #6b5c40; }
+:root:not([data-theme="dark"]) .related-posts-empty { color: #6b5c40; }
 `;
 	document.head.append(style);
 }
