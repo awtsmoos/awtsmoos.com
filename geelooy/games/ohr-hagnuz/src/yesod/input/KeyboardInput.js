@@ -10,7 +10,7 @@
  */
 import { State } from '../../binah/State.js';
 import { routeDialogueKey, routePanelKey } from './KeyboardContextRoutes.js';
-import { createKeyboardIntentMap } from './KeyboardIntentSchema.js';
+import { createKeyboardIntentMap, PANEL_SHORTCUT_KEYS } from './KeyboardIntentSchema.js';
 
 export const keyIntentMap = createKeyboardIntentMap;
 
@@ -29,6 +29,13 @@ export function handleKeyboardDown(event, map, handlers) {
 
 	if (State.UiPanel) {
 		routePanelKey(event);
+		event.preventDefault?.();
+		return;
+	}
+
+	const panel = PANEL_SHORTCUT_KEYS[event.key];
+	if (panel) {
+		State.openPanel(panel);
 		event.preventDefault?.();
 		return;
 	}

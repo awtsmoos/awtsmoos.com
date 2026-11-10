@@ -7,7 +7,7 @@
 .revelation-vitality {
 	position: absolute;
 	left: 16px;
-	bottom: calc(var(--ohr-dock-height) + 16px);
+	bottom: calc(var(--ohr-dock-height) + 158px); /* above the 126px touch D-pad anchored to the same corner */
 	z-index: 46;
 	width: 220px;
 	padding: 11px 12px;

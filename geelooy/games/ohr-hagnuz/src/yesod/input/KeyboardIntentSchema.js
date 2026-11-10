@@ -37,6 +37,27 @@ export const DIALOGUE_LEFT_KEYS = Object.freeze([
 	'A'
 ]);
 
+/**
+ * Panel shortcuts advertised on the Revelation navigation dock (J/M/P/I/K/C/Esc).
+ * None of these keys carry a movement, action, or back intent, so routing them
+ * to their panels cannot steal a gameplay press.
+ */
+export const PANEL_SHORTCUT_KEYS = Object.freeze({
+	j: 'journal',
+	J: 'journal',
+	m: 'map',
+	M: 'map',
+	p: 'party',
+	P: 'party',
+	i: 'items',
+	I: 'items',
+	k: 'craft',
+	K: 'craft',
+	c: 'codex',
+	C: 'codex',
+	Escape: 'menu'
+});
+
 const MOVEMENT_INTENTS = Object.freeze({
 	ArrowUp: 'U',
 	w: 'U',
