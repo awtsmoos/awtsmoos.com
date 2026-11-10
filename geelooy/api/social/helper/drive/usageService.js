@@ -9,7 +9,7 @@
  * Barrel for usageService: re-exports the identical surface from its sibling modules.
  */
 
-const { abortDriveRequest, accountIngress, accountPublicTransfer, beginDriveRequest, finishDriveRequest, getDriveUsage } = require('./usageServiceApi.js');
+const { abortDriveRequest, accountIngress, accountPublicTransfer, accountPublicDownload, beginDriveRequest, finishDriveRequest, getDriveUsage } = require('./usageServiceApi.js');
 const { pruneTrafficState } = require('./usageServiceHelpers.js');
 
 module.exports = {
@@ -17,6 +17,7 @@ module.exports = {
 	finishDriveRequest,
 	abortDriveRequest,
 	accountPublicTransfer,
+	accountPublicDownload,
 	accountIngress,
 	getDriveUsage,
 	pruneTrafficState

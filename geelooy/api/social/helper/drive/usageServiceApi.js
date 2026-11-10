@@ -79,6 +79,28 @@ async function accountIngress(aliasId, ingressBytes, $i = {}) {
 	return beginDriveRequest(aliasId, { ingressBytes, upload: true }, $i);
 }
 
+
+/**
+ * Counts one already-served public download in a single state mutation.
+ * Public reads take no transfer lease and pass no quota gate on the
+ * request path, so a same-server object is never rejected or queued
+ * behind the begin/finish pair this replaces.
+ */
+async function accountPublicDownload(aliasId, egressBytes = 0, $i = {}) {
+	return mutateDriveState(aliasId, $i, state => {
+		pruneTrafficState(state);
+		const window = currentRateWindow(state);
+		window.requests += 1;
+		const month = currentMonthUsage(state);
+		const bytes = safeBytes(egressBytes);
+		month.requests += 1;
+		month.egressBytes += bytes;
+		state.usage.requests += 1;
+		state.usage.egressBytes += bytes;
+		return { month, usage: state.usage };
+	});
+}
+
 async function getDriveUsage(aliasId, $i = {}) {
 	const state = await readDriveState(aliasId, $i);
 	pruneTrafficState(state);
@@ -96,6 +118,7 @@ module.exports = {
 	finishDriveRequest,
 	abortDriveRequest,
 	accountPublicTransfer,
+	accountPublicDownload,
 	accountIngress,
 	getDriveUsage
 };

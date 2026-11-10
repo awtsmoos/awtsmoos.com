@@ -6,16 +6,16 @@
 /**
  * @module publicResponseEntry
  * @description
- * Metered public entry, hash and immutable entry responses.
+ * Public entry, hash and immutable entry responses. Public reads take
+ * no transfer lease and pass no quota gate: one serving, one single
+ * accounting mutation (accountPublicDownload) replaces the old
+ * begin+finish pair of locked full-state rewrites. Validators answer
+ * before the object is read, so a 304 costs no object disk I/O.
  */
 
 const { readObject } = require('./objectRepository.js');
 const { readDriveState } = require('./stateRepository.js');
-const {
-	beginDriveRequest,
-	finishDriveRequest,
-	abortDriveRequest
-} = require('./usageService.js');
+const { accountPublicDownload } = require('./usageService.js');
 const {
 	etagForHash,
 	isNotModified
@@ -48,34 +48,25 @@ async function buildPublicEntryResponse(options) {
 async function buildEntryResponse(options) {
 	const method = String(options.method || 'GET').toUpperCase();
 	if (method !== 'GET' && method !== 'HEAD') return methodResponse();
-	const traffic = await beginDriveRequest(options.aliasId, {
-		transfer: true,
-		kind: 'public-download'
-	}, options.$i);
-	try {
-		return await buildMeteredResponse(options, method, traffic.leaseId);
-	} catch (error) {
-		await abortDriveRequest(options.aliasId, traffic.leaseId, options.$i);
-		throw error;
-	}
+	return buildMeteredResponse(options, method);
 }
 
-async function buildMeteredResponse(options, method, leaseId) {
+async function buildMeteredResponse(options, method) {
 	const entry = options.entry;
 	const etag = etagForHash(entry.objectHash);
+	if (isNotModified(options.headers, etag, entry.updatedAt)) {
+		await accountPublicDownload(options.aliasId, 0, options.$i);
+		return { statusCode: 304, headers: commonHeaders(entry, etag), response: Buffer.alloc(0) };
+	}
 	const fullBody = await readObject(options.aliasId, entry.objectHash, options.$i);
 	// The bytes are the only honest witness of type: when their magic
 	// disproves the stored mime, the truthful mime builds every header, so
-	// 200, 206 and 304 responses alike speak the true type under nosniff.
+	// 200 and 206 responses alike speak the true type under nosniff.
 	const truthfulEntry = { ...entry, mime: effectiveMime(fullBody, entry.mime) };
 	const headers = commonHeaders(truthfulEntry, etag);
-	if (isNotModified(options.headers, etag, entry.updatedAt)) {
-		await finishDriveRequest(options.aliasId, leaseId, 0, options.$i);
-		return { statusCode: 304, headers, response: Buffer.alloc(0) };
-	}
 	const selected = selectBody(fullBody, options.headers, headers);
 	const responseBytes = method === 'HEAD' ? 0 : selected.body.length;
-	await finishDriveRequest(options.aliasId, leaseId, responseBytes, options.$i);
+	await accountPublicDownload(options.aliasId, responseBytes, options.$i);
 	headers['Content-Length'] = String(selected.body.length);
 	return {
 		statusCode: selected.statusCode,
