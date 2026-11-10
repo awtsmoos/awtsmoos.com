@@ -10,9 +10,9 @@ const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
  * @returns {Promise<Array<{id: string, name: string}>>} A promise resolving to a list of models.
  */
 export async function fetchModels(apiKey) {
-    const url = `${API_BASE_URL}/models?key=${apiKey}`;
+    const url = `${API_BASE_URL}/models`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { headers: { 'x-goog-api-key': apiKey } });
         if (!response.ok) {
             throw await handleFetchError(response, url);
         }
@@ -39,7 +39,7 @@ export async function fetchModels(apiKey) {
  * @returns {Promise<{name: string, layout: Array<Array<number>>}|null>} A promise that resolves to the new level data.
  */
 export async function generateLevel(prompt, apiKey, model) {
-    const url = `${API_BASE_URL}/${model}:generateContent?key=${apiKey}`;
+    const url = `${API_BASE_URL}/${model}:generateContent`;
 
     const systemInstruction = `You are a level designer for a brick-breaker game. The game grid is exactly ${GRID_COLS} columns wide and can be up to ${GRID_ROWS} rows tall. You must generate a JSON object representing a level layout. The JSON object must have a single key: "layout". The value of "layout" must be a 2D array of numbers. The array can have up to ${GRID_ROWS} rows. Each row must have exactly ${GRID_COLS} columns. Each cell in the array represents a brick. Use a positive integer for the brick's health. Use 0 or null for an empty space. The health values should be challenging but fair, ranging from 10 to 500 based on the user's prompt. Generate a creative and playable level. Your entire output must be ONLY the raw JSON object. Do not wrap it in markdown backticks or add any other text.`;
 
@@ -54,7 +54,7 @@ export async function generateLevel(prompt, apiKey, model) {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
             body: JSON.stringify(requestBody),
         });
 
