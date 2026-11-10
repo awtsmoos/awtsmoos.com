@@ -218,6 +218,21 @@
    (round 1 and round 2 both pinned the deleted element). Pin the live one.
    The old #autoScrollSpeedDisplay pins above stay as fallback for when the
    semantic controls do not mount. */
+/* B"H 2026-11-10 round 5: Related posts colors, pinned HERE (not only in
+   relatedPosts.js) — this file loads with the page head, so the colors
+   reach the browser even when the dynamically-imported relatedPosts.js is
+   served stale from the service-worker cache. */
+:root:not([data-theme="dark"]) .related-post-title a { color: #241a05; }
+:root:not([data-theme="dark"]) .related-post-excerpt { color: #2c2110; }
+:root:not([data-theme="dark"]) .related-post-expand { color: #241a05; background: #fffdf6; }
+:root:not([data-theme="dark"]) .related-post-open { color: #8a6d2b; }
+:root:not([data-theme="dark"]) .related-post-author { color: #6b5c40; }
+:root:not([data-theme="dark"]) .related-posts { color: #241a05; }
+[data-theme="dark"] .related-post-title a { color: #f5efe2; }
+[data-theme="dark"] .related-post-excerpt { color: #e8e0cc; }
+[data-theme="dark"] .related-post-expand { color: #f5efe2; background: rgba(255, 255, 255, 0.08); }
+[data-theme="dark"] .related-post-open { color: #d4a94e; }
+
 .post-reader-localized-context #autoScrollPaceDisplay {
 	background: #fffdf6;
 	border: 1px solid #d9c9a8;

@@ -101,6 +101,14 @@ async function manifestPrimaryContent(viewport, post) {
  */
 export async function manifestPost(viewport, post, series, postIndex) {
 	if (!viewport) return 'missing-viewport';
+	// B"H 2026-11-10 round 5: the embed sefer may already be mounted (built
+	// from the HTML, no API wait). Never wipe it or re-render the text —
+	// only the chrome around it (assets, nav) still belongs here.
+	if (viewport.querySelector('.meluket-sefer')) {
+		appendRootAssets(viewport, post);
+		viewport.append(makeNavBars(post, series, postIndex));
+		return 'embed-sefer';
+	}
 	viewport.innerHTML = '';
 	renderChitasMasthead(viewport, post);
 	appendTitle(viewport, post);

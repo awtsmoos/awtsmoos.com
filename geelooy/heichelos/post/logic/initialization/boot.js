@@ -83,8 +83,14 @@ export async function bootApplication() {
         // fetches now, in parallel with the post fetch; the transform below
         // awaits the module (already in flight) and the ownership result is
         // only needed for window.doesOwn, so it is awaited after the awaken.
-        const seferModulePromise = import("../scribe/MeluketSeferReader.js?v=1ea1d9d1b6");
+        const seferModulePromise = import("../scribe/MeluketSeferReader.js?v=5bf58e06cf");
         const doesOwnPromise = checkOwnership(hId);
+        // B"H 2026-11-10 round 5: build the sefer from the embedded phrases
+        // NOW — the text is already in the HTML, no API wait. Runs in
+        // parallel with loadPostContext; the API awaken below enhances it.
+        const embedAwakenPromise = seferModulePromise.then((m) => {
+            try { return m.awakenMeluketSeferReaderFromEmbed(); } catch (_) { return false; }
+        }).catch(() => false);
         const { series, post, bread, pId } = await loadPostContext(coords);
         post.id = post.id || pId;
 
@@ -99,8 +105,8 @@ export async function bootApplication() {
         await hydratePostIdentity(post, hId);
         setupTabs(post, series, hId, pIdx);
 
-        if (post.dayuh) await interpretPostDayuh(post);
-        else if (post.content) {
+        if (post.dayuh && !document.querySelector('#realPost .meluket-sefer')) await interpretPostDayuh(post);
+        else if (post.content && !document.querySelector('#realPost .meluket-sefer')) {
             const { appendHTML, wirePostContentInteractions } = await import("../../functions/utils.js?v=acd0c11267");
             appendHTML(post.content, viewport);
             // B"H 2026-11-10: boot.js renders via appendHTML (not
@@ -108,7 +114,7 @@ export async function bootApplication() {
             // footnote-tap handler were never wired on this path. Wire
             // them on the rendered viewport now (idempotent).
             wirePostContentInteractions(viewport);
-        } else if (post.phraseTranslations && Array.isArray(post.phraseTranslations) && post.phraseTranslations.length) {
+        } else if (post.phraseTranslations && Array.isArray(post.phraseTranslations) && post.phraseTranslations.length && !document.querySelector('#realPost .meluket-sefer')) {
             // B"H — Torah Ohr-style posts: no dayuh/content, but complete
             // bilingual phraseTranslations (+ translation.readable). Render
             // them as a bilingual sefer via the shared Meluket section builder.
@@ -137,16 +143,25 @@ export async function bootApplication() {
         // (see the parallel start above); checkOwnership never rejects.
         window.doesOwn = await doesOwnPromise;
 
-        appendFooterNavigation(viewport, post, series, pIdx);
-        await initConduit({ post, mainParent: document.body, parent: window.commentTab.actual, tab: window.commentTab });
+        // B"H 2026-11-10 round 5: everything below is extra — comments,
+        // annotations, sparks, chapter nav, scroll-to-active. The text is
+        // already readable; run these on idle so they never block the read.
+        const deferExtra = (fn) => {
+            if (typeof requestIdleCallback === 'function') requestIdleCallback(() => { try { fn(); } catch (_) {} }, { timeout: 2000 });
+            else setTimeout(() => { try { fn(); } catch (_) {} }, 0);
+        };
+        deferExtra(() => {
+            appendFooterNavigation(viewport, post, series, pIdx);
+            initConduit({ post, mainParent: document.body, parent: window.commentTab.actual, tab: window.commentTab }).catch(() => {});
+            loadAnnotations();
+            scrollToActiveEl().catch(() => {});
+            indexSwitch().catch(() => {});
+            awakenInlineSparks().catch(() => {});
+        });
 
         loadFontSize();
         setupUIListeners();
         setupHighlightingLogic();
-        loadAnnotations();
-        await scrollToActiveEl();
-        await indexSwitch();
-        await awakenInlineSparks();
     } catch (error) {
         console.error("FATAL B\"H CORE ERROR:", error);
         if (viewport) viewport.innerHTML = `<div class='fatal-error awtsmoos-empty-placeholder'>SYSTEM RUPTURE: ${error.message}</div>`;

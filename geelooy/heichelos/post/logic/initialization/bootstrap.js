@@ -11,7 +11,7 @@
 
 import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
 import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-006';
-import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-011';
+import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-012';
 import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
 import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-004';
 import {
@@ -115,6 +115,13 @@ async function igniteInner() {
 	);
 	const malchusViewport = document.getElementById('realPost');
 	const malchusSidebar = document.querySelector('.sidebar');
+	// B"H 2026-11-10 round 5: build the sefer from the embedded phrases NOW
+	// — the text is already in the HTML, no API wait. Runs in parallel with
+	// manifestCanonicalReader; the API awaken below enhances it in place.
+	const seferModulePromise = import('../scribe/MeluketSeferReader.js?v=5bf58e06cf');
+	const embedAwakenPromise = seferModulePromise.then((m) => {
+		try { return m.awakenMeluketSeferReaderFromEmbed(); } catch (_) { return false; }
+	}).catch(() => false);
 	let tiferesCanonical;
 	try {
 		tiferesCanonical = await manifestCanonicalReader(
@@ -132,7 +139,7 @@ async function igniteInner() {
 	// B"H — Torah Ohr / Likkutei Sichos style posts carry phraseTranslations
 	// (no enrichment.hebrew_phrases); render them as a bilingual sefer too.
 	try {
-		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js?v=1ea1d9d1b6');
+		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await seferModulePromise;
 		const seferResult = awakenMeluketSeferReader(tiferesCanonical.post);
 		if (!seferResult) {
 			const phraseResult = awakenPhraseTranslationReader(tiferesCanonical.post);
@@ -150,15 +157,14 @@ async function igniteInner() {
 		tiferesCanonical.hId
 	);
 	document.body.dataset.socialReaderReady = 'true';
-	beginDiscussion(malchusViewport);
-	// B"H — settlement is enhancement, not manifestation: the canonical
-	// post is already rendered and marked ready above. A settlement
-	// failure (e.g. a comment-tree fetch aborting on a slow server) is
-	// reported, never allowed to replace the living reader with the
-	// plain-text fallback.
-	try {
-		await settleCoreReader();
-	} catch (settleError) {
-		reportBootFailure(settleError, 'settle');
-	}
+	// B"H 2026-11-10 round 5: comments + settlement are extra — the text is
+	// already readable. Run them on idle so they never block the read.
+	const deferExtra = (fn) => {
+		if (typeof requestIdleCallback === 'function') requestIdleCallback(() => { try { fn(); } catch (_) {} }, { timeout: 2000 });
+		else setTimeout(() => { try { fn(); } catch (_) {} }, 0);
+	};
+	deferExtra(() => {
+		beginDiscussion(malchusViewport);
+		settleCoreReader().catch((settleError) => reportBootFailure(settleError, 'settle'));
+	});
 }

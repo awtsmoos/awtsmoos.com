@@ -1416,6 +1416,305 @@ export function wireSourcesButton(post, sefer) {
  * @param {object} post The window.post object with enrichment.
  * @returns {boolean} True if the sefer restructuring was applied.
  */
+/* ---------------------------------------------------------------------------
+ * B"H — 2026-11-10 round 5: instant read. The server already sends every
+ * phrase in the initial HTML (the #awtsmoos-phrase-translations embed),
+ * but the sefer waited on the post API round trip before building the
+ * cards — that wait IS the visible switch. Build the cards from the embed
+ * the moment the module loads, with no API wait; the API awaken below then
+ * enhances the mounted sefer in place (overview, Q&A, footnote shelf,
+ * chapter nav) instead of rebuilding it. Anything not needed to read
+ * (overview, Q&A, footnotes, comments, related posts) arrives after the
+ * text is readable.
+ * ------------------------------------------------------------------------- */
+
+/** Reads the embedded phrase rows the server put in the initial HTML. */
+function readEmbeddedPhraseRows() {
+	try {
+		const el = typeof document !== 'undefined' ? document.getElementById('awtsmoos-phrase-translations') : null;
+		if (!el) return null;
+		const rows = JSON.parse(el.textContent || '');
+		if (!Array.isArray(rows) || rows.length < 20) return null;
+		return rows;
+	} catch (_) { return null; }
+}
+
+/**
+ * Shapes embed rows ({sourceHebrew, content, verseSection, subsectionId})
+ * into the phrases buildHebrewSections expects. Sections are numbered in
+ * first-appearance order (sec-001, sec-002, ...) and phraseIds are
+ * segment_<section>_<phrase>, so the sort order is the embed's row order.
+ */
+function synthesizeEmbedPhrases(rows) {
+	const sectionKeys = [];
+	const sectionIndexByKey = new Map();
+	const perSection = [];
+	const enByPhraseId = new Map();
+	for (const row of rows || []) {
+		const he = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
+		if (!he.trim()) continue;
+		// B"H: verseSection IS the section (0-6 for this maamar — 7 sections).
+		// subsectionId is the phrase's index inside its section, not a section
+		// id — grouping by it would make one section per phrase. The phrase
+		// index is the running count inside the section (row order), which is
+		// also how the API's segment_<section>_<phrase> ids are numbered.
+		const key = row.verseSection != null ? String(row.verseSection) : '0';
+		if (!sectionIndexByKey.has(key)) {
+			sectionIndexByKey.set(key, sectionKeys.length);
+			sectionKeys.push(key);
+			perSection.push([]);
+		}
+		const sIdx = sectionIndexByKey.get(key);
+		const pIdx = perSection[sIdx].length;
+		const phraseId = `segment_${sIdx}_${pIdx}`;
+		const sectionId = `sec-${String(sIdx + 1).padStart(3, '0')}`;
+		perSection[sIdx].push({ phraseId, he, sectionId });
+		enByPhraseId.set(phraseId, row.content != null ? String(row.content) : '');
+	}
+	return { phrases: perSection.flat(), enByPhraseId };
+}
+
+/**
+ * Renders sections into the sefer: the first 3 synchronously (first paint),
+ * the rest streamed via idle callbacks. Shared by the embed path and the
+ * API path so both produce the identical section order.
+ */
+function renderSeferSectionsInto(sefer, hebrewSections, translationEn, sectionSummaries, langMode) {
+	const queue = hebrewSections.map(({ sectionId, items }, index) => {
+		const englishText = (translationEn && translationEn[sectionId]) || '';
+		const sectionSummary = (sectionSummaries && sectionSummaries[sectionId]) || '';
+		return { index, sectionId, items, englishText, sectionSummary };
+	});
+	const FIRST_PAINT = 3;
+	for (let i = 0; i < Math.min(FIRST_PAINT, queue.length); i++) {
+		const s = queue[i];
+		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+	}
+	let idx = FIRST_PAINT;
+	function renderChunk(deadline) {
+		const start = Date.now();
+		while (idx < queue.length) {
+			if (deadline && deadline.timeRemaining() <= 0 && Date.now() - start > 50) break;
+			const s = queue[idx++];
+			try {
+				sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+			} catch (e) {
+				console.warn('B"H meluket section render failed', s.sectionId, e);
+			}
+			if ((idx - FIRST_PAINT) % 5 === 0) break;
+		}
+		if (idx < queue.length) {
+			if (typeof requestIdleCallback === 'function') {
+				requestIdleCallback(renderChunk, { timeout: 1000 });
+			} else {
+				setTimeout(() => renderChunk(null), 0);
+			}
+		}
+	}
+	if (idx < queue.length) {
+		if (typeof requestIdleCallback === 'function') {
+			requestIdleCallback(renderChunk, { timeout: 1000 });
+		} else {
+			setTimeout(() => renderChunk(null), 0);
+		}
+	}
+}
+
+/** Overview block (the klal before the pratim) — null when there is none. */
+function buildOverviewBlock(summariesEn) {
+	const raw = summariesEn && summariesEn.post;
+	const text = typeof raw === 'string' ? raw : (raw?.detailed || raw?.short || '');
+	if (!text || !String(text).trim()) return null;
+	const wrap = el('div', 'meluket-post-summary');
+	wrap.setAttribute('dir', 'ltr');
+	wrap.setAttribute('lang', 'en');
+	wrap.appendChild(el('div', 'meluket-summary-label', 'Overview'));
+	wrap.appendChild(el('p', null, String(text).trim()));
+	return wrap;
+}
+
+/** Q&A section — null when there are no questions or answers. */
+function buildQaSection(enrichment) {
+	const questions = Array.isArray(enrichment?.questions_en) ? enrichment.questions_en : [];
+	const answers = Array.isArray(enrichment?.answers_en) ? enrichment.answers_en : [];
+	if (!questions.length && !answers.length) return null;
+	const qa = el('section', 'meluket-qa');
+	qa.appendChild(el('h2', 'meluket-qa-title', 'שאלות ותשובות · Q&A'));
+	const list = el('div', 'meluket-qa-list');
+	const count = Math.max(questions.length, answers.length);
+	for (let i = 0; i < count; i++) {
+		const item = el('div', 'meluket-qa-item');
+		const qText = questions[i];
+		const aObj = answers[i];
+		const aText = aObj ? (aObj.a || aObj.answer || '') : '';
+		const qLabel = aObj && aObj.q ? aObj.q : qText;
+		if (qLabel && String(qLabel).trim()) {
+			const q = el('div', 'meluket-qa-q', String(qLabel).trim());
+			q.setAttribute('dir', 'auto');
+			item.appendChild(q);
+		}
+		if (aText && String(aText).trim()) {
+			const a = el('div', 'meluket-qa-a', String(aText).trim());
+			a.setAttribute('dir', 'auto');
+			item.appendChild(a);
+		}
+		if (item.children.length) list.appendChild(item);
+	}
+	if (!list.children.length) return null;
+	qa.appendChild(list);
+	return qa;
+}
+
+/** Footnotes shelf — null when there are no footnotes. */
+function buildFootnotesShelf(post) {
+	const footnotes = Array.isArray(post?.footnotes) ? post.footnotes : [];
+	if (!footnotes.length) return null;
+	const shelf = document.createElement('aside');
+	shelf.className = 'meluket-footnotes-shelf';
+	const shelfTitle = document.createElement('h2');
+	shelfTitle.className = 'meluket-footnotes-title';
+	shelfTitle.textContent = 'הערות · Notes';
+	shelf.appendChild(shelfTitle);
+	const list = document.createElement('ol');
+	list.className = 'meluket-footnotes-list';
+	footnotes.forEach((fn, idx) => {
+		const li = document.createElement('li');
+		li.className = 'meluket-footnote';
+		li.id = `meluket-fn-${idx + 1}`;
+		li.setAttribute('data-fn', String(idx + 1));
+		const num = document.createElement('span');
+		num.className = 'meluket-footnote-num';
+		num.textContent = String(idx + 1);
+		li.appendChild(num);
+		const body = document.createElement('span');
+		body.className = 'meluket-footnote-body';
+		body.setAttribute('dir', 'auto');
+		const heBody = fn.body || fn.hebrew || '';
+		const enBody = fn.body_en || fn.english || '';
+		if (heBody) {
+			const heSpan = document.createElement('span');
+			heSpan.className = 'meluket-footnote-he';
+			heSpan.setAttribute('dir', 'rtl');
+			setFootnoteBodyHtml(heSpan, heBody);
+			body.appendChild(heSpan);
+		}
+		if (enBody) {
+			const enSpan = document.createElement('span');
+			enSpan.className = 'meluket-footnote-en';
+			enSpan.setAttribute('dir', 'ltr');
+			enSpan.textContent = enBody;
+			body.appendChild(enSpan);
+		}
+		if (!heBody && !enBody) {
+			body.textContent = typeof fn === 'string' ? fn : JSON.stringify(fn).slice(0, 200);
+		}
+		li.appendChild(body);
+		list.appendChild(li);
+	});
+	shelf.appendChild(list);
+	return shelf;
+}
+
+/** Re-mounts the chapter nav after the sefer (same as finalizeSeferMount). */
+function ensureSeferNav(post) {
+	const realPost = document.getElementById('realPost');
+	if (!realPost || realPost.querySelector('.awtsmoos-chapter-nav')) return;
+	if (typeof window === 'undefined' || !window.series || !Array.isArray(window.series.posts)) return;
+	let pIdx = window.currentIndexInSeries;
+	if ((pIdx === undefined || pIdx === null) && post && post.id) {
+		const found = window.series.posts.indexOf(post.id);
+		pIdx = found >= 0 ? found : 0;
+	}
+	import('../../functions/ui/nav.js?v=5da53e96f2').then(({ makeNavBars }) => {
+		try {
+			const nav = makeNavBars(post, window.series, pIdx);
+			if (nav && nav.nodeType === 1) realPost.appendChild(nav);
+		} catch (_) { /* navigation is optional */ }
+	}).catch(() => { /* navigation is optional */ });
+}
+
+/**
+ * Enhances a sefer the embed path already built: appends the overview,
+ * Q&A and footnotes shelf the embed could not carry, and re-mounts the
+ * chapter nav. Returns true when the mounted sefer matches the API data
+ * (same section and phrase counts) — false when it does not, in which case
+ * the API awaken rebuilds from scratch below.
+ */
+function enhanceEmbedSefer(post) {
+	const realPost = document.getElementById('realPost');
+	const sefer = realPost ? realPost.querySelector('.meluket-sefer') : null;
+	if (!sefer) return false;
+	const enrichment = post && post.enrichment;
+	if (!enrichment || !Array.isArray(enrichment.hebrew_phrases)) return false;
+	const enByPhraseId = buildPhraseEnglishMap(enrichment.translation_en_phrases);
+	const apiSections = buildHebrewSections(enrichment.hebrew_phrases, enByPhraseId);
+	const mountedSections = sefer.querySelectorAll('.meluket-sefer-section').length;
+	const mountedPairs = sefer.querySelectorAll('.meluket-phrase-pair').length;
+	const apiPairs = apiSections.reduce((n, s) => n + s.items.length, 0);
+	if (mountedSections !== apiSections.length || mountedPairs !== apiPairs) {
+		console.log('B"H embed sefer structure differs from API — rebuilding', mountedSections, apiSections.length, mountedPairs, apiPairs);
+		return false;
+	}
+	const summariesEn = enrichment.summaries_en || {};
+	if (!sefer.querySelector('.meluket-post-summary')) {
+		const overview = buildOverviewBlock(summariesEn);
+		if (overview) {
+			const titleBlock = sefer.querySelector('.meluket-sefer-title');
+			if (titleBlock && titleBlock.nextSibling) sefer.insertBefore(overview, titleBlock.nextSibling);
+			else sefer.insertBefore(overview, sefer.firstChild.nextSibling);
+		}
+	}
+	if (!sefer.querySelector('.meluket-qa')) {
+		const qa = buildQaSection(enrichment);
+		if (qa) sefer.appendChild(qa);
+	}
+	if (!sefer.querySelector('.meluket-footnotes-shelf')) {
+		const shelf = buildFootnotesShelf(post);
+		if (shelf) sefer.appendChild(shelf);
+	}
+	ensureSeferNav(post);
+	return true;
+}
+
+/**
+ * Builds the sefer from the embedded phrase rows in the initial HTML —
+ * no API wait. Returns true when the cards mounted, false when the embed
+ * is missing or too thin (the API path below then builds them instead).
+ */
+export function awakenMeluketSeferReaderFromEmbed() {
+	const rows = readEmbeddedPhraseRows();
+	if (!rows) return false;
+	const realPost = document.getElementById('realPost');
+	if (!realPost) return false;
+	if (realPost.querySelector('.meluket-sefer')) return true;
+	const { phrases, enByPhraseId } = synthesizeEmbedPhrases(rows);
+	const hebrewSections = buildHebrewSections(phrases, enByPhraseId);
+	if (!hebrewSections.length) return false;
+	console.log('B"H sefer reader activating from embed:', hebrewSections.length, 'sections');
+	ensureMeluketSeferStyles();
+	const langMode = readSavedLangMode();
+	const sefer = document.createElement('div');
+	sefer.className = 'meluket-sefer';
+	sefer.dataset.langMode = langMode;
+	sefer.dataset.embedBuilt = '1';
+	const titleHe = document.querySelector('.awtsmoos-initial-post-title');
+	const title = (titleHe && titleHe.textContent ? titleHe.textContent.trim() : '') || (document.title || '').split('|').pop().trim();
+	const titleBlock = document.createElement('header');
+	titleBlock.className = 'meluket-sefer-title';
+	const h1 = document.createElement('h1');
+	h1.className = 'meluket-sefer-title-he';
+	h1.setAttribute('dir', 'rtl');
+	h1.textContent = title;
+	titleBlock.appendChild(h1);
+	sefer.appendChild(titleBlock);
+	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode));
+	injectLangToggleIntoSettings(toggle);
+	enhanceScribeLensPanel();
+	renderSeferSectionsInto(sefer, hebrewSections, {}, {}, langMode);
+	finalizeSeferMount(sefer, { title, id: '' });
+	return true;
+}
+
 export function awakenMeluketSeferReader(post) {
 	const enrichment = post && post.enrichment;
 	if (!enrichment || !Array.isArray(enrichment.hebrew_phrases) || !enrichment.hebrew_phrases.length) {
@@ -1441,6 +1740,15 @@ export function awakenMeluketSeferReader(post) {
 	}
 	console.log("B\"H sefer reader activating:", hebrewSections.length, "sections");
 
+	// B"H round 5: the embed path may already have built the sefer from the
+	// HTML. Enhance it in place instead of rebuilding — a rebuild would
+	// flash the same text twice.
+	const existingSefer = document.querySelector('#realPost .meluket-sefer');
+	if (existingSefer && existingSefer.dataset.embedBuilt === '1') {
+		if (enhanceEmbedSefer(post)) return true;
+		// Structure differs — fall through and rebuild below.
+	}
+
 	ensureMeluketSeferStyles();
 
 	const langMode = readSavedLangMode();
@@ -1461,17 +1769,8 @@ export function awakenMeluketSeferReader(post) {
 	sefer.appendChild(titleBlock);
 
 	// Post summary — the klal before the pratim.
-	const postSummaryRaw = summariesEn.post;
-	const postSummary = typeof postSummaryRaw === 'string' ? postSummaryRaw : (postSummaryRaw?.detailed || postSummaryRaw?.short || '');
-	if (postSummary && String(postSummary).trim()) {
-		const summaryWrap = el('div', 'meluket-post-summary');
-		summaryWrap.setAttribute('dir', 'ltr');
-		summaryWrap.setAttribute('lang', 'en');
-		summaryWrap.appendChild(el('div', 'meluket-summary-label', 'Overview'));
-		const body = el('p', null, String(postSummary).trim());
-		summaryWrap.appendChild(body);
-		sefer.appendChild(summaryWrap);
-	}
+	const overview = buildOverviewBlock(summariesEn);
+	if (overview) sefer.appendChild(overview);
 
 	// Language toggle — B"H Yaakov: lives ONLY in the Scribe's Lens settings
 	// panel, NEVER on the main page. Injected into #typographyDetails.
@@ -1482,131 +1781,17 @@ export function awakenMeluketSeferReader(post) {
 	// Sections — each phrase's English rides with its Hebrew phrase.
 	// B"H perf (Yaakov 2026-10-15): chunk section rendering so the first
 	// sections paint immediately and the rest stream in via idle callbacks.
-	const meluketQueue = hebrewSections.map(({ sectionId, items }, index) => {
-		const englishText = translationEn[sectionId] || '';
-		const sectionSummary = sectionSummaries[sectionId] || '';
-		return { index, sectionId, items, englishText, sectionSummary };
-	});
-	const MELUKET_FIRST_PAINT = 3;
-	for (let i = 0; i < Math.min(MELUKET_FIRST_PAINT, meluketQueue.length); i++) {
-		const s = meluketQueue[i];
-		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
-	}
+	renderSeferSectionsInto(sefer, hebrewSections, translationEn, sectionSummaries, langMode);
 	// Mount Q&A synchronously (usually small) — defined below, then finalize.
-	const questions = Array.isArray(enrichment.questions_en) ? enrichment.questions_en : [];
-	const answers = Array.isArray(enrichment.answers_en) ? enrichment.answers_en : [];
-	if (questions.length || answers.length) {
-		const qa = el('section', 'meluket-qa');
-		qa.appendChild(el('h2', 'meluket-qa-title', 'שאלות ותשובות · Q&A'));
-		const list = el('div', 'meluket-qa-list');
-		const count = Math.max(questions.length, answers.length);
-		for (let i = 0; i < count; i++) {
-			const item = el('div', 'meluket-qa-item');
-			const qText = questions[i];
-			const aObj = answers[i];
-			const aText = aObj ? (aObj.a || aObj.answer || '') : '';
-			const qLabel = aObj && aObj.q ? aObj.q : qText;
-			if (qLabel && String(qLabel).trim()) {
-				const q = el('div', 'meluket-qa-q', String(qLabel).trim());
-				q.setAttribute('dir', 'auto');
-				item.appendChild(q);
-			}
-			if (aText && String(aText).trim()) {
-				const a = el('div', 'meluket-qa-a', String(aText).trim());
-				a.setAttribute('dir', 'auto');
-				item.appendChild(a);
-			}
-			if (item.children.length) list.appendChild(item);
-		}
-		if (list.children.length) {
-			qa.appendChild(list);
-			sefer.appendChild(qa);
-		}
-	}
+	const qa = buildQaSection(enrichment);
+	if (qa) sefer.appendChild(qa);
 
 	// Footnotes shelf — visually distinct from the main text.
-	const footnotes = Array.isArray(post.footnotes) ? post.footnotes : [];
-	if (footnotes.length) {
-		const shelf = document.createElement('aside');
-		shelf.className = 'meluket-footnotes-shelf';
-		const shelfTitle = document.createElement('h2');
-		shelfTitle.className = 'meluket-footnotes-title';
-		shelfTitle.textContent = 'הערות · Notes';
-		shelf.appendChild(shelfTitle);
-		const list = document.createElement('ol');
-		list.className = 'meluket-footnotes-list';
-		footnotes.forEach((fn, idx) => {
-			const li = document.createElement('li');
-			li.className = 'meluket-footnote';
-			li.id = `meluket-fn-${idx + 1}`;
-			li.setAttribute('data-fn', String(idx + 1));
-			const num = document.createElement('span');
-			num.className = 'meluket-footnote-num';
-			num.textContent = String(idx + 1);
-			li.appendChild(num);
-			const body = document.createElement('span');
-			body.className = 'meluket-footnote-body';
-			body.setAttribute('dir', 'auto');
-			const heBody = fn.body || fn.hebrew || '';
-			const enBody = fn.body_en || fn.english || '';
-			if (heBody) {
-				const heSpan = document.createElement('span');
-				heSpan.className = 'meluket-footnote-he';
-				heSpan.setAttribute('dir', 'rtl');
-				// B"H: footnote data carries escaped entities (&lt;b&gt;) and
-				// [cup] tokens — decode + bold them, never show raw markup.
-				setFootnoteBodyHtml(heSpan, heBody);
-				body.appendChild(heSpan);
-			}
-			if (enBody) {
-				const enSpan = document.createElement('span');
-				enSpan.className = 'meluket-footnote-en';
-				enSpan.setAttribute('dir', 'ltr');
-				enSpan.textContent = enBody;
-				body.appendChild(enSpan);
-			}
-			if (!heBody && !enBody) {
-				body.textContent = typeof fn === 'string' ? fn : JSON.stringify(fn).slice(0, 200);
-			}
-			li.appendChild(body);
-			list.appendChild(li);
-		});
-		shelf.appendChild(list);
-		sefer.appendChild(shelf);
-	}
+	const shelf = buildFootnotesShelf(post);
+	if (shelf) sefer.appendChild(shelf);
 
 	// B"H — shared mount: viewport replace + nav + theme + popups + sources.
 	finalizeSeferMount(sefer, post);
-
-	// B"H perf (Yaakov 2026-10-15): stream remaining sections via idle callbacks.
-	let meluketIdx = MELUKET_FIRST_PAINT;
-	function renderMeluketChunk(deadline) {
-		const start = Date.now();
-		while (meluketIdx < meluketQueue.length) {
-			if (deadline && deadline.timeRemaining() <= 0 && Date.now() - start > 50) break;
-			const s = meluketQueue[meluketIdx++];
-			try {
-				sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
-			} catch (e) {
-				console.warn('B"H meluket section render failed', s.sectionId, e);
-			}
-			if ((meluketIdx - MELUKET_FIRST_PAINT) % 5 === 0) break;
-		}
-		if (meluketIdx < meluketQueue.length) {
-			if (typeof requestIdleCallback === 'function') {
-				requestIdleCallback(renderMeluketChunk, { timeout: 1000 });
-			} else {
-				setTimeout(() => renderMeluketChunk(null), 0);
-			}
-		}
-	}
-	if (meluketIdx < meluketQueue.length) {
-		if (typeof requestIdleCallback === 'function') {
-			requestIdleCallback(renderMeluketChunk, { timeout: 1000 });
-		} else {
-			setTimeout(() => renderMeluketChunk(null), 0);
-		}
-	}
 
 	return true;
 }
