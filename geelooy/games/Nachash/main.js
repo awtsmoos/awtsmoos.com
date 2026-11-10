@@ -56,6 +56,7 @@ function startGame() {
 		onGameOver: finishRun, onFault: fault => view.showFault(fault.reason)
 	});
 	session.onZone = zone => view.setZone(zone);
+	session.onScore = score => { if (score > highScore) highScore = recordNachashScore(score); };
 }
 
 function finishRun(result) {

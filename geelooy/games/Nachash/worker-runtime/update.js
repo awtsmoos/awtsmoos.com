@@ -76,4 +76,9 @@ function updateScoreboard() {
 	state.scoreboard = [{ name: state.playerName, score: state.player?.score || 0 }, ...state.aiSnakes]
 		.sort((a, b) => b.score - a.score)
 		.slice(0, 5);
+	const liveScore = Math.floor(state.player?.score || 0);
+	if (liveScore !== state.lastReportedScore) {
+		state.lastReportedScore = liveScore;
+		self.postMessage({ type: "score", score: liveScore });
+	}
 }

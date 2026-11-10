@@ -25,6 +25,7 @@ export class NachashSession {
 		this.onGameOver = options.onGameOver || (() => {});
 		this.onFault = options.onFault || (() => {});
 		this.onZone = options.onZone || (() => {});
+		this.onScore = options.onScore || (() => {});
 		this.runId = `nachash:${Date.now()}:${++sequence}`;
 		this.startedAt = performance.now();
 		this.finished = false;
@@ -40,6 +41,7 @@ export class NachashSession {
 		if (data.type === 'initialized') this.client.send({ type: 'start' });
 		if (data.type === 'playSound') this.audio.play(data.name, data.opts);
 		if (data.type === 'zone') this.onZone(data.zone);
+		if (data.type === 'score') this.onScore(data.score);
 		if (data.type === 'gameover') this.finish(data);
 	}
 
