@@ -2,11 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
-import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-026';
+import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-027';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
 import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-011';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
-import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-007';
+import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-008';
 
 /**
  * @fileoverview Enhances Torah already visible in the initial server response.

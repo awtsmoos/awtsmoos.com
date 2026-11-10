@@ -1032,14 +1032,22 @@ function buildSourcesSheetContent(post, sefer) {
 	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
 	// B"H — Yaakov 2026-10-15: Use post.footnotes array (API data), not DOM query.
 	// The DOM may not have all footnotes rendered; the API array is authoritative.
+	// B"H 2026-11-10 round 7: the post object captured when the marker was
+	// wired can be a STUB ({title, id: ''} from the embed awaken) — the API
+	// had not returned yet, so its footnotes are empty and the dialog said
+	// "0 footnotes" even though the markers were in the text. Prefer the
+	// LIVE window.post (updated when the API returns) whenever the passed
+	// post has no footnotes.
+	const liveFootnotes = (typeof window !== 'undefined' && window.post && Array.isArray(window.post.footnotes) && window.post.footnotes.length) ? window.post.footnotes : null;
+	const apiFootnotes = (Array.isArray(post.footnotes) && post.footnotes.length) ? post.footnotes : liveFootnotes;
 	// B"H 2026-11-10 round 6: when the API data has not arrived yet the
 	// sheet said "0 footnotes" / "No footnotes in this post" even though
 	// the markers (1–64) were already in the text — the dialog looked
 	// broken on a fresh load. Fall back to the shelf, then to the gold
 	// <sup> markers in the sefer itself (number + the phrase they sit in,
 	// so the list is never empty while the API is still loading).
-	const footnotes = Array.isArray(post.footnotes) && post.footnotes.length
-		? post.footnotes
+	const footnotes = apiFootnotes
+		? apiFootnotes
 		: (Array.from(sefer.querySelectorAll('.meluket-footnote')).length
 			? Array.from(sefer.querySelectorAll('.meluket-footnote'))
 			: Array.from(sefer.querySelectorAll('.meluket-fn-marker')).map((m) => {
@@ -1700,15 +1708,54 @@ function enhanceEmbedSefer(post) {
 }
 
 /**
+ * B"H 2026-11-10 round 7 — hydrates a server-rendered sefer. The server
+ * sends the cards with the text only HTML-escaped (no footnote markers,
+ * no cup formatting) so the first paint is instant; this re-renders each
+ * mounted pair block in place — Hebrew through toCupHtml +
+ * convertBareFootnoteDigits, English through renderEnglishWithFootnotes —
+ * reading the raw text back from textContent. It never rebuilds the
+ * sefer (the mount, the counts and the layout stay exactly as painted).
+ */
+function hydrateServerSefer(sefer) {
+	if (!sefer) return false;
+	let hydrated = 0;
+	sefer.querySelectorAll('.meluket-phrase--he').forEach((heBlock) => {
+		const raw = heBlock.textContent || '';
+		if (!raw.trim()) return;
+		heBlock.innerHTML = toCupHtml(raw);
+		convertBareFootnoteDigits(heBlock);
+		hydrated++;
+	});
+	sefer.querySelectorAll('.meluket-phrase--en').forEach((enBlock) => {
+		const raw = enBlock.textContent || '';
+		if (!raw.trim()) return;
+		enBlock.innerHTML = renderEnglishWithFootnotes(raw);
+		hydrated++;
+	});
+	return hydrated > 0;
+}
+
+/**
  * Builds the sefer from the embedded phrase rows in the initial HTML —
  * no API wait. Returns true when the cards mounted, false when the embed
  * is missing or too thin (the API path below then builds them instead).
  */
 export function awakenMeluketSeferReaderFromEmbed() {
-	const rows = readEmbeddedPhraseRows();
-	if (!rows) return false;
 	const realPost = document.getElementById('realPost');
 	if (!realPost) return false;
+	// B"H round 7: the server may already have rendered the sefer into the
+	// initial HTML (true instant — the first paint IS the cards). Hydrate
+	// it in place (markers + cup formatting) and mount it; never rebuild.
+	const serverSefer = realPost.querySelector('.meluket-sefer[data-server-built="1"]');
+	if (serverSefer) {
+		hydrateServerSefer(serverSefer);
+		const titleHe = document.querySelector('.awtsmoos-initial-post-title');
+		const title = (titleHe && titleHe.textContent ? titleHe.textContent.trim() : '') || (document.title || '').split('|').pop().trim();
+		finalizeSeferMount(serverSefer, { title, id: '' });
+		return true;
+	}
+	const rows = readEmbeddedPhraseRows();
+	if (!rows) return false;
 	if (realPost.querySelector('.meluket-sefer')) return true;
 	const { phrases, enByPhraseId } = synthesizeEmbedPhrases(rows);
 	const hebrewSections = buildHebrewSections(phrases, enByPhraseId);

@@ -128,15 +128,25 @@ function renderParagraph(text, index) {
 /**
  * Renders a bounded first viewport from the post record already resolved by the server.
  * The Awtsmoos gives visible letters first; richer bilingual worlds awaken afterward.
+ * B"H 2026-11-10 round 7 — Coby: the reader must be INSTANT, no delay at
+ * all. The embed awaken (round 5) still waited on the JS module (1–2s),
+ * so the plain paragraph showed first and visibly swapped to cards.
+ * The only true instant is server-rendered cards: when the phrase rows
+ * are here, the first paint IS the sefer (same classes the client builds,
+ * text only escaped — the client hydrates footnote markers + cup
+ * formatting onto it afterward, without rebuilding). No rows → the plain
+ * paragraph fallback, exactly as before.
  */
-function renderInitialPostPreview(data = {}) {
+function renderInitialPostPreview(data = {}, translations) {
 	const { envelope, post } = resolvePayload(data);
 	if (!post || post.error || envelope.error) return '';
+	const title = post.title || post.name || envelope.title || 'Torah teaching';
+	const seferHtml = renderSeferInitialHtml(translations, title);
+	if (seferHtml) return seferHtml;
 	const paragraphs = paragraphsFrom(firstText(envelope, post));
 	if (!paragraphs.length) return '';
 	const body = paragraphs.map(renderParagraph).join('');
-	const title = escapeHtml(post.title || post.name || envelope.title || 'Torah teaching');
-	return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post data-awtsmoos-server-preview><header class="awtsmoos-initial-post-header"><h1 class="awtsmoos-initial-post-title">${title}</h1></header><div class="awtsmoos-initial-post-body" data-awtsmoos-client-render>${body}</div></article>`;
+	return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post data-awtsmoos-server-preview><header class="awtsmoos-initial-post-header"><h1 class="awtsmoos-initial-post-title">${escapeHtml(title)}</h1></header><div class="awtsmoos-initial-post-body" data-awtsmoos-client-render>${body}</div></article>`;
 }
 
 module.exports = {
@@ -145,9 +155,58 @@ module.exports = {
 	htmlToText,
 	paragraphsFrom,
 	renderInitialPostPreview,
+	renderSeferInitialHtml,
 	slimPhraseTranslationRows,
 	renderPhraseTranslationsEmbed
 };
+
+/**
+ * B"H 2026-11-10 round 7 — server-rendered sefer. Mirrors the client's
+ * buildSectionElement markup exactly (same classes, same data attributes,
+ * same section/phrase numbering) so the sefer CSS applies from the first
+ * paint and the client's enhance path recognises the mount
+ * (data-embed-built="1", same section + pair counts). The text is only
+ * HTML-escaped here; the client hydrates footnote markers + cup
+ * formatting onto the mounted pairs afterward (reading textContent back
+ * and re-rendering), never rebuilding. verseSection IS the section
+ * (0–6); subsectionId is the phrase index inside its section — grouping
+ * by subsectionId would make 271 one-phrase sections.
+ */
+function renderSeferInitialHtml(rows, title) {
+	const slim = slimPhraseTranslationRows(rows);
+	if (slim.length < 20) return '';
+	const sections = [];
+	const bySection = new Map();
+	for (const row of slim) {
+		const key = String(row.verseSection ?? '');
+		if (!bySection.has(key)) {
+			const section = { key, items: [] };
+			bySection.set(key, section);
+			sections.push(section);
+		}
+		bySection.get(key).items.push(row);
+	}
+	const parts = [];
+	parts.push('<div class="meluket-sefer meluket-sefer-active" data-lang-mode="both" data-embed-built="1" data-server-built="1">');
+	parts.push(`<header class="meluket-sefer-title"><h1 class="meluket-sefer-title-he" dir="rtl">${escapeHtml(title || 'Torah teaching')}</h1></header>`);
+	sections.forEach((section, sIdx) => {
+		const sectionId = `sec-${String(sIdx + 1).padStart(3, '0')}`;
+		parts.push(`<section class="meluket-sefer-section" data-section-id="${sectionId}" data-section-index="${sIdx}" id="${sectionId}" dir="auto">`);
+		parts.push(`<div class="meluket-section-marker" aria-hidden="true"><span class="meluket-section-number">${sIdx + 1}</span></div>`);
+		section.items.forEach((row, pIdx) => {
+			const phraseId = `segment_${sIdx}_${pIdx}`;
+			parts.push(`<div class="meluket-phrase-pair" data-phrase-id="${phraseId}">`);
+			parts.push(`<div class="meluket-phrase meluket-phrase--he" data-phrase-id="${phraseId}" dir="rtl" lang="he">${escapeHtml(row.sourceHebrew)}</div>`);
+			if (row.content && String(row.content).trim()) {
+				parts.push(`<div class="meluket-phrase meluket-phrase--en" data-phrase-id="${phraseId}" dir="ltr" lang="en">${escapeHtml(row.content)}</div>`);
+			}
+			parts.push('</div>');
+		});
+		parts.push('</section>');
+	});
+	parts.push('</div>');
+	return parts.join('');
+}
 
 /**
  * B"H — Nov 10, 2026: the sefer waited on a second sequential round trip

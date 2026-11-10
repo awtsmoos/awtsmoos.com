@@ -290,3 +290,18 @@
 [data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a:hover {
 	color: #d4a94e;
 }
+
+/* B"H 2026-11-10 round 7 — community comment action pills (Reply / Copy /
+   Share, class .comment-chip-action) rendered white text on a cream pill
+   — the same white-on-white defect as Related posts. Pin them dark on
+   light in light theme, light on dark in dark theme, variable-free. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .comment-chip-action {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+[data-theme="dark"] .post-reader-localized-context .comment-chip-action {
+	background: rgba(255,255,255,0.08);
+	border: 1px solid rgba(255,255,255,0.18);
+	color: #f5efe2;
+}

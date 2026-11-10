@@ -548,14 +548,27 @@ export function renderRelatedCard(entry) {
 	card.className = 'related-post-card';
 	card.dataset.postId = relatedKey(post);
 	card.setAttribute('aria-label', t('related.cardAria', { title: post.title || post.name || 'Post' }));
+	// B"H 2026-11-10 round 7 — Coby: Related headings / Preview / Open
+	// are STILL white-on-white in light theme. The stylesheet pins (rounds
+	// 3–5: :not() rules in the injected <style>, then coherence.css) never
+	// reached the browser — the injected base rules resolve var(--aw-text)
+	// to near-white (#f8fbff) and win in practice. Inline styles beat
+	// every stylesheet rule and every cache, so set the three colors
+	// directly on the elements, from the live theme. (The stylesheet
+	// rules stay as a backup for a theme change after render.)
+	const rpDark = document.documentElement && document.documentElement.dataset && document.documentElement.dataset.theme === 'dark';
+	const rpTitle = rpDark ? '#f5efe2' : '#241a05';
+	const rpExpand = rpDark ? '#f5efe2' : '#241a05';
+	const rpExpandBg = rpDark ? 'rgba(255,255,255,0.08)' : '#fffdf6';
+	const rpOpen = rpDark ? '#d4a94e' : '#8a6d2b';
 	card.innerHTML = `
 		<span class="related-post-why">${escapeHtml(why)}</span>
-		<h4 class="related-post-title" dir="auto"><a href="${escapeAttr(href)}">${escapeHtml(post.title || post.name || 'Untitled')}</a></h4>
+		<h4 class="related-post-title" dir="auto"><a href="${escapeAttr(href)}" style="color:${rpTitle}">${escapeHtml(post.title || post.name || 'Untitled')}</a></h4>
 		<p class="related-post-author">by ${escapeHtml(authorName(post))}</p>
 		${excerptOf(post) ? `<p class="related-post-excerpt" dir="auto">${escapeHtml(excerptOf(post))}</p>` : ''}
 		<div class="related-post-foot">
-			<button type="button" class="related-post-expand" aria-expanded="false">Preview</button>
-			<a class="related-post-open" href="${escapeAttr(href)}">Open full post</a>
+			<button type="button" class="related-post-expand" aria-expanded="false" style="color:${rpExpand};background:${rpExpandBg}">Preview</button>
+			<a class="related-post-open" href="${escapeAttr(href)}" style="color:${rpOpen}">Open full post</a>
 		</div>
 		<div class="related-post-more" dir="auto">
 			${longExcerpt ? `<p>${escapeHtml(longExcerpt)}</p>` : '<p>No excerpt available.</p>'}

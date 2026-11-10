@@ -87,7 +87,7 @@ function createPostReader($i) {
 		return {
 			postSemanticHead: postSemanticHead || '',
 			readerSettingsHtml: readerSettingsHtml || '',
-			initialContentHtml: renderInitialPostPreview(data),
+			initialContentHtml: renderInitialPostPreview(data, translations),
 			// B"H — Nov 10, 2026: the slim phrase rows ride the first HTML
 			// so the sefer mounts without the translations API round trip.
 			// Empty when translations were unavailable — the client then
