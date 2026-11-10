@@ -17,6 +17,15 @@
  * trip as arrays, while strings come back byte-exact. First touch
  * imports the existing state.json once; the JSON file stays on disk
  * untouched as the rollback witness.
+ *
+ * Locking: the engine grants ONE exclusive writer per file, and that
+ * is right — two writers must never diverge. But custody is not a
+ * wall: readers open SHARED (readOnly) and coexist with the writer,
+ * and a would-be writer waits a bounded time for custody instead of
+ * failing instantly — the same contract the old lockfile gave.
+ * The owning process (the service) holds its writer instance per
+ * alias; any other process reads through a shared handle and only
+ * takes custody when it truly needs to write.
  */
 
 const fs = require('fs');
@@ -25,6 +34,8 @@ const path = require('path');
 const AwtsmoosDB = require('../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 
 const LAYOUT = 2;
+const READER_PROBE_WAIT_MS = 300;
+const WRITER_WAIT_MS = 15000;
 const openByFile = new Map();
 
 function dbFileFor(paths) {
@@ -35,18 +46,68 @@ function isDbBackendEnabled() {
 	return process.env.AWTSMOOS_DRIVE_STATE_BACKEND === 'awtsmoosdb';
 }
 
-function openDb(paths) {
+function openInstance(paths, mode, lockWaitMs) {
 	const file = dbFileFor(paths);
-	const existing = openByFile.get(file);
-	if (existing) return existing;
-	// AwtsmoosDB.open() plants its writable-process lock beside the file,
-	// so the alias directory must exist first (a pure read of a fresh
-	// alias used to answer freshDriveState from JSON ENOENT instead).
+	// AwtsmoosDB.open() plants its process lock beside the file, so the
+	// alias directory must exist first (a pure read of a fresh alias
+	// used to answer freshDriveState from JSON ENOENT instead).
 	fs.mkdirSync(paths.root, { recursive: true });
-	const db = new AwtsmoosDB(file, { debug: false });
+	const db = new AwtsmoosDB(file, {
+		debug: false,
+		readOnly: mode === 'shared',
+		lockWaitMs
+	});
 	db.open();
-	openByFile.set(file, db);
-	return db;
+	const entry = { db, mode };
+	openByFile.set(file, entry);
+	return entry;
+}
+
+function closeInstance(file) {
+	const entry = openByFile.get(file);
+	if (!entry) return;
+	openByFile.delete(file);
+	try {
+		entry.db.close();
+	} catch { /* a failed close must not mask the caller's real work */ }
+}
+
+function isBusy(error) {
+	return error?.code === 'AWTSMOOS_DB_LOCK_BUSY';
+}
+
+/**
+ * The handle for reads: the cached instance when this process already
+ * holds one; otherwise a brief probe for writer custody, falling back
+ * to a shared read-only handle when another process owns the vessel.
+ */
+function readDb(paths) {
+	const file = dbFileFor(paths);
+	const cached = openByFile.get(file);
+	if (cached) return cached.db;
+	try {
+		return openInstance(paths, 'exclusive', READER_PROBE_WAIT_MS).db;
+	} catch (error) {
+		if (!isBusy(error)) throw error;
+		return openInstance(paths, 'shared', 0).db;
+	}
+}
+
+/**
+ * The handle for writes: cached writer when held; a shared handle is
+ * released first, then custody is awaited with the old lockfile's
+ * patience (15s) rather than refused on sight.
+ */
+function writeDb(paths) {
+	const file = dbFileFor(paths);
+	const cached = openByFile.get(file);
+	if (cached?.mode === 'exclusive') return cached.db;
+	if (cached) closeInstance(file);
+	return openInstance(paths, 'exclusive', WRITER_WAIT_MS).db;
+}
+
+function isReadOnly(db) {
+	return db?.options?.readOnly === true;
 }
 
 function readMeta(db) {
@@ -63,6 +124,7 @@ function readMeta(db) {
 function importJsonIfNeeded(db, paths) {
 	const meta = readMeta(db);
 	if (meta && meta.layout === LAYOUT) return false;
+	if (isReadOnly(db)) return false;
 	let parsed = null;
 	try {
 		parsed = JSON.parse(fs.readFileSync(paths.state, 'utf8'));
@@ -93,7 +155,7 @@ function importJsonIfNeeded(db, paths) {
 
 /** Current generation counter, or null when no DB state exists yet. */
 function dbGeneration(paths) {
-	const db = openDb(paths);
+	const db = readDb(paths);
 	importJsonIfNeeded(db, paths);
 	const meta = readMeta(db);
 	return meta ? Number(meta.generation || 0) : null;
@@ -101,7 +163,7 @@ function dbGeneration(paths) {
 
 /** Assembles the full plain state object from its per-key vessel. */
 function loadAssembledState(paths) {
-	const db = openDb(paths);
+	const db = readDb(paths);
 	importJsonIfNeeded(db, paths);
 	if (!readMeta(db)) return null;
 	const assembled = {};
@@ -138,7 +200,7 @@ function parseStored(raw) {
  * then bumps the generation so read caches re-assemble exactly once.
  */
 function persistStateDiff(paths, before, after) {
-	const db = openDb(paths);
+	const db = writeDb(paths);
 	importJsonIfNeeded(db, paths);
 	const beforeSections = withoutEntries(before);
 	const afterSections = withoutEntries(after);
