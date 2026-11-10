@@ -25,8 +25,31 @@ const STALE_LOCK_MS = 60000;
 // cache with the state it just wrote.
 const stateReadCache = new Map();
 
+let driveStateDb = null;
+function dbBackend() {
+	if (process.env.AWTSMOOS_DRIVE_STATE_BACKEND !== 'awtsmoosdb') return null;
+	if (!driveStateDb) driveStateDb = require("./driveStateDb.js");
+	return driveStateDb;
+}
+
+
+
 async function readDriveState(aliasId, $i = {}, options = {}) {
 	const paths = drivePaths(aliasId, $i);
+	const db = dbBackend();
+	if (db) {
+		const generation = db.dbGeneration(paths);
+		if (generation === null) return freshDriveState();
+		if (!options.fresh) {
+			const cached = stateReadCache.get(paths.state);
+			if (cached && cached.dbGeneration === generation) return cached.state;
+		}
+		const assembled = db.loadAssembledState(paths);
+		if (!assembled) return freshDriveState();
+		const state = normalizeDriveState(assembled);
+		stateReadCache.set(paths.state, { dbGeneration: generation, state });
+		return state;
+	}
 	let witness = null;
 	try {
 		const stat = await fs.promises.stat(paths.state);
@@ -57,6 +80,22 @@ async function mutateDriveState(aliasId, $i, mutator) {
 	const paths = drivePaths(aliasId, $i);
 	await fs.promises.mkdir(paths.root, { recursive: true });
 	const lock = await acquireLock(paths.lock);
+	const db = dbBackend();
+	if (db) {
+		try {
+			stateReadCache.delete(paths.state);
+			const assembled = db.loadAssembledState(paths);
+			const state = normalizeDriveState(assembled || freshDriveState());
+			const before = JSON.parse(JSON.stringify(state));
+			const result = await mutator(state, paths);
+			db.persistStateDiff(paths, before, state);
+			stateReadCache.set(paths.state, { dbGeneration: db.dbGeneration(paths), state });
+			return result;
+		} finally {
+			await lock.close().catch(() => {});
+			await fs.promises.unlink(paths.lock).catch(() => {});
+		}
+	}
 	try {
 		stateReadCache.delete(paths.state);
 		const state = await readDriveState(aliasId, $i, { fresh: true });
