@@ -267,14 +267,14 @@
 :root .meluket-phrase--he p,
 :root .meluket-hebrew,
 :root .meluket-hebrew p {
-	font-size: var(--sefer-phrase-size, 1.25rem);
+	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.6);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
 	color: var(--law8-ink);
 }
 :root .meluket-phrase--en,
 :root .meluket-phrase--en p {
-	font-size: var(--sefer-phrase-size, 1.25rem);
+	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.6);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
 	color: var(--law8-ink);
