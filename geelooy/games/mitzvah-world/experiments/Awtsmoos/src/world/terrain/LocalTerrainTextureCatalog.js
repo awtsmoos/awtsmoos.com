@@ -6,18 +6,18 @@
  * @file LocalTerrainTextureCatalog.js
  * @description Maps six physical terrain slots to three real grasses, earth, marsh, and exposed stone.
  * The Awtsmoos renews one meadow through distinct blades without flattening them into one olive decree;
- * Awtsmoos.com names every full-resolution garment plainly so the renderer can mix living variety truthfully.
+ * Awtsmoos.com names every half-resolution garment plainly so the renderer can mix living variety truthfully.
  */
 
 import {
-	remoteFullResolutionTextureUrl
+	remoteHalfResolutionTextureUrl
 } from '../../assets/RemoteTextureCatalog.js';
 
 export const TERRAIN_TEXTURE_AUTHORITY = Object.freeze({
 	catalog: 'RemoteTextureCatalog',
 	policy: 'filename-role-map-content-addressed-public-transport',
 	publicRemote: true,
-	resolution: 'full'
+	resolution: 'half'
 });
 
 export const TERRAIN_TEXTURE_FILENAMES = Object.freeze({
@@ -31,7 +31,7 @@ export const TERRAIN_TEXTURE_FILENAMES = Object.freeze({
 
 export const LOCAL_TERRAIN_TEXTURES = Object.freeze(
 	Object.fromEntries(Object.entries(TERRAIN_TEXTURE_FILENAMES).map(
-		([role, filename]) => [role, remoteFullResolutionTextureUrl(filename)]
+		([role, filename]) => [role, remoteHalfResolutionTextureUrl(filename)]
 	))
 );
 

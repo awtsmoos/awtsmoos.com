@@ -16,6 +16,7 @@ import { REMOTE_TREE_TEXTURE_FILENAMES } from './RemoteTextureTreeNames.js';
 import {
 	REMOTE_TEXTURE_ROOT,
 	fullResolutionTextureUrl,
+	halfResolutionTextureUrl,
 	treeTextureUrl
 } from './RemoteTextureTransport.js';
 
@@ -36,6 +37,12 @@ export const REMOTE_TEXTURE_FILENAMES = Object.freeze({
 export function remoteFullResolutionTextureUrl(filename) {
 	assertFilename(filename, FULL_RESOLUTION_FILENAMES);
 	return fullResolutionTextureUrl(filename);
+}
+
+/** Resolves one exact half-resolution filename through the trusted remote transport. */
+export function remoteHalfResolutionTextureUrl(filename) {
+	assertFilename(filename, FULL_RESOLUTION_FILENAMES);
+	return halfResolutionTextureUrl(filename);
 }
 
 /** Resolves one exact tree filename through the trusted remote transport. */

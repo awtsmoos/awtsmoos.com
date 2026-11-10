@@ -29,6 +29,7 @@ import {
 import { MinimalMeadowAdaptiveQuality } from './MinimalMeadowAdaptiveQuality.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import { RuntimeLongTaskMonitor } from '../performance/RuntimeLongTaskMonitor.js';
+import { maybeStartSurvivalSixtyFpsRun } from '../performance/SurvivalSixtyFpsProfile.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
 const FRAME_BUDGET_P95_MS = 16.7;
@@ -99,6 +100,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	publishLoopState(runtime, frameWindow, scheduler, longTaskMonitor);
 	primeBootstrapGameplay(runtime, movement, lastTime);
 	publishMovementReady(environment);
+	startSurvivalSixtyFpsRunIfRequested(runtime, environment);
 	scheduler.schedule(frame);
 	movement.stop = (options = {}) => {
 		active = false;
@@ -112,6 +114,23 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		frameSource: runtime.runtimeFrameSource
 	});
 	return movement;
+}
+
+
+/**
+ * Starts the Chapter 4 survival 5-minute recorder only when the owner asked for it
+ * (?quality=survival&survival60=1). Fire-and-forget: the hook never blocks the loop
+ * and never throws; an absent flag simply means ordinary play. Mirrors the staged
+ * and minimal boot paths (EretzStagedRuntime, MinimalMeadowRuntimeCore) so the
+ * production loop — the one the sealed release actually runs — carries the recorder too.
+ */
+function startSurvivalSixtyFpsRunIfRequested(runtime, environment) {
+	// Static fold, not a dynamic import: the compact compiler leaves an
+	// unbundled dynamic target as a runtime request that never lands in
+	// the sealed release (measured: zero SixtyFps trace in any bundle).
+	// The profile itself is flag-gated, so folding it in costs parse
+	// time only; recording still starts solely on ?survival60=1.
+	void maybeStartSurvivalSixtyFpsRun(runtime, {}, environment);
 }
 
 /** Publishes live-control evidence only after the prime movement/render path succeeds. */

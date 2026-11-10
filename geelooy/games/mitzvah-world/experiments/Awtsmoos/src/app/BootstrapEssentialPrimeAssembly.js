@@ -18,6 +18,7 @@ import {
 	completeMitzvahWorldEssentialMilestone
 } from './MitzvahWorldEssentialBoot.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
+import { maybeStartSurvivalSixtyFpsRun } from '../performance/SurvivalSixtyFpsProfile.js';
 
 /** Builds, visibly primes, and certifies the real player movement runtime before post-control systems. */
 export function assembleBootstrapEssentialPrime(
@@ -49,11 +50,28 @@ export function assembleBootstrapEssentialPrime(
 	runtime.runtimeFrameSource = 'essential-prime';
 	publishMovementReady(environment);
 	runtime.essentialMovementLoop = startLoop(runtime, movement, environment);
+	startSurvivalSixtyFpsRunIfRequested(runtime, options, qualityProfile, environment);
 	return {
 		diagnostics: essentialDiagnostics(runtime, movement, qualityProfile, boot),
 		movement,
 		runtime
 	};
+}
+
+
+/**
+ * Starts the Chapter 4 survival 5-minute recorder only when the owner asked for it
+ * (?quality=survival&survival60=1). This prime assembly is the boot path the sealed
+ * release actually runs; the staged and minimal paths carry their own hooks.
+ * The profile is statically folded (a dynamic target never lands in the sealed
+ * bundles) and flag-gated internally, so ordinary play is untouched.
+ */
+function startSurvivalSixtyFpsRunIfRequested(runtime, options, qualityProfile, environment) {
+	void maybeStartSurvivalSixtyFpsRun(
+		runtime,
+		{ ...options, qualityProfile },
+		environment
+	);
 }
 
 /** Publishes the existing movement fact only after the real prime movement transaction succeeds. */

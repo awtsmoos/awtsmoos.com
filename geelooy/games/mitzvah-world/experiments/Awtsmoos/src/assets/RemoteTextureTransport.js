@@ -34,6 +34,11 @@ export function fullResolutionTextureUrl(filename) {
 	return `${ORIGINAL_LIBRARY_ROOT}full-resolution/${encodePath(cleanRemotePath(filename))}`;
 }
 
+/** Builds a half-resolution texture URL from the intact original library. */
+export function halfResolutionTextureUrl(filename) {
+	return `${ORIGINAL_LIBRARY_ROOT}half-resolution/${encodePath(cleanRemotePath(filename))}`;
+}
+
 /** Builds a documented tree-texture URL from the intact original library. */
 export function treeTextureUrl(filename) {
 	return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanRemotePath(filename))}`;
