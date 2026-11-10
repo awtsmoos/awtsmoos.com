@@ -223,6 +223,9 @@
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 	max-inline-size: 100%;
+	/* B"H 2026-11-10 round 4: the pill sat flush against the "Speed" label
+	   (zero gap, the final "d" touched its border). Give it breathing room. */
+	margin-inline-start: 8px;
 }
 .post-reader-localized-context .auto-scroll-semantic-range {
 	flex-wrap: wrap;

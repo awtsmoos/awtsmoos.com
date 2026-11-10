@@ -516,6 +516,10 @@ function ensureStyles() {
 :root:not([data-theme="dark"]) .related-post-more { color: #2c2110; }
 :root:not([data-theme="dark"]) .related-post-meta { color: #6b5c40; }
 :root:not([data-theme="dark"]) .related-posts-empty { color: #6b5c40; }
+:root:not([data-theme="dark"]) .related-post-expand { background: #fffdf6; }
+/* B"H 2026-11-10 round 4: in dark theme the Preview button showed white
+   text on a light pill — give it an explicit dark pill with light text. */
+[data-theme="dark"] .related-post-expand { color: #f5efe2; background: rgba(255, 255, 255, 0.08); }
 `;
 	document.head.append(style);
 }
