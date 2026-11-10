@@ -2,7 +2,7 @@
 <!-- B"H | Boruch Hashem | Blessed is He | The Awtsmoos reveals public Awtsmoos.com roads. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url><loc>https://awtsmoos.com/games/catalog.html</loc></url>
-	<url><loc>https://awtsmoos.com/games/mitzvahWorld/templeRunner/</loc></url>
+	<url><loc>https://awtsmoos.com/games/mitzvah-world/templeRunner/</loc></url>
 	<url><loc>https://awtsmoos.com/games/cobyk/</loc></url>
 	<url><loc>https://awtsmoos.com/games/Merkava/</loc></url>
 	<url><loc>https://awtsmoos.com/games/ohrfront/</loc></url>
@@ -15,7 +15,7 @@
 	<url><loc>https://awtsmoos.com/games/city-of-light/</loc></url>
 	<url><loc>https://awtsmoos.com/games/ohr-hagnuz/</loc></url>
 	<url><loc>https://awtsmoos.com/games/scribe-journey/</loc></url>
-	<url><loc>https://awtsmoos.com/games/mitzvahWorld/</loc></url>
+	<url><loc>https://awtsmoos.com/games/mitzvah-world/</loc></url>
 	<url><loc>https://awtsmoos.com/games/rambam/</loc></url>
 	<url><loc>https://awtsmoos.com/games/sulam-ha-sod/</loc></url>
 	<url><loc>https://awtsmoos.com/games/KAVANAH/</loc></url>
@@ -35,4 +35,5 @@
 	<url><loc>https://awtsmoos.com/games/pong/</loc></url>
 	<url><loc>https://awtsmoos.com/games/cards/</loc></url>
 	<url><loc>https://awtsmoos.com/games/emojis/</loc></url>
+	<url><loc>https://awtsmoos.com/games/party/</loc></url>
 </urlset>
