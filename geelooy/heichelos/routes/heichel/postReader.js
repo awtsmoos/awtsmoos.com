@@ -10,7 +10,7 @@
 const { createReaderData } = require('./readerData.js');
 const { buildPostSemantic } = require('./postSemantic.js');
 const { postStructuredDataTag } = require('./postStructuredData.js');
-const { renderInitialPostPreview } = require('./initialPostPreview.js');
+const { renderInitialPostPreview, renderPhraseTranslationsEmbed } = require('./initialPostPreview.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 const { makeHtmlResponse } = require('../../../../ayzarim/awtsmoosDynamicServer/response/dynamicResponseShape.js');
 
@@ -70,7 +70,7 @@ function createPostReader($i) {
 	 * Renders only document-critical fragments.
 	 * Sources/comments/translations must never hold the first visible Torah hostage.
 	 */
-	async function renderReaderFragments(data, semantic) {
+	async function renderReaderFragments(data, semantic, translations) {
 		const context = routeContext(data);
 		const [postSemanticHead, readerSettingsHtml] = await Promise.all([
 			traceAsync(
@@ -88,12 +88,17 @@ function createPostReader($i) {
 			postSemanticHead: postSemanticHead || '',
 			readerSettingsHtml: readerSettingsHtml || '',
 			initialContentHtml: renderInitialPostPreview(data),
+			// B"H — Nov 10, 2026: the slim phrase rows ride the first HTML
+			// so the sefer mounts without the translations API round trip.
+			// Empty when translations were unavailable — the client then
+			// fetches the API exactly as before.
+			phraseTranslationsHtml: renderPhraseTranslationsEmbed(translations),
 			postAnnotationsHtml: ''
 		};
 	}
 
 	/** Resolves one teaching into the public reader template. */
-	async function renderResolvedReader(data) {
+	async function renderResolvedReader(data, translations) {
 		const context = routeContext(data);
 		const semantic = {
 			...buildPostSemantic(data),
@@ -101,7 +106,7 @@ function createPostReader($i) {
 		};
 		const fragments = await traceAsync(
 			'reader:critical-fragments',
-			() => renderReaderFragments(data, semantic),
+			() => renderReaderFragments(data, semantic, translations),
 			context
 		);
 		// B"H — Coby Nov 10: the reader "lands a few versions before" — the
@@ -120,9 +125,15 @@ function createPostReader($i) {
 		return traceAsync(
 			'reader-data:direct-total',
 			async () => {
-				const data = await readerData.loadDirect(vars.heichel, vars.post);
+				// B"H — translations ride in parallel with the post so the
+				// embed costs no extra sequential time; a failure leaves
+				// translations null and the client falls back to the API.
+				const [data, translations] = await Promise.all([
+					readerData.loadDirect(vars.heichel, vars.post),
+					readerData.loadPostTranslations(vars.heichel, 'root', vars.post).catch(() => null)
+				]);
 				if (!data.post) return renderPostNotFound(vars);
-				return renderResolvedReader(data);
+				return renderResolvedReader(data, translations);
 			},
 			{ heichelId: vars.heichel, postId: vars.post }
 		);
@@ -132,14 +143,17 @@ function createPostReader($i) {
 		return traceAsync(
 			'reader-data:series-total',
 			async () => {
-				const data = await readerData.loadSeriesPost(
-					vars.heichel,
-					vars.series,
-					vars.post,
-					{ israel: String(vars.chitasIsrael || vars.query?.chitasIsrael || '') === '1' }
-				);
+				const [data, translations] = await Promise.all([
+					readerData.loadSeriesPost(
+						vars.heichel,
+						vars.series,
+						vars.post,
+						{ israel: String(vars.chitasIsrael || vars.query?.chitasIsrael || '') === '1' }
+					),
+					readerData.loadPostTranslations(vars.heichel, vars.series, vars.post).catch(() => null)
+				]);
 				if (!data.post) return renderPostNotFound(vars);
-				return renderResolvedReader(data);
+				return renderResolvedReader(data, translations);
 			},
 			{ heichelId: vars.heichel, seriesId: vars.series, postId: vars.post }
 		);

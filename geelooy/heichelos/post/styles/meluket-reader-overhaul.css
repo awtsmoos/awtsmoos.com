@@ -118,14 +118,16 @@
 /* Hovering the Hebrew gently lifts its English — they read as one breath. */
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he {
 	border-radius: 0.6rem;
-	transition: text-shadow 0.25s ease;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--en {
 	border-radius: 0.6rem;
-	transition: background-color 0.25s ease;
-	/* B"H — Coby Nov 10: the English gloss is smaller than the Hebrew it
-	   translates, so the Hebrew stays the main text. */
-	font-size: 0.68em;
+	/* B"H — Coby Nov 10, screenshots: the English under each Hebrew
+	   phrase rendered tiny and unreadable (this 0.68em override, on top
+	   of the 0.57x rule in reader-mobile-rescue.css, shrank it to about
+	   a third of the Hebrew). Yaakov's law says Hebrew and English must
+	   LOOK the same size — the sefer's own --sefer-phrase-size already
+	   does that. No size override here at all. No transition either:
+	   transitions on scroll-affected elements cause jank. */
 	line-height: 1.45;
 }
 :root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he:hover + .meluket-phrase--en {

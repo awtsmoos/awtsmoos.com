@@ -53,6 +53,68 @@
 	color: #4b3715;
 }
 
+/* B"H — Coby Nov 10, screenshots: the panel's interactive controls
+   rendered white-on-white (unselected Language pills, the −/+ buttons
+   with no visible glyphs, the ✕ close button, the speed readout) —
+   they all draw their colors from --lens-* variables that resolve
+   light in this light panel. The panel itself is always light cream
+   (pinned above), so pin every control explicitly, variable-free,
+   with selectors that beat the variable-driven sheets. */
+.post-reader-localized-context #typographyDetails .meluket-lang-btn {
+	background: #fffdf6;
+	border: 2px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails .meluket-lang-btn.is-active {
+	background: #bd8f3f;
+	border-color: #bd8f3f;
+	color: #211809;
+}
+.post-reader-localized-context #typographyDetails .font-adjust-btn,
+.post-reader-localized-context #typographyDetails .scribe-lens-close {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails .font-size-display {
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails #autoScrollSpeedDisplay {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-icon,
+.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-label,
+.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-speed {
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails select,
+.post-reader-localized-context #typographyDetails .font-selector {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+}
+.post-reader-localized-context #typographyDetails .typography-content {
+	scrollbar-color: #bd8f3f #f9f4ea;
+}
+
+/* B"H — the "More settings" disclosure: one plain row, closed by default. */
+.post-reader-localized-context #typographyDetails .reader-more-settings > summary {
+	cursor: pointer;
+	color: #4b3715;
+	font-weight: 700;
+	padding: 0.6rem 0;
+}
+.post-reader-localized-context #typographyDetails .reader-more-settings .reader-more-content {
+	padding-top: 0.5rem;
+}
+
 .post-reader-localized-context #typographyDetails .language-option,
 .post-reader-localized-context #typographyDetails .lang-option,
 .post-reader-localized-context #typographyDetails .segmented-control button {

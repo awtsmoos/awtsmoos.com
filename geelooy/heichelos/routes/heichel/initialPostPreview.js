@@ -144,5 +144,50 @@ module.exports = {
 	PREVIEW_PARAGRAPH_LIMIT,
 	htmlToText,
 	paragraphsFrom,
-	renderInitialPostPreview
+	renderInitialPostPreview,
+	slimPhraseTranslationRows,
+	renderPhraseTranslationsEmbed
 };
+
+/**
+ * B"H — Nov 10, 2026: the sefer waited on a second sequential round trip
+ * (post HTML, then the translations API: 271 rows, ~372KB, ~1.26s from
+ * Coby's phone in Vietnam). Slim the rows to the four fields the client
+ * reader actually consumes (sourceHebrew, content, verseSection,
+ * subsectionId): ~33KB for this post, a tenth of the full payload.
+ * Rows without Hebrew are skipped — the client skips them too.
+ */
+function slimPhraseTranslationRows(rows) {
+	const list = Array.isArray(rows) ? rows : [];
+	const out = [];
+	for (const row of list) {
+		const hebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
+		if (!hebrew.trim()) continue;
+		out.push({
+			sourceHebrew: hebrew,
+			content: row && row.content != null ? String(row.content) : '',
+			verseSection: row && row.verseSection != null ? String(row.verseSection) : '',
+			subsectionId: row && row.subsectionId != null ? String(row.subsectionId) : ''
+		});
+	}
+	return out;
+}
+
+/**
+ * B"H — embed the slim rows as JSON in the initial HTML so the client
+ * mounts the sefer from the first paint, with NO translations API round
+ * trip. The client still validates coverage and falls back to the API
+ * when the embed is missing or too thin. `<`/`>`/`&` are unicode-escaped
+ * so the JSON can never close the script element or inject markup.
+ */
+function renderPhraseTranslationsEmbed(rows) {
+	const slim = slimPhraseTranslationRows(rows);
+	if (slim.length < 20) return '';
+	const json = JSON.stringify(slim)
+		.replace(/</g, '\\u003c')
+		.replace(/>/g, '\\u003e')
+		.replace(/&/g, '\\u0026')
+		.replace(/\u2028/g, '\\u2028')
+		.replace(/\u2029/g, '\\u2029');
+	return `<script type="application/json" id="awtsmoos-phrase-translations" data-phrase-translations>${json}</script>`;
+}

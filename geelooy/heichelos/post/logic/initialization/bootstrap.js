@@ -21,7 +21,7 @@ import {
 import {
 	beginDiscussion,
 	beginTranslation
-} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-012';
+} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-013';
 import {
 	renderPlainBilingualFallback
 } from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-002';
@@ -132,7 +132,7 @@ async function igniteInner() {
 	// B"H — Torah Ohr / Likkutei Sichos style posts carry phraseTranslations
 	// (no enrichment.hebrew_phrases); render them as a bilingual sefer too.
 	try {
-		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js?v=9977c33d64');
+		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js?v=08e329dc92');
 		const seferResult = awakenMeluketSeferReader(tiferesCanonical.post);
 		if (!seferResult) {
 			const phraseResult = awakenPhraseTranslationReader(tiferesCanonical.post);

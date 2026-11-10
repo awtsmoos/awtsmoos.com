@@ -126,33 +126,34 @@
 	flex-wrap: wrap;
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn {
+.meluket-sefer-active .meluket-lang-btn {
 	font-family: inherit;
-	font-size: 4rem;
+	/* B"H — Coby Nov 10, screenshots: the pills rendered gigantic
+	   (4rem font, 2.2rem padding, 8px border) in one cascade and
+	   white-on-white in another — the old :where() rule had zero
+	   specificity, so every other sheet overrode it. Sane size,
+	   explicit dark ink on a solid light pill, no variables. */
+	font-size: 1rem;
 	font-weight: 700;
-	padding: 2.2rem 5.6rem;
+	padding: 0.55rem 1.1rem;
 	border-radius: 999px;
-	border: 8px solid var(--sefer-rule);
-	background: transparent;
-	/* B"H — Coby Nov 10: the unselected pills read white-on-light on his
-	   phone (the --sefer-ink-soft variable resolves light in the panel).
-	   Explicit dark ink, no variable. */
+	border: 2px solid #d9c9a8;
+	background: #fffdf6;
 	color: #2b2118;
 	cursor: pointer;
-	transition: all 0.18s ease;
 	min-width: 44px;
 	min-height: 44px;
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn:hover {
-	border-color: var(--sefer-accent);
-	color: var(--sefer-ink);
+.meluket-sefer-active .meluket-lang-btn:hover {
+	border-color: #8a6d3b;
+	color: #2b2118;
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn.is-active {
-	background: var(--sefer-accent);
-	border-color: var(--sefer-accent);
-	color: #fffdf6;
+.meluket-sefer-active .meluket-lang-btn.is-active {
+	background: #bd8f3f;
+	border-color: #bd8f3f;
+	color: #211809;
 }
 
 /* ---------- Section card : one teaching, dwelling in whitespace ----------
@@ -217,6 +218,10 @@
    (Yaakov defect #3: English beneath each Hebrew phrase.) */
 .meluket-sefer-active .meluket-phrase-pair {
 	margin: 0 0 2.2em;
+	/* B"H — Coby Nov 10: scrolling was choppy with 271 pairs. The
+	   browser must not paint off-screen pairs on every scroll frame. */
+	content-visibility: auto;
+	contain-intrinsic-size: auto 120px;
 }
 
 :where(.meluket-sefer-active) .meluket-phrase-pair:last-child {
@@ -598,12 +603,17 @@
    Words may wrap — letters NEVER stack one-per-line. */
 @media (max-width: 560px) {
 	.meluket-sefer-active .meluket-sefer {
-		padding: 0.5rem 0.25rem 3rem;
+		padding: 0.5rem 0.25rem 6rem;
 		border-radius: 0;
 	}
 	.meluket-sefer-active .meluket-sefer-section {
 		border-radius: 8px;
-		padding: 1rem 0.5rem;
+		/* B"H — Coby Nov 10, screenshots: the section-number badge
+		   overlapped the first phrase on narrow screens — this override
+		   had cut the top padding (4rem) to 1rem, so the badge
+		   (0.9rem + 2.8rem tall) sat on the text. Top padding clears
+		   it again; only the bottom/sides stay tight. */
+		padding: 4rem 0.5rem 1.25rem;
 		margin-bottom: 1.25rem;
 	}
 	.meluket-sefer-active .meluket-hebrew {
@@ -922,9 +932,11 @@
 	line-height: 1.65;
 	color: var(--sefer-ink-soft);
 }
-/* Flash highlight when a flowchart link lands on a section. */
+/* Flash highlight when a flowchart link lands on a section. B"H 2026-11-10:
+   animation removed — the reader page carries no animations, ever. The
+   jump still scrolls to the target; only the flash is gone. */
 .flowchart-target-flash {
-	animation: flowchart-target-flash 1.6s ease;
+	animation: none;
 }
 @keyframes flowchart-target-flash {
 	0%, 100% { box-shadow: none; }
@@ -1487,9 +1499,11 @@
   }
 }
 
-/* B"H — Footnote jump flash (from Sources sheet) */
+/* B"H — Footnote jump flash (from Sources sheet). B"H 2026-11-10: animation
+   removed — the reader page carries no animations, ever. The jump still
+   scrolls to the footnote; only the flash is gone. */
 .awtsmoos-fn-flash {
-  animation: awtsmoos-fn-flash 1.6s ease;
+  animation: none;
   border-radius: 0.5rem;
 }
 @keyframes awtsmoos-fn-flash {

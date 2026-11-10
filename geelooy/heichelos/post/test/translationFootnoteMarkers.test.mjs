@@ -27,7 +27,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { renderTranslationTextWithFootnotes, renderTranslationReport } from '../translations/render.js';
-import { renderEnglishWithFootnotes } from '../logic/scribe/MeluketSeferReader.js';
+import { renderEnglishWithFootnotes, convertBareFootnoteDigits } from '../logic/scribe/MeluketSeferReader.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const read = (rel) => readFileSync(join(HERE, '..', rel), 'utf8');
@@ -123,6 +123,72 @@ test('sefer path: real numbers are never touched', () => {
 	assert.equal(renderEnglishWithFootnotes('the year 5747 was blessed'), 'the year 5747 was blessed');
 	assert.equal(renderEnglishWithFootnotes('3.14 value'), '3.14 value');
 	assert.equal(renderEnglishWithFootnotes('chapter 3 and more'), 'chapter 3 and more');
+});
+
+// B"H — Nov 10, 2026: footnote 1 on the live maamar stayed plain —
+// "ואברהם זקן בא בימים גו'1," — the digit follows a geresh (') after a
+// Hebrew letter, mid-phrase, so neither the glued pass nor the trailing
+// pass saw it. The converter now catches digits after a geresh, quote,
+// or closing paren/bracket that follows Hebrew. Verified against the
+// live post's real data: Hebrew markers 63/64 before, 64/64 after.
+function hebrewMarkers(text) {
+	const root = { children: [] };
+	const textNode = { nodeValue: text, parentNode: root, parentElement: { closest: () => null } };
+	root.children.push(textNode);
+	root.replaceChild = (frag, old) => {
+		const i = root.children.indexOf(old);
+		const expanded = frag.children.map((c) => {
+			c.parentNode = root;
+			c.parentElement = { closest: () => null };
+			return c;
+		});
+		root.children.splice(i, 1, ...expanded);
+	};
+	const sup = () => {
+		const attrs = {};
+		return {
+			tag: 'sup', textContent: '',
+			setAttribute(k, v) { attrs[k] = v; },
+			getAttribute(k) { return attrs[k]; }, attrs
+		};
+	};
+	globalThis.NodeFilter = { SHOW_TEXT: 4, FILTER_ACCEPT: 1, FILTER_SKIP: 2, FILTER_REJECT: 3 };
+	globalThis.document = {
+		createTreeWalker(_root, _type, filter) {
+			const nodes = root.children.filter((n) => typeof n.nodeValue === 'string' && filter.acceptNode(n) === 1);
+			let i = 0;
+			return { nextNode() { return i < nodes.length ? nodes[i++] : null; } };
+		},
+		createElement(tag) { return tag === 'sup' ? sup() : { setAttribute() {}, appendChild() {} }; },
+		createDocumentFragment() {
+			const kids = [];
+			return { children: kids, appendChild(c) { kids.push(c); return c; } };
+		},
+		createTextNode: (v) => ({ nodeValue: v, parentNode: null, parentElement: { closest: () => null } })
+	};
+	try {
+		convertBareFootnoteDigits(root);
+		return root.children.map((c) => (c.tag === 'sup'
+			? `<sup data-fn="${c.attrs['data-fn']}">${c.textContent}</sup>`
+			: c.nodeValue)).join('');
+	} finally {
+		delete globalThis.document;
+		delete globalThis.NodeFilter;
+	}
+}
+
+test('sefer path Hebrew: digit after a geresh becomes a marker (live footnote 1)', () => {
+	assert.equal(
+		hebrewMarkers("ואברהם זקן בא בימים גו'1,"),
+		'ואברהם זקן בא בימים גו\'<sup data-fn="1">1</sup>,'
+	);
+	assert.match(hebrewMarkers("אברהם דכתיב בי' בכל יצחק דכתיב בי'59"), /בי'<sup data-fn="59">59<\/sup>$/);
+	assert.match(hebrewMarkers('(אשר בשבת זו נפעל הענין דויכולו השמים גו\'2'), /גו'<sup data-fn="2">2<\/sup>$/);
+});
+
+test('sefer path Hebrew: years and plain numbers stay plain text', () => {
+	assert.equal(hebrewMarkers('בשנת 5746'), 'בשנת 5746');
+	assert.equal(hebrewMarkers('שלום 1967'), 'שלום 1967');
 });
 
 // ---------------------------------------------------------------- Issue 1: wiring + CSS

@@ -59,6 +59,28 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	gap: 0;
 }
 
+/* B"H — Coby Nov 10, screenshots: the auto-scroll ↓ button rendered
+   dark orange on black — the paused-state gradient in states.css
+   (#b57627 → #5d3917) repainted the dock button, and the running state
+   repainted it pink. A dock button is a dock button: flat dark navy,
+   near-white arrow, in every state. The state still shows in the
+   settings panel (Start/Stop + pace), not in paint. This beats the
+   state rules on specificity (six classes + body vs two). */
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-is-paused,
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
+	background: linear-gradient(180deg, rgba(23, 43, 65, .96), rgba(10, 24, 40, .96));
+	border-color: rgba(133, 229, 255, .16);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+	color: #f8fbff;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
+	color: #f8fbff;
+}
+
 body .all.post-reader-localized-context.awtsmoos-reader-vision
 	> .awtsmoos-floating-controls .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
 body .all.post-reader-localized-context.awtsmoos-reader-vision
@@ -95,9 +117,11 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		border: 1px solid rgba(112, 225, 255, .2);
 		border-radius: 1rem;
 		background: linear-gradient(180deg, rgba(13, 26, 43, .94), rgba(5, 12, 24, .88));
-		box-shadow: 0 14px 30px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
-		-webkit-backdrop-filter: blur(16px) saturate(125%);
-		backdrop-filter: blur(16px) saturate(125%);
+		/* B"H — Coby Nov 10: scrolling was choppy. backdrop-filter blur
+		   on a fixed dock forces the phone to repaint the text behind it
+		   on every scroll frame. The dock background is already near-solid,
+		   so the blur buys nothing — removed, shadow flattened. */
+		box-shadow: 0 2px 8px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
 		transform: none;
 	}
 
@@ -119,9 +143,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		> .awtsmoos-auto-scroll-floating {
 		padding: .42rem;
 		border: 1px solid rgba(189, 255, 241, .34);
-		box-shadow: 0 14px 34px rgba(4, 120, 87, .34), inset 0 1px 0 rgba(255, 255, 255, .26);
-		-webkit-backdrop-filter: blur(14px) saturate(130%);
-		backdrop-filter: blur(14px) saturate(130%);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .26);
 		touch-action: manipulation;
 	}
 }

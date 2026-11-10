@@ -28,8 +28,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=a3a7dc9c82'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=62d7ce6d44'],
+	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=68c694429d'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=a591c3dddb'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
 ];
 
@@ -387,6 +387,14 @@ export function convertBareFootnoteDigits(root) {
 	const HEB = '\\u0590-\\u05FF';
 	const GLUED_RE = new RegExp(`([${HEB}])(\\d{1,2})(?!\\d)`, 'g');
 	const TRAILING_RE = /(^|\D)(\d{1,3})([.!?…‥""'')\];:—–-]*\s*)$/;
+	// B"H — Nov 10, 2026: footnote 1 on the live maamar stayed plain:
+	// "גו'1," — the digit follows a geresh (') after a Hebrew letter,
+	// not a Hebrew letter itself, and sits mid-phrase, so neither the
+	// glued pass nor the trailing pass saw it. Same for a digit after
+	// a closing quote/paren/bracket that follows Hebrew. 1-2 digits
+	// only, never followed by another digit, so a year (5746) or a
+	// longer number can never match through this pass.
+	const GERESH_RE = /([\u0590-\u05FF]['"\u05F3\u05F4\)\]\}])(\d{1,2})(?!\d)/g;
 	for (const node of nodes) {
 		const value = node.nodeValue;
 		if (!value) continue;
@@ -397,6 +405,13 @@ export function convertBareFootnoteDigits(root) {
 		GLUED_RE.lastIndex = 0;
 		while ((m = GLUED_RE.exec(value))) {
 			matches.push({ start: m.index + m[1].length, end: m.index + m[0].length, digits: m[2] });
+		}
+		GERESH_RE.lastIndex = 0;
+		while ((m = GERESH_RE.exec(value))) {
+			const start = m.index + m[1].length;
+			if (!matches.some((x) => x.start === start)) {
+				matches.push({ start, end: start + m[2].length, digits: m[2] });
+			}
 		}
 		const tm = value.match(TRAILING_RE);
 		if (tm) {

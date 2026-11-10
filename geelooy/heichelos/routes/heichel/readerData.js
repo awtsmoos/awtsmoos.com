@@ -41,6 +41,7 @@ function createReaderData($i) {
 		const seriesId = seg[5];
 		const child = directChildContext($i, url.search);
 		let result;
+		if (seg[6] === 'post' && seg[7] && seg[8]) return undefined;
 		if (seg[6] === 'post' && seg[7]) result = await readPostRoute({ $i: child, heichelId, seriesId, postId: seg[7] });
 		else if (seg[6] === 'posts' && !seg[7]) result = await readPostsRoute({ $i: child, heichelId, seriesId, withDetails: false });
 		else if (seg[6] === 'details') result = await readSeriesDetailsPlain(child, heichelId, seriesId);
@@ -108,7 +109,30 @@ function createReaderData($i) {
 		return decorate({ heichelId, seriesId, postId, indexInSeries, post, series });
 	}
 
-	return { loadDirect, loadSeriesPost, loadSeriesIndex };
+	/**
+	 * B"H — Nov 10, 2026: fetch the post's aligned phrase translations on
+	 * the server (internal dispatch, cached like the post itself) so the
+	 * reader can embed them in the first HTML and skip the client's
+	 * sequential translations API round trip (~1.26s from Coby's phone).
+	 * Best-effort with a 2s race: a slow or failed translations fetch
+	 * must never hold the first paint hostage — the client falls back
+	 * to the API exactly as before. Returns slim-ready raw rows, or null.
+	 */
+	async function loadPostTranslations(heichelId, seriesId, postId) {
+		const path = `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}/translations`;
+		const timedOut = new Promise((resolve) => setTimeout(() => resolve(null), 2000));
+		const fetched = fetchPublic(path, 'reader-data:translations', { heichelId, seriesId, postId })
+			.then((payload) => {
+				if (Array.isArray(payload?.success)) return payload.success;
+				if (Array.isArray(payload)) return payload;
+				return null;
+			})
+			.catch(() => null);
+		const rows = await Promise.race([fetched, timedOut]);
+		return Array.isArray(rows) && rows.length ? rows : null;
+	}
+
+	return { loadDirect, loadSeriesPost, loadSeriesIndex, loadPostTranslations };
 }
 
 module.exports = { createReaderData, seriesIndexFields };

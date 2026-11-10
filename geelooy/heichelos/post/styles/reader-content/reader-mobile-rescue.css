@@ -35,7 +35,14 @@
 
 	.post-reader-localized-context #realPost .meluket-phrase--en,
 	.post-reader-localized-context #realPost .meluket-english {
-		font-size: calc(var(--post-text-size, 48px) * 0.57);
+		/* B"H — Coby Nov 10, screenshots: the English under each Hebrew
+		   phrase rendered tiny and unreadable — this 0.57x multiplier
+		   shrank it to about half the Hebrew, and the 0.68em override in
+		   meluket-reader-overhaul.css shrank it further. Yaakov's law:
+		   Hebrew and English must LOOK the same size. The English now
+		   takes the same --post-text-size as the Hebrew (whose 1.3x
+		   optical multiplier is the only difference, by design). */
+		font-size: var(--post-text-size, 48px);
 		line-height: 1.48;
 		min-inline-size: 0;
 		max-inline-size: 100%;

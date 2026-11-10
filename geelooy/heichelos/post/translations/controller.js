@@ -52,7 +52,46 @@ function focusRequestedTranslation(viewport) {
 	return true;
 }
 
+const MIN_EMBEDDED_PHRASES = 20;
+
+/**
+ * B"H — Nov 10, 2026: the server embeds the slim phrase rows in the first
+ * HTML (`#awtsmoos-phrase-translations`) so the sefer mounts without the
+ * translations API round trip. Returns the rows, or null when there is no
+ * embed / it is too thin — the caller then fetches the API as before.
+ */
+function readEmbeddedPhraseTranslations() {
+	try {
+		const el = typeof document !== 'undefined' ? document.getElementById('awtsmoos-phrase-translations') : null;
+		if (!el) return null;
+		const rows = JSON.parse(el.textContent || '');
+		if (!Array.isArray(rows) || rows.length < MIN_EMBEDDED_PHRASES) return null;
+		return rows;
+	} catch (_) { return null; }
+}
+
 async function mountRegisteredTranslation(viewport, post, seriesId, heichelId) {
+	// B"H — embedded rows first: no API round trip when the server already
+	// sent the phrases. The report + activation path below is identical
+	// to the API path, only the rows arrive without a fetch.
+	const embeddedRows = readEmbeddedPhraseTranslations();
+	if (embeddedRows) {
+		const report = {
+			rows: embeddedRows,
+			meta: { source: { status: 'ready', embedded: true } },
+			warnings: []
+		};
+		const render = renderTranslationReport(viewport, report);
+		try { await activatePhraseReaderFromApi(post, report.rows); } catch (_) { /* per-phrase activation is best-effort; the report above already rendered */ }
+		try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
+		return {
+			skipped: false,
+			seriesId,
+			report,
+			render,
+			focused: focusRequestedTranslation(viewport)
+		};
+	}
 	renderTranslationReport(viewport, {
 		rows: [],
 		meta: { source: { status: 'loading' } },

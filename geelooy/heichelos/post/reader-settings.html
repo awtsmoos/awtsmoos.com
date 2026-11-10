@@ -11,11 +11,6 @@ Awtsmoos.com keeps the Torah surface calm while every useful setting remains nea
 				<div class="control-label scribe-lens-title">Scribe's Lens</div>
 				<button type="button" id="scribeLensClose" class="scribe-lens-close" aria-label="Close settings">✕</button>
 			</div>
-			<div class="focus-mode-control settings-group">
-				<span class="setting-name control-label">Focus Mode</span>
-				<input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle font-selector" aria-label="Focus mode">
-				<label for="focusModeToggle" class="awtsmoos-toggle-label control-label"></label>
-			</div>
 		</div>
 		<div class="settings-group">
 			<div class="control-label">Text Scale</div>
@@ -47,15 +42,6 @@ Awtsmoos.com keeps the Torah surface calm while every useful setting remains nea
 			<p class="auto-scroll-help">Always starts off. Your chosen pace is remembered and synchronized across open reader tabs.</p>
 		</div>
 		<div class="settings-group">
-			<label class="control-label" for="fontSelector">Font Alchemist</label>
-			<select id="fontSelector" class="font-selector">
-				<option value="'Cardo', serif">Cardo</option>
-				<option value="'Source Serif 4', serif">Source Serif 4</option>
-				<option value="'Frank Ruhl Libre', serif">Frank Ruhl Libre</option>
-				<option value="'Inter', sans-serif">Inter</option>
-			</select>
-		</div>
-		<div class="settings-group">
 			<label class="control-label" for="themeSelector">Theme Engine</label>
 			<div class="theme-controls settings-group">
 				<select id="themeSelector">
@@ -64,47 +50,73 @@ Awtsmoos.com keeps the Torah surface calm while every useful setting remains nea
 				</select>
 			</div>
 		</div>
-		<div class="settings-group">
-			<label class="control-label" for="dreamSelector">Dream Reader</label>
-			<div class="theme-controls settings-group">
-				<select id="dreamSelector" class="font-selector">
-					<option value="off">Off</option>
-					<option value="sanctuary">Sanctuary</option>
-					<option value="dawn">Dawn</option>
-				</select>
-			</div>
-			<p class="dream-hint control-label">Sanctuary is the dark cinematic vision; Dawn is the warm sunrise.</p>
-			<div class="dream-celestial-row settings-group">
-				<span class="setting-name control-label">Sun &amp; moon follow the zmanim</span>
-				<input type="checkbox" id="dreamCelestialToggle" class="awtsmoos-toggle font-selector" aria-label="Sun and moon follow the zmanim" checked>
-				<label for="dreamCelestialToggle" class="awtsmoos-toggle-label control-label"></label>
-			</div>
-		</div>
-		<details class="reader-advanced-settings settings-group">
-			<summary>
-				<span>Advanced appearance</span>
-				<small>Custom tincture</small>
-			</summary>
-			<div class="reader-advanced-content">
-				<div class="control-label">Live Tincture</div>
-				<div class="color-picker-grid settings-group">
-					<div class="color-control settings-group">
-						<label for="inkColorPicker">Ink</label>
-						<input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot font-selector">
+		<!-- B"H — Coby Nov 10, screenshots: the panel "opens up weird menus
+		     with bad styles." Only Text Scale, Auto Scroll, Theme (and the
+		     Language pills the reader injects) stay visible. Everything
+		     exotic — Focus Mode, Font Alchemist, Dream Reader, the tincture
+		     pickers — lives behind one closed "More settings" disclosure.
+		     All controls stay in the DOM (same ids), so every listener
+		     keeps working; they are just not in Coby's face. -->
+		<details class="reader-more-settings settings-group">
+			<summary><span>More settings</span></summary>
+			<div class="reader-more-content">
+				<div class="focus-mode-control settings-group">
+					<span class="setting-name control-label">Focus Mode</span>
+					<input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle font-selector" aria-label="Focus mode">
+					<label for="focusModeToggle" class="awtsmoos-toggle-label control-label"></label>
+				</div>
+				<div class="settings-group">
+					<label class="control-label" for="fontSelector">Font Alchemist</label>
+					<select id="fontSelector" class="font-selector">
+						<option value="'Cardo', serif">Cardo</option>
+						<option value="'Source Serif 4', serif">Source Serif 4</option>
+						<option value="'Frank Ruhl Libre', serif">Frank Ruhl Libre</option>
+						<option value="'Inter', sans-serif">Inter</option>
+					</select>
+				</div>
+				<div class="settings-group">
+					<label class="control-label" for="dreamSelector">Dream Reader</label>
+					<div class="theme-controls settings-group">
+						<select id="dreamSelector" class="font-selector">
+							<option value="off">Off</option>
+							<option value="sanctuary">Sanctuary</option>
+							<option value="dawn">Dawn</option>
+						</select>
 					</div>
-					<div class="color-control settings-group">
-						<label for="vellumColorPicker">Vellum</label>
-						<input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot font-selector">
-					</div>
-					<div class="color-control settings-group">
-						<label for="primaryColorPicker">Primary</label>
-						<input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot font-selector">
-					</div>
-					<div class="color-control settings-group">
-						<label for="accentColorPicker">Accent</label>
-						<input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot font-selector">
+					<p class="dream-hint control-label">Sanctuary is the dark cinematic vision; Dawn is the warm sunrise.</p>
+					<div class="dream-celestial-row settings-group">
+						<span class="setting-name control-label">Sun &amp; moon follow the zmanim</span>
+						<input type="checkbox" id="dreamCelestialToggle" class="awtsmoos-toggle font-selector" aria-label="Sun and moon follow the zmanim" checked>
+						<label for="dreamCelestialToggle" class="awtsmoos-toggle-label control-label"></label>
 					</div>
 				</div>
+				<details class="reader-advanced-settings settings-group">
+					<summary>
+						<span>Advanced appearance</span>
+						<small>Custom tincture</small>
+					</summary>
+					<div class="reader-advanced-content">
+						<div class="control-label">Live Tincture</div>
+						<div class="color-picker-grid settings-group">
+							<div class="color-control settings-group">
+								<label for="inkColorPicker">Ink</label>
+								<input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot font-selector">
+							</div>
+							<div class="color-control settings-group">
+								<label for="vellumColorPicker">Vellum</label>
+								<input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot font-selector">
+							</div>
+							<div class="color-control settings-group">
+								<label for="primaryColorPicker">Primary</label>
+								<input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot font-selector">
+							</div>
+							<div class="color-control settings-group">
+								<label for="accentColorPicker">Accent</label>
+								<input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot font-selector">
+							</div>
+						</div>
+					</div>
+				</details>
 			</div>
 		</details>
 	</div>
