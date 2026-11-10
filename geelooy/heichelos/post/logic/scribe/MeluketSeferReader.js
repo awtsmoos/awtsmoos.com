@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=6fa8adf1dd'],
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=d5db07e086'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=f047dced11'],
 ];
 
 function ensureSeferStyle(id, href) {
@@ -1319,8 +1319,17 @@ function renderSourcesFootnotes(footnotes, sefer) {
 		// mark on the footnote tapped last time, so it stays marked.
 		if (lastTappedFootnoteNum !== null && String(num) === String(lastTappedFootnoteNum)) btn.classList.add('is-open');
 		btn.append(el('span', 'awtsmoos-src-fn-num', String(num)));
-		const txt = el('span', 'awtsmoos-src-fn-text', sourcesFootnoteText(fn));
-		txt.setAttribute('dir', 'auto');
+		const txt = el('span', 'awtsmoos-src-fn-text');
+		if (fn && typeof fn === 'object' && !(fn instanceof Element) && !fn._context) {
+			const he = String(fn.hebrew || '').replace(/\s+/g, ' ').trim();
+			const en = String(fn.english || fn.text || '').replace(/\s+/g, ' ').trim();
+			if (he) { const h = el('span', 'awtsmoos-src-fn-he', he); h.dir = 'rtl'; txt.append(h); }
+			if (en) { const e = el('span', 'awtsmoos-src-fn-en', en); e.dir = 'ltr'; txt.append(e); }
+			if (!he && !en) txt.textContent = sourcesFootnoteText(fn);
+		} else {
+			txt.textContent = sourcesFootnoteText(fn);
+			txt.dir = 'auto';
+		}
 		btn.append(txt);
 		btn.addEventListener('click', () => {
 			// B"H 2026-11-10 round 6 — Coby: tapping a footnote did NOTHING

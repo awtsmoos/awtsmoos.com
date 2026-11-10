@@ -418,3 +418,69 @@ section[data-awtsmoos-unit].is-reading,
 	font-size: var(--post-text-size, 48px);
 	font-size-adjust: none;
 }
+
+
+/* B\"H — Sources sheet cleanup. Number never overlaps text.
+   Hebrew and English each on their own line. Tight margins.
+   Aa dock hides while the sheet is open. */
+.awtsmoos-src-sheet .awtsmoos-src-fn-item {
+	display: grid;
+	grid-template-columns: 1.8rem 1fr;
+	gap: 0.55rem;
+	align-items: start;
+	padding: 0.55rem 0.2rem;
+	direction: ltr;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-num {
+	font-weight: 700;
+	color: #8a6d1b;
+	font-size: 0.85rem;
+	line-height: 1.4;
+	text-align: end;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-text {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-width: 0;
+	font-size: 0.9rem;
+	line-height: 1.45;
+	color: #2b2118;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-he {
+	display: block;
+	direction: rtl;
+	text-align: right;
+	font-family: "Frank Ruhl Libre", "Noto Serif Hebrew", serif;
+}
+.awtsmoos-src-sheet .awtsmoos-src-fn-en {
+	display: block;
+	direction: ltr;
+	text-align: left;
+	color: #5a4f3a;
+	font-size: 0.86rem;
+}
+.awtsmoos-src-sheet .awtsmoos-src-list {
+	padding: 0.4rem 0.9rem 6.5rem;
+}
+.awtsmoos-src-sheet .awtsmoos-src-head,
+.awtsmoos-src-sheet .awtsmoos-src-crumb {
+	padding-inline: 0.9rem;
+}
+body.awtsmoos-src-open #typographyBtn,
+body.awtsmoos-src-open .awtsmoos-reader-dock,
+body.awtsmoos-src-open .awtsmoos-dock {
+	display: none;
+}
+@media (max-width: 760px) {
+	.post-reader-localized-context #realPost {
+		padding-inline: 0.6rem;
+	}
+	.meluket-sefer-active .meluket-sefer-section {
+		padding-inline: 0.5rem;
+		margin-bottom: 0.6rem;
+	}
+	.meluket-sefer-active .meluket-phrase-pair {
+		margin-bottom: 0.5rem;
+	}
+}
