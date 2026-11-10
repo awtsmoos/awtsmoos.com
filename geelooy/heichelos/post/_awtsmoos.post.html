@@ -31,8 +31,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   .meluket-sefer with only a max-width shrink-wraps to its
 		   content until the bundles land. width: 100% here (in the HTML
 		   itself, zero network wait) holds it full-width from the first
-		   byte; the max-width still caps it. */
-		.meluket-sefer { width: 100%; max-width: min(68ch, calc(100% - 1rem)); margin-inline: auto; }
+		   byte. The cap is 1180px (sefer.css:48), NOT 68ch: ch is
+		   measured against the sefer's tiny 7px container font, so 68ch
+		   capped the early sefer at ~242px — the narrow column itself.
+		   Headless probe, round 14: early sefer 242px with the ch cap. */
+		.meluket-sefer { width: 100%; max-width: min(1180px, calc(100% - 1rem)); margin-inline: auto; }
 		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
