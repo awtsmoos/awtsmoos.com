@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			gameOver: false,
 			moveHistory: [],
 			fenHistory: [],
+			pendingDrawOffer: null,
 			pgnResult: '*',
 			fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
 			castlingRights: {
@@ -768,6 +769,8 @@ function drawAnalysisBoard() {
 		if (gameState.turn === 'w') gameState.fullmoveNumber++;
 		gameState.halfmoveClock = (piece.toLowerCase() === 'p' || move.capturedPiece) ? 0 : gameState.halfmoveClock + 1;
 		gameState.selectedSquare = null;
+		gameState.pendingDrawOffer = null;
+		gameState.fenHistory.push(generateFEN().split(' ').slice(0, 4).join(' '));
 	}
 
 	function updateGameStatus() {
@@ -821,9 +824,8 @@ function drawAnalysisBoard() {
 		gameState.isAIMoving = true;
 		const fen = generateFEN();
 		
-		// Note: We now use the FEN from before the move, which is correct
-		const fenForHistory = fen.split(' ').slice(0, 4).join(' ');
-		gameState.fenHistory.push(fenForHistory);
+		// Position history is recorded centrally in updateStateAfterMove,
+		// so every mode (including PvP) builds the same complete record.
 
 		messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
 		scrollMsg()
@@ -1164,13 +1166,42 @@ function drawAnalysisBoard() {
 		const count = gameState.fenHistory.reduce((acc, fen) => {
 			return fen === currentFen ? acc + 1 : acc;
 		}, 0);
-		return count >= 2; // The current position plus 2 previous makes 3
+		return count >= 3; // History includes the current position, so 3 records is threefold
 	}
 	
 	function canClaim50MoveRule() {
 		// The halfmoveClock is reset after a capture or pawn move.
 		// 50 moves by each player is 100 half-moves.
 		return gameState.halfmoveClock >= 100;
+	}
+
+	function hasInsufficientMaterial() {
+		const pieces = [];
+		for (let r = 0; r < 8; r++) {
+			for (let c = 0; c < 8; c++) {
+				const p = board[r][c];
+				if (p && p.toLowerCase() !== 'k') pieces.push({ p, r, c });
+			}
+		}
+		if (pieces.length === 0) return true;
+		if (pieces.length === 1) return 'nb'.includes(pieces[0].p.toLowerCase());
+		if (pieces.every(x => x.p.toLowerCase() === 'b')) {
+			return new Set(pieces.map(x => (x.r + x.c) % 2)).size === 1;
+		}
+		return false;
+	}
+
+	/** Material balance from White's perspective, in pawn units. */
+	function materialBalance() {
+		const values = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+		let balance = 0;
+		for (const row of board) {
+			for (const p of row) {
+				if (!p || p.toLowerCase() === 'k') continue;
+				balance += (p === p.toUpperCase() ? 1 : -1) * values[p.toLowerCase()];
+			}
+		}
+		return balance;
 	}
 	
 	
@@ -1474,9 +1505,44 @@ function drawAnalysisBoard() {
 		URL.revokeObjectURL(url);
 	});
 	drawButton.addEventListener('click', () => {
-		if (!gameState.gameOver) {
-			showGameOver("Game Drawn by Agreement", "1/2-1/2");
+		if (gameState.gameOver) return;
+		// A claim is not an offer: a position drawn by rule ends the game now.
+		if (canClaimThreefoldRepetition()) {
+			showGameOver("Game Drawn by Threefold Repetition", "1/2-1/2");
+			return;
 		}
+		if (canClaim50MoveRule()) {
+			showGameOver("Game Drawn by the Fifty-Move Rule", "1/2-1/2");
+			return;
+		}
+		if (hasInsufficientMaterial()) {
+			showGameOver("Game Drawn by Insufficient Material", "1/2-1/2");
+			return;
+		}
+		// Otherwise the button makes an offer, and an offer needs the other side.
+		if (gameState.gameMode === 'pva') {
+			const balance = materialBalance();
+			const aiLead = gameState.playerColor === 'w' ? -balance : balance;
+			if (aiLead <= 0) {
+				showGameOver("Game Drawn by Agreement", "1/2-1/2");
+			} else {
+				messageDiv.textContent += "\n\nThe AI declines your draw offer.";
+				scrollMsg();
+			}
+			return;
+		}
+		if (gameState.gameMode === 'pvp') {
+			if (gameState.pendingDrawOffer && gameState.pendingDrawOffer !== gameState.turn) {
+				showGameOver("Game Drawn by Agreement", "1/2-1/2");
+				return;
+			}
+			gameState.pendingDrawOffer = gameState.turn;
+			messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'} offers a draw. Opponent: press Offer / Claim Draw to accept, or simply make a move to decline.`;
+			scrollMsg();
+			return;
+		}
+		messageDiv.textContent += "\n\nNo draw can be claimed in this position.";
+		scrollMsg();
 	});
 	
 	playVsAiButton.onclick = () => {
