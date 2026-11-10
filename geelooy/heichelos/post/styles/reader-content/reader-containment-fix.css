@@ -33,7 +33,7 @@
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 }
 
@@ -41,7 +41,7 @@
 	width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 	margin-inline: auto;
 	padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
@@ -58,7 +58,7 @@
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 }
 

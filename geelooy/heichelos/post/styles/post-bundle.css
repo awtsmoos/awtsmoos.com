@@ -7582,7 +7582,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 }
 
@@ -7590,7 +7590,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 	margin-inline: auto;
 	padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
@@ -7607,7 +7607,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 	word-break: normal;
 }
 
@@ -7683,7 +7683,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 		box-sizing: border-box;
 		max-inline-size: 100%;
 		min-inline-size: 0;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-section,
@@ -7700,7 +7700,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 		min-inline-size: 0;
 		max-inline-size: 100%;
 		white-space: normal;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-phrase--en,
@@ -7717,14 +7717,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 		min-inline-size: 0;
 		max-inline-size: 100%;
 		white-space: normal;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-title-he {
 		font-size: calc(var(--post-text-size, 48px) * 0.83);
 		line-height: 1.38;
 		max-inline-size: 100%;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-title {

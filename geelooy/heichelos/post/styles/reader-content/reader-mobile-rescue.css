@@ -13,7 +13,7 @@
 		box-sizing: border-box;
 		max-inline-size: 100%;
 		min-inline-size: 0;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-section,
@@ -30,7 +30,7 @@
 		min-inline-size: 0;
 		max-inline-size: 100%;
 		white-space: normal;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-phrase--en,
@@ -47,14 +47,14 @@
 		min-inline-size: 0;
 		max-inline-size: 100%;
 		white-space: normal;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-title-he {
 		font-size: calc(var(--post-text-size, 48px) * 0.83);
 		line-height: 1.38;
 		max-inline-size: 100%;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 	}
 
 	.post-reader-localized-context #realPost .meluket-sefer-title {
