@@ -271,7 +271,7 @@
    (0,4,0) with real descendant spaces, so the sefer file governs. */
 :root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical));
+	font-size: calc(var(--sefer-phrase-size) * 1.8);
 	font-weight: 700;
 	/* B"H 2026-11-10 round 6: line-height 1.9 left ~50px of dead air under
 	   every Hebrew line (the line box is far taller than the glyphs), which
