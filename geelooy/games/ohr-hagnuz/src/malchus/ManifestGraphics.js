@@ -1,7 +1,7 @@
 
 import { StateRegister } from '../binah/StateRegister.js';
 import { PixelArchitect } from '../render/PixelArchitect.js';
-import { WorldAssembler } from '../data/Maps/WorldAssembler.js';
+import { WorldAssembler } from '../data/maps/WorldAssembler.js';
 import { AnimationDirector } from '../graphics/AnimationDirector.js';
 
 /**

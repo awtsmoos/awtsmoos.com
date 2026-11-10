@@ -3,7 +3,7 @@
  * Hand-authored Sulam HaSod chamber data.
  * This file is intentionally plain data: no engine imports, no side effects.
  */
-export const level02 - - - - = {
+export const level02 = {
   "name": "2 - - - - · Yesod Mirror Causeway",
   "width": 2600,
   "spawn": {

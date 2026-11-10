@@ -3,7 +3,7 @@
  * Hand-authored Sulam HaSod chamber data.
  * This file is intentionally plain data: no engine imports, no side effects.
  */
-export const level01 - - - - = {
+export const level01 = {
   "name": "1 - - - - · Malchus Gate of Dust",
   "width": 2200,
   "spawn": {

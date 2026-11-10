@@ -3,7 +3,7 @@
  * Hand-authored Sulam HaSod chamber data.
  * This file is intentionally plain data: no engine imports, no side effects.
  */
-export const level03 - - - - = {
+export const level03 = {
   "name": "3 - - - - · Hod Library of Arguments",
   "width": 3000,
   "spawn": {

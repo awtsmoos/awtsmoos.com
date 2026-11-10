@@ -22,6 +22,9 @@ var MAX_DEPTH = 55;
 
 class Octree {
 
+	#allTriangles = [];
+	#isBuilt = false;
+
 	// Add a cache to store collision results
 	constructor( box ) {
 
