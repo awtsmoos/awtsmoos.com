@@ -41,6 +41,44 @@ const { requireMethod, requestValue } = require('./requestValues.js');
 const { acquireSeriesLock, INLINE_POSTS_MAX_BYTES, PER_POST_MAX_BYTES } = require('./importBounds.js');
 const { cleanClone } = require('./postValidate.js');
 const ownership = require('./ownership.js');
+// B"H 2026-11-10 (bulk-import speed fix): the post-import job path
+// (runJobMixin) has always widened the FS3 durability budget and
+// deferred the AwtsmoosDB complement refresh for its run — the update
+// path never did, so EVERY native write in an update paid a full
+// directory child-map flush (durableFlush's own header measures that
+// flush as the dominant FS3 write cost) plus periodic full-graph
+// complement verifies. That is why one update blocked the event loop
+// for 30-90 seconds while a fresh post import takes well under a
+// second. The update paths now hold the exact same refcounted
+// batching for their whole run and flush once at the end, exactly
+// like runJobMixin: crash loss stays bounded by the endpoint's
+// idempotency (a lost micro-batch is a no-op re-apply).
+const { deferRefresh, undeferRefresh } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/refreshDeferral.js');
+const { setImportBatching, clearImportBatching, flushAllPending } = require('../../../../../../ayzarim/DosDB/durableFlush.js');
+const { setImportBatching: setFs3ImportBatching, clearImportBatching: clearFs3ImportBatching } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js');
+const { mirrorPostsBulk } = require('../../packed/socialPacked.js');
+
+/** Flush a deferred packed-mirror batch (updateOnePost collects the
+ * updated documents when opts.mirrorBatch is passed). One append per
+ * shard per batch instead of per-post writePacked records; on batch
+ * failure falls back to the per-post writer so no post loses its
+ * mirror. Returns a list of per-post mirror errors (usually empty). */
+function flushMirrorBatch(routes, $i, batch) {
+	const errors = [];
+	if (!batch || !batch.length) return errors;
+	const posts = batch.splice(0, batch.length);
+	const _mt0 = Date.now();
+	try {
+		mirrorPostsBulk({ $i, posts, skipPriorRead: false });
+		console.log('[UPDATE-TIME] mirrorBatch ms=' + (Date.now() - _mt0) + ' posts=' + posts.length);
+	} catch (e) {
+		for (const p of posts) {
+			try { routes.writeOnePostBulk($i, p); }
+			catch (e2) { errors.push({ postId: p.postId, message: 'PACKED_MIRROR_FAILED: ' + (e2.message || e2) }); }
+		}
+	}
+	return errors;
+}
 
 // Per-request update cap: tighter than the importer's 500-post inline
 // cap because every update is a load + full-document rewrite done
@@ -104,24 +142,44 @@ module.exports = {
 		});
 
 		const results = new Array(updates.length);
-		for (const [seriesKey, items] of groups) {
-			const lockKey = JSON.stringify([heichelId, seriesKey]);
-			const release = await acquireSeriesLock(lockKey);
-			try {
-				for (const { u, idx } of items) {
-					results[idx] = await this.updateOnePost(heichelId, u, { dryRun, verify, caller, callerScope });
-					await new Promise(r => setImmediate(r));
+		const mirrorBatch = [];
+		const mirrorErrors = [];
+		// Hold the import durability budget for the whole request (see
+		// the require block above): native writes stop paying a full
+		// child-map flush each, and everything is flushed once here at
+		// the end — the request reports success only after that flush.
+		deferRefresh();
+		setImportBatching();
+		setFs3ImportBatching();
+		try {
+			for (const [seriesKey, items] of groups) {
+				const lockKey = JSON.stringify([heichelId, seriesKey]);
+				const release = await acquireSeriesLock(lockKey);
+				try {
+					for (const { u, idx } of items) {
+						results[idx] = await this.updateOnePost(heichelId, u, { dryRun, verify, caller, callerScope, mirrorBatch });
+						await new Promise(r => setImmediate(r));
+					}
+				} finally {
+					release();
 				}
-			} finally {
-				release();
+				mirrorErrors.push(...flushMirrorBatch(this, this.$i, mirrorBatch));
 			}
+		} finally {
+			mirrorErrors.push(...flushMirrorBatch(this, this.$i, mirrorBatch));
+			const _ft0 = Date.now();
+			flushAllPending();
+			console.log('[UPDATE-TIME] flushAllPending ms=' + (Date.now() - _ft0));
+			undeferRefresh();
+			clearImportBatching();
+			clearFs3ImportBatching();
 		}
 
 		let ok = 0, failed = 0, noop = 0;
 		for (const r of results) {
 			if (r && r.ok) { ok++; if (r.noop) noop++; } else failed++;
 		}
-		return { success: { heichelId, dryRun, verify, total: updates.length, ok, failed, noop, results } };
+		return { success: { heichelId, dryRun, verify, total: updates.length, ok, failed, noop, mirrorErrors, results } };
 	},
 
 
@@ -142,6 +200,7 @@ module.exports = {
 
 
 	async updateOnePost(heichelId, u, opts) {
+		const _pt0 = Date.now();
 		const { dryRun, verify } = opts;
 		if (!u || typeof u !== 'object' || Array.isArray(u)) {
 			return { postId: null, ok: false, error: 'BAD_UPDATE', message: 'update entry is not an object' };
@@ -160,6 +219,7 @@ module.exports = {
 		}
 
 		const existing = await this.loadNativePost(heichelId, seriesId, postId);
+		console.log('[UPDATE-TIME] load ms=' + (Date.now() - _pt0) + ' post=' + postId + ' docBytes=' + (existing ? Buffer.byteLength(JSON.stringify(existing)) : -1));
 		if (!existing) return { postId, ok: false, error: 'POST_NOT_FOUND', message: 'no native post at heichel ' + heichelId + (seriesId ? ' series ' + seriesId : '') };
 
 		// Multi-user ownership (2026-10-21): a non-admin caller may only
@@ -198,6 +258,7 @@ module.exports = {
 		if (dryRun) return { postId, ok: true, dryRun: true, exists: true, wouldChange: changed, changed: [] };
 
 		let updated;
+		const _t0 = Date.now();
 		try {
 			updated = cleanClone(existing, 0);
 			for (const k of unsetChanged) delete updated[k];
@@ -211,8 +272,17 @@ module.exports = {
 			if (size > PER_POST_MAX_BYTES) {
 				return { postId, ok: false, error: 'POST_TOO_LARGE', message: 'updated post is ' + size + ' bytes (cap ' + PER_POST_MAX_BYTES + ')' };
 			}
+			console.log('[UPDATE-TIME] clone+size ms=' + (Date.now() - _t0) + ' bytes=' + size + ' post=' + postId);
+			const _t1 = Date.now();
 			await this.writeNativePostOnly(this.$i, updated);
-			this.writeOnePostBulk(this.$i, updated);
+			console.log('[UPDATE-TIME] nativeWrite ms=' + (Date.now() - _t1) + ' post=' + postId);
+			// B"H 2026-11-10 (bulk-import speed fix): when the caller
+			// passes a mirrorBatch, the packed mirror is deferred to
+			// the caller's batched flush (one append per shard per
+			// batch, no per-record key-index persist); otherwise the
+			// historic per-post mirror write runs unchanged.
+			if (opts && Array.isArray(opts.mirrorBatch)) opts.mirrorBatch.push(updated);
+			else this.writeOnePostBulk(this.$i, updated);
 		} catch (e) {
 			return { postId, ok: false, error: 'WRITE_FAILED', message: String((e && e.message) || e), changed };
 		}
@@ -235,5 +305,13 @@ module.exports = {
 			if (!verified) { result.ok = false; result.error = 'VERIFY_MISMATCH'; }
 		}
 		return result;
+	},
+
+
+	/** Shared batched-mirror flush for update callers (updateJobMixin):
+	 * drains a mirrorBatch collected through updateOnePost's
+	 * opts.mirrorBatch. Returns per-post mirror errors. */
+	flushUpdateMirrorBatch($i, batch) {
+		return flushMirrorBatch(this, $i, batch);
 	}
 };

@@ -37,6 +37,19 @@ const { extractTarball } = require('./tarball.js');
 const { UPLOAD_ID_RE } = require('./importBounds.js');
 const { yieldTick } = require('./serverHealth.js');
 const ownership = require('./ownership.js');
+// B"H 2026-11-10 (bulk-import speed fix): runJob (post imports) has
+// always held the refcounted durability batching + complement-refresh
+// deferral for its run (see runJobMixin fix (C)/(E)/(I)); the update
+// job never did, so every updateOnePost paid full FS3 child-map
+// flushes per native write and a 40-update job was watchdog-killed
+// after 3 writes (~30-90s per post). The update job now holds the
+// same batching and flushes once in its finally, before finalizeJob
+// reports it done — a job that says "done" has its data durable, and
+// crash loss stays bounded by the update semantics (idempotent
+// re-apply; resume skips receipted postIds).
+const { deferRefresh, undeferRefresh } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/refreshDeferral.js');
+const { setImportBatching, clearImportBatching, flushAllPending } = require('../../../../../../ayzarim/DosDB/durableFlush.js');
+const { setImportBatching: setFs3ImportBatching, clearImportBatching: clearFs3ImportBatching } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js');
 
 const INLINE_UPDATES_MAX_COUNT = 100;
 
@@ -158,6 +171,22 @@ module.exports = {
 		const done = job.resumeOf ? donePostIdsFromReceipts($i, job.resumeOf) : new Set();
 		let seen = 0;
 		let remaining = 0;
+		// Deferred packed mirrors for this job's updates, flushed in
+		// batches (see the require block above).
+		const mirrorBatch = [];
+		const flushMirror = () => {
+			if (!mirrorBatch.length) return;
+			try {
+				for (const e of this.flushUpdateMirrorBatch($i, mirrorBatch)) {
+					job.errors.push({ postId: e.postId, message: e.message });
+				}
+			} catch (error) {
+				job.errors.push({ message: 'PACKED_BATCH_FAILED: ' + (error.message || error) });
+			}
+		};
+		deferRefresh();
+		setImportBatching();
+		setFs3ImportBatching();
 		try {
 			const entries = job.spec.updatesFile
 				? streamUpdatesFile(job.spec.updatesFile)
@@ -172,10 +201,11 @@ module.exports = {
 				remaining++;
 				let result;
 				try {
-					result = await this.updateOnePost(heichelId, u, { dryRun, verify, caller, callerScope });
+					result = await this.updateOnePost(heichelId, u, { dryRun, verify, caller, callerScope, mirrorBatch });
 				} catch (error) {
 					result = { postId, ok: false, error: 'UPDATE_FAILED', message: String((error && error.message) || error) };
 				}
+				if (mirrorBatch.length >= 50) flushMirror();
 				job.postsDone++;
 				if (result && result.ok) {
 					if (result.noop) {
@@ -192,6 +222,10 @@ module.exports = {
 					appendReceipt($i, job, { postId: result?.postId || postId, status: 'failed', error: message, dryRun });
 				}
 				job.updatedAt = Date.now();
+				// Breathe every post (same rule as processOneWrite): one
+				// setImmediate round-trip lets web requests and watchdog
+				// probes land between posts, however fast a post is.
+				await new Promise(r => setImmediate(r));
 				if (seen % 25 === 0) {
 					setJob(job);
 					saveJobState($i, job);
@@ -205,6 +239,15 @@ module.exports = {
 		} catch (error) {
 			if (job.status === 'running') job.status = 'failed';
 			job.errors.push({ message: 'UPDATE_JOB_FAILED: ' + (error.message || error) });
+		} finally {
+			// Job-end durability checkpoint (mirrors runJobMixin):
+			// flush the remaining mirrors and every pending FS3 file
+			// BEFORE the job is finalized, then release the batching.
+			try { flushMirror(); } catch (_) { /* errors already recorded */ }
+			flushAllPending();
+			undeferRefresh();
+			clearImportBatching();
+			clearFs3ImportBatching();
 		}
 		try { closeReceipts($i, job); } catch (_) { /* best effort */ }
 		clearJobWatchdog(job);

@@ -6,6 +6,16 @@
  * Safe extraction of staged import tarballs. Every entry is validated
  * (flat .json files only, no path traversal) before the manifest is
  * trusted. Rejects with TAR_* error codes on any violation.
+ *
+ * B"H 2026-11-10 (bulk-import fix): a staged UPDATE set is a tarball
+ * holding manifest.json + updates.jsonl (see updateJobMixin, which
+ * streams exactly that file). The flat-file whitelist used to reject
+ * every non-.json entry, so updates.jsonl always died with
+ * TAR_UNSAFE_ENTRY and the staged update-job path could never run —
+ * the one staged upload that tried it (22a6a54a…) is unreadable to
+ * this day. The single exact name 'updates.jsonl' is now allowed
+ * alongside flat *.json entries; every other rule (flat, no '..',
+ * regular file, manifest.json required) is unchanged.
  */
 
 const fs = require('fs');
@@ -34,7 +44,7 @@ function extractTarball($i, uploadId) {
 				let st;
 				try { st = fs.statSync(path.join(dest, n)); }
 				catch (_) { return reject(new Error('TAR_UNSAFE_ENTRY: ' + n)); }
-				if (!st.isFile() || n.includes('/') || n.includes('\\') || n.includes('..') || !n.endsWith('.json')) {
+				if (!st.isFile() || n.includes('/') || n.includes('\\') || n.includes('..') || !(n.endsWith('.json') || n === 'updates.jsonl')) {
 					return reject(new Error('TAR_UNSAFE_ENTRY: ' + n));
 				}
 			}
