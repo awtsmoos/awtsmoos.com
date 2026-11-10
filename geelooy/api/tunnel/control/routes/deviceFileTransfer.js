@@ -59,8 +59,11 @@ function input(query = {}) {
 
 /** Delegate only signed permissions to the uniquely owned native vessel. */
 async function send($i, identity, route, operation, permission, params) {
+	// Server-side transfer deeds need the terminal result, not the relay's
+	// acceptance snapshot: hold the relay window open (bounded by the vessel
+	// timeout below) the same way protectedFsPolicy holds commandRun open.
 	const payload = Scheduler.attach({ action: "files", operation, ...params,
-		autoPreview: false }, identity, route);
+		autoPreview: false, relayWaitMs: 110000 }, identity, route);
 	const vessel = resolveFsVessel({ $i, identity, tunnelName: route,
 		payload, permission, timeoutMs: 120000 });
 	// Vessels are dispatch handles ({kind, send()}), never result objects:
