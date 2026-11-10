@@ -79,6 +79,20 @@
 	padding: 12px 14px;
 }
 
+.settingsRow {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	padding: 6px 0;
+}
+
+.settingsRow select {
+	font: inherit;
+	min-height: 40px;
+	min-width: 120px;
+}
+
 @media (max-width: 760px) {
 	.menuOverlay {
 		padding: 16px 12px calc(132px + env(safe-area-inset-bottom));
