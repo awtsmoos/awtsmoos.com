@@ -51,8 +51,19 @@ const DURABLE_BATCH_MS = 250; // or this many ms after the oldest pending
 // Nov 10 (E): the widened budget an import job runs under. 2,000
 // writes covers a whole Midrashim work (largest: 1,008 posts) in one
 // batch; 60s is the backstop so a slow job still flushes mid-run.
+//
+// Nov 10 (bulk-import fix, measured): on the production vessels one
+// FS3 flush costs ~150 SECONDS (child-map rewrite + durable boundary
+// on multi-GB fragmented files over the cloud volume). A 60s timer
+// therefore did not "backstop" anything — it stalled the event loop
+// for ~150s roughly once a minute for the whole job, repeatedly
+// bringing the health watchdog within one probe of killing the
+// service mid-import. The write-count budget (2,000) stays as the
+// real bound; the time backstop is raised to 1h so a job of a few
+// hundred writes flushes exactly once — at its end, via
+// flushAllPending() in the job's finally, before it reports done.
 const IMPORT_BATCH_WRITES = 2000;
-const IMPORT_BATCH_MS = 60000;
+const IMPORT_BATCH_MS = 3600000;
 
 /** Per-file pending-flush state, keyed by absolute shard file path.
  * Value: { db, writes, firstAt, lastAt, timer }. @type {Map} */
