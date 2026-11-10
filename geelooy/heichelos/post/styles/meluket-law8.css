@@ -404,3 +404,17 @@ section[data-awtsmoos-unit].is-reading,
   font-size: var(--sefer-phrase-size) ;
 }
 
+
+
+/* B"H — Hebrew and English are the same size on every viewport.
+   Specificity uses #realPost so this beats reader-mobile-rescue
+   (which used to shrink Hebrew to 0.64). No !important. */
+.post-reader-localized-context #realPost .meluket-sefer .meluket-phrase--he,
+.post-reader-localized-context #realPost .meluket-sefer .meluket-hebrew,
+.post-reader-localized-context #realPost .meluket-sefer .meluket-phrase--en,
+.post-reader-localized-context #realPost .meluket-sefer .meluket-english,
+.post-reader-localized-context #realPost .meluket-sefer .meluket-phrase--he p,
+.post-reader-localized-context #realPost .meluket-sefer .meluket-phrase--en p {
+	font-size: var(--post-text-size, 48px);
+	font-size-adjust: none;
+}

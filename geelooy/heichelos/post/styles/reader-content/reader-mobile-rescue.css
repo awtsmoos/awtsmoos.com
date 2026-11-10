@@ -25,7 +25,7 @@
 
 	.post-reader-localized-context #realPost .meluket-phrase--he,
 	.post-reader-localized-context #realPost .meluket-hebrew {
-		font-size: calc(var(--post-text-size, 48px) * 0.64);
+		font-size: var(--post-text-size, 48px);
 		line-height: 1.48;
 		min-inline-size: 0;
 		max-inline-size: 100%;

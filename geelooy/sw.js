@@ -19,8 +19,8 @@
  * (the app shell SPA) reload gently when a deploy ships new code.
  */
 
-const CACHE_NAME = 'awtsmoos-v3';
-const HTML_CACHE = 'awtsmoos-html-v3';
+const CACHE_NAME = 'awtsmoos-v4';
+const HTML_CACHE = 'awtsmoos-html-v4';
 
 // Install — skip waiting to activate immediately
 self.addEventListener('install', (event) => {
