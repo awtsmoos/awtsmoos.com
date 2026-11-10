@@ -36,6 +36,7 @@
 	min-width: 0;
 	margin-inline: auto;
 	padding: 0.42rem 0.5rem;
+	padding-right: 58px; /* clear the fixed 48px shell launcher, same as .topbar */
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	border-radius: 999px;
 	background: rgba(4, 12, 25, 0.66);
