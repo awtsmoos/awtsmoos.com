@@ -252,14 +252,14 @@
 :root .awtsmoos-initial-unit-he,
 :root .awtsmoos-initial-unit-he p {
 	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
-	font-size-adjust: 0.5;
+	font-size-adjust: none;
 	line-height: 1.6;
 	color: var(--law8-ink);
 }
 :root .awtsmoos-initial-unit-en,
 :root .awtsmoos-initial-unit-en p {
 	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
-	font-size-adjust: 0.5;
+	font-size-adjust: none;
 	line-height: 1.6;
 	color: var(--law8-ink);
 }
@@ -267,15 +267,15 @@
 :root .meluket-phrase--he p,
 :root .meluket-hebrew,
 :root .meluket-hebrew p {
-	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.6);
-	font-size-adjust: 0.5;
+	font-size: var(--sefer-phrase-size);
+	font-size-adjust: none;
 	line-height: 1.6;
 	color: var(--law8-ink);
 }
 :root .meluket-phrase--en,
 :root .meluket-phrase--en p {
-	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.6);
-	font-size-adjust: 0.5;
+	font-size: var(--sefer-phrase-size);
+	font-size-adjust: none;
 	line-height: 1.6;
 	color: var(--law8-ink);
 }
