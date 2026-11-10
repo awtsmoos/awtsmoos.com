@@ -6,6 +6,7 @@ import { COMBO_TIMEOUT } from "./config.js";
 import { dom } from "./dom.js";
 import { createExplosion } from "./effects.js";
 import { playSound } from "./audio.js";
+import { saveHighScore } from "./settings.js";
 import { state } from "./state.js";
 import { ScorePopup } from "./objects/effects.js";
 import { PowerUp } from "./objects/powerup.js";
@@ -27,6 +28,7 @@ export function rewardEnemyDestroyed(enemy) {
 	const multiplier = Math.min(5, 1 + Math.floor(state.comboCount / 5));
 	const score = Math.round((enemy.baseScore || 100) * multiplier);
 	state.currentScore += score;
+	saveHighScore();
 	state.gameObjects.push(new ScorePopup(enemy.x, enemy.y, score));
 	createExplosion(enemy.x, enemy.y, "#ff6868", 16);
 	playSound("destroy");
