@@ -44,7 +44,7 @@
 	   custom properties inherit downward and this is the closest declaration
 	   to every phrase element. */
 	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
-	--hebrew-optical: 1.6;
+	--hebrew-optical: 1; /* B"H 2026-11-10 site QA -- the user's law: Hebrew and English the EXACT same computed font-size, no optical multiplier, ever. This variable stays only so the older calc()s that reference it now compute 1x. */
 	max-width: 1180px;
 	margin: 0 auto;
 	/* B"H — Yaakov 2026-10-15: minimal horizontal padding, text gets the room. */
@@ -261,7 +261,7 @@
 	   Connect to --post-text-size (set by ReaderScalePolicy, no max).
 	   Falls back to the responsive clamp outside the reader context. */
 	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
-	--hebrew-optical: 1.6;
+	--hebrew-optical: 1;
 }
 /* B"H 2026-11-10 round 12 — this rule MUST outrank the Dream fallback
    (reader-inline-extracted.css, :root .post-reader-localized-context
@@ -271,7 +271,7 @@
    (0,4,0) with real descendant spaces, so the sefer file governs. */
 :root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: calc(var(--sefer-phrase-size) * 1.8);
+	font-size: var(--sefer-phrase-size);
 	font-weight: 700;
 	/* B"H 2026-11-10 round 6: line-height 1.9 left ~50px of dead air under
 	   every Hebrew line (the line box is far taller than the glyphs), which
@@ -363,7 +363,7 @@
 }
 .awtsmoos-initial-unit-he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1.3));
+	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1));
 	font-weight: 700;
 	text-align: right;
 	direction: rtl;
@@ -371,7 +371,7 @@
 }
 .awtsmoos-initial-unit-en {
 	font-family: "Source Serif 4", Georgia, serif;
-	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1.3));
+	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1));
 	font-weight: 700;
 	direction: ltr;
 	color: var(--sefer-ink, #1a1a1a);
@@ -387,7 +387,7 @@
    (Legacy container — kept for any non-interleaved render path.) */
 .meluket-sefer-active .meluket-hebrew {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: calc(var(--sefer-phrase-size, 3rem) * var(--hebrew-optical, 1.3));
+	font-size: calc(var(--sefer-phrase-size, 3rem) * var(--hebrew-optical, 1));
 	line-height: 1.9;
 	color: var(--sefer-ink);
 	text-align: justify;
@@ -509,7 +509,7 @@
 	margin: 0 0 2rem;
 	/* B"H — Yaakov 2026-10-15: Overview matches Hebrew body size and scales
 	   with Aa like every other text element. */
-	font-size: calc(var(--sefer-phrase-size, 2.4rem) * var(--hebrew-optical, 1.3));
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * var(--hebrew-optical, 1));
 	line-height: 1.7;
 	color: var(--sefer-ink-soft);
 }
@@ -519,7 +519,7 @@
 	padding-top: 0.8rem;
 	border-top: 1px dotted var(--sefer-rule);
 	/* B"H — Yaakov 2026-10-15: overview text same size as Hebrew body text. */
-	font-size: calc(var(--sefer-phrase-size, 1rem) * var(--hebrew-optical, 1.3));
+	font-size: calc(var(--sefer-phrase-size, 1rem) * var(--hebrew-optical, 1));
 	line-height: 1.7;
 	color: var(--sefer-ink);
 }

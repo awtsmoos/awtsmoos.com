@@ -28,8 +28,8 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=6fa8adf1dd'],
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=f047dced11'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=2f96d8cfcd'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=f4a005e7d8'],
 ];
 
 function ensureSeferStyle(id, href) {
