@@ -29,9 +29,14 @@ async function pumpBinary(input, send, options = {}) {
 	if (input.transferId) {
 		throw Error("legacy_transfer_resume_not_supported_by_raw_protocol");
 	}
-	const proof = await send(source, "fileTransferSourceProof", "tunnel.read", {
+	const rawProof = await send(source, "fileTransferSourceProof", "tunnel.read", {
 		path: sourcePath
 	});
+	// Accept either byte-count witness (stat totalBytes or hash-pass bytes);
+	// the vault's finish-step SHA-256 verification is the integrity gate.
+	const proof = { ...rawProof,
+		totalBytes: Number.isSafeInteger(rawProof?.totalBytes)
+			? rawProof.totalBytes : rawProof?.bytes };
 	if (!Number.isSafeInteger(proof?.totalBytes) || proof.totalBytes < 0 ||
 		proof.totalBytes > 134217728 || !/^[a-f0-9]{64}$/i.test(proof.sha256 || "")) {
 		throw Error("binary_source_proof_invalid");

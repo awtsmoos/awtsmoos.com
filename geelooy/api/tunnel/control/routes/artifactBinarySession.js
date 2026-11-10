@@ -64,18 +64,23 @@ async function begin($i, who, input, vault) {
 		throw Error("tunnel_and_source_path_required");
 	}
 	const proof = await Device.send($i, who, tunnel, "fileTransferSourceProof", "tunnel.read", { path: sourcePath });
-	if (!proof?.sha256 || !Number.isSafeInteger(proof.totalBytes)) {
+	// The device proof carries two byte-count witnesses: totalBytes (stat)
+	// and bytes (the full-file hash pass). Either may survive transport
+	// shaping; the vault still verifies the assembled SHA-256 at finish.
+	const proofBytes = Number.isSafeInteger(proof?.totalBytes)
+		? proof.totalBytes : proof?.bytes;
+	if (!proof?.sha256 || !Number.isSafeInteger(proofBytes)) {
 		throw Error("source_proof_invalid");
 	}
 	const result = vault.begin({
 		owner: who.accountId,
 		tunnel,
 		sourcePath,
-		expectedBytes: proof.totalBytes,
+		expectedBytes: proofBytes,
 		expectedSha256: proof.sha256,
 		ttlSeconds: input.ttlSeconds
 	});
-	return { ok: true, ...result, expectedBytes: proof.totalBytes,
+	return { ok: true, ...result, expectedBytes: proofBytes,
 		sha256: proof.sha256, transport: "raw-https-chunks", chunkBytes: 1048576 };
 }
 
