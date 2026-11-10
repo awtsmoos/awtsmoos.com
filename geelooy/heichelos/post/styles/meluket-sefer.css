@@ -220,7 +220,7 @@
    followed by ITS English block — never a separate English vessel.
    (Yaakov defect #3: English beneath each Hebrew phrase.) */
 .meluket-sefer-active .meluket-phrase-pair {
-	margin: 0 0 2.2em;
+	margin: 0 0 0.9em;
 	/* B"H — Coby Nov 10: scrolling was choppy with 271 pairs. The
 	   browser must not paint off-screen pairs on every scroll frame. */
 	content-visibility: auto;
@@ -252,8 +252,11 @@
 	/* B"H 2026-11-10 round 6: line-height 1.9 left ~50px of dead air under
 	   every Hebrew line (the line box is far taller than the glyphs), which
 	   read as a 130–200px empty hole inside each card. 1.6 still clears
-	   nikkud and tightens the card. */
-	line-height: 1.6;
+	   nikkud and tightens the card.
+	   B"H round 9: the browser still measured ~60px of dead air under the
+	   Hebrew. 1.45 clears nikkud (verified: the glyphs plus nikkud fit in
+	   a 1.45 line box at the sefer's sizes) and tightens it further. */
+	line-height: 1.45;
 	color: var(--sefer-ink);
 	/* B"H — right-aligned (not justified): text-align: justify with huge
 	   fonts causes severe layout thrashing on phones. Right alignment is
@@ -279,15 +282,16 @@
 	font-family: "Source Serif 4", Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical, 1.3));
 	font-weight: 700;
-	line-height: 1.7;
+	line-height: 1.55;
 	color: var(--sefer-ink);
 	border-top: 2px dashed var(--sefer-rule);
 	/* B"H 2026-11-10 round 6: the 1em margin + 1em padding above the English
 	   added ~114px of dead air inside every card (on top of the Hebrew
 	   line-height slack) — the 130–200px hole the visual check found.
-	   0.25em + 0.5em keeps the dashed rule breathing without the hole. */
-	margin-top: 0.25em;
-	padding-top: 0.5em;
+	   0.25em + 0.5em keeps the dashed rule breathing without the hole.
+	   B"H round 9: still ~50px measured. 0.1em + 0.25em, line-height 1.55. */
+	margin-top: 0.1em;
+	padding-top: 0.25em;
 	direction: ltr;
 	/* B"H — prevent clipping on narrow screens. Words wrap whole. */
 	overflow-wrap: break-word;
@@ -1538,7 +1542,12 @@
 /* B"H — Footnote jump highlight (from Sources sheet). B"H 2026-11-10 round 8:
    the old "flash" animation is deleted entirely (no animations on the
    reader, ever). The highlight is a plain static background: it stays
-   until the reader taps another footnote, so the jump is always visible. */
+   until the reader taps another footnote, so the jump is always visible.
+   B"H round 9: the (0,1,0) rule never showed — the card's own background
+   (set by higher-specificity sefer rules) beat it. The pair selector
+   (0,2,0) wins over the card background; the plain selector stays as a
+   fallback for non-pair targets. */
+.meluket-phrase-pair.awtsmoos-fn-active,
 .awtsmoos-fn-active {
   border-radius: 0.5rem;
   background: rgba(184, 134, 11, 0.18);

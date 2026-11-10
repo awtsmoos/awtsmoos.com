@@ -285,13 +285,25 @@
 /* B"H 2026-11-10 round 7 — community comment action pills (Reply / Copy /
    Share, class .comment-chip-action) rendered white text on a cream pill
    — the same white-on-white defect as Related posts. Pin them dark on
-   light in light theme, light on dark in dark theme, variable-free. */
-:root:not([data-theme="dark"]) .post-reader-localized-context .comment-chip-action {
+   light in light theme, light on dark in dark theme, variable-free.
+   B"H round 9: the round-7 pins were scoped to
+   .post-reader-localized-context, but the pills live OUTSIDE it (the
+   comments section, the dialog, the composer), so they never matched.
+   Global selectors, one place, both themes. Covers the Sources dialog
+   close, the reply composer add/remove-section buttons, and the same
+   white-on-white pill bug the browser found on all of them. */
+:root:not([data-theme="dark"]) .comment-chip-action,
+:root:not([data-theme="dark"]) .awtsmoos-src-close,
+:root:not([data-theme="dark"]) .reply-add-section,
+:root:not([data-theme="dark"]) .awtsmoos-remove-section-btn {
 	background: #fffdf6;
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 }
-[data-theme="dark"] .post-reader-localized-context .comment-chip-action {
+[data-theme="dark"] .comment-chip-action,
+[data-theme="dark"] .awtsmoos-src-close,
+[data-theme="dark"] .reply-add-section,
+[data-theme="dark"] .awtsmoos-remove-section-btn {
 	background: rgba(255,255,255,0.08);
 	border: 1px solid rgba(255,255,255,0.18);
 	color: #f5efe2;

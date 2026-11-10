@@ -46,23 +46,31 @@
 	color: inherit;
 }
 
-.post-reader-localized-context .awtsmoos-translation-toggle {
+/* B"H 2026-11-10 round 9 — Coby: the Hide/Show English pill was white on
+   white. Two causes: the rule only matched inside
+   .post-reader-localized-context (the toolbar sits outside it), and the
+   background was transparent with a var() color that resolves white in
+   the reader context. Global selector, explicit light background and
+   dark text in light theme, explicit dark pill in dark theme. */
+.awtsmoos-translation-toggle {
 	min-width: 116px;
 	min-height: 44px;
 	padding: .65rem .85rem;
-	border: 1px solid var(--sefer-accent, #8a6d3b);
+	border: 1px solid #8a6d3b;
 	border-radius: 14px;
-	background: transparent;
-	color: var(--sefer-ink, #2b2118);
+	background: #fffdf6;
+	color: #2b2118;
 	font: 800 .9rem/1 var(--font-ui);
 	cursor: pointer;
 }
-:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-toggle {
-	border-color: var(--sefer-accent, #d4a94e);
-	color: var(--sefer-ink, #f0e7d3);
-}
-:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-toggle {
+:root[data-theme="dark"] .awtsmoos-translation-toggle {
 	border-color: #d4a94e;
+	background: rgba(255,255,255,0.08);
+	color: #f0e7d3;
+}
+:root[data-dream="sanctuary"] .awtsmoos-translation-toggle {
+	border-color: #d4a94e;
+	background: rgba(255,255,255,0.08);
 	color: #f0e7d3;
 }
 .post-reader-localized-context .awtsmoos-translation-toggle:hover {

@@ -18,7 +18,7 @@
  * enrichment.hebrew_phrases + enrichment.translation_en (Meluket).
  */
 
-import { refreshTranslationStatus } from '../../translations/render.js?v=acd1f7ed5c';
+import { refreshTranslationStatus } from '../../translations/render.js?v=e72b93221c';
 import { loadFontSize } from '../../functions/ui/Dimensionality.js';
 
 /**
@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=d9b5d5b34c'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=00d2a59dcc'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=6ea15252da'],
 ];
 
@@ -1050,10 +1050,22 @@ function buildSourcesSheetContent(post, sefer) {
 		? apiFootnotes
 		: (Array.from(sefer.querySelectorAll('.meluket-footnote')).length
 			? Array.from(sefer.querySelectorAll('.meluket-footnote'))
-			: Array.from(sefer.querySelectorAll('.meluket-fn-marker')).map((m) => {
-				const phrase = m.closest('.meluket-phrase');
-				return { n: m.dataset.fn || m.textContent.trim(), _marker: m, _context: phrase ? String(phrase.textContent || '').replace(/\s+/g, ' ').trim() : '' };
-			}));
+			: (() => {
+				// B"H round 9 — dedupe by number. The markers exist in BOTH
+				// the Hebrew and the English blocks, so the raw list had
+				// each footnote twice (and the English-only set omitted the
+				// 9 whose English markers are missing from the source text).
+				// First marker per number wins; the anchor is the English
+				// phrase it sits in (or the pair, as a fallback).
+				const byNum = new Map();
+				Array.from(sefer.querySelectorAll('.meluket-fn-marker')).forEach((m) => {
+					const n = String(m.dataset.fn || m.textContent.trim());
+					if (byNum.has(n)) return;
+					const phrase = m.closest('.meluket-phrase') || m.closest('.meluket-phrase--en') || m.closest('.meluket-phrase-pair');
+					byNum.set(n, { n, _marker: m, _context: phrase ? String(phrase.textContent || '').replace(/\s+/g, ' ').trim() : '' });
+				});
+				return Array.from(byNum.values());
+			})());
 	// Cache for tab switching.
 	srcCachedData = { post, sefer, sections, footnotes };
 
@@ -1115,6 +1127,24 @@ function buildSourcesSheetContent(post, sefer) {
 	paintSrcTabs();
 
 	renderSourcesTab();
+
+	// B"H 2026-11-10 round 9 — when the dialog was built from markers the
+	// list is anchor-only (no bodies) and only as complete as the markers
+	// the hydrate has built so far. The API footnotes (all 64, with
+	// bodies) arrive after the page loads. If they land while the dialog
+	// is still open, rebuild it with the real data instead of leaving the
+	// stopgap list on screen.
+	if (!apiFootnotes) {
+		let tries = 0;
+		const refresh = setInterval(() => {
+			tries++;
+			const live = (typeof window !== 'undefined' && window.post && Array.isArray(window.post.footnotes) && window.post.footnotes.length) ? window.post.footnotes : null;
+			if (live || tries >= 14 || !srcOpen) {
+				clearInterval(refresh);
+				if (live && srcOpen) buildSourcesSheetContent(post, sefer);
+			}
+		}, 600);
+	}
 }
 
 // B"H — Coby Nov 10: the selected tab stayed white-on-cream because the
@@ -1266,8 +1296,14 @@ function renderSourcesFootnotes(footnotes) {
 				// tiny <sup> marker (or the shelf item inside the closed
 				// sheet), so no gold showed. Highlight the whole phrase
 				// card the marker sits in — that is what the eye lands on.
+				// B"H round 9: when the footnote came from the API (not
+				// the marker fallback) there is no _marker, and the shelf
+				// item has no phrase-pair ancestor — the class landed on
+				// the hidden shelf item. Find the visible marker in the
+				// sefer by number and highlight ITS card instead.
 				const markerEl = (fn && fn._marker) || null;
-				const card = (markerEl && markerEl.closest && markerEl.closest('.meluket-phrase-pair'))
+				const liveMarker = markerEl || (sefer && sefer.querySelector(`.meluket-fn-marker[data-fn="${num}"]`));
+				const card = (liveMarker && liveMarker.closest && liveMarker.closest('.meluket-phrase-pair'))
 					|| (target.closest && target.closest('.meluket-phrase-pair'))
 					|| target;
 				card.scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -193,16 +193,35 @@ function updateToggle(button, visible) {
 	button.setAttribute("aria-pressed", visible ? "true" : "false");
 }
 
+// B"H 2026-11-10 round 9 — Coby: Hide English flipped its label but the
+// English stayed visible. The toggle only hid the translation toolbar's
+// blocks (the awtsmoos-translations-hidden class on the viewport), never
+// the sefer's per-phrase English. The sefer hides English via
+// data-lang-mode="hebrew" on .meluket-sefer (meluket-sefer.css). Set it
+// here too, on init and on every click, so the button does what it says.
+function setSeferLangMode(visible) {
+	// Best effort: the test harness runs render.js with a minimal
+	// document stub (no querySelector) — the toolbar toggle must still
+	// work there. In the browser this always finds the sefer.
+	try {
+		if (typeof document === 'undefined' || typeof document.querySelector !== 'function') return;
+		const sefer = document.querySelector('.meluket-sefer');
+		if (sefer) sefer.setAttribute('data-lang-mode', visible ? 'both' : 'hebrew');
+	} catch (_) { /* best effort — the toolbar toggle still works without it */ }
+}
+
 function makeToggle(viewport) {
 	const button = document.createElement("button");
 	button.type = "button";
 	button.className = "awtsmoos-translation-toggle";
 	let visible = localStorage.getItem(STORAGE_KEY) !== "0";
 	viewport.classList.toggle("awtsmoos-translations-hidden", !visible);
+	setSeferLangMode(visible);
 	updateToggle(button, visible);
 	button.addEventListener("click", () => {
 		visible = !visible;
 		viewport.classList.toggle("awtsmoos-translations-hidden", !visible);
+		setSeferLangMode(visible);
 		localStorage.setItem(STORAGE_KEY, visible ? "1" : "0");
 		updateToggle(button, visible);
 	});

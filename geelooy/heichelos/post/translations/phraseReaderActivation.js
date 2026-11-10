@@ -130,7 +130,7 @@ export async function activatePhraseReaderFromApi(post, rows) {
 			} catch (_) { /* window.post is best-effort */ }
 		}
 		const { awakenPhraseTranslationReader } = await import(
-			"../logic/scribe/MeluketSeferReader.js?v=3b1ec1d5d0"
+			"../logic/scribe/MeluketSeferReader.js?v=613d2ef164"
 		);
 		const mounted = awakenPhraseTranslationReader(enriched);
 		if (mounted) {
