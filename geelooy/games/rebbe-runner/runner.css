@@ -80,7 +80,7 @@ body.rr {
 .rr__hud {
 	position: absolute; top: 0; left: 0; right: 0; z-index: 10;
 	display: flex; justify-content: space-between; align-items: flex-start;
-	padding: calc(10px + env(safe-area-inset-top)) 12px 0;
+	padding: calc(10px + env(safe-area-inset-top)) calc(70px + env(safe-area-inset-right)) 0 12px;
 	pointer-events: none;
 }
 .rr__hud-left, .rr__hud-right { display: flex; gap: 10px; align-items: center; }

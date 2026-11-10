@@ -163,6 +163,10 @@ export function startGame(env) {
 	const hud = {
 		score: $('rr-score'), best: $('rr-best'), hearts: $('rr-hearts'), torah: $('rr-torah'),
 		render() {
+			if (score > best) {
+				best = Math.floor(score);
+				try { localStorage.setItem("rr_best", best); } catch (_) {}
+			}
 			this.score.textContent = String(Math.floor(score)).padStart(5, '0');
 			this.best.textContent = String(Math.floor(Math.max(best, score))).padStart(5, '0');
 			this.hearts.textContent = '♥'.repeat(hearts) + '♡'.repeat(Math.max(0, 3 - hearts));
