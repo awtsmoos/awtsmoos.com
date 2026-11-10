@@ -5,7 +5,7 @@
 import { createTetrisWorkerUrl } from './build.js';
 import { deviceDpr, dimensions } from './session-lifecycle.js';
 
-const WORKER_STARTUP_TIMEOUT_MS = 5000;
+const WORKER_STARTUP_TIMEOUT_MS = 15000;
 
 /**
  * @file session-worker.js

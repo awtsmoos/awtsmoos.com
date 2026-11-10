@@ -52,6 +52,9 @@ function startMode(mode) {
 	disposeSession();
 	view.showGame(selectedMode);
 	view.setPaused(false);
+	const gameScreen = document.getElementById('game-screen');
+	const reduceMotion = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+	gameScreen?.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
 	session = new TetrisSession({
 		mode: selectedMode,
 		view,
