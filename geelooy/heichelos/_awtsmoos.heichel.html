@@ -15,18 +15,13 @@ Awtsmoos.com keeps teachings discoverable and navigation alive even while the dy
 	<meta name="description" content="Enter a living Heichel of teachings, series, people, conversations, and contribution paths on Awtsmoos.com.">
 	<meta name="theme-color" content="#04040C">
 	<title>Heichel — Geelooy</title>
-	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805">
-	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=2ff57771de">
-	<link rel="stylesheet" href="/style/geelooy-system/index.css?v=1d02635012">
-	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">
-	<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">
-	<link rel="stylesheet" href="/style/civilization/core-components.css?v=867fa60298">
-	<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=aa8606d94f">
-	<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=1219eb2d84">
-	<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=f44bfd7909">
-	<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=2c6c29fc56">
-	<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=9d9fff3a6b">
-	<link rel="stylesheet" href="/heichelos/heichel-polish-law8.css?v=8f90da4133">
+	<!-- B"H 2026-11-10 site QA — simple + fast: the 12 sheets that used to be
+	     linked here pull a 211-file @import closure (~413KB, 211 render-
+	     blocking requests). They are now folded into ONE bundle in exact
+	     cascade order by heichelos/build-bundle.mjs; edit the source
+	     sheets, re-run the builder, and bump this pin. The bundle is
+	     hash-pinned, so nginx serves it immutable. -->
+	<link rel="stylesheet" href="/heichelos/heichel-bundle.css?v=5dedffb86d">
 	<link rel="design-reference" href="https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/ikar-reader-ref.webp" data-design-ref="https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-mirror/geelooy/design-refs/law8/ikar-reader-ref.webp">
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 	<script type="module" src="/scripts/awtsmoos/social/navigation/appNavigation.js?v=b03efa026d"></script>
