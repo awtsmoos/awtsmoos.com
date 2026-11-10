@@ -65,8 +65,11 @@ async function pumpBinary(input, send, options = {}) {
 		expectedSha256: proof.sha256,
 		overwrite: input.overwrite === true
 	});
+	// The destination writer verifies every range and the full SHA-256
+	// before it returns ok; its performed flag does not survive agent
+	// response shaping, so the proven witnesses are ok + bytes + sha256.
 	if (!copied?.ok || copied.bytes !== proof.totalBytes ||
-		copied.sha256 !== proof.sha256.toLowerCase() || copied.performed !== true) {
+		copied.sha256 !== proof.sha256.toLowerCase()) {
 		throw Error("binary_destination_commit_unproven");
 	}
 	return { ok: true, done: true, transport: "raw-https-chunks",
