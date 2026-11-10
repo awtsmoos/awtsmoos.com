@@ -57,34 +57,16 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     paint already uses the stored size instead of the 144px default.
 	     Parser-blocking on purpose; the file is ~1KB, same origin. -->
 	<script src="/heichelos/post/logic/initialization/ReaderEarlyThemeBoot.js?v=reader-theme-20261028-2"></script>
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=cf2d8638c2">
-	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=61817defef">
-	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
-	<link rel="stylesheet" href="/heichelos/post/comments/panel/commentaryMenu.css?v=commentary-menu-001">
-	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=95471619a6">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/critical-shell.css?v=aeac4c6fcb">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/live-template.css?v=5627f3dda2">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/mobile-reading.css?v=b07bbcf2e6">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/torah-authority.css?v=6d10b58183">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/reader-recovery.css?v=95afb684f9">
-	<link rel="stylesheet" href="/heichelos/post/styles/law8/law8-post-reader.css?v=750a56f723">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-padding-fix.css?v=99b0f58a4-pad-001">
-	<link rel="stylesheet" href="/heichelos/post/styles/scroll-stability.css?v=99b0f58a4-stable-002">
-	<link rel="stylesheet" href="/heichelos/post/styles/passive-reader.css?v=reader-passive-006">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/mobile-layout-stability.css?v=reader-layout-001">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-visual-stability.css?v=reader-visual-002">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-containment-fix.css?v=reader-containment-20261028-3">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-mobile-rescue.css?v=28091883dd">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-pair-selection.css?v=reader-pairs-20261028-3">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-navigation.css?v=reader-info-nested-20261028-2">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-info-submenus.css?v=reader-smooth-20261028-1">
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-content/reader-settings-coherence.css?v=reader-settings-20261028-14">
-	<!-- B"H 2026-11-10 round 13 — comments.css was NEVER in the reader's
-	     bundle chain: rounds 10–12 wrote the Reply-pill rules here, but
-	     the page only loads the five bundles above, so no pill rule ever
-	     reached the browser. This link puts the shared comments sheet
-	     (and the (0,19,0) pill rule) into the bundle. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/ideal/reborn/comments.css?v=1f70731bd5">
+	<!-- B"H 2026-11-10 site QA — simple + fast: the 23 sheets that used to be
+	     linked here pull a 93-file @import closure (~417KB, 93 render-blocking
+	     requests). They are now folded into ONE bundle in exact cascade order
+	     by styles/build-bundle.mjs; edit the source sheets, re-run the
+	     builder, and bump this pin. The bundle is hash-pinned, so nginx
+	     serves it immutable. -->
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=a12919b453">
+	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
+	     post-bundle.css above — it entered the closure via the same link
+	     this comment used to sit on. -->
 	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
 	     via JS after mount, so first paint showed the preview in fallback
 	     styles and then visibly switched. These three links load them with
