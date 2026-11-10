@@ -18,13 +18,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	<style>
 		html { -webkit-text-size-adjust: 100%; background: #fffdf7; }
 		body { margin: 0; background: #fffdf7; }
-		#realPost { visibility: visible; opacity: 1; }
+		#realPost { visibility: visible; opacity: 1; width: 100%; }
 		/* B"H 2026-11-10 round 9 — critical sefer CSS, inline so the first
 		   paint is already laid out before the 282KB of bundles arrive.
 		   Without it the first paint showed giant unstyled Hebrew glyphs
 		   overflowing the viewport. Literal values only (no vars — the
 		   bundles that define them have not loaded yet). */
-		.meluket-sefer { max-width: min(68ch, calc(100% - 1rem)); margin-inline: auto; }
+		/* B"H round 14 — the first paint and the back-button restore both
+		   showed the sefer as a ~155-190px narrow column with the title
+		   wrapping one word per line: #realPost is a flex column with
+		   align-items: center (scroll-root bundle, arrives late), so a
+		   .meluket-sefer with only a max-width shrink-wraps to its
+		   content until the bundles land. width: 100% here (in the HTML
+		   itself, zero network wait) holds it full-width from the first
+		   byte; the max-width still caps it. */
+		.meluket-sefer { width: 100%; max-width: min(68ch, calc(100% - 1rem)); margin-inline: auto; }
 		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
@@ -46,7 +54,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     paint already uses the stored size instead of the 144px default.
 	     Parser-blocking on purpose; the file is ~1KB, same origin. -->
 	<script src="/heichelos/post/logic/initialization/ReaderEarlyThemeBoot.js?v=reader-theme-20261028-2"></script>
-	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=b98a812f7b">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=cf2d8638c2">
 	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=61817defef">
 	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
 	<link rel="stylesheet" href="/heichelos/post/comments/panel/commentaryMenu.css?v=commentary-menu-001">
@@ -73,14 +81,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     the page only loads the five bundles above, so no pill rule ever
 	     reached the browser. This link puts the shared comments sheet
 	     (and the (0,19,0) pill rule) into the bundle. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/ideal/reborn/comments.css?v=a786bd8db9">
+	<link rel="stylesheet" href="/heichelos/post/styles/ideal/reborn/comments.css?v=5b6bb6fb0d">
 	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
 	     via JS after mount, so first paint showed the preview in fallback
 	     styles and then visibly switched. These three links load them with
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
 	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=5862879306">
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=676bc3852a">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=3b1594e67f">
 	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=0199420043">
 	<script>
 		try {
@@ -171,7 +179,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-031');
+				import('/heichelos/post/postLogic.js?v=reader-passive-032');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});
