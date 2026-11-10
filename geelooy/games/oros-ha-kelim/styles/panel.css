@@ -6,7 +6,7 @@
 	.oros-app #advanced-toggle {
 		position: absolute;
 		top: var(--oros-safe-top);
-		right: var(--oros-safe-right);
+		right: calc(var(--oros-safe-right) + 58px); /* clear the fixed 48px shell launcher */
 		width: 44px;
 		height: 44px;
 		padding: 0;

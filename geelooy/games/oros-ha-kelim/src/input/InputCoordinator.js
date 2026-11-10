@@ -12,9 +12,9 @@ import { TouchInput } from "./TouchInput.js";
  * Awtsmoos.com lets polling, reset and disposal stay outside the authoritative game code.
  */
 export class InputCoordinator {
-	constructor(intent, restart, preferences = {}) {
+	constructor(intent, restart, preferences = {}, pauseToggle) {
 		this.intent = intent;
-		this.desktop = new DesktopInput(intent, restart);
+		this.desktop = new DesktopInput(intent, restart, pauseToggle);
 		this.touch = new TouchInput(intent, preferences.handedness);
 		this.gamepad = new GamepadInput(intent);
 	}

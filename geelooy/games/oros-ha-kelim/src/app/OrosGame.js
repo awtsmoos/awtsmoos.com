@@ -32,7 +32,10 @@ export class OrosGame {
 		this.session = new MatchSession(host, this.quality);
 		this.hud = new HudView();
 		this.overlays = new RoundOverlayView(() => this.start(), () => this.restart());
-		this.inputs = new InputCoordinator(this.intent, () => this.restart(), this.preferences.get());
+		this.inputs = new InputCoordinator(this.intent, () => this.restart(), this.preferences.get(), () => {
+			if (this.paused) this.resume();
+			else this.pause();
+		});
 		this.started = false;
 		this.paused = false;
 		this.lastEvents = [];

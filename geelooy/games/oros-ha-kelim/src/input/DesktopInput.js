@@ -8,9 +8,10 @@
  * Awtsmoos.com keeps keyboard listeners disposable and every source of boost distinct in light.
  */
 export class DesktopInput {
-	constructor(intent, restart) {
+	constructor(intent, restart, pauseToggle) {
 		this.intent = intent;
 		this.restart = restart;
+		this.pauseToggle = pauseToggle;
 		this.boostKeys = new Set();
 		this.abort = new AbortController();
 		const options = { signal: this.abort.signal };
@@ -41,6 +42,9 @@ export class DesktopInput {
 		}
 		if (!event.repeat && event.code === "KeyR") {
 			this.restart();
+		}
+		if (!event.repeat && event.code === "KeyP" && this.pauseToggle) {
+			this.pauseToggle();
 		}
 		if (event.code.startsWith("Arrow") || event.code === "Space") {
 			event.preventDefault();
