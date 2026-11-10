@@ -59,7 +59,7 @@ export class ResponsiveRenderer extends Renderer {
 	}
 
 	dealerY() { return this.cardHeight * .8 + 18; }
-	humanY() { return this.canvas.height - this.cardHeight * .65 - (this.canvas.height < 500 ? 20 : 92); }
+	humanY() { return this.canvas.height - this.cardHeight * .65 - (this.canvas.height < 500 ? 20 : 140); }
 
 	opponentLayout(index, count) {
 		const rows = this.canvas.height < 500 ? 1 : count > 2 ? 2 : 1;
