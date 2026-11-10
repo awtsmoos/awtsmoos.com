@@ -28,7 +28,6 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=5862879306'],
 	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=6fa8adf1dd'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=a22c79c343'],
 ];
