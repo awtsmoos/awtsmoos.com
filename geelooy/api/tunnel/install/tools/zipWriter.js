@@ -1,11 +1,17 @@
 // B"H
+const zlib = require("node:zlib");
 const encoder = new TextEncoder();
 
 /**
- * B"H — A small deterministic ZIP writer seals every named vessel without
- * compression ambiguity, so published hashes remain stable and inspectable.
+ * B"H — A small deterministic ZIP writer seals every named vessel.
+ * Default method is STORE, so published hashes remain stable and
+ * inspectable. Callers may opt into per-entry DEFLATE (method 8):
+ * deflateRawSync at a fixed level with the fixed DOS stamp below is
+ * equally deterministic, and an entry is only deflated when the
+ * compressed bytes are actually smaller than the stored bytes.
  */
-function buildZip(entries) {
+function buildZip(entries, options = {}) {
+	const deflate = options && options.method === "deflate";
 	const parts = [];
 	const central = [];
 	let offset = 0;
@@ -14,21 +20,30 @@ function buildZip(entries) {
 		const data = Buffer.from(entry.data);
 		const stamp = dosStamp(new Date(2026, 0, 1));
 		const checksum = crc32(data);
+		let method = 0;
+		let payload = data;
+		if (deflate && data.length > 0) {
+			const compressed = zlib.deflateRawSync(data, { level: 6 });
+			if (compressed.length < data.length) {
+				method = 8;
+				payload = compressed;
+			}
+		}
 		const local = Buffer.alloc(30 + name.length);
 		local.writeUInt32LE(0x04034b50, 0);
 		local.writeUInt16LE(20, 4);
 		local.writeUInt16LE(0x0800, 6);
-		local.writeUInt16LE(0, 8);
+		local.writeUInt16LE(method, 8);
 		local.writeUInt16LE(stamp.time, 10);
 		local.writeUInt16LE(stamp.date, 12);
 		local.writeUInt32LE(checksum, 14);
-		local.writeUInt32LE(data.length, 18);
+		local.writeUInt32LE(payload.length, 18);
 		local.writeUInt32LE(data.length, 22);
 		local.writeUInt16LE(name.length, 26);
 		Buffer.from(name).copy(local, 30);
-		parts.push(local, data);
-		central.push({ name, checksum, size: data.length, offset, stamp });
-		offset += local.length + data.length;
+		parts.push(local, payload);
+		central.push({ name, checksum, size: data.length, compressedSize: payload.length, method, offset, stamp });
+		offset += local.length + payload.length;
 	}
 	const centralStart = offset;
 	let centralSize = 0;
@@ -38,11 +53,11 @@ function buildZip(entries) {
 		header.writeUInt16LE(20, 4);
 		header.writeUInt16LE(20, 6);
 		header.writeUInt16LE(0x0800, 8);
-		header.writeUInt16LE(0, 10);
+		header.writeUInt16LE(item.method, 10);
 		header.writeUInt16LE(item.stamp.time, 12);
 		header.writeUInt16LE(item.stamp.date, 14);
 		header.writeUInt32LE(item.checksum, 16);
-		header.writeUInt32LE(item.size, 20);
+		header.writeUInt32LE(item.compressedSize, 20);
 		header.writeUInt32LE(item.size, 24);
 		header.writeUInt16LE(item.name.length, 28);
 		header.writeUInt32LE(0x20, 38);

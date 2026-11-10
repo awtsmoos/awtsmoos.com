@@ -153,7 +153,11 @@ function writeVerifiedCache(bundle, directory = cacheDir()) {
 /** Build an explicit offline artifact after full manifest and startup probes. */
 function buildFreshBundle(repoRoot) {
 	const source = Sources.descriptor(repoRoot);
-	const buffer = Writer.buildZip(source.entries);
+	// B"H — the agent bundle is text-heavy source; DEFLATE cuts the
+	// fresh-install download from ~10.7 MB to ~3.5 MB while the writer
+	// stays deterministic (fixed stamp, fixed level, per-entry fallback
+	// to STORE when compression would not shrink the entry).
+	const buffer = Writer.buildZip(source.entries, { method: "deflate" });
 	return {
 		buffer,
 		bytes: buffer.length,
