@@ -23,7 +23,7 @@ export function drawPlayerCard(ctx, fighter, x, y, width) {
 	round(ctx, x, y, width, height, 12);
 	ctx.fill();
 	ctx.stroke();
-	drawIdentity(ctx, fighter, x, y, color);
+	drawIdentity(ctx, fighter, x, y, color, width);
 	drawDamage(ctx, fighter, damage, x, y);
 	drawStockDots(ctx, fighter, x + width - 35, y + 42, color);
 	if (fighter.resonance?.enabled) {
@@ -32,10 +32,32 @@ export function drawPlayerCard(ctx, fighter, x, y, width) {
 	ctx.restore();
 }
 
-function drawIdentity(ctx, fighter, x, y, color) {
-	ctx.font = '950 11px system-ui';
+function drawIdentity(ctx, fighter, x, y, color, width) {
 	ctx.fillStyle = color;
-	ctx.fillText(identityLabel(fighter), x + 8, y + 15);
+	const available = Math.max(40, width - 16);
+	// Longest truthful label that fits the card: full, then without the team
+	// mark, then the name alone - never a word sliced in half.
+	for (const [label, size] of identityCandidates(fighter)) {
+		ctx.font = `950 ${size}px system-ui`;
+		if (ctx.measureText(label).width <= available) {
+			ctx.fillText(label, x + 8, y + 15);
+			return;
+		}
+	}
+	ctx.font = '950 9px system-ui';
+	ctx.fillText(fighter.name || '', x + 8, y + 15);
+}
+
+function identityCandidates(fighter) {
+	const owner = fighter.playerTag || (fighter.human ? 'PLAYER' : 'CPU');
+	const team = fighter.team ? `T${fighter.team}` : '';
+	const name = String(fighter.name || '').replace('Bot ', 'B');
+	return [
+		[`${owner} ${team} · ${name}`.replace('  ', ' ').trim(), 11],
+		[`${owner} · ${name}`, 11],
+		[name, 11],
+		[name, 10]
+	];
 }
 
 function drawDamage(ctx, fighter, damage, x, y) {
@@ -46,13 +68,6 @@ function drawDamage(ctx, fighter, damage, x, y) {
 	const text = fighter.dead ? 'OUT' : `${damage}%`;
 	ctx.strokeText(text, x + 8, y + 43);
 	ctx.fillText(text, x + 8, y + 43);
-}
-
-function identityLabel(fighter) {
-	const owner = fighter.playerTag || (fighter.human ? 'PLAYER' : 'CPU');
-	const team = fighter.team ? `T${fighter.team}` : '';
-	const name = String(fighter.name || '').replace('Bot ', 'B');
-	return `${owner} ${team} · ${name}`.trim().slice(0, 22);
 }
 
 function fighterColor(fighter) {

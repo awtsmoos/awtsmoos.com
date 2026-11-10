@@ -29,7 +29,9 @@ import { drawOffscreenArrow } from './v3/hud/OffscreenArrow.js';
  * @param {*} h The h value entering this behavior.
  */
 export function drawUi(ctx, state, w, h = innerHeight) {
-	drawV3Hud(ctx, state, w, h);
+	// The menu phase holds a full roster at 0% behind the DOM menus; drawing the
+	// combat HUD there ghosts the cards and Menu pill through every setup screen.
+	if (state.phase !== 'menu') drawV3Hud(ctx, state, w, h);
 	drawAdventureHud(ctx, state, w, h);
 	drawOffscreenFighterBeacons(ctx, state, w, h, w < 760);
 	drawRespawnCountdown(ctx, state, w, h);
@@ -37,7 +39,7 @@ export function drawUi(ctx, state, w, h = innerHeight) {
 }
 
 function drawOffscreenFighterBeacons(ctx, state, w, h, mobile) {
-	if (!state.camera) return;
+	if (!state.camera || state.phase === 'menu') return;
 	const top = mobile ? 150 : state.adventureRun ? 158 : 74;
 	const bottom = h - 104;
 	for (const f of state.fighters) {
