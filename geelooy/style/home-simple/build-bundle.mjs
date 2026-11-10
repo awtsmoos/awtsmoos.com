@@ -29,7 +29,6 @@ const TOP = [
 	"geelooy/style/home-simple/home-polish-law8.css",
 	"geelooy/css/golden-icons.css",
 	"geelooy/css/awtsmoos-visual-assets.css",
-	"geelooy/style/animations/micro-interactions.css",
 ];
 const OUT = process.argv[2] || resolve(REPO, "geelooy/style/home-simple/home-bundle.css");
 
