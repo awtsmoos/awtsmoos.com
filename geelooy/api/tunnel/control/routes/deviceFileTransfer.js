@@ -7,6 +7,7 @@ const Auth = require("../core/auth.js");
 const { scopeAllowed } = require("../core/apiKeyStore.js");
 const { json } = require("../core/respond.js");
 const Scheduler = require("./protectedFsSchedulerIdentity.js");
+const Request = require("../core/request.js");
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const Bridge = require("./deviceFileTransferCore.js");
 
@@ -27,7 +28,7 @@ async function deviceFileTransfer($i) {
 		return routeJson($i, { ok: false, error: "binary_transfer_admin_scope_required" }, 403);
 	}
 	try {
-		const result = await Bridge.pump(input(Auth.query($i)),
+		const result = await Bridge.pump(input(Request.query($i)),
 			(route, action, permission, params) => send($i, identity, route, action, permission, params),
 			{ owner: identity.accountId });
 		return routeJson($i, { BH: "B\"H", ...result, postAllowed: false });

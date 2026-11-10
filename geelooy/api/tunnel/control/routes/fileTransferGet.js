@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Auth = require("../core/auth.js");
+const Request = require("../core/request.js");
 const { scopeAllowed } = require("../core/apiKeyStore.js");
 const { json } = require("../core/respond.js");
 const TransferPolicy = require("../../../../apps/tunnel/agent/tools/fs/fileTransferPolicy.js");
@@ -20,7 +21,7 @@ async function fileTransferGet($i, variables = {}) {
 	}
 	const identity = Auth.currentIdentity($i);
 	if (!identity.ok) return routeJson($i, { BH: "B\"H", ok: false, error: identity.error || "not_authenticated" }, 401);
-	const query = Auth.query($i);
+	const query = Request.query($i);
 	try {
 		const operation = operationFor(query.action || query.operation);
 		const permission = permissionFor(operation);
