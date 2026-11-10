@@ -1,5 +1,5 @@
 B"H
-1.0.719
+1.0.720
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -598,6 +598,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/complementTrust.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/cursorState.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/defaultReuseOptions.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/degradedAdoption.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListBySize.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListPersistence.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListVersion.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeCoalescing.js
@@ -610,6 +611,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/modes.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/pendingFreeList.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/rangeTrust.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/reachableComplement.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/refreshDeferral.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retiredRangeUnion.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retirementQueue.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/serialization/array.js
