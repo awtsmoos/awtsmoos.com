@@ -25,10 +25,10 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   overflowing the viewport. Literal values only (no vars — the
 		   bundles that define them have not loaded yet). */
 		.meluket-sefer { max-width: min(68ch, calc(100% - 1rem)); margin-inline: auto; }
-		.meluket-phrase-pair { margin: 0 0 0.15em; }
+		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
-		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; direction: ltr; border-top: 2px dashed #c6ad76; margin-top: 0.1em; padding-top: 0.1em; }
+		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.4; direction: ltr; border-top: 2px dashed #c6ad76; margin-top: 0; padding-top: 0; }
 		/* B"H round 10 — the title area above card 1 renders as a blank
 		   peach band in the settled view and the title is invisible. The
 		   title color lives in the sefer bundle (dark #2b2118 in light
@@ -41,6 +41,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   first paint matches the settled size at the 48px scale. */
 		.meluket-sefer-title-he { color: #2b2118; text-align: center; font-size: 105px; line-height: 1.25; }
 	</style>
+	<!-- B"H 2026-11-10 round 12 — early scale boot: apply the remembered
+	     reading size (and theme) BEFORE any stylesheet paints, so the first
+	     paint already uses the stored size instead of the 144px default.
+	     Parser-blocking on purpose; the file is ~1KB, same origin. -->
+	<script src="/heichelos/post/logic/initialization/ReaderEarlyThemeBoot.js?v=reader-theme-20261028-2"></script>
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=6677e0d97c">
 	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=61817defef">
 	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
@@ -69,7 +74,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
 	<link id="awtsmoos-sefer-style-overhaul" rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513">
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=019038f384">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=797934e1db">
 	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=0199420043">
 	<script>
 		try {
@@ -82,6 +87,12 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 </head>
 <body>
 	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision">
+		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
+		     vars on <html>, but a stylesheet rule sets --post-text-size
+		     directly on THIS div, so it needs the same vars inline on
+		     itself before its children paint. Runs while parsing, before
+		     the sefer below is even read. -->
+		<script>try { window.__awtsmoosApplyEarlyScale && window.__awtsmoosApplyEarlyScale(document.currentScript.parentElement); } catch (e) {}</script>
 		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
 		<div class="main">
 			<div class="scroll-view-wrapper">
@@ -138,7 +149,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=reader-smooth-20261028-1').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-029');
+				import('/heichelos/post/postLogic.js?v=reader-passive-030');
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

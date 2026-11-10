@@ -234,8 +234,11 @@
 .meluket-sefer-active .meluket-phrase-pair {
 	/* B"H round 11: 0.3em (round 10) still left ~40–65px gaps between
 	   cards at 48px scale. 0.15em — the remaining gap is line-height
-	   slack inside the phrase blocks, not pair margin. */
-	margin: 0 0 0.15em;
+	   slack inside the phrase blocks, not pair margin.
+	   B"H round 12: 0.15em -> 0.1em. The Dream fallback still adds its
+	   own slack (see the Hebrew/English rules below), so the pair
+	   margin itself goes as small as it can without touching. */
+	margin: 0 0 0.1em;
 	/* B"H — Coby Nov 10: scrolling was choppy with 271 pairs. The
 	   browser must not paint off-screen pairs on every scroll frame. */
 	content-visibility: auto;
@@ -260,7 +263,13 @@
 	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
 	--hebrew-optical: 1.3;
 }
-.meluket-sefer-active .meluket-phrase--he {
+/* B"H 2026-11-10 round 12 — this rule MUST outrank the Dream fallback
+   (reader-inline-extracted.css, :root .post-reader-localized-context
+   .meluket-phrase--he at (0,3,0): line-height 1.85). Round 11 measured
+   55–60px of dead air under every Hebrew line and never found why: the
+   sefer's 1.45 at (0,2,0) simply lost to the Dream 1.85. Scoped to
+   (0,4,0) with real descendant spaces, so the sefer file governs. */
+:root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical));
 	font-weight: 700;
@@ -292,12 +301,21 @@
    .meluket-phrase--en at (0,3,0): 400, 1.0x, soft ink). Round 2 set the
    equal values here at (0,2,0) and the fallback still won — the live
    English stayed ~70% and grey. Scoped to (0,4,0) so the sefer file,
-   not the fallback, governs sefer typography. */
-:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--en {
+   not the fallback, governs sefer typography.
+   B"H round 12 — the (0,4,0) selector had NO SPACE between
+   .post-reader-localized-context and .meluket-sefer-active, so it
+   demanded one element carrying BOTH classes. No such element exists
+   (the context div wraps #realPost, which holds the sefer) — the rule
+   NEVER matched in any round, and the live English was the Dream
+   fallback all along: line-height 1.75, margin-top 1em, padding-top
+   1em. That is the rest of the 40–65px card gaps. Space added; the
+   rule finally governs. Margin and padding above the English go to 0
+   (the dashed rule itself is the separator) and line-height to 1.4. */
+:root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--en {
 	font-family: "Source Serif 4", Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical, 1.3));
 	font-weight: 700;
-	line-height: 1.45;
+	line-height: 1.4;
 	color: var(--sefer-ink);
 	border-top: 2px dashed var(--sefer-rule);
 	/* B"H 2026-11-10 round 6: the 1em margin + 1em padding above the English
@@ -306,9 +324,12 @@
 	   0.25em + 0.5em keeps the dashed rule breathing without the hole.
 	   B"H round 9: still ~50px measured. 0.1em + 0.25em, line-height 1.55.
 	   B"H round 11: gaps still 40–65px. Padding 0.25em -> 0.1em,
-	   line-height 1.55 -> 1.45. */
-	margin-top: 0.1em;
-	padding-top: 0.1em;
+	   line-height 1.55 -> 1.45.
+	   B"H round 12: the rule never matched (missing space — see above),
+	   so none of those trims ever applied. Margin + padding now 0,
+	   line-height 1.4. */
+	margin-top: 0;
+	padding-top: 0;
 	direction: ltr;
 	/* B"H — prevent clipping on narrow screens. Words wrap whole. */
 	overflow-wrap: break-word;
@@ -1507,8 +1528,11 @@
    existed only in the DOM. Now the row you are reading stays visibly
    marked (gold tint + gold left edge) until you tap another one. */
 .awtsmoos-src-fn-item.is-open {
-  background: rgba(184, 134, 11, 0.16);
-  border-left: 3px solid #b8860b;
+  /* B"H round 12: the old 0.16 tint + left edge read as "only a gold
+     accent on the row's left edge" at normal view — the tapped footnote
+     must be unmistakable on reopen. Full gold fill now. */
+  background: rgba(184, 134, 11, 0.32);
+  border-left: 4px solid #b8860b;
 }
 .awtsmoos-src-fn-num {
   flex-shrink: 0;

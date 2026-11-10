@@ -29,7 +29,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  */
 const SEFER_STYLE_TRIO = [
 	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=6bcf1e8513'],
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=019038f384'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=797934e1db'],
 	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=0199420043'],
 ];
 
@@ -1374,7 +1374,38 @@ function renderSourcesFootnotes(footnotes, sefer) {
 					lastFnActiveCard.style.outline = '';
 				}
 				lastFnActiveCard = card;
-				card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				// B"H round 12 — go-to-58 landed on the wrong card twice
+				// although the right card WAS found and highlighted: the
+				// pairs use content-visibility: auto with a 120px
+				// intrinsic estimate, so unrendered cards below the fold
+				// are far shorter than real. scrollIntoView aims at the
+				// estimated position and lands early (go-to-1/31 pass
+				// because few unrendered cards sit above them). Force
+				// every pair to real layout first, then scroll, then
+				// re-check the card's rect and re-scroll until it sits
+				// near the viewport center (up to ~5 tries over ~1s),
+				// and restore the skips after ~1.5s so scrolling stays
+				// cheap.
+				const pairs = liveSefer ? Array.from(liveSefer.querySelectorAll('.meluket-phrase-pair')) : [];
+				pairs.forEach(p => { p.style.contentVisibility = 'visible'; });
+				const centerCard = () => {
+					const rect = card.getBoundingClientRect();
+					const target = window.innerHeight / 2 - rect.height / 2;
+					if (Math.abs(rect.top - target) > 24) {
+						window.scrollBy({ top: rect.top - target, behavior: 'auto' });
+						return false;
+					}
+					return true;
+				};
+				card.scrollIntoView({ behavior: 'auto', block: 'center' });
+				let tries = 0;
+				const settle = () => {
+					tries += 1;
+					if (centerCard() || tries >= 5) return;
+					setTimeout(settle, 200);
+				};
+				setTimeout(settle, 60);
+				setTimeout(() => { pairs.forEach(p => { p.style.contentVisibility = ''; }); }, 1500);
 				card.classList.add('awtsmoos-fn-active');
 				// B"H round 11: paint the highlight inline as well as
 				// the class — inline beats any cascade mystery, so the
@@ -1892,6 +1923,13 @@ export function awakenMeluketSeferReaderFromEmbed() {
 	const h1 = document.createElement('h1');
 	h1.className = 'meluket-sefer-title-he';
 	h1.setAttribute('dir', 'rtl');
+	// B"H 2026-11-10 round 12 — the title rendered ~10px in two browser
+	// checks although every stylesheet rule says 64–105px. Inline style
+	// beats every stylesheet rule: if it now renders 105px the cascade
+	// was the issue; if it still renders ~10px the measured element is
+	// definitively not this h1 and the hunt moves elsewhere.
+	h1.style.fontSize = '105px';
+	h1.style.lineHeight = '1.25';
 	h1.textContent = title;
 	titleBlock.appendChild(h1);
 	sefer.appendChild(titleBlock);

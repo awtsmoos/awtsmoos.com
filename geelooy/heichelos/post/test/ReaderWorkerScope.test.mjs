@@ -45,5 +45,5 @@ test('reader continues unique footnotes and remembered theme', async () => {
 	const outer = await read('../../_awtsmoos.post.html');
 	const inner = await read('../_awtsmoos.post.html');
 	assert.match(inner, /ReaderUniqueFootnotes\.js\?v=reader-fnids-20261028-1/);
-	assert.match(outer, /ReaderEarlyThemeBoot\.js\?v=reader-theme-20261028-1/);
+	assert.match(outer, /ReaderEarlyThemeBoot\.js\?v=reader-theme-20261028-2/);
 });

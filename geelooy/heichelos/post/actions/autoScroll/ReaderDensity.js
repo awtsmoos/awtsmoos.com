@@ -16,7 +16,15 @@ function positiveNumber(value, fallback) {
 }
 
 function textOf(root) {
-	return String(root?.innerText ?? root?.textContent ?? '').replace(/\s+/g, ' ').trim();
+	// B"H 2026-11-10 round 12 — innerText EXCLUDES text inside
+	// content-visibility: auto subtrees that have not rendered yet, so at
+	// calibrate time most of the sefer's words are invisible to it: the
+	// word count collapses while scrollHeight stays full, pixels-per-word
+	// explodes, and the pace clamps at exactly 640 px/s (the "45 WPM"
+	// label that could not be right). textContent counts every word in
+	// the subtree, rendered or not, so label and motion share one sane
+	// density.
+	return String(root?.textContent ?? '').replace(/\s+/g, ' ').trim();
 }
 
 function measuredHeight(root, rectangle, lineHeight) {

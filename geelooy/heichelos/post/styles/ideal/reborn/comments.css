@@ -146,3 +146,26 @@ display: block;
 	background: #fffdf6;
 	border-color: #d9c9a8;
 }
+
+/* B"H 2026-11-10 round 12 — the round-11 (0,11,1) override fixed the
+   pill BACKGROUND but not the text: button-hover.css has a second,
+   stronger color rule the round-11 note missed. Its every-button rule
+   at (0,16,1) sets color: var(--aw-text), and on these buttons the var
+   resolves white (the coherence --aw-text trick does not land on them —
+   the pale pill with white text is exactly that rule winning the color
+   while the round-11 rule wins the background). This rule mirrors
+   button-hover's own :is()×8 shape at (0,19,0) and sets the color
+   DIRECTLY — no var — on every button the Community section can
+   produce: the chip buttons, any dock button, the dropdown menu items,
+   and any bare button inside a community card. Dark theme is untouched
+   (scoped to :not([data-theme="dark"])). */
+:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action,
+:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-action-dock button,
+:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item,
+:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-community-discussion-card button,
+:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-comment-card button {
+	color: #2b2118;
+	--aw-text: #2b2118;
+	background: #fffdf6;
+	border-color: #d9c9a8;
+}

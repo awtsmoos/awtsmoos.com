@@ -188,7 +188,7 @@ function renderSeferInitialHtml(rows, title) {
 	}
 	const parts = [];
 	parts.push('<div class="meluket-sefer meluket-sefer-active" data-lang-mode="both" data-embed-built="1" data-server-built="1">');
-	parts.push(`<header class="meluket-sefer-title"><h1 class="meluket-sefer-title-he" dir="rtl">${escapeHtml(title || 'Torah teaching')}</h1></header>`);
+	parts.push(`<header class="meluket-sefer-title"><h1 class="meluket-sefer-title-he" dir="rtl" style="font-size:105px;line-height:1.25">${escapeHtml(title || 'Torah teaching')}</h1></header>`);
 	sections.forEach((section, sIdx) => {
 		const sectionId = `sec-${String(sIdx + 1).padStart(3, '0')}`;
 		parts.push(`<section class="meluket-sefer-section" data-section-id="${sectionId}" data-section-index="${sIdx}" id="${sectionId}" dir="auto">`);
