@@ -26,6 +26,7 @@
 
 	/** Ends the Tanya power window and restores normal Klipah danger once its timer expires. */
 	function checkPowerUpTimer(game) {
+		if (game.invincible && Date.now() > (game.invincibleUntil || 0)) game.invincible = false;
 		if (!game.neshama.isPoweredUp || Date.now() <= game.neshama.powerUpTimer) return;
 		game.neshama.isPoweredUp = false;
 		game.klipot.forEach(klipah => {
@@ -80,9 +81,7 @@
 		game.klipot.forEach(resetKlipah);
 		game.input.direction = { x: 0, y: 0 };
 		game.input.nextDirection = { x: 0, y: 0 };
-		setTimeout(() => {
-			if (game.state === 'playing') game.invincible = false;
-		}, 2000);
+		game.invincibleUntil = Date.now() + 2000;
 	}
 
 	/** Restores one Klipah to its authored spawn without resetting the run. */

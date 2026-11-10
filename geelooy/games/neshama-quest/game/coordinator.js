@@ -27,6 +27,7 @@
 			this.loop = new NeshamaLoop();
 			this.state = 'menu';
 			this.invincible = false;
+			this.invincibleUntil = 0;
 			this.canvas.width = MAZE_WIDTH * TILE_SIZE;
 			this.canvas.height = MAZE_HEIGHT * TILE_SIZE;
 		}

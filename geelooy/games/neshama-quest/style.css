@@ -1,9 +1,13 @@
 /* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
 :root {
 	--neshama-quest-style-t1: #fff;
+	--neshama-quest-btn-bg: rgba(255, 225, 138, 0.16);
+	--neshama-quest-btn-line: rgba(255, 225, 138, 0.5);
 }
 [data-theme="light"] {
 	--neshama-quest-style-t1: #1a1a1a;
+	--neshama-quest-btn-bg: rgba(26, 26, 26, 0.08);
+	--neshama-quest-btn-line: rgba(26, 26, 26, 0.35);
 }
 
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
@@ -53,8 +57,9 @@ body {
 button {
 	min-height: 44px;
 	padding: 9px 16px;
-	border: 0;
+	border: 1px solid var(--neshama-quest-btn-line);
 	border-radius: 999px;
+	background: var(--neshama-quest-btn-bg);
 	font: inherit;
 	font-weight: 800;
 	cursor: pointer;

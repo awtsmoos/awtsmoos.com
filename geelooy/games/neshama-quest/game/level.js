@@ -14,6 +14,7 @@
 		game.lives = 3;
 		game.level = 1;
 		game.invincible = false;
+		game.invincibleUntil = 0;
 		game.state = 'playing';
 		setupLevel(game);
 	}
