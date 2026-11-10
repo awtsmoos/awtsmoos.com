@@ -94,6 +94,12 @@ button {
 	z-index: 8;
 }
 
+/* The shared shell launcher (48px, top-right, z-90) sits in this corner;
+   the pause button yields it room so both stay fully clickable. */
+.pauseButton {
+	right: max(70px, env(safe-area-inset-right));
+}
+
 .pauseStatus {
 	top: 72px;
 	padding: 8px 12px;

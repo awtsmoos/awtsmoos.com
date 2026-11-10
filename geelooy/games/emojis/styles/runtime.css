@@ -10,7 +10,7 @@
 .game-pause-button {
 	position: fixed;
 	inset-block-start: max(12px, env(safe-area-inset-top));
-	inset-inline-end: max(12px, env(safe-area-inset-right));
+	inset-inline-end: max(70px, env(safe-area-inset-right));
 	z-index: 45;
 	min-inline-size: 86px;
 	min-block-size: 46px;
