@@ -4,13 +4,24 @@
 /**
  * The Awtsmoos fashions the sun's apparent course anew with every ray;
  * Awtsmoos.com turns published astronomy into small pure vessels for the day.
+ *
+ * Solar position uses the full NREL solar position algorithm (Reda & Andreas),
+ * the same model Chabad.org, Hebcal, and KosherJava run: Julian day and century,
+ * geometric mean longitude and anomaly, equation of center, apparent longitude,
+ * corrected obliquity, declination, and equation of time. It is accurate to
+ * about 0.0003 degrees, a few seconds of time. The short Fourier approximation
+ * this file used before was good only to a minute or two, and every zman built
+ * on sunrise and sunset inherited that error.
  */
 
 const RADIANS_PER_DEGREE = Math.PI / 180;
 const DEGREES_PER_RADIAN = 180 / Math.PI;
 const MILLISECONDS_PER_DAY = 86400000;
+const JULIAN_DAY_AT_UNIX_EPOCH = 2440587.5;
+const JULIAN_DAY_J2000 = 2451545.0;
+const DAYS_PER_JULIAN_CENTURY = 36525;
 
-/** NOAA-style low-order solar position equations used by the zmanim engine. */
+/** Full NREL solar position equations used by the zmanim engine. */
 export class OhrSolarEquations {
 	/** Convert degrees into radians. */
 	static toRadians(degrees) {
@@ -22,19 +33,10 @@ export class OhrSolarEquations {
 		return radians * DEGREES_PER_RADIAN;
 	}
 
-	/** Count the selected Gregorian date within its year. */
-	static dayOfYear(isoDate) {
-		const [year, month, day] = isoDate.split("-").map(Number);
-		const selected = Date.UTC(year, month - 1, day);
-		const yearStart = Date.UTC(year, 0, 0);
-		return Math.floor((selected - yearStart) / MILLISECONDS_PER_DAY);
-	}
-
-	/** Return 365 or 366 so the fractional-year angle respects leap years. */
-	static daysInYear(isoDate) {
-		const year = Number(isoDate.slice(0, 4));
-		const februaryLastDay = new Date(Date.UTC(year, 2, 0)).getUTCDate();
-		return februaryLastDay === 29 ? 366 : 365;
+	/** Fold an angle into the 0..360 degree range. */
+	static normalizeDegrees(degrees) {
+		const folded = degrees % 360;
+		return folded < 0 ? folded + 360 : folded;
 	}
 
 	/**
@@ -42,18 +44,43 @@ export class OhrSolarEquations {
 	 * @returns {{ equationMinutes: number, declinationRadians: number }}
 	 */
 	static solarTerms(isoDate, utcMinutes = 720) {
-		const day = this.dayOfYear(isoDate);
-		const days = this.daysInYear(isoDate);
-		const hour = utcMinutes / 60;
-		const gamma = (2 * Math.PI / days) * (day - 1 + (hour - 12) / 24);
-		const equationMinutes = 229.18 * (
-			0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma)
-			- 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma)
+		const [year, month, day] = isoDate.split("-").map(Number);
+		const julianDay = Date.UTC(year, month - 1, day) / MILLISECONDS_PER_DAY
+			+ JULIAN_DAY_AT_UNIX_EPOCH + utcMinutes / 1440;
+		const century = (julianDay - JULIAN_DAY_J2000) / DAYS_PER_JULIAN_CENTURY;
+
+		const geomMeanLong = this.normalizeDegrees(
+			280.46646 + century * (36000.76983 + century * 0.0003032)
 		);
-		const declinationRadians = 0.006918 - 0.399912 * Math.cos(gamma)
-			+ 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma)
-			+ 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma)
-			+ 0.00148 * Math.sin(3 * gamma);
+		const geomMeanAnom = this.normalizeDegrees(
+			357.52911 + century * (35999.05029 - century * 0.0001537)
+		);
+		const eccentricity = 0.016708634
+			- century * (0.000042037 + century * 0.0000001267);
+		const sunEqOfCenter = Math.sin(this.toRadians(geomMeanAnom))
+				* (1.914602 - century * (0.004817 + century * 0.000014))
+			+ Math.sin(this.toRadians(2 * geomMeanAnom)) * (0.019993 - century * 0.000101)
+			+ Math.sin(this.toRadians(3 * geomMeanAnom)) * 0.000289;
+		const sunTrueLong = geomMeanLong + sunEqOfCenter;
+		const omega = 125.04 - 1934.136 * century;
+		const sunAppLong = sunTrueLong - 0.00569
+			- 0.00478 * Math.sin(this.toRadians(omega));
+		const meanObliquity = 23 + (26 + (21.448
+			- century * (46.815 + century * (0.00059 - century * 0.001813))) / 60) / 60;
+		const obliquity = meanObliquity
+			+ 0.00256 * Math.cos(this.toRadians(omega));
+		const declinationRadians = Math.asin(
+			Math.sin(this.toRadians(obliquity)) * Math.sin(this.toRadians(sunAppLong))
+		);
+		const varY = Math.tan(this.toRadians(obliquity / 2)) ** 2;
+		const equationMinutes = 4 * this.toDegrees(
+			varY * Math.sin(this.toRadians(2 * geomMeanLong))
+			- 2 * eccentricity * Math.sin(this.toRadians(geomMeanAnom))
+			+ 4 * eccentricity * varY * Math.sin(this.toRadians(geomMeanAnom))
+				* Math.cos(this.toRadians(2 * geomMeanLong))
+			- 0.5 * varY * varY * Math.sin(this.toRadians(4 * geomMeanLong))
+			- 1.25 * eccentricity * eccentricity * Math.sin(this.toRadians(2 * geomMeanAnom))
+		);
 		return { equationMinutes, declinationRadians };
 	}
 

@@ -24,7 +24,11 @@ async function calculateComparison(query = {}) {
 	};
 	const solar = core.solar.ChochmahSolarEvents.forDate(input.date, location);
 	const days = input.opinions.map(opinionId => {
-		const calculation = core.calculator.TiferesZmanimCalculator.calculate(solar, opinionId);
+		const calculation = core.calculator.TiferesZmanimCalculator.calculate(
+			solar,
+			opinionId,
+			{ label: input.label, latitude: input.latitude, longitude: input.longitude }
+		);
 		return serializeDay({ ...input, opinion: opinionId }, solar, calculation, core);
 	});
 	const primaryDay = days.find(day => day.opinion.id === input.opinion) || days[0];

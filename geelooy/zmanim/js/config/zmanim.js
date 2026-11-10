@@ -63,8 +63,8 @@ export const ZMAN_DEFINITIONS = Object.freeze([
 		note: "Ten and three-quarter seasonal hours after the day begins."
 	},
 	{
-		id: "candleLighting", group: "afternoon", label: "Candle lighting — common 18 min",
-		note: "A common default of 18 minutes before sunset; local customs can differ."
+		id: "candleLighting", group: "afternoon", label: "Candle lighting",
+		note: "18 minutes before sunset; 40 minutes in Jerusalem."
 	},
 	{
 		id: "sunset", group: "evening", label: "Shkiah / Sunset",

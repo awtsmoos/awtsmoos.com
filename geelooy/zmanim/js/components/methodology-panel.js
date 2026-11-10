@@ -15,7 +15,7 @@ const BENCHMARKS = Object.freeze([
 	"Tzeis: 6° solar depression",
 	"Shabbos end: 8.5° solar depression",
 	"Rabbeinu Tam: 72 fixed minutes after sunset",
-	"Candle lighting: 18 fixed minutes before sunset"
+	"Candle lighting: 18 minutes before sunset, 40 minutes in Jerusalem"
 ]);
 
 /** Expandable explanation of selected profiles and independent benchmark conventions. */

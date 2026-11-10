@@ -29,7 +29,8 @@ async function calculateDay(query) {
 	const solar = core.solar.ChochmahSolarEvents.forDate(input.date, location);
 	const calculation = core.calculator.TiferesZmanimCalculator.calculate(
 		solar,
-		input.opinion
+		input.opinion,
+		{ label: input.label, latitude: input.latitude, longitude: input.longitude }
 	);
 	return serializeDay(input, solar, calculation, core);
 }

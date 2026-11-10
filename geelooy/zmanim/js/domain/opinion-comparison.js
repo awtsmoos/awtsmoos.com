@@ -17,7 +17,7 @@ export class NetzachOpinionComparison {
 		const opinionIds = normalizeOpinionIds(state.opinionIds || state.opinionId);
 		const primaryOpinionId = normalizePrimaryOpinion(state.opinionId, opinionIds);
 		const calculations = opinionIds.map(opinionId => {
-			return TiferesZmanimCalculator.calculate(solar, opinionId);
+			return TiferesZmanimCalculator.calculate(solar, opinionId, state.location);
 		});
 		const primary = calculations.find(calculation => {
 			return calculation.opinion.id === primaryOpinionId;

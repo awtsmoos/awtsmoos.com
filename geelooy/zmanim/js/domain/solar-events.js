@@ -44,13 +44,19 @@ export class ChochmahSolarEvents {
 	static forDate(isoDate, location) {
 		const { latitude, longitude } = location;
 		const nextDate = addIsoDays(isoDate, 1);
+		const noon = this.solarNoon(isoDate, longitude);
+		// On short summer nights the sun never sinks 16.9 degrees below the
+		// horizon, so there is no dawn crossing. Chabad.org gives midnight
+		// instead: solar midnight, the moment the sun starts climbing again.
+		const alos = this.eventAt(isoDate, latitude, longitude, -16.9, "morning")
+			?? new Date(noon.getTime() - 12 * 60 * MINUTE_MS);
 		return {
-			alos: this.eventAt(isoDate, latitude, longitude, -16.9, "morning"),
+			alos,
 			alos16_1: this.eventAt(isoDate, latitude, longitude, -16.1, "morning"),
 			misheyakir: this.eventAt(isoDate, latitude, longitude, -10.2, "morning"),
 			sunrise: this.eventAt(isoDate, latitude, longitude, -0.833, "morning"),
 			trueSunrise: this.eventAt(isoDate, latitude, longitude, -1.583, "morning"),
-			solarNoon: this.solarNoon(isoDate, longitude),
+			solarNoon: noon,
 			trueSunset: this.eventAt(isoDate, latitude, longitude, -1.583, "evening"),
 			sunset: this.eventAt(isoDate, latitude, longitude, -0.833, "evening"),
 			tzeis: this.eventAt(isoDate, latitude, longitude, -6, "evening"),
