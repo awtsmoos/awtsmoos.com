@@ -10,7 +10,7 @@
 #context-sheet {
 	position: fixed;
 	right: 8px;
-	bottom: 8px;
+	bottom: max(72px, calc(env(safe-area-inset-bottom) + 62px)); /* rest above the battle controls, never over them */
 	left: 8px;
 	z-index: 30;
 	max-height: min(48dvh, 420px);
