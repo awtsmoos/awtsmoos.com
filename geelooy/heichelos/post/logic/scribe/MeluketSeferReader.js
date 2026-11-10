@@ -439,6 +439,19 @@ export function convertBareFootnoteDigits(root) {
 			const sup = document.createElement('sup');
 			sup.setAttribute('data-fn', match.digits);
 			sup.textContent = match.digits;
+			// B"H round 16 — the sefer's delegated click/keydown handlers
+			// only match sup.meluket-fn-marker[data-fn], so a plain sup
+			// here was inert: tapping a Hebrew footnote digit did nothing
+			// while the English markers opened the popup. Give the Hebrew
+			// sup the same marker class + button semantics (no id — the
+			// shelf's scroll-back id is set by enhanceFootnoteSup on the
+			// client build path, and stamping one here would risk
+			// duplicates across phrases). The class also gives it the
+			// marker's gold-accent superscript style, matching English.
+			sup.classList.add('meluket-fn-marker');
+			sup.setAttribute('role', 'button');
+			sup.setAttribute('tabindex', '0');
+			sup.setAttribute('aria-label', `Footnote ${match.digits}`);
 			frag.appendChild(sup);
 			pos = match.end;
 		}

@@ -14,8 +14,20 @@
 
 .awtsmoos-related-torah > header {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: 0.2rem;
 	margin-bottom: 0.8rem;
+}
+
+/* B"H round 16 — the comment card's own header rule
+   (.awtsmoos-social-comment header, discussion/comments.css) sets
+   grid-template-columns: 2.65rem 1fr for the avatar + name, but it
+   matches EVERY header inside a comment — including this one. The
+   kicker span landed in the 2.65rem avatar column and squeezed into
+   a vertical "EXPL / ORE / FURT / HER". This (0,2,1) override puts
+   the Related Torah header back to one full-width column. */
+.awtsmoos-social-comment .awtsmoos-related-torah > header {
+	grid-template-columns: minmax(0, 1fr);
 }
 
 .awtsmoos-related-torah > :where(header) span {
