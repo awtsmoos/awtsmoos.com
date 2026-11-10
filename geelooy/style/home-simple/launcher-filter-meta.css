@@ -11,7 +11,7 @@ The Awtsmoos places quiet guidance beside discovery, while Awtsmoos.com keeps hi
 	box-shadow: inset 0 -1px var(--home-glow);
 	color: var(--text-muted);
 	font-family: inherit;
-	font-size: .58rem;
+	font-size: .68rem;
 	font-weight: 850;
 }
 body[data-geelooy-route="home"] .launcher-meta {
@@ -20,7 +20,9 @@ body[data-geelooy-route="home"] .launcher-meta {
 	gap: .24rem;
 	min-width: 7rem;
 	color: var(--text-muted);
-	font-size: .58rem;
+	/* B"H 2026-11-10 (site QA): .58rem (~9px) made the doors/hint line
+	   barely legible beside the filter; .72rem keeps it secondary but readable. */
+	font-size: .72rem;
 	font-weight: 760;
 	letter-spacing: .04em;
 }

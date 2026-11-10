@@ -72,7 +72,10 @@ export class ConstellationRenderer {
 		const count = document.createElement("span");
 		count.className = "constellation-count";
 		// BH QA sweep2 WORLDS-PANELS: collapsed panels show an explicit summary so they never read as broken empty panels.
-		const noun = String((group && group.label) || "doors").toLowerCase();
+		// B"H 2026-11-10 (site QA): the noun is "doors" — the panel's own word
+		// for its entries. Using the group's label here printed counts like
+		// "16 core" ("✦Core16 core") in the group header.
+		const noun = "doors";
 		count.textContent = total + " " + noun;
 		count.setAttribute("aria-label", total + " " + noun + " in this group");
 		return count;

@@ -19,7 +19,7 @@ import { transliterateTorahTitle } from './torahTitleTransliteration.js?v=torah-
 import {
 	compositeEnglishHead,
 	compositeHebrewSegment
-} from './torahCompositeTitle.js?v=torah-bilingual-004';
+} from './torahCompositeTitle.js?v=torah-bilingual-006';
 import { withLikkuteiSichosBooks } from './torahLikkuteiSichosPresentation.js?v=torah-bilingual-005';
 import {
 	parshaEnglishForHebrew,

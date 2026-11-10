@@ -62,6 +62,13 @@ export function compositeHebrewSegment(value = '') {
  */
 export function compositeEnglishHead(value = '') {
 	const clean = stripIdPrefix(value);
+	// B"H 2026-11-10 (site QA): only a true composite — one carrying a "/"
+	// or "|" separator — has an English head to extract. A separator-less
+	// string is a plain name or a raw stable ID ("tanyaLikkuteiAmarim");
+	// returning it whole let it pose as a curated English title and
+	// short-circuited the presenter's humanized fallback, so the public
+	// page printed the unspaced camelCase ID as its title.
+	if (!clean.includes('/') && !clean.includes('|')) return '';
 	const head = (clean.split('/')[0] || '').split('|')[0].trim();
 	return head && !hasHebrewLetters(head) ? head : '';
 }
