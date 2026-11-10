@@ -54,8 +54,11 @@ export function createOnlinePanel(options = {}) {
 		if (!message) {
 			return;
 		}
-		options.sendChat?.(message, channel.value);
-		input.value = '';
+		// Keep the words in the box until the realm acknowledges them; a failed
+		// or offline send resolves null in the controller and must not eat them.
+		Promise.resolve(options.sendChat?.(message, channel.value)).then((result) => {
+			if (result && input.value === message) input.value = '';
+		});
 	});
 
 	return {

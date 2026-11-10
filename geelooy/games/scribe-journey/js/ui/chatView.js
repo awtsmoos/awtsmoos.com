@@ -1,8 +1,26 @@
 // B"H
 
 let latestMessageId = null;
+let collapseBound = false;
+
+/** The header button owns the .minimized class the stylesheet already defines; bind it once. */
+function bindChatCollapse() {
+	if (collapseBound) return;
+	const header = document.getElementById('chat-header');
+	const box = document.getElementById('global-chat-box');
+	if (!header || !box) return;
+	collapseBound = true;
+	header.setAttribute('aria-expanded', 'true');
+	header.addEventListener('click', () => {
+		const minimized = box.classList.toggle('minimized');
+		const toggle = document.getElementById('chat-toggle');
+		if (toggle) toggle.textContent = minimized ? '[+]' : '[-]';
+		header.setAttribute('aria-expanded', String(!minimized));
+	});
+}
 
 export function updateChatView(messages = []) {
+	bindChatCollapse();
 	const container = document.getElementById('chat-messages');
 	if (!container || messages.length === 0) return;
 	const newest = messages.at(-1);
