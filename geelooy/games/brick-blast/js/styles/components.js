@@ -127,8 +127,8 @@ const componentStyles = `
   color: var(--peruta-gold);
   text-shadow: 0 0 4px var(--peruta-gold);
 }
-.level-button .level-id { font-size: 2.5rem; font-weight: 900; line-height: 1; }
-.level-button .level-name { font-size: 0.7rem; font-weight: 400; margin-top: 2px; }
+.level-button .level-id { font-size: 1.9rem; font-weight: 900; line-height: 1; }
+.level-button .level-name { font-size: 0.7rem; font-weight: 400; margin-top: 2px; line-height: 1.15; }
 .store-item {
   background-color: rgba(0,0,0,0.2);
   border-radius: 8px;

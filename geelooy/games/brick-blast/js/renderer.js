@@ -49,11 +49,20 @@ export class Renderer {
                 this.ctx.fill();
             }
 
+            // A soft halo keeps the small fast ball findable against bright bricks.
+            this.ctx.beginPath();
+            this.ctx.arc(ball.x, ball.y, ball.radius * 2.1, 0, Math.PI * 2);
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+            this.ctx.fill();
+
             this.ctx.beginPath();
             // Apply Pulse
             this.ctx.arc(ball.x, ball.y, ball.radius * pulse, 0, Math.PI * 2);
             this.ctx.fillStyle = 'white';
             this.ctx.fill();
+            this.ctx.lineWidth = 1.5;
+            this.ctx.strokeStyle = 'rgba(250, 204, 21, 0.9)';
+            this.ctx.stroke();
         });
 
         state.particles.forEach(p => this.drawParticle(p));
@@ -105,9 +114,9 @@ export class Renderer {
             shooterPos.x + Math.cos(aimAngle) * 2000,
             shooterPos.y + Math.sin(aimAngle) * 2000
         );
-        ctx.setLineDash([5, 10]);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-        ctx.lineWidth = 2;
+        ctx.setLineDash([9, 7]);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.lineWidth = 3;
         ctx.stroke();
         ctx.setLineDash([]);
     }

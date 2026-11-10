@@ -12,7 +12,7 @@ const levelGridStyles = `
 
 .level-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
   gap: 1rem;
 }
 
