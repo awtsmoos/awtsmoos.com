@@ -15,9 +15,9 @@
 			"sha256": "1824be8fd7f4447571be3b37865d6b5b342316b933b39c95a78f4cc004b91a9d"
 		},
 		"gzip": {
-			"bytes": 2511,
+			"bytes": 2530,
 			"encoding": "gzip",
-			"sha256": "45dd2d2512d64c5874c7a9ba5458ef3f0ad72cc24e31b2b4529ecd8080c0339e"
+			"sha256": "1cb743e3439e21e3466f8742c8eea01780cba7b5562eb2970e254a5bf4698ad0"
 		},
 		"identity": {
 			"bytes": 8115,

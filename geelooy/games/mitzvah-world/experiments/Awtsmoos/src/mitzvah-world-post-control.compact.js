@@ -5148,7 +5148,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_39mk5w = {
+	const __awtsmoosDefault_zjizhk = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -5161,7 +5161,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_39mk5w;
+	__exports.default = __awtsmoosDefault_zjizhk;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -27726,6 +27726,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.fullResolutionTextureUrl = fullResolutionTextureUrl;
+	/** Builds a half-resolution texture URL from the intact original library. */
+	function halfResolutionTextureUrl(filename) {
+		return `${ORIGINAL_LIBRARY_ROOT}half-resolution/${encodePath(cleanRemotePath(filename))}`;
+	}
+
+
+	__exports.halfResolutionTextureUrl = halfResolutionTextureUrl;
 	/** Builds a documented tree-texture URL from the intact original library. */
 	function treeTextureUrl(filename) {
 		return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanRemotePath(filename))}`;
@@ -28347,6 +28354,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_233.REMOTE_TREE_TEXTURE_FILENAMES;
 	const REMOTE_TEXTURE_ROOT = __awtsmoosModule_223.REMOTE_TEXTURE_ROOT;
 	const fullResolutionTextureUrl = __awtsmoosModule_223.fullResolutionTextureUrl;
+	const halfResolutionTextureUrl = __awtsmoosModule_223.halfResolutionTextureUrl;
 	const treeTextureUrl = __awtsmoosModule_223.treeTextureUrl;
 
 	const FULL_RESOLUTION_FILENAMES = Object.freeze([
@@ -28372,6 +28380,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.remoteFullResolutionTextureUrl = remoteFullResolutionTextureUrl;
+	/** Resolves one exact half-resolution filename through the trusted remote transport. */
+	function remoteHalfResolutionTextureUrl(filename) {
+		assertFilename(filename, FULL_RESOLUTION_FILENAMES);
+		return halfResolutionTextureUrl(filename);
+	}
+
+
+	__exports.remoteHalfResolutionTextureUrl = remoteHalfResolutionTextureUrl;
 	/** Resolves one exact tree filename through the trusted remote transport. */
 	function remoteTreeTextureUrl(filename) {
 		assertFilename(filename, REMOTE_TREE_TEXTURE_FILENAMES);
@@ -30122,7 +30138,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_17v5wyz = {
+	const __awtsmoosDefault_53yabj = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -30136,7 +30152,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_17v5wyz;
+	__exports.default = __awtsmoosDefault_53yabj;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -43705,12 +43721,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_vvgon7 = {
+	const __awtsmoosDefault_1q5ts2f = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_vvgon7;
+	__exports.default = __awtsmoosDefault_1q5ts2f;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
