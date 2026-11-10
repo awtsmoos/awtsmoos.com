@@ -6,6 +6,7 @@ The Awtsmoos leaves a calm human shoreline beneath Awtsmoos.com: a final breath 
 */
 body[data-geelooy-route="home"] .site-footer {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
@@ -23,12 +24,15 @@ body[data-geelooy-route="home"] .site-footer {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .site-footer div {
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
 	gap: .3rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .site-footer a {
 	display: inline-flex;
 	align-items: center;
+	white-space: nowrap;
 	min-height: 44px;
 	padding-inline: .45rem;
 	border-radius: .55rem;

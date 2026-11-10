@@ -3821,6 +3821,7 @@ body[data-geelooy-route="home"] .dance-frame, body[data-geelooy-route="home"] .f
 
 body[data-geelooy-route="home"] .site-footer {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
@@ -3838,12 +3839,15 @@ body[data-geelooy-route="home"] .site-footer {
 
 :where(body[data-geelooy-route="home"]) .site-footer div {
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
 	gap: .3rem;
 }
 
 :where(body[data-geelooy-route="home"]) .site-footer a {
 	display: inline-flex;
 	align-items: center;
+	white-space: nowrap;
 	min-height: 44px;
 	padding-inline: .45rem;
 	border-radius: .55rem;
