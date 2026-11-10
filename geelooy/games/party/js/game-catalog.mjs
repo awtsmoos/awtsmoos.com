@@ -14,6 +14,9 @@ import { GAMES } from "../../scripts/catalog/index.mjs";
 
 const GAME_BY_ID = new Map(GAMES.map(game => [game.id, game]));
 
+/** Party Challenge never lists or embeds itself: a challenge inside a challenge has no vessel. */
+const PARTY_GAMES = Object.freeze(GAMES.filter(game => game.id !== "party"));
+
 /**
  * Returns all intentional Party Challenge game choices in storefront order.
  *
@@ -21,7 +24,7 @@ const GAME_BY_ID = new Map(GAMES.map(game => [game.id, game]));
  * 	Frozen public game catalog.
  */
 export function partyGames() {
-	return GAMES;
+	return PARTY_GAMES;
 }
 
 /**
@@ -33,7 +36,9 @@ export function partyGames() {
  * 	Catalog game or null.
  */
 export function resolvePartyGame(gameId) {
-	return GAME_BY_ID.get(String(gameId || "")) || null;
+	const id = String(gameId || "");
+	if (id === "party") return null;
+	return GAME_BY_ID.get(id) || null;
 }
 
 /**

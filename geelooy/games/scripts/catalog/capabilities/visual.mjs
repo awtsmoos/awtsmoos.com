@@ -15,7 +15,10 @@ const WEBGL_GAME_IDS = new Set([
 	"seven-mitzvos",
 	"kabbalah-shooter",
 	"mitzvah-world",
-	"oros-ha-kelim"
+	"oros-ha-kelim",
+	"cobyk",
+	"ohrfront",
+	"shema-strike"
 ]);
 
 /**
