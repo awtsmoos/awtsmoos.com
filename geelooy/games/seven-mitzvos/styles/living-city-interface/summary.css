@@ -63,6 +63,17 @@
 	justify-content: space-between;
 }
 
+/* The guide speaks in full sentences; her card wraps instead of truncating. */
+.guideCard {
+	align-items: flex-start;
+}
+
+.guideCard span {
+	overflow: visible;
+	text-overflow: clip;
+	white-space: normal;
+}
+
 .modeCard {
 	font-weight: 800;
 }
