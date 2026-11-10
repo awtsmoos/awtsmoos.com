@@ -9,6 +9,7 @@
  */
 
 const { list } = require('./platformStore.js');
+const { resolveSocialDataRoot } = require('../dataRoot.js');
 
 const CACHE_TTL_MS = 25000;
 /* B"H 2026-10-13: global feeds (latest/popular) are identical for every user,
@@ -32,7 +33,36 @@ function cacheSet(key, value) {
 	}
 }
 
+/* B"H 2026-11-10 (site QA): postsFromIndex materializes the ENTIRE post
+ * store on every call — a full scan of the append-only packed history
+ * collapsed to latest (~164k posts), which under load starved the home
+ * feed past every timeout, so /social-hub/ rendered an empty river
+ * forever (its only data call never returned). The ranked-output cache
+ * above cannot help when the build itself never finishes. Cache the
+ * collapsed list briefly per data root: feed callers only read, filter
+ * and spread these records, and a two-minute-old river is a fair price
+ * for a feed that answers at all. */
+const INDEX_CACHE_TTL_MS = 120000;
+const indexCache = new Map();
+
 function postsFromIndex($i) {
+	let cacheKey = null;
+	try {
+		cacheKey = `posts:${resolveSocialDataRoot($i)}`;
+		const hit = indexCache.get(cacheKey);
+		if (hit && Date.now() - hit.at < INDEX_CACHE_TTL_MS) return hit.value;
+	} catch (_) {
+		cacheKey = null;
+	}
+	const posts = postsFromIndexUncached($i);
+	if (cacheKey) {
+		indexCache.set(cacheKey, { at: Date.now(), value: posts });
+		if (indexCache.size > 8) indexCache.delete(indexCache.keys().next().value);
+	}
+	return posts;
+}
+
+function postsFromIndexUncached($i) {
 	try {
 		const indexed = list({ $i, shard: 'search', predicate: r => r.meta && r.meta.index === 'postsByHeichel' })
 			.map(r => r.value)
