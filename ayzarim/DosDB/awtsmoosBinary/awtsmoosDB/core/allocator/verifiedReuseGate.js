@@ -69,6 +69,8 @@ function ensureVerified(allocator) {
 	const result = validateFreeRanges(allocator.freeList, allocator.cursor, report);
 	if (result.ok) {
 		allocator.freeList = result.ranges;
+		// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+		allocator._freeBySizeValid = false;
 		bumpFreeListVersion(allocator);
 		// Db-hardening 2026-10-20: adopt pending frees (pendingFreeList.js).
 		pendingFreeList.promote(allocator, report);
@@ -84,6 +86,8 @@ function ensureVerified(allocator) {
 			.filter(range => !accepted.has(`${range.offset}:${range.length}`))
 			.map(range => ({ ...range }));
 		allocator.freeList = result.validRanges || [];
+		// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+		allocator._freeBySizeValid = false;
 		bumpFreeListVersion(allocator);
 		pendingFreeList.promote(allocator, report);
 		markTrusted(allocator, 'verified-partial-complement');
@@ -96,6 +100,8 @@ function ensureVerified(allocator) {
 
 	allocator.rejectedFreeList = allocator.freeList.map(range => ({ ...range }));
 	allocator.freeList = [];
+	// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 	allocator._trustedFreeListVersion = allocator._freeListVersion;
 	allocator.reuseVerification = {

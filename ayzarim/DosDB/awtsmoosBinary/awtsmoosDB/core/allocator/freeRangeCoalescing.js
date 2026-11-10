@@ -63,12 +63,20 @@ function coalesceFreeRanges(ranges, cursor) {
  * full sort + copy of ~100k ranges on every operation. The list is
  * mutated in place and returned. Invariant required on entry (and
  * preserved on exit): sorted by offset, no overlaps, no adjacencies.
+ *
+ * insertFreeRangeWithDelta is the same insert, but it also reports
+ * which ranges were merged away (`removed`) and the single merged
+ * range that replaced them (`inserted`), so a caller that keeps a
+ * companion index (freeListBySize.js) can update it incrementally
+ * instead of rebuilding it. `removed` is a fresh array of the
+ * pre-merge range objects; `inserted` is the new merged range object
+ * actually spliced into the list.
  * @param {Array<object>} ranges - Sorted coalesced free ranges.
  * @param {object} range - The range to insert.
  * @param {number} cursor - Logical cursor bounding every range.
- * @returns {Array<object>} The same list, normalized.
+ * @returns {{list: Array<object>, removed: Array<object>, inserted: object}} The same list, normalized, plus the merge delta.
  */
-function insertFreeRange(ranges, range, cursor) {
+function insertFreeRangeWithDelta(ranges, range, cursor) {
 	const list = Array.isArray(ranges) ? ranges : [];
 	const fresh = normalize(range, cursor);
 	let lo = 0;
@@ -94,9 +102,16 @@ function insertFreeRange(ranges, range, cursor) {
 		end = Math.max(end, list[to].offset + list[to].length);
 		to++;
 	}
-	list.splice(from, to - from, { offset, length: end - offset });
-	return list;
+	const removed = list.slice(from, to);
+	const inserted = { offset, length: end - offset };
+	list.splice(from, to - from, inserted);
+	return { list, removed, inserted };
+}
+
+function insertFreeRange(ranges, range, cursor) {
+	return insertFreeRangeWithDelta(ranges, range, cursor).list;
 }
 
 coalesceFreeRanges.insertFreeRange = insertFreeRange;
+coalesceFreeRanges.insertFreeRangeWithDelta = insertFreeRangeWithDelta;
 module.exports = coalesceFreeRanges;

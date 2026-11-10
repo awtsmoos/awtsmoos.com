@@ -49,6 +49,9 @@ function flush(allocator) {
 
 function merge(allocator) {
 	allocator.freeList = coalesceFreeRanges(allocator.freeList, allocator.cursor);
+	// Speed fix 2026-11-10: the free list was replaced wholesale — the
+	// size-sorted index (freeListBySize.js) is stale and must rebuild.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 }
 

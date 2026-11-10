@@ -16,8 +16,13 @@ const { mirrorPostRecords, mirrorPostBulk, searchStorePresent } = require('./soc
  * identical to the per-post path (same JSONL lines, same per-shard order);
  * the append-only "last record wins" read contract is unchanged. Falls
  * back to per-post writes when there is no file root (native-shard mode).
+ *
+ * B"H 2026-11-10 (speed fix D): skipPriorRead passes through to
+ * writePacked for the AwtsmoosDB shards — the bulk import writes NEW
+ * posts, so there is no prior record to preserve an fts from and the
+ * read is pure waste. See writePacked for the rare repair case.
  */
-function mirrorPostsBulk({ $i, posts }) {
+function mirrorPostsBulk({ $i, posts, skipPriorRead = false }) {
   const list = Array.isArray(posts) ? posts : [];
   const root = fileRoot($i);
   if (!root) {
@@ -47,7 +52,7 @@ function mirrorPostsBulk({ $i, posts }) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.appendFileSync(file, lines.join(''));
   }
-  for (const r of dbRecords) writePacked({ $i, shard: r.shard, key: r.key, value: r.value, meta: r.meta });
+  for (const r of dbRecords) writePacked({ $i, shard: r.shard, key: r.key, value: r.value, meta: r.meta, skipPriorRead });
   // B"H 2026-10-20 (flap-fix): read caches are NOT deleted here either -
   // stat validation + tail merge in listPackedRecords keeps reads fresh
   // without a full re-parse after every batched write (see mirrorPostBulk).

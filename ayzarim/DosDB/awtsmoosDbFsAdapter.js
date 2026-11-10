@@ -156,6 +156,14 @@ function familyOrderFor(id) {
   const clean = normalizePath(id);
   if (/^\/social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(clean)) return ["comments"];
   if (/^\/social\/heichelos\/[^/]+\/posts\/[^/]+\/commentTree(?:\/|$)/.test(clean)) return ["comments"];
+  // Speed fix 2026-11-10 (F): the heichel-level post path
+  // (/social/heichelos/<h>/posts/<pid>) matched NO family pattern, so it
+  // fell through to plain .awtsmoosJSON files — half of every post's
+  // native writes were plain files, not AwtsmoosDB. Route it to the
+  // posts family vessel (social.heichel.<h>.posts.fs.awtsdb), the same
+  // file the series-posts collection already uses. Placed after the
+  // commentTree rule so comment trees still route to comments.
+  if (/^\/social\/heichelos\/[^/]+\/posts(?:\/|$)/.test(clean)) return ["posts"];
   if (/^\/social\/heichelos\/[^/]+\/series\/[^/]+\/posts(?:\.awtsmoosJSON)?$/.test(clean)) return ["posts"];
   if (/^\/social\/heichelos\/[^/]+\/series(?:\/|$)/.test(clean)) return ["series", "posts"];
   return [];

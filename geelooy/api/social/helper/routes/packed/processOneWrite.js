@@ -9,6 +9,15 @@
  * packed mirror, series index add, and job counters.
  * Native FIRST, packed mirror second - a crash between them leaves a
  * native record the skip check re-writes, never a mirror without native.
+ *
+ * Fix (J) Nov 10: the live-hash miss resolution and the native-exists
+ * verification consult the job's bulk native-existence set
+ * (nativePostIdSet.js, one listing per job), not a per-post $i.db.get.
+ * The per-post read loaded the whole heichel posts child-map
+ * (175-643ms on a seeded store) and was ~80% of the job; the bulk set
+ * drops it to ~2ms/post. A single native read fires only for a post
+ * that is in the set but missing from the packed cache, or when the
+ * bulk listing itself failed.
  */
 
 const { setJob } = require('./jobStore.js');
@@ -16,6 +25,7 @@ const { yieldTick, checkServerHealth } = require('./serverHealth.js');
 const { flushPackedBatch } = require('./runJobBatch.js');
 const { appendReceipt } = require('./jobReceipts.js');
 const { contentHash } = require('./postValidate.js');
+const { resolveNativeLiveHash, nativePostExists } = require('./nativePostIdSet.js');
 
 async function processOneWrite(ctx, vd) {
 	const { routes, $i, job, spec, liveHashes } = ctx;
@@ -35,11 +45,13 @@ async function processOneWrite(ctx, vd) {
 			// canonical hash is the live hash, decided exactly as the
 			// packed hash was. No native record = genuinely new post.
 			// This replaces any whole-shard pass on the import path.
+			// Fix (J): resolve via the job's bulk native-existence set
+			// (one listing per job), not a per-post $i.db.get.
 			if (liveHash === undefined && ctx.liveHashPartial) {
 				try {
-					const nativeRec = await $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
-					if (nativeRec && typeof nativeRec === 'object') {
-						liveHash = contentHash(nativeRec);
+					const resolved = await resolveNativeLiveHash(ctx, $i, post, () => $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`));
+					if (resolved !== undefined) {
+						liveHash = resolved;
 						liveHashes.set(post.postId, liveHash);
 					}
 				} catch (_) { /* unreadable = treat as missing -> write */ }
@@ -50,10 +62,11 @@ async function processOneWrite(ctx, vd) {
 				// two writes); a packed-hash match alone must not skip the
 				// native write. Verify the native record exists before
 				// skipping, otherwise fall through and re-write.
+				// Fix (J): verify via the bulk native-existence set, not
+				// a per-post $i.db.get.
 				let nativeOk = false;
 				try {
-					const existingNative = await $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
-					nativeOk = !!existingNative;
+					nativeOk = await nativePostExists(ctx, $i, post, () => $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`));
 				} catch (_) { /* treat as missing -> re-write */ }
 				if (nativeOk) {
 					job.skipped++;

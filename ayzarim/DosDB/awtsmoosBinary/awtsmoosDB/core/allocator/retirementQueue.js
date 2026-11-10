@@ -52,6 +52,8 @@ function promote(allocator) {
 		[...allocator.freeList, ...pending],
 		allocator.cursor
 	);
+	// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);

@@ -21,6 +21,19 @@
  * A legacy __fs3_manifest__ blob token is read (read-only) or migrated once,
  * on first write, into records. Migration is a data migration; the engine's
  * binary format is untouched.
+ *
+ * Speed fix 2026-11-10 (I): the session-cache auto-flush in writeRecord()
+ * fires whenever cacheBytes exceeds the 8 MB budget. flush() writes the
+ * dirty records but does NOT clear the cache or reset cacheBytes, so once
+ * the cache is over budget EVERY subsequent write pays a full flush
+ * (whole child-map rewrite + seal + fsync). A 2,000-post import crosses
+ * the budget ~1,500 posts in and collapses from ~15/s to under 1/s.
+ * During an import job the caller widens the budget instead: setImportBatching()
+ * suppresses the auto-flush for the job's whole run, and the job-end
+ * flushAllPending() -> db.fs.flush() persists everything once. The cache
+ * still grows (dirty inodes/blobs accumulate, ~5 MB for 2,000 posts),
+ * which is bounded by the job size and freed at the job-end flush.
+ * Refcounted so concurrent jobs nest; the counter can never go below 0.
  */
 
 const codec = require('./manifestCodec.js');
@@ -33,6 +46,14 @@ const INODE_PREFIX = '__fs3_inode__';
 const CHILD_PREFIX = '__fs3_child__';
 const DEFAULT_CACHE_BYTES = 8 * 1024 * 1024;
 const MAX_CACHE_BYTES = 20 * 1024 * 1024;
+
+// Speed fix 2026-11-10 (I): import-batch depth. While > 0, writeRecord()
+// does not auto-flush on cache-budget overflow; the import job flushes once
+// at its end. Refcounted; floor 0.
+let importBatchDepth = 0;
+function setImportBatching() { importBatchDepth++; }
+function clearImportBatching() { importBatchDepth = Math.max(0, importBatchDepth - 1); }
+function isImportBatching() { return importBatchDepth > 0; }
 
 function plain(value) {
 	return value && value.__resolve__ ? value.__resolve__() : value;
@@ -166,6 +187,18 @@ function cacheDelete(s, key) {
 }
 
 function cacheSet(db, s, key, value) {
+	// Speed fix (K) Nov 10: same object mutated in place (a child-map
+	// with one key added/removed by setChild/removeChild). The cached
+	// bytes are already ~right (off by one entry, tens of bytes) and
+	// the entry sits at the LRU tail from the read that fetched it —
+	// skip the re-measure (approximateBytes walks every entry). The
+	// object is the session's detached working copy (materialize
+	// copies on read), so mutating it cannot touch persisted state
+	// before flush assigns the cached value to db.root. Drift is
+	// bounded (~40 bytes per in-place edit, <1% of the 8 MB budget
+	// over a 2,000-post job); eviction still runs on new-object sets.
+	const existing = s.cache.get(key);
+	if (existing && existing.value === value) return;
 	cacheDelete(s, key);
 	const bytes = approximateBytes(key, value);
 	s.cache.set(key, { value, bytes });
@@ -205,7 +238,12 @@ function writeRecord(db, s, key, value) {
 	// Bound long-lived writers too. Flush only between logical FS transactions;
 	// a transaction may temporarily exceed the cache budget but cannot leak it
 	// into the next operation.
-	if (!db.__fs3BatchDepth && s.cacheBytes > cacheBudget(db)) flush(db);
+	// Speed fix 2026-11-10 (I): suppress the auto-flush while an import job
+	// is batching. flush() does not reset cacheBytes, so once the cache is
+	// over budget every write would pay a full flush (whole child-map +
+	// seal + fsync) — the collapse from ~15/s to under 1/s. The job-end
+	// flush persists everything once.
+	if (!db.__fs3BatchDepth && !isImportBatching() && s.cacheBytes > cacheBudget(db)) flush(db);
 }
 
 function deleteRecord(db, s, key) {
@@ -351,9 +389,11 @@ const recordKeys = {
 module.exports = {
 	LEGACY_MANIFEST_KEY: MANIFEST_KEY,
 	allocateInode,
+	clearImportBatching,
 	flush,
 	inodeIdFromKey,
 	isFs3RecordKey,
+	isImportBatching,
 	manifest,
 	markTx,
 	meta: root,
@@ -363,6 +403,7 @@ module.exports = {
 	removeChildren,
 	removeInode,
 	root,
+	setImportBatching,
 	writeChildren,
 	writeInode
 };

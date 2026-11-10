@@ -45,6 +45,8 @@ function adoptDegraded(allocator, report, validation, markTrusted) {
 		.filter(range => !accepted.has(`${range.offset}:${range.length}`))
 		.map(range => ({ ...range }));
 	allocator.freeList = validRanges;
+	// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 	pendingFreeList.promote(allocator, report);
 	markTrusted(allocator, 'verified-degraded-exclusions');

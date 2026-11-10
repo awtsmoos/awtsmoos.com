@@ -13,6 +13,7 @@ const { bumpFreeListVersion } = require('./freeListVersion.js');
 const cursorState = require('./cursorState.js');
 const allocationLeases = require('./allocationLeases.js');
 const { markTrusted } = require('./verifiedReuseGate.js');
+const { isRefreshDeferred } = require('./refreshDeferral.js');
 
 // Engine-fix 2026-10-20 (E4/E7): a refresh is a full graph verify —
 // cheap on small graphs, seconds-to-minutes at scale (gated below).
@@ -35,6 +36,8 @@ function refreshVerifiedComplement(allocator) {
 	// spill by adoptComplement instead of being dropped permanently.
 	allocator.clearDerivedPools();
 	allocator.freeList = adoptComplement(coalesceFreeRanges(available, allocator.cursor), allocator.cursor, allocator);
+	// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);
@@ -60,7 +63,7 @@ function refreshVerifiedComplement(allocator) {
  * for later validated reuse and are counted in free-space telemetry.
  * @param {Array<object>} coalesced - Sorted coalesced complement.
  * @param {number} cursor - Allocator cursor at adoption time.
- * @param {object} [sink] - Allocator receiving deferred drops.
+ * @param {number} [sink] - Allocator receiving deferred drops.
  * @returns {Array<object>} Sorted ranges ready to become the free list.
  */
 function adoptComplement(coalesced, cursor, sink) {
@@ -84,6 +87,13 @@ function adoptComplement(coalesced, cursor, sink) {
 	return adopted;
 }
 function shouldRefresh(allocator) {
+	// Speed fix 2026-11-10 (C): a bulk import defers the refresh while
+	// it runs. A refresh is a full-graph verify (seconds-to-minutes at
+	// 14 GB); the growth gate lets it fire about every 270 posts
+	// mid-import, stalling the job for the whole verify each time.
+	// The job clears the deferral when it ends, and the next idle
+	// boundary or maintenance timer runs the one refresh the job earned.
+	if (isRefreshDeferred()) return false;
 	const database = allocator.db;
 	const base = database.options?.reuseFreedSpace === 'verified'
 		&& !database.options?.readOnly

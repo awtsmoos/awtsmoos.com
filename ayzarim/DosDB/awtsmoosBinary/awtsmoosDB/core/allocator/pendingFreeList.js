@@ -105,6 +105,8 @@ function persist(allocator) {
 	if (survivors.length) {
 		allocator.freeList = coalesceFreeRanges(
 			[...allocator.freeList, ...survivors], allocator.cursor);
+		// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+		allocator._freeBySizeValid = false;
 		bumpFreeListVersion(allocator);
 		const adopted = new Set(survivors.map(r => `${r.offset}:${r.length}`));
 		allocator.pendingFreeList = pending.filter(

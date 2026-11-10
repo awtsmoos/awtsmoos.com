@@ -19,6 +19,8 @@ function retireRange(allocator, offset, length) {
 	if (allocator.db.options?.reuseFreedSpace === 'verified') ensureVerified(allocator);
 	const combined = unionRange(allocator.freeList, { offset, length });
 	allocator.freeList = coalesceFreeRanges(combined, allocator.cursor);
+	// Speed fix 2026-11-10: wholesale replacement — the size-sorted index is stale.
+	allocator._freeBySizeValid = false;
 	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);

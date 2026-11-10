@@ -16,6 +16,11 @@
  * while the verified gate was closed, `_deferredFreeList` holds
  * complement-proven ranges the adoption shaping had to defer — plus
  * free-space telemetry via freeSpaceStats().
+ *
+ * Speed fix 2026-11-10: `_freeBySize` / `_freeBySizeValid` hold the
+ * size-sorted companion index over `freeList` (freeListBySize.js).
+ * It is derived state only — rebuilt from the free list on first use;
+ * the persisted seal format is unchanged.
  */
 
 const cursorState = require('./cursorState.js');
@@ -37,6 +42,11 @@ class AllocatorChesed {
 		this._savingFreeList = false;
 		this._freeListDirty = false;
 		this._needsComplementRefresh = false;
+		// Speed fix 2026-11-10: size-sorted companion index over freeList
+		// (freeListBySize.js). Derived state only — rebuilt from the free
+		// list on first use; the persisted seal format is unchanged.
+		this._freeBySize = null;
+		this._freeBySizeValid = false;
 		// Engine-fix 2026-10-20 (E3/E4): trust is a mutation version
 		// counter, not an O(n) string signature of the whole free list.
 		// _lastRefreshCursor throttles complement refreshes (null until

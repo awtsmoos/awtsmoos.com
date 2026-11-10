@@ -15,6 +15,40 @@
  * (processOneWrite's existing v4 fallback). The prepass completion is
  * logged when it lands — the `started` event's liveCacheSize is 0
  * because the cache is still filling, which is the correct truth.
+ *
+ * Nov 10 speed fix (C): the job defers the AwtsmoosDB complement
+ * refresh (a full-graph verify, seconds-to-minutes at 14 GB) while it
+ * runs — the growth gate would otherwise fire it about every 270
+ * posts mid-import and stall the job for the whole verify each time.
+ * The deferral is refcounted and cleared in the finally, so a crashed
+ * job cannot defer refreshes forever; the next idle boundary or
+ * maintenance timer then runs the one refresh the job earned.
+ *
+ * Nov 10 speed fix (E): the job widens the FS3 durability budget for
+ * its run (setImportBatching, refcounted, cleared in the finally) and
+ * flushes every pending file once at the end (flushAllPending, before
+ * it reports done). The 25-write budget charged the whole directory
+ * child-map rewrite (~400 allocates, ~400ms) to every post at 2,000
+ * keys — the measured FS3 rate was ~2.5 posts/sec with fixes B/C/D
+ * in place. Under the widened budget (2,000 writes / 60s) the
+ * child-map is re-written once for the whole job instead of once per
+ * 25 posts, and the job-end flush means a job that says "done" has
+ * its data durable. Crash loss stays bounded by the job's idempotency
+ * (a lost batch is re-written on resume — the job re-checks the live
+ * store, it does not trust receipts alone).
+ *
+ * Nov 10 speed fix (I): the job also suppresses the FS3 session-cache
+ * auto-flush for its run (setFs3ImportBatching, refcounted, cleared
+ * in the finally). writeRecord() auto-flushes whenever the session
+ * cache exceeds its 8 MB budget, but flush() does not clear the cache
+ * or reset cacheBytes — so once the cache is over budget EVERY write
+ * pays a full flush (whole child-map rewrite + seal + fsync). A
+ * 2,000-post job crosses the budget ~1,500 posts in and collapses
+ * from ~15/s to under 1/s (measured: chunk medians 0ms -> 3ms ->
+ * 62ms -> 175ms -> 494ms -> 803ms -> 7,205ms). With the auto-flush
+ * suppressed the cache grows to ~5 MB for a 2,000-post job and the
+ * job-end flushAllPending() -> db.fs.flush() persists everything
+ * once, so a job that says "done" has its data durable.
  */
 
 const { yieldTick } = require('./serverHealth.js');
@@ -25,6 +59,9 @@ const { startLiveHashPrep } = require('./jobLiveHashPrep.js');
 const { buildRunJobContext } = require('./runJobContext.js');
 const { armJobWatchdog, clearJobWatchdog } = require('./jobWatchdog.js');
 const { runWorkers } = require('./runJobWorkers.js');
+const { deferRefresh, undeferRefresh } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/refreshDeferral.js');
+const { setImportBatching, clearImportBatching, flushAllPending } = require('../../../../../../ayzarim/DosDB/durableFlush.js');
+const { setImportBatching: setFs3ImportBatching, clearImportBatching: clearFs3ImportBatching } = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js');
 
 /** Persist the queued-to-running transition before expensive preparation begins. */
 function markJobRunning($i, job) {
@@ -97,10 +134,17 @@ module.exports = {
 			} catch (_) { /* logging must never throw */ }
 		}).catch(() => { /* the prepass never rejects */ });
 
+		deferRefresh();
+		setImportBatching();
+		setFs3ImportBatching();
 		try {
 			await runWorkers(context);
 		} finally {
 			clearJobWatchdog(job);
+			flushAllPending();
+			undeferRefresh();
+			clearImportBatching();
+			clearFs3ImportBatching();
 		}
 	}
 };

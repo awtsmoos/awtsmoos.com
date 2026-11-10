@@ -41,7 +41,7 @@ function noteDerivedAliasJournal($i, shard, record) {
 	perfEvent('alias-journal-write-error', 0, { shard, reason: result.reason });
 }
 
-function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, type }) {
+function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, type, skipPriorRead = false }) {
 	const record = envelope({ op, key, value, meta, type });
 	notePackedWrite(shard);
 	if (engineFor($i, shard) === 'JSONL') {
@@ -50,10 +50,20 @@ function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, ty
 		return written;
 	}
 	try {
-		const prior = store.get({ shard, parts: ['records', key] })?.value;
-		record.fts = prior && typeof prior.fts === 'number'
-			? prior.fts
-			: prior && typeof prior.ts === 'number' ? prior.ts : record.ts;
+		if (skipPriorRead) {
+			// Speed fix 2026-11-10 (D): the bulk import writes NEW posts —
+			// there is no prior record to preserve an fts from, so the
+			// read is pure waste (a map seek + node loads per record).
+			// fts falls through to record.ts, exactly as a null prior
+			// would give. A rare repair re-write (native missing, mirror
+			// present) takes a fresh fts instead of the prior one.
+			record.fts = record.ts;
+		} else {
+			const prior = store.get({ shard, parts: ['records', key] })?.value;
+			record.fts = prior && typeof prior.fts === 'number'
+				? prior.fts
+				: prior && typeof prior.ts === 'number' ? prior.ts : record.ts;
+		}
 		store.put({
 			shard,
 			parts: ['records', key],
