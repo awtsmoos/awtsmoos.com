@@ -275,6 +275,16 @@
 :root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-nav a:hover {
 	color: #8a6d2b;
 }
+/* B"H 2026-11-10 round 15 — the " · Chapter 12" number is a <span
+   class="awtsmoos-chapter-gate-number"> inside the gate link, so the
+   .awtsmoos-chapter-nav a rule above does not reach it; reborn
+   reader.css:236 gives it color: var(--inline-text-blue, #cbd5e1) at
+   (0,8,0) — pale slate-blue, unreadable on the white card in light
+   theme. This light rule repeats the class ×8 to (0,11,0) and pins it
+   dark. Dark theme keeps the pale blue, which reads fine there. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number {
+	color: #2b2118;
+}
 [data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a {
 	color: #f5efe2;
 }
