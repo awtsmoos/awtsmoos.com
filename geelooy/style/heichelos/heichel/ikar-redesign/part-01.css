@@ -61,17 +61,9 @@
 		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp?v=5ccc6b9244");
 }
 
-/* ---------- hero: seven halls cover, title over the art ---------- */
-:root.heichel-os-document .heichel-semantic-hero {
-	position: relative;
-	max-width: none;
-	margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
-	padding: clamp(3rem, 10vw, 6rem) clamp(1.25rem, 5vw, 3rem) clamp(2.5rem, 8vw, 4.5rem);
-	border-radius: 1.5rem;
-	overflow: hidden;
-	background-color: var(--ikar-night);
-	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp?v=d11b4015ae");
-	background-size: cover;
-	background-position: center;
-	isolation: isolate;
-}
+/* ---------- hero: consolidated into dream-fallback.css ----------
+   B"H 2026-11-11 (css-loop purge): the hero rule that stood here was
+   removed; dream-fallback.css is the single owner of the hero. (Its
+   cover-photo background was already overridden on every page the
+   product foundation reached; the navy panel that actually renders
+   is what the owner sheet carries.) */

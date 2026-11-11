@@ -36,44 +36,7 @@
 	display: none;
 }
 
-:root.heichel-os-document .heichel-semantic-hero {
-	background: linear-gradient(135deg, #071a2b, #0e3140 70%, #153847);
-	border: 1px solid rgb(231 189 100 / 22%);
-	border-radius: clamp(1.2rem, 3vw, 2rem);
-	box-shadow: 0 20px 55px rgb(23 37 58 / 16%);
-	margin: 0;
-	min-height: clamp(15rem, 38vw, 25rem);
-	padding: clamp(2rem, 7vw, 5rem) clamp(1.35rem, 5vw, 4rem);
-}
-
-:root.heichel-os-document .heichel-semantic-context {
-	color: #e8bf68;
-	font-size: .76rem;
-	font-weight: 800;
-	letter-spacing: .18em;
-}
-
-:root.heichel-os-document.heichel-os-document {
-	--ikar-boot-ink: #fff8e9;
-}
-
-:root.heichel-os-document.heichel-os-document #heichel-boot-title {
-	background: none;
-	color: var(--ikar-boot-ink, #fff8e9);
-	font-size: clamp(2.4rem, 7vw, 5rem);
-	letter-spacing: -.045em;
-	line-height: .98;
-	-webkit-text-fill-color: var(--ikar-boot-ink, #fff8e9);
-}
-
-:root.heichel-os-document .heichel-semantic-description {
-	color: #ded2b9;
-	font-size: clamp(1rem, 2vw, 1.2rem);
-	max-width: 42rem;
-}
-
-@media (max-width: 760px) {
-	:root.heichel-os-document .heichel-semantic-hero {
-		min-height: 13rem;
-	}
-}
+/* B"H 2026-11-11 (css-loop purge): the hero, kicker, boot title and
+   description rules that stood here were consolidated into
+   dream-fallback.css, now the single owner of that chrome. Their
+   effective values are preserved there verbatim. */

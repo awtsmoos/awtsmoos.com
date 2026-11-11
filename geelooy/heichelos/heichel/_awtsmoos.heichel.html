@@ -40,14 +40,14 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 		];
 		var ikarParts = Array.from({ length: 7 }, function(_, index) {
 			var part = String(index + 1).padStart(2, "0");
-			return '<link rel="stylesheet" href="/style/heichelos/heichel/premium/ikar-first-parts/part-' + part + '.css?v=ikar-live-003">';
+			return '<link rel="stylesheet" href="/style/heichelos/heichel/premium/ikar-first-parts/part-' + part + '.css?v=ikar-live-004">';
 		});
 		// B"H — load-speed Lever 2: series pages drop the ikar-home/dream/Tanach-reader
 		// view clusters (~51,077 B raw). Every semantic-fallback class those files define is
 		// duplicated in the kept bundles (selector audit 2026-10-21), and heichel-spa.js adopts
 		// destination stylesheets before swapping fragments, so in-SPA travel re-acquires them.
 		var viewClusters = (typeof isSeriesPage === "boolean" && isSeriesPage) ? [] : ikarParts.concat([
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=1715d8ed2e">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=a36dc53ab5">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=9d9fff3a6b">'
 		]);
 		return [
@@ -66,10 +66,10 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 			'<link rel="stylesheet" href="/style/universal-ui.css?v=4ae04360fe" data-awtsmoos-ui-foundation="style">'
 		]).join("\n");
 	</script>?>
-	<link rel="stylesheet" href="/style/heichelos/heichel/dream-fallback.css?v=batch29-001">
+	<link rel="stylesheet" href="/style/heichelos/heichel/dream-fallback.css?v=596c23c6bd">
 	<link rel="stylesheet" href="/style/heichelos/heichel/heichelos-ikar-redesign.css?v=221fc3d5d7">
 	<link rel="stylesheet" href="/style/heichelos/heichel/ikar-product-shell.css?v=ikar-product-001">
-	<script defer src="/heichelos/heichel/critical-boot.js?v=b83b837a73"></script>
+	<script defer src="/heichelos/heichel/critical-boot.js?v=a9b006dc32"></script>
 	<script>
 		if ('serviceWorker' in navigator) {
 			window.addEventListener('load', function registerHeichelWorker() {

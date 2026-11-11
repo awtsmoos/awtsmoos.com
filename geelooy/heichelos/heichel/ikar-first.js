@@ -114,7 +114,11 @@ function installNavigation(root) {
 			createCurrentCrumb(seriesLabel)
 		);
 	}
-	root.append(navigation);
+	// B"H 2026-11-11 (css-loop purge): batch 29 removed the server-baked
+	// nav, so creation is the only path now — and the pill belongs at the
+	// top of the page, above the cover banner (the placement the batch-29
+	// stylesheet was written for), not appended after the discovery list.
+	root.prepend(navigation);
 	return navigation;
 }
 

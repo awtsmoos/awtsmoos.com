@@ -21,8 +21,8 @@ const search = readFileSync(searchPath, 'utf8');
 test('Ikar navigation reuses server geometry before fallback creation', () => {
 	assert.ok(enhancer.includes("root.querySelector('[data-ikar-stable-navigation], .ikar-first-actions')"));
 	assert.ok(enhancer.includes("if (existing) return existing;"));
-	assert.ok(enhancer.includes("root.append(navigation);"));
-	assert.ok(!enhancer.includes("root.prepend(navigation);"));
+	assert.ok(enhancer.includes("root.prepend(navigation);"));
+	assert.ok(!enhancer.includes("root.append(navigation);"));
 });
 
 test('stable navigation preserves Home and Torah Library contracts', () => {

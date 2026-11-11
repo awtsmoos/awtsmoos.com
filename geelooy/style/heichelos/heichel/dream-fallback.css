@@ -59,34 +59,9 @@
 :root[data-theme="light"].heichel-os-document body::before {
 	display: none;
 }
-/* Fallback hero: kicker, title, description. */
-:root.heichel-os-document .heichel-semantic-hero {
-	max-width: 58rem;
-	margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
-}
-:root.heichel-os-document .heichel-semantic-context {
-	font-family: var(--dream-sans-font);
-	font-size: .78rem;
-	font-weight: 800;
-	letter-spacing: .22em;
-	text-transform: uppercase;
-	color: var(--sefer-accent);
-	margin: 0 0 1rem;
-}
-:root[data-theme="light"].heichel-os-document #heichel-boot-title {
-	font-family: var(--dream-serif-font);
-	font-weight: 700;
-	letter-spacing: -0.01em;
-	line-height: 1.12;
-	color: var(--sefer-title-ink);
-	-webkit-text-fill-color: var(--sefer-title-ink);
-	text-wrap: balance;
-}
-:root.heichel-os-document .heichel-semantic-description {
-	font-family: var(--dream-sans-font);
-	color: var(--sefer-ink-soft);
-	text-wrap: pretty;
-}
+/* Fallback hero (kicker, title, description): consolidated at the END of
+   this sheet — see the css-loop purge block. This sheet is the single
+   owner of the section/series hero; no other sheet may style it. */
 :root.heichel-os-document #heichel-discovery-title {
 	font-family: var(--dream-serif-font);
 	font-weight: 700;
@@ -184,6 +159,10 @@
 		transition: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	:root.heichel-os-document .ikar-first-actions,
+	:root.heichel-os-document .ikar-first-actions a {
+		transition: none;
+	}
 }
 
 /* ---------- B"H 2026-11-11 (batch 29): one breadcrumb, a styled banner,
@@ -214,6 +193,7 @@
 	background: var(--sefer-card);
 	box-shadow: var(--sefer-shadow);
 	backdrop-filter: none;
+	transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
 :root.heichel-os-document .ikar-first-actions::-webkit-scrollbar {
 	display: none;
@@ -232,6 +212,7 @@
 	font-weight: 600;
 	font-size: .95rem;
 	text-decoration: none;
+	transition: background .22s ease, border-color .22s ease, color .22s ease;
 }
 :root.heichel-os-document .ikar-first-actions a:hover,
 :root.heichel-os-document .ikar-first-actions a:focus-visible {
@@ -272,15 +253,87 @@
 	object-fit: cover;
 }
 
-/* The hero is a card, not a void: paper surface, rule border, the kicker
-   in the gold accent, title and description in full ink. */
+/* ---------- B"H 2026-11-11 (css-loop purge): THE hero — single owner.
+   This block replaces the batch-29 hero card that stood here and every
+   competing hero rule that used to live in ikar-product/foundation.css,
+   ikar-redesign/part-01.css + part-02.css, premium/dream-heichel.css and
+   premium/ikar-first-parts/part-02.css + part-06.css. It reproduces the
+   cascade composite those sheets actually rendered — the deep-navy
+   panel, the cream title, the gold kicker — expressed once, here, in
+   the sheet that owns this chrome. Do not re-add hero rules elsewhere. */
 :root.heichel-os-document .heichel-semantic-hero {
-	background: var(--sefer-card);
-	border: 1px solid var(--sefer-rule);
-	border-radius: 1.25rem;
-	box-shadow: var(--sefer-shadow);
-	padding: clamp(1.4rem, 4vw, 2.6rem);
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	background: linear-gradient(135deg, #071a2b, #0e3140 70%, #153847);
+	border: 1px solid rgb(231 189 100 / 22%);
+	border-radius: clamp(1.2rem, 3vw, 2rem);
+	box-shadow: 0 20px 55px rgb(23 37 58 / 16%);
+	margin: 0;
+	min-height: clamp(15rem, 38vw, 25rem);
 	max-width: none;
+	padding: clamp(2rem, 7vw, 5rem) clamp(1.35rem, 5vw, 4rem);
+}
+:root.heichel-os-document .heichel-semantic-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--ikar-hero-veil);
+	z-index: -1;
+}
+:root.heichel-os-document .heichel-semantic-hero > * {
+	position: relative;
+	z-index: 1;
+}
+@media (max-width: 760px) {
+	:root.heichel-os-document .heichel-semantic-hero {
+		min-height: 13rem;
+	}
+}
+:root.heichel-os-document .heichel-semantic-context {
+	font-family: var(--dream-sans-font);
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: #e8bf68;
+	text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
+	margin: 0 0 1rem;
+}
+:root.heichel-os-document.heichel-os-document #heichel-boot-title {
+	font-family: var(--dream-serif-font);
+	font-size: clamp(2.4rem, 7vw, 5rem);
+	font-weight: 900;
+	letter-spacing: -.045em;
+	line-height: .98;
+	color: #fff8e9;
+	-webkit-text-fill-color: #fff8e9;
+	background: none;
+	max-width: 15ch;
+	margin: 0;
+	text-wrap: balance;
+	text-shadow: 0 3px 24px rgba(0, 0, 0, .7), 0 0 60px var(--ikar-gold-glow);
+}
+:root[data-theme="light"].heichel-os-document #heichel-boot-title {
+	font-weight: 700;
+}
+:root.heichel-os-document .heichel-semantic-description {
+	font-family: var(--dream-sans-font);
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	color: #ded2b9;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
+	max-width: 42rem;
+	text-wrap: pretty;
+}
+/* Ikar root: the hero content centers (the live fragments of the old
+   dream-heichel.css §4; its remaining declarations were cascade-dead
+   and are deliberately not carried over). */
+:root.heichel-os-document .heichel-semantic-fallback[data-ikar-root] .heichel-semantic-hero {
+	text-align: center;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-ikar-root] .heichel-semantic-description {
+	line-height: 1.65;
+	margin: 0 auto;
 }
 
 /* A failed section list says so, in the open, where the list belongs. */

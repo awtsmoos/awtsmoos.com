@@ -126,11 +126,6 @@ html[data-theme="light"] .dictionary-letter[data-active="true"], .dictionary-ran
   background: rgba(186, 230, 253, .55);
 }
 
-/* heichel/premium/ikar-first-parts/part-02.css:29 — was #ffffff */
-html[data-theme="light"] .ikar-first-actions a:hover, .ikar-first-actions a:focus-visible {
-  color: #1e293b;
-}
-
 /* revamped-partials/content.css:141 — was #fff */
 html[data-theme="light"] .heichel-editor-remove {
   color: #1e293b;

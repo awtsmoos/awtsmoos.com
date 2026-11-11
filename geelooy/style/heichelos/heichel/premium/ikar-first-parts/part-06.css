@@ -12,19 +12,9 @@ The Awtsmoos lets the same Torah doorway fit the smallest hand without shrinking
 		right: .9rem;
 		top: 5.8rem;
 	} }
-@media (max-width: 760px) { .ikar-first-actions {
-		margin-bottom: 1.15rem;
-	} }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(.heichel-semantic-fallback[data-ikar-root]) :where(#heichel-boot-title) {
-		font-size: clamp(3rem, 15vw, 4.25rem);
-	} }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(.heichel-semantic-fallback:not([data-ikar-root])) :where(#heichel-boot-title) {
-		font-size: clamp(2.25rem, 10vw, 3rem);
-		letter-spacing: -.04em;
-		line-height: 1.02;
-	} }
+/* B"H 2026-11-11 (css-loop purge): the pill margin and the mobile
+   #heichel-boot-title rules that stood here were removed — the hero and
+   the breadcrumb pill are owned solely by dream-fallback.css. */
 @media (max-width: 760px) { .heichel-semantic-fallback .heichel-semantic-description {
 		font-size: .96rem;
 		line-height: 1.5;

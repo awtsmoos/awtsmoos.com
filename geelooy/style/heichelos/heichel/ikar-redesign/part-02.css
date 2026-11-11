@@ -1,31 +1,8 @@
-:root.heichel-os-document .heichel-semantic-hero::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: var(--ikar-hero-veil);
-	z-index: -1;
-}
-:root.heichel-os-document .heichel-semantic-hero > * {
-	position: relative;
-	z-index: 1;
-}
-:root.heichel-os-document .heichel-semantic-context {
-	color: var(--ikar-gold-bright);
-	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
-}
-:root.heichel-os-document #heichel-boot-title,
-:root[data-theme="light"].heichel-os-document #heichel-boot-title {
-	color: #fdf8ec;
-	-webkit-text-fill-color: #fdf8ec;
-	text-shadow: 0 3px 24px rgba(0, 0, 0, 0.7), 0 0 60px var(--ikar-gold-glow);
-	font-size: clamp(2.2rem, 8vw, 4rem);
-}
-:root.heichel-os-document .heichel-semantic-description {
-	color: #e8dcc0;
-	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-	font-size: clamp(1rem, 3vw, 1.25rem);
-	max-width: 36rem;
-}
+/* B"H 2026-11-11 (css-loop purge): the hero veil, hero layering,
+   kicker, boot title and description rules that stood here were
+   consolidated into dream-fallback.css, now the single owner of that
+   chrome. Their live contributions (the veil, the text shadows) are
+   preserved there. */
 
 /* ---------- search: gold and cream, never a dark box ---------- */
 :root.heichel-os-document .ikar-first-search {
