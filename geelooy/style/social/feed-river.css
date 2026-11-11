@@ -454,7 +454,7 @@
 	}
 	.feed-mode-btn { color: #cdbb92; }
 	.feed-mode-btn:hover { background: rgba(201, 151, 31, 0.15); color: #efe3c8; }
-	.feed-mode-btn[aria-selected="true"] { color: #fffdf5; }
+	.feed-mode-btn[aria-selected="true"] { color: #2a1c04; } /* B"H css-loop 2026-11-11: same white-on-gold defect as the light rule above — the selected tab keeps its gold gradient in dark mode too. */
 	.feed-card {
 		background: rgba(13, 18, 32, 0.92);
 		border-color: rgba(201, 151, 31, 0.28);
