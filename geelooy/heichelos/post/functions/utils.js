@@ -17,7 +17,7 @@ export {
 	markdownMarkersToHtml,
 	sanitizePostHtml,
 	wirePostContentInteractions
-} from "./dom/HtmlManifestation.js?v=safe-post-html-006";
+} from "./dom/HtmlManifestation.js?v=safe-post-html-007";
 
 export {
 	applyReaderFontSize,
