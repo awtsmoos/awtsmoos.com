@@ -22,7 +22,7 @@
 const SHARD_ENGINE_OVERRIDES = {
 	core: null,
 	allPosts: null,
-	meta: null,
+	meta: 'db',
 	graph: null,
 	notify: null,
 	audit: null,
