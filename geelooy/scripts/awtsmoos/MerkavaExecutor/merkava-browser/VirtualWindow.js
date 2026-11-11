@@ -87,21 +87,34 @@
 			return this.document.dispatchEvent(event);
 		}
 		snapshot() {
+			// B"H 2026-11-11: every field is read defensively. The classic
+			// script lowering rewrites line-initial `var name =` — even
+			// inside function bodies — into global writes, so page code
+			// can replace window.keyboard / mouse / document / etc. with
+			// its own objects (a Star Collector input local named
+			// `keyboard` did exactly this). An unguarded .toJSON() /
+			// .snapshot() call here then threw, killing the whole run
+			// and every value it was supposed to hand back. A corrupted
+			// field now degrades to its fallback; the rest of the
+			// snapshot — and the run — survives.
+			const safe = (fn, fallback) => {
+				try { return fn(); } catch { return fallback; }
+			};
 			return Object.freeze({
-				canvasArena: this.document.textureArena.snapshot(),
+				canvasArena: safe(() => this.document.textureArena.snapshot(), null),
 				console: this.console?.toJSON?.() || [],
-				crypto: this.crypto.snapshot(),
-				document: this.document.toJSON(),
-				fontAtlas: this.document.fontAtlas.snapshot(),
-				keyboard: this.keyboard.toJSON(),
-				localStorage: this.localStorage.toJSON(),
-				location: this.location.href,
-				mouse: this.mouse.toJSON(),
+				crypto: safe(() => this.crypto.snapshot(), null),
+				document: safe(() => this.document.toJSON(), null),
+				fontAtlas: safe(() => this.document.fontAtlas.snapshot(), null),
+				keyboard: safe(() => this.keyboard.toJSON(), null),
+				localStorage: safe(() => this.localStorage.toJSON(), null),
+				location: safe(() => this.location.href, ""),
+				mouse: safe(() => this.mouse.toJSON(), null),
 				navigator: this.navigator,
-				network: this.__network.toJSON(),
-				probes: this.probe.toJSON(),
-				sessionStorage: this.sessionStorage.toJSON(),
-				timers: [...this.__timers.values()]
+				network: safe(() => this.__network.toJSON(), null),
+				probes: safe(() => this.probe.toJSON(), null),
+				sessionStorage: safe(() => this.sessionStorage.toJSON(), null),
+				timers: safe(() => [...this.__timers.values()], [])
 			});
 		}
 	}
