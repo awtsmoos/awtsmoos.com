@@ -840,28 +840,29 @@ function ensureFootnoteModal() {
 }
 
 function openFootnotePopup(fnNum, marker, sefer) {
-	// B"H — Yaakov (2026-10-13): tapping a footnote marker must ALWAYS do
-	// something. Search the sefer first, then the whole document; if the
-	// note truly doesn't exist, show the number with an honest message
-	// instead of silently doing nothing.
-	let note = null;
-	try {
-		note = sefer && sefer.querySelector ? sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`) : null;
-	} catch (_) { /* invalid selector chars */ }
-	if (!note) {
-		try {
-			note = document.querySelector(`.meluket-footnote[data-fn="${fnNum}"], #meluket-fn-${fnNum}`);
-		} catch (_) { /* invalid selector chars */ }
-	}
-	// B"H — Yaakov 2026-10-15: fall back to API footnote data when the DOM
-	// shelf isn't available. post.footnotes has {n, hebrew, english}.
+	// B"H — body source order (Coby 2026-11-11): the post's footnotes[]
+	// array FIRST (matched by its real footnote number), then the shelf
+	// DOM, then the content parse below. One order, every post type.
+	// Tapping a marker must ALWAYS do something: if no source has the
+	// note, show the number with an honest message, never silence.
 	let apiFn = null;
-	if (!note) {
+	{
 		const apiFootnotes =
-			(srcCachedData && srcCachedData.post && Array.isArray(srcCachedData.post.footnotes) && srcCachedData.post.footnotes) ||
 			(window.post && Array.isArray(window.post.footnotes) && window.post.footnotes) ||
+			(srcCachedData && srcCachedData.post && Array.isArray(srcCachedData.post.footnotes) && srcCachedData.post.footnotes) ||
 			[];
 		apiFn = apiFootnotes.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === String(fnNum)) || null;
+	}
+	let note = null;
+	if (!apiFn) {
+		try {
+			note = sefer && sefer.querySelector ? sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`) : null;
+		} catch (_) { /* invalid selector chars */ }
+		if (!note) {
+			try {
+				note = document.querySelector(`.meluket-footnote[data-fn="${fnNum}"], #meluket-fn-${fnNum}`);
+			} catch (_) { /* invalid selector chars */ }
+		}
 	}
 	// B"H 2026-11-10 — last fallback: the bodies live in the post's own
 	// content after the הערות: heading (the API array above is empty for
@@ -2149,52 +2150,33 @@ function finalizeSeferMount(sefer, post) {
 	// never contradicts the English visibly on the page.
 	try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 
-	// B"H — Footnote markers open the footnote popup with that note's own
-	// text (never a scroll to the bottom, never the whole list). Only
-	// <sup class="meluket-fn-marker"> triggers this; the shelf notes
-	// themselves are not triggers. The live post (window.post) is
-	// preferred over the mount-time stub so the popup finds the bodies
-	// parsed from the post content.
-	sefer.addEventListener('click', (e) => {
-		const marker = e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn]') : null;
-		if (!marker) return;
-		const fnNum = marker.getAttribute('data-fn');
-		if (!fnNum) return;
-		e.preventDefault();
-		e.stopPropagation();
-		openFootnotePopup(fnNum, marker, sefer);
-	});
-
-	// B"H (2026-10-13, Yaakov): document-level safety net. If a footnote
-	// marker lives outside the sefer root, or the sefer handler missed it,
-	// this still opens the popup. Capture phase runs before bubble handlers.
-	if (!window.__awtsmoosFnDocHandler) {
-		window.__awtsmoosFnDocHandler = true;
+	// B"H — Footnote markers: ONE delegated path (Coby 2026-11-11:
+	// "Cleaner, simple, no conflicts"). A single document-level click
+	// handler, installed once, opens the footnote popup for any marker
+	// — inside or outside the sefer — and one keydown handler does
+	// Enter/Space. The old per-sefer listeners are gone (every remount
+	// stacked another copy), and so is the capture-phase "safety net"
+	// that skipped sefer markers entirely. Shelf notes are not triggers:
+	// a marker tap opens THE NOTE ITSELF in the popup, never a scroll.
+	if (!window.__awtsmoosFnClickPath) {
+		window.__awtsmoosFnClickPath = true;
 		document.addEventListener('click', (e) => {
 			const marker = e.target && e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn], sup[data-fn]') : null;
 			if (!marker || marker.closest('.meluket-footnotes-shelf')) return;
-			// B"H — Yaakov 2026-10-15: markers inside the sefer are handled by
-			// the sefer's own bubble handler (opens the Sources sheet). Don't
-			// ALSO open the popup here — that double-opens the UI.
-			if (marker.closest('.meluket-sefer')) return;
 			const fnNum = marker.getAttribute('data-fn');
-			if (!fnNum) return;
-			// If the sefer handler already opened the popup, don't double-fire.
-			if (isFootnotePopupOpen()) return;
+			if (!fnNum || !/^\d+$/.test(fnNum)) return;
 			e.preventDefault();
-			const root = marker.closest('.meluket-sefer') || document;
-			openFootnotePopup(fnNum, marker, root);
-		}, true);
+			e.stopPropagation();
+			openFootnotePopup(fnNum, marker, marker.closest('.meluket-sefer') || document);
+		});
+		document.addEventListener('keydown', (e) => {
+			if (e.key !== 'Enter' && e.key !== ' ') return;
+			const marker = e.target && e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn], sup[data-fn]') : null;
+			if (!marker || marker.closest('.meluket-footnotes-shelf')) return;
+			e.preventDefault();
+			marker.click();
+		});
 	}
-
-	// Keyboard activation for <sup role="button"> footnote markers.
-	sefer.addEventListener('keydown', (e) => {
-		if (e.key !== 'Enter' && e.key !== ' ') return;
-		const marker = e.target.closest && e.target.closest('sup.meluket-fn-marker[data-fn]');
-		if (!marker) return;
-		e.preventDefault();
-		marker.click();
-	});
 
 	// Escape closes the footnote popup or the Sources sheet.
 	document.addEventListener('keydown', (e) => {
@@ -2401,6 +2383,12 @@ export function awakenPhraseTranslationReader(post) {
 	for (const s of sectionQueue) {
 		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
 	}
+	// B"H — footnotes shelf (Coby 2026-11-11): phrase-translation posts
+	// carry a real footnotes[] array; build the same shelf the Meluket
+	// path builds, or their markers have no note bodies on the page.
+	const shelf = buildFootnotesShelf(post);
+	if (shelf) sefer.appendChild(shelf);
+
 	// Mount the complete sefer.
 	finalizeSeferMount(sefer, post);
 	return true;
