@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { tunnelJsonRequest } from "./tunnelHttp.js";
+import { observePendingReceipt } from "./tunnelObserveReceipt.js";
 import { policyForTunnelAction } from "./tunnelRequestPolicy.js";
 import { retryTunnelRequest } from "./tunnelRetry.js";
 
@@ -28,7 +29,7 @@ export async function protectedFsRequest(tunnelName, payload = {}, options = {})
 		retries: options.retries ?? policy.retries,
 		timeoutMs: options.timeoutMs ?? shaped.timeoutMs ?? shaped.timeout ?? policy.timeoutMs
 	};
-	return await retryTunnelRequest(
+	const first = await retryTunnelRequest(
 		() => tunnelJsonRequest(fsUrl(tunnelName), {
 			method: "POST",
 			body: shaped,
@@ -39,6 +40,21 @@ export async function protectedFsRequest(tunnelName, payload = {}, options = {})
 		}),
 		effective
 	);
+	// B"H - a first envelope can be a durable pending receipt (the relay's
+	// inline window is ~750ms); observe it via retryAction until the device
+	// answers, or callers read the receipt itself as empty data.
+	return await observePendingReceipt(first, {
+		action: shaped.action,
+		deadlineMs: Math.min(90000, Math.max(30000, effective.timeoutMs || 0)),
+		postObserve: (body) => tunnelJsonRequest(fsUrl(tunnelName), {
+			method: "POST",
+			body,
+			apiKey: options.apiKey,
+			signal: options.signal,
+			fetchImpl: options.fetchImpl,
+			timeoutMs: effective.timeoutMs
+		})
+	});
 }
 
 /** Preserves historical path aliases and native-vessel defaulting. */
