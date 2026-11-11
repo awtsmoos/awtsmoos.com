@@ -208,6 +208,7 @@ async function main() {
 	const batchSize = Math.max(1, intArg('batch', 500));
 	const progressEvery = Math.max(1, intArg('progress', 1000));
 	const spotCount = Math.max(0, intArg('spot', 128));
+	const excludeKeysFile = arg('exclude-keys', '');
 
 	const dbRoot = path.resolve(process.cwd(), arg('db', '../../dayuhChadash'));
 	const file = arg('file', '') ? path.resolve(arg('file', '')) : shardFile(dbRoot, shard);
@@ -240,6 +241,25 @@ async function main() {
 		const fullTotal = allEntries.length;
 		let entries = allEntries;
 		if (topup) entries = entries.filter(e => e.offset >= sinceOffset);
+
+		// Named exceptions: keys whose source lines are proven
+		// unreadable (corrupt appends, index skew) are excluded by
+		// explicit list only — never silently. The list is one key
+		// per line; every listed key must exist in the enumeration,
+		// so a typo fails the run instead of hiding a record.
+		if (excludeKeysFile) {
+			const listed = (await fs.promises.readFile(excludeKeysFile, 'utf8'))
+				.split('\n').map(s => s.trim()).filter(Boolean);
+			const excludeSet = new Set(listed);
+			const enumeratedKeys = new Set(allEntries.map(e => e.key));
+			for (const k of listed) {
+				if (!enumeratedKeys.has(k)) throw new Error(`--exclude-keys: key not in enumeration: ${k}`);
+			}
+			const before = entries.length;
+			entries = entries.filter(e => !excludeSet.has(e.key));
+			console.log(`B"H [convert] shard=${shard} exclude-keys: ${before - entries.length} of ${listed.length} listed keys excluded`);
+			report.excludedKeys = listed;
+		}
 
 		// Step 2 (optional): resume a bulk pass after its last
 		// checkpointed key, in the same enumeration order.
