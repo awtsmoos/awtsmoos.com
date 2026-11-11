@@ -19,6 +19,7 @@ import { plans } from "../features/plans.js";
 import { account } from "../features/account.js";
 import { install } from "../features/install.js";
 import { rootPicker } from "../features/rootPicker.js";
+import { liveRoom, initLiveRoom } from "../features/liveRoom.js";
 
 /**
  * @description Creates hidden feature vessels exactly once before the shell adopts their controls.
@@ -33,8 +34,9 @@ export function mountFeatureVessels() {
 	stage.hidden = true;
 	stage.append(
 		setup(), keys(), explorer(), terminal(), chrome(), promptPage(), usage(), compute(),
-		previewGateway(), subAgents(), aiAgents(), live(), missionRooms(), plans(), account(), install(), rootPicker()
+		previewGateway(), subAgents(), aiAgents(), live(), missionRooms(), plans(), account(), install(), rootPicker(), liveRoom()
 	);
+	initLiveRoom();
 	document.body.append(stage);
 	return stage;
 }

@@ -13,6 +13,7 @@ import {
 	NATIVE_TUNNEL_URL
 } from "../features/modes/modeCards.js";
 import { createNavigation } from "../shell/navigation.js";
+import { dashboardRoom } from "../features/liveRoom.js";
 import { h } from "../ui/core/html.js";
 import { launcherGrid } from "./dashboardGrid.js";
 
@@ -28,7 +29,7 @@ export function createDashboard() {
 			id: "awtDashboard",
 			"aria-label": "Applications"
 		},
-		children: [createNavigation(), launcherGrid()]
+		children: [createNavigation(), dashboardRoom(), launcherGrid()]
 	});
 }
 

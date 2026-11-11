@@ -28,11 +28,26 @@ function identity(input = {}, actor = {}) {
 	};
 }
 
-function message(input = {}) {
+const CLIENT_KINDS = ["chat", "conflict", "proposal", "status"];
+
+function message(input = {}, trusted = false) {
 	const content = boundedString(input.message, "message", 4096);
 	const clientMessageId = boundedString(input.clientMessageId, "clientMessageId", 130);
-	const kind = ["chat", "conflict", "proposal", "status"].includes(input.kind) ? input.kind : "chat";
-	return { content, clientMessageId, kind };
+	if (!trusted) {
+		const kind = CLIENT_KINDS.includes(input.kind) ? input.kind : "chat";
+		return { content, clientMessageId, kind };
+	}
+	const kind = [...CLIENT_KINDS, "action"].includes(input.kind) ? input.kind : "chat";
+	const entry = { content, clientMessageId, kind };
+	if (kind === "action" && input.detail && typeof input.detail === "object") {
+		entry.detail = {
+			deed: String(input.detail.deed || "").slice(0, 40),
+			target: String(input.detail.target || "").slice(0, 300),
+			device: String(input.detail.device || "").slice(0, 120),
+			ok: input.detail.ok !== false
+		};
+	}
+	return entry;
 }
 
 module.exports = { identity, message };

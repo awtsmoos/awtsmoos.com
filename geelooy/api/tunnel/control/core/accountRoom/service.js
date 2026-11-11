@@ -30,4 +30,15 @@ function snapshot(accountId, since) {
 	return Model.snapshot(readStore(), accountId, since);
 }
 
-module.exports = { join, send, snapshot };
+/** Server-generated action-feed entries: auto-join the actor, then append. */
+function recordAction(accountId, actor, input) {
+	let result;
+	mutateStore(store => {
+		Model.join(store, accountId, actor, input);
+		result = Model.send(store, accountId, actor, input, Date.now(), true);
+		return store;
+	});
+	return result;
+}
+
+module.exports = { join, recordAction, send, snapshot };

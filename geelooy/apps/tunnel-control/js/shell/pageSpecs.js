@@ -4,7 +4,7 @@
 
 import { aiAgentsPage } from "./pageSpecs/aiAgentsPage.js";
 import { livePage, remoteDesktopPage, speakerPage, terminalPage, chromePage, previewGatewayPage } from "./pageSpecs/automationPages.js";
-import { explorerPage, setupPage, obedienceMonitorPage, accountPage, installPage } from "./pageSpecs/corePages.js";
+import { liveRoomPage, explorerPage, setupPage, obedienceMonitorPage, accountPage, installPage } from "./pageSpecs/corePages.js";
 import { missionRoomsPage, plansPage, subAgentsPage } from "./pageSpecs/missionPages.js";
 import { usagePage, apiKeysPage, computePage, docsPage, meshPage } from "./pageSpecs/systemPages.js";
 
@@ -22,6 +22,7 @@ export const PAGE_GROUPS = Object.freeze({
 });
 
 export const PAGE_SPECS = Object.freeze([
+	liveRoomPage,
 	missionRoomsPage,
 	plansPage,
 	subAgentsPage,

@@ -23,15 +23,21 @@ export function displayRoom(state) {
 	}
 	if (!state.agents?.length) roster.append(node("p", "Nobody has joined yet."));
 	const messages = find("messages");
+	const nearBottom = messages.scrollTop + messages.clientHeight >= messages.scrollHeight - 48;
 	messages.replaceChildren();
 	for (const message of state.messages || []) {
 		const article = node("article", "");
-		article.append(node("strong", `${message.agentId} · ${message.kind}`));
+		if (message.kind === "action") article.className = "room-action";
+		if (message.detail && message.detail.ok === false) article.className += " room-failed";
+		article.append(node("strong", message.kind === "action"
+			? `⚙ ${message.agentId} · action`
+			: `${message.agentId} · ${message.kind}`));
 		article.append(node("p", message.content));
 		article.append(node("small", new Date(message.at).toLocaleString(), "status"));
 		messages.append(article);
 	}
 	if (!state.messages?.length) messages.append(node("p", "No messages yet."));
+	if (nearBottom) messages.scrollTop = messages.scrollHeight;
 }
 
 export function status(text) {

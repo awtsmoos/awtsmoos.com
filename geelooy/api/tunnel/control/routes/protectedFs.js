@@ -12,6 +12,7 @@ const Authorization = require("./protectedFsAuthorization.js");
 const ActionPolicy = require("./protectedFsActionPolicy.js");
 const Policy = require("./protectedFsPolicy.js");
 const SchedulerIdentity = require("./protectedFsSchedulerIdentity.js");
+const ActionFeed = require("../core/accountRoom/actionFeed.js");
 
 /**
  * @file Authenticates one caller and binds its trusted scheduler identity before dispatch.
@@ -84,6 +85,7 @@ function normalizeResult(identity, payload, result = {}) {
 }
 
 function record(identity, payload, response, ok) {
+	ActionFeed.record(identity, payload, ok);
 	recordUsage({
 		userId: identity.userId,
 		keyId: identity.clientId || null,

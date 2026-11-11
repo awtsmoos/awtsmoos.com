@@ -38,9 +38,9 @@ function join(store, accountId, actor, input, at = Date.now()) {
 	return { agent: ledger.agents[identity.key], roomId: "account-coordination" };
 }
 
-function send(store, accountId, actor, input, at = Date.now()) {
+function send(store, accountId, actor, input, at = Date.now(), trusted = false) {
 	const identity = Inputs.identity(input, actor);
-	const value = Inputs.message(input);
+	const value = Inputs.message(input, trusted);
 	const ledger = room(store, accountId);
 	if (!Object.prototype.hasOwnProperty.call(ledger.agents, identity.key)) {
 		throw Error("agent_room_join_required");

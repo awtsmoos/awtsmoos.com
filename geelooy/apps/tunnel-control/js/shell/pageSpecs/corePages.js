@@ -3,8 +3,16 @@
 // Blessed is He
 
 import { obedienceMonitor, mountObedienceMonitor } from "../../features/obedienceMonitor.js";
+import { liveRoom, initLiveRoom } from "../../features/liveRoom.js";
 
 /** @file Core operator pages. The Awtsmoos renews root, account, and explorer vessels while Awtsmoos.com preserves each existing shell contract. */
+
+export const liveRoomPage = {
+	key: "liveRoom", create: liveRoom, mount: initLiveRoom,
+	group: "core", badges: ["core", "live"], icon: "agents", emoji: "💬",
+	title: "Live agent room", desc: "Every agent action on your tunnels, streaming live — and the room where you steer them all.",
+	ids: ["liveRoomPanel"]
+};
 
 export const explorerPage = {
 	key: "explorer", group: "files", badges: ["core", "tree"], icon: "explorer", emoji: "📁",

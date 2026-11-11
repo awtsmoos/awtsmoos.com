@@ -1,0 +1,42 @@
+/* B"H — The live agent room: the centerpiece surface of Tunnel Control. */
+.awt-room-feed {
+	max-height: 46vh;
+	overflow: auto;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+.awt-room-feed article {
+	border-bottom: 1px solid rgba(136, 136, 136, .33);
+	padding: .55rem 0;
+}
+.awt-room-feed article p {
+	margin: .15rem 0;
+}
+.awt-room-action {
+	border-inline-start: 3px solid #4caf7d;
+	padding-inline-start: .6rem;
+}
+.awt-room-failed {
+	border-inline-start-color: #d9534f;
+}
+.awt-room-grid {
+	display: grid;
+	grid-template-columns: minmax(200px, 1fr) minmax(320px, 3fr);
+	gap: 1rem;
+}
+.awt-room-actions {
+	display: flex;
+	gap: .6rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.awt-room-actions input {
+	flex: 1;
+	min-width: 220px;
+}
+.awt-room-home .awt-room-feed {
+	max-height: 34vh;
+}
+@media (max-width: 700px) {
+	.awt-room-grid { grid-template-columns: 1fr; }
+}

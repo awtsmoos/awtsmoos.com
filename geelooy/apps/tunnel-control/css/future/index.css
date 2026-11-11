@@ -13,6 +13,7 @@
 @import url("./views/device-security/index.css") layer(awt.views);
 @import url("./views/tunnel-vessels.css") layer(awt.views);
 @import url("./views/checkpoint-viewer.css") layer(awt.views);
+@import url("./views/live-room.css") layer(awt.views);
 @import url("./views/activity/layout.css") layer(awt.views);
 @import url("./views/activity/identity.css") layer(awt.views);
 @import url("./views/activity/summary.css") layer(awt.views);

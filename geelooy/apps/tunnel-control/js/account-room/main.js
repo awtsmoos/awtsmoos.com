@@ -50,12 +50,14 @@ document.getElementById("messageForm").addEventListener("submit", async event =>
 	} catch (error) { status(error.message); }
 });
 
+/** The room is live: new actions and messages land within seconds. */
+setInterval(refresh, 3000);
+
 /** A joined browser refreshes presence without forging another participant. */
 setInterval(async () => {
 	if (joined) {
 		try { await joinRoom(); } catch (error) { status(error.message); }
 	}
-	await refresh();
 }, 20000);
 
 void refresh();
