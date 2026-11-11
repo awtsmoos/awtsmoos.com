@@ -144,16 +144,30 @@ function render(state) {
 
 function renderFeed(feed, messages) {
 	const nearBottom = feed.scrollTop + feed.clientHeight >= feed.scrollHeight - 48;
-	feed.replaceChildren(...messages.map(message => {
+	// B"H - an outcome entry is the final word on its pending dispatch, not
+	// a separate line: fold it into the dispatch entry it completes.
+	const outcomes = new Map();
+	for (const message of messages) {
+		if (message.detail?.outcomeOf) outcomes.set(message.detail.outcomeOf, message);
+	}
+	const visible = messages.filter(message => !message.detail?.outcomeOf);
+	feed.replaceChildren(...visible.map(message => {
 		const item = document.createElement("article");
 		if (message.kind === "action") item.className = "awt-room-action";
-		if (message.detail && message.detail.ok === false) item.className += " awt-room-failed";
+		const outcome = message.detail?.pending
+			? outcomes.get(message.clientMessageId)
+			: null;
+		const failed = outcome ? outcome.detail?.ok === false : message.detail?.ok === false;
+		if (failed) item.className += " awt-room-failed";
+		if (message.detail?.pending && !outcome) item.className += " awt-room-pending";
 		const head = document.createElement("strong");
 		head.textContent = message.kind === "action"
 			? `⚙ ${message.agentId} · action`
 			: `${message.agentId} · ${message.kind}`;
 		const body = document.createElement("p");
-		body.textContent = message.content;
+		body.textContent = outcome
+			? String(message.content || "").replace(/ — pending$/, failed ? " — FAILED" : "")
+			: message.content;
 		const when = document.createElement("small");
 		when.className = "status";
 		when.textContent = new Date(message.at).toLocaleTimeString();

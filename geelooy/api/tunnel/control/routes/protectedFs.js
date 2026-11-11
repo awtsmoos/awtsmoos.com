@@ -85,7 +85,7 @@ function normalizeResult(identity, payload, result = {}) {
 }
 
 function record(identity, payload, response, ok) {
-	ActionFeed.record(identity, payload, ok);
+	ActionFeed.record(identity, payload, ok, response);
 	recordUsage({
 		userId: identity.userId,
 		keyId: identity.clientId || null,

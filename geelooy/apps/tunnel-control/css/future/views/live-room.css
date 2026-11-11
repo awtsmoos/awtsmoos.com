@@ -40,3 +40,8 @@
 @media (max-width: 700px) {
 	.awt-room-grid { grid-template-columns: 1fr; }
 }
+
+.awt-room-pending {
+	opacity: 0.65;
+	font-style: italic;
+}
