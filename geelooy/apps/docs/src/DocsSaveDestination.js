@@ -8,13 +8,13 @@
  * ask for a Drive vessel only when persistence truly needs one, keeping file actions
  * focused while the user retains an explicit choice of alias and path.
  */
-export async function chooseDocsSaveDestination(persistence, quickDialog) {
-	if (!persistence.needsDriveDestination()) {
+export async function chooseDocsSaveDestination(persistence, quickDialog, forcePrompt = false) {
+	if (!forcePrompt && !persistence.needsDriveDestination()) {
 		return {};
 	}
 	const defaults = persistence.defaultDriveDestination();
 	const values = await quickDialog.ask({
-		title: "Save to Drive",
+		title: forcePrompt ? "Save as" : "Save to Drive",
 		fields: [
 			{
 				name: "aliasId",

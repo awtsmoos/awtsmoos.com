@@ -32,7 +32,7 @@ export function normalizeDocumentBlock(candidate = {}) {
 	return {
 		id,
 		tag,
-		html: String(candidate.html || "").slice(0, 120000),
+		html: String(candidate.html || "").slice(0, 400000),
 		style: normalizeDocumentBlockStyle(candidate.style)
 	};
 }

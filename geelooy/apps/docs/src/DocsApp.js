@@ -39,6 +39,7 @@ export class DocsApp {
 		if (!shared.documentId) this.#loadLocalBeginning();
 		this.editor.render(this.model.blocks);
 		this.view.setTitle(this.model.title);
+		this.comments.setComments(this.model.comments);
 		this.commentPanel.render(this.comments.comments);
 		this.layout.apply();
 		this.mutations.refreshDerived();

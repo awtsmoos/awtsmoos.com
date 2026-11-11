@@ -43,6 +43,23 @@ export class PageLayoutView {
 		this.canvas.dataset.footerEnabled = String(layout.footer.enabled);
 		this.canvas.dataset.footerText = layout.footer.text;
 		this.canvas.dataset.pageNumbers = String(layout.pageNumbers);
+		this.#pageNumberBand(layout);
+	}
+
+	/** Shows the page number on screen, matching the printed margin box. */
+	#pageNumberBand(layout) {
+		let band = this.canvas.parentElement?.querySelector(".page-number-band");
+		if (!layout.pageNumbers) {
+			band?.remove();
+			return;
+		}
+		if (!band) {
+			band = document.createElement("div");
+			band.className = "page-number-band";
+			band.setAttribute("aria-hidden", "true");
+			this.canvas.after(band);
+		}
+		band.textContent = "Page 1";
 	}
 
 	#setPrintRule(layout, size) {

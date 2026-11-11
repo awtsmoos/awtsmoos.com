@@ -11,7 +11,7 @@ import { DocumentSerializer } from "./model/DocumentSerializer.js";
  * which finite vessel received it, so live sync, local recovery, and filesystem save never blur.
  */
 export class DocumentPersistenceController {
-	constructor({ model, editor, localStore, drive, embed, status, view }) {
+	constructor({ model, editor, localStore, drive, embed, status, view, onLoad }) {
 		Object.assign(this, {
 			model,
 			editor,
@@ -19,7 +19,8 @@ export class DocumentPersistenceController {
 			drive,
 			embed,
 			status,
-			view
+			view,
+			onLoad
 		});
 	}
 
@@ -44,6 +45,7 @@ export class DocumentPersistenceController {
 		this.model.replace(snapshot);
 		this.editor.render(this.model.blocks);
 		this.view.setTitle(this.model.title);
+		this.onLoad?.();
 		return true;
 	}
 

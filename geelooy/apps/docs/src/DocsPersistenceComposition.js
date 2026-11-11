@@ -22,7 +22,11 @@ export function createDocsPersistenceComposition(core) {
 		drive: new DriveDocumentGateway(),
 		embed,
 		status: core.status,
-		view: core.view
+		view: core.view,
+		onLoad: () => {
+			core.comments.setComments(core.model.comments);
+			core.commentPanel.render(core.comments.comments);
+		}
 	});
 
 	return {

@@ -76,3 +76,30 @@
 .docs-app[data-page-mode="pageless"] .document-canvas::after {
 	display: none;
 }
+
+.page-number-band {
+	width: min(100%, var(--docs-paper-width));
+	margin: 10px auto 0;
+	color: var(--docs-muted);
+	font: 12px/1.4 var(--docs-font-ui);
+	text-align: center;
+}
+
+.docs-app[data-page-mode="pageless"] .page-number-band {
+	display: none;
+}
+
+.document-canvas hr[data-page-break="true"] {
+	border: 0;
+	border-top: 2px dashed var(--docs-border);
+	margin: 28px 0;
+	break-after: page;
+	page-break-after: always;
+}
+
+@media print {
+	.document-canvas hr[data-page-break="true"] {
+		border: 0;
+		margin: 0;
+	}
+}

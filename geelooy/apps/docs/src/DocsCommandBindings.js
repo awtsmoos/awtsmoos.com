@@ -34,6 +34,11 @@ export class DocsCommandBindings {
 
 	#key(event) {
 		const key = event.key.toLowerCase();
+		if (event.key === "Escape" && this.view?.app?.classList.contains("is-focus-mode")) {
+			event.preventDefault();
+			void this.#execute("view.focus");
+			return;
+		}
 		if (this.#isPaletteShortcut(event, key)) {
 			event.preventDefault();
 			this.commandSurface.closeMenus();
@@ -57,6 +62,7 @@ export class DocsCommandBindings {
 		if (event.altKey && key === "m") return "insert.note";
 		if (event.shiftKey && key === "h") return "edit.find-replace";
 		if (event.shiftKey && key === "c") return "tools.word-count";
+		if (!event.shiftKey && !event.altKey && key === "f") return "edit.find-replace";
 		if (key === "s") return "file.save";
 		if (key === "o") return "file.open";
 		if (key === "k") return "insert.link";

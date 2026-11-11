@@ -48,14 +48,21 @@ export class InsertionCommands {
 		return navigationPickerOptions(this.root);
 	}
 
-	/** Inserts a generated TOC block from current H1-H6 semantic headings. */
+	/** Inserts a generated TOC as its own block after the block holding the caret. */
 	tableOfContents(depth = 3) {
 		const html = createTableOfContentsHtml(this.root, depth);
 		if (!html) return false;
-		return this.formatting.execute(
-			"insertHTML",
-			`<ul>${html}</ul><p><br></p>`
-		);
+		if (!this.formatting.editor.isEditable()) return false;
+		const block = this.#currentBlock();
+		const list = document.createElement("ul");
+		list.innerHTML = html;
+		if (block) block.after(list);
+		else this.root.append(list);
+		const paragraph = document.createElement("p");
+		paragraph.append(document.createElement("br"));
+		list.after(paragraph);
+		this.formatting.editor.notifyMutation();
+		return true;
 	}
 
 	/** Refreshes every generated TOC and records the mutation through the editor gateway. */
@@ -91,8 +98,52 @@ export class InsertionCommands {
 		return this.formatting.execute("insertHTML", "<hr><p><br></p>");
 	}
 
+	/** Inserts a page break that ends the printed page and flows past on screen. */
+	pageBreak() {
+		return this.formatting.execute(
+			"insertHTML",
+			"<hr data-page-break=\"true\"><p><br></p>"
+		);
+	}
+
+	/** Inserts one literal character or symbol at the caret. */
+	symbol(text) {
+		const value = String(text || "").slice(0, 8);
+		if (!value) return false;
+		return this.formatting.execute("insertText", value);
+	}
+
+	/** Converts the current paragraph into a task list, or starts a new task. */
 	checklist() {
-		return this.formatting.execute("insertHTML", "<ul><li>☐ New task</li></ul>");
+		if (!this.formatting.editor.isEditable()) return false;
+		const block = this.#currentBlock();
+		if (block && block.tagName === "P") {
+			const list = document.createElement("ul");
+			list.dataset.checklist = "true";
+			const item = document.createElement("li");
+			const text = block.textContent.replace(/^[☐☑]\s*/, "").trim();
+			item.textContent = `☐ ${text || "New task"}`;
+			list.append(item);
+			block.replaceWith(list);
+			this.formatting.editor.notifyMutation();
+			return true;
+		}
+		return this.formatting.execute(
+			"insertHTML",
+			"<ul data-checklist=\"true\"><li>☐ New task</li></ul>"
+		);
+	}
+
+	/** Returns the top-level editor block holding the current selection. */
+	#currentBlock() {
+		const selection = window.getSelection();
+		if (!selection?.rangeCount) return null;
+		const node = selection.getRangeAt(0).commonAncestorContainer;
+		const element = node.nodeType === Node.ELEMENT_NODE
+			? node
+			: node.parentElement;
+		const block = element?.closest?.("[data-block-id]");
+		return block && this.root.contains(block) ? block : null;
 	}
 }
 

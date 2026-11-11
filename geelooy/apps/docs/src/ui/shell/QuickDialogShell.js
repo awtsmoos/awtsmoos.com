@@ -38,6 +38,7 @@ function createHeading() {
 			attributes: {
 				type: "submit",
 				value: "cancel",
+				formnovalidate: "",
 				"aria-label": "Close"
 			}
 		})
@@ -49,7 +50,7 @@ function createActions() {
 	return shellElement("div", { className: "dialog-actions" }, [
 		shellElement("button", {
 			text: "Cancel",
-			attributes: { type: "submit", value: "cancel" }
+			attributes: { type: "submit", value: "cancel", formnovalidate: "" }
 		}),
 		shellElement("button", {
 			className: "primary-action",

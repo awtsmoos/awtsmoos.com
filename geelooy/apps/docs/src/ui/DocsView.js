@@ -76,7 +76,24 @@ export class DocsView {
 	toggleFocusMode() {
 		const focused = !this.app.classList.contains("is-focus-mode");
 		this.app.classList.toggle("is-focus-mode", focused);
+		this.#focusExit(focused);
 		return focused;
+	}
+
+	/** Keeps one visible way out of focus mode while all other chrome is hidden. */
+	#focusExit(show) {
+		let button = this.app.querySelector(".focus-exit");
+		if (!show) {
+			button?.remove();
+			return;
+		}
+		if (button) return;
+		button = document.createElement("button");
+		button.type = "button";
+		button.className = "focus-exit";
+		button.textContent = "Exit focus (Esc)";
+		button.addEventListener("click", () => this.toggleFocusMode());
+		this.app.append(button);
 	}
 
 	toggleStats() {

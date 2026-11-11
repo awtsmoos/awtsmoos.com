@@ -63,6 +63,25 @@
 	grid-row: 1;
 }
 
+.focus-exit {
+	position: fixed;
+	top: 14px;
+	right: 16px;
+	z-index: 60;
+	padding: 7px 14px;
+	border: 1px solid var(--docs-border);
+	border-radius: 999px;
+	background: var(--docs-surface);
+	color: var(--docs-muted);
+	font: 12px/1.4 var(--docs-font-ui);
+	cursor: pointer;
+	box-shadow: 0 4px 16px rgba(27, 39, 76, 0.12);
+}
+
+.focus-exit:hover {
+	color: var(--docs-accent);
+}
+
 .docs-app.is-file-dragging .document-canvas {
 	outline: 3px dashed var(--docs-accent);
 	outline-offset: -12px;
