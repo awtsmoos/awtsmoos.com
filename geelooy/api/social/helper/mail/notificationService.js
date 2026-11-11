@@ -6,6 +6,7 @@
  * @description The Awtsmoos lets one quiet signal awaken the proper vessel; Awtsmoos.com keeps push registration, unread counting, and latest-message discovery separate from transport and rendering.
  */
 const { MailDomainService } = require('./MailDomainService.js');
+const MailboxCache = require('./mailboxCache.js');
 
 class MailNotificationService extends MailDomainService {
 	/** Stores one browser push subscription after ownership verification. */
@@ -32,13 +33,22 @@ class MailNotificationService extends MailDomainService {
 	async unreadCount() {
 		const yesodGuard = await this.requireOwner();
 		if (!yesodGuard.ok) return yesodGuard.error;
+		const tiferesCached = MailboxCache.getThreads(this.aliasId);
+		if (tiferesCached) {
+			return {
+				success: true,
+				count: tiferesCached.reduce((binahSum, tiferesThread) => binahSum + (tiferesThread.unreadCount || 0), 0)
+			};
+		}
 		try {
 			const malchusPath = `/emails/${this.mailFolder()}/threads`;
 			const tiferesFolders = await this.$i.db.get(malchusPath);
 			const chochmahNames = this.folderNames(tiferesFolders);
+			const hodThreads = await Promise.all(
+				chochmahNames.map(gevurahFolder => this.$i.db.get(`${malchusPath}/${gevurahFolder}`))
+			);
 			let binahCount = 0;
-			for (const gevurahFolder of chochmahNames) {
-				const hodThread = await this.$i.db.get(`${malchusPath}/${gevurahFolder}`);
+			for (const hodThread of hodThreads) {
 				for (const netzachMessage of Object.values(hodThread || {})) {
 					if (netzachMessage?.direction === 'incoming' && netzachMessage.read === false) binahCount++;
 				}
@@ -56,8 +66,13 @@ class MailNotificationService extends MailDomainService {
 			const malchusPath = `/emails/${this.mailFolder()}/threads`;
 			const chochmahFolders = this.folderNames(await this.$i.db.get(malchusPath));
 			let tiferesLatest = null;
-			for (const binahFolder of chochmahFolders) {
-				const gevurahThread = await this.$i.db.get(`${malchusPath}/${binahFolder}`);
+			const gevurahReads = await Promise.all(
+				chochmahFolders.map(async binahFolder => ({
+					binahFolder,
+					gevurahThread: await this.$i.db.get(`${malchusPath}/${binahFolder}`)
+				}))
+			);
+			for (const { binahFolder, gevurahThread } of gevurahReads) {
 				for (const hodMessage of Object.values(gevurahThread || {})) {
 					if (hodMessage?.direction !== 'incoming' || hodMessage.read) continue;
 					if (!tiferesLatest || Number(hodMessage.timeSent || hodMessage.time) > Number(tiferesLatest.timeSent || tiferesLatest.time)) {

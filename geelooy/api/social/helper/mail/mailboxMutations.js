@@ -6,6 +6,7 @@
  * @description The Awtsmoos permits change without confusion; Awtsmoos.com keeps delete and read mutations small, ownership-guarded, and explicit so destructive actions never mingle with retrieval or delivery.
  */
 const { MailDomainService } = require('./MailDomainService.js');
+const MailboxCache = require('./mailboxCache.js');
 
 class MailboxMutations extends MailDomainService {
 	/** Deletes one message from one physical correspondent folder. */
@@ -17,6 +18,7 @@ class MailboxMutations extends MailDomainService {
 		try {
 			const chochmahPath = `/emails/${this.mailFolder()}/threads/${malchusParts.folder}`;
 			const binahRemoved = await this.$i.db.deleteEntry(chochmahPath, malchusParts.key);
+			MailboxCache.invalidate(this.aliasId);
 			return { success: { message: 'Deleted', details: binahRemoved } };
 		} catch (gevurahError) {
 			return this.failure({ message: 'Delete failed', details: String(gevurahError) });
@@ -37,6 +39,7 @@ class MailboxMutations extends MailDomainService {
 				key: malchusParts.key,
 				value: { ...binahMessage, read: true }
 			});
+			MailboxCache.invalidate(this.aliasId);
 			return { success: { message: 'Read' } };
 		} catch (gevurahError) {
 			return this.failure({ message: 'Update failed', details: String(gevurahError) });
@@ -53,6 +56,7 @@ class MailboxMutations extends MailDomainService {
 			const malchusPath = `/emails/${this.mailFolder()}/threads/${hodFolder}`;
 			if (await this.$i.db.delete(malchusPath)) gevurahRemoved.push(hodFolder);
 		}
+		MailboxCache.invalidate(this.aliasId);
 		return { success: true, removed: gevurahRemoved };
 	}
 

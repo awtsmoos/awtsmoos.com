@@ -6,6 +6,7 @@
  * @description The Awtsmoos joins sender and recipient without collapsing their distinct vessels; Awtsmoos.com persists both sides, respects gatekeeping, signals live UI, and only then lets forwarding or rules unfold.
  */
 const { MailMessageRecords } = require('./messageRecords.js');
+const MailboxCache = require('./mailboxCache.js');
 const { ForwardingDelivery } = require('../../../../../ayzarim/email/domain/forwardingDelivery.js');
 
 class MailLocalDelivery {
@@ -49,6 +50,8 @@ class MailLocalDelivery {
 			key: String(tiferesTime),
 			value: netzachIncoming
 		});
+		MailboxCache.invalidate(chochmahMail.fromAlias);
+		MailboxCache.invalidate(chochmahMail.toAlias);
 		this.$i.ws?.sendToAlias?.(chochmahMail.toAlias, {
 			type: 'NEW_MAIL',
 			message: MailMessageRecords.socket(netzachIncoming, malchusSenderFolder, tiferesTime)

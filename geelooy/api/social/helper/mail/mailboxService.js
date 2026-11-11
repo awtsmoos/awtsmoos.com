@@ -8,6 +8,7 @@
 const { MailDomainService } = require('./MailDomainService.js');
 const { MailThreadReader } = require('./threadReader.js');
 const { MailMessageCodec } = require('./messageCodec.js');
+const MailboxCache = require('./mailboxCache.js');
 
 class MailboxService extends MailDomainService {
 	/**
@@ -20,6 +21,10 @@ class MailboxService extends MailDomainService {
 		if (!yesodGuard.ok) return yesodGuard.error;
 		const malchusPath = `/emails/${this.mailFolder()}/threads`;
 		try {
+			if (view === 'threads') {
+				const tiferesCached = MailboxCache.getThreads(this.aliasId);
+				if (tiferesCached) return tiferesCached;
+			}
 			const tiferesFolders = this.folderNames(await this.$i.db.get(malchusPath));
 			if (!tiferesFolders.length) return [];
 			if (view === 'threads') {
@@ -28,7 +33,9 @@ class MailboxService extends MailDomainService {
 					threadsPath: malchusPath,
 					aliasId: this.aliasId
 				});
-				return chochmahReader.list(tiferesFolders);
+				const tiferesThreads = await chochmahReader.list(tiferesFolders);
+				MailboxCache.setThreads(this.aliasId, tiferesThreads);
+				return tiferesThreads;
 			}
 			if (view === 'messages' && threadId) {
 				return this.readMessages(malchusPath, threadId, page, pageSize);
@@ -59,7 +66,10 @@ class MailboxService extends MailDomainService {
 				yesodMessages.push({ ...netzachMessage, correspondent: gevurahCore, uid: binahKey });
 			}
 		}
-		if (malchusUpdates.length) Promise.all(malchusUpdates).catch(() => {});
+		if (malchusUpdates.length) {
+			Promise.all(malchusUpdates).catch(() => {});
+			MailboxCache.invalidate(this.aliasId);
+		}
 		yesodMessages.sort((chesedA, chesedB) => chesedB.timeSent - chesedA.timeSent);
 		const tiferesStart = (Number(chochmahPage) - 1) * Number(binahPageSize);
 		return yesodMessages

@@ -7,6 +7,7 @@
  */
 const { MailMessageCodec } = require('./messageCodec.js');
 const { MailMessageRecords } = require('./messageRecords.js');
+const MailboxCache = require('./mailboxCache.js');
 
 class MailSmtpDelivery {
 	/** Creates an SMTP delivery vessel around the current request runtime. */
@@ -33,6 +34,7 @@ class MailSmtpDelivery {
 			key: String(tiferesTime),
 			value: yesodOutgoing
 		});
+		MailboxCache.invalidate(chochmahMail.fromAlias);
 		if (chochmahMail.notifySender) {
 			this.$i.ws?.sendToAlias?.(chochmahMail.fromAlias, {
 				type: 'NEW_MAIL',

@@ -9,6 +9,15 @@ const { NO_LOGIN, sp } = require('../_awtsmoos.constants.js');
 const { loggedIn, er } = require('../general.js');
 const { verifyAliasOwnership } = require('../alias.js');
 
+/**
+ * Successful ownership verifications are memoized briefly per (user, alias):
+ * every mail surface runs this guard, and re-proving the same ownership from
+ * the store on every poll made the mailbox crawl. Only successes are kept,
+ * the login check itself always runs live, and the window is 30 seconds.
+ */
+const OWNER_MEMO_TTL_MS = 30 * 1000;
+const ownerMemo = new Map();
+
 class MailDomainService {
 	/**
 	 * Creates a bounded domain service around one request vessel and optional alias.
@@ -32,10 +41,16 @@ class MailDomainService {
 		if (!tiferesAlias) {
 			return { ok: false, error: er({ message: 'aliasId required' }) };
 		}
+		const malchusMemoKey = `${this.userid}:${String(tiferesAlias).toLowerCase()}`;
+		const tiferesMemo = ownerMemo.get(malchusMemoKey);
+		if (tiferesMemo && Date.now() - tiferesMemo.at <= OWNER_MEMO_TTL_MS) {
+			return { ok: true, aliasId: tiferesAlias };
+		}
 		const yesodVerified = await verifyAliasOwnership(tiferesAlias, this.$i, this.userid);
 		if (!yesodVerified) {
 			return { ok: false, error: er({ message: 'Auth fail', code: 'AUTH_FAIL' }) };
 		}
+		ownerMemo.set(malchusMemoKey, { at: Date.now() });
 		return { ok: true, aliasId: tiferesAlias };
 	}
 

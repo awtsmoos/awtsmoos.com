@@ -22,8 +22,13 @@ class MailThreadReader {
 	 */
 	async list(gevurahFolders) {
 		const tiferesGrouped = {};
-		for (const malchusFolder of gevurahFolders) {
-			const yesodMessages = await this.readFolder(malchusFolder);
+		const gevurahReads = await Promise.all(
+			gevurahFolders.map(async malchusFolder => ({
+				malchusFolder,
+				yesodMessages: await this.readFolder(malchusFolder)
+			}))
+		);
+		for (const { malchusFolder, yesodMessages } of gevurahReads) {
 			if (!yesodMessages.length) continue;
 			const chochmahLatest = yesodMessages[0];
 			const binahCore = this.normalizeCorrespondent(malchusFolder);
