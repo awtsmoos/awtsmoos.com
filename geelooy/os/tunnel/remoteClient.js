@@ -11,6 +11,7 @@
  */
 
 import { collectTargets } from "./remoteTargets.js";
+import { observePendingReceipt } from "../remote/tunnelObserveReceipt.js";
 
 export { collectTargets } from "./remoteTargets.js";
 
@@ -37,10 +38,22 @@ export async function tunnelAction(
 		throw new Error("A verified immutable tunnel route is required.");
 	}
 	const path = `/api/tunnel/control/fs/${encodeURIComponent(route)}`;
-	return jsonRequest(fetcher, path, {
+	const first = await jsonRequest(fetcher, path, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(cleanPayload(payload))
+	});
+	// B"H - same receipt doctrine as the Explorer client: a slow device
+	// answers with a pending control receipt, which reads as empty data
+	// unless observed via retryAction to its terminal response. Command
+	// deeds are exempt inside the observer (their callers own job handles).
+	return observePendingReceipt(first, {
+		action: payload?.action,
+		postObserve: (body) => jsonRequest(fetcher, path, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(body)
+		})
 	});
 }
 
