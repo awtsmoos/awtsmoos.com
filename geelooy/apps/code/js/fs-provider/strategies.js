@@ -14,6 +14,7 @@ import { PostMessageProvider } from '../fs/post-message.js';
 import { OPFSProvider } from '../fs/opfs.js'; 
 import { RelayProvider } from '../fs/relay.js';
 import { AwtsmoosOSProvider } from '../fs/awtsmoos-os.js';
+import { TunnelDeviceProvider } from '../fs/tunnel-device.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeManagerStrategy } from './vibe-manager-strategy.js'; 
 
@@ -58,6 +59,9 @@ export const ProviderStrategies = {
 
     'awtsmoos-os': AwtsmoosOSProvider,
     AwtsmoosOS: AwtsmoosOSProvider,
+
+    'tunnel-device': TunnelDeviceProvider,
+    TunnelDevice: TunnelDeviceProvider,
 
     // B"H - Virtual Strategies for UI Vessels
     'vibe-manager': VibeManagerStrategy,

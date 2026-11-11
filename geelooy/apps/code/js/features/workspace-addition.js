@@ -36,6 +36,10 @@ export const WorkspaceAddition = {
                     <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain-circuit"></use></svg>
                     <span style="color: #ffa000;">Awtsmoos OS</span>
                 </button>
+                <button class="menu-button" data-action="tunnel-device" style="grid-column: 1 / -1; background: rgba(0, 246, 255, 0.05); border-color: var(--neon-cyan);">
+                    <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-link"></use></svg>
+                    <span style="color: var(--neon-cyan);">Tunnel Device</span>
+                </button>
                 <button class="menu-button" data-action="ssh" style="grid-column: 1 / -1; background: rgba(168, 255, 0, 0.05); border-color: var(--neon-lime);">
                     <svg class="svg-icon" style="color: var(--neon-lime);"><use href="#icon-ssh"></use></svg>
                     <span style="color: var(--neon-lime);">SSH Workspace</span>
@@ -83,10 +87,34 @@ export const WorkspaceAddition = {
                     else if (action === 'opfs') this.addOpfs();
                     else if (action === 'relay') this.addRelay();
                     else if (action === 'awtsmoos-os') this.addAwtsmoosOs();
+                    else if (action === 'tunnel-device') this.addTunnelDevice();
                     else if (action === 'ssh') this.addSsh();
                 };
             }
         }, 50);
+    },
+
+    async addTunnelDevice() {
+        const { InlineLogin } = await import('../session/inline-login.js');
+        const login = await InlineLogin.ensure();
+        if (!login.ok) return;
+
+        const existing = State.workspaces.find(w => w.type === 'tunnel-device');
+        if (existing) {
+            UI.showToast('Tunnel Device workspace is already mounted.', 'info');
+            return existing;
+        }
+
+        const wsId = State.nextWorkspaceId++;
+        Workspaces.add({
+            id: wsId,
+            name: 'Tunnel Device',
+            type: 'tunnel-device',
+            path: '.',
+            realmid: login.identity?.id || login.identity?._id || null
+        }, true);
+
+        UI.showToast('Tunnel Device workspace added. Your connected devices now appear as folders.', 'success');
     },
 
     async addSsh() {

@@ -50,7 +50,8 @@ const CASE_PRESERVED_ALIASES = Object.freeze({
   OPFS: "opfs",
   PostMessage: "postmessage",
   Relay: "relay",
-  AwtsmoosOS: "awtsmoos-os"
+  AwtsmoosOS: "awtsmoos-os",
+  TunnelDevice: "tunnel-device"
 });
 
 /**
@@ -83,6 +84,8 @@ export const KNOWN_WORLD_TYPES = new Set([
   "Relay",
   "awtsmoos-os",
   "AwtsmoosOS",
+  "tunnel-device",
+  "TunnelDevice",
   "awtsmoos-os",
   "AwtsmoosOS",
   "vibe-manager",

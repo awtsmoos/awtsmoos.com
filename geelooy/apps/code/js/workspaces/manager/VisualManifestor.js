@@ -14,7 +14,8 @@ const WORKSPACE_STYLE = Object.freeze({
     opfs: { icon: 'save', tone: 'blue', label: 'OPFS Storage' },
     relay: { icon: 'link', tone: 'cyan', label: 'Relay Server' },
     ssh: { icon: 'ssh', tone: 'lime', label: 'SSH Workspace' },
-    'awtsmoos-os': { icon: 'brain-circuit', tone: 'gold', label: 'Awtsmoos OS' }
+    'awtsmoos-os': { icon: 'brain-circuit', tone: 'gold', label: 'Awtsmoos OS' },
+    'tunnel-device': { icon: 'link', tone: 'cyan', label: 'Tunnel Device' }
 });
 
 function styleFor(ws = {}, isLocked = false) {
