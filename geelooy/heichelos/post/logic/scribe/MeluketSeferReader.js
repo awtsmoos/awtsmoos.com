@@ -1942,7 +1942,14 @@ export function awakenMeluketSeferReaderFromEmbed() {
 	// it in place (markers + cup formatting) and mount it; never rebuild.
 	const serverSefer = realPost.querySelector('.meluket-sefer[data-server-built="1"]');
 	if (serverSefer) {
+		// B"H batch 28 (2026-11-11): hydration is NOT idempotent (it re-reads
+		// textContent, which after the first pass contains the markers it
+		// created). The template's early boot and the canonical bootstrap
+		// both call this function — the first caller hydrates and stamps
+		// the sefer; later callers see the stamp and leave it alone.
+		if (serverSefer.dataset.hydrated === '1') return true;
 		hydrateServerSefer(serverSefer);
+		serverSefer.dataset.hydrated = '1';
 		const titleHe = document.querySelector('.awtsmoos-initial-post-title');
 		const title = (titleHe && titleHe.textContent ? titleHe.textContent.trim() : '') || (document.title || '').split('|').pop().trim();
 		finalizeSeferMount(serverSefer, { title, id: '' });

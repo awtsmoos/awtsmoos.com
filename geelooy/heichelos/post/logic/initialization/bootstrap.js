@@ -118,7 +118,7 @@ async function igniteInner() {
 	// B"H 2026-11-10 round 5: build the sefer from the embedded phrases NOW
 	// — the text is already in the HTML, no API wait. Runs in parallel with
 	// manifestCanonicalReader; the API awaken below enhances it in place.
-	const seferModulePromise = import('../scribe/MeluketSeferReader.js?v=f647edf441');
+	const seferModulePromise = import('../scribe/MeluketSeferReader.js?v=79bb741143');
 	const embedAwakenPromise = seferModulePromise.then((m) => {
 		try { return m.awakenMeluketSeferReaderFromEmbed(); } catch (_) { return false; }
 	}).catch(() => false);

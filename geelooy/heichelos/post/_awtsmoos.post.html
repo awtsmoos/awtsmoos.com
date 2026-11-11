@@ -168,6 +168,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-034');
+				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
+				// from the HTML already on the page — do not hold the text hostage
+				// to the full canonical boot (postLogic module graph + API fetches),
+				// which under load left the body unmounted for minutes on plain
+				// loads. The bootstrap calls the same function later; hydration is
+				// stamped, so the second call is a no-op.
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=79bb741143').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});
