@@ -19,7 +19,7 @@ export function readFilterDraft() {
 	return createFilterState({
 		kinds,
 		language,
-		sort: DOMElements.filterSortSelect?.value || 'newest'
+		sort: DOMElements.filterSortSelect?.value || 'series'
 	});
 }
 

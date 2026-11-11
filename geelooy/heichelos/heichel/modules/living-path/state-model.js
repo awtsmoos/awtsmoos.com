@@ -12,7 +12,7 @@
 export const DEFAULT_FILTERS = Object.freeze({
 	kinds: Object.freeze([]),
 	language: 'all',
-	sort: 'newest'
+	sort: 'series'
 });
 
 export const DEFAULT_DENSITY = 'comfortable';
@@ -25,9 +25,9 @@ export function createFilterState(source = DEFAULT_FILTERS) {
 		language: ['all', 'en', 'he'].includes(source.language)
 			? source.language
 			: 'all',
-		sort: ['newest', 'oldest', 'discussed'].includes(source.sort)
+		sort: ['series', 'newest', 'oldest', 'discussed'].includes(source.sort)
 			? source.sort
-			: 'newest'
+			: 'series'
 	};
 }
 

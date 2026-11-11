@@ -12,6 +12,7 @@
 import { normalizeCardData, matchesQuery } from '../ui/render/cardData.js';
 import { matchesLanguage } from './language-policy.js';
 import { createFilterState, DEFAULT_FILTERS } from './state-model.js';
+import { compareBookOrder } from './book-order.js';
 
 /** Filters all loaded content while respecting branch or current-view scope. */
 export function filterLoadedContent(content, options = {}) {
@@ -44,7 +45,7 @@ export function filterLoadedContent(content, options = {}) {
 export function activeFilterCount(filters = DEFAULT_FILTERS) {
 	let count = Array.isArray(filters.kinds) ? filters.kinds.length : 0;
 	if (filters.language && filters.language !== 'all') count += 1;
-	if (filters.sort && filters.sort !== 'newest') count += 1;
+	if (filters.sort && filters.sort !== 'series') count += 1;
 	return count;
 }
 
@@ -62,6 +63,7 @@ function matchesKinds(card, kinds) {
 }
 
 function compareCards(left, right, sort) {
+	if (sort === 'series') return compareBookOrder(left, right);
 	if (sort === 'discussed') return right.commentsCount - left.commentsCount;
 	if (sort === 'oldest') return (left.timestamp || Infinity) - (right.timestamp || Infinity);
 	return (right.timestamp || 0) - (left.timestamp || 0);

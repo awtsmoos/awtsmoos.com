@@ -48,6 +48,7 @@ export function sortAndDensity(actions) {
 			label: 'Sort',
 			ref: 'filterSortSelect',
 			options: [
+				option('series', 'Book order'),
 				option('newest', 'Newest'),
 				option('oldest', 'Oldest'),
 				option('discussed', 'Most discussed')
