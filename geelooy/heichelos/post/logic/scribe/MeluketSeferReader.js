@@ -2288,6 +2288,20 @@ export function awakenPhraseTranslationReader(post) {
 		console.log("B\"H phrase reader skipped: no #realPost element");
 		return false;
 	}
+	const mountedSefer = realPost.querySelector('.meluket-sefer');
+	if (mountedSefer) {
+		// B"H batch 27e (2026-11-11): the server sefer holds the text at first paint, so hydrate it and attach the notes shelf from the loaded post even though the sefer already mounted — without this, packed posts never get a shelf (the popup still works: it reads footnotes[] first).
+		if (mountedSefer.dataset.serverBuilt === '1' && !mountedSefer.dataset.hydrated) {
+			hydrateServerSefer(mountedSefer);
+			mountedSefer.dataset.hydrated = '1';
+		}
+		if (!mountedSefer.querySelector('.meluket-footnotes-shelf')) {
+			const shelf = buildFootnotesShelf(post);
+			if (shelf) mountedSefer.appendChild(shelf);
+		}
+		console.log("B\"H phrase reader: sefer already mounted — hydrated + shelf attached");
+		return true;
+	}
 	if (realPost.querySelector('.meluket-sefer')) {
 		console.log("B\"H phrase reader skipped: a sefer is already mounted");
 		return false;
