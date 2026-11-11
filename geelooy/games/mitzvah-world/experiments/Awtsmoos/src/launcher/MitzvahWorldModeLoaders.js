@@ -24,7 +24,7 @@ const directOptionsUrl = releaseUrl('./MitzvahWorldDirectRuntimeOptions.js');
 /** Keeps every unchosen route outside the first-play dependency graph. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
-		materials: hosts => openCreative('materials', hosts, {}, environment),
+		materials: (hosts, options) => openCreative('materials', hosts, options, environment),
 		movie: (hosts, options) => openCreative('movie', hosts, options, environment),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
 		platform: (hosts, options) => openCreative('platform', hosts, options, environment),
@@ -91,11 +91,16 @@ async function openCreative(kind, hosts, options, environment) {
 			stage: 'platform-creative-route', url: CREATIVE_ROUTE_URL
 		});
 	}
+	if (kind === 'materials') {
+		reportDirectWorldProgress(options, 'Opening Materials World…', {
+			stage: 'materials-creative-route', url: CREATIVE_ROUTE_URL
+		});
+	}
 	const module = await import(CREATIVE_ROUTE_URL);
 	if (kind === 'movie') return module.openMitzvahWorldMovieCreative(hosts, options);
 	if (kind === 'platform') return module.openMitzvahWorldPlatformCreative(hosts, options, environment);
 	const method = 'openMaterialsMode';
-	return module.openPresentedMitzvahWorldCreative(method, hosts, '', environment);
+	return module.openPresentedMitzvahWorldCreative(method, hosts, '', environment, options);
 }
 
 /** Defers status and presentation until after the playable runtime exists. */

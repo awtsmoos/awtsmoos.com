@@ -102,7 +102,10 @@ export function createMitzvahWorldRouteHandlers(context) {
 	);
 	return Object.freeze({
 		menu: Object.freeze({
-			materials: () => modes.materials(hosts),
+			materials: (selection = {}) => modes.materials(hosts, {
+				onProgress: selection.onProgress,
+				signal: selection.signal
+			}),
 			missionMovie: openVillageMovie,
 			movie: () => openMovie('?mode=movie&movie=referenceVillage60'),
 			multiplayer: navigateMultiplayer,

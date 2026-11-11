@@ -9,9 +9,12 @@
  * Awtsmoos.com loads only the chosen surface and enriches cinema without bypassing project truth.
  */
 
-export async function openMaterialsMode(hosts) {
-	const { runMaterialDiagnosticMode } = await import('../diagnostics/MaterialDiagnosticMode.js');
-	return runMaterialDiagnosticMode(hosts);
+export async function openMaterialsMode(hosts, search = '', options = {}) {
+	// The diagnostic module's entry is launchMaterialDiagnostic; this loader
+	// long called a runMaterialDiagnosticMode export that does not exist, so
+	// every Materials World click threw before the diagnostic could start.
+	const { launchMaterialDiagnostic } = await import('../diagnostics/MaterialDiagnosticMode.js');
+	return launchMaterialDiagnostic(hosts);
 }
 
 export async function openPlatformMode(hosts) {

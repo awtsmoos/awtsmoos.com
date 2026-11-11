@@ -56,9 +56,15 @@ export async function openMitzvahWorldPlatformCreative(hosts, options = {}, envi
  * @param {object} environment Browser-like runtime environment.
  * @returns {Promise<*>} Creative mode diagnostics.
  */
-export async function openPresentedMitzvahWorldCreative(method, hosts, search, environment) {
+export async function openPresentedMitzvahWorldCreative(method, hosts, search, environment, options = {}) {
+	reportDirectWorldProgress(options, 'Preparing the creative presentation…', {
+		stage: 'presented-creative-presentation', url: DIRECT_EXPERIENCE_URL
+	});
 	const experienceKli = await import(DIRECT_EXPERIENCE_URL);
 	await experienceKli.startMitzvahWorldFullPresentation(hosts, environment);
+	reportDirectWorldProgress(options, 'Loading the creative tools…', {
+		stage: 'presented-creative-module', url: CREATIVE_URL
+	});
 	const creativeKli = await import(CREATIVE_URL);
-	return creativeKli[method](hosts, search);
+	return creativeKli[method](hosts, search, options);
 }
