@@ -46,9 +46,13 @@ function postFields() {
 		content: true,
 		author: true,
 		parentSeriesId: true,
-		seriesId: true,
 		createdAt: true,
-		dayuh: true
+		dayuh: true,
+		// B"H batch 27d: packed posts carry their text as phraseTranslations
+		// (+ a real footnotes[]); without them in the first-byte projection
+		// the server sefer can never render and first paint waits on the API.
+		phraseTranslations: true,
+		footnotes: true
 	});
 }
 

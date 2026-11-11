@@ -92,7 +92,13 @@ function createPostReader($i) {
 			// so the sefer mounts without the translations API round trip.
 			// Empty when translations were unavailable — the client then
 			// fetches the API exactly as before.
-			phraseTranslationsHtml: renderPhraseTranslationsEmbed(translations),
+			// B"H batch 27c: packed posts carry their rows on the record;
+			// embed those when the translations endpoint has none (27b).
+			phraseTranslationsHtml: renderPhraseTranslationsEmbed(
+				Array.isArray(translations) && translations.length
+					? translations
+					: ((data && data.post && (data.post.post || data.post).phraseTranslations) || translations)
+			),
 			postAnnotationsHtml: ''
 		};
 	}

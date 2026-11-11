@@ -141,7 +141,14 @@ function renderInitialPostPreview(data = {}, translations) {
 	const { envelope, post } = resolvePayload(data);
 	if (!post || post.error || envelope.error) return '';
 	const title = post.title || post.name || envelope.title || 'Torah teaching';
-	const seferHtml = renderSeferInitialHtml(translations, title);
+	// B"H 2026-11-11 batch 27b: packed posts (the Likkutei publish) carry
+	// phraseTranslations on the post record itself, and their translations
+	// endpoint serves no rows for them — feed the sefer from the record
+	// so the first paint is the sefer for those posts too.
+	const seferRows = Array.isArray(translations) && translations.length
+		? translations
+		: (Array.isArray(post.phraseTranslations) ? post.phraseTranslations : translations);
+	const seferHtml = renderSeferInitialHtml(seferRows, title);
 	if (seferHtml) return seferHtml;
 	const paragraphs = paragraphsFrom(firstText(envelope, post));
 	if (!paragraphs.length) return '';
@@ -178,7 +185,7 @@ function renderSeferInitialHtml(rows, title) {
 	const sections = [];
 	const bySection = new Map();
 	for (const row of slim) {
-		const key = String(row.verseSection ?? '');
+		const key = String(row.verseSection ?? row.sectionId ?? '');
 		if (!bySection.has(key)) {
 			const section = { key, items: [] };
 			bySection.set(key, section);
@@ -220,13 +227,17 @@ function slimPhraseTranslationRows(rows) {
 	const list = Array.isArray(rows) ? rows : [];
 	const out = [];
 	for (const row of list) {
-		const hebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
+		// B"H batch 27b: two row shapes reach here — translation-API rows
+		// ({sourceHebrew, content, verseSection, subsectionId}) and packed
+		// post rows ({source: {hebrew}, en, sectionId, phraseId}). Normalize.
+		const hebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew)
+			: (row && row.source && row.source.hebrew != null ? String(row.source.hebrew) : '');
 		if (!hebrew.trim()) continue;
 		out.push({
 			sourceHebrew: hebrew,
-			content: row && row.content != null ? String(row.content) : '',
-			verseSection: row && row.verseSection != null ? String(row.verseSection) : '',
-			subsectionId: row && row.subsectionId != null ? String(row.subsectionId) : ''
+			content: row && row.content != null ? String(row.content) : (row && row.en != null ? String(row.en) : ''),
+			verseSection: row && row.verseSection != null ? String(row.verseSection) : (row && row.sectionId != null ? String(row.sectionId) : ''),
+			subsectionId: row && row.subsectionId != null ? String(row.subsectionId) : (row && row.phraseId != null ? String(row.phraseId) : '')
 		});
 	}
 	return out;
