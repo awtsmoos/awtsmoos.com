@@ -33,17 +33,15 @@ async function manifestCode() {
 	initializeDOM();
 	watchFeatureStyles();
 	awakenIcons();
-	// B"H - the OS embed bridge awakens BEFORE the app initializes, as it
-	// originally did: gating embed.ready on App.initialize() starved the
-	// handshake entirely in the live embed (no file.open ever arrived,
-	// proven by the bridge's own stage breadcrumbs never appearing),
-	// because initialize's deferred layers and the build-freshness
-	// reload can postpone or preempt everything after the await. The
-	// mid-boot clobber this once guarded against is now prevented by
-	// the bridge opening OS files as real tabs in the app's own model.
-	awakenEmbedBridge();
 	const { App } = await import("./app/index.js");
 	await App.initialize();
+	// B"H - the OS embed bridge awakens only after App.initialize(): its
+	// session restore REPLACES the app state (tabs, workspaces) wholesale,
+	// so a file.open landing before it completes has its tab silently
+	// wiped from State - measured live (tab created as id 0, activeTabId
+	// set, then tabs empty at verification). After initialize returns the
+	// state is final and a created tab survives.
+	awakenEmbedBridge();
 	endAssetSpan(bootstrapSpan);
 }
 

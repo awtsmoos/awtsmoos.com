@@ -67,7 +67,20 @@ export async function openFile(file = {}) {
 		DOM.statusLeft.textContent = `OS open: ${stage} ${item.path}`;
 		const tab = await Tabs.create(item, false, true, true);
 		stage = "verify";
-		const found = State.tabs.find(t => t.id === tab?.id);
+		let found = State.tabs.find(t => t.id === tab?.id);
+		if (!found) {
+			// B"H - self-heal: a late state restore (or a build-freshness
+			// reload of a sibling layer) can wipe a just-created tab from
+			// State. Recreate it once on the settled state rather than
+			// losing the owner's file to a boot race.
+			await new Promise(resolve => setTimeout(resolve, 2500));
+			const retried = await Tabs.create(item, false, true, true);
+			found = State.tabs.find(t => t.id === retried?.id);
+			if (found && State.activeTabId === retried?.id) {
+				DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
+				return activeFile;
+			}
+		}
 		if (!found || State.activeTabId !== tab?.id) {
 			let probe = "probe-skipped";
 			try {
