@@ -57,7 +57,11 @@
 
 .searchWrap {
 	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto;
+	/* B"H css-loop 2026-11-11: four children live here (future-icon span,
+	   search img, input, "/" kbd). Three columns pushed the kbd onto a
+	   second row at the bottom-left and squeezed the input so its
+	   placeholder truncated ("moods" cut off). Four columns, one row. */
+	grid-template-columns: auto auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 8px;
 	min-height: 48px;
