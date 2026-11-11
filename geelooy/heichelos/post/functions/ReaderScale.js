@@ -56,8 +56,15 @@ export class GevurahReaderScale {
 	}
 
 	load() {
+		// B"H batch 27g (2026-11-11): load() must NOT re-anchor the scroll position. It runs at every sefer mount — including the API awaken, seconds after the embed awaken — and the old ratio fallback (win.scrollTo(ratio * max)) fired whenever the anchor element was no longer connected after the mount rebuilt the viewport: on deep pages it teleported the reader (~+50,000px measured on the Likkutei Vol 17 post), landing clicks on whatever pair happened to be under the cursor and making footnote markers appear unclickable. The mount simply applies the remembered size; anchoring stays with apply() (user-initiated size changes).
 		const remembered = this.storage.getItem('currentPostFontSize');
-		return this.applyWithoutScroll(remembered ?? this.policy.defaultSize);
+		const scale = this.policy.buildScale(remembered ?? this.policy.defaultSize);
+		const mainSize = scale['--post-text-size'];
+		this.applicator.apply(scale);
+		this.storage.setItem('currentPostFontSize', mainSize);
+		this.display.reveal(mainSize);
+		this.runtime.announce(mainSize, scale);
+		return mainSize;
 	}
 }
 
