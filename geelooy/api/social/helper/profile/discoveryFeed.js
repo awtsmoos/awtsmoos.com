@@ -12,6 +12,9 @@ const { postsByAlias } = require('./posts.js');
 const { commentsByAlias } = require('./comments.js');
 const { recentActivity } = require('./activity.js');
 const { safeRecordRead } = require('../safeguards/safeRecordRead.js');
+const { readPacked, writePacked } = require('../packed/socialPacked.js');
+const { logicalKey } = require('../packed/shardPaths.js');
+const { createHash } = require('crypto');
 
 function contentKind(item = {}) {
 	const source = item.source || {};
@@ -84,23 +87,81 @@ async function mapBounded(items, limit, fn) {
 	return output;
 }
 
-async function profileFeed({ $i, aliases = [], query = {} }) {
-	const cacheKey = JSON.stringify({
+function riverCacheKey(aliases, query) {
+	return JSON.stringify({
 		a: [...aliases].sort(),
 		k: csv(query.kind || query.kinds),
 		c: csv(query.contentKind || query.contentKinds)
 	});
-	const hit = feedCache.get(cacheKey);
-	if (hit && Date.now() - hit.at < FEED_CACHE_TTL_MS) return [...hit.items];
+}
+
+function riverSnapshotKey(cacheKey) {
+	return logicalKey(['feed', 'publicRiver', createHash('sha1').update(cacheKey).digest('hex').slice(0, 16)]);
+}
+
+function readRiverSnapshot($i, cacheKey) {
+	try {
+		const envelope = readPacked({ $i, shard: 'feed', key: riverSnapshotKey(cacheKey) });
+		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
+		if (value && Array.isArray(value.items)) return value;
+	} catch (_) { /* snapshot absent or unreadable: the inline build below still answers */ }
+	return null;
+}
+
+function writeRiverSnapshot($i, cacheKey, items) {
+	try {
+		writePacked({
+			$i, shard: 'feed', key: riverSnapshotKey(cacheKey),
+			value: { kind: 'publicRiver', items, builtAt: Date.now() },
+			meta: { kind: 'feed', feedType: 'publicRiver' }
+		});
+	} catch (_) { /* persistence is an optimization; the memory cache still serves */ }
+}
+
+async function buildRiver($i, aliases, query) {
 	const perAlias = await mapBounded(aliases.slice(0, 50), FEED_CONCURRENCY, aliasId => aliasActivity($i, aliasId));
 	const events = perAlias.flat();
 	const byActivity = filterKinds(events, csv(query.kind || query.kinds));
 	const byContent = filterContentKinds(byActivity, csv(query.contentKind || query.contentKinds));
-	const items = byContent.sort((left, right) => {
+	return byContent.sort((left, right) => {
 		return (right.createdAt || right.time || 0) - (left.createdAt || left.time || 0);
 	});
+}
+
+const feedRebuilding = new Set();
+
+function rebuildRiverInBackground($i, cacheKey, aliases, query) {
+	if (feedRebuilding.has(cacheKey)) return;
+	feedRebuilding.add(cacheKey);
+	buildRiver($i, aliases, query)
+		.then(items => {
+			feedCache.set(cacheKey, { at: Date.now(), items });
+			writeRiverSnapshot($i, cacheKey, items);
+		})
+		.catch(() => { /* keep serving the stale river; the next request retries */ })
+		.finally(() => feedRebuilding.delete(cacheKey));
+}
+
+async function profileFeed({ $i, aliases = [], query = {} }) {
+	const cacheKey = riverCacheKey(aliases, query);
+	const hit = feedCache.get(cacheKey);
+	if (hit && Date.now() - hit.at < FEED_CACHE_TTL_MS) return [...hit.items];
+	if (hit) {
+		// Stale-while-revalidate: the visitor gets the last river now;
+		// the rebuild happens behind them, never inside their request.
+		rebuildRiverInBackground($i, cacheKey, aliases, query);
+		return [...hit.items];
+	}
+	const snapshot = readRiverSnapshot($i, cacheKey);
+	if (snapshot) {
+		feedCache.set(cacheKey, { at: snapshot.builtAt || 0, items: snapshot.items });
+		rebuildRiverInBackground($i, cacheKey, aliases, query);
+		return [...snapshot.items];
+	}
+	const items = await buildRiver($i, aliases, query);
 	feedCache.set(cacheKey, { at: Date.now(), items });
 	if (feedCache.size > 24) feedCache.delete(feedCache.keys().next().value);
+	writeRiverSnapshot($i, cacheKey, items);
 	return [...items];
 }
 
