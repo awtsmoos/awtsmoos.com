@@ -20,7 +20,7 @@ import { VerifySession, VIEWPORT_PRESETS, parseInteract } from "./snapshots/veri
 // B"H: jsPageRunner and merkavaJsCore are imported lazily inside runPage()
 // (dynamic import) so a missing file can never break module load.
 
-export const VERSION = "1.2.0";
+export const VERSION = "1.3.0";
 export { VIEWPORT_PRESETS };
 
 const DEFAULT_TIMEOUT_MS = 30000;
@@ -89,7 +89,9 @@ function finalDomState(sess, html, jsExecuted) {
  * @param {string} [opts.html]      raw HTML (one of html/url required)
  * @param {string} [opts.url]       fetch HTML from URL
  * @param {string} [opts.css]       extra CSS injected as a <style> block
- * @param {string} [opts.js]        raw JS snippet (wrapped in a minimal page, run via engine)
+ * @param {string} [opts.js]        extra script injected into the page and run
+ *   after its own scripts (async-function body; top-level `return` works).
+ *   Its completion value is returned as `scriptResult`.
  * @param {number} [opts.waitMs]    post-script settle time for page runs (default 2500)
  * @param {string} [opts.device]    viewport preset (iphone14, pixel8, desktop, ...)
  * @param {string} [opts.viewport]  "WxH" custom viewport, overrides device size
@@ -99,13 +101,14 @@ function finalDomState(sess, html, jsExecuted) {
  * @param {boolean} [opts.executeJs] run page <script>s through the Merkava VM
  *   before layout (default true). Captures console + runtime errors.
  * @returns {Promise<{png:Buffer,width,height,consoleLogs:[],jsErrors:[],
- *           finalDom,assertions,timingsMs,ok}>}
+ *           jsStatus,scriptResult,finalDom,assertions,timingsMs,ok}>}
  */
 export async function runPage(opts = {}) {
   const t0 = Date.now();
   const timeoutMs = Math.min(Math.max(opts.timeoutMs || DEFAULT_TIMEOUT_MS, 1000), 120000);
   let html = opts.html || "";
   if (!html && opts.url) html = await fetchHtml(opts.url, timeoutMs);
+  if (!html && opts.js) html = `<!DOCTYPE html><html><body></body></html>`;
   if (!html) throw new Error("runPage: need html or url");
   html = injectCss(html, opts.css);
 
@@ -117,22 +120,19 @@ export async function runPage(opts = {}) {
   if (opts.executeJs !== false) {
     try {
       const { runPageWithJs } = await import("./snapshots/jsPageRunner.js");
-      let pageHtml = html;
-      if (opts.js && !html && !opts.url) {
-        pageHtml = `<!DOCTYPE html><html><body><script>${opts.js}</script></body></html>`;
-      }
       jsResult = await runPageWithJs({
-        html: pageHtml || undefined,
+        html: html || undefined,
         url: opts.url || undefined,
+        js: opts.js || undefined,
         waitMs: Math.min(opts.waitMs || 2500, 15000),
         fetchTimeoutMs: Math.min(timeoutMs, 15000),
       });
       // Render the POST-JS DOM — this is what makes JS apps screenshot correctly.
-      if (!opts.js && jsResult.finalHtml && jsResult.finalHtml.length > html.length / 2) {
+      if (jsResult.finalHtml && jsResult.finalHtml.length > html.length / 2) {
         html = injectCss(jsResult.finalHtml, opts.css);
       }
     } catch (e) {
-      jsResult = { ok: false, consoleLogs: [], jsErrors: [{ kind: "harness", name: "JsHarnessError", message: String((e && e.message) || e).slice(0, 200), file: "<harness>", line: 0, estimated: true }], status: "HARNESS_ERROR", steps: 0, wallMs: 0, scriptsRun: 0 };
+      jsResult = { ok: false, consoleLogs: [], jsErrors: [{ kind: "harness", name: "JsHarnessError", message: String((e && e.message) || e).slice(0, 200), file: "<harness>", line: 0, estimated: true }], status: "HARNESS_ERROR", scriptResult: undefined, steps: 0, wallMs: 0, scriptsRun: 0 };
     }
   }
 
@@ -164,7 +164,8 @@ export async function runPage(opts = {}) {
     dpr: v.dpr,
     consoleLogs: jsResult ? jsResult.consoleLogs : [],
     jsErrors: jsResult ? jsResult.jsErrors : [],
-    jsStatus: jsResult ? jsResult.status : "SKIPPED",
+    jsStatus: jsResult ? (jsResult.status || (jsResult.jsErrors.length ? "ERROR" : "OK")) : "SKIPPED",
+    scriptResult: jsResult ? jsResult.scriptResult : undefined,
     finalDom: finalDomState(sess, html, jsResult && jsResult.status !== "SKIPPED"),
     assertions: report.steps.map((s) => ({
       op: s.op, arg: s.arg || "", ok: !!s.ok, ms: s.ms || 0, detail: String(s.detail || "").slice(0, 300),

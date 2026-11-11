@@ -29,7 +29,7 @@ const VirtualHtmlSerializer = serPkg?.VirtualHtmlSerializer || serPkg;
 
 const __here = path.dirname(fileURLToPath(import.meta.url));
 
-export const VERSION = "1.0.0";
+export const VERSION = "1.2.0";
 const DEFAULT_WAIT_MS = 2500;
 const DEFAULT_FETCH_TIMEOUT_MS = 15000;
 const MAX_SCRIPTS = 60;
@@ -244,6 +244,106 @@ function normalizeConsole(raw) {
   }));
 }
 
+/**
+ * B"H 2026-11-11: how the injected script's value gets home. The engine
+ * executes a page's external scripts in their own assembled context —
+ * page state (e.g. window.SC) lives THERE, not on the runtime facade's
+ * window that this runner gets back, and not in the serialized DOM (a
+ * separate late "function" evaluation gets yet another facade). Guest
+ * fetch has no live transport in this lane, but VirtualFetch RECORDS
+ * every request (resolved or not) on the window's network log, which
+ * the runner CAN read back. So the wrapper — appended to the page's
+ * LAST fetched script, running in the page's own context after all
+ * page scripts — evaluates the caller's script (as the body of an
+ * async function; top-level `return` works, promises are awaited) and
+ * encodes the outcome into one fetch URL, where the runner finds it
+ * in the recorded requests. Pages with no external scripts fall back
+ * to an inline <script> at the end of <body>.
+ */
+function buildInjectedWrapper(js, resultToken) {
+  const code = String(js);
+  return `
+;(async () => {
+  const __send = async (payload) => {
+    try {
+      let __s = JSON.stringify(payload);
+      let __b = btoa(unescape(encodeURIComponent(__s))).replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/, "");
+      if (__b.length > 24000) {
+        __s = JSON.stringify({ nonSerializable: true, type: "oversized", summary: "injected script result exceeded the 24K transport cap" });
+        __b = btoa(unescape(encodeURIComponent(__s))).replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/, "");
+      }
+      await fetch("/__merkava_result_${resultToken}/" + __b);
+    } catch (e) { /* recorded-request transport is best-effort */ }
+  };
+  try {
+    const __v = await (async () => {
+${code}
+    })();
+    if (typeof __v === "undefined") { await __send({ wasUndefined: true }); return; }
+    let __s = null;
+    try { __s = JSON.stringify(__v); } catch (e) { __s = null; }
+    if (__s == null || typeof __s === "undefined") {
+      let __sum = "";
+      try { __sum = String(__v).slice(0, 500); } catch (e) { /* ignore */ }
+      await __send({ nonSerializable: true, type: Array.isArray(__v) ? "array" : typeof __v, summary: __sum });
+    } else {
+      await __send({ value: JSON.parse(__s) });
+    }
+  } catch (e) {
+    await __send({ error: {
+      name: (e && e.name) || "Error",
+      message: String((e && e.message) || e),
+      stack: String((e && e.stack) || ""),
+    } });
+  }
+})();
+`;
+}
+
+/** Read a wrapper payload back out of the window's recorded requests. */
+function readInjectedPayload(runtime, resultToken) {
+  try {
+    const reqs = runtime?.window?.__network?.requests || [];
+    const marker = "/__merkava_result_" + resultToken + "/";
+    for (let i = reqs.length - 1; i >= 0; i--) {
+      const url = String(reqs[i]?.url || "");
+      const at = url.indexOf(marker);
+      if (at < 0) continue;
+      const b64 = url.slice(at + marker.length).split(/[?#]/)[0];
+      const json = Buffer.from(b64.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8");
+      return JSON.parse(json);
+    }
+  } catch { /* no usable payload */ }
+  return null;
+}
+
+function injectScriptTag(html, code) {
+  const tag = `<script>\n${code}\n</script>`;
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, tag + "</body>");
+  return html + tag;
+}
+
+/**
+ * Make an injected script's completion value safe to hand back: JSON
+ * round-trip when possible; otherwise a typed summary. Never throws.
+ */
+function safeSerializeScriptResult(v) {
+  if (typeof v === "undefined") return undefined;
+  try {
+    const s = JSON.stringify(v);
+    if (typeof s === "undefined") throw new Error("not JSON-serializable");
+    return JSON.parse(s);
+  } catch {
+    let summary = "";
+    try { summary = String(v).slice(0, 500); } catch { /* ignore */ }
+    return {
+      __nonSerializable: true,
+      type: Array.isArray(v) ? "array" : typeof v,
+      summary,
+    };
+  }
+}
+
 function serializeFinalDom(runtime) {
   try {
     const doc = runtime?.window?.document;
@@ -263,9 +363,14 @@ function serializeFinalDom(runtime) {
  * @param {object} opts
  * @param {string} [opts.url]       page URL (fetch HTML + scripts)
  * @param {string} [opts.html]      raw HTML (scripts resolved against opts.url or merkava://local/)
+ * @param {string} [opts.js]        extra script appended as the page's last
+ *   script and run in its context, as the body of an async function
+ *   (top-level `return` works). Its completion value comes back as
+ *   `scriptResult`; a throw is captured into jsErrors. The script settles
+ *   within the simulation's waitMs window.
  * @param {number} [opts.waitMs]    settle time after scripts (default 2500)
  * @param {number} [opts.fetchTimeoutMs] per-request timeout (default 15000)
- * @returns {Promise<{ok, jsErrors[], consoleLogs[], finalHtml, canvasSnapshot, scriptsFetched, scriptsRun, wallMs, version}>}
+ * @returns {Promise<{ok, status, scriptResult, jsErrors[], consoleLogs[], finalHtml, canvasSnapshot, scriptsFetched, scriptsRun, wallMs, version}>}
  */
 export async function runPageWithJs(opts = {}) {
   const t0 = Date.now();
@@ -276,6 +381,7 @@ export async function runPageWithJs(opts = {}) {
   let html = opts.html || "";
   if (!html && opts.url) html = await fetchText(opts.url, fetchTimeoutMs);
   if (!html) throw new Error("runPageWithJs: need html or url");
+  const hasInjected = typeof opts.js === "string" && opts.js.length > 0;
 
   // Fetch external scripts so the engine can execute them.
   const srcs = extractScriptSrcs(html, baseUrl);
@@ -354,16 +460,48 @@ export async function runPageWithJs(opts = {}) {
   };
   await fetchModuleTree();
 
+  // B"H 2026-11-11: inject the caller's script (see buildInjectedWrapper).
+  // The wrapper is appended to the page's last fetched external script so
+  // it runs in the page's real script context; with no external scripts it
+  // goes inline at the end of <body> instead.
+  const resultToken = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  if (hasInjected) {
+    const wrapper = buildInjectedWrapper(opts.js, resultToken);
+    let hostUrl = null;
+    for (let i = srcs.length - 1; i >= 0; i--) {
+      if (codeByUrl[srcs[i]] != null) { hostUrl = srcs[i]; break; }
+    }
+    if (hostUrl) {
+      const original = codeByUrl[hostUrl];
+      const augmented = original + "\n" + wrapper;
+      for (const k of Object.keys(files)) {
+        if (files[k] === original) files[k] = augmented;
+      }
+      codeByUrl[hostUrl] = augmented;
+    } else {
+      html = injectScriptTag(html, wrapper);
+      files["index.html"] = html;
+    }
+  }
+
   let out;
   try {
     out = await simulateBrowser(files, "index.html", {
       waitMs,
       url: baseUrl,
-      origin: (() => { try { return new URL(baseUrl).origin; } catch { return "http://merkava.local/"; } })(),
+      // B"H 2026-11-11: the engine resolves script srcs against this
+      // origin (RuntimeAddress), so it must be the page's DIRECTORY —
+      // a bare origin silently resolves every src to the server root,
+      // and pages under a subpath execute zero scripts while reporting
+      // success. (Root-level pages are unaffected: "." of /index.html
+      // is the origin root either way.)
+      origin: (() => { try { return new URL(".", baseUrl).href; } catch { return "http://merkava.local/"; } })(),
     });
   } catch (e) {
     return {
       ok: false,
+      status: "ERROR",
+      scriptResult: undefined,
       jsErrors: [{ kind: "harness", name: "EngineError", message: String((e && e.message) || e).slice(0, 800), file: "<engine>", line: 0, stack: String((e && e.stack) || "").slice(0, 2000) }],
       consoleLogs: [],
       finalHtml: html,
@@ -379,6 +517,35 @@ export async function runPageWithJs(opts = {}) {
   const jsErrors = normalizeErrors(runtimeErrors);
   const consoleLogs = normalizeConsole(out?.console);
   const finalHtml = serializeFinalDom(out?.runtime) || html;
+
+  // B"H 2026-11-11: collect the injected script's outcome from the
+  // window's recorded network requests (see buildInjectedWrapper). A
+  // throwing script never breaks the page run — its error joins
+  // jsErrors (kind "injected") and flips ok/status. If no result
+  // request was recorded, the injection is reported as an
+  // InjectionError.
+  let scriptResult;
+  if (hasInjected) {
+    const payload = readInjectedPayload(out?.runtime, resultToken);
+    if (payload && payload.error) {
+      jsErrors.push(...normalizeErrors([{ ...payload.error, phase: "injected", file: "<injected>" }]));
+    } else if (payload && payload.nonSerializable) {
+      scriptResult = { __nonSerializable: true, type: payload.type, summary: payload.summary };
+    } else if (payload && "value" in payload) {
+      scriptResult = safeSerializeScriptResult(payload.value);
+    } else if (payload && payload.wasUndefined) {
+      scriptResult = undefined;
+    } else {
+      jsErrors.push({
+        kind: "injected",
+        name: "InjectionError",
+        message: "injected script produced no result (did not run, or did not settle during the simulation)",
+        file: "<injected>",
+        line: 0,
+        stack: "",
+      });
+    }
+  }
 
   // B"H 2026-10-13: capture the document's texture arena so the shot path
   // can paint real canvas pixels (2D command replay + WebGL glPixels).
@@ -396,6 +563,8 @@ export async function runPageWithJs(opts = {}) {
 
   return {
     ok: jsErrors.length === 0,
+    status: jsErrors.length === 0 ? "OK" : "ERROR",
+    scriptResult,
     jsErrors,
     consoleLogs,
     finalHtml,

@@ -15,7 +15,7 @@ import { runPageWithJs } from "./snapshots/jsPageRunner.js";
 import { VIEWPORT_PRESETS } from "./snapshots/verifySession.js";
 
 export { runPage, runPageWithJs, VIEWPORT_PRESETS };
-export const VERSION = "2.0.0";
+export const VERSION = "2.1.0";
 
 function arg(name, def = null) {
   const i = process.argv.indexOf(name);
@@ -35,16 +35,19 @@ async function main() {
     let html = htmlArg || (fileArg ? readFileSync(fileArg, "utf8") : null);
     let js = jsArg || (jsFile ? readFileSync(jsFile, "utf8") : null);
     if (js && !html && !url) {
-      // Snippet: wrap in a minimal page so the browser engine runs it.
-      html = `<!DOCTYPE html><html><body><script>${js}</script></body></html>`;
-      js = null;
+      // Snippet: run it as an injected script in a minimal page so its
+      // completion value comes back as scriptResult (printed as RESULT:).
+      html = `<!DOCTYPE html><html><body></body></html>`;
     }
     if (!html && !url) {
       console.error("Usage: merkava run-js <url> [--js \"code\" | --html \"...\" | --file f.html]");
       process.exit(1);
     }
-    const r = await runPageWithJs({ html: html || undefined, url: url || undefined, waitMs: 4000 });
+    const r = await runPageWithJs({ html: html || undefined, url: url || undefined, js: js || undefined, waitMs: 4000 });
     for (const l of r.consoleLogs) console.log(`[${l.level}] ${l.text}`);
+    if (typeof r.scriptResult !== "undefined") {
+      try { console.log(`RESULT: ${JSON.stringify(r.scriptResult)}`); } catch { /* non-serializable summaries still print via String */ console.log(`RESULT: ${String(r.scriptResult)}`); }
+    }
     if (!r.jsErrors.length) {
       console.log(`OK: ${r.scriptsRun} script(s), ${r.wallMs}ms — no errors`);
     } else {
