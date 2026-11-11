@@ -7,11 +7,15 @@ export function normalizeRenderItems(items = [], options = {}) { return [...item
 
 export function normalizeRenderItem(raw = {}, { currentPath = '/', os } = {}) {
   const name = raw.name || raw.data?.name || nameFromPath(raw.path || '');
-  if (!name || String(name).startsWith('.')) return null;
+  if (!name) return null;
   const path = pathFor(raw, currentPath, name);
+  const mount = mountData(os, path);
+  // B"H: hidden entries stay hidden on local surfaces, but a remote tunnel
+  // is the owner's real machine — its dot folders and files (.awtsmoos-tunnel,
+  // .config, .env) are working files, and the Tunnel Workspace shows them too.
+  if (String(name).startsWith('.') && mount.locality !== 'remote' && mount.provider !== 'tunnel') return null;
   const kind = itemKind(raw, name);
   const extension = kind === 'folder' ? '' : extensionOf(name);
-  const mount = mountData(os, path);
   const permissions = permissionForPath(os, path, mount);
   mount.badge = mountBadge(mount, permissions);
   const iconKind = kind === 'folder' ? 'folder' : extension || raw.type || 'file';

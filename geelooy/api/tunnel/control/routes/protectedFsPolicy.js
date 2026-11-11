@@ -15,7 +15,9 @@ const SESSION_SAFE_ACTIONS = new Set([
 	"actionHistoryDiff", "chromeStatus", "chatgptStatus", "missionProjectDiscover",
 	"missionProjectStatus", "missionTimeline", "missionTurnStatus",
 	"missionResourceStatus", "websiteAgentMissionList",
-	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
+	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus",
+	"retryAction", "commandStatus", "commandJobOutputPage",
+	"asyncTaskStatus", "asyncTaskWait", "asyncTaskOutputPage"
 ]);
 
 /**

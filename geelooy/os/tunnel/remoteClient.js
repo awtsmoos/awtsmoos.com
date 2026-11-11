@@ -12,6 +12,7 @@
 
 import { collectTargets } from "./remoteTargets.js";
 import { observePendingReceipt } from "../remote/tunnelObserveReceipt.js";
+import { storedTunnelApiKey } from "../remote/tunnelApiKey.js";
 
 export { collectTargets } from "./remoteTargets.js";
 
@@ -80,21 +81,34 @@ export function readRemote(
 }
 
 async function jsonRequest(fetcher, url, options = {}) {
+	// B"H - the owner's Tunnel Control API key (selected there once) rides
+	// along so the OS panel can run the mutations a bare session may only
+	// observe; without it the server answers api_key_required, honestly.
+	const apiKey = storedTunnelApiKey();
+	const { headers: callerHeaders, ...rest } = options;
 	const response = await fetcher(url, {
 		credentials: "same-origin",
+		...rest,
 		headers: {
 			Accept: "application/json",
-			...(options.headers || {})
-		},
-		...options
+			...(apiKey ? { "x-awtsmoos-api-key": apiKey } : {}),
+			...(callerHeaders || {})
+		}
 	});
 	const data = await response.json();
 	if (!response.ok || data?.ok === false) {
-		throw new Error(
-			data?.error || `Tunnel request failed (${response.status}).`
-		);
+		throw new Error(friendlyError(data, response.status));
 	}
 	return data;
+}
+
+function friendlyError(data, status) {
+	if (data?.error === "api_key_required") {
+		return `${data.message || "An API key is required for this action."} ` +
+			"In Tunnel Control, open API Keys, create a key with the needed scope " +
+			"and select it as active — this panel picks it up automatically.";
+	}
+	return data?.message || data?.error || `Tunnel request failed (${status}).`;
 }
 
 function cleanPayload(payload = {}) {

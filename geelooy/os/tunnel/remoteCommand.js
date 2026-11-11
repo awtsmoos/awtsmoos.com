@@ -78,6 +78,9 @@ export function cancelRemoteCommand(target, jobId, fetcher) {
 }
 
 export function normalizeReceipt(value = {}) {
+	if (value?.ok === false && value?.error) {
+		throw new Error(value.message || value.error);
+	}
 	const jobId = firstText(
 		value.jobId,
 		value.id,

@@ -11,6 +11,7 @@ import {
 	revokeTunnelPreview
 } from "./tunnelPreviewClient.js";
 import { policyForControlOperation } from "./tunnelRequestPolicy.js";
+import { storedTunnelApiKey } from "./tunnelApiKey.js";
 import { retryTunnelRequest } from "./tunnelRetry.js";
 
 /**
@@ -32,7 +33,11 @@ export async function fsAction(tunnelName, payload = {}, options = {}) {
 	if (payload.targetVessel === "browser-tab") {
 		return await legacyBrowserFsRequest(tunnelName, payload, options);
 	}
-	return await protectedFsRequest(tunnelName, payload, options);
+	// The owner's Tunnel Control key (when one is selected there) authorizes
+	// mutations from the OS too; callers may still pass their own apiKey.
+	const apiKey = options.apiKey || storedTunnelApiKey();
+	return await protectedFsRequest(tunnelName, payload,
+		apiKey ? { ...options, apiKey } : options);
 }
 
 export async function previewCreate(preview = {}, options = {}) {
