@@ -95,6 +95,13 @@
 	color: var(--g-text, var(--sefer-title-ink));
 	margin: 0 0 1rem;
 }
+/* B"H — css-loop 2026-11-11: the Ikar vessel is dark (#020713) by default,
+   but this title fell back to the dark --sefer-title-ink (#1f1712) —
+   "Enter the library" / series "Explore" unreadable dark-on-dark.
+   Light ink on the dark vessel; the light theme keeps its dark ink. */
+:root:not([data-theme="light"]).heichel-os-document #heichel-discovery-title {
+	color: #faf3e2;
+}
 /* Discovery list: real grid, list reset, rendering containment for
    series with hundreds of posts. Intrinsically responsive — one
    column on narrow vessels without a breakpoint. */
