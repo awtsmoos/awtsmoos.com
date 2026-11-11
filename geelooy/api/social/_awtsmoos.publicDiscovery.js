@@ -19,6 +19,7 @@ const { er } = require('./helper/general.js');
 const { enrichItemsWithSocialKernel } = require('./helper/socialKernel/SocialKernelProjection.js');
 const { enrichItemsWithSocialSummary } = require('./helper/socialSummary/SocialSummaryBatch.js');
 const { verifiedViewerAlias } = require('./helper/socialSummary/SocialSummaryViewer.js');
+const { buildAffinity, seriesFamily } = require('./helper/platform/feedRoutesAffinity.js');
 
 function badMethod() {
 	return er({ code: 'BAD_METHOD', message: 'Use GET.' });
@@ -28,14 +29,44 @@ async function viewerAlias($i, userid, query) {
 	return verifiedViewerAlias({ $i, userid, requestedAliasId: query.viewerAliasId || '' });
 }
 
-async function latestPage({ $i, items, query, viewerAliasId }) {
+function affinityFor(userid) {
+	if (!userid) return null;
+	try {
+		const affinity = buildAffinity(userid);
+		if (!affinity || (!affinity.seriesWeight.size && !affinity.familyWeight.size)) return null;
+		return affinity;
+	} catch (_) {
+		return null;
+	}
+}
+
+function rankPageByAffinity(pageItems, affinity) {
+	if (!affinity) return pageItems;
+	const scored = pageItems.map((item, index) => {
+		const sid = String(item?.source?.seriesId || '');
+		const sw = affinity.seriesWeight.get(sid) || 0;
+		const fam = sid ? seriesFamily(sid) : null;
+		const fw = (!sw && fam) ? (affinity.familyWeight.get(fam) || 0) * 0.55 : 0;
+		let score = 1 + sw + fw;
+		const postId = String(item?.source?.postId || item?.id || '');
+		if (postId && affinity.readPostIds.has(postId)) score *= 0.35;
+		return { item, index, score };
+	});
+	scored.sort((a, b) => (b.score - a.score) || (a.index - b.index));
+	return scored.map(entry => entry.item);
+}
+
+async function latestPage({ $i, items, query, viewerAliasId, affinity }) {
 	const page = paginateChronological(items, query, { limit: 25, max: 100 });
-	const summarized = await enrichItemsWithSocialSummary({ $i, items: page.items, viewerAliasId });
+	const pageItems = rankPageByAffinity(page.items, affinity);
+	const summarized = await enrichItemsWithSocialSummary({ $i, items: pageItems, viewerAliasId });
 	const enriched = await enrichItemsWithSocialKernel({ $i, items: summarized, viewerAliasId });
+	const extra = { socialKernel: 'projection-v1', pagination: 'chronological-cursor-v2' };
+	if (affinity) extra.ranking = 'affinity-page-v1';
 	return ok(enriched, {
 		query,
 		pageInfo: page.pageInfo,
-		extra: { socialKernel: 'projection-v1', pagination: 'chronological-cursor-v2' }
+		extra
 	});
 }
 
@@ -105,7 +136,7 @@ async function feedResponse($i, userid) {
 		const lastGood = readLastGoodRiver($i);
 		if (lastGood) items = lastGood.items;
 	}
-	return latestPage({ $i, items, query, viewerAliasId });
+	return latestPage({ $i, items, query, viewerAliasId, affinity: affinityFor(userid) });
 }
 
 async function trendingResponse($i, userid) {
