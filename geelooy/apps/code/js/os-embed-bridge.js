@@ -52,7 +52,19 @@ export async function openFile(file = {}) {
 	if (activeFile.intent === "preview") {
 		return await openPreview(activeFile);
 	}
-	openOsEditor(activeFile);
+	try {
+		// B"H - an OS file must live in the editor's own tab model, like the
+		// preview path already does: writing the raw textarea instead leaves
+		// a phantom document that the app's remembered-tab activation paints
+		// over seconds after boot. A real tab survives view switches and
+		// session restores because the app itself owns it.
+		const workspace = ensureOsWorkspace(activeFile);
+		const item = createOsWorkspaceItem(activeFile, workspace);
+		await Tabs.create(item, false, true, true);
+		DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
+	} catch (error) {
+		openOsEditor(activeFile);
+	}
 	return activeFile;
 }
 
