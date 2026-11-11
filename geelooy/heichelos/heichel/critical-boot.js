@@ -112,8 +112,11 @@ async function guardSeriesRoute() {
 	}
 }
 
-/** Loads the shared breadcrumbs module on Heichel pages (Fix 7). */
+/** Retired (batch 29 follow-up): Heichel pages own their breadcrumb via
+ * ikar-first's pill; the generic module painted a raw-URL second trail
+ * above the hero. Kept as a no-op so the call site stays stable. */
 function loadBreadcrumbs() {
+	return;
 	if (document.querySelector('script[src="/scripts/awtsmoos/ui/breadcrumbs.js"]')) return;
 	const script = document.createElement('script');
 	script.src = '/scripts/awtsmoos/ui/breadcrumbs.js';

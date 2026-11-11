@@ -51,6 +51,11 @@
 		if (!segments.length) return null; // homepage: no breadcrumb needed
 		// Skip utility/asset paths.
 		if (segments[0] === 'api' || segments[0] === 'scripts' || segments[0] === 'style') return null;
+		// Heichel pages own their breadcrumb (ikar-first pill / Torah
+		// navigation); the generic trail must never paint beside it
+		// (batch 29 follow-up: it rendered a raw-URL second trail,
+		// "Home / ... / Series / TheWrittenTorah", above the hero).
+		if (segments[0] === 'heichelos') return null;
 
 		var crumbs = [{ label: 'Home', href: '/' }];
 		var href = '';
