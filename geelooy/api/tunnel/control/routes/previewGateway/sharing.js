@@ -41,12 +41,20 @@ async function previewAccessRevoke(context) {
 }
 
 function accessPatch(parameters = {}) {
+	const userIds = new Set(), emails = new Set();
 	const userId = parameters.recipientUserId || parameters.userId || parameters.accessId;
+	if (userId) userIds.add(String(userId));
+	for (const value of listOf(parameters.userIds)) userIds.add(String(value));
 	const email = parameters.recipientEmail || parameters.email;
-	return {
-		userIds: userId ? [String(userId)] : [],
-		emails: email ? [String(email).toLowerCase()] : []
-	};
+	if (email) emails.add(String(email).toLowerCase());
+	for (const value of listOf(parameters.emails)) emails.add(String(value).toLowerCase());
+	return { userIds: [...userIds], emails: [...emails] };
+}
+
+function listOf(value) {
+	if (Array.isArray(value)) return value.filter(Boolean);
+	if (typeof value === "string") return value.split(",").map(part => part.trim()).filter(Boolean);
+	return [];
 }
 
 function unauthorized(context) {
