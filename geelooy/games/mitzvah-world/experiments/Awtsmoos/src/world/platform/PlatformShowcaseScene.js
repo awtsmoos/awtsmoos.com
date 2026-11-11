@@ -11,7 +11,7 @@ import {
 	loadPublicMaterialImage,
 	serializableImageRecord
 } from '../../assets/PublicMaterialImageLoader.js';
-import { generateWorldAssets } from '../proceduralApi/index.js';
+import { generateWorldAssets, waterFirebaseMaterialRecipe } from '../proceduralApi/index.js';
 import { GevurahTextMeshCollisionAdapter } from '../proceduralText/TextMeshCollisionAdapter.js';
 import { YesodTinyTextMeshAdapter } from '../proceduralText/TinyTextMeshGeometryAdapter.js';
 import { createCompleteBotanicalGarden } from './CompleteBotanicalGarden.js';
@@ -25,8 +25,11 @@ export async function createPlatformShowcase(runtime) {
 	const assets = await generateWorldAssets(platformShowcaseRecipes());
 	const byId = Object.fromEntries(assets.map(asset => [asset.id, asset]));
 	const waterShader = byId['platform-water-shader'].artifact;
+	// The water shader artifact carries channel policy, not a material: the
+	// public albedo lives in the Firebase water material recipe. Reading
+	// waterShader.material.textures threw before any showcase geometry built.
 	const textureRecord = await loadPublicMaterialImage(
-		waterShader.material.textures.albedo,
+		waterFirebaseMaterialRecipe().textures.albedo,
 		4500
 	);
 	const group = new Group();
