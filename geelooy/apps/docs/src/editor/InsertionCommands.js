@@ -182,11 +182,11 @@ export class InsertionCommands {
 		return this.formatting.execute("insertText", value);
 	}
 
-	/** Converts the current paragraph into a task list, or starts a new task. */
+	/** Converts the block holding the caret into a task list, or starts a new task. */
 	checklist() {
 		if (!this.formatting.editor.isEditable()) return false;
 		const block = this.#currentBlock();
-		if (block && block.tagName === "P") {
+		if (block && block.tagName !== "TABLE" && block.tagName !== "HR") {
 			const list = document.createElement("ul");
 			list.dataset.checklist = "true";
 			const item = document.createElement("li");
@@ -203,16 +203,33 @@ export class InsertionCommands {
 		);
 	}
 
-	/** Returns the top-level editor block holding the current selection. */
+	/**
+	 * Returns the top-level editor block holding the current selection.
+	 * The live selection can sit over the whole canvas after toolbar or menu
+	 * interaction (commonAncestorContainer === the editor root itself, whose
+	 * children are the blocks but which carries no data-block-id), so fall
+	 * back to the anchor node and then to the block holding the caret's line
+	 * via the shared block-selection helper's intersection logic.
+	 */
 	#currentBlock() {
 		const selection = window.getSelection();
 		if (!selection?.rangeCount) return null;
-		const node = selection.getRangeAt(0).commonAncestorContainer;
-		const element = node.nodeType === Node.ELEMENT_NODE
-			? node
-			: node.parentElement;
-		const block = element?.closest?.("[data-block-id]");
-		return block && this.root.contains(block) ? block : null;
+		const range = selection.getRangeAt(0);
+		for (const rawNode of [range.commonAncestorContainer, selection.anchorNode]) {
+			const element = rawNode?.nodeType === Node.ELEMENT_NODE
+				? rawNode
+				: rawNode?.parentElement;
+			const block = element?.closest?.("[data-block-id]");
+			if (block && this.root.contains(block)) return block;
+		}
+		for (const child of Array.from(this.root.children)) {
+			try {
+				if (range.intersectsNode(child)) return child;
+			} catch {
+				/* intersectsNode can throw for a detached range; keep looking */
+			}
+		}
+		return null;
 	}
 }
 
