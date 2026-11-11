@@ -72,12 +72,19 @@ function parseJson(text) {
 }
 
 function driveRequestError(response, data, url) {
-	const message = data?.error || data?.message || data?.details || `${response.status} ${response.statusText}`;
+	const message = errorText(data?.error) || errorText(data?.message) || errorText(data?.details) || `${response.status} ${response.statusText}`;
 	const error = new Error(`Drive request failed: ${message}`);
 	error.code = "drive_request_failed";
 	error.status = response.status;
 	error.url = url;
 	return error;
+}
+
+/** Reads one readable line from a string or object-shaped error value. */
+function errorText(value) {
+	if (typeof value === "string" && value) return value;
+	if (value && typeof value === "object") return value.message || value.code || "";
+	return "";
 }
 
 function requestId() {

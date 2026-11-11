@@ -68,7 +68,7 @@ export function drivePublicUrl(aliasId, path) {
 }
 
 function aliasBase(aliasId) {
-	return `${DRIVE_API_ROOT}/aliases/${encodeURIComponent(aliasId)}`;
+	return `${DRIVE_API_ROOT}/${encodeURIComponent(aliasId)}`;
 }
 
 function entryUrl(aliasId, path) {

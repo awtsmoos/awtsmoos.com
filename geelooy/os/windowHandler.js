@@ -41,7 +41,9 @@ export default class WindowHandler {
 			processId: options.processId || null,
 			programOptions: options.programOptions || null,
 			system,
-			title: options.title
+			title: options.title,
+			url: options.url,
+			webUrl: options.webUrl
 		});
 		const windowRecord = new ResizableWindow({
 			content: programInstance?.div || options.content,

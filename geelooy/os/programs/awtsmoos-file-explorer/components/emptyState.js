@@ -8,7 +8,14 @@ export function loadingState({ title = 'Loading…', detail = 'Opening this fold
   node.setAttribute('aria-busy', 'true'); return node;
 }
 export function errorState(error) {
-  return stateShell('⛔', 'Explorer could not open this chamber', error?.message || error || 'Unknown error', 'remote-folder-state semantic-error-state', 'alert');
+  return stateShell('⛔', 'Explorer could not open this chamber', errorText(error), 'remote-folder-state semantic-error-state', 'alert');
+}
+function errorText(error) {
+  if (!error) return 'Unknown error';
+  if (typeof error === 'string') return error;
+  if (typeof error.message === 'string' && error.message) return error.message;
+  if (typeof error.code === 'string' && error.code) return error.code;
+  try { return JSON.stringify(error); } catch { return 'Unknown error'; }
 }
 function stateShell(glyph, title, detail, className, role = 'status') {
   return createElement({ tag:'div', attributes:{ class:className, role }, children:[
