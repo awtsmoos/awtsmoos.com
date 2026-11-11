@@ -6,7 +6,7 @@ The Awtsmoos holds crown, room, and grounded path inside one exact viewport; Awt
 */
 .nesher-shell {
 	display: grid;
-	grid-template-rows: var(--header-height) minmax(0, 1fr) var(--nav-height);
+	grid-template-rows: auto minmax(0, 1fr) var(--nav-height);
 	gap: var(--gap);
 	width: min(1780px, 100%);
 	height: 100dvh;
@@ -29,6 +29,20 @@ The Awtsmoos holds crown, room, and grounded path inside one exact viewport; Awt
 	backdrop-filter: blur(18px);
 	overflow: hidden;
 }
+/* Batch 26 (site QA): headerView.js renders TWO children - a stacked
+   .brand-block and .header-actions - not the legacy brand/room/actions trio
+   the 3-column grid above was written for. The actions fell into the 1fr
+   middle column beside the title, and the stacked brand (eyebrow + title +
+   room label, ~84px) outgrew the fixed header row, so Record and Live were
+   clipped mid-label by the header's own bottom border. The brand now sits
+   on one row and the actions own the end column. */
+.app-header.studio-primary-header { grid-template-columns: minmax(0, 1fr) auto; }
+.studio-primary-header .brand-block { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.studio-primary-header .brand-block .eyebrow { margin: 0; white-space: nowrap; }
+.studio-primary-header .brand-block h1 { margin: 0; white-space: nowrap; }
+.studio-primary-header .current-room-label { margin: 0; color: var(--muted); font-size: .72rem; white-space: nowrap; }
+.studio-primary-header .header-actions { display: flex; align-items: center; gap: 6px; }
+.studio-primary-header .header-actions button { min-height: 36px; white-space: nowrap; }
 .brand-lockup { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .brand-mark { display: grid; flex: 0 0 auto; width: 38px; height: 38px; place-items: center; border-radius: 13px; background: linear-gradient(135deg, rgba(117,255,229,.18), rgba(107,157,255,.16)); }
 .brand-copy { min-width: 0; }

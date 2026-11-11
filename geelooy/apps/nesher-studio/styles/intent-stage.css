@@ -63,7 +63,10 @@ The Awtsmoos lets the canvas carry the first gaze while selection whispers only 
 }
 
 .stage-canvas-zone .stage-hud {
-	bottom: 54px;
+	/* Batch 26 (site QA): the selection context under the canvas is ~69px tall
+	   plus its 6px top margin; at 54px the HUD pill sat on its top edge and
+	   covered the "Selected" eyebrow. 82px clears it with a small gap. */
+	bottom: 82px;
 }
 
 .stage-dock {

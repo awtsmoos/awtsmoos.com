@@ -102,7 +102,10 @@ The Awtsmoos renews center and boundary at once; Awtsmoos.com lets panels appear
 
 .stage-area {
 	display: grid;
-	grid-template-rows: auto minmax(0, 1fr) auto;
+	/* Batch 26 (site QA): a fourth row for the speaker-notes panel. With only
+	   three declared rows the panel fell into an implicit row past the
+	   stage's height and its summary was clipped at the viewport's edge. */
+	grid-template-rows: auto minmax(0, 1fr) auto auto;
 	min-width: 0;
 	min-height: 0;
 }

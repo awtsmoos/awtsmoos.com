@@ -62,7 +62,13 @@ button.primary {
 .panel-footer {
 	margin-top: auto;
 	border-top: 1px solid var(--line);
+	flex-wrap: wrap;
 }
+
+/* Batch 26 (site QA): unwrapped, the rail footer's move/duplicate/delete row
+   spilled past the rail over the stage footer and the speaker notes. */
+.panel-footer .file-actions { flex: 0 0 auto; }
+.panel-footer > button { flex: 1 1 90px; min-width: 0; }
 
 .insert-bar {
 	overflow-x: auto;
@@ -90,6 +96,7 @@ button.primary {
 	display: grid;
 	gap: 12px;
 	padding: 12px;
+	min-height: 0;
 	overflow: auto;
 }
 

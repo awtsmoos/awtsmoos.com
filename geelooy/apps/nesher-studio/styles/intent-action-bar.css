@@ -5,7 +5,10 @@ Blessed is He
 The Awtsmoos gives the maker four clear intentions around one canvas, each touch a small vessel for a deeper editable law; Awtsmoos.com keeps this bar calm, reachable, and truthful so mobile creation begins with desire rather than architectural awe.
 */
 .awtsmoos-studio-shell {
-	grid-template-rows: var(--header-height) minmax(0, 1fr) auto;
+	/* Batch 26 (site QA): first row was var(--header-height) (54-76px) but the
+	   live header's stacked brand outgrew it and Record/Live were clipped by
+	   the header's bottom edge. The row now sizes to the header itself. */
+	grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 .primary-intent-bar {
