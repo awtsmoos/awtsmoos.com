@@ -88,7 +88,8 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 async function openCreative(kind, hosts, options, environment) {
 	const module = await import(CREATIVE_ROUTE_URL);
 	if (kind === 'movie') return module.openMitzvahWorldMovieCreative(hosts, options);
-	const method = kind === 'materials' ? 'openMaterialsMode' : 'openPlatformMode';
+	if (kind === 'platform') return module.openMitzvahWorldPlatformCreative(hosts, environment);
+	const method = 'openMaterialsMode';
 	return module.openPresentedMitzvahWorldCreative(method, hosts, '', environment);
 }
 

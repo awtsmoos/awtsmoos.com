@@ -47,10 +47,14 @@ export function prepareGameplayPresentation(
 		environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
 		return environment.AwtsmoosHud;
 	}));
-	const creative = prepareCreativeDockPresentation(documentValue, environment);
+	// The creative dock is optional ornament: it starts here but never gates
+	// readiness. Awaiting its multi-megabyte creator graph once froze every
+	// presented route (Procedural Platform above all) behind a cold compact
+	// build, so `ready` covers only stylesheets and the HUD controller.
+	prepareCreativeDockPresentation(documentValue, environment);
 	prepareUniverseEntry(documentValue, environment);
 	return {
-		ready: Promise.all([stylesheetReadiness, hudControllerPromise, creative.ready]),
+		ready: Promise.all([stylesheetReadiness, hudControllerPromise]),
 		stylesheets: GAMEPLAY_STYLESHEETS
 	};
 }
@@ -141,7 +145,13 @@ function revealHosts(hosts = null) {
 
 function schedule(environment, operation) {
 	return new Promise(resolve => {
-		const run = async () => resolve(await operation());
+		const run = async () => {
+			try {
+				resolve(await operation());
+			} catch {
+				resolve(null);
+			}
+		};
 		if (typeof environment.requestIdleCallback === 'function') {
 			environment.requestIdleCallback(run, { timeout: 1200 });
 			return;

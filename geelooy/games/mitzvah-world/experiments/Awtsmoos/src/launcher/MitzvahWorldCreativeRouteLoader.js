@@ -11,6 +11,7 @@
 
 const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?compact=true&v=20260802-game-studio-bridge-02';
+const PLATFORM_URL = './MitzvahWorldPlatformCreativeLoader.js?compact=true&v=20260802-game-studio-bridge-02';
 const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?compact=true&v=${CAPSULE_VERSION}`;
 
 /**
@@ -22,6 +23,20 @@ const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?compact=true&v=
 export async function openMitzvahWorldMovieCreative(hosts, options = {}) {
 	const moduleKli = await import(CREATIVE_URL);
 	return moduleKli.openMovieMode(hosts, options.search || '', options);
+}
+
+/**
+ * @description Opens the Procedural Platform through its own compact door so
+ * the click never waits on the Movie Studio half of the shared creative graph.
+ * @param {object} hosts Canonical game host elements.
+ * @param {object} environment Browser-like runtime environment.
+ * @returns {Promise<*>} Platform mode diagnostics.
+ */
+export async function openMitzvahWorldPlatformCreative(hosts, environment) {
+	const experienceKli = await import(DIRECT_EXPERIENCE_URL);
+	await experienceKli.startMitzvahWorldFullPresentation(hosts, environment);
+	const platformKli = await import(PLATFORM_URL);
+	return platformKli.openPlatformMode(hosts);
 }
 
 /**
