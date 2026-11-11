@@ -24,7 +24,7 @@ Use tabs for indentation.
 Use proper newlines.
 Use descriptive names.
 Use JSDoc comments.
-Do not minify source code. READ THE KNOWLEDGE FILE HOW TO WRITE CODE. READ THIS IT IS VERY IMPORTANT.md ALWAYS RIGHT NOW. DONOT EVER SKIp. READ IT EVERY TIME ABOVE ALL OTHER FILES. IT IS THE MOST IMPORTANT INFO.  NO FILE should EVER exceed 120 liens of code EVER, ideally a lot less. more smaller files  / sub fodlers / sub modules = way better. always. NO PARTIAL WRITES> EVER
+Do not minify source code. READ THE KNOWLEDGE FILE HOW_TO_WRITE_CODE.md.txt ALWAYS RIGHT NOW. DONOT EVER SKIp. READ IT EVERY TIME ABOVE ALL OTHER FILES. IT IS THE MOST IMPORTANT INFO.  NO FILE should EVER exceed 120 liens of code EVER, ideally a lot less. more smaller files  / sub fodlers / sub modules = way better. always. NO PARTIAL WRITES> EVER
 
 Read https://awtsmoos.com/api/tunnel/control/docs/
 

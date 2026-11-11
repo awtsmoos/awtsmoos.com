@@ -1329,7 +1329,7 @@ lib/instructions/pluginSkills/skills/instructions/references/DURABLE_WORK_AND_CO
 lib/instructions/pluginSkills/skills/instructions/references/EXECUTION_PERSISTENCE_CONTRACT.md
 lib/instructions/pluginSkills/skills/instructions/references/EXISTING_API_CONNECTION.md
 lib/instructions/pluginSkills/skills/instructions/references/FILE_EDITING_CONTRACT.md
-lib/instructions/pluginSkills/skills/instructions/references/HOW TO WRITE CODE. READ THIS IT IS VERY IMPORTANT.md.txt
+lib/instructions/pluginSkills/skills/instructions/references/HOW_TO_WRITE_CODE.md.txt
 lib/instructions/pluginSkills/skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md
 lib/instructions/pluginSkills/skills/instructions/references/legacy/ARCHIVE_INVENTORY.md
 lib/instructions/pluginSkills/skills/instructions/references/legacy/originals/01_PROJECT_REVELATION_ENGINE.md
