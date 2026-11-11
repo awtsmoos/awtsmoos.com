@@ -122,9 +122,16 @@
 @media (min-width: 1100px) {
 	.social-hub-document .hubShell > .awtsmoos-breadcrumbs {
 		grid-column: 1 / -1;
+		grid-row: 1;
+	}
+
+	.social-hub-document .hubShell > .desktopRail {
+		grid-column: 1;
+		grid-row: 2;
 	}
 
 	.social-hub-document .hubShell > .workspace {
 		grid-column: 2;
+		grid-row: 2;
 	}
 }
