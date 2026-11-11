@@ -76,9 +76,22 @@ function contentText(content) {
 }
 
 function normalizeBasePath(path = "/") {
-	return String(path || "/").startsWith("awtsmoos://")
-		? path
-		: `/${String(path || "/").replace(/^\/+/, "")}`;
+	const text = String(path || "/");
+	if (text.startsWith("awtsmoos://tunnels/")) {
+		// B"H - the embedded editor's virtual filesystem blocks scheme
+		// segments (any ":") outright, so a workspace rooted in the legacy
+		// awtsmoos:// vocabulary can never be listed, read, or opened as a
+		// tab there (virtual_path_scheme_blocked). The OS VFS speaks the
+		// canonical /network form natively, and this base path is the one
+		// value the whole embed session is confined by - the grant, the
+		// workspace, provider requests, saves, and the compiler all derive
+		// from it - so translate the vocabulary once, here.
+		const rest = text.slice("awtsmoos://tunnels/".length)
+			.replace(/^\/+/, "")
+			.replace(/\/+$/, "");
+		return rest ? `/network/${rest}` : "/network";
+	}
+	return `/${text.replace(/^\/+/, "")}`;
 }
 
 function joinPath(path, name = "") {
