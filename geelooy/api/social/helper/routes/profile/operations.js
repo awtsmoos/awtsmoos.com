@@ -20,7 +20,8 @@ const { livingProfileCard } = require('../../profile/livingCard.js');
 const { aggregateProfile, postsByAlias, commentsByAlias, recentActivity } = require('../../profile/index.js');
 const { apiMeta, batchProfiles, profileFeed } = require('../../profile/discovery.js');
 const { getQuery, ok, fail, paged, queryAliases } = require('./values.js');
-const { pageOptsFrom, fetchLimitFor, applyProfilePagination } = require('../../profileHub/ProfilePagination.js');
+const { pageOptsFrom, hasPaging, fetchLimitFor, applyProfilePagination } = require('../../profileHub/ProfilePagination.js');
+const { logicalKey, readPacked, writePacked } = require('../../packed/socialPacked.js');
 
 const LEGACY_POSTS_FETCH = 48; // B"H 2026-11-11 batch 17: was 240 — a 41s first paint for @asdf (journal: posts=41357ms)
 const LEGACY_COMMENTS_FETCH = 48; // batch 17: was 160, same reason
@@ -45,15 +46,79 @@ async function reservedProfileResponse($i, aliasId) {
  * @param {string} aliasId - Alias whose aggregate profile is requested.
  * @returns {Promise<*>} Reserved response, aggregate profile, or structured not-found error.
  */
+const PROFILE_SNAPSHOT_TTL_MS = 120_000;
+const profileCache = new Map();
+const profileRebuilding = new Set();
+
+async function buildProfileValue($i, aliasId, opts) {
+	const postsFetchLimit = fetchLimitFor(opts.postsLimit, opts.postsCursor, LEGACY_POSTS_FETCH);
+	const commentsFetchLimit = fetchLimitFor(opts.commentsLimit, opts.commentsCursor, LEGACY_COMMENTS_FETCH);
+	const profile = await aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLimit });
+	if (!profile) return null;
+	return applyProfilePagination(profile, opts, { postsFetchLimit, commentsFetchLimit });
+}
+
+function readProfileSnapshot($i, aliasId) {
+	try {
+		const envelope = readPacked({ $i, shard: 'feed', key: logicalKey(['feed', 'profile', aliasId]) });
+		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
+		if (value && value.profile) return value;
+	} catch (_) { /* snapshot is an optimization only */ }
+	return null;
+}
+
+function writeProfileSnapshot($i, aliasId, profile) {
+	try {
+		writePacked({
+			$i, shard: 'feed', key: logicalKey(['feed', 'profile', aliasId]),
+			value: { kind: 'profileSnapshot', profile, builtAt: Date.now() },
+			meta: { kind: 'feed', feedType: 'profileSnapshot' }
+		});
+	} catch (_) { /* optimization only */ }
+}
+
+function rebuildProfileInBackground($i, aliasId, opts) {
+	if (profileRebuilding.has(aliasId)) return;
+	profileRebuilding.add(aliasId);
+	buildProfileValue($i, aliasId, opts)
+		.then(value => {
+			if (!value) return;
+			profileCache.set(aliasId, { at: Date.now(), value });
+			writeProfileSnapshot($i, aliasId, value);
+		})
+		.catch(() => {})
+		.finally(() => profileRebuilding.delete(aliasId));
+}
+
 async function profileOrError($i, aliasId) {
 	const reserved = await reservedProfileResponse($i, aliasId);
 	if (reserved) return reserved;
 	const opts = pageOptsFrom(getQuery($i) || {});
-	const postsFetchLimit = fetchLimitFor(opts.postsLimit, opts.postsCursor, LEGACY_POSTS_FETCH);
-	const commentsFetchLimit = fetchLimitFor(opts.commentsLimit, opts.commentsCursor, LEGACY_COMMENTS_FETCH);
-	const profile = await aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLimit });
+	if (hasPaging(opts)) {
+		const pagedValue = await buildProfileValue($i, aliasId, opts);
+		if (!pagedValue) return er({ code: 'PROFILE_NOT_FOUND', message: `@${aliasId} was not found.` });
+		return pagedValue;
+	}
+	// Default view (batch 18): snapshot + stale-while-revalidate. The
+	// profile page sends no paging params; it may lag a new post by
+	// ~2 minutes instead of paying the full aggregate scan per view.
+	const hit = profileCache.get(aliasId);
+	if (hit && Date.now() - hit.at < PROFILE_SNAPSHOT_TTL_MS) return hit.value;
+	if (hit) {
+		rebuildProfileInBackground($i, aliasId, opts);
+		return hit.value;
+	}
+	const snapshot = readProfileSnapshot($i, aliasId);
+	if (snapshot) {
+		profileCache.set(aliasId, { at: snapshot.builtAt || 0, value: snapshot.profile });
+		rebuildProfileInBackground($i, aliasId, opts);
+		return snapshot.profile;
+	}
+	const profile = await buildProfileValue($i, aliasId, opts);
 	if (!profile) return er({ code: 'PROFILE_NOT_FOUND', message: `@${aliasId} was not found.` });
-	return applyProfilePagination(profile, opts, { postsFetchLimit, commentsFetchLimit });
+	profileCache.set(aliasId, { at: Date.now(), value: profile });
+	writeProfileSnapshot($i, aliasId, profile);
+	return profile;
 }
 
 /**
