@@ -103,12 +103,13 @@ function readRiverSnapshot($i, cacheKey) {
 	try {
 		const envelope = readPacked({ $i, shard: 'feed', key: riverSnapshotKey(cacheKey) });
 		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
-		if (value && Array.isArray(value.items)) return value;
+		if (value && Array.isArray(value.items) && value.items.length) return value;
 	} catch (_) { /* snapshot absent or unreadable: the inline build below still answers */ }
 	return null;
 }
 
 function writeRiverSnapshot($i, cacheKey, items) {
+	if (!items || !items.length) return;
 	try {
 		writePacked({
 			$i, shard: 'feed', key: riverSnapshotKey(cacheKey),
@@ -135,6 +136,7 @@ function rebuildRiverInBackground($i, cacheKey, aliases, query) {
 	feedRebuilding.add(cacheKey);
 	buildRiver($i, aliases, query)
 		.then(items => {
+			if (!items.length) return;
 			feedCache.set(cacheKey, { at: Date.now(), items });
 			writeRiverSnapshot($i, cacheKey, items);
 		})
@@ -159,6 +161,7 @@ async function profileFeed({ $i, aliases = [], query = {} }) {
 		return [...snapshot.items];
 	}
 	const items = await buildRiver($i, aliases, query);
+	if (!items.length) return [...items];
 	feedCache.set(cacheKey, { at: Date.now(), items });
 	if (feedCache.size > 24) feedCache.delete(feedCache.keys().next().value);
 	writeRiverSnapshot($i, cacheKey, items);
