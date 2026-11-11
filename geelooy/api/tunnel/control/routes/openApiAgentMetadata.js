@@ -35,12 +35,27 @@ const AGENT_PREFIX = [
 	"SHARED AGENT ROOM — one room is shared by every agent on this account, from every provider. Join it first (awtsmoosAgentRoomJoin), read it regularly (awtsmoosAgentRoom), and post intent, warnings, blockers, and completions (awtsmoosAgentRoomMessage). The owner steers all agents from that room, and your tunnel actions appear in it automatically. The full protocol lives in the bootstrap response under sharedRoom."
 ].join(" ");
 
+/** YAML double-quoted scalar: the combined description must stay one valid string. */
+function yamlDoubleQuoted(text) {
+	return '"' + String(text)
+		.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
+		.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t") + '"';
+}
+
+function unquoteOnce(value) {
+	const text = String(value || "").trim();
+	if (text.startsWith('"') && text.endsWith('"') && text.length >= 2) {
+		return text.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+	}
+	return text;
+}
+
 /** Preserve the checked-in OpenAPI paths while enriching transport metadata. */
 function enrichYaml(yaml) {
 	return String(yaml || "")
 		.replace(/^  title:.*$/m, `  title: ${AGENT_TITLE}`)
 		.replace(/^  description: (.*)$/m, (_whole, current) => [
-			`  description: ${AGENT_PREFIX} ${current}`,
+			`  description: ${yamlDoubleQuoted(`${AGENT_PREFIX} ${unquoteOnce(current)}`)}`,
 			`  x-awtsmoos-operation-catalog-url: ${OPERATION_CATALOG_URL}`,
 			`  x-awtsmoos-get-transfer-url: ${TRANSFER_URL}`,
 			`  x-awtsmoos-external-client-websocket-url: ${WS_URL}`,
