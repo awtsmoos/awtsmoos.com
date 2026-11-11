@@ -11,7 +11,7 @@
 
 export * from './api/base.js';
 export * from './api/heichel.js';
-export * from './api/series.js?v=heichel-mobile-011';
+export * from './api/series.js?v=heichel-mobile-012';
 export * from './api/posts.js';
 export * from './api/socialContent.js';
 export * from './api/comments.js';

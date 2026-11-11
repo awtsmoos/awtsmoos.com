@@ -170,7 +170,10 @@ function enhanceDiscovery(root, discovery) {
 	// B"H — virtual series (Daily Chitas) have no discovery links: remove the
 	// empty section outright instead of leaving a bare "Choose a section"
 	// heading with nothing under it. Also skips the "0 Torah pathways" status.
+	// B"H 2026-11-11 (batch 29): never remove the section when the server left
+	// a load-failure note — a failed list must stay visible, never blank.
 	if (items.length === 0) {
+		if (discovery.querySelector('.heichel-discovery-note')) return;
 		discovery.remove();
 		return;
 	}

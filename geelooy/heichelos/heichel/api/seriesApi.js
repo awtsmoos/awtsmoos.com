@@ -49,13 +49,23 @@ export async function getSeriesDetails(heichelId, seriesId) {
 	return fetchData(`${seriesBase(heichelId, seriesId)}/details`);
 }
 
-/** Reads child summaries without repeating requests already satisfied by the server. */
+/**
+ * Reads child cards for navigation lists.
+ * B"H 2026-11-11 (batch 29, user order): navigation fetches the LIGHT
+ * projection only — child names + descriptions (prateem-cheap). The old
+ * details aggregation is refused by the read shed under memory pressure
+ * and left section pages blank; it is no longer on the navigation path.
+ */
 export async function getSubSeriesDetails(heichelId, parentSeriesId) {
 	const list = await fetchData(
-		`${seriesBase(heichelId, parentSeriesId)}/subSeries?details=true`
+		`${seriesBase(heichelId, parentSeriesId)}/subSeries?light=true`
 	);
-	if (!Array.isArray(list) || !list.length) return list || [];
-	return Promise.all(list.map(item => revealSeriesCard(heichelId, item)));
+	if (!Array.isArray(list)) return [];
+	return list.map(item => ({
+		...item,
+		posts: Array.isArray(item?.posts) ? item.posts : [],
+		subSeries: Array.isArray(item?.subSeries) ? item.subSeries : []
+	}));
 }
 
 /** Resolves one card, preferring an already complete one-request server summary. */

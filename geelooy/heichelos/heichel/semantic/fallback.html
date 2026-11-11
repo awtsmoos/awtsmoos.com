@@ -15,11 +15,11 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	if (!cover) return "";
 	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" decoding="async" onerror="this.closest(\'.heichel-series-cover-hero\').hidden=true;"></div>';
 	</script>?>
-	<?<script>
-	var model = typeof semantic === "object" && semantic ? semantic : null;
-	if (!model || !model.hasSeries || !model.heading) return "";
-	return '<nav class="ikar-first-actions" data-ikar-stable-navigation aria-label="Torah navigation"><a href="/">Home</a><span class="ikar-first-separator" aria-hidden="true"> / </span><a href="/heichelos/ikar">Torah Library</a><span class="ikar-first-separator" aria-hidden="true"> / </span><span aria-current="page">' + model.heading + '</span></nav>';
-	</script>?>
+	<!-- B"H 2026-11-11 (batch 29): the server no longer renders a breadcrumb
+	     here. Two trails used to paint over each other (this static one and
+	     the client pill from ikar-first.js) — ghosting, mid-word wraps, and
+	     a white-on-white current crumb. The client enhancer is the single
+	     owner now: it builds one styled trail on every ikar page. -->
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
 		<h1 id="heichel-boot-title"><?<script>
@@ -100,11 +100,14 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	if (discoveryTitle && !discoveryTitle.textContent.trim()) discoveryTitle.textContent = isIkarRoot ? "Enter the library" : "Explore";
 	// B"H — virtual series (Daily Chitas) have no discovery links: remove the
 	// empty section outright instead of leaving a bare heading with nothing under it.
+	// B"H 2026-11-11 (batch 29): never remove the section when the server left
+	// a load-failure note — a failed list must stay visible, never blank.
 	var discoveryList = document.getElementById("heichel-discovery-list");
 	if (discoveryList && !discoveryList.querySelector("li")) {
 		var discoveryNav = discoveryList.closest("nav");
-		if (discoveryNav) discoveryNav.remove();
+		var hasLoadNote = discoveryNav && discoveryNav.querySelector(".heichel-discovery-note");
+		if (discoveryNav && !hasLoadNote) discoveryNav.remove();
 	}
 })();
 </script>
-<script type="module" src="/heichelos/heichel/semantic/heichel-spa.js?v=heichel-spa-002"></script>
+<script type="module" src="/heichelos/heichel/semantic/heichel-spa.js?v=heichel-spa-003"></script>

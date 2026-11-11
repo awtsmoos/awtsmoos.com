@@ -185,3 +185,114 @@
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
+
+/* ---------- B"H 2026-11-11 (batch 29): one breadcrumb, a styled banner,
+   a visible load-failure note. The semantic fallback is the page the user
+   actually sees on ikar section/series pages, so its chrome lives here —
+   the LAST sheet in <head> — under the dream tokens, both themes. ------- */
+
+/* The single breadcrumb trail (built by ikar-first.js). It used to be
+   painted twice — a server-baked line plus this pill overlapping the hero
+   banner — with the current crumb inheriting near-white text and words
+   wrapping mid-pill ("Hom/e"). Now: one pill, in normal flow above the
+   banner, never wraps inside a crumb, scrolls sideways on narrow screens
+   instead of crushing, and the current page reads in full ink. */
+:root.heichel-os-document .ikar-first-actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: .15rem;
+	max-width: 100%;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+	width: max-content;
+	margin: 0 0 1.1rem;
+	padding: .35rem;
+	border: 1px solid var(--sefer-rule);
+	border-radius: 999px;
+	background: var(--sefer-card);
+	box-shadow: var(--sefer-shadow);
+	backdrop-filter: none;
+}
+:root.heichel-os-document .ikar-first-actions::-webkit-scrollbar {
+	display: none;
+}
+:root.heichel-os-document .ikar-first-actions a,
+:root.heichel-os-document .ikar-first-actions span {
+	white-space: nowrap;
+	flex: none;
+}
+:root.heichel-os-document .ikar-first-actions a {
+	padding: .42rem .8rem;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	color: var(--sefer-ink-soft);
+	font-family: var(--dream-sans-font);
+	font-weight: 600;
+	font-size: .95rem;
+	text-decoration: none;
+}
+:root.heichel-os-document .ikar-first-actions a:hover,
+:root.heichel-os-document .ikar-first-actions a:focus-visible {
+	background: var(--sefer-paper-deep);
+	border-color: var(--sefer-rule);
+	color: var(--sefer-ink);
+	transform: none;
+}
+:root.heichel-os-document .ikar-first-actions [aria-current="page"] {
+	padding: .42rem .8rem;
+	border-radius: 999px;
+	background: var(--sefer-paper-deep);
+	color: var(--sefer-title-ink);
+	font-family: var(--dream-sans-font);
+	font-weight: 700;
+	font-size: .95rem;
+}
+:root.heichel-os-document .ikar-first-separator {
+	color: var(--sefer-accent);
+	padding: 0;
+}
+
+/* The series banner image: it previously had no resting style of its own
+   in the sheets these pages load — a raw full-width strip glued to the
+   breadcrumb. Now a framed banner above the hero card. */
+:root.heichel-os-document .heichel-series-cover-hero {
+	margin: 0 0 1.25rem;
+	border-radius: 1.25rem;
+	overflow: hidden;
+	border: 1px solid var(--sefer-rule);
+	box-shadow: var(--sefer-shadow);
+	line-height: 0;
+}
+:root.heichel-os-document .heichel-series-cover-hero img {
+	display: block;
+	width: 100%;
+	height: clamp(10rem, 32vw, 20rem);
+	object-fit: cover;
+}
+
+/* The hero is a card, not a void: paper surface, rule border, the kicker
+   in the gold accent, title and description in full ink. */
+:root.heichel-os-document .heichel-semantic-hero {
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 1.25rem;
+	box-shadow: var(--sefer-shadow);
+	padding: clamp(1.4rem, 4vw, 2.6rem);
+	max-width: none;
+}
+
+/* A failed section list says so, in the open, where the list belongs. */
+:root.heichel-os-document .heichel-discovery-note {
+	border: 1px solid var(--sefer-rule);
+	border-left: 4px solid var(--sefer-focus);
+	border-radius: .75rem;
+	background: var(--sefer-card);
+	color: var(--sefer-ink);
+	font-family: var(--dream-sans-font);
+	font-size: 1rem;
+	line-height: 1.55;
+	padding: 1rem 1.2rem;
+	margin: 0 0 1rem;
+}

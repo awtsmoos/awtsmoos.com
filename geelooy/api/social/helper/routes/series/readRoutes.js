@@ -20,7 +20,7 @@
 
 const { badRequest, methodNotAllowed, requireMethod } = require('../apiHttp.js');
 const { readSeriesDetailsPlain, readSeriesDetails, readSeriesPrateem } = require('./readRoutesDetails.js');
-const { readChildren, wantsDetails, seriesIds } = require('./readRoutesChildren.js');
+const { readChildren, readChildrenLight, wantsDetails, wantsLight, seriesIds } = require('./readRoutesChildren.js');
 
 /** Creates the stable read-only series route table for one request. */
 function createSeriesReadRoutes({ $i }) {
@@ -59,6 +59,9 @@ function createSeriesReadRoutes({ $i }) {
 		'/heichelos/:heichel/series/:series/subSeries': async vars => {
 			const bad = requireMethod($i, 'GET');
 			if (bad) return bad;
+			if (wantsLight($i)) {
+				return readChildrenLight($i, vars.heichel, vars.series);
+			}
 			return readChildren($i, vars.heichel, vars.series, wantsDetails($i));
 		},
 		'/heichelos/:heichel/series/:series/subSeries/details': async vars => {

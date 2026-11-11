@@ -50,13 +50,26 @@ export async function getSeriesDetails(heichelId, seriesId) {
 	);
 }
 
-/** Reads child cards while avoiding details calls already satisfied by the server. */
+/**
+ * Reads child cards for navigation lists.
+ * B"H 2026-11-11 (batch 29, user order): navigation fetches the LIGHT
+ * projection only — child names + descriptions (prateem-cheap). The old
+ * details aggregation (full per-child post listings + packed merge) is
+ * refused by the read shed under memory pressure and left section pages
+ * blank; it is no longer on the navigation path at all. Cards render
+ * from the prateem fields; the empty posts/subSeries arrays keep the
+ * established card shape without inventing counts.
+ */
 export async function getSubSeriesDetails(heichelId, parentSeriesId) {
 	const list = await AwtsmoosRequest.fetch(
-		`${seriesBase(heichelId, parentSeriesId)}/subSeries?details=true`
+		`${seriesBase(heichelId, parentSeriesId)}/subSeries?light=true`
 	);
-	if (!Array.isArray(list) || !list.length) return list || [];
-	return Promise.all(list.map(item => revealSeriesCard(heichelId, item)));
+	if (!Array.isArray(list)) return [];
+	return list.map(item => ({
+		...item,
+		posts: Array.isArray(item?.posts) ? item.posts : [],
+		subSeries: Array.isArray(item?.subSeries) ? item.subSeries : []
+	}));
 }
 
 /** Reads alternate grouping cards for the requested branch. */

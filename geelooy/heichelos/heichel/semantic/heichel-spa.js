@@ -22,7 +22,7 @@
 const INSTALLED_KEY = '__awtsmoosHeichelSpaInstalled';
 const FRAGMENT_SELECTOR = '#heichel-semantic-fallback';
 const SHELL_SELECTOR = '[data-heichel-client-shell]';
-const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-005&persistent-geometry=true';
+const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-006&persistent-geometry=true';
 const IKAR_SPECIAL_SERIES_SRC = '/heichelos/heichel/ikar-special-series.js?v=ikar-special-series-001';
 const CACHE_PREFIX = 'awtsmoos:spa-frag:';
 

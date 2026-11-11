@@ -103,8 +103,12 @@ function createDiscovery($i) {
 			postId: true,
 			identity: true
 		}));
+		// B"H 2026-11-11 (batch 29, user order): the section list renders from
+		// the LIGHT projection (child names + descriptions only). The details
+		// aggregation this used before is refused by the read shed under
+		// memory pressure, and its failure was swallowed into a blank page.
 		const [subSeriesResponse, postsResponse] = await Promise.all([
-			safeFetch(`${base}/subSeries?details=true`),
+			safeFetch(`${base}/subSeries?light=true`),
 			safeFetch(`${base}/posts/details?properties=${properties}`)
 		]);
 		const rawSubSeries = normalizeList(subSeriesResponse, ['series', 'subSeries']);
@@ -134,7 +138,18 @@ function createDiscovery($i) {
 				`/heichelos/${encodeSegment(linkHeichelId)}/series/${encodeSegment(activeSeries)}/post/${encodeSegment(id)}`
 			);
 		}).filter(Boolean);
-		return { links: [...seriesLinks, ...postLinks] };
+		const links = [...seriesLinks, ...postLinks];
+		// B"H 2026-11-11 (batch 29): a failed child read must never again
+		// render as a silently blank section. When the list fetch itself
+		// failed (null), say so on the page; a series that genuinely has no
+		// children and no posts stays a plain empty list.
+		if (!links.length && subSeriesResponse === null) {
+			return {
+				links,
+				note: 'This section could not be loaded just now — the library is under heavy load. Please reload the page in a moment.'
+			};
+		}
+		return { links };
 	}
 
 	return { getDiscovery };
