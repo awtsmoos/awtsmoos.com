@@ -115,3 +115,16 @@
 	background: linear-gradient(145deg, rgb(17 34 61 / 92%), rgb(5 10 22 / 96%));
 	box-shadow: 0 18px 48px rgb(0 0 0 / 28%);
 }
+
+/* Batch 19: the global breadcrumb script inserts its nav before <main>;
+   inside this grid shell the nav must span both columns as its own row,
+   and the workspace must stay in the content column. */
+@media (min-width: 1100px) {
+	.social-hub-document .hubShell > .awtsmoos-breadcrumbs {
+		grid-column: 1 / -1;
+	}
+
+	.social-hub-document .hubShell > .workspace {
+		grid-column: 2;
+	}
+}
