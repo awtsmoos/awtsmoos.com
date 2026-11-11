@@ -65,6 +65,13 @@ function include(relative) {
 	const name = parts.at(-1);
 	if (transientParts(parts)) return false;
 	if (TRANSIENT_FILES.has(name.toLowerCase())) return false;
+	// B"H 2026-11-11: rotated segments are named "<log>.<timestamp>" (e.g.
+	// agent.log.20261110T183044Z), so the .log suffix test never matched
+	// them and one flap-storm day archived a 216MB log into the rollback
+	// inventory, which then exceeded the byte limit and blocked every
+	// install. A ".log." infix marks a rotation, never runtime source
+	// (the bundle manifest contains no such name).
+	if (/\.log\./i.test(name)) return false;
 	return !/(?:\.lock|\.log|\.pid|\.sock|\.tmp)$/i.test(name);
 }
 

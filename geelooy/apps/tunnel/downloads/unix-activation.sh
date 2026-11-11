@@ -257,7 +257,31 @@ verified_identity_reuse_allowed() {
 	[ "${AWTSMOOS_INSTALL_CLEAN:-0}" = "1" ] && return 1
 	[ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ] && return 1
 	declare -F current_runtime_is_stably_healthy >/dev/null 2>&1 || return 1
-	current_runtime_is_stably_healthy
+	# B"H 2026-11-11: users run the installer at arbitrary moments, including
+	# the seconds after a supervisor restart while the incumbent is still
+	# re-registering. A single health sample condemned healthy devices to a
+	# fresh pairing and the install appeared to hang on approval. Poll the
+	# SAME health proof over a bounded window; only a device that stays
+	# unhealthy for the whole window falls back to fresh pairing. The
+	# explicit reinstall flags above still bypass instantly.
+	local wait_seconds="${AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS:-120}"
+	local deadline=$(( $(date +%s) + wait_seconds ))
+	local announced=0
+	while :; do
+		if current_runtime_is_stably_healthy; then
+			return 0
+		fi
+		if [ "$(date +%s)" -ge "$deadline" ]; then
+			return 1
+		fi
+		if [ "$announced" = "0" ]; then
+			install_event "identity" "waiting" \
+				"Existing device has not proven healthy yet; waiting before deciding pairing." \
+				"failure=${CURRENT_RUNTIME_HEALTH_FAILURE:-unknown} windowSeconds=$wait_seconds"
+			announced=1
+		fi
+		sleep 3
+	done
 }
 
 activate_release_candidate() {

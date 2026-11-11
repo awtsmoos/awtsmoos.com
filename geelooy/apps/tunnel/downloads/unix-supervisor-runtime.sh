@@ -82,6 +82,13 @@ start_new_agent() {
 		return 0
 	fi
 	clear_child_receipt
+	# B"H 2026-11-11: log rotation previously ran only at install time, so
+	# between installs agent.log grew without bound (216MB in one flap
+	# storm). The supervisor relaunches the agent on every flap - rotate
+	# at each launch and the log stays capped at any restart cadence.
+	if declare -F rotate_log_file >/dev/null 2>&1; then
+		rotate_log_file "$ROOT/agent.log" || true
+	fi
 	node "$ROOT/awtsmoos-agent-launcher.cjs" "$ROOT" >> "$ROOT/agent.log" 2>&1 &
 	CHILD_PID=$!
 	CHILD_OWNED=1
