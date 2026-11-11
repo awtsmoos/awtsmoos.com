@@ -1919,3 +1919,15 @@ body.awtsmoos-src-open .universal-chat-floating-launcher {
 :root .post-reader-localized-context .meluket-sefer-active .meluket-sefer .meluket-sefer-section {
 	padding-top: 56px;
 }
+
+/* ---------- B"H batch 24d (2026-11-11) - section clearance, corrected ----------
+   Batch 24c's selector chained .meluket-sefer-active above
+   .meluket-sefer, but both classes live on the same element, so it
+   never matched. Same flat 56px clearance and an 8px badge offset,
+   with selectors that match the real tree. */
+:root .all.post-reader-localized-context .meluket-sefer-active .meluket-sefer-section {
+	padding-top: 56px;
+}
+:root .all.post-reader-localized-context .meluket-sefer-active .meluket-section-marker {
+	top: 8px;
+}
