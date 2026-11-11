@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import { DOM } from "./state.js";
+import { DOM, State } from "./state.js";
 import { Tabs } from "./tabs/index.js";
 import { UI } from "./ui.js";
 import {
@@ -52,18 +52,33 @@ export async function openFile(file = {}) {
 	if (activeFile.intent === "preview") {
 		return await openPreview(activeFile);
 	}
+	// TEMPORARY DIAGNOSTIC (embed open witness): stage breadcrumbs land in
+	// the status bar, and any failure becomes the visible document, because
+	// this seam's failures are otherwise swallowed by console-only logs.
+	let stage = "received";
 	try {
-		// B"H - an OS file must live in the editor's own tab model, like the
-		// preview path already does: writing the raw textarea instead leaves
-		// a phantom document that the app's remembered-tab activation paints
-		// over seconds after boot. A real tab survives view switches and
-		// session restores because the app itself owns it.
+		DOM.statusLeft.textContent = `OS open: ${stage} ${activeFile.fileName}`;
+		stage = "workspace";
 		const workspace = ensureOsWorkspace(activeFile);
+		DOM.statusLeft.textContent = `OS open: ${stage} ${workspace.path}`;
+		stage = "item";
 		const item = createOsWorkspaceItem(activeFile, workspace);
-		await Tabs.create(item, false, true, true);
+		stage = "tab-create";
+		DOM.statusLeft.textContent = `OS open: ${stage} ${item.path}`;
+		const tab = await Tabs.create(item, false, true, true);
+		stage = "verify";
+		const found = State.tabs.find(t => t.id === tab?.id);
+		if (!found || State.activeTabId !== tab?.id) {
+			throw new Error(
+				`tab-not-active id=${tab?.id} found=${!!found} active=${State.activeTabId} tabs=${State.tabs.length}`
+			);
+		}
 		DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
 	} catch (error) {
-		openOsEditor(activeFile);
+		openOsEditor({
+			...activeFile,
+			content: `OS-EMBED-DIAGNOSTIC stage=${stage} error=${error?.message || error}`
+		});
 	}
 	return activeFile;
 }
