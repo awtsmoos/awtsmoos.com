@@ -1967,13 +1967,15 @@ export function awakenMeluketSeferReaderFromEmbed() {
 	const h1 = document.createElement('h1');
 	h1.className = 'meluket-sefer-title-he';
 	h1.setAttribute('dir', 'rtl');
-	// B"H 2026-11-10 round 12 — the title rendered ~10px in two browser
-	// checks although every stylesheet rule says 64–105px. Inline style
-	// beats every stylesheet rule: if it now renders 105px the cascade
-	// was the issue; if it still renders ~10px the measured element is
-	// definitively not this h1 and the hunt moves elsewhere.
-	h1.style.fontSize = '105px';
-	h1.style.lineHeight = '1.25';
+	// B"H batch 24f (2026-11-11) — the round-12 diagnostic that pinned
+	// this h1 to an inline 105px is retired: it beat every stylesheet
+	// rule, so on phones the title overflowed its card and clipped.
+	// The cascade hunt is settled (the vision Hebrew rule owned the
+	// family; this probe owned the size). The inline value is now the
+	// same responsive clamp as the stylesheet: 13.5vw on phones,
+	// capped at the 105px desktop size.
+	h1.style.fontSize = 'clamp(2rem, 13.5vw, 6.5625rem)';
+	h1.style.lineHeight = '1.15';
 	h1.textContent = title;
 	titleBlock.appendChild(h1);
 	sefer.appendChild(titleBlock);
