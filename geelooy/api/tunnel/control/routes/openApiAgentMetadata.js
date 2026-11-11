@@ -32,7 +32,7 @@ const AGENT_PREFIX = [
 	"Discover OAuth at https://awtsmoos.com/.well-known/oauth-authorization-server. Use client_id=external-agent with no secret.",
 	"Prefer authorization code + PKCE S256 when callback handoff is possible; headless clients can use device authorization.",
 	"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId.",
-	"SHARED AGENT ROOM — one room is shared by every agent on this account, from every provider. Join it first (awtsmoosAgentRoomJoin), read it regularly (awtsmoosAgentRoom), and post intent, warnings, blockers, and completions (awtsmoosAgentRoomMessage). The owner steers all agents from that room, and your tunnel actions appear in it automatically. The full protocol lives in the bootstrap response under sharedRoom."
+	"SHARED AGENT ROOM — one room is shared by every agent on this account, from every provider. On connect, first READ THE ROOM BACKLOG (awtsmoosAgentRoom with no since) to see what prior agents already did, asked, and were steered to; then join (awtsmoosAgentRoomJoin), keep reading regularly, and post intent, warnings, blockers, and completions (awtsmoosAgentRoomMessage). The owner steers all agents from that room, and your tunnel actions appear in it automatically. The full protocol lives in the bootstrap response under sharedRoom."
 ].join(" ");
 
 /** YAML double-quoted scalar: the combined description must stay one valid string. */

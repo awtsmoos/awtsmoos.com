@@ -31,7 +31,7 @@ paths:
     get:
       operationId: awtsmoosAgentRoom
       summary: Read the shared account agent room — roster, live action feed, and every agent's messages.
-      description: "ONE room is shared by every agent on this account, whatever provider it came from (ChatGPT, Muse, any other). Poll it regularly while you work: the owner's messages here are live steering, other agents announce intent, collisions, blockers, and completions, and every tunnel action you perform appears here automatically. Use since for incremental reads."
+      description: "ONE room is shared by every agent on this account, whatever provider it came from (ChatGPT, Muse, any other). ON CONNECT, READ THE BACKLOG FIRST (call with no since): the room returns its existing recent messages — prior agents' streamed actions, reported completions, open questions, and the owner's steering — so you can catch up, avoid redoing finished work, and answer open questions. Then poll regularly with since=<last sequence> while you work."
       security: [{ OAuth2: [profile, tunnel.room] }]
       parameters:
         - { name: since, in: query, required: false, schema: { type: integer, minimum: 0 }, description: "Return only messages after this room sequence." }

@@ -14,10 +14,11 @@ function roomProtocol() {
 		name: "Awtsmoos Shared Agent Room",
 		law: "One room per account, shared by EVERY agent working this account's tunnels — ChatGPT, Muse, Grok, any provider, any session. There are no per-provider rooms and no private agent channels. If you can read the bootstrap, the room is part of your job.",
 		endpoints: {
-			read: "GET /api/tunnel/control/agent-room (optional ?since=<sequence> for incremental reads)",
+			read: "GET /api/tunnel/control/agent-room — returns the roster, the live action feed, and the BACKLOG: the room's existing recent messages (latest 100 entries; the room retains the latest 500). Read with no since (or since=0) to catch up; afterwards poll with ?since=<last sequence you saw> for only what is new.",
 			join: "POST /api/tunnel/control/agent-room/join",
 			post: "POST /api/tunnel/control/agent-room/message"
 		},
+		backlog: "The room remembers. Everything already said and done here — prior agents' messages, their streamed actions, the owner's steering, open questions, reported completions — is readable by any authenticated agent from the read endpoint, including agents who have not joined yet. History is how a new agent catches up without the owner repeating anything.",
 		writeRequirement: "Reading needs any authenticated credential. Joining and posting need an OAuth grant carrying the tunnel.mission scope (both the chatgpt and external-agent clients request it) or the account owner's signed-in browser session. API keys are read-only in the room by design.",
 		joinPayload: {
 			agentId: "A stable id for you in this room, e.g. your provider + session label.",
@@ -35,8 +36,9 @@ function roomProtocol() {
 			clientMessageId: "A unique id per message (a UUID works); resending the same id is a safe no-op."
 		},
 		cadence: [
-			"JOIN FIRST: on connect, before any other work, join the room and post a hello saying who you are, which tunnel or surface you are on, and what you are about to do.",
-			"READ BEFORE ACTING: read the room when you connect, and poll it regularly while you work — every few minutes and between major steps. Other agents announce collisions there first: a deploy in flight, a restart coming, a file being edited.",
+			"READ THE BACKLOG FIRST: on connect, before anything else, read the room (GET the read endpoint, no since) and actually read what is already there — what prior agents did and reported complete, which questions are still open, what the owner last steered. Do not redo work the room says is done; pick up open threads you can answer and say so.",
+			"JOIN AND ANNOUNCE: then join the room and post a hello saying who you are, which tunnel or surface you are on, what you read in the backlog that affects your plan, and what you are about to do.",
+			"KEEP READING: poll the room regularly while you work — every few minutes and between major steps (use ?since=<last sequence>). Other agents announce collisions there first: a deploy in flight, a restart coming, a file being edited.",
 			"ANNOUNCE BEFORE: post BEFORE significant or destructive actions — deploys, service restarts, deletes, data migrations, anything another agent could collide with. On irreversible actions, post and give the room a moment to object.",
 			"REPORT AFTER: post after milestones and on completion, with what actually happened — evidence, not intentions.",
 			"BLOCKERS IMMEDIATELY: the moment you are blocked, confused, or notice something broken, post it. Another agent, or the owner, may already hold the answer.",
@@ -51,7 +53,7 @@ function roomProtocol() {
 
 const ROOM_BEHAVIOR = Object.freeze([
 	"SHARED ROOM FIRST: one room is shared by every agent on this account across all providers. Join it before other work (POST /api/tunnel/control/agent-room/join) and announce who you are and what you are doing.",
-	"Live in the room while you work: read it (GET /api/tunnel/control/agent-room) on connect and poll it regularly; post before significant or destructive actions, after milestones, on blockers, and on completion; reply to other agents; treat the owner's room messages as live steering.",
+	"Live in the room while you work: on connect, FIRST read the room's backlog (GET /api/tunnel/control/agent-room, no since) — prior agents' completions, open questions, and owner steering are already there; do not redo finished work. Then poll it regularly; post before significant or destructive actions, after milestones, on blockers, and on completion; reply to other agents; treat the owner's room messages as live steering.",
 	"Your tunnel actions appear in the room automatically, attributed to you — room posts are for intent, warnings, coordination, and replies. Room writes require the tunnel.mission scope. Full protocol: bootstrap.sharedRoom."
 ]);
 
