@@ -1878,3 +1878,27 @@ body.awtsmoos-src-open .universal-chat-floating-launcher {
 	color: #2c2416;
 	border-color: #b8860b;
 }
+
+/* ---------- B"H batch 24b (2026-11-11) - outrank the vision title rule ----------
+   The batch-24 title rules matched but lost to the reader-vision
+   Hebrew rule (.all...vision #realPost :is(.heb,[dir=rtl]):not(...)
+   :not(...) = specificity 1,6,0), which sets Frank Ruhl at 1.08em.
+   These selectors stack one more class (1,7,0) so the title keeps
+   David Libre, and on phones its size is capped under the card. */
+:root .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he,
+:root .all.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he {
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+}
+@media (max-width: 700px) {
+	:root .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he,
+	:root .all.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he {
+		font-size: min(calc(var(--post-text-size, 48px) * 0.95), 3.4rem);
+		line-height: 1.15;
+	}
+	:root .post-reader-localized-context .meluket-sefer-active .meluket-sefer .meluket-sefer-section {
+		padding-top: 52px;
+	}
+	:root .post-reader-localized-context .meluket-sefer-active .meluket-section-marker {
+		top: 10px;
+	}
+}
