@@ -63,7 +63,8 @@ function translationArtifacts(records) {
 			basePath: '/',
 			title: `English Torah Translations — page ${index + 1}`,
 			description: 'Public English Torah translations with Hebrew source context on Awtsmoos.com.',
-			canonicalPath: catalogPaths[index]
+			canonicalPath: catalogPaths[index],
+			stylesheet: 'styles.css?v=e9c720032e'
 		});
 	});
 	const indexEntries = catalogPaths.map((href, index) => ({
@@ -77,7 +78,8 @@ function translationArtifacts(records) {
 		basePath: '/',
 		title: 'English Torah Translations',
 		description: 'Browse public English Torah translations with Hebrew source context.',
-		canonicalPath: '/translations/'
+		canonicalPath: '/translations/',
+		stylesheet: 'styles.css?v=e9c720032e'
 	});
 	artifacts['translations-sitemap.xml'] = renderSitemapIndex(sitemapPaths);
 	return artifacts;

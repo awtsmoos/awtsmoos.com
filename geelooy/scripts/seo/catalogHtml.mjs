@@ -34,7 +34,7 @@ function cards(entries, basePath) {
 	}).filter(Boolean).join('\n');
 }
 
-export function renderCatalogPage({ entries, basePath, title, description, canonicalPath }) {
+export function renderCatalogPage({ entries, basePath, title, description, canonicalPath, stylesheet }) {
 	return `${HTML_BLESSING}
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,7 @@ export function renderCatalogPage({ entries, basePath, title, description, canon
 	<title>${escapeHtml(title)} | Awtsmoos</title>
 	<meta name="description" content="${escapeHtml(description)}">
 	<meta name="robots" content="index,follow,max-snippet:-1">
-	<link rel="canonical" href="https://awtsmoos.com${escapeHtml(canonicalPath)}">
+	<link rel="canonical" href="https://awtsmoos.com${escapeHtml(canonicalPath)}">${stylesheet ? `\n\t<link rel="stylesheet" href="${escapeHtml(stylesheet)}">` : ''}
 </head>
 <body>
 	<main data-awtsmoos-seo-catalog>
