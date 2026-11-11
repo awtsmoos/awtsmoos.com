@@ -61,7 +61,8 @@ function childEntry(parent, route, inner, entry) {
 }
 
 export function createTunnelDeviceProvider(options = {}) {
-    const fetchImpl = options.fetchImpl || fetch;
+    const rawFetch = options.fetchImpl || fetch;
+    const fetchImpl = typeof rawFetch === "function" ? rawFetch.bind(globalThis) : rawFetch;
     const ensureSession = options.ensureSession || (() => InlineLogin.ensure());
     const clientOptions = { fetchImpl };
 

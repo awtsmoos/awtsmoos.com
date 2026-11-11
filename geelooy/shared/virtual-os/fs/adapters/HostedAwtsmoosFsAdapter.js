@@ -10,7 +10,12 @@ import { capabilityReport } from "../capabilities.js";
  */
 export class HostedAwtsmoosFsAdapter {
   constructor({ fetchImpl, origin = "", vesselName = "awtsmoos-os", ensureSession = null } = {}) {
-    this.fetchImpl = fetchImpl || globalThis.fetch;
+    // B"H - window.fetch is brand-checked: invoked as this.fetchImpl(...) with
+    // the adapter as receiver, Chrome throws "Illegal invocation". Bind the
+    // implementation to the global object once, here, so every caller is safe
+    // whether it passes raw fetch, a bound fetch, or a test double.
+    const rawFetch = fetchImpl || globalThis.fetch;
+    this.fetchImpl = typeof rawFetch === "function" ? rawFetch.bind(globalThis) : rawFetch;
     this.origin = String(origin || "").replace(/\/+$/, "");
     this.vesselName = vesselName;
     this.ensureSession = ensureSession;

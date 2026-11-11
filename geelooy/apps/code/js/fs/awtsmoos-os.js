@@ -85,7 +85,8 @@ function pathOf(item) {
 }
 
 export function createAwtsmoosOSProvider(options = {}) {
-    const fetchImpl = options.fetchImpl || fetch;
+    const rawFetch = options.fetchImpl || fetch;
+    const fetchImpl = typeof rawFetch === "function" ? rawFetch.bind(globalThis) : rawFetch;
     const ensureSession = options.ensureSession || (() => InlineLogin.ensure());
     const vesselName = options.vesselName || 'awtsmoos-os';
 
