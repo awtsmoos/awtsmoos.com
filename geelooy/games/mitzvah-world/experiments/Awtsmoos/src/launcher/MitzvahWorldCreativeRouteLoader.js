@@ -9,6 +9,8 @@
  * Awtsmoos.com lets creative abundance arrive with purpose, never taxing every visitor merely because possibility is great.
  */
 
+import { reportDirectWorldProgress } from './MitzvahWorldDirectRuntimeOptions.js';
+
 const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?compact=true&v=20260802-game-studio-bridge-02';
 const PLATFORM_URL = './MitzvahWorldPlatformCreativeLoader.js?compact=true&v=20260802-game-studio-bridge-02';
@@ -29,14 +31,21 @@ export async function openMitzvahWorldMovieCreative(hosts, options = {}) {
  * @description Opens the Procedural Platform through its own compact door so
  * the click never waits on the Movie Studio half of the shared creative graph.
  * @param {object} hosts Canonical game host elements.
+ * @param {object} [options] Platform route options carrying the launch progress pen.
  * @param {object} environment Browser-like runtime environment.
  * @returns {Promise<*>} Platform mode diagnostics.
  */
-export async function openMitzvahWorldPlatformCreative(hosts, environment) {
+export async function openMitzvahWorldPlatformCreative(hosts, options = {}, environment) {
+	reportDirectWorldProgress(options, 'Preparing the platform presentation…', {
+		stage: 'platform-presentation', url: DIRECT_EXPERIENCE_URL
+	});
 	const experienceKli = await import(DIRECT_EXPERIENCE_URL);
 	await experienceKli.startMitzvahWorldFullPresentation(hosts, environment);
+	reportDirectWorldProgress(options, 'Loading the platform showcase…', {
+		stage: 'platform-showcase-module', url: PLATFORM_URL
+	});
 	const platformKli = await import(PLATFORM_URL);
-	return platformKli.openPlatformMode(hosts);
+	return platformKli.openPlatformMode(hosts, options);
 }
 
 /**

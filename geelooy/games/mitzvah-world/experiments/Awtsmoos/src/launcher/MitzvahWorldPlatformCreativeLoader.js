@@ -10,7 +10,7 @@
  * this entry carries only the showcase, and its graph builds on its own.
  */
 
-export async function openPlatformMode(hosts) {
+export async function openPlatformMode(hosts, options = {}) {
 	const { launchPlatformShowcase } = await import('../world/platform/PlatformShowcaseMode.js');
-	return launchPlatformShowcase(hosts);
+	return launchPlatformShowcase(hosts, options);
 }

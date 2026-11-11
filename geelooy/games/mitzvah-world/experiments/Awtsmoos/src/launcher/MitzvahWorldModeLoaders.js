@@ -27,7 +27,7 @@ export function createMitzvahWorldModeLoaders(environment = globalThis) {
 		materials: hosts => openCreative('materials', hosts, {}, environment),
 		movie: (hosts, options) => openCreative('movie', hosts, options, environment),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
-		platform: hosts => openCreative('platform', hosts, {}, environment),
+		platform: (hosts, options) => openCreative('platform', hosts, options, environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
 	});
 }
@@ -86,9 +86,14 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 
 /** Loads creative mode only when expressly selected by the player. */
 async function openCreative(kind, hosts, options, environment) {
+	if (kind === 'platform') {
+		reportDirectWorldProgress(options, 'Opening the Procedural Platform…', {
+			stage: 'platform-creative-route', url: CREATIVE_ROUTE_URL
+		});
+	}
 	const module = await import(CREATIVE_ROUTE_URL);
 	if (kind === 'movie') return module.openMitzvahWorldMovieCreative(hosts, options);
-	if (kind === 'platform') return module.openMitzvahWorldPlatformCreative(hosts, environment);
+	if (kind === 'platform') return module.openMitzvahWorldPlatformCreative(hosts, options, environment);
 	const method = 'openMaterialsMode';
 	return module.openPresentedMitzvahWorldCreative(method, hosts, '', environment);
 }

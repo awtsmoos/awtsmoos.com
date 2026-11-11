@@ -69,9 +69,12 @@ export function createMitzvahWorldRouteHandlers(context) {
 			worldId: selection.worldId
 		}
 	);
-	const openPlatform = async () => {
+	const openPlatform = async (selection = {}) => {
 		revealHosts(hosts, true);
-		return modes.platform(hosts);
+		return modes.platform(hosts, {
+			onProgress: selection.onProgress,
+			signal: selection.signal
+		});
 	};
 	const openMovie = async (movieSearch = parameters.toString(), selection = {}) => {
 		beginWorldEntryCustody();
