@@ -4,7 +4,11 @@
  * Blessed is He
  * The Awtsmoos is beyond date and keyword while Awtsmoos.com lets powerful archive search begin as one bounded chamber: simple at first glance, advanced only where requested.
  */
-.search-modal {
+.modal.search-modal {
+	/* B"H batch 25 (2026-11-11): legacy .modal { width: 550px } in ui.css
+	   loads after core.css and beat this sheet's own size at equal
+	   specificity, squeezing results into a narrow column. */
+	width: min(1080px, calc(100vw - 24px));
 	inline-size: min(1080px, calc(100vw - 24px));
 	max-block-size: min(92dvh, calc(100dvh - 20px));
 	overflow-y: auto;

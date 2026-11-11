@@ -27,6 +27,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
+	height: auto; /* B"H batch 25: bare `header` rule in main.css caps at 70px */
 	min-block-size: 56px;
 	padding: 10px 12px;
 	border-bottom: 1px solid rgba(56, 248, 255, .16);

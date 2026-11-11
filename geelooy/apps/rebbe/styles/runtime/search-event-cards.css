@@ -22,6 +22,18 @@
 	justify-content: space-between;
 	gap: 14px;
 	min-inline-size: 0;
+	/* B"H batch 25 (2026-11-11): the app top-bar rule in main.css is a
+	   bare `header` selector (height: 70px, padding, border, shadow) and
+	   lands on this card header too, capping it at 70px while the title
+	   and action grid overflow onto the rows below. Reset the pieces
+	   this class does not otherwise declare. */
+	height: auto;
+	padding: 0;
+	border-bottom: 0;
+	background: transparent;
+	box-shadow: none;
+	backdrop-filter: none;
+	z-index: auto;
 }
 
 .result-copy {
