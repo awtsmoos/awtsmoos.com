@@ -298,6 +298,13 @@ export function wirePostContentInteractions(vessel) {
 		if (!sup || !vessel.contains(sup)) return;
 		const num = (sup.textContent || '').trim();
 		if (!/^\d+$/.test(num)) return;
+		// B"H batch 27h (2026-11-11): sefer markers belong to the ONE footnote
+		// popup path in MeluketSeferReader — never hijack them into a scroll.
+		// (This vessel wraps the whole post render, sefer included; the sefer
+		// markers carry no data-fn at wire time but gain it at hydration, and
+		// this scroll-hijack is what yanked the page +88px after every
+		// scrollIntoView on sefer pages.)
+		if (sup.closest && sup.closest('.meluket-sefer')) return;
 		// The notes section starts at the "הערות" marker. The footnote
 		// body is the FIRST <sup> carrying this number AFTER that marker
 		// in document order — not the last. A footnote body can cite an
