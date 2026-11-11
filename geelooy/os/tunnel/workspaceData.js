@@ -52,6 +52,7 @@ export function extractFileText(value = {}) {
 export function extractCommandOutput(receipt = {}) {
 	const output = receipt.output || receipt.raw?.output || receipt.raw || receipt;
 	const candidates = [
+		output.content,
 		output.stdout,
 		output.output,
 		output.text,

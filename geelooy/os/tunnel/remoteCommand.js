@@ -16,8 +16,13 @@ export async function startRemoteCommand(target, command, cwd = ".", fetcher) {
 	if (!target?.canCommand) {
 		throw new Error("The selected tunnel does not allow native commands.");
 	}
+	// B"H - the native vessel speaks exact internal deeds: "command" is a
+	// public family name and the vessel answers compact_operation_required
+	// (or a manifest rejection) unless the payload names the real deed.
+	// The durable lifecycle is commandStart -> commandStatus ->
+	// commandJobOutputPage, verified against the live device.
 	const receipt = await tunnelAction(target, {
-		action: "command",
+		action: "commandStart",
 		command,
 		cwd,
 		p: cwd
@@ -38,10 +43,25 @@ export async function followRemoteCommand(target, receipt, options = {}) {
 		onUpdate(current);
 	}
 	if (current.jobId) {
-		const output = await tunnelAction(target, {
+		// B"H - one output page is a window (12k chars), not the deed's
+		// whole testimony: follow nextOffsetChars to the end so long
+		// outputs arrive complete in the panel.
+		let page = await tunnelAction(target, {
 			action: "commandJobOutputPage",
 			jobId: current.jobId
 		}, fetcher);
+		let text = String(page?.content || "");
+		let guard = 0;
+		while (page?.hasNextPage && guard < 50) {
+			guard += 1;
+			page = await tunnelAction(target, {
+				action: "commandJobOutputPage",
+				jobId: current.jobId,
+				offsetChars: page.nextOffsetChars
+			}, fetcher);
+			text += String(page?.content || "");
+		}
+		const output = Object.freeze({ ...page, content: text });
 		current = Object.freeze({ ...current, output });
 	}
 	return current;
@@ -52,7 +72,7 @@ export function cancelRemoteCommand(target, jobId, fetcher) {
 		throw new Error("A durable jobId is required for cancellation.");
 	}
 	return tunnelAction(target, {
-		action: "commandCancel",
+		action: "asyncTaskCancel",
 		jobId
 	}, fetcher);
 }
@@ -69,7 +89,9 @@ export function normalizeReceipt(value = {}) {
 		"pending",
 		"running",
 		"accepted",
-		"queued"
+		"queued",
+		"spawning",
+		"starting"
 	].includes(String(value.status || value.state || "").toLowerCase());
 	return Object.freeze({
 		jobId,
