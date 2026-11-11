@@ -39,7 +39,8 @@ const GAME_HOOKS = Object.freeze({
 	"connect-4": "Read the board, force the lane, connect four first.",
 	pong: "Meet the oldest arcade duel at full speed.",
 	cards: "Sit down for Blackjack: The Reckoning.",
-	emojis: "Survive neon emoji waves or build a caption remix."
+	emojis: "Survive neon emoji waves or build a caption remix.",
+	"star-collector": "Catch the falling stars, dodge the meteors, chase the sky."
 });
 
 /** Returns the truthful player-facing hook for one stable game identity. */

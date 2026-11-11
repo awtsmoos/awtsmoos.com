@@ -1,0 +1,41 @@
+/* Star Collector — game over overlay and restart button */
+#gameover {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(3, 6, 16, 0.78);
+	z-index: 5;
+}
+
+#gameover.hidden { display: none; }
+
+#gameover .panel {
+	background: #0c1a38;
+	border: 2px solid #2a4a8f;
+	border-radius: 12px;
+	padding: 28px 40px;
+	text-align: center;
+}
+
+#gameover h2 {
+	margin: 0 0 12px;
+	color: #ff5d7a;
+	font-size: 32px;
+	letter-spacing: 1px;
+}
+
+#restart {
+	margin-top: 14px;
+	padding: 10px 28px;
+	font-size: 18px;
+	font-weight: 700;
+	color: #050914;
+	background: #ffd94d;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+#restart:hover { background: #ffe27a; }
