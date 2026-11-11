@@ -13,7 +13,6 @@ export function defaultMountDefinitions() {
 	return [
 		definition('mount:virtual', '/', 'virtual', 'virtual', 'Awtsmoos Root', 'א', READ_WRITE),
 		definition('mount:drive', '/drive', 'drive', 'drive', 'Awtsmoos Drive', '▰', READ_WRITE),
-		definition('mount:tunnels', '/network/tunnels', 'tunnel', 'tunnel', 'Connected Tunnels', '💻', READ_ONLY),
 		definition('mount:network', '/network', 'tunnel', 'tunnel', 'Network', '🌐', READ_ONLY),
 		definition('mount:tunnels:legacy', 'awtsmoos://tunnels', 'tunnel', 'tunnel', 'Connected Tunnels', '💻', READ_ONLY),
 		definition('mount:previews', '/system/previews', 'preview', 'preview', 'Preview Artifacts', '🔭', READ_ONLY),
