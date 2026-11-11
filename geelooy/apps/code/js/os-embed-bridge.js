@@ -69,8 +69,16 @@ export async function openFile(file = {}) {
 		stage = "verify";
 		const found = State.tabs.find(t => t.id === tab?.id);
 		if (!found || State.activeTabId !== tab?.id) {
+			let probe = "probe-skipped";
+			try {
+				const { OSFolderProvider } = await import("./fs/os-folder.js");
+				const content = await OSFolderProvider.read(item);
+				probe = `probe-read-ok len=${String(content).length}`;
+			} catch (probeError) {
+				probe = `probe-read-failed ${probeError?.message || probeError}`;
+			}
 			throw new Error(
-				`tab-not-active id=${tab?.id} found=${!!found} active=${State.activeTabId} tabs=${State.tabs.length}`
+				`tab-not-active id=${tab?.id} found=${!!found} active=${State.activeTabId} tabs=${State.tabs.length} itemContentLen=${String(item.content ?? "").length} ${probe}`
 			);
 		}
 		DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
