@@ -22,6 +22,15 @@ body[data-geelooy-route="home"] .world-tile {
 	box-shadow: inset 0 1px var(--home-inset-hi), var(--sefer-shadow);
 	transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
+/* Worlds launcher fix (2026-11-11): the filter marks non-matching tiles with the
+   hidden attribute, but .world-tile sets display:grid, which silently overrides
+   the UA [hidden] rule — filtered-out doors stayed visible. Restore the contract. */
+body[data-geelooy-route="home"] .world-tile[hidden] {
+	display: none;
+}
+body[data-geelooy-route="home"] .constellation-root {
+	scroll-padding-top: 4.5rem;
+}
 /* B"H 2026-10-09 — Dream audit: the default world-tone follows the theme's gold. */
 html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 	--world-accent: 212, 169, 78;
@@ -50,13 +59,12 @@ html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .world-tile small {
-	overflow: hidden;
 	color: var(--text-muted);
 	font-size: .62rem;
 	font-weight: 650;
 	letter-spacing: .01em;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	line-height: 1.35;
+	overflow-wrap: break-word;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .world-tile:hover, :where(body[data-geelooy-route="home"]) .world-tile:focus-visible {

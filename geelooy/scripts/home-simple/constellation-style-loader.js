@@ -7,8 +7,8 @@
  */
 export class ConstellationStyleLoader {
 	static stylesheetHrefs = Object.freeze([
-		"/style/home-simple/constellation-groups.css?v=2",
-		"/style/home-simple/constellation-adaptive.css?v=2"
+		"/style/home-simple/constellation-groups.css?v=3",
+		"/style/home-simple/constellation-adaptive.css?v=3"
 	]);
 
 	/**

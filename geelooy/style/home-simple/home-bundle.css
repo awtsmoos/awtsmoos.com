@@ -2126,6 +2126,13 @@ body[data-geelooy-route="home"] .world-tile {
 	transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 
+body[data-geelooy-route="home"] .world-tile[hidden] {
+	display: none;
+}
+body[data-geelooy-route="home"] .constellation-root {
+	scroll-padding-top: 4.5rem;
+}
+
 html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 	--world-accent: 212, 169, 78;
 }
@@ -2153,13 +2160,12 @@ html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 }
 
 :where(body[data-geelooy-route="home"]) .world-tile small {
-	overflow: hidden;
 	color: var(--text-muted);
 	font-size: .62rem;
 	font-weight: 650;
 	letter-spacing: .01em;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	line-height: 1.35;
+	overflow-wrap: break-word;
 }
 
 :where(body[data-geelooy-route="home"]) .world-tile:hover, :where(body[data-geelooy-route="home"]) .world-tile:focus-visible {

@@ -15,8 +15,8 @@ const CORE_ROUTES = new Set(
 
 export const CONSTELLATION_GROUPS = Object.freeze([
 	Object.freeze({ id: "core", label: "Core", symbol: "✦", defaultOpen: true }),
-	Object.freeze({ id: "apps", label: "Apps", symbol: "⌘", defaultOpen: false }),
-	Object.freeze({ id: "games", label: "Games", symbol: "◇", defaultOpen: false })
+	Object.freeze({ id: "apps", label: "Apps", symbol: "⌘", defaultOpen: true }),
+	Object.freeze({ id: "games", label: "Games", symbol: "◇", defaultOpen: true })
 ]);
 
 const CORE_DOORS = WORLD_CATALOG.map(world => Object.freeze({
