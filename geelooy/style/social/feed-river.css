@@ -139,7 +139,10 @@
 
 .feed-ask-btn {
 	background: #a67c1a;
-	color: var(--feed-river-on-dark);
+	/* B"H css-loop 2026-11-11 cycle 2 (F1): --feed-river-on-dark is a light
+	   on-dark variable; on the gold #a67c1a it read ~1.9:1 white-on-gold.
+	   Same dark ink #2a1c04 as the selected feed toggle (fixes 3/7). */
+	color: #2a1c04;
 	font-weight: 700;
 	border: none;
 }
