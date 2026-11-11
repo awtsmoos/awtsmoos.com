@@ -14,10 +14,9 @@ const { postIds } = require("./posts.js");
 async function seriesNode($i, heichelId, seriesId, depth = 0) {
     const info = await read($i, paths.seriesInfo(heichelId, seriesId), {});
     const childIds = idList(await read($i, paths.seriesChildren(heichelId, seriesId), {}));
-    const children = [];
-    if (depth < 4) {
-        for (const childId of childIds) children.push(await seriesNode($i, heichelId, childId, depth + 1));
-    }
+    const children = depth < 4
+        ? await Promise.all(childIds.map(childId => seriesNode($i, heichelId, childId, depth + 1)))
+        : [];
     return {
         id: seriesId,
         seriesId,
@@ -28,16 +27,15 @@ async function seriesNode($i, heichelId, seriesId, depth = 0) {
 }
 
 async function treeByAlias({ $i, aliasId }) {
-    const tree = [];
-    for (const heichelId of await ownedHeichelIds($i, aliasId)) {
+    return Promise.all((await ownedHeichelIds($i, aliasId)).map(async heichelId => {
         const info = await read($i, paths.heichelInfo(heichelId), {});
-        const children = [];
-        for (const seriesId of idList(await read($i, paths.seriesRoot(heichelId), {}))) {
-            children.push(await seriesNode($i, heichelId, seriesId));
-        }
-        tree.push({ heichelId, heichelName: cleanText(info.name || heichelId, 100), postsCount: (await postIds($i, heichelId)).length, children });
-    }
-    return tree;
+        const rootIds = idList(await read($i, paths.seriesRoot(heichelId), {}));
+        const [children, allPostIds] = await Promise.all([
+            Promise.all(rootIds.map(seriesId => seriesNode($i, heichelId, seriesId))),
+            postIds($i, heichelId)
+        ]);
+        return { heichelId, heichelName: cleanText(info.name || heichelId, 100), postsCount: allPostIds.length, children };
+    }));
 }
 
 module.exports = { treeByAlias, seriesNode };

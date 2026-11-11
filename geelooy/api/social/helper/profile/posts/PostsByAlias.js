@@ -21,7 +21,7 @@ const {
 } = require('./PostCoordinates.js');
 const { addPackedPost, addPostIfAuthored } = require('./PostCollector.js');
 
-const BATCH = 16;
+const BATCH = 96;
 
 function sortPosts(posts = []) {
 	return posts.sort((left, right) => {
@@ -85,10 +85,11 @@ async function collectHeichels({ $i, aliasId, limit, posts, seen }) {
 		await relevantHeichelIds($i, aliasId),
 		await ownedHeichelIds($i, aliasId)
 	);
-	const coordinates = [];
-	for (const heichelId of heichelIds) {
-		for (const postId of await postIds($i, heichelId)) coordinates.push({ heichelId, postId });
-	}
+	const perHeichel = await Promise.all(heichelIds.map(async heichelId => {
+		const ids = await postIds($i, heichelId);
+		return ids.map(postId => ({ heichelId, postId }));
+	}));
+	const coordinates = perHeichel.flat();
 	return collectBatches({
 		items: coordinates,
 		limit,
@@ -111,6 +112,14 @@ async function postsByAlias({ $i, aliasId, limit = 240 }) {
 	const seen = new Set();
 	if (await collectPacked({ $i, aliasId, limit, posts, seen })) return sortPosts(posts);
 	if (await collectSubmitted({ $i, aliasId, limit, posts, seen })) return sortPosts(posts);
+	// Batch 23 (2026-11-11, measured): the Heichel rescue scan reads
+	// every post in the alias's heichels — 8,236 coordinates for one
+	// alias — and found ZERO posts for every alias the indexed
+	// sources can see at all, while costing 10-64s per call on every
+	// profile and feed build. It now runs only when the indexed
+	// sources found nothing: exactly the population it exists to
+	// rescue (posts that live only as Heichel records).
+	if (posts.length) return sortPosts(posts);
 	await collectHeichels({ $i, aliasId, limit, posts, seen });
 	return sortPosts(posts);
 }

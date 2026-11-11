@@ -14,6 +14,8 @@
  * visible within the TTL, the house cache pattern (cf. aliasData 60s TTL).
  */
 const { paths, read } = require('../paths.js');
+const { findKeyReverseAsync } = require('../../packed/socialPackedKeyFind.js');
+const { logicalKey } = require('../../packed/shardPaths.js');
 const { cleanText } = require('../sanitize.js');
 const { authorOf, publicPost } = require('./PostProjection.js');
 
@@ -32,6 +34,20 @@ async function heichelName($i, heichelId) {
 	return name;
 }
 
+async function canonicalPost($i, heichelId, postId) {
+	try {
+		const envelope = await findKeyReverseAsync({
+			$i,
+			shard: 'allPosts',
+			key: logicalKey(['allPosts', heichelId, postId])
+		});
+		if (!envelope || envelope.op === 'del') return null;
+		return envelope.value || null;
+	} catch (_) {
+		return null;
+	}
+}
+
 async function addPostIfAuthored({
 	$i,
 	aliasId,
@@ -43,6 +59,24 @@ async function addPostIfAuthored({
 }) {
 	const key = `${heichelId}/${postId}`;
 	if (seen.has(key)) return false;
+	// Batch 23: the canonical packed record is the same truth the
+	// packed collector trusts — consult it before paying a full
+	// legacy post read per coordinate (0.43ms vs a full record).
+	// Absent a canonical record, the legacy read below decides, as
+	// it always has.
+	const canonical = await canonicalPost($i, heichelId, postId);
+	if (canonical) {
+		if (authorOf(canonical) !== aliasId) return false;
+		posts.push(publicPost({
+			post: canonical,
+			postId,
+			heichelId,
+			heichelName: await heichelName($i, heichelId),
+			fallbackSeriesId
+		}));
+		seen.add(key);
+		return true;
+	}
 	const post = await read($i, paths.post(heichelId, postId), null);
 	if (!post || authorOf(post) !== aliasId) return false;
 	posts.push(publicPost({

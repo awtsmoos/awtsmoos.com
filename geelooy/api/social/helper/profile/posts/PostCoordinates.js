@@ -45,32 +45,29 @@ async function postIds($i, heichelId) {
 	const indexed = idList(await read($i, paths.heichelPostIds(heichelId), {}));
 	const legacy = idList(await read($i, paths.heichelPosts(heichelId), {}));
 	const seriesIds = idList(await read($i, paths.seriesRoot(heichelId), {}));
+	const seriesLists = await Promise.all(seriesIds.map(seriesId => read(
+		$i,
+		paths.seriesPosts(heichelId, seriesId),
+		{}
+	)));
 	const seriesPosts = [];
-	for (const seriesId of seriesIds) {
-		seriesPosts.push(...idList(await read(
-			$i,
-			paths.seriesPosts(heichelId, seriesId),
-			{}
-		)));
-	}
+	for (const list of seriesLists) seriesPosts.push(...idList(list));
 	return mergeIds(indexed, legacy, seriesPosts);
 }
 
 async function submittedPostCoordinates($i, aliasId) {
-	const output = [];
 	const base = `/social/aliases/${aliasId}/postsSubmitted/inHeichel`;
 	const heichelIds = await readListing($i, base);
-	for (const heichelId of heichelIds) {
+	const perHeichel = await Promise.all(heichelIds.map(async heichelId => {
 		const seriesPath = `${base}/${heichelId}/inSeries`;
 		const seriesIds = await readListing($i, seriesPath);
-		for (const seriesId of seriesIds) {
+		const perSeries = await Promise.all(seriesIds.map(async seriesId => {
 			const postIdsAtSeries = await readListing($i, `${seriesPath}/${seriesId}`);
-			for (const postId of postIdsAtSeries) {
-				output.push({ heichelId, seriesId, postId });
-			}
-		}
-	}
-	return output;
+			return postIdsAtSeries.map(postId => ({ heichelId, seriesId, postId }));
+		}));
+		return perSeries.flat();
+	}));
+	return perHeichel.flat();
 }
 
 module.exports = { mergeIds, postIds, readListing, submittedPostCoordinates };
