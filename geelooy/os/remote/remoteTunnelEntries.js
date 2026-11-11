@@ -60,8 +60,11 @@ export function remoteTunnelEntries(
 }
 
 function joinRemote(parent, name) {
+	// B"H - strip only a genuine "./" prefix or a lone "." — a parent
+	// NAMED ".awtsmoos-tunnel" is a real folder, not a current-dir marker.
 	const base = String(parent || ".")
-		.replace(/^\.\/?/, "")
+		.replace(/^\.\//, "")
+		.replace(/^\.$/, "")
 		.replace(/\/+$/, "");
 	return [base, name].filter(Boolean).join("/");
 }

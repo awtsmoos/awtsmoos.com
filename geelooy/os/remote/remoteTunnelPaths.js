@@ -50,8 +50,11 @@ export function remoteRelativePath(path = "") {
 }
 
 function joinRemote(root, remotePath) {
+	// B"H - strip only a genuine "./" prefix or a lone "." — a segment
+	// NAMED ".awtsmoos-tunnel" is a real folder, not a current-dir marker.
 	const suffix = String(remotePath || "")
-		.replace(/^\.\/?/, "")
+		.replace(/^\.\//, "")
+		.replace(/^\.$/, "")
 		.replace(/^\/+/, "")
 		.replace(/\/+$/, "");
 	return suffix ? `${root}/${suffix}` : root;

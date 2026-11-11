@@ -33,9 +33,12 @@ async function manifestCode() {
 	initializeDOM();
 	watchFeatureStyles();
 	awakenIcons();
-	awakenEmbedBridge();
 	const { App } = await import("./app/index.js");
 	await App.initialize();
+	// B"H - the OS embed bridge awakens only on a settled surface: a
+	// file.open landing mid-boot is clobbered by the app's own welcome
+	// initialization, so embed.ready must not be sent before this line.
+	awakenEmbedBridge();
 	endAssetSpan(bootstrapSpan);
 }
 
