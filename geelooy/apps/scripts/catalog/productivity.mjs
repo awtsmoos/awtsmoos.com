@@ -63,7 +63,7 @@ export const PRODUCTIVITY_APPS = Object.freeze([
 		title: "Messages & Torah Chat",
 		href: "./universal-chat/",
 		description: "Open the Awtsmoos messaging and Torah chat workspace.",
-		icon: "◌",
+		icon: "❝",
 		chip: "Chat",
 		categories: ["productivity", "communication"],
 		aliases: ["messages", "torah chat", "chat"],

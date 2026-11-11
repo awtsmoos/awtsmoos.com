@@ -19,7 +19,7 @@ export const SYSTEM_APPS = Object.freeze([
 		title: "Wallet",
 		href: "./wallet",
 		description: "Inspect Perutahs, promotional refill, verified top-ups, ledger movement, and durable ownership.",
-		icon: "◇",
+		icon: "⬢",
 		chip: "System",
 		categories: ["system"],
 		commerceLabel: "Treasury stays free",

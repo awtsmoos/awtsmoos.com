@@ -15,7 +15,7 @@ export const AI_CREATION_APPS = Object.freeze([
 		title: "Olam H3 Studio",
 		href: "./olam-h3/",
 		description: "Generate MiniMax H3 video with reusable prompts, references, history, queue recovery, and local cost tracking.",
-		icon: "◈",
+		icon: "✺",
 		chip: "AI Video",
 		categories: ["create", "studio", "media"],
 		aliases: ["minimax h3", "ai video studio", "video generation", "olam h3"],

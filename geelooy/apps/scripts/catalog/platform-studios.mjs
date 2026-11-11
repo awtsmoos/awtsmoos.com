@@ -39,7 +39,7 @@ export const PLATFORM_STUDIOS = Object.freeze([
 		title: "Universal Procedural",
 		href: "./universal-procedural/",
 		description: "Explore semantic procedural generation through one reusable doorway into many possible worlds.",
-		icon: "◌",
+		icon: "❋",
 		chip: "Procedural",
 		categories: ["create", "developer", "studio"],
 		aliases: ["procedural generation", "world generation", "semantic world"],

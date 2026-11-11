@@ -27,7 +27,7 @@ export const DEVELOPER_APPS = Object.freeze([
 		title: "GGUF Chat & Metadata",
 		href: "./awtsmoos-gguf/",
 		description: "Inspect GGUF metadata and use the model-oriented chat workspace.",
-		icon: "◈",
+		icon: "λ",
 		chip: "Models",
 		categories: ["developer", "system"],
 		aliases: ["gguf", "model chat", "metadata"],
