@@ -1,5 +1,5 @@
 // B"H
-import { extensionOf, joinExplorerPath, nameFromPath } from './path.js';
+import { extensionOf, joinExplorerPath, nameFromPath, normalizeExplorerPath } from './path.js';
 import { mountData, mountBadge } from './mounts.js';
 import { permissionForPath } from './permissions.js';
 
@@ -24,7 +24,16 @@ export function normalizeRenderItem(raw = {}, { currentPath = '/', os } = {}) {
 }
 
 export function sortRenderItems(a, b) { return order(a.kind) - order(b.kind) || a.name.localeCompare(b.name, undefined, { numeric:true, sensitivity:'base' }); }
-function pathFor(raw, currentPath, name) { if (raw.path && String(raw.path).startsWith('awtsmoos://')) return raw.path; return joinExplorerPath(currentPath, raw.path || name); }
+function pathFor(raw, currentPath, name) {
+	const candidate = raw.path || name;
+	// B"H - an entry that already carries a rooted path (canonical
+	// /network/... or a legacy awtsmoos:// URL) IS its own address:
+	// joining it onto the current folder doubled the route prefix
+	// (/network/<route>/network/<route>/...) and every open missed.
+	// Only relative entries are joined onto the current path.
+	if (candidate && (String(candidate).startsWith('awtsmoos://') || String(candidate).startsWith('/'))) return normalizeExplorerPath(candidate);
+	return joinExplorerPath(currentPath, candidate);
+}
 function itemKind(raw, name) { const type = String(raw.type || raw.kind || raw.data?.kind || '').toLowerCase(); if (raw.isDirectory || ['directory','folder','dir','remote','drive','preview'].includes(type) || String(name).endsWith('.folder')) return 'folder'; return 'file'; }
 function classList({ kind, extension, mount, permissions }) { return ['file-item','icon',`awts-kind-${kind}`,`awts-ext-${extension || 'none'}`,mount.className,mount.locality === 'remote' ? 'remote-file-item' : '',permissions.permission === 'denied' ? 'mount-denied' : ''].filter(Boolean); }
 function statusFor(raw, mount) { return { dirty:!!raw.dirty, pending:!!raw.pending, published:!!raw.published, synced:mount.syncState === 'live' || mount.syncState === 'hosted', remote:mount.locality === 'remote', localOnly:mount.locality !== 'remote' }; }
