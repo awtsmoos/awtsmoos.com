@@ -96,6 +96,7 @@ export function setupCoreListeners() {
 	if (DOM.hamburgerMenuBtn) DOM.hamburgerMenuBtn.onclick = event => import("../../menus/index.js").then(({ Menus }) => Menus.showMainMenu(event));
 	if (DOM.addWorkspaceBtn) DOM.addWorkspaceBtn.onclick = () => import("../../features/workspace-addition.js").then(({ WorkspaceAddition }) => WorkspaceAddition.showDialog());
 	if (DOM.fileCommanderBtn) DOM.fileCommanderBtn.onclick = () => void openFileCommander();
+	if (DOM.tunnelConsoleBtn) DOM.tunnelConsoleBtn.onclick = () => import("../../tunnel-ui/controller.js").then(({ TunnelConsole }) => TunnelConsole.toggle());
 	bindGlobalButtons();
 	bindSidebarResizer(container);
 }

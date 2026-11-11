@@ -75,6 +75,7 @@ export function initializeDOM() {
 		sidebarCollapseBtn: "sidebar-collapse-btn",
 		mobileSidebarToggle: "sidebar-toggle-btn",
 		fileCommanderBtn: "file-commander-btn",
+		tunnelConsoleBtn: "tunnel-console-btn",
 		loadingOverlay: "loading-overlay",
 		toastContainer: "toast-container",
 		mainMenu: "main-menu",

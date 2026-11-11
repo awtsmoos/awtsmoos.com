@@ -19,8 +19,12 @@ export const TunnelConsole = {
 	openState: false,
 
 	init() {
+		// B"H - init owns the root, the render, and the update subscriptions.
+		// It must be idempotent: every doorway (menu, palette, toolbar,
+		// onboarding) funnels through ensure(), and the toolbar button itself
+		// is wired by the app listeners, like every other static button.
+		if (this.root) return this;
 		this.root = document.getElementById("tunnel-console-wrapper") || createRoot();
-		document.getElementById("tunnel-console-btn")?.addEventListener("click", () => this.toggle());
 		globalThis.addEventListener("awtsmoos:code-tunnel-update", () => this.render());
 		globalThis.addEventListener("awtsmoos:code-browser-target", () => this.render());
 		this.render();
@@ -28,7 +32,13 @@ export const TunnelConsole = {
 		return this;
 	},
 
+	ensure() {
+		if (!this.root) this.init();
+		return this;
+	},
+
 	open() {
+		this.ensure();
 		this.openState = true;
 		this.root.hidden = false;
 		this.root.classList.add("is-open");
@@ -42,6 +52,7 @@ export const TunnelConsole = {
 	},
 
 	toggle() {
+		this.ensure();
 		this.openState ? this.close() : this.open();
 	},
 
