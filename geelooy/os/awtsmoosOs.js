@@ -8,6 +8,7 @@ import {
 	loadOsUtilities,
 	makeOsDesktop,
 	maybeOpenRequestedExplorer,
+	maybeOpenRequestedApp,
 	registerOsAdapters,
 	startOs,
 	toggleOsFullScreen
@@ -54,5 +55,10 @@ export default class AwtsmoosOS extends MalchusWorkspaceFacade {
 	/** Opens an explicitly requested explorer or Social publishing route after boot. */
 	maybeOpenRequestedExplorer() {
 		return maybeOpenRequestedExplorer(this);
+	}
+
+	/** Opens an explicitly requested catalog app (?openApp=<id>) after boot. */
+	maybeOpenRequestedApp() {
+		return maybeOpenRequestedApp(this);
 	}
 }

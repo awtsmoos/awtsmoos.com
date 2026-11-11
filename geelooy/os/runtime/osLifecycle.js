@@ -18,6 +18,7 @@ import { installRemoteDriveCoordinator } from "../drives/remoteDriveCoordinator.
 import { installSocialMount, requestedSocialPath } from "../social/socialMountLifecycle.js";
 import { installSshSubsystem } from "../ssh/subsystem.js";
 import { OS_RUNTIME_STYLES } from "./osRuntimeStyles.js";
+import { launchApp } from "../shell/appLauncher.js";
 
 /**
  * Cold-load networks can stall a fetch or module import forever; every
@@ -68,6 +69,7 @@ export async function startOs(os) {
 		os.started = true;
 		os.listeners();
 		os.maybeOpenRequestedExplorer();
+		os.maybeOpenRequestedApp();
 	}
 	const remotes = installRemoteDriveCoordinator(os);
 	remotes.refresh({ announce: true });
@@ -120,6 +122,14 @@ export function maybeOpenRequestedExplorer(os) {
 		os,
 		programName: "awtsmoosFileExplorer"
 	});
+}
+
+/** Opens an explicitly requested catalog app after desktop boot. */
+export function maybeOpenRequestedApp(os) {
+	const search = new URLSearchParams(location.search);
+	const id = search.get("openApp") || "";
+	if (!id) return;
+	try { launchApp(os, id); } catch {}
 }
 
 /** Toggles the OS desktop fullscreen without coupling it to file providers. */
