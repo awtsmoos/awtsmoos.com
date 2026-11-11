@@ -49,8 +49,12 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   B"H round 11: the settled title still rendered ~10px — some
 		   rule outside the sefer file shrinks it. The bundle now forces
 		   2.2x the reading size at (1,3,0); paint 105px here too so the
-		   first paint matches the settled size at the 48px scale. */
-		.meluket-sefer-title-he { color: #2b2118; text-align: center; font-size: 105px; line-height: 1.25; }
+		   first paint matches the settled size at the 48px scale.
+		   B"H batch 24g (2026-11-11): the settled size is no longer a
+		   fixed 105px - it is the responsive clamp (13.5vw on phones,
+		   capped at 105px), so first paint uses the clamp too and the
+		   title never flashes clipped on a phone while bundles load. */
+		.meluket-sefer-title-he { color: #2b2118; text-align: center; font-size: clamp(2rem, 13.5vw, 6.5625rem); line-height: 1.15; }
 	</style>
 	<!-- B"H 2026-11-10 round 12 — early scale boot: apply the remembered
 	     reading size (and theme) BEFORE any stylesheet paints, so the first
