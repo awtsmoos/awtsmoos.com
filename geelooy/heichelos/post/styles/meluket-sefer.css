@@ -241,8 +241,8 @@
 	margin: 0 0 0.1em;
 	/* B"H — Coby Nov 10: scrolling was choppy with 271 pairs. The
 	   browser must not paint off-screen pairs on every scroll frame. */
-	content-visibility: auto;
-	contain-intrinsic-size: auto 120px;
+	/* B"H batch 27f (2026-11-11): NO content-visibility on pairs. The 120px intrinsic estimate vs real ~700px pairs made browser hit-testing land on the wrong element — trusted clicks on footnote markers were delivered to the parent phrase — and late real-size rendering scrolled the page out from under the reader. Scroll-perf is kept by the section-level containment below instead. */
+	content-visibility: visible;
 }
 
 :where(.meluket-sefer-active) .meluket-phrase-pair:last-child {
