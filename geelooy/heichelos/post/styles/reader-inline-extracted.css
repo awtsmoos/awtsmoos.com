@@ -1187,7 +1187,7 @@
 		}
 		/* Verse sections: reading column, dashed dream dividers. */
 		:root .post-reader-localized-context .meluket-sefer-section {
-			max-width: 44rem;
+			max-width: none;
 			margin: 0 auto;
 			padding: clamp(2rem, 6vw, 3.5rem) 0;
 			border-top: 2px dashed var(--sefer-rule);
@@ -1311,7 +1311,7 @@
 		}
 		/* Q&A typography. */
 		:root .post-reader-localized-context .meluket-qa {
-			max-width: 44rem;
+			max-width: none;
 			margin: 0 auto;
 			padding: clamp(2rem, 6vw, 3.5rem) 0;
 			border-top: 2px dashed var(--sefer-rule);
