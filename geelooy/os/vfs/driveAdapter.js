@@ -19,6 +19,15 @@ import {
 } from "../drive/driveTransport.js";
 import { operationResult } from "./operations.js";
 
+/** One retry for a read after a short pause — the Drive API fails transiently under load. */
+async function withOneRetry(fn) {
+	try { return await fn(); }
+	catch (error) {
+		await new Promise(resolve => setTimeout(resolve, 600));
+		return fn();
+	}
+}
+
 /** Creates the first-class VFS adapter for signed-in Awtsmoos Drive storage. */
 export function driveAdapter(_os, options = {}) {
 	const authority = options.authority || createDriveAuthority(options);
@@ -28,7 +37,7 @@ export function driveAdapter(_os, options = {}) {
 		async list(path) {
 			const { aliasId } = await authority.current();
 			const drivePath = driveEntryPath(path);
-			const response = await transport.list(aliasId, drivePath);
+			const response = await withOneRetry(() => transport.list(aliasId, drivePath));
 			return driveEntriesFromResponse(response).map(entry => driveEntryNode(entry, aliasId));
 		},
 		async stat(path) {
