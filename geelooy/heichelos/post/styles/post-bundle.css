@@ -2706,6 +2706,50 @@
 				color: var(--sefer-ink-soft);
 			}
 		}
+/* B"H batch 24 (2026-11-11) - Scribe's Lens controls: dark ink on the
+   cream panel. The global vision rules recolor every button inside the
+   reader context to the near-white --aw-text, which left the settings
+   panel's own controls white-on-white (invisible -/+ glyphs, a ghost
+   Start button, a blacked-out speed readout on the owner's phone).
+   The panel is always light cream, so its controls are pinned here,
+   variable-free, with ID-anchored selectors the vision rules cannot
+   outrank. */
+:root .post-reader-localized-context #typographyDetails .font-adjust-btn,
+:root .post-reader-localized-context #typographyDetails .scribe-lens-close,
+:root .post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle,
+:root .post-reader-localized-context #typographyDetails .meluket-lang-btn {
+	background: #fffdf6;
+	border-color: #d9c9a8;
+	color: #2b2118;
+}
+:root .post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-icon,
+:root .post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-label,
+:root .post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-speed {
+	color: #2b2118;
+}
+:root .post-reader-localized-context #typographyDetails #autoScrollSpeedDisplay {
+	background: #fffdf6;
+	color: #2b2118;
+}
+/* B"H batch 24 - on phones the Aa dock button rendered at 88px inside
+   its 52px bar and sat on the text. Cap the dock buttons to the bar. */
+@media (max-width: 700px) {
+	:root .post-reader-localized-context #typographyBtn {
+		inline-size: 3.25rem;
+		block-size: 3.25rem;
+		min-inline-size: 3.25rem;
+		min-block-size: 3.25rem;
+		padding: 0;
+		font-size: 1.05rem;
+	}
+	:root .post-reader-localized-context #readerInfoBtn {
+		inline-size: 2.5rem;
+		block-size: 2.5rem;
+		min-inline-size: 2.5rem;
+		min-block-size: 2.5rem;
+	}
+}
+
 
 /* ==== heichelos/post/styles/translations.css ==== */
 /* B"H

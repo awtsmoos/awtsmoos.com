@@ -1848,3 +1848,33 @@ body.awtsmoos-src-open .universal-chat-floating-launcher {
     display: none;
   }
 }
+
+/* ---------- B"H batch 24 (2026-11-11) - phone reader repairs ----------
+   Owner screenshots at phone width with a 56px text scale: the sefer
+   title grew with the reading size until its longest word overflowed
+   the card and clipped on both edges, and it rendered in Frank Ruhl
+   while the phrases use David Libre. On phones the title now scales
+   gently and is capped, so no word can outgrow the card. The section
+   badge gets real clearance above the first pair, and the footnote
+   close is full-strength ink, not the soft tone. */
+:root.post-reader-localized-context #realPost .meluket-sefer-title-he,
+.meluket-sefer-active .meluket-sefer-title .meluket-sefer-title-he {
+	font-family: "David Libre", "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+}
+@media (max-width: 700px) {
+	:root.post-reader-localized-context #realPost .meluket-sefer-title-he,
+	.meluket-sefer-active .meluket-sefer-title .meluket-sefer-title-he {
+		font-size: min(calc(var(--post-text-size, 48px) * 0.95), 3.4rem);
+		line-height: 1.15;
+	}
+	.meluket-sefer-active .meluket-sefer-section {
+		padding-top: 4.6rem;
+	}
+	.meluket-sefer-active .meluket-section-marker {
+		top: 0.6rem;
+	}
+}
+:root .post-reader-localized-context .awtsmoos-fn-close {
+	color: #2c2416;
+	border-color: #b8860b;
+}
