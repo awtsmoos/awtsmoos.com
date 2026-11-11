@@ -63,6 +63,7 @@ const apiCatalog = {
 	openapiStatic: agentLinks.openapi,
 	myDevice: '/api/tunnel/control/my-device',
 	recommendedClientId: oauth.recommendedClientId,
+	sharedRoom: require("../core/accountRoom/protocol.js").roomProtocol(),
 	agentLinks,
 	oauth,
 	setup,

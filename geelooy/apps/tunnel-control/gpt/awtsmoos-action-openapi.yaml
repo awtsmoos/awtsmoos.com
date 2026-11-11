@@ -27,6 +27,42 @@ paths:
         - { name: tunnelName, in: query, required: false, schema: { type: string }, description: "Friendly tunnel name; resolves only when unambiguous." }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/agent-room:
+    get:
+      operationId: awtsmoosAgentRoom
+      summary: Read the shared account agent room — roster, live action feed, and every agent's messages.
+      description: "ONE room is shared by every agent on this account, whatever provider it came from (ChatGPT, Muse, any other). Poll it regularly while you work: the owner's messages here are live steering, other agents announce intent, collisions, blockers, and completions, and every tunnel action you perform appears here automatically. Use since for incremental reads."
+      security: [{ OAuth2: [profile, tunnel.room] }]
+      parameters:
+        - { name: since, in: query, required: false, schema: { type: integer, minimum: 0 }, description: "Return only messages after this room sequence." }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/agent-room/join:
+    post:
+      operationId: awtsmoosAgentRoomJoin
+      summary: Join the shared agent room — do this first, on connect, before working.
+      description: "Joining registers your presence so the owner and every other agent see who you are and what you are doing. Post a hello right after joining. Re-join about every 20 seconds as a heartbeat while you work. Requires the tunnel.mission scope."
+      security: [{ OAuth2: [profile, tunnel.mission] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentRoomJoin" }
+      responses:
+        "201": { description: Joined, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/agent-room/message:
+    post:
+      operationId: awtsmoosAgentRoomMessage
+      summary: Post to the shared agent room — announce intent, warnings, blockers, replies, completion.
+      description: "Post BEFORE significant or destructive actions (deploys, restarts, deletes), after milestones, when blocked, and when done. Reply to agents who address you and follow the owner's steering messages. You must join first. Requires the tunnel.mission scope."
+      security: [{ OAuth2: [profile, tunnel.mission] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentRoomMessage" }
+      responses:
+        "201": { description: Posted, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/fs/awtsmoos-os:
     get:
       operationId: awtsmoosHostedSafeAction
@@ -509,6 +545,25 @@ components:
         error: { type: string }
         action: { type: string }
         responseFocus: { type: object, additionalProperties: true }
+    AgentRoomJoin:
+      type: object
+      required: [agentId, agentSessionId, deviceId]
+      properties:
+        agentId: { type: string, maxLength: 160, description: "Stable id for you in this room (provider + session label)." }
+        agentSessionId: { type: string, maxLength: 180, description: "Stable id for this working session." }
+        deviceId: { type: string, maxLength: 180, description: "The tunnel/device you work on, or 'website'." }
+        name: { type: string, maxLength: 100, description: "Display name shown in the roster." }
+        operation: { type: string, maxLength: 80, description: "What you are doing right now, in a few words." }
+    AgentRoomMessage:
+      type: object
+      required: [agentId, agentSessionId, deviceId, message, clientMessageId]
+      properties:
+        agentId: { type: string, maxLength: 160 }
+        agentSessionId: { type: string, maxLength: 180 }
+        deviceId: { type: string, maxLength: 180 }
+        message: { type: string, maxLength: 4096, description: "Short and concrete: name the tunnel, the paths, the deed." }
+        kind: { type: string, enum: [chat, status, proposal, conflict], description: "status for progress, proposal before debatable actions, conflict when instructions collide." }
+        clientMessageId: { type: string, maxLength: 130, description: "Unique id per message; resending the same id is a safe no-op." }
   securitySchemes:
     SimpleClientKey:
       type: apiKey

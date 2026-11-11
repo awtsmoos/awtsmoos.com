@@ -7,6 +7,7 @@ const { json } = require("../core/respond.js");
 const { externalAgentFlow, grokFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
 const { missionPlanningBody } = require("./agentMissionPlanning.js");
+const { ROOM_BEHAVIOR, roomProtocol } = require("../core/accountRoom/protocol.js");
 const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 
 /**
@@ -46,6 +47,7 @@ function agentBehavior() {
 		"Use missionVisibilityReport after planning, implementation milestones, verification, blockers/recovery, deployment, and final handoff.",
 		"Mission reports are factual filing artifacts; never publish hidden reasoning, unrestricted command output, or secrets.",
 		"Use canonical mission rooms for live agent presence and missionAgentMessage for direct messages.",
+		...ROOM_BEHAVIOR,
 		"Use action=files operation=list to inspect files; use exact operation for other filesystem and fileTransfer operations.",
 		"For Virtual OS publication use action=web operation=publishWebsite with an owned alias folder path; inspect the returned canonicalVerifiedLive=true evidence before reporting a live URL. Discover exact operation fields at agent-manifest.",
 		"For large files prefer 1–2 MiB WebSocket chunks when supported.",
@@ -71,7 +73,8 @@ function chatgptBehavior() {
 		"If calls return not_authenticated, the GPT's OAuth is not linked yet; the user links it once from the sign-in prompt OpenAI presents, signing in to awtsmoos.com as the account that owns the tunnel.",
 		"After OAuth, call /api/tunnel/control/my-device. When the account owns more than one live tunnel, select explicitly with the tunnelId or routeReference query parameter instead of relying on automatic selection.",
 		"On retryable tunnel_not_alive, call my-device again and follow retryPolicy/recoveringRoutes instead of declaring death.",
-		"Never ask the human to paste a bearer token or API key into the chat; OpenAI attaches the stored OAuth credential automatically once linked."
+		"Never ask the human to paste a bearer token or API key into the chat; OpenAI attaches the stored OAuth credential automatically once linked.",
+		...ROOM_BEHAVIOR
 	];
 }
 function chatgptFlow() {
@@ -105,6 +108,7 @@ async function bootstrap($i) {
 		codeEditor: agentLinks.codeEditor, virtualOs: agentLinks.virtualOs,
 		externalAgent: externalAgentFlow(), headlessDevice: headlessDeviceFlow(),
 		missionPlanning: missionPlanningBody(), routeRecovery: routeRecoveryBody(),
+		sharedRoom: roomProtocol(),
 		recommendationPrivacy: "/api/tunnel/control/privacy/recommendations",
 		transportLaw: {
 			httpMethods: ["GET"], dataTransports: oauth.dataTransports,

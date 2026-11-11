@@ -11,6 +11,7 @@ const { headlessDeviceFlow } = require("./deviceFlow.js");
 const { missionPlanningBody } = require("./agentMissionPlanning.js");
 const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 const { transferBody } = require("./agentManifestTransfer.js");
+const { roomProtocol } = require("../core/accountRoom/protocol.js");
 const Operations = require("./agentOperationCatalog.js");
 
 /**
@@ -39,9 +40,10 @@ function manifestBody() {
 	return {
 		BH: "B\"H", ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.7.0",
+		version: "1.8.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
+		sharedRoom: roomProtocol(),
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
 		requiredBaseCapabilities: REQUIRED_BASE_CAPABILITIES,
 		recommendedCapabilities: RECOMMENDED_CAPABILITIES,

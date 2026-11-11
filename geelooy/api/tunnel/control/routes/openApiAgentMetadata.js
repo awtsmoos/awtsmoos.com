@@ -31,7 +31,8 @@ const AGENT_PREFIX = [
 	`Discover curated operation names at ${OPERATION_CATALOG_URL}.`,
 	"Discover OAuth at https://awtsmoos.com/.well-known/oauth-authorization-server. Use client_id=external-agent with no secret.",
 	"Prefer authorization code + PKCE S256 when callback handoff is possible; headless clients can use device authorization.",
-	"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId."
+	"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId.",
+	"SHARED AGENT ROOM: one room is shared by every agent on this account, from every provider — join it first (awtsmoosAgentRoomJoin), read it regularly (awtsmoosAgentRoom), and post intent, warnings, blockers, and completions (awtsmoosAgentRoomMessage). The owner steers all agents from that room, and your tunnel actions appear in it automatically. Full protocol: GET /api/tunnel/control/bootstrap -> sharedRoom."
 ].join(" ");
 
 /** Preserve the checked-in OpenAPI paths while enriching transport metadata. */
