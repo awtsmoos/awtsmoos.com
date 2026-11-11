@@ -68,7 +68,9 @@ export class HudMinimizeController {
 	}
 
 	prepare(root, definition, compact) {
-		root.dataset.awtsmoosHudId = definition.id;
+		if (root.dataset.awtsmoosHudId !== definition.id) {
+			root.dataset.awtsmoosHudId = definition.id;
+		}
 		let button = root.querySelector(':scope > .Awtsmoos-hud-minimize');
 		if (!button) {
 			button = this.createButton(root, definition);
@@ -98,16 +100,34 @@ export class HudMinimizeController {
 	}
 
 	apply(root, definition, minimized, knownButton = null) {
-		root.dataset.awtsmoosMinimized = String(minimized);
+		// Every write here must be change-guarded: this controller observes the
+		// whole body subtree, and an unconditional write (above all textContent,
+		// a childList mutation) re-fires the observer, queues another sync, and
+		// spins the main thread in an endless microtask loop — the freeze that
+		// killed the Procedural Platform route on click.
+		const minimizedValue = String(minimized);
+		if (root.dataset.awtsmoosMinimized !== minimizedValue) {
+			root.dataset.awtsmoosMinimized = minimizedValue;
+		}
 		const button = knownButton || root.querySelector(':scope > .Awtsmoos-hud-minimize');
 		if (!button) {
 			return;
 		}
-		const action = minimized ? 'Show' : 'Hide';
-		button.textContent = minimized ? '+' : '−';
-		button.title = `${action} ${definition.label}`;
-		button.setAttribute('aria-label', `${action} ${definition.label}`);
-		button.setAttribute('aria-expanded', String(!minimized));
+		const glyph = minimized ? '+' : '−';
+		if (button.textContent !== glyph) {
+			button.textContent = glyph;
+		}
+		const actionLabel = `${minimized ? 'Show' : 'Hide'} ${definition.label}`;
+		if (button.title !== actionLabel) {
+			button.title = actionLabel;
+		}
+		if (button.getAttribute('aria-label') !== actionLabel) {
+			button.setAttribute('aria-label', actionLabel);
+		}
+		const expandedValue = String(!minimized);
+		if (button.getAttribute('aria-expanded') !== expandedValue) {
+			button.setAttribute('aria-expanded', expandedValue);
+		}
 	}
 
 	destroy() {
