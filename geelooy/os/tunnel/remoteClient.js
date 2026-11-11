@@ -15,9 +15,14 @@ import { collectTargets } from "./remoteTargets.js";
 export { collectTargets } from "./remoteTargets.js";
 
 export async function discoverTunnelTargets(fetcher = globalThis.fetch) {
+	// B"H - discovery enumerates via /devices, the same source File
+	// Explorer uses. Bare /my-device is a single-device selector: it can
+	// refuse with an ambiguity or identity error while /devices answers,
+	// which left this panel's vessel list empty and its files pane
+	// showing that error while Files browsed the same device fine.
 	const data = await jsonRequest(
 		fetcher,
-		"/api/tunnel/control/my-device"
+		"/api/tunnel/control/devices"
 	);
 	return Object.freeze(collectTargets(data));
 }
