@@ -1931,3 +1931,14 @@ body.awtsmoos-src-open .universal-chat-floating-launcher {
 :root .all.post-reader-localized-context .meluket-sefer-active .meluket-section-marker {
 	top: 8px;
 }
+
+/* ---------- B"H batch 24e (2026-11-11) - title clamp, every state ----------
+   The batch-24c clamp won in one render and lost in the next (the
+   reader-vision class state varies between renders). These variants
+   repeat the title class to reach (1,8,0) and (1,7,0), above the
+   vision Hebrew rule (1,6,0) whether or not .all is present. */
+:root .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he.meluket-sefer-title-he,
+:root.post-reader-localized-context.awtsmoos-reader-vision #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he.meluket-sefer-title-he {
+	font-size: clamp(2rem, 13.5vw, 6.5625rem);
+	line-height: 1.15;
+}
