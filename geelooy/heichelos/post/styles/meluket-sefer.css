@@ -1902,3 +1902,20 @@ body.awtsmoos-src-open .universal-chat-floating-launcher {
 		top: 10px;
 	}
 }
+
+/* ---------- B"H batch 24c (2026-11-11) - media-free title cap ----------
+   The batch 24/24b phone rules sat inside @media (max-width: 700px),
+   which the sefer compact link does not honor in the real render, so
+   the title stayed at the vision rule's size and clipped. This cap is
+   media-free: 13.5vw on a phone (about 53px at 390px, every word fits
+   the card), rising to the same 105px the title already renders at on
+   desktop. Section top padding is pinned flat at 56px with winning
+   specificity so the first pair always clears the section badge. */
+:root .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he,
+:root .all.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-title .meluket-sefer-title-he {
+	font-size: clamp(2rem, 13.5vw, 6.5625rem);
+	line-height: 1.15;
+}
+:root .post-reader-localized-context .meluket-sefer-active .meluket-sefer .meluket-sefer-section {
+	padding-top: 56px;
+}
