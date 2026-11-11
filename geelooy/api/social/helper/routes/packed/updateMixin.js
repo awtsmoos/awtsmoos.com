@@ -67,10 +67,8 @@ function flushMirrorBatch(routes, $i, batch) {
 	const errors = [];
 	if (!batch || !batch.length) return errors;
 	const posts = batch.splice(0, batch.length);
-	const _mt0 = Date.now();
 	try {
 		mirrorPostsBulk({ $i, posts, skipPriorRead: false });
-		console.log('[UPDATE-TIME] mirrorBatch ms=' + (Date.now() - _mt0) + ' posts=' + posts.length);
 	} catch (e) {
 		for (const p of posts) {
 			try { routes.writeOnePostBulk($i, p); }
@@ -167,9 +165,7 @@ module.exports = {
 			}
 		} finally {
 			mirrorErrors.push(...flushMirrorBatch(this, this.$i, mirrorBatch));
-			const _ft0 = Date.now();
 			flushAllPending();
-			console.log('[UPDATE-TIME] flushAllPending ms=' + (Date.now() - _ft0));
 			undeferRefresh();
 			clearImportBatching();
 			clearFs3ImportBatching();
@@ -200,7 +196,6 @@ module.exports = {
 
 
 	async updateOnePost(heichelId, u, opts) {
-		const _pt0 = Date.now();
 		const { dryRun, verify } = opts;
 		if (!u || typeof u !== 'object' || Array.isArray(u)) {
 			return { postId: null, ok: false, error: 'BAD_UPDATE', message: 'update entry is not an object' };
@@ -219,7 +214,6 @@ module.exports = {
 		}
 
 		const existing = await this.loadNativePost(heichelId, seriesId, postId);
-		console.log('[UPDATE-TIME] load ms=' + (Date.now() - _pt0) + ' post=' + postId + ' docBytes=' + (existing ? Buffer.byteLength(JSON.stringify(existing)) : -1));
 		if (!existing) return { postId, ok: false, error: 'POST_NOT_FOUND', message: 'no native post at heichel ' + heichelId + (seriesId ? ' series ' + seriesId : '') };
 
 		// Multi-user ownership (2026-10-21): a non-admin caller may only
@@ -258,7 +252,6 @@ module.exports = {
 		if (dryRun) return { postId, ok: true, dryRun: true, exists: true, wouldChange: changed, changed: [] };
 
 		let updated;
-		const _t0 = Date.now();
 		try {
 			updated = cleanClone(existing, 0);
 			for (const k of unsetChanged) delete updated[k];
@@ -272,10 +265,7 @@ module.exports = {
 			if (size > PER_POST_MAX_BYTES) {
 				return { postId, ok: false, error: 'POST_TOO_LARGE', message: 'updated post is ' + size + ' bytes (cap ' + PER_POST_MAX_BYTES + ')' };
 			}
-			console.log('[UPDATE-TIME] clone+size ms=' + (Date.now() - _t0) + ' bytes=' + size + ' post=' + postId);
-			const _t1 = Date.now();
 			await this.writeNativePostOnly(this.$i, updated);
-			console.log('[UPDATE-TIME] nativeWrite ms=' + (Date.now() - _t1) + ' post=' + postId);
 			// B"H 2026-11-10 (bulk-import speed fix): when the caller
 			// passes a mirrorBatch, the packed mirror is deferred to
 			// the caller's batched flush (one append per shard per
