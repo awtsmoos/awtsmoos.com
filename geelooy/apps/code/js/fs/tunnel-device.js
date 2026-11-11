@@ -14,9 +14,19 @@ import { InlineLogin } from '../session/inline-login.js';
 import * as TunnelClient from '../../../../os/remote/tunnelControlClient.js';
 
 function splitPath(path = '.') {
-    const segments = String(path || '.').split('/').filter(Boolean);
+    // B"H - '.' is a segment like any other to a naive split, and the editor
+    // hands the workspace root to providers as '.', './', '/', and '' on
+    // different calls. Dropping empty and '.' segments makes every root
+    // shape yield NO route (the device list), and only a real first segment
+    // names a device.
+    const segments = String(path || '.').split('/').filter(segment => segment && segment !== '.');
     if (!segments.length) return { route: '', inner: '.' };
     return { route: segments[0], inner: segments.slice(1).join('/') || '.' };
+}
+
+function errorText(error, fallback) {
+    if (typeof error === 'string' && error) return error;
+    return error?.message || error?.code || fallback;
 }
 
 function joinInner(inner, name) {
@@ -70,7 +80,7 @@ export function createTunnelDeviceProvider(options = {}) {
         if (!route) throw new Error('A tunnel device route is required.');
         const got = await TunnelClient.fsAction(route, { action, ...payload }, clientOptions);
         if (!got || got.ok === false) {
-            throw new Error(got?.error || got?.message || `Tunnel ${action} failed`);
+            throw new Error(errorText(got?.error || got?.message, `Tunnel ${action} failed`));
         }
         return got;
     }
@@ -80,7 +90,7 @@ export function createTunnelDeviceProvider(options = {}) {
         if (session?.ok === false) throw new Error('Awtsmoos login required.');
         const data = await TunnelClient.devices(clientOptions);
         if (!data || data.ok === false) {
-            throw new Error(data?.error || 'Could not load tunnel devices.');
+            throw new Error(errorText(data?.error, 'Could not load tunnel devices.'));
         }
         return (data.nativeDevices || []).filter(device =>
             device.connected !== false &&
@@ -91,12 +101,18 @@ export function createTunnelDeviceProvider(options = {}) {
 
     return {
         async list(item) {
-            const raw = String(item?.path || '.');
-            if (!raw || raw === '.') {
+            // B"H - the workspace root reaches this provider wearing several
+            // path shapes ('.', './', '/', or the workspace item itself with
+            // no path). All of them split to NO route segment, and no route
+            // is exactly what "list the devices" means — only a path whose
+            // first segment is a device route goes to the tunnel. (Before:
+            // '/' and './' fell through to the fs call and died on the
+            // route guard, so the workspace never listed a single device.)
+            const { route, inner } = splitPath(String(item?.path || '.'));
+            if (!route) {
                 const devices = await loadDevices();
                 return devices.map(device => deviceEntry(item, device));
             }
-            const { route, inner } = splitPath(raw);
             const data = await api(route, 'list', { path: inner, maxChars: 200000 });
             const entries = data.detailedItems || data.items || [];
             return entries.map(entry => childEntry(item, route, inner, entry)).filter(Boolean);
@@ -118,6 +134,9 @@ export function createTunnelDeviceProvider(options = {}) {
                 throw new Error('Creating folders on a tunnel device is not supported yet.');
             }
             const { route, inner } = splitPath(String(parentDir?.path || '.'));
+            if (!route) {
+                throw new Error('Open a device first — new files live inside a device, not at the workspace root.');
+            }
             const path = inner && inner !== '.' ? `${inner}/${name}` : name;
             return await api(route, 'write', { path, content: '' });
         },
