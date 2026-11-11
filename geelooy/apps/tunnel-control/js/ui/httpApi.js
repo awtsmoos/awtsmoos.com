@@ -22,6 +22,21 @@ export async function apiGet(path) {
 	return response.json();
 }
 
+export async function apiPostJson(path, data) {
+	const headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+		...await authHeaders()
+	};
+	const response = await fetch(path, {
+		method: "POST",
+		credentials: "include",
+		headers,
+		body: JSON.stringify(data || {})
+	});
+	return response.json();
+}
+
 export async function apiPostForm(path, data) {
 	const body = new URLSearchParams();
 	for (const [key, value] of Object.entries(data || {})) {

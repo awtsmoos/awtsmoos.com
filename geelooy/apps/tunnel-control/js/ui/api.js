@@ -11,10 +11,10 @@
 import { callFs as canonicalCallFs, buildFsUrl } from "../api/tunnel.js";
 import { attachRequestGuard } from "../api/requestGuard.js";
 import { $ } from "./dom.js";
-import { apiGet, apiPostForm } from "./httpApi.js";
+import { apiGet, apiPostForm, apiPostJson } from "./httpApi.js";
 import { humanError, resultCard } from "./resultView.js";
 
-export { apiGet, apiPostForm, humanError, resultCard };
+export { apiGet, apiPostForm, apiPostJson, humanError, resultCard };
 
 export function tunnelName() {
 	return ($("tunnelName")?.value || "").trim();
