@@ -33,12 +33,17 @@ async function manifestCode() {
 	initializeDOM();
 	watchFeatureStyles();
 	awakenIcons();
+	// B"H - the OS embed bridge awakens BEFORE the app initializes, as it
+	// originally did: gating embed.ready on App.initialize() starved the
+	// handshake entirely in the live embed (no file.open ever arrived,
+	// proven by the bridge's own stage breadcrumbs never appearing),
+	// because initialize's deferred layers and the build-freshness
+	// reload can postpone or preempt everything after the await. The
+	// mid-boot clobber this once guarded against is now prevented by
+	// the bridge opening OS files as real tabs in the app's own model.
+	awakenEmbedBridge();
 	const { App } = await import("./app/index.js");
 	await App.initialize();
-	// B"H - the OS embed bridge awakens only on a settled surface: a
-	// file.open landing mid-boot is clobbered by the app's own welcome
-	// initialization, so embed.ready must not be sent before this line.
-	awakenEmbedBridge();
 	endAssetSpan(bootstrapSpan);
 }
 
