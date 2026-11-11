@@ -6,7 +6,6 @@
 import { createEretzRuntime } from '../../app/createEretzRuntime.js';
 import { reportLaunchProgress } from '../../app/RuntimeLaunchProgress.js';
 import { installPlatformShowcaseHud } from './PlatformShowcaseHud.js';
-import { createPlatformShowcase } from './PlatformShowcaseScene.js';
 
 export async function launchPlatformShowcase(hosts, options = {}) {
 	// The staged runtime reports its own boot stages through onProgress; this
@@ -20,6 +19,10 @@ export async function launchPlatformShowcase(hosts, options = {}) {
 	reportLaunchProgress(options, 'Growing the procedural showcase…', 0.97, {
 		stage: 'platform-showcase'
 	});
+	// The scene graph (procedural core) is the heaviest fetch on this route;
+	// it loads only now, after the runtime is alive and reporting, so its
+	// doorway is measured on its own instead of starving the module doorway.
+	const { createPlatformShowcase } = await import('./PlatformShowcaseScene.js');
 	const showcase = await createPlatformShowcase(diagnostics.runtime);
 	diagnostics.platformShowcase = showcase.diagnostics;
 	window.Awtsmoos.platformShowcase = showcase.diagnostics;

@@ -10,7 +10,14 @@
  * this entry carries only the showcase, and its graph builds on its own.
  */
 
+import { reportDirectWorldProgress } from './MitzvahWorldDirectRuntimeOptions.js';
+
+const SHOWCASE_MODE_URL = '../world/platform/PlatformShowcaseMode.js';
+
 export async function openPlatformMode(hosts, options = {}) {
-	const { launchPlatformShowcase } = await import('../world/platform/PlatformShowcaseMode.js');
+	reportDirectWorldProgress(options, 'Loading the platform world module…', {
+		stage: 'platform-world-module', url: SHOWCASE_MODE_URL
+	});
+	const { launchPlatformShowcase } = await import(SHOWCASE_MODE_URL);
 	return launchPlatformShowcase(hosts, options);
 }
