@@ -10,7 +10,7 @@
  * Public discovery remains read-only, measured, paginated, and compatible.
  */
 
-const { profileFeed, trending } = require('./helper/profile/discovery.js');
+const { profileFeed, readLastGoodRiver, trending } = require('./helper/profile/discovery.js');
 const { publicFeedAliasIds, publicPeople } = require('./helper/profile/publicAliases.js');
 const { csv, getQuery, ok, paginate } = require('./helper/profile/apiTools.js');
 const { paginateChronological } = require('./helper/profile/pagination/ChronologicalPagination.js');
@@ -96,6 +96,14 @@ async function feedResponse($i, userid) {
 			const cap = Math.max(50, Number(query.limit || 25) * 4);
 			items = mergeFeedItems(items, publicItems, cap);
 		}
+	}
+	if (!items.length) {
+		// A silent window: this hour's rotating alias block carries no
+		// readable activity (most aliases are imported shells). The
+		// discovery surface must not go dark for an hour — serve the
+		// last good river any window built (batch 21).
+		const lastGood = readLastGoodRiver($i);
+		if (lastGood) items = lastGood.items;
 	}
 	return latestPage({ $i, items, query, viewerAliasId });
 }

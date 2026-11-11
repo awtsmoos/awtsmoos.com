@@ -119,6 +119,27 @@ function writeRiverSnapshot($i, cacheKey, items) {
 	} catch (_) { /* persistence is an optimization; the memory cache still serves */ }
 }
 
+const LAST_GOOD_KEY = logicalKey(['feed', 'lastGoodRiver']);
+
+function noteLastGoodRiver($i, items) {
+	try {
+		writePacked({
+			$i, shard: 'feed', key: LAST_GOOD_KEY,
+			value: { kind: 'lastGoodRiver', items, builtAt: Date.now() },
+			meta: { kind: 'feed', feedType: 'lastGoodRiver' }
+		});
+	} catch (_) { /* optimization only */ }
+}
+
+function readLastGoodRiver($i) {
+	try {
+		const envelope = readPacked({ $i, shard: 'feed', key: LAST_GOOD_KEY });
+		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
+		if (value && Array.isArray(value.items) && value.items.length) return value;
+	} catch (_) { /* absent: no fallback available */ }
+	return null;
+}
+
 async function buildRiver($i, aliases, query) {
 	const perAlias = await mapBounded(aliases.slice(0, 50), FEED_CONCURRENCY, aliasId => aliasActivity($i, aliasId));
 	const events = perAlias.flat();
@@ -139,6 +160,7 @@ function rebuildRiverInBackground($i, cacheKey, aliases, query) {
 			if (!items.length) return;
 			feedCache.set(cacheKey, { at: Date.now(), items });
 			writeRiverSnapshot($i, cacheKey, items);
+			noteLastGoodRiver($i, items);
 		})
 		.catch(() => { /* keep serving the stale river; the next request retries */ })
 		.finally(() => feedRebuilding.delete(cacheKey));
@@ -162,6 +184,7 @@ async function profileFeed({ $i, aliases = [], query = {} }) {
 	}
 	const items = await buildRiver($i, aliases, query);
 	if (!items.length) return [...items];
+	noteLastGoodRiver($i, items);
 	feedCache.set(cacheKey, { at: Date.now(), items });
 	if (feedCache.size > 24) feedCache.delete(feedCache.keys().next().value);
 	writeRiverSnapshot($i, cacheKey, items);
@@ -172,4 +195,4 @@ async function trending({ $i, query = {} }) {
 	return profileFeed({ $i, aliases: csv(query.aliases), query });
 }
 
-module.exports = { batchProfiles, contentKind, filterContentKinds, profileFeed, trending };
+module.exports = { batchProfiles, contentKind, filterContentKinds, profileFeed, readLastGoodRiver, trending };

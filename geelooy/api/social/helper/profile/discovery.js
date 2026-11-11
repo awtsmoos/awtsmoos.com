@@ -8,7 +8,7 @@
  * insights, and operational work to focused vessels rather than compressing every social concern into one file.
  */
 const { listFollows, follow, unfollow, followers } = require('./follows.js');
-const { batchProfiles, profileFeed, trending } = require('./discoveryFeed.js');
+const { batchProfiles, profileFeed, readLastGoodRiver, trending } = require('./discoveryFeed.js');
 const { search } = require('./discoverySearch.js');
 const { analytics, graph, recommendations } = require('./discoveryInsights.js');
 const { apiMeta, bulk, events, heichelDiscover } = require('./discoveryOperations.js');
@@ -17,6 +17,7 @@ module.exports = {
 	analytics,
 	apiMeta,
 	batchProfiles,
+	readLastGoodRiver,
 	bulk,
 	events,
 	follow,
