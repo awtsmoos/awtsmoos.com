@@ -265,7 +265,10 @@ function enhanceDreamCards(discovery, items) {
 			en.className = 'dream-heichel-en';
 			en.textContent = parts.slice(1).join(' · ');
 			// B"H 2026-10-19: separator between Hebrew and English (was rendering as "תורה שבכתבThe Written Torah")
-			titles.append(he, document.createTextNode(' · '), en);
+			// B"H css-loop 2026-11-11: no separator text node — the titles stack
+			// vertically (flex column), so the bare ' · ' became an anonymous flex
+			// item rendering as a stray dot on its own line under the icon.
+			titles.append(he, en);
 		} else {
 			const en = document.createElement('span');
 			en.className = 'dream-heichel-en';
