@@ -44,7 +44,10 @@ function message(input = {}, trusted = false) {
 			deed: String(input.detail.deed || "").slice(0, 40),
 			target: String(input.detail.target || "").slice(0, 300),
 			device: String(input.detail.device || "").slice(0, 120),
-			ok: input.detail.ok !== false
+			ok: input.detail.ok !== false,
+			pending: input.detail.pending === true,
+			final: input.detail.final === true,
+			outcomeOf: String(input.detail.outcomeOf || "").slice(0, 130)
 		};
 	}
 	return entry;

@@ -93,14 +93,23 @@ function recordOutcome(identity, payload, response, accountId) {
 	const controlRequestId = String(payload.controlRequestId ||
 		response.controlRequestId || "").slice(0, 130);
 	if (!controlRequestId) return;
-	const deed = String(response.actualAction || response.action || "deed");
-	const target = String(response.path || response.cwd || "").slice(0, 200);
+	// The terminal envelope attests the outcome but not the original deed's
+	// name — the dispatch entry in the room (keyed by this controlRequestId)
+	// is the authority for what the deed was, so copy its identity verbatim.
+	let origin = null;
+	try {
+		const snap = Service.snapshot(accountId);
+		origin = (snap?.messages || []).find(message =>
+			message.clientMessageId === controlRequestId && message.kind === "action") || null;
+	} catch (error) { /* fall back to response fields below */ }
+	const deed = String(origin?.detail?.deed || response.actualAction || response.action || "deed");
+	const target = String(origin?.detail?.target || response.path || response.cwd || "").slice(0, 200);
 	const ok = response.ok !== false;
-	const agentId = String(payload.logicalAgentId ||
+	const agentId = String(origin?.agentId || payload.logicalAgentId ||
 		`agent:${accountId}:default`).slice(0, 160);
-	const agentSessionId = String(payload.agentSessionId ||
+	const agentSessionId = String(origin?.agentSessionId || payload.agentSessionId ||
 		"session:action-feed").slice(0, 180);
-	const deviceId = String(payload.tunnelName || "auto").slice(0, 180);
+	const deviceId = String(origin?.detail?.device || payload.tunnelName || "auto").slice(0, 180);
 	const actor = {
 		clientId: identity.clientId || identity.kind || "authenticated",
 		kind: identity.kind || "authenticated"
