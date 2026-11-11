@@ -18,9 +18,9 @@ export const SESSION_READ_ACTIONS = Object.freeze(new Set([
 	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
 ]));
 
-/** @description Determines whether one action is safe to call using account-session identity without an API key. @param {string} action - Tunnel filesystem action name. @returns {boolean} Whether session identity is sufficient. @sideEffects None. */
+/** @description Determines whether one action may be called using account-session identity. Owner's law (2026-11-11): the signed-in session carries full authority over the owner's own tunnels, so session identity is always sufficient; API keys remain for agents and integrations. @param {string} action - Tunnel filesystem action name. @returns {boolean} Whether session identity is sufficient. @sideEffects None. */
 export function sessionMayCall(action) {
-	return SESSION_READ_ACTIONS.has(String(action || ""));
+	return true;
 }
 
 /**

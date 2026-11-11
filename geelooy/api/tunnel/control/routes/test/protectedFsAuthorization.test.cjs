@@ -28,19 +28,23 @@ const readDenial = Authorization.coarseDenial(
 );
 assert.equal(readDenial, null);
 
+// Owner's law (2026-11-11): the session IS the owner's identity — mutations
+// on the owner's own tunnels need no API key. The denial this block used to
+// assert (403 api_key_required) is retired on purpose.
 const mutationDenial = Authorization.coarseDenial(
 	session,
 	"missionRoomUserMessage",
 	"tunnel.room",
 	Policy.sessionMayUse
 );
-assert.equal(mutationDenial.status, 403);
-assert.equal(mutationDenial.body.error, "api_key_required");
-assert.equal(mutationDenial.body.authenticated, true);
-assert.equal(mutationDenial.body.identityKind, "session");
-assert.equal(mutationDenial.body.credentialKind, "apiKey");
-assert.equal(mutationDenial.body.neededScope, "tunnel.room");
-assert.doesNotMatch(mutationDenial.body.message, /oauth|sign in|log in/i);
+assert.equal(mutationDenial, null);
+const commandDenial = Authorization.coarseDenial(
+	session,
+	"commandStart",
+	"tunnel.command",
+	Policy.sessionMayUse
+);
+assert.equal(commandDenial, null);
 
 const oauth = {
 	ok: true,
@@ -67,6 +71,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "protected-fs-authorization",
 	signedSessionReads: true,
-	mutationNeedsApiKey: true,
+	sessionHasFullAuthority: true,
 	falseOauthPromptRemoved: true
 }, null, 2));

@@ -21,15 +21,20 @@ const SESSION_SAFE_ACTIONS = new Set([
 ]);
 
 /**
- * @file Keeps signed-session read policy synchronized with the Tunnel Control browser.
+ * @file Keeps signed-session policy synchronized with the Tunnel Control browser.
  * @description
- * The Awtsmoos lets an authenticated user observe Chrome, ChatGPT, history, and mission
- * status without granting mutation. Awtsmoos.com still requires scoped API keys for deeds.
+ * OWNER'S LAW (2026-11-11): the API-key gate for browser sessions was the old
+ * feature and is retired. A signed-in owner session carries FULL authority
+ * over the owner's own tunnels — read, write, and command alike — because the
+ * session already IS the owner's identity, and every deed remains scoped to
+ * tunnels bound to that same account. Scoped credentials (API keys, OAuth)
+ * keep their scope checks unchanged; they exist for agents and integrations,
+ * not as a toll booth between the owner and their own machines.
  * Async command observation is normalized once at this public boundary so commandWait/status
  * always preserve the caller's existing job identity instead of becoming a fresh relay deed.
  */
 function sessionMayUse(action) {
-	return SESSION_SAFE_ACTIONS.has(String(action || ""));
+	return true;
 }
 
 function buildPayload($i, tunnelName) {
