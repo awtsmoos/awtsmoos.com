@@ -52,54 +52,27 @@ export async function openFile(file = {}) {
 	if (activeFile.intent === "preview") {
 		return await openPreview(activeFile);
 	}
-	// TEMPORARY DIAGNOSTIC (embed open witness): stage breadcrumbs land in
-	// the status bar, and any failure becomes the visible document, because
-	// this seam's failures are otherwise swallowed by console-only logs.
-	let stage = "received";
 	try {
-		DOM.statusLeft.textContent = `OS open: ${stage} ${activeFile.fileName}`;
-		stage = "workspace";
+		// B"H - an OS file must live in the editor's own tab model, like the
+		// preview path already does: writing the raw textarea instead leaves
+		// a phantom document that the app's remembered-tab activation paints
+		// over seconds after boot. A real tab survives view switches and
+		// session restores because the app itself owns it.
 		const workspace = ensureOsWorkspace(activeFile);
-		DOM.statusLeft.textContent = `OS open: ${stage} ${workspace.path}`;
-		stage = "item";
 		const item = createOsWorkspaceItem(activeFile, workspace);
-		stage = "tab-create";
-		DOM.statusLeft.textContent = `OS open: ${stage} ${item.path}`;
 		const tab = await Tabs.create(item, false, true, true);
-		stage = "verify";
-		let found = State.tabs.find(t => t.id === tab?.id);
-		if (!found) {
+		if (!State.tabs.some(candidate => candidate.id === tab?.id)) {
 			// B"H - self-heal: a late state restore (or a build-freshness
 			// reload of a sibling layer) can wipe a just-created tab from
 			// State. Recreate it once on the settled state rather than
-			// losing the owner's file to a boot race.
+			// losing the owner's file to a boot race. When the tab did
+			// survive, create() dedupes by path and simply re-activates it.
 			await new Promise(resolve => setTimeout(resolve, 2500));
-			const retried = await Tabs.create(item, false, true, true);
-			found = State.tabs.find(t => t.id === retried?.id);
-			if (found && State.activeTabId === retried?.id) {
-				DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
-				return activeFile;
-			}
-		}
-		if (!found || State.activeTabId !== tab?.id) {
-			let probe = "probe-skipped";
-			try {
-				const { OSFolderProvider } = await import("./fs/os-folder.js");
-				const content = await OSFolderProvider.read(item);
-				probe = `probe-read-ok len=${String(content).length}`;
-			} catch (probeError) {
-				probe = `probe-read-failed ${probeError?.message || probeError}`;
-			}
-			throw new Error(
-				`tab-not-active id=${tab?.id} found=${!!found} active=${State.activeTabId} tabs=${State.tabs.length} itemContentLen=${String(item.content ?? "").length} ${probe}`
-			);
+			await Tabs.create(item, false, true, true);
 		}
 		DOM.statusLeft.textContent = `OS file: ${activeFile.fileName}`;
 	} catch (error) {
-		openOsEditor({
-			...activeFile,
-			content: `OS-EMBED-DIAGNOSTIC stage=${stage} error=${error?.message || error}`
-		});
+		openOsEditor(activeFile);
 	}
 	return activeFile;
 }
