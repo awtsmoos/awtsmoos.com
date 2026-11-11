@@ -98,6 +98,75 @@ export class InsertionCommands {
 		return this.formatting.execute("insertHTML", "<hr><p><br></p>");
 	}
 
+	/** Inserts one bounded inline image carried as a data URL. */
+	image(dataUrl, alt = "") {
+		const src = String(dataUrl || "");
+		if (!/^data:image\/(png|jpeg|gif|webp);base64,[a-z0-9+/=]+$/i.test(src)) {
+			return false;
+		}
+		if (src.length > 340000) return false;
+		return this.formatting.execute(
+			"insertHTML",
+			`<img src="${src}" alt="${escapeAttribute(String(alt).slice(0, 120))}">`
+		);
+	}
+
+	/** Adds or removes the table row beside the caret's cell. */
+	tableRow(mode) {
+		const cell = this.#currentCell();
+		if (!cell) return false;
+		const row = cell.parentElement;
+		const table = row.closest("table");
+		if (mode === "delete") {
+			if (table.querySelectorAll("tr").length <= 1) return false;
+			row.remove();
+		} else {
+			const clone = row.cloneNode(true);
+			for (const cloned of clone.children) cloned.innerHTML = "<br>";
+			if (mode === "above") row.before(clone);
+			else row.after(clone);
+		}
+		this.formatting.editor.notifyMutation();
+		return true;
+	}
+
+	/** Adds or removes the table column beside the caret's cell. */
+	tableColumn(mode) {
+		const cell = this.#currentCell();
+		if (!cell) return false;
+		const index = Array.from(cell.parentElement.children).indexOf(cell);
+		const table = cell.closest("table");
+		for (const row of table.querySelectorAll("tr")) {
+			const target = row.children[index];
+			if (!target) continue;
+			if (mode === "delete") {
+				if (row.children.length <= 1) return false;
+				target.remove();
+			} else {
+				const blank = document.createElement(target.tagName.toLowerCase());
+				blank.innerHTML = "<br>";
+				if (mode === "left") target.before(blank);
+				else target.after(blank);
+			}
+		}
+		this.formatting.editor.notifyMutation();
+		return true;
+	}
+
+	/** Returns the table cell holding the current selection, when there is one. */
+	#currentCell() {
+		const block = this.#currentBlock();
+		if (!block) return null;
+		const selection = window.getSelection();
+		if (!selection?.rangeCount) return null;
+		const node = selection.getRangeAt(0).commonAncestorContainer;
+		const element = node.nodeType === Node.ELEMENT_NODE
+			? node
+			: node.parentElement;
+		const cell = element?.closest?.("td, th");
+		return cell && this.root.contains(cell) ? cell : null;
+	}
+
 	/** Inserts a page break that ends the printed page and flows past on screen. */
 	pageBreak() {
 		return this.formatting.execute(

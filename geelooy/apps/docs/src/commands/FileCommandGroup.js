@@ -12,9 +12,13 @@ export class FileCommandGroup {
 		Object.assign(this, { actions, toast, versionHistory, publishing });
 	}
 
-	async execute(commandId) {
+	async execute(commandId, value = "") {
+		if (commandId === "file.new") return this.#new();
+		if (commandId === "file.template") return this.#template(value);
 		if (commandId === "file.open") return this.#open();
 		if (commandId === "file.save") return this.#save();
+		if (commandId === "file.save-as") return this.#saveAs();
+		if (commandId === "file.properties") return this.actions.documentProperties();
 		if (commandId === "file.print") {
 			window.print();
 			return true;
@@ -51,6 +55,24 @@ export class FileCommandGroup {
 	async #save() {
 		const result = await this.actions.save();
 		this.toast.show("Save requested", "success");
+		return result;
+	}
+
+	async #saveAs() {
+		const result = await this.actions.saveAs();
+		if (result !== null) this.toast.show("Save as requested", "success");
+		return result;
+	}
+
+	async #new() {
+		const result = await this.actions.newDocument("blank");
+		if (result) this.toast.show("New document", "success");
+		return result;
+	}
+
+	async #template(value) {
+		const result = await this.actions.newDocument(value || "blank");
+		if (result) this.toast.show("New document from template", "success");
 		return result;
 	}
 }

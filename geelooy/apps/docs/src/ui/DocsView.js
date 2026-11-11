@@ -101,6 +101,35 @@ export class DocsView {
 		return !this.documentStats.hidden;
 	}
 
+	/** Scales the page canvas through the CSS zoom the layout already tolerates. */
+	setZoom(value) {
+		const factor = Math.max(0.25, Math.min(3, Number(value) || 1));
+		this.canvas.style.zoom = String(factor);
+		return factor;
+	}
+
+	/** Toggles the dark token set declared in tokens.css. */
+	toggleTheme() {
+		const dark = this.app.dataset.theme !== "dark";
+		if (dark) this.app.dataset.theme = "dark";
+		else delete this.app.dataset.theme;
+		return dark;
+	}
+
+	/** Shows or hides the measurement strip above the page. */
+	toggleRulers() {
+		let ruler = this.app.querySelector(".docs-ruler");
+		if (ruler) {
+			ruler.remove();
+			return false;
+		}
+		ruler = document.createElement("div");
+		ruler.className = "docs-ruler";
+		ruler.setAttribute("aria-hidden", "true");
+		this.canvas.parentElement.insertBefore(ruler, this.canvas);
+		return true;
+	}
+
 	#sections() {
 		return [
 			["outline", this.outlineSection],

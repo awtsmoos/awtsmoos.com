@@ -46,6 +46,72 @@ export class DocsActionController {
 		}
 	}
 
+	/** Saves through the destination chooser even when a destination already exists. */
+	async saveAs() {
+		try {
+			const destination = await chooseDocsSaveDestination(
+				this.persistence,
+				this.quickDialog,
+				true
+			);
+			if (destination === null) return null;
+			const result = await this.persistence.save(destination);
+			this.toast.show("Document saved", "success");
+			return result;
+		} catch (error) {
+			this.#driveError(error, "Save as failed");
+			return null;
+		}
+	}
+
+	/** Starts a fresh document, optionally seeded from a starter template. */
+	async newDocument(template = "blank") {
+		try {
+			const starter = DOC_TEMPLATES[template] || DOC_TEMPLATES.blank;
+			await this.snapshot.apply({
+				title: starter.title,
+				blocks: starter.blocks.map((html, index) => {
+					const inner = html.replace(/^<[^>]+>/, "").replace(/<[^>]+>$/, "");
+					return {
+						id: `block-${index + 1}`,
+						tag: html.startsWith("<h") ? html.slice(1, 3) : "p",
+						html: inner
+					};
+				}),
+				comments: [],
+				semanticObjects: [],
+				layout: {}
+			});
+			this.toast.show("New document ready", "success");
+			return true;
+		} catch (error) {
+			this.#driveError(error, "Could not start a new document");
+			return false;
+		}
+	}
+
+	/** Shows the document's title and live size facts in one read-only dialog. */
+	async documentProperties() {
+		const blocks = Array.isArray(this.model.blocks) ? this.model.blocks : [];
+		const text = blocks
+			.map(block => String(block.html || "").replace(/<[^>]*>/g, " "))
+			.join(" ");
+		const words = text.split(/\s+/).filter(Boolean).length;
+		await this.quickDialog.ask({
+			title: "Document properties",
+			submitLabel: "Done",
+			fields: [
+				{ name: "title", label: "Title", value: this.model.title || "Untitled document" },
+				{ name: "words", label: "Words", value: String(words) },
+				{ name: "characters", label: "Characters", value: String(text.length) },
+				{ name: "blocks", label: "Paragraphs and blocks", value: String(blocks.length) },
+				{ name: "revision", label: "Revision", value: String(this.model.revision || 0) },
+				{ name: "updated", label: "Last updated", value: String(this.model.updatedAt || "") }
+			]
+		});
+		return true;
+	}
+
 	/** Opens the browser file chooser and imports the selected supported document. */
 	async importFile() {
 		try {
@@ -104,3 +170,41 @@ export class DocsActionController {
 		this.toast.show(error?.message || fallback, "warning");
 	}
 }
+
+/** Starter documents offered by File > New from template. */
+const DOC_TEMPLATES = Object.freeze({
+	blank: { title: "Untitled document", blocks: ["<p><br></p>"] },
+	letter: {
+		title: "Letter",
+		blocks: [
+			"<p>Dear ,</p>",
+			"<p><br></p>",
+			"<p>With appreciation,</p>",
+			"<p><br></p>"
+		]
+	},
+	notes: {
+		title: "Meeting notes",
+		blocks: [
+			"<h1>Meeting notes</h1>",
+			"<p>Date: </p>",
+			"<h2>Agenda</h2>",
+			"<p><br></p>",
+			"<h2>Decisions</h2>",
+			"<p><br></p>",
+			"<h2>Action items</h2>",
+			"<p>☐ First follow-up</p>"
+		]
+	},
+	essay: {
+		title: "Essay",
+		blocks: [
+			"<h1>Essay title</h1>",
+			"<p><br></p>",
+			"<h2>Introduction</h2>",
+			"<p><br></p>",
+			"<h2>Closing</h2>",
+			"<p><br></p>"
+		]
+	}
+});

@@ -19,18 +19,20 @@ export class CommentController {
 
 	create(text) {
 		const range = currentRangeInside(this.root);
-		if (!range || range.collapsed) {
-			throw new Error("Highlight text before adding a note");
+		if (!range) {
+			throw new Error("The selection is not inside the document");
 		}
 		const block = closestBlock(range.commonAncestorContainer);
 		if (!block) {
 			throw new Error("The selection is not inside a document block");
 		}
 		const id = crypto.randomUUID();
-		const mark = document.createElement("mark");
-		mark.dataset.commentId = id;
-		mark.append(range.extractContents());
-		range.insertNode(mark);
+		if (!range.collapsed) {
+			const mark = document.createElement("mark");
+			mark.dataset.commentId = id;
+			mark.append(range.extractContents());
+			range.insertNode(mark);
+		}
 		const comment = {
 			id,
 			blockId: block.dataset.blockId,

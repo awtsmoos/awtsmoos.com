@@ -18,6 +18,7 @@ export class FormatCommandGroup {
 		if (direct) return this.formatting.execute(direct);
 		if (commandId === "format.block") return this.formatting.block(value);
 		if (commandId === "format.align") return this.formatting.align(value);
+		if (commandId === "format.direction") return this.formatting.direction(value);
 		if (commandId === "format.color") return this.formatting.color(value);
 		if (commandId === "format.highlight") return this.formatting.highlight(value);
 		if (commandId === "format.font-family") return this.formatting.fontFamily(value);

@@ -24,8 +24,17 @@ export const INSERT_MENU = Object.freeze({
 		separator(),
 		command("insert.mention", "Mention person…", "mention"),
 		command("insert.table", "Table…", "table"),
+		command("insert.table-row-above", "Table: add row above", "table"),
+		command("insert.table-row-below", "Table: add row below", "table"),
+		command("insert.table-row-delete", "Table: delete row", "table"),
+		command("insert.table-column-left", "Table: add column left", "table"),
+		command("insert.table-column-right", "Table: add column right", "table"),
+		command("insert.table-column-delete", "Table: delete column", "table"),
 		command("format.checklist", "Checklist", "check"),
 		command("insert.divider", "Horizontal divider", "divider"),
+		command("insert.page-break", "Page break", "divider"),
+		command("insert.image", "Image…", "export"),
+		command("insert.symbol", "Special character…", "super"),
 		separator(),
 		command("insert.note", "Comment / note…", "comment", "⌘⌥M")
 	])

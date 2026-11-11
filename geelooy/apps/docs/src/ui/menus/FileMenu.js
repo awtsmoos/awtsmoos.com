@@ -11,8 +11,15 @@ export const FILE_MENU = Object.freeze({
 	id: "file",
 	label: "File",
 	items: Object.freeze([
+		item("file.new", "New document", "open"),
+		select("file.template", "New from template", "open", [
+			["blank", "Blank document"], ["letter", "Letter"],
+			["notes", "Meeting notes"], ["essay", "Essay"]
+		]),
 		item("file.open", "Open / Import…", "open", "⌘O"),
 		item("file.save", "Save", "save", "⌘S"),
+		item("file.save-as", "Save as…", "save"),
+		item("file.properties", "Document properties…", "stats"),
 		item("file.print", "Print…", "page", "⌘P"),
 		separator(),
 		item("file.name-version", "Name current version…", "save"),
@@ -32,6 +39,10 @@ export const FILE_MENU = Object.freeze({
 
 function item(command, label, icon, shortcut = "") {
 	return { type: "command", command, label, icon, shortcut };
+}
+
+function select(command, label, icon, options) {
+	return { type: "select", command, label, icon, options };
 }
 
 function separator() {

@@ -12,7 +12,7 @@ import { sanitizeInlineStyle } from "./SafeInlineStylePolicy.js";
  * refusing executable tags, event code, unsafe CSS, and arbitrary DOM authority.
  */
 const INLINE_TAGS = new Set([
-	"A", "B", "BR", "CODE", "EM", "I", "LI", "MARK", "OL", "S",
+	"A", "B", "BR", "CODE", "EM", "I", "IMG", "LI", "MARK", "OL", "S",
 	"SPAN", "STRONG", "SUB", "SUP", "TABLE", "TBODY", "TD", "TH",
 	"THEAD", "TR", "U", "UL"
 ]);
@@ -70,6 +70,9 @@ export class HtmlSanitizer {
 			if (element.tagName === "A" && ["href", "target", "rel"].includes(name)) {
 				continue;
 			}
+			if (element.tagName === "IMG" && ["src", "alt"].includes(name)) {
+				continue;
+			}
 			if (name === "style") {
 				this.#cleanStyle(element);
 				continue;
@@ -77,6 +80,12 @@ export class HtmlSanitizer {
 			element.removeAttribute(attribute.name);
 		}
 		if (element.tagName === "A") sanitizeDocumentLink(element);
+		if (element.tagName === "IMG") {
+			const src = element.getAttribute("src") || "";
+			if (!/^data:image\/(png|jpeg|gif|webp);base64,/i.test(src)) {
+				element.removeAttribute("src");
+			}
+		}
 	}
 
 	/** Rewrites each inline style declaration through the bounded CSS property policy. */

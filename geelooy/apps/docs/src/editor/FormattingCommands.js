@@ -45,6 +45,11 @@ export class FormattingCommands {
 		return this.editor.updateBlockStyle({ textAlign: value });
 	}
 
+	direction(value) {
+		if (value !== "ltr" && value !== "rtl") return false;
+		return this.editor.updateBlockStyle({ direction: value });
+	}
+
 	lineHeight(value) {
 		return this.editor.updateBlockStyle({ lineHeight: Number(value) });
 	}

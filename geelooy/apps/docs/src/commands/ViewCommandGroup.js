@@ -13,7 +13,18 @@ export class ViewCommandGroup {
 		this.toast = toast;
 	}
 
-	async execute(commandId) {
+	async execute(commandId, value = "") {
+		if (commandId === "view.zoom") return this.view.setZoom(value);
+		if (commandId === "view.theme") {
+			const dark = this.view.toggleTheme();
+			this.toast.show(dark ? "Dark mode on" : "Dark mode off", "neutral");
+			return dark;
+		}
+		if (commandId === "view.rulers") {
+			const shown = this.view.toggleRulers();
+			this.toast.show(shown ? "Rulers on" : "Rulers off", "neutral");
+			return shown;
+		}
 		if (commandId === "view.outline") return this.view.togglePanel("outline");
 		if (commandId === "view.notes") return this.view.togglePanel("notes");
 		if (commandId === "view.references") return this.view.togglePanel("references");

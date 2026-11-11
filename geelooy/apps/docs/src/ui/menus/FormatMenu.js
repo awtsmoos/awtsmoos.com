@@ -33,6 +33,23 @@ export const FORMAT_MENU = Object.freeze({
 			["1", "10"], ["2", "11"], ["3", "12"], ["4", "14"],
 			["5", "18"], ["6", "24"], ["7", "32"]
 		]),
+		select("format.color", "Text color", "format", [
+			["#000000", "Black"], ["#434343", "Dark gray"], ["#666666", "Gray"],
+			["#980000", "Dark red"], ["#ff0000", "Red"], ["#ff9900", "Orange"],
+			["#ffff00", "Yellow"], ["#00ff00", "Green"], ["#00ffff", "Cyan"],
+			["#4a86e8", "Cornflower"], ["#0000ff", "Blue"], ["#9900ff", "Purple"],
+			["#ff00ff", "Magenta"], ["#ffffff", "White"]
+		]),
+		select("format.highlight", "Highlight color", "format", [
+			["transparent", "None"], ["#ffff00", "Yellow"], ["#00ff00", "Bright green"],
+			["#00ffff", "Turquoise"], ["#ff00ff", "Pink"], ["#0000ff", "Blue"],
+			["#ff0000", "Red"], ["#000080", "Dark blue"], ["#00ffff", "Teal"],
+			["#800080", "Purple"], ["#808080", "Gray"], ["#c0c0c0", "Light gray"]
+		]),
+		separator(),
+		select("format.direction", "Text direction", "align", [
+			["ltr", "Left to right"], ["rtl", "Right to left"]
+		]),
 		separator(),
 		select("format.align", "Alignment", "align", [
 			["left", "Left"], ["center", "Center"], ["right", "Right"], ["justify", "Justify"]

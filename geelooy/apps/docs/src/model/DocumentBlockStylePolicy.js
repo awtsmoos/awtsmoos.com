@@ -20,6 +20,9 @@ export function normalizeDocumentBlockStyle(candidate = {}) {
 	const source = candidate && typeof candidate === "object" ? candidate : {};
 	return {
 		textAlign: ALIGNMENTS.has(source.textAlign) ? source.textAlign : "",
+		direction: source.direction === "rtl" || source.direction === "ltr"
+			? source.direction
+			: "",
 		lineHeight: boundedNumber(source.lineHeight, 1, 3, 0),
 		spaceBefore: boundedNumber(source.spaceBefore, 0, 4, 0),
 		spaceAfter: boundedNumber(source.spaceAfter, 0, 4, 0),
@@ -31,6 +34,7 @@ export function normalizeDocumentBlockStyle(candidate = {}) {
 export function applyDocumentBlockStyle(element, candidate = {}) {
 	const style = normalizeDocumentBlockStyle(candidate);
 	setOrClear(element, "textAlign", style.textAlign);
+	setOrClear(element, "direction", style.direction);
 	setOrClear(element, "lineHeight", style.lineHeight ? String(style.lineHeight) : "");
 	setOrClear(element, "marginTop", style.spaceBefore ? `${style.spaceBefore}em` : "");
 	setOrClear(element, "marginBottom", style.spaceAfter ? `${style.spaceAfter}em` : "");
@@ -42,6 +46,7 @@ export function applyDocumentBlockStyle(element, candidate = {}) {
 export function readDocumentBlockStyle(element) {
 	return normalizeDocumentBlockStyle({
 		textAlign: element.style.textAlign,
+		direction: element.style.direction,
 		lineHeight: numberFromStyle(element.style.lineHeight),
 		spaceBefore: emFromStyle(element.style.marginTop),
 		spaceAfter: emFromStyle(element.style.marginBottom),

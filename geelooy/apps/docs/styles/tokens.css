@@ -80,3 +80,32 @@ button:active {
 button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* Dark mode: the same tokens, turned down — content stays the light source. */
+#docsApp[data-theme="dark"] {
+	--docs-bg: #11151d;
+	--docs-surface: #1a1f2a;
+	--docs-surface-soft: #212836;
+	--docs-ink: #e8ecf4;
+	--docs-text: #e8ecf4;
+	--docs-panel: #1a1f2a;
+	--aw-text: #e8ecf4;
+	--docs-muted: #9aa5ba;
+	--docs-border: #2c3546;
+	--docs-border-strong: #3d4a61;
+	--docs-accent-soft: #232c44;
+	--docs-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+	--docs-toolbar-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.docs-ruler {
+	height: 18px;
+	margin: 0 auto 6px;
+	max-width: var(--docs-page-width);
+	background:
+		repeating-linear-gradient(to right, var(--docs-border-strong) 0 1px, transparent 1px 96px),
+		repeating-linear-gradient(to right, var(--docs-border) 0 1px, transparent 1px 12px),
+		var(--docs-surface-soft);
+	border: 1px solid var(--docs-border);
+	border-radius: 4px;
+}

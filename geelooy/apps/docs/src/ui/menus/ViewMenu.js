@@ -16,6 +16,13 @@ export const VIEW_MENU = Object.freeze({
 		command("view.references", "Footnotes and references", "super"),
 		command("view.stats", "Document statistics", "stats"),
 		separator(),
+		select("view.zoom", "Zoom", "focus", [
+			["0.5", "50%"], ["0.75", "75%"], ["1", "100%"],
+			["1.25", "125%"], ["1.5", "150%"], ["2", "200%"]
+		]),
+		command("view.theme", "Dark mode", "focus"),
+		command("view.rulers", "Rulers", "focus"),
+		separator(),
 		command("view.focus", "Focus mode", "focus"),
 		command("view.fullscreen", "Fullscreen", "focus")
 	])
@@ -23,6 +30,10 @@ export const VIEW_MENU = Object.freeze({
 
 function command(id, label, icon) {
 	return { type: "command", command: id, label, icon };
+}
+
+function select(commandId, label, icon, options) {
+	return { type: "select", command: commandId, label, icon, options };
 }
 
 function separator() {
