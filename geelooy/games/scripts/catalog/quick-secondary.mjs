@@ -45,16 +45,5 @@ export const QUICK_SECONDARY_GAMES = Object.freeze([
 		tags: ["Casual", "Color", "Quick Play"],
 		hue: 320,
 		icon: "😀"
-	}),
-	defineGame({
-		id: "star-collector",
-		title: "Star Collector",
-		href: "./star-collector/",
-		description: "Pilot a small ship, catch falling stars, and dodge the meteors as the sky speeds up.",
-		collection: "quick",
-		genre: "Arcade",
-		tags: ["Arcade", "Space", "Quick Play"],
-		hue: 45,
-		icon: "⭐"
 	})
 ]);
