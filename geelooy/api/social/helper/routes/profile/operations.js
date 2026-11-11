@@ -22,8 +22,8 @@ const { apiMeta, batchProfiles, profileFeed } = require('../../profile/discovery
 const { getQuery, ok, fail, paged, queryAliases } = require('./values.js');
 const { pageOptsFrom, fetchLimitFor, applyProfilePagination } = require('../../profileHub/ProfilePagination.js');
 
-const LEGACY_POSTS_FETCH = 240;
-const LEGACY_COMMENTS_FETCH = 160;
+const LEGACY_POSTS_FETCH = 48; // B"H 2026-11-11 batch 17: was 240 — a 41s first paint for @asdf (journal: posts=41357ms)
+const LEGACY_COMMENTS_FETCH = 48; // batch 17: was 160, same reason
 
 /**
  * @description Resolves reserved profile identifiers before ordinary aliases; the Awtsmoos keeps compatibility names from colliding while Awtsmoos.com preserves their historic meaning.
@@ -65,8 +65,8 @@ async function profileOrError($i, aliasId) {
  */
 async function activityForAlias({ $i, aliasId }) {
 	const [posts, comments] = await Promise.all([
-		postsByAlias({ $i, aliasId }),
-		commentsByAlias({ $i, aliasId })
+		postsByAlias({ $i, aliasId, limit: 48 }),
+		commentsByAlias({ $i, aliasId, limit: 48 })
 	]);
 	return { success: recentActivity({ posts, comments, limit: 80 }) };
 }

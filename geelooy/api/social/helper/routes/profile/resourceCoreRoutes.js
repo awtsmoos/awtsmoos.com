@@ -19,8 +19,8 @@ const { livingCardOrError } = require('./operations.js');
 const { badMethod, fail, getQuery, isMethod, ok, paged } = require('./values.js');
 const { pageOptsFrom, fetchLimitFor, applyProfilePagination } = require('../../profileHub/ProfilePagination.js');
 
-const LEGACY_POSTS_FETCH = 240;
-const LEGACY_COMMENTS_FETCH = 160;
+const LEGACY_POSTS_FETCH = 48; // B"H 2026-11-11 batch 17: was 240 — a 41s first paint for @asdf (journal: posts=41357ms)
+const LEGACY_COMMENTS_FETCH = 48; // batch 17: was 160, same reason
 
 class ProfileResourceCoreRoutes {
 	/**
@@ -85,7 +85,9 @@ class ProfileResourceCoreRoutes {
 		}
 		const profile = await aggregateProfile({
 			$i: this.$i,
-			aliasId: vars.alias
+			aliasId: vars.alias,
+			postsFetchLimit: 48,
+			commentsFetchLimit: 48
 		});
 		return paged(profile?.activity || [], this.$i, {
 			limit: 25,
