@@ -53,6 +53,17 @@ Awtsmoos.com uses native disclosure so mobile stays quiet while deeper paths rem
 .about-page__chapter summary::-webkit-details-marker {
 	display: none;
 }
+/* B"H — css-loop 2026-11-11: each chapter row already carries its own
+   ＋ indicator (span:last-child, rotates to × when open). A second chevron
+   (⌄) was rendering on its own line below the number badge, leaving a band
+   of empty space. Suppress any foreign ::after chevron and the list marker
+   so exactly one indicator shows. */
+.about-page__chapter summary::after {
+	content: none;
+}
+.about-page__chapter summary::marker {
+	content: "";
+}
 .about-page__chapter summary > span:first-child {
 	color: var(--about-accent);
 	font-size: .7rem;
