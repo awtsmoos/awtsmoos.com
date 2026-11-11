@@ -36,17 +36,34 @@ export async function listTunnelRoot(os, providerPath) {
 }
 
 export async function listTunnelRoute(os, route, innerPath, providerPath) {
-	const got = await runTunnelAction(os, route, {
-		action: "list",
-		path: innerPath || ".",
-		maxChars: 200000
-	});
-	if (got?.ok === false) {
-		return pressureNodes(route, innerPath, got, providerPath);
+	// B"H - a directory page is a window, not the room: the agent pages its
+	// listings (cursor/nextCursor, hasNextPage), so follow the pages until
+	// the listing is whole — a big folder (a device root with hundreds of
+	// entries) must not silently truncate at the first page.
+	const entries = [];
+	let cursor = 0;
+	let got = null;
+	for (let page = 0; page < 60; page++) {
+		got = await runTunnelAction(os, route, {
+			action: "list",
+			path: innerPath || ".",
+			maxChars: 200000,
+			limit: 300,
+			cursor
+		});
+		if (got?.ok === false) {
+			if (!entries.length) return pressureNodes(route, innerPath, got, providerPath);
+			break;
+		}
+		const batch = got.detailedItems || got.items || [];
+		entries.push(...batch);
+		if (!got.hasNextPage || !batch.length) break;
+		const next = Number(got.nextCursor);
+		cursor = Number.isFinite(next) && next > cursor ? next : cursor + batch.length;
 	}
 	return remoteTunnelEntries(
 		route,
-		got.detailedItems || got.items || [],
+		entries,
 		innerPath,
 		providerPath
 	);

@@ -58,15 +58,33 @@ export async function tunnelAction(
 	});
 }
 
-export function listRemote(
+export async function listRemote(
 	target,
 	path = ".",
 	fetcher = globalThis.fetch
 ) {
-	return tunnelAction(target, {
-		action: "list",
-		p: path
-	}, fetcher);
+	// B"H - follow the agent's list pages (cursor/nextCursor) to the end,
+	// like the Explorer does, so the panel never shows a truncated folder.
+	let cursor = 0;
+	let last = null;
+	const detailedItems = [];
+	const items = [];
+	for (let page = 0; page < 60; page++) {
+		last = await tunnelAction(target, {
+			action: "list",
+			p: path,
+			limit: 300,
+			maxChars: 200000,
+			cursor
+		}, fetcher);
+		const batch = last?.detailedItems || last?.items || [];
+		detailedItems.push(...(last?.detailedItems || []));
+		items.push(...(last?.items || []));
+		if (!last?.hasNextPage || !batch.length) break;
+		const next = Number(last.nextCursor);
+		cursor = Number.isFinite(next) && next > cursor ? next : cursor + batch.length;
+	}
+	return Object.freeze({ ...last, detailedItems, items, hasNextPage: false });
 }
 
 export function readRemote(

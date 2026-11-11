@@ -19,6 +19,7 @@ function fields(raw = {}) {
 		maxResults: optional(raw.maxResults, 1),
 		pageSize: optional(raw.pageSize, 1),
 		offsetChars: Parse.numberValue(raw.offsetChars, 0, 0),
+		cursor: Parse.numberValue(raw.cursor, 0, 0),
 		maxBytes: Parse.numberValue(raw.maxBytes, 24000, 1),
 		offsetBytes: Parse.numberValue(raw.offsetBytes, 0, 0),
 		maxInlineBytes: optional(raw.maxInlineBytes, 1),

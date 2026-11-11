@@ -113,8 +113,18 @@ export function createTunnelDeviceProvider(options = {}) {
                 const devices = await loadDevices();
                 return devices.map(device => deviceEntry(item, device));
             }
-            const data = await api(route, 'list', { path: inner, maxChars: 200000 });
-            const entries = data.detailedItems || data.items || [];
+            // B"H - follow the agent's list pages to the end (cursor /
+            // nextCursor); one page is a window, not the whole folder.
+            const entries = [];
+            let cursor = 0;
+            for (let page = 0; page < 60; page++) {
+                const data = await api(route, 'list', { path: inner, maxChars: 200000, limit: 300, cursor });
+                const batch = data.detailedItems || data.items || [];
+                entries.push(...batch);
+                if (!data.hasNextPage || !batch.length) break;
+                const next = Number(data.nextCursor);
+                cursor = Number.isFinite(next) && next > cursor ? next : cursor + batch.length;
+            }
             return entries.map(entry => childEntry(item, route, inner, entry)).filter(Boolean);
         },
 
