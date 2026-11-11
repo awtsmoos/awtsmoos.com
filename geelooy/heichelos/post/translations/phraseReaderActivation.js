@@ -28,13 +28,36 @@ const MIN_ALIGNED_PHRASES = 20;
  * English content string. verseSection groups the phrases into sections;
  * subsectionId is the phrase order inside its section.
  */
+/**
+ * B"H batch 30 — printed-page markers. The imported corpora prefix the
+ * first phrase of each printed page with a literal <pg n="N"/> tag in
+ * BOTH the Hebrew source and the English content. Rendered raw it leaked
+ * onto the page as visible text; the reader law keeps page turns inline
+ * as [עמוד N] instead. Leading markers become the bracket form;
+ * a marker anywhere else is dropped (its page turn is the next
+ * phrase's leading marker).
+ */
+const PG_MARKER_RE = /<pg\s+n="?(\d+)"?\s*\/>/g;
+const PG_LEAD_RE = /^\s*<pg\s+n="?(\d+)"?\s*\/>\s*/;
+function awtsmoosPageMarkerLocal(text) {
+	const s = text == null ? '' : String(text);
+	const lead = s.match(PG_LEAD_RE);
+	if (lead) return { page: lead[1], text: s.replace(PG_LEAD_RE, '').replace(PG_MARKER_RE, '').trim() };
+	return { page: null, text: s.replace(PG_MARKER_RE, '') };
+}
+
 export function buildPhraseTranslations(post, rows) {
 	const list = Array.isArray(rows) ? rows : [];
 	const phrases = [];
 	for (const row of list) {
-		const hebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew) : "";
-		if (!hebrew.trim()) continue;
-		const english = row && row.content != null ? String(row.content) : "";
+		const hebrewRaw = row && row.sourceHebrew != null ? String(row.sourceHebrew) : "";
+		if (!hebrewRaw.trim()) continue;
+		// B"H batch 30: <pg n="N"/> printed-page markers -> [עמוד N] lead.
+		const heMark = awtsmoosPageMarkerLocal(hebrewRaw);
+		const enMark = awtsmoosPageMarkerLocal(row && row.content != null ? String(row.content) : "");
+		const pg = heMark.page || enMark.page;
+		const hebrew = pg ? `[עמוד ${pg}] ` + heMark.text : heMark.text;
+		const english = pg ? `[עמוד ${pg}] ` + enMark.text : enMark.text;
 		const sectionId = row && row.verseSection != null ? String(row.verseSection).trim() : "";
 		const phraseId = row && row.subsectionId != null ? String(row.subsectionId).trim() : "";
 		phrases.push({
@@ -130,7 +153,7 @@ export async function activatePhraseReaderFromApi(post, rows) {
 			} catch (_) { /* window.post is best-effort */ }
 		}
 		const { awakenPhraseTranslationReader } = await import(
-			"../logic/scribe/MeluketSeferReader.js?v=79bb741143"
+			"../logic/scribe/MeluketSeferReader.js?v=3e2a79cd79"
 		);
 		const mounted = awakenPhraseTranslationReader(enriched);
 		if (mounted) {

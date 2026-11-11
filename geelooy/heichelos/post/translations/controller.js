@@ -11,7 +11,7 @@
 
 import { fetchPostTranslations } from './api.js';
 import { refreshTranslationStatus, renderTranslationReport } from './render.js';
-import { activatePhraseReaderFromApi } from './phraseReaderActivation.js';
+import { activatePhraseReaderFromApi } from './phraseReaderActivation.js?v=phrase-activation-002';
 import { mountNativeTanachTranslations } from './tanach/controller.js?v=tanach-native-003';
 
 function seriesIdFor(post = {}, series = {}) {

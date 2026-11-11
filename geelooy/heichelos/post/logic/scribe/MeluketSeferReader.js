@@ -1658,14 +1658,37 @@ function readEmbeddedPhraseRows() {
  * first-appearance order (sec-001, sec-002, ...) and phraseIds are
  * segment_<section>_<phrase>, so the sort order is the embed's row order.
  */
+/**
+ * B"H batch 30 — printed-page markers. The imported corpora prefix the
+ * first phrase of each printed page with a literal <pg n="N"/> tag in
+ * BOTH the Hebrew source and the English content. Rendered raw it leaked
+ * onto the page as visible text; the reader law keeps page turns inline
+ * as [עמוד N] instead. Leading markers become the bracket form;
+ * a marker anywhere else is dropped (its page turn is the next
+ * phrase's leading marker).
+ */
+const PG_MARKER_RE = /<pg\s+n="?(\d+)"?\s*\/>/g;
+const PG_LEAD_RE = /^\s*<pg\s+n="?(\d+)"?\s*\/>\s*/;
+function awtsmoosPageMarker(text) {
+	const s = text == null ? '' : String(text);
+	const lead = s.match(PG_LEAD_RE);
+	if (lead) return { page: lead[1], text: s.replace(PG_LEAD_RE, '').replace(PG_MARKER_RE, '').trim() };
+	return { page: null, text: s.replace(PG_MARKER_RE, '') };
+}
+
 function synthesizeEmbedPhrases(rows) {
 	const sectionKeys = [];
 	const sectionIndexByKey = new Map();
 	const perSection = [];
 	const enByPhraseId = new Map();
 	for (const row of rows || []) {
-		const he = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
-		if (!he.trim()) continue;
+		const heRaw = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
+		if (!heRaw.trim()) continue;
+		// B"H batch 30: <pg n="N"/> printed-page markers -> [עמוד N] lead.
+		const heMark = awtsmoosPageMarker(heRaw);
+		const enMark = awtsmoosPageMarker(row.content != null ? String(row.content) : '');
+		const pg = heMark.page || enMark.page;
+		const he = pg ? `[עמוד ${pg}] ` + heMark.text : heMark.text;
 		// B"H: verseSection IS the section (0-6 for this maamar — 7 sections).
 		// subsectionId is the phrase's index inside its section, not a section
 		// id — grouping by it would make one section per phrase. The phrase
@@ -1682,7 +1705,7 @@ function synthesizeEmbedPhrases(rows) {
 		const phraseId = `segment_${sIdx}_${pIdx}`;
 		const sectionId = `sec-${String(sIdx + 1).padStart(3, '0')}`;
 		perSection[sIdx].push({ phraseId, he, sectionId });
-		enByPhraseId.set(phraseId, row.content != null ? String(row.content) : '');
+		enByPhraseId.set(phraseId, pg ? `[עמוד ${pg}] ` + enMark.text : enMark.text);
 	}
 	return { phrases: perSection.flat(), enByPhraseId };
 }

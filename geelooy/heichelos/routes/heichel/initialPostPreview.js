@@ -223,6 +223,24 @@ function renderSeferInitialHtml(rows, title) {
  * subsectionId): ~33KB for this post, a tenth of the full payload.
  * Rows without Hebrew are skipped — the client skips them too.
  */
+/**
+ * B"H batch 30 — printed-page markers. The imported corpora prefix the
+ * first phrase of each printed page with a literal <pg n="N"/> tag in
+ * BOTH the Hebrew source and the English content. Rendered raw it leaked
+ * onto the page as visible text; the reader law keeps page turns inline
+ * as [עמוד N] instead. Leading markers become the bracket form;
+ * a marker anywhere else is dropped (its page turn is the next
+ * phrase's leading marker).
+ */
+const PG_MARKER_RE = /<pg\s+n="?(\d+)"?\s*\/>/g;
+const PG_LEAD_RE = /^\s*<pg\s+n="?(\d+)"?\s*\/>\s*/;
+function awtsmoosPageMarker(text) {
+	const s = text == null ? '' : String(text);
+	const lead = s.match(PG_LEAD_RE);
+	if (lead) return { page: lead[1], text: s.replace(PG_LEAD_RE, '').replace(PG_MARKER_RE, '').trim() };
+	return { page: null, text: s.replace(PG_MARKER_RE, '') };
+}
+
 function slimPhraseTranslationRows(rows) {
 	const list = Array.isArray(rows) ? rows : [];
 	const out = [];
@@ -230,12 +248,19 @@ function slimPhraseTranslationRows(rows) {
 		// B"H batch 27b: two row shapes reach here — translation-API rows
 		// ({sourceHebrew, content, verseSection, subsectionId}) and packed
 		// post rows ({source: {hebrew}, en, sectionId, phraseId}). Normalize.
-		const hebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew)
+		const rawHebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew)
 			: (row && row.source && row.source.hebrew != null ? String(row.source.hebrew) : '');
+		const rawContent = row && row.content != null ? String(row.content) : (row && row.en != null ? String(row.en) : '');
+		// B"H batch 30: <pg n="N"/> printed-page markers -> [עמוד N] lead.
+		const hebrewMark = awtsmoosPageMarker(rawHebrew);
+		const contentMark = awtsmoosPageMarker(rawContent);
+		const page = hebrewMark.page || contentMark.page;
+		const hebrew = page ? `[עמוד ${page}] ` + hebrewMark.text : hebrewMark.text;
+		const content = page ? `[עמוד ${page}] ` + contentMark.text : contentMark.text;
 		if (!hebrew.trim()) continue;
 		out.push({
 			sourceHebrew: hebrew,
-			content: row && row.content != null ? String(row.content) : (row && row.en != null ? String(row.en) : ''),
+			content: content,
 			verseSection: row && row.verseSection != null ? String(row.verseSection) : (row && row.sectionId != null ? String(row.sectionId) : ''),
 			subsectionId: row && row.subsectionId != null ? String(row.subsectionId) : (row && row.phraseId != null ? String(row.phraseId) : '')
 		});
