@@ -44,9 +44,9 @@ export function installMovieStudioPanel(app) {
 function buildBar(app) {
 	const bar = document.createElement('div');
 	bar.id = BAR_ID;
-	bar.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;flex-direction:column;gap:6px;align-items:center;font-family:system-ui,sans-serif;';
+	bar.style.cssText = 'position:fixed;top:66px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;flex-direction:column;gap:6px;align-items:center;font-family:system-ui,sans-serif;max-width:92vw;';
 	bar.innerHTML = `
-		<div style="display:flex;gap:6px;">
+		<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
 			<button type="button" data-movie-open style="${chip()}">📥 Movie JSON</button>
 			<button type="button" data-movie-export style="${chip()}">🎬 Export Movie</button>
 			<button type="button" data-movie-export-mp4 style="${chip()}">🎬 Export MP4</button>
