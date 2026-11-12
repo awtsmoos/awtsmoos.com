@@ -28,6 +28,7 @@ const player = new Player(audioEl, {
 	onTime: updateTime,
 	onState: updatePlayButtons,
 	onQueue: renderQueue,
+	onError: (stage, err) => logError(stage, err),
 });
 
 // Debug handle: the headless rendered checks drive the background handoff
@@ -258,7 +259,9 @@ function folderInputFallback() {
 }
 
 // ---------- playback ----------
-async function loadTrackFile(id) {
+// quiet: the background prefetch reads the next track early; a failure there
+// must stay silent — the normal advance path reports it if it still fails.
+async function loadTrackFile(id, quiet) {
 	const track = state.tracks.get(id);
 	if (!track) return null;
 	try {
@@ -267,8 +270,8 @@ async function loadTrackFile(id) {
 	} catch (err) {
 		if (err && err.message === 'permission-denied') {
 			$('btn-reconnect').hidden = false;
-			toast('This browser needs permission to read that folder again — tap Reconnect folder.');
-		} else {
+			if (!quiet) toast('This browser needs permission to read that folder again — tap Reconnect folder.');
+		} else if (!quiet) {
 			toast('Could not open “' + track.title + '”. It may have moved — try adding it again.');
 		}
 		return null;
@@ -459,6 +462,7 @@ function renderQueue() {
 		del.onclick = (e) => {
 			e.stopPropagation();
 			player.queue.splice(player.index + i, 1);
+			player.dropPrefetch();
 			renderQueue();
 		};
 		li.append(name, del);
@@ -623,6 +627,7 @@ function wireEvents() {
 		state.tracks.clear();
 		player.queue = [];
 		player.index = -1;
+		player.dropPrefetch();
 		player.currentTrack = null;
 		renderAll();
 		renderNow(null);
@@ -642,7 +647,7 @@ function wireEvents() {
 	$('btn-close-library').onclick = toggleLibrary;
 	$('toast').onclick = () => $('toast').classList.remove('show', 'sticky');
 	$('toggle-queue').onclick = () => $('panel-queue').classList.toggle('collapsed');
-	$('btn-clear-queue').onclick = () => { player.queue = []; player.index = -1; renderQueue(); };
+	$('btn-clear-queue').onclick = () => { player.queue = []; player.index = -1; player.dropPrefetch(); renderQueue(); };
 
 	$('seek').addEventListener('pointerdown', () => { state.seeking = true; });
 	$('seek').addEventListener('input', (e) => {

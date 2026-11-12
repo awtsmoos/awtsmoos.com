@@ -10,6 +10,12 @@
 // element (same track, same position) that plays straight to the speakers,
 // and hands back to the main element when the page returns. A service worker
 // cannot do this job — it cannot play audio at all.
+//
+// ADVANCE IN THE BACKGROUND: a track that ends while hidden must still move
+// to the next one, so the next track is prefetched (file + URL ready) while
+// the current one is still playing, and a watchdog keeps retrying whenever
+// the player wants music but the live element sits paused. A play() that a
+// hidden tab refuses is retried, not swallowed.
 export class Player {
 	constructor(audioEl, hooks) {
 		this.audio = audioEl;
@@ -25,6 +31,12 @@ export class Player {
 		this.playOrder = [];
 		this.currentTrack = null;
 		this.objectUrl = null;
+		this.wantPlaying = false;
+		this._loading = false;
+		this._stallCount = 0;
+		this._endedAt = 0;
+		this._prefetch = null;
+		this._watchdog = setInterval(() => this.watchdogTick(), 5000);
 
 		this.attach(this.audio);
 		this.attach(this.bgAudio);
@@ -118,7 +130,7 @@ export class Player {
 		try {
 			await main.play();
 		} catch (err) {
-			console.warn('Foreground return failed', err);
+			console.warn('Foreground return failed, staying on the background element', err);
 			this.pendingSeek = null;
 			return false;
 		}
@@ -128,7 +140,62 @@ export class Player {
 		return true;
 	}
 
+	// The watchdog: the player wants music, but the live element sits
+	// paused (a refused play(), a missed event) — keep the handoff in the
+	// right state for where the page is, and keep trying to play. It runs
+	// every 5s while visible; a hidden tab throttles it to about once a
+	// minute, which is still a recovery instead of silence forever.
+	watchdogTick() {
+		if (!this.wantPlaying || this._loading || !this.currentTrack) return;
+		if (!this.background && document.hidden) { this.enterBackground(); return; }
+		if (this.background && !document.hidden) { this.enterForeground(); return; }
+		const a = this.el();
+		if (a.paused && !a.ended) {
+			this._stallCount++;
+			a.play().then(() => { this._stallCount = 0; }).catch((err) => {
+				if (this._stallCount === 3 && this.hooks.onError) {
+					this.hooks.onError('A song could not start in the background — still retrying', err);
+				}
+			});
+		} else if (a.ended) {
+			// The 'ended' event should have advanced already; if the element
+			// still sits ended long after it fired, the advance was lost.
+			if (Date.now() - this._endedAt > 15000) this.onEnded();
+		} else {
+			this._stallCount = 0;
+		}
+	}
+
+	// The next track, without moving the queue: prefetch it while the
+	// current one is still playing, so the switch in the background needs
+	// no file reading at the moment the song ends.
+	nextId() {
+		if (this.repeat === 'one') return null;
+		if (this.index + 1 < this.queue.length) return this.queue[this.index + 1];
+		if (this.repeat === 'all' && this.queue.length) return this.queue[0];
+		return null;
+	}
+
+	async prefetchNext() {
+		const id = this.nextId();
+		if (!id) { this.dropPrefetch(); return; }
+		if (this._prefetch && this._prefetch.id === id) return;
+		this.dropPrefetch();
+		try {
+			const got = await this.hooks.loadFile(id, true);
+			if (!got) return;
+			// The queue may have moved on while the file was being read.
+			if (this.nextId() !== id) return;
+			this._prefetch = { id, track: got.track, file: got.file, url: URL.createObjectURL(got.file) };
+		} catch (err) { /* the advance path retries normally */ }
+	}
+
+	dropPrefetch() {
+		if (this._prefetch) { URL.revokeObjectURL(this._prefetch.url); this._prefetch = null; }
+	}
+
 	setQueue(ids, startId) {
+		this.dropPrefetch();
 		this.queue = ids.slice();
 		this.playOrder = ids.slice();
 		this.index = startId ? this.queue.indexOf(startId) : 0;
@@ -136,6 +203,7 @@ export class Player {
 	}
 
 	shuffleQueue(on) {
+		this.dropPrefetch();
 		this.shuffle = on;
 		if (on) {
 			const current = this.queue[this.index];
@@ -160,9 +228,14 @@ export class Player {
 		return this.repeat;
 	}
 
-	async loadTrack(track, file) {
-		if (this.objectUrl) { URL.revokeObjectURL(this.objectUrl); this.objectUrl = null; }
-		this.objectUrl = URL.createObjectURL(file);
+	async loadTrack(track, file, prefetchedUrl) {
+		if (prefetchedUrl) {
+			if (this.objectUrl) URL.revokeObjectURL(this.objectUrl);
+			this.objectUrl = prefetchedUrl;
+		} else {
+			if (this.objectUrl) { URL.revokeObjectURL(this.objectUrl); this.objectUrl = null; }
+			this.objectUrl = URL.createObjectURL(file);
+		}
 		this.currentTrack = track;
 		const a = this.el();
 		a.src = this.objectUrl;
@@ -189,21 +262,38 @@ export class Player {
 	async playCurrent(loadFile) {
 		const id = this.queue[this.index];
 		if (!id) return false;
-		const track = await loadFile(id);
-		if (!track) return false;
-		await this.loadTrack(track.track, track.file);
-		try { await this.el().play(); } catch (err) { console.warn('Playback blocked until a tap', err); }
-		this.hooks.onQueue && this.hooks.onQueue();
-		return true;
+		this._loading = true;
+		try {
+			let track, file, prefetchedUrl = null;
+			if (this._prefetch && this._prefetch.id === id) {
+				({ track, file, url: prefetchedUrl } = this._prefetch);
+				this._prefetch = null; // ownership moves to the current track
+			} else {
+				const got = await loadFile(id);
+				if (!got) return false;
+				({ track, file } = got);
+			}
+			await this.loadTrack(track, file, prefetchedUrl);
+			this.wantPlaying = true;
+			this._stallCount = 0;
+			try { await this.el().play(); } catch (err) { console.warn('Playback blocked until a tap', err); }
+			this.hooks.onQueue && this.hooks.onQueue();
+			this.prefetchNext();
+			return true;
+		} finally {
+			this._loading = false;
+		}
 	}
 
 	async play() {
 		if (!this.currentTrack) return this.playCurrent(this.hooks.loadFile);
+		this.wantPlaying = true;
+		this._stallCount = 0;
 		try { await this.el().play(); } catch (err) { console.warn('Play failed', err); }
 		return true;
 	}
 
-	pause() { this.el().pause(); }
+	pause() { this.wantPlaying = false; this.el().pause(); }
 	toggle() { return this.el().paused ? this.play() : (this.pause(), Promise.resolve(true)); }
 	seek(seconds) { this.el().currentTime = Math.max(0, Math.min(seconds, this.duration || 0)); }
 	setVolume(v) {
@@ -231,6 +321,7 @@ export class Player {
 	}
 
 	onEnded() {
+		this._endedAt = Date.now();
 		if (this.repeat === 'one') { this.seek(0); this.play(); return; }
 		this.next();
 	}
