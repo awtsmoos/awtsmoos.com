@@ -10,11 +10,11 @@ import {
 	collectReaderPairs,
 	collectReaderSections,
 	collectReaderFootnotes
-} from './ReaderInfoList.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoList.js?v=reader-smooth-20261112-2';
 import {
 	appendReaderChoicePage,
 	matchingReaderChoices
-} from './ReaderInfoChoices.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoChoices.js?v=reader-smooth-20261112-2';
 
 /** Filter option records first; create only the first page of matching rows. */
 export function filterReaderMenu(state, query) {
@@ -54,8 +54,13 @@ export function showReaderMenuView(state, stage, sectionIndex = null) {
 		: [...sections, ...collectReaderFootnotes(state.root())];
 	state.section = stage === 'pairs' ? section : null;
 	state.options = rows;
+	/* B"H batch 48: the pairs heading names its lettered section too, so
+	   a reader opening a section sees "Section N" as well as the passage
+	   number — the same section numbers the Explore list now shows. */
 	state.heading.textContent = stage === 'pairs'
-		? `${sectionIndex + 1}. ${section?.hebrew || section?.english || 'Passages'}`
+		? (section?.lettered
+			? `Section ${section.lettered} · ${sectionIndex + 1}. ${section?.hebrew || section?.english || 'Passages'}`
+			: `${sectionIndex + 1}. ${section?.hebrew || section?.english || 'Passages'}`)
 		: 'Choose a section or footnote';
 	state.search.placeholder = stage === 'pairs'
 		? 'Find Hebrew or English in this section…'

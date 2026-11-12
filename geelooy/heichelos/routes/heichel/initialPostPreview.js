@@ -199,7 +199,7 @@ module.exports = {
  */
 function renderSeferInitialHtml(rows, title) {
 	const slim = slimPhraseTranslationRows(rows);
-	if (slim.length < 20) return '';
+	if (!slim.length) return ''; /* B"H batch 48 defect 12: was < 20 — a complete short post (18 phrases) rendered an empty shell; render whenever phrases exist. */
 	const sections = [];
 	const bySection = new Map();
 	for (const row of slim) {
@@ -297,7 +297,7 @@ function slimPhraseTranslationRows(rows) {
  */
 function renderPhraseTranslationsEmbed(rows) {
 	const slim = slimPhraseTranslationRows(rows);
-	if (slim.length < 20) return '';
+	if (!slim.length) return ''; /* B"H batch 48 defect 12: was < 20 — a complete short post (18 phrases) rendered an empty shell; render whenever phrases exist. */
 	const json = JSON.stringify(slim)
 		.replace(/</g, '\\u003c')
 		.replace(/>/g, '\\u003e')

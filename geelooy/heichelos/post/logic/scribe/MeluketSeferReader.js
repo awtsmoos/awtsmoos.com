@@ -819,7 +819,14 @@ let fnLastMarker = null;
 
 function ensureFootnoteModal() {
 	if (fnModalEl) return;
-	const root = document.querySelector('.post-reader-localized-context') || document.body;
+	/* B"H batch 48: the modal is position:fixed — it belongs on
+	   document.body. Appended inside .post-reader-localized-context it
+	   inherits that subtree as a containing block whenever an ancestor
+	   carries a transform, and its 100%-based width then measures
+	   against the wrong box (the ~65px sliver the rendered check saw).
+	   On body its viewport sizing is unambiguous, and the Close stays
+	   reachable. */
+	const root = document.body;
 	fnOverlayEl = el('div', 'awtsmoos-fn-overlay');
 	fnOverlayEl.setAttribute('aria-hidden', 'true');
 	fnModalEl = el('div', 'awtsmoos-fn-modal');
@@ -902,10 +909,41 @@ function openFootnotePopup(fnNum, marker, sefer) {
 			fnBodyEl.appendChild(f);
 		}
 	} else if (!note) {
-		const f = el('div', 'awtsmoos-fn-en');
-		f.setAttribute('dir', 'auto');
-		f.textContent = `Footnote ${fnNum} — content not available for this post yet.`;
-		fnBodyEl.appendChild(f);
+		/* B"H batch 48: this post's footnote BODIES are absent from the
+		   data (footnoteBodies: 0 — no footnotes[] array, no content
+		   section to parse), so the old code always said "content not
+		   available". Show the passage the marker annotates instead —
+		   real Hebrew + English from the post itself — so the tap always
+		   shows something true, and say plainly that the note text is
+		   not in the data yet. */
+		const pair = marker && marker.closest ? marker.closest('.meluket-phrase-pair') : null;
+		const pairHe = pair ? pair.querySelector('.meluket-phrase--he') : null;
+		const pairEn = pair ? pair.querySelector('.meluket-phrase--en') : null;
+		if (pairHe || pairEn) {
+			if (pairHe) {
+				const h = el('div', 'awtsmoos-fn-he');
+				h.setAttribute('dir', 'rtl');
+				h.setAttribute('lang', 'he');
+				setFootnoteBodyHtml(h, pairHe.innerHTML);
+				fnBodyEl.appendChild(h);
+			}
+			if (pairEn) {
+				const e = el('div', 'awtsmoos-fn-en');
+				e.setAttribute('dir', 'ltr');
+				e.setAttribute('lang', 'en');
+				e.textContent = pairEn.textContent;
+				fnBodyEl.appendChild(e);
+			}
+			const n = el('div', 'awtsmoos-fn-en');
+			n.setAttribute('dir', 'auto');
+			n.textContent = `Footnote ${fnNum} — the note text is not in the data for this post yet; above is the passage it annotates.`;
+			fnBodyEl.appendChild(n);
+		} else {
+			const f = el('div', 'awtsmoos-fn-en');
+			f.setAttribute('dir', 'auto');
+			f.textContent = `Footnote ${fnNum} — content not available for this post yet.`;
+			fnBodyEl.appendChild(f);
+		}
 	} else {
 		const he = note.querySelector('.meluket-footnote-he');
 		const en = note.querySelector('.meluket-footnote-en');

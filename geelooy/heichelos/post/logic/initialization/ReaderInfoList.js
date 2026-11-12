@@ -22,17 +22,103 @@ export function readerSections(root) {
 	return root ? [...root.querySelectorAll('.meluket-sefer-section')] : [];
 }
 
-/** Gather summaries without building all nested subsection controls. */
+/**
+ * B"H batch 48 — the lettered sections (א, ב, ג …) inside a post.
+ * The code's "sections" are the numbered passages (1–79); the lettered
+ * sections are NOT DOM structure — they live only in the pair text
+ * ("א. דובר…" at the passage that opens each one). Scan the passages in
+ * order; a passage whose first pair's Hebrew opens with the next
+ * expected Hebrew letter + "." starts a new lettered section. Returns
+ * one entry per passage: { lettered, letter, isStart } — lettered is
+ * the 1-based lettered-section number the passage belongs to (null
+ * before the first lettered section opens, e.g. the header passage),
+ * letter is that section's Hebrew letter, isStart marks its opening
+ * passage.
+ */
+const HEBREW_LETTER_VALUES = {
+	'א': 1, 'ב': 2, 'ג': 3, 'ד': 4, 'ה': 5, 'ו': 6, 'ז': 7, 'ח': 8, 'ט': 9,
+	'י': 10, 'יא': 11, 'יב': 12, 'יג': 13, 'יד': 14, 'טו': 15, 'טז': 16,
+	'יז': 17, 'יח': 18, 'יט': 19, 'כ': 20, 'כא': 21, 'כב': 22, 'כג': 23,
+	'כד': 24, 'כה': 25, 'כו': 26, 'כז': 27, 'כח': 28, 'כט': 29, 'ל': 30
+};
+
+function stripPageMarkers(text) {
+	return String(text || '')
+		.replace(/\[עמוד\s*\d+\]/g, ' ')
+		.replace(/<[^>]+>/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+}
+
+export function letteredSectionsFor(root) {
+	const sections = readerSections(root);
+	const out = [];
+	let current = null;
+	for (let i = 0; i < sections.length; i++) {
+		const first = sections[i].querySelector?.('.meluket-phrase-pair');
+		const hebrewEl = first?.querySelector?.('.meluket-phrase--he');
+		const text = stripPageMarkers(hebrewEl?.textContent || '');
+		const m = /^([א-ת]{1,2})\.\s/.exec(text);
+		let isStart = false;
+		if (m && HEBREW_LETTER_VALUES[m[1]]) {
+			const n = HEBREW_LETTER_VALUES[m[1]];
+			if (!current || n !== current.lettered) {
+				current = { lettered: n, letter: m[1] };
+				isStart = true;
+			}
+		}
+		out.push({
+			lettered: current ? current.lettered : null,
+			letter: current ? current.letter : null,
+			isStart
+		});
+	}
+	return out;
+}
+
+/**
+ * B"H batch 48 — stamp each lettered section's opening passage with a
+ * "Section N" label the post itself shows. The label is painted by CSS
+ * (::before reads the data attribute), so this only sets attributes —
+ * no nodes are inserted and the reading text never moves. Idempotent:
+ * re-running it re-stamps the same values.
+ */
+export function stampLetteredSectionLabels(root) {
+	if (!root?.querySelectorAll) return 0;
+	const sections = readerSections(root);
+	const lettered = letteredSectionsFor(root);
+	let stamped = 0;
+	for (let i = 0; i < sections.length; i++) {
+		const info = lettered[i];
+		if (!info || !info.isStart || !info.lettered) continue;
+		sections[i].setAttribute('data-lettered-section', String(info.lettered));
+		if (info.letter) sections[i].setAttribute('data-lettered-letter', info.letter);
+		stamped += 1;
+	}
+	return stamped;
+}
+
+/**
+ * Gather summaries without building all nested subsection controls.
+ * B"H batch 48: each row also carries its lettered section (א–ח) — the
+ * passage number alone (1–79) never said which lettered section a
+ * passage belongs to, so the jump list shows "Section N · letter" too.
+ */
 export function collectReaderSections(root) {
+	const lettered = letteredSectionsFor(root);
 	return readerSections(root).map((section, index) => {
 		const pairs = section.querySelectorAll('.meluket-phrase-pair');
 		const first = section.querySelector?.('.meluket-phrase-pair') || pairs[0];
 		const hebrew = excerpt(first?.querySelector('.meluket-phrase--he'), 46);
 		const english = excerpt(first?.querySelector('.meluket-phrase--en'), 52);
+		const info = lettered[index] || { lettered: null, letter: null, isStart: false };
 		return {
 			index, hebrew, english,
 			title: `${index + 1}. ${hebrew || english || 'Section'}`,
-			count: pairs.length
+			count: pairs.length,
+			lettered: info.lettered,
+			letter: info.letter,
+			isLetteredStart: info.isStart
 		};
 	});
 }
@@ -106,7 +192,13 @@ export function collectReaderIndex(root) {
 	}));
 }
 
-/** Render one accessible menu choice without injecting untrusted markup. */
+/**
+ * Render one accessible menu choice without injecting untrusted markup.
+ * B"H batch 48: a section row names its lettered section too — the
+ * opening passage of lettered section N reads "Section N · א — …" and
+ * every passage in it carries "Section N" in its detail line, so the
+ * jump list shows section numbers as well as passage numbers (1–79).
+ */
 export function readerIndexButton(doc, section, pair = null) {
 	const button = doc.createElement('button');
 	button.type = 'button';
@@ -117,12 +209,16 @@ export function readerIndexButton(doc, section, pair = null) {
 	title.className = 'reader-index-choice-title';
 	title.textContent = pair
 		? `${section.index + 1}.${pair.index + 1}  ${pair.hebrew || pair.english || 'Passage'}`
-		: section.title;
+		: (section.isLetteredStart && section.lettered
+			? `Section ${section.lettered} · ${section.letter || ''} — ${section.title}`
+			: section.title);
 	button.append(title);
 	if (pair?.english || (!pair && section.count)) {
 		const detail = doc.createElement('span');
 		detail.className = 'reader-index-choice-detail';
-		detail.textContent = pair ? pair.english : `${section.count} passages · Explore ›`;
+		const where = (!pair && section.lettered)
+			? `Section ${section.lettered} · ` : '';
+		detail.textContent = pair ? pair.english : `${where}${section.count} passages · Explore ›`;
 		button.append(detail);
 	}
 	return button;

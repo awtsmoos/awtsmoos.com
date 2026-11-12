@@ -1645,7 +1645,11 @@
 			   the card's own 24px padding — at 144px only a few words fit
 			   per line. 0.5rem keeps a hair of page edge; the card still
 			   reads as a card. */
-			max-inline-size: min(46rem, calc(100vw - 0.5rem));
+			/* B"H batch 48: the 46rem cap (736px) still centred a narrow
+			   column with wide side margins at 144px — the rendered check
+			   measured ~775px on a 1919px viewport. 72rem (1152px) is the
+			   new cap; a phone still takes the full 100vw - 0.5rem. */
+			max-inline-size: min(72rem, calc(100vw - 0.5rem));
 			margin-inline: auto;
 			padding-block: 2.5rem 7rem;
 		}
@@ -1967,7 +1971,11 @@
 		/* ---------- wide screens ---------- */
 		@media (min-width: 900px) {
 			:root .post-reader-localized-context #realPost .meluket-sefer {
-				--dream-pad: 3.25rem 3.5rem;
+				/* B"H batch 48: batch 47 left this desktop override at
+				   3.25rem 3.5rem (56px a side) — the wide margins the
+				   rendered check measured. Same small clamp as the base
+				   rule now, so the wider column actually shows. */
+				--dream-pad: clamp(0.5rem, 2vw, 1rem);
 			}
 		}
 
@@ -2008,10 +2016,19 @@
 		:root .post-reader-localized-context .awtsmoos-fn-modal {
 			position: fixed;
 			z-index: 988;
-			inset-inline: 0;
+			/* B"H batch 48: the modal rendered as a ~65px sliver. Its width
+			   was calc(100% - 2.5rem) — 100% of the CONTAINING block, which
+			   is not the viewport when any ancestor carries a transform.
+			   Viewport units + left:50% + translate(-50%,-50%) centre it
+			   against the viewport itself, whatever contains it (the
+			   module also appends it to document.body now). */
+			left: 50%;
+			right: auto;
 			top: 50%;
-			inline-size: min(32rem, calc(100% - 2.5rem));
-			margin-inline: auto;
+			width: min(34rem, calc(100vw - 2.5rem));
+			inline-size: min(34rem, calc(100vw - 2.5rem));
+			margin-inline: 0;
+			transform: translate(-50%, -50%);
 			max-block-size: min(70vh, 34rem);
 			overflow-y: auto;
 			background: var(--sefer-card);
@@ -2027,7 +2044,10 @@
 		:root .post-reader-localized-context .awtsmoos-fn-modal.is-open {
 			opacity: 1;
 			pointer-events: auto;
-			transform: translateY(-50%) scale(1);
+			/* B"H batch 48: keep the -50% X shift when open, or the modal
+			   would sit half off-screen to the right (left:50% with no
+			   X translate). */
+			transform: translate(-50%, -50%) scale(1);
 		}
 		:root .post-reader-localized-context .awtsmoos-fn-head {
 			display: flex;

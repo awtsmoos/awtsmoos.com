@@ -11,6 +11,9 @@
  * leaving the reader at the top of the post. It never moves the page for
  * an ordinary load, and it stops the moment the reader scrolls themselves.
  */
+import {
+	markReaderPairSelected
+} from './ReaderInfoJump.js?v=reader-info-nested-20261112-2';
 
 /** Parse the section/footnote a shared link asks for (query first, hash next). */
 export function requestedReaderDeepLink(loc) {
@@ -86,6 +89,18 @@ export function applyReaderDeepLink(doc, loc, win) {
 		setTimeout(() => { scrolling = false; }, 100);
 		return true;
 	};
+	/* B"H batch 48 — land the highlight on the section too. The
+	   highlight's viewport lookup can land one section off (it reads
+	   the viewport centre, the deep link lands the section at the top),
+	   and then Previous/Next compute from the wrong place. Marking the
+	   landed section's pair keeps navigation in step with the address
+	   bar from the first tap. */
+	const markLanded = (element) => {
+		try {
+			const root = doc.getElementById ? doc.getElementById('realPost') : null;
+			if (root) markReaderPairSelected(root, element);
+		} catch (_) { /* highlight optional; the scroll already landed */ }
+	};
 	const settleCheck = (element) => {
 		setTimeout(() => {
 			if (cancelled || !element?.getBoundingClientRect || !doc.contains?.(element)) return;
@@ -105,6 +120,7 @@ export function applyReaderDeepLink(doc, loc, win) {
 			if (marker && clickPathReady) {
 				stop();
 				if (scrollTo(marker)) settleCheck(marker);
+				markLanded(marker);
 				try { marker.click(); } catch (_) { /* popup unavailable */ }
 				return;
 			}
@@ -115,6 +131,7 @@ export function applyReaderDeepLink(doc, loc, win) {
 			if (section) {
 				stop();
 				if (scrollTo(section)) settleCheck(section);
+				markLanded(section);
 				return;
 			}
 		}

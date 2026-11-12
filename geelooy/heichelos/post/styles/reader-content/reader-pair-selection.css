@@ -19,7 +19,14 @@
 	   proved padding that appears on selection re-wraps the text on every
 	   scroll step — this padding is always there, so selection changes
 	   nothing and scrolling never moves layout. */
-	padding-inline: 12px;
+	/* B"H batch 48: 12px is invisible next to 144px glyphs (the user:
+	   "the highlight thing is still too close") — the gap scales with
+	   the text now (0.25em = 36px at 144px, 12px floor at small sizes),
+	   still permanent on every phrase. overflow-wrap stops a long Hebrew
+	   word running past the card edge and clipping its last letter (the
+	   final ם of "משיחות" was cut off at 144px on a phone). */
+	padding-inline: max(12px, 0.25em);
+	overflow-wrap: break-word;
 	transition: none;
 }
 
@@ -55,6 +62,22 @@
    fills were the boxes). The current pair is still marked — by the
    phrases' faint inset edge in meluket-law8.css — so the pair itself
    stays unpainted: no fill, no ring. */
+/* B"H batch 48: the lettered sections (א–ח) get a visible "Section N"
+   label above their opening passage. The Info module stamps
+   data-lettered-section on that passage; this paints the label from
+   the attribute — no nodes inserted, no text moved. The letter rides
+   in data-lettered-letter. */
+.post-reader-localized-context #realPost .meluket-sefer-section[data-lettered-section]::before {
+	content: "Section " attr(data-lettered-section) " · " attr(data-lettered-letter);
+	display: block;
+	text-align: center;
+	font: 700 0.85rem/1.4 system-ui, sans-serif;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #8a6d3b;
+	margin: 0.6rem 0 0.2rem;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
 	background-color: transparent;

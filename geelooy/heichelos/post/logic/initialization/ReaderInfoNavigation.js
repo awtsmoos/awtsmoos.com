@@ -8,10 +8,13 @@
  */
 import {
 	bindReaderInfoActions
-} from './ReaderInfoActions.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoActions.js?v=reader-smooth-20261112-2';
 import {
 	showReaderMenuView
-} from './ReaderInfoViews.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-2';
+import {
+	stampLetteredSectionLabels
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
 import {
 	trapReaderDialogTab
 } from './ReaderInfoFocusTrap.js?v=reader-a11y-20261028-1';
@@ -43,7 +46,27 @@ export function initReaderInfoNavigation() {
 		stage: 'home',
 		sectionIndex: null
 	};
+	/* B"H batch 48 — the template's paintInfo(true) leaves INLINE
+	   display:flex on the panel (and display:block on the backdrop), and
+	   an inline display beats every stylesheet [hidden] rule — so the
+	   old state.close, which only set panel.hidden = true, NEVER hid the
+	   dialog after a navigation action. The template's own setInfo(false)
+	   clears those inline styles (paintInfo(false) removes them), so
+	   close through the template's setInfo when it is exposed, and
+	   mirror its cleanup as a fallback when it is not. */
 	state.close = (restoreFocus = true) => {
+		if (typeof window !== 'undefined'
+			&& typeof window.__awtsmoosReaderSetInfo === 'function') {
+			try { window.__awtsmoosReaderSetInfo(false); } catch (_) { /* fall through */ }
+		}
+		panel.removeAttribute('style');
+		backdrop.removeAttribute('style');
+		const dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack');
+		for (let bi = 0; bi < dialogBtns.length; bi++) {
+			dialogBtns[bi].style.background = '';
+			dialogBtns[bi].style.color = '';
+			dialogBtns[bi].style.border = '';
+		}
 		panel.hidden = true;
 		backdrop.hidden = true;
 		button.setAttribute('aria-expanded', 'false');
@@ -55,6 +78,10 @@ export function initReaderInfoNavigation() {
 	};
 	state.open = (stage = 'home', sectionIndex = null) => {
 		showReaderMenuView(state, stage, sectionIndex);
+		if (typeof window !== 'undefined'
+			&& typeof window.__awtsmoosReaderSetInfo === 'function') {
+			try { window.__awtsmoosReaderSetInfo(true); } catch (_) { /* fall through */ }
+		}
 		panel.hidden = false;
 		backdrop.hidden = false;
 		button.setAttribute('aria-expanded', 'true');
@@ -73,6 +100,26 @@ export function initReaderInfoNavigation() {
 	}, true);
 	bindReaderInfoActions(state);
 
+	/* B"H batch 48 — stamp the lettered-section labels on the post
+	   itself, so each lettered section shows "Section N" above its
+	   opening passage (CSS paints the label from the data attribute).
+	   The sefer mounts after this module loads, so stamp again once it
+	   is there — stamping is idempotent. */
+	try { stampLetteredSectionLabels(get('realPost')); } catch (_) { /* sefer not mounted yet */ }
+	if (typeof MutationObserver !== 'undefined') {
+		try {
+			const realPost = get('realPost');
+			if (realPost) {
+				const mo = new MutationObserver(() => {
+					try {
+						if (stampLetteredSectionLabels(realPost) > 0) mo.disconnect();
+					} catch (_) { /* keep watching */ }
+				});
+				mo.observe(realPost, { childList: true, subtree: true });
+				setTimeout(() => { try { mo.disconnect(); } catch (_) {} }, 15000);
+			}
+		} catch (_) { /* labels are an enhancement; the post still reads */ }
+	}
 
 	const pathname = location.pathname;
 	const series = get('readerBrowseSeries');

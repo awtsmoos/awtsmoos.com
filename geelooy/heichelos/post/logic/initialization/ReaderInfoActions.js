@@ -11,18 +11,22 @@ import {
 	findCurrentReaderPassage,
 	findReaderOverview,
 	jumpToReaderElement,
+	markReaderPairSelected,
 	resolveReaderJump,
 	sectionDeepLinkFor,
 	footnoteDeepLinkFor,
 	replaceUrlWithDeepLink
-} from './ReaderInfoJump.js?v=reader-info-nested-20261112-1';
+} from './ReaderInfoJump.js?v=reader-info-nested-20261112-2';
+import {
+	readerSections
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
 import {
 	showReaderMenuView,
 	filterReaderMenu
-} from './ReaderInfoViews.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-2';
 import {
 	appendReaderChoicePage
-} from './ReaderInfoChoices.js?v=reader-smooth-20261112-1';
+} from './ReaderInfoChoices.js?v=reader-smooth-20261112-2';
 
 /** Move only after a deliberate destination action from the fixed menu. */
 function executeReaderAction(state, action, button) {
@@ -51,6 +55,10 @@ function executeReaderAction(state, action, button) {
 	if (!target) return;
 	state.close(false);
 	jumpToReaderElement(target);
+	/* B"H batch 48: keep the highlight in step with the destination —
+	   the highlight module pauses while the guide is open, so without
+	   this the NEXT navigation would compute from the stale selection. */
+	try { markReaderPairSelected(root, target); } catch (_) { /* highlight optional */ }
 	/* B"H batch 47: the address bar always names the section on screen,
 	   so the URL a reader copies is the section they are on. */
 	replaceUrlWithDeepLink(sectionDeepLinkFor(root, target));
@@ -60,6 +68,9 @@ function executeReaderAction(state, action, button) {
  * B"H batch 47 — share the section on screen: copy its deep link
  * (?section=N#sec-NNN) and point the address bar at it. The clipboard
  * write is best-effort — the address bar carries the link either way.
+ * B"H batch 48: Share is a navigation action — close the dialog after
+ * it, so the shared section is visible instead of hidden behind the
+ * opaque backdrop.
  */
 function shareCurrentReaderSection(state, button) {
 	const root = state.root();
@@ -70,6 +81,7 @@ function shareCurrentReaderSection(state, button) {
 	if (!link) return;
 	replaceUrlWithDeepLink(link);
 	copyReaderLink(link, button);
+	state.close(false);
 }
 
 function copyReaderLink(link, button) {
@@ -115,6 +127,7 @@ function jumpToReaderFootnote(state, fnNum) {
 	if (!marker) return;
 	state.close(false);
 	jumpToReaderElement(marker);
+	try { markReaderPairSelected(root, marker); } catch (_) { /* highlight optional */ }
 	replaceUrlWithDeepLink(footnoteDeepLinkFor(root, marker, fnNum));
 	marker.click();
 }
@@ -139,6 +152,23 @@ export function bindReaderInfoActions(state) {
 		if (button.dataset.readerSection === undefined) return;
 		const sectionIndex = Number(button.dataset.readerSection);
 		if (button.dataset.readerPair === undefined) {
+			/* B"H batch 48: a section tap jumps STRAIGHT to that section.
+			   The old code always opened the pairs detail pane — one more
+			   tap for a list that holds exactly one pair per section. A
+			   section with more than one pair still opens the pairs picker
+			   so the reader can choose which passage to land on. */
+			const section = readerSections(state.root())[sectionIndex];
+			const pairCount = section
+				? section.querySelectorAll('.meluket-phrase-pair').length : 0;
+			if (pairCount <= 1) {
+				const target = resolveReaderJump(state.root(), sectionIndex, null);
+				if (!target) return;
+				state.close(false);
+				jumpToReaderElement(target);
+				try { markReaderPairSelected(state.root(), target); } catch (_) { /* highlight optional */ }
+				replaceUrlWithDeepLink(sectionDeepLinkFor(state.root(), target));
+				return;
+			}
 			showReaderMenuView(state, 'pairs', sectionIndex);
 			return;
 		}
@@ -148,6 +178,7 @@ export function bindReaderInfoActions(state) {
 		if (!target) return;
 		state.close(false);
 		jumpToReaderElement(target);
+		try { markReaderPairSelected(state.root(), target); } catch (_) { /* highlight optional */ }
 		replaceUrlWithDeepLink(sectionDeepLinkFor(state.root(), target));
 	});
 	state.search.addEventListener('input', () => {

@@ -66,7 +66,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions #commentaryBtn { display: block; width: 100%; height: auto; min-height: 44px; inline-size: auto; block-size: auto; border-radius: 12px; padding: 10px 14px; font-size: 1rem; line-height: 1.4; white-space: normal; text-align: center; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-heading { flex-wrap: wrap; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-heading h2 { flex: 1 1 auto; min-width: 0; overflow: visible; text-overflow: clip; white-space: normal; }
-		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 8px; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
 		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
 		   horizontal overflow draw a scrollbar at the dialog's bottom. x is hidden
@@ -99,7 +99,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=9c48d1be84">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=84ba96a004">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -260,8 +260,10 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   parse, the assignment is ignored and the vh cap stays;
 					   without it the cap would vanish and the bottom-anchored
 					   panel would extend off-screen. */
-					panel.style.maxHeight = 'min(86vh, 680px, calc(100vh - 84px))';
-					panel.style.maxHeight = 'min(86dvh, 680px, calc(100dvh - 84px))';
+					/* B"H batch 48: same taller cap as the sheet (no 680px cap,
+					   12px top offset — the opaque backdrop covers the header). */
+					panel.style.maxHeight = 'min(96vh, calc(100vh - 12px))';
+					panel.style.maxHeight = 'min(96dvh, calc(100dvh - 12px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
@@ -327,6 +329,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			if (open) { var close = byId('readerInfoClose'); if (close) close.focus({ preventScroll: true }); }
 			return true;
 		}
+		/* B"H batch 48: the Info module's state.close must close through
+		   this setInfo — only paintInfo(false) clears the INLINE
+		   display:flex the open painted, and an inline display beats the
+		   stylesheet [hidden] rule, so the module's hidden-only close
+		   never hid the dialog after a navigation action. Exposed as a
+		   global the module calls when present (it falls back to its own
+		   cleanup when absent). */
+		window.__awtsmoosReaderSetInfo = setInfo;
 		function infoOpen() {
 			var panel = byId('readerInfoPanel');
 			return !!panel && !panel.hidden;
@@ -420,8 +430,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				registerScript.src = '/register.js?v=03b20cf90a';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-2').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
-				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-3').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
+				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});
@@ -432,7 +442,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				// which under load left the body unmounted for minutes on plain
 				// loads. The bootstrap calls the same function later; hydration is
 				// stamped, so the second call is a no-op.
-				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=05b49b8a09').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=7f0c1ea2f0').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

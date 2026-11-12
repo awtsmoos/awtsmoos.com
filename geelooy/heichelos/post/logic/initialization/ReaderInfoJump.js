@@ -8,7 +8,7 @@
  */
 import {
 	readerSections
-} from './ReaderInfoList.js?v=reader-info-nested-20261112-1';
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
 
 /** Resolve a section or bilingual passage from current existing DOM nodes. */
 export function resolveReaderJump(root, sectionIndex, pairIndex = null) {
@@ -27,15 +27,51 @@ export function jumpToReaderElement(target) {
 	return true;
 }
 
+/**
+ * B"H batch 48 — the 1-based section number the address bar names
+ * (?section=N), or null. The address bar is the navigation record: the
+ * deep link sets it on load and every Next/Previous/jump/share updates
+ * it, so it is the one place that always says where the reader is —
+ * even when the highlight selection has not caught up yet.
+ */
+export function sectionNumberFromUrl() {
+	try {
+		const loc = typeof globalThis !== 'undefined' ? globalThis.location : null;
+		const search = loc?.search || '';
+		if (!search) return null;
+		const params = new URLSearchParams(search);
+		const raw = params.get('section');
+		if (!/^\d+$/.test(raw || '')) return null;
+		const n = Number(raw);
+		return Number.isSafeInteger(n) && n >= 1 ? n : null;
+	} catch (_) {
+		return null;
+	}
+}
+
 /** Current highlighted pair's section and pair positions, without mutation. */
 export function currentReaderCoordinates(root) {
 	const selected = root?.querySelector('.meluket-phrase-pair.is-pair-selected');
-	if (!selected) return null;
-	const section = selected.closest('.meluket-sefer-section');
-	const sectionIndex = readerSections(root).indexOf(section);
-	if (sectionIndex < 0) return null;
-	const pairIndex = [...section.querySelectorAll('.meluket-phrase-pair')].indexOf(selected);
-	return pairIndex < 0 ? null : { sectionIndex, pairIndex };
+	if (selected) {
+		const section = selected.closest('.meluket-sefer-section');
+		const sectionIndex = readerSections(root).indexOf(section);
+		if (sectionIndex < 0) return null;
+		const pairIndex = [...section.querySelectorAll('.meluket-phrase-pair')].indexOf(selected);
+		return pairIndex < 0 ? null : { sectionIndex, pairIndex };
+	}
+	/* B"H batch 48 — no pair is selected yet (the highlight has not run,
+	   or the reader landed here on a deep link before it could). Fall
+	   back to the section the address bar names, so Previous/Next work
+	   from the landed section instead of silently doing nothing (the
+	   old fallback was the FIRST pair, from which Previous is null). */
+	const urlSection = sectionNumberFromUrl();
+	if (urlSection) {
+		const sections = readerSections(root);
+		if (urlSection >= 1 && urlSection <= sections.length) {
+			return { sectionIndex: urlSection - 1, pairIndex: 0 };
+		}
+	}
+	return null;
 }
 
 /** Compute next/previous paired passage across adjacent section boundaries. */
@@ -64,9 +100,63 @@ export function findCurrentReaderPassage(root) {
 		|| root?.querySelector('.meluket-sefer-section') || null;
 }
 
-/** Navigate to the actual overview without recreating its original line breaks. */
+/**
+ * B"H batch 48 — move the reading highlight to a pair/section element.
+ * Mirrors ReaderSectionHighlight.paintReaderPair (same three classes) so
+ * a navigation jump keeps the selection in step with the destination:
+ * the highlight module PAUSES while the Reading guide is open, so
+ * without this a second Next/Previous would compute from the stale
+ * pre-dialog selection and land in the wrong place (or nowhere).
+ * Safe to call when the highlight module has not loaded — it only moves
+ * classes on nodes that are already in the DOM.
+ */
+export function markReaderPairSelected(root, element) {
+	if (!root || !element || typeof element.closest !== 'function') return null;
+	let pair = null;
+	if (typeof element.matches === 'function'
+		&& element.matches('.meluket-phrase-pair, .awtsmoos-initial-unit')) {
+		pair = element;
+	} else if (typeof element.closest === 'function') {
+		pair = element.closest('.meluket-phrase-pair, .awtsmoos-initial-unit');
+	}
+	/* A section element (Top / a section jump): mark its first pair. A
+	   footnote marker: the closest pair above already caught it. */
+	if (!pair && typeof element.matches === 'function'
+		&& element.matches('.meluket-sefer-section')) {
+		pair = element.querySelector?.('.meluket-phrase-pair, .awtsmoos-initial-unit') || null;
+	}
+	if (!pair || !root.contains?.(pair)) return null;
+	const oldPair = root.querySelector('.meluket-phrase-pair.is-pair-selected, .awtsmoos-initial-unit.is-pair-selected');
+	if (oldPair && oldPair !== pair) oldPair.classList.remove('is-pair-selected');
+	const oldSubs = root.querySelectorAll('.is-reading-sub');
+	for (const sub of oldSubs) sub.classList.remove('is-reading-sub');
+	const oldSection = root.querySelector('.meluket-sefer-section.is-reading');
+	if (oldSection) oldSection.classList.remove('is-reading');
+	pair.classList.add('is-pair-selected');
+	const section = pair.closest('.meluket-sefer-section, .awtsmoos-initial-unit, section[data-awtsmoos-unit]');
+	if (section && section !== pair) section.classList.add('is-reading');
+	else if (section === pair) pair.classList.add('is-reading');
+	const subs = typeof pair.querySelectorAll === 'function'
+		? pair.querySelectorAll('.meluket-phrase--he, .meluket-phrase--en, .awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')
+		: [];
+	for (const sub of subs) sub.classList.add('is-reading-sub');
+	if (!subs.length && typeof pair.matches === 'function' && pair.matches('.awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')) {
+		pair.classList.add('is-reading-sub');
+	}
+	return pair;
+}
+
+/**
+ * B"H batch 48 — navigate to the actual overview without recreating its
+ * original line breaks. Many posts carry no summary text, so no overview
+ * element is ever built for them — and "Read the overview" silently did
+ * nothing. Fall back to the first section (the beginning, where the
+ * overview — the klal before the pratim — lives) so the button always
+ * navigates somewhere true instead of nowhere.
+ */
 export function findReaderOverview(root) {
-	return root?.querySelector('.meluket-post-summary, .meluket-summary') || null;
+	return root?.querySelector('.meluket-post-summary, .meluket-summary')
+		|| root?.querySelector('.meluket-sefer-section') || null;
 }
 
 /**

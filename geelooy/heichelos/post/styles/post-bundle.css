@@ -1552,7 +1552,11 @@
 			   the card's own 24px padding — at 144px only a few words fit
 			   per line. 0.5rem keeps a hair of page edge; the card still
 			   reads as a card. */
-			max-inline-size: min(46rem, calc(100vw - 0.5rem));
+			/* B"H batch 48: the 46rem cap (736px) still centred a narrow
+			   column with wide side margins at 144px — the rendered check
+			   measured ~775px on a 1919px viewport. 72rem (1152px) is the
+			   new cap; a phone still takes the full 100vw - 0.5rem. */
+			max-inline-size: min(72rem, calc(100vw - 0.5rem));
 			margin-inline: auto;
 			padding-block: 2.5rem 7rem;
 		}
@@ -1870,7 +1874,11 @@
 		/* ---------- wide screens ---------- */
 		@media (min-width: 900px) {
 			:root .post-reader-localized-context #realPost .meluket-sefer {
-				--dream-pad: 3.25rem 3.5rem;
+				/* B"H batch 48: batch 47 left this desktop override at
+				   3.25rem 3.5rem (56px a side) — the wide margins the
+				   rendered check measured. Same small clamp as the base
+				   rule now, so the wider column actually shows. */
+				--dream-pad: clamp(0.5rem, 2vw, 1rem);
 			}
 		}
 
@@ -1906,10 +1914,19 @@
 		:root .post-reader-localized-context .awtsmoos-fn-modal {
 			position: fixed;
 			z-index: 988;
-			inset-inline: 0;
+			/* B"H batch 48: the modal rendered as a ~65px sliver. Its width
+			   was calc(100% - 2.5rem) — 100% of the CONTAINING block, which
+			   is not the viewport when any ancestor carries a transform.
+			   Viewport units + left:50% + translate(-50%,-50%) centre it
+			   against the viewport itself, whatever contains it (the
+			   module also appends it to document.body now). */
+			left: 50%;
+			right: auto;
 			top: 50%;
-			inline-size: min(32rem, calc(100% - 2.5rem));
-			margin-inline: auto;
+			width: min(34rem, calc(100vw - 2.5rem));
+			inline-size: min(34rem, calc(100vw - 2.5rem));
+			margin-inline: 0;
+			transform: translate(-50%, -50%);
 			max-block-size: min(70vh, 34rem);
 			overflow-y: auto;
 			background: var(--sefer-card);
@@ -1925,7 +1942,10 @@
 		:root .post-reader-localized-context .awtsmoos-fn-modal.is-open {
 			opacity: 1;
 			pointer-events: auto;
-			transform: translateY(-50%) scale(1);
+			/* B"H batch 48: keep the -50% X shift when open, or the modal
+			   would sit half off-screen to the right (left:50% with no
+			   X translate). */
+			transform: translate(-50%, -50%) scale(1);
 		}
 		:root .post-reader-localized-context .awtsmoos-fn-head {
 			display: flex;
@@ -6360,7 +6380,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   proved padding that appears on selection re-wraps the text on every
 	   scroll step — this padding is always there, so selection changes
 	   nothing and scrolling never moves layout. */
-	padding-inline: 12px;
+	/* B"H batch 48: 12px is invisible next to 144px glyphs (the user:
+	   "the highlight thing is still too close") — the gap scales with
+	   the text now (0.25em = 36px at 144px, 12px floor at small sizes),
+	   still permanent on every phrase. overflow-wrap stops a long Hebrew
+	   word running past the card edge and clipping its last letter (the
+	   final ם of "משיחות" was cut off at 144px on a phone). */
+	padding-inline: max(12px, 0.25em);
+	overflow-wrap: break-word;
 	transition: none;
 }
 
@@ -6396,6 +6423,22 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    fills were the boxes). The current pair is still marked — by the
    phrases' faint inset edge in meluket-law8.css — so the pair itself
    stays unpainted: no fill, no ring. */
+/* B"H batch 48: the lettered sections (א–ח) get a visible "Section N"
+   label above their opening passage. The Info module stamps
+   data-lettered-section on that passage; this paints the label from
+   the attribute — no nodes inserted, no text moved. The letter rides
+   in data-lettered-letter. */
+.post-reader-localized-context #realPost .meluket-sefer-section[data-lettered-section]::before {
+	content: "Section " attr(data-lettered-section) " · " attr(data-lettered-letter);
+	display: block;
+	text-align: center;
+	font: 700 0.85rem/1.4 system-ui, sans-serif;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #8a6d3b;
+	margin: 0.6rem 0 0.2rem;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
 	background-color: transparent;
@@ -6468,14 +6511,18 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	display: flex;
 	flex-direction: column;
 	width: auto;
-	/* B"H batch 45: the 84px term keeps the bottom-anchored panel's top
-	   below the sticky header (68px max + 8px gap + 8px bottom margin),
-	   so the title can never ride up onto the banner/header. */
-	max-height: min(86vh, 680px, calc(100vh - 84px));
+	/* B"H batch 48: the 680px cap clipped the last buttons ("Browse this
+	   Heichel") on open — the panel is bottom-anchored, so a taller cap
+	   starts it higher and shows every button without scrolling. The
+	   opaque backdrop already covers the header, so the 84px top offset
+	   is 12px now (a hair off the top edge). At a ~700px phone viewport
+	   the cap is ~684px, and the compacted content below fits it. */
+	max-height: min(96vh, calc(100vh - 12px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(86dvh, 680px, calc(100dvh - 84px));
+	max-height: min(96dvh, calc(100dvh - 12px));
 	min-height: 0;
-	padding: 14px;
+	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
+	padding: 8px;
 	border: 1px solid #c6ad76;
 	border-radius: 19px;
 	background: #f9f4ea;
@@ -6496,14 +6543,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
-/* B"H batch 47: the floating "N online" pill (z 1100) sits above the open
-   dialog (z 990) and lands on its right side. While the Reading guide is
-   open, hide both launcher variants — the dialog is the only surface.
-   The body class is toggled by setInfo() in the template and by the
-   module's state.open/state.close, so every open/close path is covered.
+/* B"H batch 48: the floating "N online" pill shows "0 online", does
+   not work, and overlaps the reading text — hide both launcher variants
+   on reader post pages, always (not only while the guide is open).
+   This bundle loads ONLY on post pages, so no other page is touched.
+   The dock (Aa / i / down) is a different surface and is untouched.
    Specificity beats the launcher's own display rule; no !important. */
-body.awtsmoos-info-open .universal-chat-launcher,
-body.awtsmoos-info-open .universal-chat-floating-launcher {
+body .universal-chat-launcher,
+body .universal-chat-floating-launcher {
 	display: none;
 }
 .post-reader-localized-context .reader-info-heading {
@@ -6511,16 +6558,28 @@ body.awtsmoos-info-open .universal-chat-floating-launcher {
 	flex: 0 0 auto;
 	align-items: center;
 	gap: 9px;
-	margin-bottom: 10px;
+	/* B"H batch 48: 10px -> 6px, part of fitting every button. */
+	margin-bottom: 6px;
 }
 .post-reader-localized-context .reader-info-heading h2 {
 	flex: 1;
 	min-width: 0;
 	margin: 0;
 	font: 750 19px/1.35 system-ui, sans-serif;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	/* B"H batch 48: the Explore heading ("Choose a section or footnote")
+	   clipped at the right edge — nowrap + ellipsis cut it. It wraps now
+	   (the template inline already said so; the sheet agrees). */
+	overflow: visible;
+	text-overflow: clip;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+/* B"H batch 48: compact the dialog buttons so every one fits without
+   scrolling at a ~700px phone viewport — 6px vertical padding (the
+   browser default 0.5em was 8px). Still a full-width tap target. */
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > button,
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > a {
+	padding-block: 6px;
 }
 .post-reader-localized-context #readerInfoHome,
 .post-reader-localized-context #readerInfoList,

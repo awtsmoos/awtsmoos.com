@@ -63,14 +63,18 @@
 	display: flex;
 	flex-direction: column;
 	width: auto;
-	/* B"H batch 45: the 84px term keeps the bottom-anchored panel's top
-	   below the sticky header (68px max + 8px gap + 8px bottom margin),
-	   so the title can never ride up onto the banner/header. */
-	max-height: min(86vh, 680px, calc(100vh - 84px));
+	/* B"H batch 48: the 680px cap clipped the last buttons ("Browse this
+	   Heichel") on open — the panel is bottom-anchored, so a taller cap
+	   starts it higher and shows every button without scrolling. The
+	   opaque backdrop already covers the header, so the 84px top offset
+	   is 12px now (a hair off the top edge). At a ~700px phone viewport
+	   the cap is ~684px, and the compacted content below fits it. */
+	max-height: min(96vh, calc(100vh - 12px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(86dvh, 680px, calc(100dvh - 84px));
+	max-height: min(96dvh, calc(100dvh - 12px));
 	min-height: 0;
-	padding: 14px;
+	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
+	padding: 8px;
 	border: 1px solid #c6ad76;
 	border-radius: 19px;
 	background: #f9f4ea;
@@ -91,14 +95,14 @@
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
-/* B"H batch 47: the floating "N online" pill (z 1100) sits above the open
-   dialog (z 990) and lands on its right side. While the Reading guide is
-   open, hide both launcher variants — the dialog is the only surface.
-   The body class is toggled by setInfo() in the template and by the
-   module's state.open/state.close, so every open/close path is covered.
+/* B"H batch 48: the floating "N online" pill shows "0 online", does
+   not work, and overlaps the reading text — hide both launcher variants
+   on reader post pages, always (not only while the guide is open).
+   This bundle loads ONLY on post pages, so no other page is touched.
+   The dock (Aa / i / down) is a different surface and is untouched.
    Specificity beats the launcher's own display rule; no !important. */
-body.awtsmoos-info-open .universal-chat-launcher,
-body.awtsmoos-info-open .universal-chat-floating-launcher {
+body .universal-chat-launcher,
+body .universal-chat-floating-launcher {
 	display: none;
 }
 .post-reader-localized-context .reader-info-heading {
@@ -106,16 +110,28 @@ body.awtsmoos-info-open .universal-chat-floating-launcher {
 	flex: 0 0 auto;
 	align-items: center;
 	gap: 9px;
-	margin-bottom: 10px;
+	/* B"H batch 48: 10px -> 6px, part of fitting every button. */
+	margin-bottom: 6px;
 }
 .post-reader-localized-context .reader-info-heading h2 {
 	flex: 1;
 	min-width: 0;
 	margin: 0;
 	font: 750 19px/1.35 system-ui, sans-serif;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	/* B"H batch 48: the Explore heading ("Choose a section or footnote")
+	   clipped at the right edge — nowrap + ellipsis cut it. It wraps now
+	   (the template inline already said so; the sheet agrees). */
+	overflow: visible;
+	text-overflow: clip;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+/* B"H batch 48: compact the dialog buttons so every one fits without
+   scrolling at a ~700px phone viewport — 6px vertical padding (the
+   browser default 0.5em was 8px). Still a full-width tap target. */
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > button,
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > a {
+	padding-block: 6px;
 }
 .post-reader-localized-context #readerInfoHome,
 .post-reader-localized-context #readerInfoList,
