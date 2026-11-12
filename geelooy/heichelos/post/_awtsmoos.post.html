@@ -230,15 +230,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   can never lay out as a row or clip its last button even if
 					   a stylesheet rule ever loses again. */
 					panel.style.flexDirection = 'column';
-					/* B"H batch 39: overflow-y:auto used to compute overflow-x
-					   to auto too (CSS rule: one non-visible axis forces the
-					   other to auto), defeating the bundle's `overflow: hidden`
-					   and letting any 1px of overflow (focus outline past a
-					   full-width button, fractional pixels at zoom) draw a
-					   horizontal scrollbar at the dialog's bottom. Pin x
-					   hidden explicitly; y stays auto. */
+					/* B"H batch 46: the LIST is the dialog's only scroller.
+					   The panel used to be overflow-y:auto too (batch 38),
+					   so the dialog had TWO scrollers — a keyboard gesture
+					   (focus sits on Close, in the heading) scrolled the
+					   panel, and when the panel had no overflow it fell
+					   through to the PAGE, so the list's scroll was never
+					   observed. The panel is overflow hidden now (the sheet
+					   already says so; this only removes the inline auto
+					   override): the heading/Close never scroll away, and
+					   every scroll gesture inside the dialog is routed to
+					   the visible list (see routeDialogScroll below). The
+					   batch-39 x-hidden pin stays: one non-visible axis
+					   would force the other to auto. */
 					panel.style.overflowX = 'hidden';
-					panel.style.overflowY = 'auto';
+					panel.style.overflowY = 'hidden';
 					panel.style.visibility = 'visible';
 					panel.style.opacity = '1';
 					panel.style.position = 'fixed';
@@ -273,7 +279,6 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 						dialogBtns[bi].style.color = '#2b2118';
 						dialogBtns[bi].style.border = '1px solid #d9c9a8';
 					}
-					panel.scrollTop = 0;
 					var home = byId('readerInfoHome');
 					if (home) home.scrollTop = 0;
 					var list = byId('readerInfoList');
@@ -335,6 +340,56 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			bindClick('readerInfoBtn', function () { setInfo(!infoOpen()); });
 			bindClick('readerInfoClose', function () { setInfo(false); });
 			bindClick('readerInfoBackdrop', function () { setInfo(false); });
+			/* B"H batch 46: the dialog's list is its only scroller, so a
+			   scroll gesture that starts inside the dialog must scroll the
+			   list, never the page behind the opaque backdrop. Wheel and
+			   keyboard gestures that land on the heading/padding (outside
+			   the list) have no scrollable ancestor inside the dialog, so
+			   without this they fall through to the page. Route them to
+			   the visible list (home, or the section list in Explore
+			   view). Touch scrolling on the list itself is native and
+			   untouched; Tab/Escape/Enter/Space and editable fields are
+			   untouched. */
+			function dialogScroller() {
+				var list = byId('readerInfoList');
+				if (list && !list.hidden) return list;
+				var home = byId('readerInfoHome');
+				if (home && !home.hidden) return home;
+				return null;
+			}
+			function routeDialogWheel(e) {
+				if (!infoOpen()) return;
+				var scroller = dialogScroller();
+				if (!scroller) return;
+				/* Inside the list itself the browser scrolls natively (and
+				   overscroll-behavior:contain stops it chaining to the
+				   page); only gestures outside the list need routing. */
+				if (scroller.contains(e.target)) return;
+				e.preventDefault();
+				scroller.scrollTop += e.deltaY;
+			}
+			function routeDialogKeys(e) {
+				if (!infoOpen()) return;
+				var k = e.key;
+				if (k !== 'PageDown' && k !== 'PageUp' && k !== 'End' && k !== 'Home' && k !== 'ArrowDown' && k !== 'ArrowUp') return;
+				var t = e.target;
+				if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+				var scroller = dialogScroller();
+				if (!scroller) return;
+				e.preventDefault();
+				if (k === 'PageDown') scroller.scrollTop += scroller.clientHeight;
+				else if (k === 'PageUp') scroller.scrollTop -= scroller.clientHeight;
+				else if (k === 'End') scroller.scrollTop = scroller.scrollHeight;
+				else if (k === 'Home') scroller.scrollTop = 0;
+				else if (k === 'ArrowDown') scroller.scrollTop += 48;
+				else if (k === 'ArrowUp') scroller.scrollTop -= 48;
+			}
+			var infoPanelEl = byId('readerInfoPanel');
+			if (infoPanelEl && infoPanelEl.dataset.awtsmoosScrollRouted !== '1') {
+				infoPanelEl.dataset.awtsmoosScrollRouted = '1';
+				infoPanelEl.addEventListener('wheel', routeDialogWheel, { passive: false });
+				infoPanelEl.addEventListener('keydown', routeDialogKeys);
+			}
 			var lensClose = byId('scribeLensClose');
 			if (lensClose && lensClose.dataset.awtsmoosCloseBound !== 'true') {
 				lensClose.dataset.awtsmoosCloseBound = 'true';
