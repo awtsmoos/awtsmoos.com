@@ -66,3 +66,46 @@ These rules are how it does not happen again.
   The remaining write cost is the JSONL mirror + cache-nuking adapter
   behaviour documented in `KNOWN-PATHOLOGIES.md` — the AwtsmoosDB migration
   (`STORAGE-LAW.md`) is what removes it.
+
+## Publish runbook laws (B"H 2026-11-12 — the torn-copy saga; never again)
+
+The full runbook is `~/workspace/bulk-import-handoff/publish-runbook.md` on the
+operator machine (and the pipeline is `publish-pipeline.sh`). These are the
+hard rules it encodes; they bind every future ikar publish.
+
+- **Never copy a live vessel file.** A file-level (or reflink) copy of a live
+  AwtsmoosDB vessel is torn by construction: coherent state lives in the app's
+  page cache + WAL, and the on-disk file alone is stale even though verify()
+  says ok. Proven 2026-11-12: a reflink copy of the live series vessel came
+  back with 1,603 of 1,775 Likkutei children unreadable and the root/mishnah
+  prateem missing. Shadow copies come only from (a) a logical rebuild — read
+  every doc via a shared read-only open, write raw bytes into a FRESH vessel —
+  or (b) a flushed snapshot: `db.fs.flush()` + `waitForIdle()` (WAL must read
+  0 bytes), then copy the MAIN FILE ALONE. An external script cannot flush the
+  app-held live vessel, so (b) needs a maintenance endpoint that flushes +
+  holds the write lock during the copy; until it exists, use (a).
+- **posts/full is a directory, never one object.** The single 620MB object is
+  unreadable by design (256MB decompression cap) and DosDB setObjectKey on it
+  corrupts it in place. Every grouped post is one per-post doc under
+  `posts/full/<postId>.awtsmoosJSON`; the adapter resolves the directory.
+  Never merge into posts/full via DosDB setObjectKey.
+- **Bulk writes use writeMany + one flush** (`bulk-write.cjs`). Per-doc
+  fs.write loops are the slow path (8,243 stubs in ~40 min). Shard
+  directories to ≤250 children (cost tracks directory size, not vessel size).
+- **Top-up diff is a mandatory gate after any rebuild.** A rebuild's own
+  counts prove nothing — its walk can silently miss subtrees. After every
+  rebuild, run the live-vs-shadow diff and copy every missing doc; require
+  errors=0 and a re-count match before proceeding.
+- **Verify after every step, never only at the end.** Engine verify on both
+  shadow vessels + per-record counts + spot reads with CORRECT paths.
+- **The site never goes down for a publish.** Shadow-build while the app
+  serves, verify while live, atomic publish by file swap + ONE seconds-long
+  restart. The 2026-11-11 stop-window was the last one.
+- **Code + data land together, in one deploy.** Commit BEFORE BH.sh (it does
+  reset --hard + clean -fd and destroys uncommitted work). Stash-protect other
+  sessions' dirty files first; never pop a stash your push didn't create.
+- **Measured rates (2026-11-12):** stage 282,885 posts/s (the <1s contract
+  binds the STAGE and holds); vessel merge 175–197 docs/s small docs,
+  ~8–9 docs/s for ~130KB docs; logical rebuild of the 692MB series vessel
+  35,288 docs in ~1.5h on the contended 2-CPU box. Plan publish windows
+  around those numbers; never promise 1s for a merge again.
