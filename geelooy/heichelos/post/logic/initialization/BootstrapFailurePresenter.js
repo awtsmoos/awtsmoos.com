@@ -41,6 +41,22 @@ export class MalchusBootstrapFailurePresenter {
 			return ohrMessage;
 		}
 
+		/* B"H batch 42: the server first paint (batch 41) may already hold
+		   the whole post as readable text inside #realPost. A client boot
+		   failure must never wipe readable Torah to show an error — if the
+		   viewport already carries server-painted text, leave it in place
+		   (the failure is still recorded on body.dataset and the console
+		   above) so the beginning stays readable. A genuinely missing post
+		   has no server preview, so its error still shows. */
+		let serverPainted = null;
+		try {
+			serverPainted = malchusViewport.querySelector('[data-awtsmoos-server-preview]');
+		} catch (_) {
+			serverPainted = null;
+		}
+		if (serverPainted && String(serverPainted.textContent || '').trim()) {
+			return ohrMessage;
+		}
 		const malchusFailure = this.document.createElement('div');
 		malchusFailure.className = 'fatal-error awtsmoos-empty-placeholder';
 		malchusFailure.textContent = `SYSTEM RUPTURE: ${ohrMessage}`;

@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps this coordinator small so the fifth reader runtime can be audited from first source breath to ready state.
  */
 
-import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
+import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-005';
 import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-006';
 import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-013';
 import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
