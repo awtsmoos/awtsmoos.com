@@ -166,6 +166,13 @@ export function collectReaderFootnotes(root) {
 		}
 		const sectionEl = marker.closest ? marker.closest('.meluket-sefer-section') : null;
 		const sectionIndex = sectionEl ? sections.indexOf(sectionEl) : -1;
+		/* B"H batch 49 — the footnote row names its LETTERED section
+		   (1–8), not its passage index (1–79), so the row reads
+		   "Section 2" for a note in section 2 (ב.), matching the
+		   section numbers everywhere else. */
+		const lettered = letteredSectionsFor(root);
+		const letteredNumber = sectionIndex >= 0 && lettered[sectionIndex]
+			? lettered[sectionIndex].lettered : null;
 		notes.push({
 			kind: 'footnote',
 			index: notes.length,
@@ -173,7 +180,8 @@ export function collectReaderFootnotes(root) {
 			title: `Footnote ${n}`,
 			hebrew,
 			english,
-			sectionIndex: sectionIndex < 0 ? null : sectionIndex
+			sectionIndex: sectionIndex < 0 ? null : sectionIndex,
+			lettered: letteredNumber
 		});
 	}
 	notes.sort((a, b) => Number(a.n) - Number(b.n));
@@ -216,9 +224,18 @@ export function readerIndexButton(doc, section, pair = null) {
 	if (pair?.english || (!pair && section.count)) {
 		const detail = doc.createElement('span');
 		detail.className = 'reader-index-choice-detail';
-		const where = (!pair && section.lettered)
+		/* B"H batch 49 — the old detail repeated "Section N" on EVERY
+		   row in the lettered section (every passage in section 1 said
+		   "Section 1 · 1 passages · Explore ›"), which the user called
+		   messy. Name the lettered section only on its OPENING row
+		   (isLetteredStart, where the title already says "Section N");
+		   other rows say only their passage count. Also "1 passage",
+		   not "1 passages". */
+		const where = (!pair && section.isLetteredStart && section.lettered)
 			? `Section ${section.lettered} · ` : '';
-		detail.textContent = pair ? pair.english : `${where}${section.count} passages · Explore ›`;
+		const countText = pair ? pair.english
+			: `${where}${section.count} ${section.count === 1 ? 'passage' : 'passages'} · Explore ›`;
+		detail.textContent = countText;
 		button.append(detail);
 	}
 	return button;
@@ -240,7 +257,7 @@ export function readerFootnoteButton(doc, footnote) {
 	const detail = doc.createElement('span');
 	detail.className = 'reader-index-choice-detail';
 	const text = footnote.hebrew || footnote.english || '';
-	const where = footnote.sectionIndex != null ? `Section ${footnote.sectionIndex + 1} · ` : '';
+	const where = footnote.lettered ? `Section ${footnote.lettered} · ` : '';
 	detail.textContent = where + (text || 'Open this footnote');
 	button.append(detail);
 	return button;

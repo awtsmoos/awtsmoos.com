@@ -7,8 +7,48 @@
  * Awtsmoos.com moves the learner only on the destination they say.
  */
 import {
-	readerSections
-} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
+	readerSections,
+	letteredSectionsFor
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-3';
+import { findReaderPairAtViewport } from './ReaderPairViewport.js?v=reader-pair-viewport-20261112-1';
+
+/**
+ * B"H batch 49 — ?section=N names a LETTERED section (1–8: א–ח), not a
+ * passage (1–79). The DOM has one .meluket-sefer-section per passage,
+ * so the lettered sections live only in the pair text ("א. דובר…") and
+ * in the data-lettered-section attributes the label stamper paints.
+ * Resolve a lettered number to the section element that OPENS it.
+ */
+export function letteredSectionStart(root, letteredNumber) {
+	if (!root || !Number.isSafeInteger(letteredNumber) || letteredNumber < 1) return null;
+	const stamped = root.querySelector
+		? root.querySelector(`.meluket-sefer-section[data-lettered-section="${letteredNumber}"]`)
+		: null;
+	if (stamped) return stamped;
+	const sections = readerSections(root);
+	const lettered = letteredSectionsFor(root);
+	for (let i = 0; i < sections.length; i++) {
+		if (lettered[i] && lettered[i].lettered === letteredNumber) return sections[i];
+	}
+	return null;
+}
+
+/** Lettered section number (1–8) for a pair/section element, or null. */
+export function letteredNumberForElement(root, element) {
+	if (!root || !element || typeof element.closest !== 'function') return null;
+	const section = element.closest('.meluket-sefer-section');
+	if (!section) return null;
+	const stamped = section.getAttribute
+		? Number(section.getAttribute('data-lettered-section') || '')
+		: NaN;
+	if (Number.isSafeInteger(stamped) && stamped >= 1) return stamped;
+	const sections = readerSections(root);
+	const index = sections.indexOf(section);
+	if (index < 0) return null;
+	const lettered = letteredSectionsFor(root);
+	const info = lettered[index];
+	return info && info.lettered ? info.lettered : null;
+}
 
 /** Resolve a section or bilingual passage from current existing DOM nodes. */
 export function resolveReaderJump(root, sectionIndex, pairIndex = null) {
@@ -63,10 +103,19 @@ export function currentReaderCoordinates(root) {
 	   or the reader landed here on a deep link before it could). Fall
 	   back to the section the address bar names, so Previous/Next work
 	   from the landed section instead of silently doing nothing (the
-	   old fallback was the FIRST pair, from which Previous is null). */
+	   old fallback was the FIRST pair, from which Previous is null).
+	   B"H batch 49 — ?section=N is a LETTERED section (1–8), so convert
+	   it to the passage index of that lettered section's opening
+	   passage; if the number is beyond the lettered sections, treat it
+	   as a passage index (old links). */
 	const urlSection = sectionNumberFromUrl();
 	if (urlSection) {
 		const sections = readerSections(root);
+		const start = letteredSectionStart(root, urlSection);
+		if (start) {
+			const sectionIndex = sections.indexOf(start);
+			if (sectionIndex >= 0) return { sectionIndex, pairIndex: 0 };
+		}
 		if (urlSection >= 1 && urlSection <= sections.length) {
 			return { sectionIndex: urlSection - 1, pairIndex: 0 };
 		}
@@ -79,8 +128,34 @@ export function adjacentReaderPair(root, direction) {
 	if (![1, -1].includes(direction)) return null;
 	const sections = readerSections(root);
 	if (!sections.length) return null;
-	const position = currentReaderCoordinates(root);
-	if (!position) return sections[0].querySelector('.meluket-phrase-pair');
+	let position = currentReaderCoordinates(root);
+	if (!position) {
+		/* B"H batch 49 — no selection and no URL section yet (the
+		   highlight has not run, or the dialog froze it). The old code
+		   fell back to the FIRST pair, so the first Next click jumped
+		   to the pair already on screen and looked like it did nothing.
+		   Fall back to the pair at the viewport — the one the reader is
+		   actually looking at — so Next moves on the FIRST click. */
+		const doc = typeof document !== 'undefined' ? document : null;
+		const viewportPair = doc && typeof doc.elementFromPoint === 'function'
+			? findReaderPairAtViewport(
+				{ width: globalThis.innerWidth, height: globalThis.innerHeight, elementFromPoint: doc.elementFromPoint.bind(doc) },
+				root
+			)
+			: null;
+		if (viewportPair) {
+			const section = viewportPair.closest('.meluket-sefer-section');
+			const sectionIndex = section ? sections.indexOf(section) : -1;
+			if (sectionIndex >= 0) {
+				const pairIndex = [...section.querySelectorAll('.meluket-phrase-pair')].indexOf(viewportPair);
+				if (pairIndex >= 0) position = { sectionIndex, pairIndex };
+			}
+		}
+	}
+	if (!position) {
+		if (direction > 0) return sections[0].querySelector('.meluket-phrase-pair');
+		return null;
+	}
 	let sectionIndex = position.sectionIndex;
 	let pairIndex = position.pairIndex + direction;
 	while (sectionIndex >= 0 && sectionIndex < sections.length) {
@@ -153,10 +228,39 @@ export function markReaderPairSelected(root, element) {
  * nothing. Fall back to the first section (the beginning, where the
  * overview — the klal before the pratim — lives) so the button always
  * navigates somewhere true instead of nowhere.
+ * B"H batch 49 — the fallback is the post TITLE, not the first section:
+ * from section 1 the first-section jump was a no-op (the reader was
+ * already there, the URL never changed, and nothing visibly happened).
+ * The title is the very top of the post, so the jump is always a real,
+ * visible move, and the address bar is cleared to the plain post URL
+ * (see clearReaderDeepLink) so the navigation is visible there too.
  */
 export function findReaderOverview(root) {
 	return root?.querySelector('.meluket-post-summary, .meluket-summary')
+		|| root?.querySelector('.meluket-sefer-title, .meluket-sefer-title-he, h1')
 		|| root?.querySelector('.meluket-sefer-section') || null;
+}
+
+/**
+ * B"H batch 49 — strip the deep-link query + hash from the address bar
+ * (replaceState, no history entry) so a navigation to the post's
+ * beginning / overview is visible in the URL instead of leaving a stale
+ * ?section=N behind.
+ */
+export function clearReaderDeepLink() {
+	const loc = typeof globalThis !== 'undefined' ? globalThis.location : null;
+	const hist = typeof globalThis !== 'undefined' ? globalThis.history : null;
+	if (!loc || !loc.href || !hist || typeof hist.replaceState !== 'function') return false;
+	try {
+		const url = new URL(loc.href);
+		url.searchParams.delete('section');
+		url.searchParams.delete('footnote');
+		url.hash = '';
+		hist.replaceState(null, '', url.toString());
+		return true;
+	} catch (_) {
+		return false;
+	}
 }
 
 /**
@@ -166,10 +270,16 @@ export function findReaderOverview(root) {
  * A footnote adds ?footnote=M#fn-M. The canonical post URL stays clean —
  * the query + hash live only on the shared / in-use address, never on
  * the canonical link the server emits for search.
+ * B"H batch 49 — ?section=N is a LETTERED section (1–8: א–ח), not a
+ * passage (1–79). The hash names the lettered section's OPENING
+ * passage (its server-rendered sec id), so the query and the anchor
+ * agree: ?section=2 lands on section 2 (ב.), not on passage 2.
  */
 
-/** 1-based section number for a pair/section/footnote element, or null. */
+/** 1-based LETTERED section number for a pair/section/footnote element, or null. */
 export function sectionNumberForElement(root, element) {
+	const lettered = letteredNumberForElement(root, element);
+	if (lettered) return lettered;
 	if (!root || !element || typeof element.closest !== 'function') return null;
 	const section = element.closest('.meluket-sefer-section');
 	if (!section) return null;
@@ -177,15 +287,19 @@ export function sectionNumberForElement(root, element) {
 	return index < 0 ? null : index + 1;
 }
 
-/** Full shareable URL for a section number (1-based), or null. */
-export function sectionDeepLink(sectionNumber) {
+/** Full shareable URL for a LETTERED section number (1–8), or null. */
+export function sectionDeepLink(sectionNumber, hashId = null) {
 	if (!Number.isSafeInteger(sectionNumber) || sectionNumber < 1) return null;
-	return deepLinkUrl({ section: sectionNumber });
+	return deepLinkUrl({ section: sectionNumber, hashId });
 }
 
-/** Full shareable URL for a pair/section element's section, or null. */
+/** Full shareable URL for a pair/section element's LETTERED section, or null. */
 export function sectionDeepLinkFor(root, element) {
-	return sectionDeepLink(sectionNumberForElement(root, element));
+	const lettered = sectionNumberForElement(root, element);
+	if (!lettered) return null;
+	const start = letteredSectionStart(root, lettered);
+	const hashId = start && start.id ? start.id : null;
+	return sectionDeepLink(lettered, hashId);
 }
 
 /** Full shareable URL for a footnote marker, or null. */
@@ -196,7 +310,7 @@ export function footnoteDeepLinkFor(root, marker, fnNum) {
 }
 
 /** Build the deep link from the current address, keeping its other params. */
-function deepLinkUrl({ section, footnote }) {
+function deepLinkUrl({ section, footnote, hashId }) {
 	const loc = typeof globalThis !== 'undefined' ? globalThis.location : null;
 	if (!loc || !loc.href) return null;
 	let url;
@@ -210,7 +324,7 @@ function deepLinkUrl({ section, footnote }) {
 	if (footnote) url.searchParams.set('footnote', String(footnote));
 	else url.searchParams.delete('footnote');
 	if (footnote) url.hash = `#fn-${footnote}`;
-	else if (section) url.hash = `#sec-${String(section).padStart(3, '0')}`;
+	else if (section) url.hash = hashId ? `#${hashId}` : `#sec-${String(section).padStart(3, '0')}`;
 	else url.hash = '';
 	return url.toString();
 }

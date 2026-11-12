@@ -8,13 +8,14 @@
  */
 import {
 	bindReaderInfoActions
-} from './ReaderInfoActions.js?v=reader-smooth-20261112-2';
+} from './ReaderInfoActions.js?v=reader-smooth-20261112-3';
 import {
-	showReaderMenuView
-} from './ReaderInfoViews.js?v=reader-smooth-20261112-2';
+	showReaderMenuView,
+	showReaderExploreTab
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-3';
 import {
 	stampLetteredSectionLabels
-} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-3';
 import {
 	trapReaderDialogTab
 } from './ReaderInfoFocusTrap.js?v=reader-a11y-20261028-1';
@@ -30,6 +31,8 @@ export function initReaderInfoNavigation() {
 	const backdrop = get('readerInfoBackdrop');
 	const home = get('readerInfoHome');
 	const list = get('readerInfoList');
+	const footnoteList = get('readerInfoFootnoteList');
+	const tabs = get('readerInfoTabs');
 	const search = get('readerInfoSearch');
 	const back = get('readerInfoBack');
 	const heading = get('readerInfoHeading');
@@ -41,10 +44,20 @@ export function initReaderInfoNavigation() {
 
 	const state = {
 		button, panel, backdrop, home, list,
+		sectionsList: list,
+		footnoteList: footnoteList || null,
+		tabs: tabs || null,
 		search, back, heading, empty, more,
 		root: () => get('realPost'),
 		stage: 'home',
-		sectionIndex: null
+		sectionIndex: null,
+		exploreTab: 'sections',
+		sectionOptions: [],
+		footnoteOptions: [],
+		sectionMatches: [],
+		footnoteMatches: [],
+		sectionDisplayed: 0,
+		footnoteDisplayed: 0
 	};
 	/* B"H batch 48 — the template's paintInfo(true) leaves INLINE
 	   display:flex on the panel (and display:block on the backdrop), and
@@ -74,6 +87,13 @@ export function initReaderInfoNavigation() {
 		   (body.awtsmoos-info-open) — the template's setInfo toggles the
 		   same class, so every open/close path is covered. */
 		if (document.body) document.body.classList.remove('awtsmoos-info-open');
+		/* B"H batch 49 — the highlight module pauses while the guide is
+		   open, so the current pair stays unmarked after the dialog
+		   closes. Resume it now so the highlight repaints on the pair
+		   the reader is actually on. */
+		try {
+			window.dispatchEvent(new CustomEvent('awtsmoos:reader-highlight-resume'));
+		} catch (_) { /* highlight is an enhancement; the post still reads */ }
 		if (restoreFocus) button.focus({ preventScroll: true });
 	};
 	state.open = (stage = 'home', sectionIndex = null) => {

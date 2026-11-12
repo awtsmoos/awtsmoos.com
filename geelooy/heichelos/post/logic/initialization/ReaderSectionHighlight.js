@@ -6,7 +6,7 @@
  * The Awtsmoos joins Hebrew and English as one and never moves the page;
  * Awtsmoos.com grants native scrolling the full main-thread stage.
  */
-import { findReaderPairAtViewport } from './ReaderPairViewport.js';
+import { findReaderPairAtViewport } from './ReaderPairViewport.js?v=reader-pair-viewport-20261112-1';
 import { createReaderHighlightFrameGate } from './ReaderHighlightFrameGate.js?v=reader-smooth-20261028-1';
 
 const LANGUAGE_SELECTOR = [
@@ -125,6 +125,14 @@ export function initSectionHighlight() {
 		passive: true
 	});
 	window.addEventListener('resize', frameGate.queue, { passive: true });
+	/* B"H batch 49 — the highlight pauses while the Reading guide is
+	   open (shouldPauseHighlight), so after the dialog closes the pair
+	   stays unmarked until the next scroll. The dialog's close path
+	   dispatches awtsmoos:reader-highlight-resume; repaint now so the
+	   current pair shows its highlight the moment the guide closes. */
+	window.addEventListener('awtsmoos:reader-highlight-resume', () => {
+		frameGate.queue();
+	});
 	frameGate.queue();
 }
 

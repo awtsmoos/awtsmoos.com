@@ -1150,6 +1150,12 @@
 			letter-spacing: 0.01em;
 			color: var(--sefer-title-ink);
 			text-wrap: balance;
+			/* B"H batch 49 (failure 4 — glyph clipping): a long Hebrew
+			   title word must never overhang the card edge. Wrap
+			   anywhere and cap at the card width. */
+			overflow-wrap: anywhere;
+			word-break: break-word;
+			max-inline-size: 100%;
 			margin: 0;
 		}
 		/* Overview card: cream card, soft shadow, serif heading, sans body. */
@@ -2132,6 +2138,124 @@
 			font-size: 1.1rem;
 			line-height: 1.7;
 			color: var(--sefer-ink-soft);
+		}
+
+		/* B"H batch 49 (failure 3) — the footnote modal is appended to
+		   document.body (batch 48), but EVERY rule above is scoped to
+		   :root .post-reader-localized-context, so NONE of them apply to
+		   the body-appended modal: it had no position, no hidden base
+		   state, and no is-open visibility — it sat in the page as an
+		   unstyled static block, and Close (which only removes
+		   is-open) visibly did nothing. Mirror the modal rules for the
+		   body-appended modal. z-index 1001/1000 sits ABOVE the dialog
+		   panel (990), so the Close is reachable when the guide is open
+		   behind the footnote. */
+		body > .awtsmoos-fn-overlay {
+			position: fixed;
+			inset: 0;
+			z-index: 1000;
+			background: rgb(43 30 15 / 46%);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 200ms ease;
+		}
+		body > .awtsmoos-fn-overlay.is-open {
+			opacity: 1;
+			pointer-events: auto;
+		}
+		body > .awtsmoos-fn-modal {
+			position: fixed;
+			z-index: 1001;
+			left: 50%;
+			right: auto;
+			top: 50%;
+			width: min(34rem, calc(100vw - 2.5rem));
+			inline-size: min(34rem, calc(100vw - 2.5rem));
+			margin-inline: 0;
+			max-block-size: min(70vh, 34rem);
+			overflow-y: auto;
+			background: var(--sefer-card, #fffdf6);
+			border: 1px solid var(--sefer-rule, #e5ddcc);
+			border-radius: 1.5rem;
+			box-shadow: var(--sefer-shadow, 0 1.5rem 4rem rgba(20, 14, 6, 0.35));
+			padding: 1.25rem 1.5rem 1.5rem;
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translate(-50%, -50%) scale(.97);
+			transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease;
+		}
+		body > .awtsmoos-fn-modal.is-open {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			transform: translate(-50%, -50%) scale(1);
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-head {
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+			margin-block-end: .9rem;
+			padding-block-end: .75rem;
+			border-block-end: 1px solid var(--sefer-rule, #e5ddcc);
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-num {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-inline-size: 2.25rem;
+			block-size: 2.25rem;
+			border-radius: 50%;
+			border: 2px solid var(--sefer-accent, #d4a94e);
+			color: var(--sefer-accent, #d4a94e);
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-weight: 700;
+			font-size: 1.15rem;
+			line-height: 1;
+			flex: none;
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-title {
+			flex: 1;
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.35rem;
+			font-weight: 700;
+			color: var(--sefer-title-ink, #2c2416);
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-close {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: 2.5rem;
+			block-size: 2.5rem;
+			flex: none;
+			border-radius: 50%;
+			border: 1px solid var(--sefer-rule, #e5ddcc);
+			background: var(--sefer-paper, #fffdf6);
+			color: var(--sefer-ink-soft, #655641);
+			font-size: 1.1rem;
+			line-height: 1;
+			cursor: pointer;
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-close:hover {
+			background: var(--sefer-paper-deep, #f5ead1);
+			color: var(--sefer-ink, #2c2416);
+			border-color: var(--sefer-accent, #d4a94e);
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-body {
+			display: grid;
+			gap: .9rem;
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-he {
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.5rem;
+			line-height: 1.9;
+			color: var(--sefer-ink, #2c2416);
+		}
+		body > .awtsmoos-fn-modal .awtsmoos-fn-en {
+			font-family: "Inter", system-ui, sans-serif;
+			font-size: 1.1rem;
+			line-height: 1.7;
+			color: var(--sefer-ink-soft, #655641);
 		}
 
 		/* ---------- sources sheet ---------- */

@@ -26,7 +26,21 @@
 	   word running past the card edge and clipping its last letter (the
 	   final ם of "משיחות" was cut off at 144px on a phone). */
 	padding-inline: max(12px, 0.25em);
-	overflow-wrap: break-word;
+	/* B"H batch 49 (failure 4 — glyph clipping): the batch-48
+	   overflow-wrap: break-word did NOT stop the clipping — a long
+	   Hebrew word (the header's "משיחות" at 144px) can itself be wider
+	   than the line, and break-word only breaks a word that cannot fit
+	   on its own line AFTER the line is laid out, so the first glyph
+	   still overhangs the card edge (the מ of "משיחות", the ג', the מ
+	   of "מרחשון" were all cut). overflow-wrap: anywhere breaks
+	   anywhere (and shrinks the intrinsic size, so a flex/grid item
+	   is never sized by its longest word), and max-inline-size: 100%
+	   caps the phrase at the card. No Hebrew glyph may be cut off at
+	   the card edge. */
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	max-inline-size: 100%;
+	box-sizing: border-box;
 	transition: none;
 }
 
@@ -35,6 +49,16 @@
 	transition: none;
 	transition-delay: 0ms;
 	translate: none;
+	/* B"H batch 49 (item C — load speed): the browser lays out ALL 79
+	   phrase pairs on load (each with Hebrew + English at 144px), which
+	   is the slowest part of the first paint after the CSS. Defer the
+	   off-screen pairs' layout: content-visibility:auto skips them
+	   until they near the viewport, and the intrinsic-size estimate
+	   keeps the scrollbar stable. The pair on screen is always
+	   rendered, so the highlight's elementFromPoint and the deep-link
+	   scroll still find it. */
+	content-visibility: auto;
+	contain-intrinsic-size: auto 480px;
 }
 
 /* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served
@@ -61,7 +85,25 @@
    current pair (the rendered checks flagged boxes for four rounds; the
    fills were the boxes). The current pair is still marked — by the
    phrases' faint inset edge in meluket-law8.css — so the pair itself
-   stays unpainted: no fill, no ring. */
+   stays unpainted: no fill, no ring.
+   B"H batch 49 (failure 4) — that left NO visible highlight at all:
+   in every landing the pairs are plain black-on-white, and the user
+   says "the highlight thing is still off, even [though it was]
+   changed." The faint inset edge alone is not a highlight the user
+   can see. The current pair now gets a REAL, visible mark — a soft
+   gold wash + a clear gold edge — while every NON-selected pair stays
+   box-free (the batch-37 :not() rule above is untouched). The wash is
+   light (10%) so the text stays black-on-cream and readable; the edge
+   is the visible "you are here". The phrase padding (36px at 144px)
+   is the gap between the edge and the words. */
+.post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
+.post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
+	background-color: rgb(212 169 78 / 0.10);
+	border-inline-start: max(4px, 0.04em) solid #d4a94e;
+	border-radius: 6px;
+	box-shadow: none;
+	outline: none;
+}
 /* B"H batch 48: the lettered sections (א–ח) get a visible "Section N"
    label above their opening passage. The Info module stamps
    data-lettered-section on that passage; this paints the label from
@@ -78,9 +120,6 @@
 	margin: 0.6rem 0 0.2rem;
 }
 
-.post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
-.post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
-	background-color: transparent;
-	box-shadow: none;
-	outline: none;
-}
+/* B"H batch 49 — the rule above (visible gold wash + edge on the
+   current pair) replaces the old transparent rule here; a later
+   transparent background would undo the highlight. */

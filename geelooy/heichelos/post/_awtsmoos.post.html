@@ -99,7 +99,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=84ba96a004">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=c484f6311c">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -173,7 +173,12 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				<a id="readerBrowseHeichel" href="/heichelos/ikar/">Browse this Heichel</a>
 			</div>
 			<input type="search" id="readerInfoSearch" aria-label="Find a section or passage" placeholder="Find a section…" hidden>
+			<div id="readerInfoTabs" class="reader-info-tabs" role="tablist" aria-label="Explore sections or footnotes" hidden>
+				<button type="button" id="readerInfoTabSections" data-reader-tab="sections" role="tab" aria-selected="true">Sections</button>
+				<button type="button" id="readerInfoTabFootnotes" data-reader-tab="footnotes" role="tab" aria-selected="false">Footnotes</button>
+			</div>
 			<nav id="readerInfoList" class="reader-index-items" aria-label="Sections and bilingual passages" hidden></nav>
+			<nav id="readerInfoFootnoteList" class="reader-index-items" aria-label="Footnotes" hidden></nav>
 			<button type="button" id="readerInfoMore" data-reader-action="more" hidden>Show more passages ↓</button>
 			<p id="readerInfoEmpty" role="status" hidden></p>
 		</section>
@@ -261,9 +266,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   without it the cap would vanish and the bottom-anchored
 					   panel would extend off-screen. */
 					/* B"H batch 48: same taller cap as the sheet (no 680px cap,
-					   12px top offset — the opaque backdrop covers the header). */
-					panel.style.maxHeight = 'min(96vh, calc(100vh - 12px))';
-					panel.style.maxHeight = 'min(96dvh, calc(100dvh - 12px))';
+					   12px top offset — the opaque backdrop covers the header).
+					   B"H batch 49 — the batch-48 cap STILL overflowed at
+					   144px: 96dvh with an 8px bottom offset can exceed the
+					   viewport. Cap at 94dvh with a 24px total margin so the
+					   panel's top AND bottom edges are both inside it. */
+					panel.style.maxHeight = 'min(94vh, calc(100vh - 24px))';
+					panel.style.maxHeight = 'min(94dvh, calc(100dvh - 24px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
@@ -430,11 +439,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				registerScript.src = '/register.js?v=03b20cf90a';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-3').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
-				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-2').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-4').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
+				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-3').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=28cc99d6cc').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-038');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage

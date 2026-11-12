@@ -52,7 +52,17 @@ function postFields() {
 		// (+ a real footnotes[]); without them in the first-byte projection
 		// the server sefer can never render and first paint waits on the API.
 		phraseTranslations: true,
-		footnotes: true
+		footnotes: true,
+		// B"H batch 49 (defect 13): the 3 Hebrew-only posts (5752 _000,
+		// _035b, _042) have ZERO translation rows, so the translations
+		// path renders nothing and the batch-41 units fallback never
+		// fired — because this projection stripped `units`, the public
+		// API returned only postId/seriesId/title. Include `units` so
+		// the render can fall back to the post doc's own Hebrew units
+		// (5 / 26 / 39 units) and those posts show their Hebrew instead
+		// of the empty shell. No English is invented — units without
+		// English render Hebrew only.
+		units: true
 	});
 }
 

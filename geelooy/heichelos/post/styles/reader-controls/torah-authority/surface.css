@@ -10,7 +10,15 @@
  * cushion or oversized ornamental shell that delayed the teaching itself.
  */
 :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
-	--reader-authority-width: 50rem;
+	/* B"H batch 49 — the authority rule below caps #realPost at this
+	   variable, and it was 50rem (800px), which beat the batch-48
+	   72rem cap (the authority selector (1,3,0) outranks the batch-48
+	   (1,2,0) rule). The column rendered ~760px on a 1919px viewport
+	   — ~40%, large beige side margins — because of THIS variable,
+	   not because the batch-48 rule was missing. Raise it to 72rem so
+	   the column is actually wider (1152px on desktop); phones stay
+	   full-width via inline-size: min(100%, …). */
+	--reader-authority-width: 72rem;
 	--reader-authority-edge: clamp(.72rem, 2.4vw, 1.2rem);
 }
 

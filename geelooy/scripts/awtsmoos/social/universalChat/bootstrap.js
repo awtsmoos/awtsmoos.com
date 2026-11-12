@@ -18,6 +18,47 @@ const INSTANCE_KEY = "__awtsmoosUniversalChat";
 const STYLE_ROOT = "/scripts/awtsmoos/social/universalChat/";
 const STYLE_VERSION = "universal-chat-003";
 
+/**
+ * B"H batch 49 (user order 2026-11-13, top priority) — the "0 online"
+ * pill is REMOVED from reader post pages, not hidden. The batch-48 CSS
+ * hide rule did not apply (the pill stayed visible in every phone
+ * screenshot, overlapping the title, the text, and the Explore search
+ * field), so the render path itself is cut: on a reader post page the
+ * launcher button is never created and never appended to the DOM.
+ * The chat itself (shell, socket, controller, presence) still mounts,
+ * so the social/chat feature is untouched everywhere else; only the
+ * launcher doorway is skipped, and only on reader post pages.
+ * A reader post page is the page whose first paint carries the reader's
+ * own .post-reader-localized-context marker (present before this
+ * deferred module runs), with the /heichelos/…/post/ URL as a fallback.
+ */
+function isReaderPostPage() {
+	try {
+		if (document.querySelector('.post-reader-localized-context')) return true;
+		const path = (typeof location !== 'undefined' && location.pathname) || '';
+		return /\/heichelos\/[^/]+\/series\/[^/]+\/post\//.test(path);
+	} catch (_) {
+		return false;
+	}
+}
+
+/**
+ * A launcher-shaped stand-in for reader post pages: it satisfies the
+ * presence projection's setConnected/updateCount calls (and the private
+ * unread update) without ever creating or appending a button, so the
+ * pill is absent from the DOM. button is null — revealExpanded guards
+ * it — and mount() is a no-op, so adoptOptions stays safe.
+ */
+function createReaderPostNoOpLauncher() {
+	return {
+		button: null,
+		setConnected() {},
+		updateCount() {},
+		updateUnread() {},
+		mount() {}
+	};
+}
+
 /** Creates or reuses the page's one Universal Chat session. */
 export function mountUniversalChat(options = {}) {
 	installStyles();
@@ -28,10 +69,12 @@ export function mountUniversalChat(options = {}) {
 		return existing;
 	}
 	const shell = new UniversalChatShell();
-	const launcher = new UniversalChatLauncher({
-		mount: options.mount,
-		onOpen: () => shell.open()
-	});
+	const launcher = isReaderPostPage()
+		? createReaderPostNoOpLauncher()
+		: new UniversalChatLauncher({
+			mount: options.mount,
+			onOpen: () => shell.open()
+		});
 	const socket = new RealtimeUniversalChatSocket();
 	const controller = new UniversalChatController({
 		socket,
@@ -88,7 +131,7 @@ function installStyles() {
 
 /** Converts the reusable drawer into a contained dedicated-app presentation. */
 function revealExpanded(instance, container) {
-	instance.launcher.button.hidden = true;
+	if (instance.launcher.button) instance.launcher.button.hidden = true;
 	instance.shell.root.classList.add("is-expanded");
 	if (container) {
 		container.appendChild(instance.shell.root);

@@ -5,6 +5,7 @@
  */
 .post-reader-localized-context .reader-info-actions,
 .post-reader-localized-context #readerInfoList,
+.post-reader-localized-context #readerInfoFootnoteList,
 .post-reader-localized-context #readerTopSections {
 	display: grid;
 	gap: 7px;
@@ -18,11 +19,17 @@
 	   half-cut at the panel's bottom edge. */
 }
 
-.post-reader-localized-context #readerInfoList {
+.post-reader-localized-context #readerInfoList,
+.post-reader-localized-context #readerInfoFootnoteList {
 	flex: 1 1 auto;
 	padding: 6px 3px 10px;
 	align-content: start;
-	content-visibility: auto;
+	/* B"H batch 49 (item A) — the old content-visibility: auto on the
+	   LIST itself is removed: on a scroll container it can keep the
+	   browser from computing the full scroll height, so the list
+	   looked full-height-but-unscrollable on the phone. The off-screen
+	   layout deferral lives on the post's phrase pairs instead (item
+	   C), not on the dialog's scroller. */
 }
 
 .post-reader-localized-context #readerTopSections {
@@ -97,6 +104,13 @@
 .post-reader-localized-context .reader-index-choice-detail {
 	display: block;
 	overflow-wrap: anywhere;
+	/* B"H batch 49 — the Explore rows were messy/overlapping at 144px:
+	   the Hebrew passage text and the "Section N · 1 passages ·
+	   Explore ›" label overlapped. The title and detail are block
+	   spans, but without explicit line-heights a multi-line Hebrew
+	   title could collide with the detail below it. Give each its own
+	   line-height and keep the detail on its own line with clear space. */
+	line-height: 1.5;
 }
 
 .post-reader-localized-context .reader-index-choice-title {
@@ -108,6 +122,7 @@
 	margin-top: 4px;
 	font-size: 13px;
 	font-weight: 400;
+	line-height: 1.4;
 	color: #655641;
 }
 

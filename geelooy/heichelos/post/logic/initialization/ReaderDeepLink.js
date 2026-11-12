@@ -12,8 +12,9 @@
  * an ordinary load, and it stops the moment the reader scrolls themselves.
  */
 import {
-	markReaderPairSelected
-} from './ReaderInfoJump.js?v=reader-info-nested-20261112-2';
+	markReaderPairSelected,
+	letteredSectionStart
+} from './ReaderInfoJump.js?v=reader-info-nested-20261112-3';
 
 /** Parse the section/footnote a shared link asks for (query first, hash next). */
 export function requestedReaderDeepLink(loc) {
@@ -38,9 +39,20 @@ export function requestedReaderDeepLink(loc) {
 	return { section, footnote };
 }
 
-/** Find the section element a deep link names (server id first, index next). */
+/**
+ * B"H batch 49 — find the section element a deep link names. ?section=N
+ * is a LETTERED section (1–8: א–ח), so resolve it to that lettered
+ * section's OPENING passage first; a bare #sec-NNN hash (no query) still
+ * resolves by server id, and an out-of-range number falls back to the
+ * passage index (old links).
+ */
 function findSectionElement(doc, sectionNumber) {
 	if (!doc || !sectionNumber) return null;
+	const root = doc.getElementById ? doc.getElementById('realPost') : null;
+	if (root) {
+		const start = letteredSectionStart(root, sectionNumber);
+		if (start) return start;
+	}
 	const byId = doc.getElementById
 		? doc.getElementById(`sec-${String(sectionNumber).padStart(3, '0')}`) : null;
 	if (byId) return byId;
@@ -70,6 +82,7 @@ export function applyReaderDeepLink(doc, loc, win) {
 	let scrolling = false;
 	let tries = 0;
 	let timer = null;
+	let footnoteScrolled = false;
 	const onScroll = () => {
 		if (!scrolling) cancelled = true;
 	};
@@ -111,7 +124,26 @@ export function applyReaderDeepLink(doc, loc, win) {
 	};
 	const attempt = () => {
 		tries += 1;
-		if (cancelled || tries > 30) { stop(); return; }
+		if (cancelled) { stop(); return; }
+		if (tries > 30) {
+			/* B"H batch 49 — the poll window expired. The footnote
+			   marker may be mounted while the click path never became
+			   ready (the rendered check saw exactly this: the page
+			   scrolled to the passage but no popup opened). Click the
+			   marker anyway as a best effort — a tap that opens the
+			   popup late is better than a deep link that never opens
+			   it — then stop. */
+			if (target.footnote) {
+				const marker = findFootnoteMarker(doc, target.footnote);
+				if (marker) {
+					if (scrollTo(marker)) settleCheck(marker);
+					markLanded(marker);
+					try { marker.click(); } catch (_) { /* popup unavailable */ }
+				}
+			}
+			stop();
+			return;
+		}
 		/* A footnote link lands on its marker AND opens it — but only once
 		   the ONE footnote click path is installed, or the tap is lost. */
 		if (target.footnote) {
@@ -124,7 +156,20 @@ export function applyReaderDeepLink(doc, loc, win) {
 				try { marker.click(); } catch (_) { /* popup unavailable */ }
 				return;
 			}
-			if (marker) return; /* marker mounted; still waiting on the click path */
+			if (marker) {
+				/* B"H batch 49 — the marker is mounted but the click
+				   path is not ready yet. Scroll to the passage NOW so
+				   the reader is at the right place, and keep polling
+				   for the click path (the popup opens when it is
+				   ready); the old code waited in silence and the page
+				   never visibly moved. */
+				if (!footnoteScrolled) {
+					footnoteScrolled = true;
+					if (scrollTo(marker)) settleCheck(marker);
+					markLanded(marker);
+				}
+				return; /* still waiting on the click path */
+			}
 		}
 		if (target.section) {
 			const section = findSectionElement(doc, target.section);

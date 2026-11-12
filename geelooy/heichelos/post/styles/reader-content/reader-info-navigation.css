@@ -68,10 +68,17 @@
 	   starts it higher and shows every button without scrolling. The
 	   opaque backdrop already covers the header, so the 84px top offset
 	   is 12px now (a hair off the top edge). At a ~700px phone viewport
-	   the cap is ~684px, and the compacted content below fits it. */
-	max-height: min(96vh, calc(100vh - 12px));
+	   the cap is ~684px, and the compacted content below fits it.
+	   B"H batch 49 — the batch-48 cap STILL overflowed at 144px (the
+	   dialog's bottom ran past the viewport and "Browse this Heichel"
+	   sat at the very bottom edge): the cap is 96dvh but the panel is
+	   bottom-anchored at 8px, so its top starts at 100dvh - 96dvh = 4dvh
+	   and the panel + its bottom offset can exceed the viewport. Cap
+	   at 94dvh with a 24px total margin (12px top + 12px bottom) so the
+	   panel's top AND bottom edges are both inside the viewport. */
+	max-height: min(94vh, calc(100vh - 24px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(96dvh, calc(100dvh - 12px));
+	max-height: min(94dvh, calc(100dvh - 24px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
 	padding: 8px;
@@ -89,6 +96,8 @@
 .post-reader-localized-context #readerInfoBackdrop[hidden],
 .post-reader-localized-context #readerInfoHome[hidden],
 .post-reader-localized-context #readerInfoList[hidden],
+.post-reader-localized-context #readerInfoFootnoteList[hidden],
+.post-reader-localized-context #readerInfoTabs[hidden],
 .post-reader-localized-context #readerInfoSearch[hidden],
 .post-reader-localized-context #readerInfoBack[hidden],
 .post-reader-localized-context #readerInfoEmpty[hidden],
@@ -100,9 +109,16 @@
    on reader post pages, always (not only while the guide is open).
    This bundle loads ONLY on post pages, so no other page is touched.
    The dock (Aa / i / down) is a different surface and is untouched.
-   Specificity beats the launcher's own display rule; no !important. */
-body .universal-chat-launcher,
-body .universal-chat-floating-launcher {
+   Specificity beats the launcher's own display rule; no !important.
+   B"H batch 49 — the pill is REMOVED at the source now (the universal
+   chat bootstrap skips the launcher on reader post pages, so the button
+   is never created). This rule stays as a belt-and-braces fallback in
+   case the launcher is ever mounted another way: it covers the header
+   variant too, and the :root prefix raises it above the header's own
+   .g-header-action display rule. */
+:root body .universal-chat-launcher,
+:root body .universal-chat-floating-launcher,
+:root body .universal-chat-header-launcher {
 	display: none;
 }
 .post-reader-localized-context .reader-info-heading {
@@ -135,8 +151,20 @@ body .universal-chat-floating-launcher {
 }
 .post-reader-localized-context #readerInfoHome,
 .post-reader-localized-context #readerInfoList,
+.post-reader-localized-context #readerInfoFootnoteList,
 .post-reader-localized-context #readerTopSections {
 	box-sizing: border-box;
+	/* B"H batch 49 (item A) — the Explore list did NOT scroll on the
+	   phone. It had overflow-y:auto but NO flex-grow, so as a flex
+	   child of the panel it sized to its full content height (all 79
+	   rows) and the panel's overflow:hidden clipped it instead of
+	   scrolling it. flex: 1 1 auto constrains it to the panel's
+	   remaining space, so it scrolls internally — the list is the
+	   dialog's only scroller. touch-action: pan-y lets a vertical
+	   touch drag scroll it (the backdrop has touch-action:none, and
+	   without an explicit pan-y the list could inherit a no-scroll
+	   gesture). */
+	flex: 1 1 auto;
 	min-height: 0;
 	/* B"H batch 39: `overflow: auto` on both axes let any 1px of horizontal
 	   overflow (focus outline past a full-width button, fractional pixels
@@ -146,12 +174,122 @@ body .universal-chat-floating-launcher {
 	overflow-x: hidden;
 	overflow-y: auto;
 	overscroll-behavior: contain;
+	touch-action: pan-y;
 	-webkit-overflow-scrolling: touch;
 }
+/* B"H batch 49 (item D) — the Explore tabs: Sections | Footnotes. Each
+   tab has its own list (and its own scroller), so scrolling the
+   footnotes never moves the sections and vice versa. */
+.post-reader-localized-context .reader-info-tabs {
+	flex: 0 0 auto;
+	display: flex;
+	gap: 6px;
+	margin: 2px 0 8px;
+}
+.post-reader-localized-context .reader-info-tabs[hidden] {
+	display: none;
+}
+.post-reader-localized-context .reader-info-tabs button {
+	flex: 1 1 0;
+	min-height: 40px;
+	padding: 8px 10px;
+	border: 1px solid #d9c49f;
+	border-radius: 10px;
+	background: #fffefa;
+	color: #655641;
+	font: 700 15px/1.3 system-ui, sans-serif;
+	cursor: pointer;
+}
+.post-reader-localized-context .reader-info-tabs button.is-active {
+	background: #3e2b12;
+	border-color: #3e2b12;
+	color: #fffaf0;
+}
 .post-reader-localized-context #readerInfoBtn {
+	/* B"H batch 49 (item B) — the (i) button rendered as a mostly
+	   black/dark blob on the phone. The dock's phone rule
+	   (reader-dock.css, max-width:760px) paints every dock button with
+	   a dark navy gradient, and the old (i) rule (0,1,1) was too weak
+	   to beat it in practice. This :root-prefixed rule matches the Aa
+	   button's light look (cream card, dark "i") and is light in BOTH
+	   themes, so the (i) is always a visible, readable control. The
+	   dock's layout/position is untouched — only this button's look. */
 	font: 750 22px/1 system-ui, sans-serif;
 	color: #3e2b12;
 	background: #fffaf0;
+	border: 1px solid #d9c49f;
+}
+:root .post-reader-localized-context #readerInfoBtn {
+	font: 750 22px/1 system-ui, sans-serif;
+	color: #3e2b12;
+	background: #fffaf0;
+	border: 1px solid #d9c49f;
+}
+:root[data-theme="dark"] .post-reader-localized-context #readerInfoBtn {
+	color: #3e2b12;
+	background: #fffaf0;
+	border: 1px solid #d9c49f;
+}
+/* B"H batch 49 (failure 7) — the share toast: the deep link itself,
+   visible, with a Copy button and a dismiss. Appended to body (above
+   the dialog, which closes right after sharing), light and readable. */
+.awtsmoos-reader-share-toast {
+	position: fixed;
+	left: 50%;
+	bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+	transform: translateX(-50%) translateY(8px);
+	z-index: 1200;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: min(34rem, calc(100vw - 2rem));
+	padding: 10px 12px;
+	border: 1px solid #c6ad76;
+	border-radius: 12px;
+	background: #fffaf0;
+	color: #2b2118;
+	box-shadow: 0 12px 34px rgb(20 14 5 / 30%);
+	font: 500 14px/1.4 system-ui, sans-serif;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity .18s ease, visibility .18s ease, transform .18s ease;
+}
+.awtsmoos-reader-share-toast.is-open {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transform: translateX(-50%) translateY(0);
+}
+.awtsmoos-reader-share-toast-label {
+	flex: 0 0 auto;
+	font-weight: 700;
+}
+.awtsmoos-reader-share-toast-link {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 13px;
+	color: #655641;
+}
+.awtsmoos-reader-share-toast-copy,
+.awtsmoos-reader-share-toast-close {
+	flex: 0 0 auto;
+	min-height: 36px;
+	padding: 6px 10px;
+	border: 1px solid #d9c49f;
+	border-radius: 9px;
+	background: #f5ead1;
+	color: #302315;
+	font: 700 13px/1.3 system-ui, sans-serif;
+	cursor: pointer;
+}
+.awtsmoos-reader-share-toast-close {
+	background: transparent;
+	border-color: transparent;
+	font-size: 15px;
 }
 @media (max-height: 440px) {
 	.post-reader-localized-context #readerInfoPanel {
@@ -159,5 +297,39 @@ body .universal-chat-floating-launcher {
 		/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
 		max-height: min(95dvh, calc(100dvh - 84px));
 		padding: 9px;
+	}
+}
+/* B"H batch 49 (failure 1) — at a ~700px-tall phone viewport the
+   dialog's 10 home buttons + heading + padding are taller than the
+   panel even at the 94dvh cap, so the last buttons still sit at the
+   bottom edge. Compact the chrome (not the text size): a smaller
+   heading, tighter button padding and gaps, so every button is visible
+   on open with no heading clipped. The reading text size is untouched. */
+@media (max-height: 760px) {
+	.post-reader-localized-context #readerInfoPanel {
+		padding: 6px;
+	}
+	.post-reader-localized-context .reader-info-heading {
+		gap: 6px;
+		margin-bottom: 4px;
+	}
+	.post-reader-localized-context .reader-info-heading h2 {
+		font-size: 17px;
+		line-height: 1.3;
+	}
+	.post-reader-localized-context #readerInfoPanel .reader-info-actions > button,
+	.post-reader-localized-context #readerInfoPanel .reader-info-actions > a {
+		padding-block: 5px;
+		min-height: 40px;
+	}
+	.post-reader-localized-context .reader-info-actions {
+		gap: 4px;
+	}
+	.post-reader-localized-context .reader-info-tabs {
+		margin: 0 0 6px;
+	}
+	.post-reader-localized-context .reader-info-tabs button {
+		min-height: 36px;
+		padding: 6px 8px;
 	}
 }

@@ -9,7 +9,7 @@
 import {
 	readerIndexButton,
 	readerFootnoteButton
-} from './ReaderInfoList.js?v=reader-smooth-20261112-2';
+} from './ReaderInfoList.js?v=reader-smooth-20261112-3';
 
 export const READER_MENU_PAGE_SIZE = 18;
 

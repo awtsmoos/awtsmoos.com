@@ -15,18 +15,20 @@ import {
 	resolveReaderJump,
 	sectionDeepLinkFor,
 	footnoteDeepLinkFor,
-	replaceUrlWithDeepLink
-} from './ReaderInfoJump.js?v=reader-info-nested-20261112-2';
+	replaceUrlWithDeepLink,
+	clearReaderDeepLink
+} from './ReaderInfoJump.js?v=reader-info-nested-20261112-3';
 import {
 	readerSections
-} from './ReaderInfoList.js?v=reader-info-nested-20261112-2';
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-3';
 import {
 	showReaderMenuView,
+	showReaderExploreTab,
 	filterReaderMenu
-} from './ReaderInfoViews.js?v=reader-smooth-20261112-2';
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-3';
 import {
 	appendReaderChoicePage
-} from './ReaderInfoChoices.js?v=reader-smooth-20261112-2';
+} from './ReaderInfoChoices.js?v=reader-smooth-20261112-3';
 
 /** Move only after a deliberate destination action from the fixed menu. */
 function executeReaderAction(state, action, button) {
@@ -59,6 +61,16 @@ function executeReaderAction(state, action, button) {
 	   the highlight module pauses while the guide is open, so without
 	   this the NEXT navigation would compute from the stale selection. */
 	try { markReaderPairSelected(root, target); } catch (_) { /* highlight optional */ }
+	/* B"H batch 49 — the overview has no section (it is the post's
+	   beginning / title), so a section deep link is meaningless there.
+	   Clear the deep link to the plain post URL instead, so the
+	   navigation is visible in the address bar and the reader is
+	   visibly at the beginning — the old code left a stale ?section=N
+	   behind and looked like nothing happened. */
+	if (action === 'overview') {
+		clearReaderDeepLink();
+		return;
+	}
 	/* B"H batch 47: the address bar always names the section on screen,
 	   so the URL a reader copies is the section they are on. */
 	replaceUrlWithDeepLink(sectionDeepLinkFor(root, target));
@@ -71,6 +83,10 @@ function executeReaderAction(state, action, button) {
  * B"H batch 48: Share is a navigation action — close the dialog after
  * it, so the shared section is visible instead of hidden behind the
  * opaque backdrop.
+ * B"H batch 49 — the old code copied the link silently and the rendered
+ * check saw no share sheet, toast, or deep-link text (the URL did not
+ * even change). Show the deep link VISIBLY in a toast the user can read
+ * and copy, so they can see what was shared.
  */
 function shareCurrentReaderSection(state, button) {
 	const root = state.root();
@@ -81,7 +97,63 @@ function shareCurrentReaderSection(state, button) {
 	if (!link) return;
 	replaceUrlWithDeepLink(link);
 	copyReaderLink(link, button);
+	showReaderShareToast(link);
 	state.close(false);
+}
+
+/**
+ * B"H batch 49 — a visible deep-link toast: the link text itself, a
+ * Copy button, and a dismiss. Appended to document.body (above the
+ * dialog, which closes right after), auto-dismissed after 8s. The
+ * toast is the proof the share happened — the user can read the link
+ * and copy it again from here.
+ */
+let shareToastEl = null;
+let shareToastTimer = null;
+function showReaderShareToast(link) {
+	if (typeof document === 'undefined' || !link) return;
+	const doc = document;
+	if (shareToastTimer) { clearTimeout(shareToastTimer); shareToastTimer = null; }
+	if (!shareToastEl) {
+		shareToastEl = doc.createElement('div');
+		shareToastEl.className = 'awtsmoos-reader-share-toast';
+		shareToastEl.setAttribute('role', 'status');
+		const label = doc.createElement('span');
+		label.className = 'awtsmoos-reader-share-toast-label';
+		label.textContent = 'Link copied — share this section:';
+		const text = doc.createElement('span');
+		text.className = 'awtsmoos-reader-share-toast-link';
+		const copy = doc.createElement('button');
+		copy.type = 'button';
+		copy.className = 'awtsmoos-reader-share-toast-copy';
+		copy.textContent = 'Copy';
+		const close = doc.createElement('button');
+		close.type = 'button';
+		close.className = 'awtsmoos-reader-share-toast-close';
+		close.setAttribute('aria-label', 'Dismiss');
+		close.textContent = '✕';
+		copy.addEventListener('click', () => {
+			const nav = typeof navigator !== 'undefined' ? navigator : null;
+			if (nav?.clipboard?.writeText) {
+				nav.clipboard.writeText(shareToastEl.dataset.link || '').catch(() => {});
+			}
+			copy.textContent = 'Copied ✓';
+			setTimeout(() => { copy.textContent = 'Copy'; }, 1500);
+		});
+		close.addEventListener('click', () => { dismissReaderShareToast(); });
+		shareToastEl.append(label, text, copy, close);
+		doc.body.appendChild(shareToastEl);
+	}
+	shareToastEl.dataset.link = link;
+	const text = shareToastEl.querySelector('.awtsmoos-reader-share-toast-link');
+	if (text) text.textContent = link;
+	shareToastEl.classList.add('is-open');
+	shareToastTimer = setTimeout(() => { dismissReaderShareToast(); }, 8000);
+}
+
+function dismissReaderShareToast() {
+	if (shareToastTimer) { clearTimeout(shareToastTimer); shareToastTimer = null; }
+	if (shareToastEl) shareToastEl.classList.remove('is-open');
 }
 
 function copyReaderLink(link, button) {
@@ -139,6 +211,13 @@ export function bindReaderInfoActions(state) {
 		if (!button || !state.panel.contains(button)) return;
 		if (button.id === 'commentaryBtn') {
 			state.close(false);
+			return;
+		}
+		/* B"H batch 49 — the Explore tabs (Sections | Footnotes) switch
+		   the active list. Each tab has its own scroller, so scrolling
+		   one never moves the other. */
+		if (button.dataset.readerTab) {
+			showReaderExploreTab(state, button.dataset.readerTab);
 			return;
 		}
 		if (button.dataset.readerAction) {
