@@ -74,7 +74,7 @@ async function walkDirectory(dirHandle, out, onProgress) {
 }
 
 export async function pickFolder(onProgress) {
-	if (!window.showDirectoryPicker) throw new Error('folder-picker-unsupported');
+	if (!window.showDirectoryPicker) throw new Error('This browser does not support picking a whole folder.');
 	const dir = await window.showDirectoryPicker({ mode: 'read' });
 	const found = [];
 	await walkDirectory(dir, found, onProgress);
@@ -82,7 +82,7 @@ export async function pickFolder(onProgress) {
 }
 
 export async function pickFiles() {
-	if (!window.showOpenFilePicker) throw new Error('file-picker-unsupported');
+	if (!window.showOpenFilePicker) throw new Error('This browser does not support the file picker.');
 	const handles = await window.showOpenFilePicker({
 		multiple: true,
 		types: [{ description: 'Audio', accept: { 'audio/*': ['.mp3', '.wav', '.ogg', '.oga', '.m4a', '.aac', '.flac', '.opus', '.webm', '.aif', '.aiff'] } }],

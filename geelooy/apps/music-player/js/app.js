@@ -38,6 +38,35 @@ function toast(msg) {
 	toast.timer = setTimeout(() => el.classList.remove('show'), 3200);
 }
 
+// Every failure gets a human-readable line, shown on screen and kept in
+// Diagnostics — nothing in the add flow fails silently any more.
+function errText(err) {
+	if (!err) return 'Unknown error';
+	if (typeof err === 'string') return err;
+	return (err.name ? err.name + ': ' : '') + (err.message || String(err));
+}
+
+function logError(stage, err) {
+	const text = stage + ' — ' + errText(err);
+	console.warn('[music]', text, err);
+	const diag = $('diag-error');
+	if (diag) {
+		diag.textContent = new Date().toLocaleTimeString() + ' — ' + text;
+		diag.classList.add('diag-err');
+		const box = $('diagnostics');
+		if (box) box.open = true;
+	}
+	toast(text);
+}
+
+function updateDiagSupport() {
+	const el = $('diag-support');
+	if (!el) return;
+	el.textContent = 'Folder picker: ' + ('showDirectoryPicker' in window ? 'yes' : 'no')
+		+ ' · File picker: ' + ('showOpenFilePicker' in window ? 'yes' : 'no')
+		+ ' · Saved library: ' + ('indexedDB' in window ? 'yes' : 'no');
+}
+
 function fmtTime(sec) {
 	if (!Number.isFinite(sec) || sec == null) return '0:00';
 	const s = Math.round(sec);
@@ -54,6 +83,10 @@ function fmtSize(bytes) {
 }
 // ---------- loading / saving ----------
 async function init() {
+	// Surface every uncaught error on screen, so a failure is never silent again.
+	window.addEventListener('error', (e) => logError('Something went wrong', e.error || e.message));
+	window.addEventListener('unhandledrejection', (e) => logError('Something went wrong', e.reason));
+	updateDiagSupport();
 	try {
 		const tracks = await db.getAllTracks();
 		for (const t of tracks) state.tracks.set(t.id, t);
@@ -64,7 +97,11 @@ async function init() {
 		toast('This browser could not open the saved library. Songs still play for this visit.');
 	}
 	wireEvents();
-	renderAll();
+	try {
+		renderAll();
+	} catch (err) {
+		logError('Showing the library failed', err);
+	}
 	checkReconnect();
 	viz.drawIdle(true);
 }
@@ -101,29 +138,66 @@ async function addPicked(picked) {
 	if (!files.length) { toast('No audio files found there.'); return; }
 	toast('Adding ' + files.length + ' song' + (files.length === 1 ? '' : 's') + '…');
 	const known = new Set(Array.from(state.tracks.values()).map((t) => t.name + '|' + t.size + '|' + t.lastModified));
-	let added = 0;
+	let added = 0, dupes = 0;
+	const failures = [];
 	for (const { file, handle } of files) {
 		const key = file.name + '|' + file.size + '|' + file.lastModified;
-		if (known.has(key)) continue;
+		if (known.has(key)) { dupes++; continue; }
 		known.add(key);
 		try {
 			const track = await fileToTrack(file, sourceName, handle);
+			try {
+				await db.putTrack(track);
+			} catch (saveErr) {
+				// Some browsers cannot store a folder handle — keep the file itself instead.
+				const fallback = { ...track, handle: null, blob: file };
+				await db.putTrack(fallback);
+				track.handle = null;
+				track.blob = file;
+			}
 			state.tracks.set(track.id, track);
-			await db.putTrack(track);
 			added++;
-		} catch (err) { console.warn('Skipped a file', file.name, err); }
+		} catch (err) {
+			failures.push(file.name + ' — ' + errText(err));
+		}
 	}
-	if (dirHandle) await saveFolderHandle(sourceName, dirHandle);
-	renderAll();
-	toast(added ? added + ' song' + (added === 1 ? '' : 's') + ' added to your library.' : 'Those songs are already in your library.');
+	try {
+		if (dirHandle) await saveFolderHandle(sourceName, dirHandle);
+	} catch (err) {
+		logError('Saving the folder link failed', err);
+	}
+	try {
+		renderAll();
+	} catch (err) {
+		logError('Showing the library failed', err);
+		return;
+	}
+	if (failures.length) {
+		logError('Could not add ' + failures.length + ' file' + (failures.length === 1 ? '' : 's'), new Error(failures.slice(0, 3).join('; ')));
+	} else if (added) {
+		toast(added + ' song' + (added === 1 ? '' : 's') + ' added to your library.' + (dupes ? ' (' + dupes + ' already there.)' : ''));
+	} else if (dupes) {
+		toast('Those songs are already in your library.');
+	} else {
+		toast('Nothing was added.');
+	}
 }
 
-async function openFolder() {
+// The fallback file input must be clicked SYNCHRONOUSLY in the tap handler:
+// after any await the tap is over, and phones/tablets silently ignore a
+// programmatic file-input click with no tap behind it. That was the bug.
+function openFolder() {
+	if (!window.showDirectoryPicker) { folderInputFallback(); return; }
+	openFolderAsync();
+}
+
+async function openFolderAsync() {
 	try {
 		const picked = await pickFolder();
 		await addPicked(picked);
 	} catch (err) {
-		if (err && err.name === 'AbortError') return;
+		if (err && err.name === 'AbortError') return; // user closed the picker
+		logError('Opening the folder failed', err);
 		folderInputFallback();
 	}
 }
@@ -135,19 +209,33 @@ function folderInputFallback() {
 	input.setAttribute('webkitdirectory', '');
 	input.accept = 'audio/*';
 	input.onchange = async () => {
-		const files = Array.from(input.files || []).filter((f) => isAudioName(f.name));
-		const sourceName = files[0] ? (files[0].webkitRelativePath || '').split('/')[0] : 'Folder';
-		await addPicked({ files: files.map((f) => ({ file: f, handle: null })), sourceName, dirHandle: null });
+		try {
+			const files = Array.from(input.files || []).filter((f) => isAudioName(f.name));
+			if (!files.length) {
+				toast('No files chosen — this browser may not support picking a whole folder. Try Add files instead.');
+				return;
+			}
+			const sourceName = files[0] ? (files[0].webkitRelativePath || '').split('/')[0] : 'Folder';
+			await addPicked({ files: files.map((f) => ({ file: f, handle: null })), sourceName, dirHandle: null });
+		} catch (err) {
+			logError('Reading the chosen folder failed', err);
+		}
 	};
 	input.click();
 }
 
-async function addFiles() {
+function addFiles() {
+	if (!window.showOpenFilePicker) { $('file-input').click(); return; }
+	addFilesAsync();
+}
+
+async function addFilesAsync() {
 	try {
 		const picked = await pickFiles();
 		await addPicked(picked);
 	} catch (err) {
-		if (err && err.name === 'AbortError') return;
+		if (err && err.name === 'AbortError') return; // user closed the picker
+		logError('Opening the file picker failed', err);
 		$('file-input').click();
 	}
 }
@@ -479,9 +567,15 @@ function wireEvents() {
 	$('btn-folder-empty').onclick = openFolder;
 	$('btn-files').onclick = addFiles;
 	$('file-input').onchange = async (e) => {
-		const files = Array.from(e.target.files || []).filter((f) => isAudioName(f.name));
-		await addPicked({ files: files.map((f) => ({ file: f, handle: null })), sourceName: 'Chosen files', dirHandle: null });
-		e.target.value = '';
+		try {
+			const files = Array.from(e.target.files || []).filter((f) => isAudioName(f.name));
+			if (!files.length) { toast('No audio files were chosen.'); return; }
+			await addPicked({ files: files.map((f) => ({ file: f, handle: null })), sourceName: 'Chosen files', dirHandle: null });
+		} catch (err) {
+			logError('Adding the chosen files failed', err);
+		} finally {
+			e.target.value = '';
+		}
 	};
 	$('btn-reconnect').onclick = reconnectFolders;
 	$('search').oninput = (e) => { state.query = e.target.value; renderTracks(); };

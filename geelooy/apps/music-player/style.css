@@ -122,6 +122,10 @@ button { cursor: pointer; }
 .panel-block:last-child { margin-bottom: 0; }
 .hint { font-size: 12.5px; line-height: 1.55; color: var(--muted); margin: 10px 0 0; }
 .stats { font-size: 14px; color: var(--ink); margin: 0 0 10px; }
+.diag { margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+.diag summary { cursor: pointer; font-weight: 700; color: var(--ink); padding: 4px 0; }
+.diag p { margin: 6px 0; line-height: 1.5; word-break: break-word; }
+.diag .diag-err { color: #fda4af; }
 
 .new-playlist { display: flex; gap: 8px; margin-bottom: 10px; }
 .new-playlist input {

@@ -10,7 +10,7 @@
 	<meta name="description" content="Awtsmoos Music Player — open a whole folder from your device, list every song, save playlists in your browser, sort by name or date, and keep playing in the background.">
 	<meta name="theme-color" content="#12061f">
 	<title>Awtsmoos Music Player</title>
-	<link rel="stylesheet" href="style.css?v=1.0.0">
+	<link rel="stylesheet" href="style.css?v=1.0.1">
 </head>
 <body>
 	<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -63,6 +63,11 @@
 				<h2>Sources</h2>
 				<ul class="source-list" id="source-list"></ul>
 				<p class="hint">Folders stay on your device. Only their names and your playlists are kept in this browser.</p>
+				<details class="diag" id="diagnostics">
+					<summary>Diagnostics</summary>
+					<p id="diag-support">Checking this browser…</p>
+					<p id="diag-error">No errors yet.</p>
+				</details>
 			</section>
 			<section class="panel-block">
 				<h2>Library</h2>
@@ -119,6 +124,7 @@
 					<p class="empty-note">&#9834;</p>
 					<p><strong>No songs yet.</strong></p>
 					<p>Open a whole music folder from your device, or add files. Everything is listed here, saved in this browser, and ready to play — even in the background.</p>
+					<p>On a phone, picking a whole folder may not be offered — Add files works everywhere.</p>
 					<button class="btn primary" id="btn-folder-empty">Open a music folder</button>
 				</div>
 				<ol class="track-list" id="track-list"></ol>
@@ -153,6 +159,6 @@
 	<div class="toast" id="toast" role="status" aria-live="polite"></div>
 	<div class="drop-hint" id="drop-hint" aria-hidden="true"><p>Drop music here<br><span>folders and files welcome</span></p></div>
 	<audio id="audio" preload="metadata"></audio>
-	<script type="module" src="js/app.js?v=1.0.0"></script>
+	<script type="module" src="js/app.js?v=1.0.1"></script>
 </body>
 </html>
