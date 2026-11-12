@@ -99,7 +99,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=99b08f7d4a">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=b1822caf51">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -253,12 +253,26 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   parse, the assignment is ignored and the vh cap stays;
 					   without it the cap would vanish and the bottom-anchored
 					   panel would extend off-screen. */
-					panel.style.maxHeight = 'min(86vh, 680px)';
-					panel.style.maxHeight = 'min(86dvh, 680px)';
+					panel.style.maxHeight = 'min(86vh, 680px, calc(100vh - 84px))';
+					panel.style.maxHeight = 'min(86dvh, 680px, calc(100dvh - 84px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
 					   last link landed half-cut. Every open starts at the top. */
+					/* B"H batch 45: the dialog's paint must not depend on any
+					   stylesheet — the user's phone rendered the buttons dark
+					   navy and Close unreadable even though the bundle pins
+					   them light (a stale/mixed cache on that phone). Pin the
+					   light dialog paint inline so the open dialog is always
+					   cream with dark ink, whatever sheet the browser holds. */
+					panel.style.background = '#f9f4ea';
+					panel.style.color = '#2b2118';
+					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack');
+					for (var bi = 0; bi < dialogBtns.length; bi++) {
+						dialogBtns[bi].style.background = '#fffdf6';
+						dialogBtns[bi].style.color = '#2b2118';
+						dialogBtns[bi].style.border = '1px solid #d9c9a8';
+					}
 					panel.scrollTop = 0;
 					var home = byId('readerInfoHome');
 					if (home) home.scrollTop = 0;
@@ -272,10 +286,18 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					backdrop.style.position = 'fixed';
 					backdrop.style.inset = '0';
 					backdrop.style.zIndex = '989';
-					backdrop.style.background = 'rgb(22 19 13 / 52%)';
+					backdrop.style.background = '#17130d';
 				}
 			} else {
-				if (panel) panel.removeAttribute('style');
+				if (panel) {
+					panel.removeAttribute('style');
+					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack');
+					for (var bi = 0; bi < dialogBtns.length; bi++) {
+						dialogBtns[bi].style.background = '';
+						dialogBtns[bi].style.color = '';
+						dialogBtns[bi].style.border = '';
+					}
+				}
 				if (backdrop) backdrop.removeAttribute('style');
 			}
 		}

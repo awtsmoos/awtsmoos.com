@@ -39,7 +39,9 @@
 	position: fixed;
 	inset: 0;
 	z-index: 989;
-	background: rgb(22 19 13 / 52%);
+	/* B"H batch 45: opaque — the 52% backdrop let the post text
+	   show through behind the dialog, unreadable on a phone. Solid now. */
+	background: #17130d;
 	touch-action: none;
 }
 .post-reader-localized-context #readerInfoPanel {
@@ -61,9 +63,12 @@
 	display: flex;
 	flex-direction: column;
 	width: auto;
-	max-height: min(86vh, 680px);
+	/* B"H batch 45: the 84px term keeps the bottom-anchored panel's top
+	   below the sticky header (68px max + 8px gap + 8px bottom margin),
+	   so the title can never ride up onto the banner/header. */
+	max-height: min(86vh, 680px, calc(100vh - 84px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(86dvh, 680px);
+	max-height: min(86dvh, 680px, calc(100dvh - 84px));
 	min-height: 0;
 	padding: 14px;
 	border: 1px solid #c6ad76;
@@ -124,9 +129,9 @@
 }
 @media (max-height: 440px) {
 	.post-reader-localized-context #readerInfoPanel {
-		max-height: 95vh;
+		max-height: min(95vh, calc(100vh - 84px));
 		/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-		max-height: 95dvh;
+		max-height: min(95dvh, calc(100dvh - 84px));
 		padding: 9px;
 	}
 }
