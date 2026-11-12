@@ -211,13 +211,43 @@ install_lock_owner_alive() {
 		alive "$INSTALL_LOCK_DIRECTORY" "$ROOT" >/dev/null 2>&1
 }
 
+# B"H — Kill the lock owner's whole install tree by PID. The lock file names
+# its owner, so a re-run never has to FIND the old installer by matching
+# process names (that hunt missed a wedged run, and the re-run then sat on
+# the lock). The owner's group is the old installer's detached group — it
+# holds only installer processes — so killing the group cannot touch the
+# user's shell. A live owner is killed because a fresh run replaces the
+# previous install outright; the owner is verified by signature first.
+kill_lock_owner_tree() {
+	local owner_pid="$1" pgid=""
+	pgid="$(ps -o pgid= -p "$owner_pid" 2>/dev/null | tr -d '[:space:]')"
+	[ -n "$pgid" ] || return 0
+	kill -TERM "-$pgid" 2>/dev/null || true
+	sleep 1
+	kill -KILL "-$pgid" 2>/dev/null || true
+}
+
 # Yaakov 2026-10-14: the human never rm -rf's a stale lock again. Called at
-# startup before acquire_install_lock: a dead owner is cleared automatically
-# with a beautiful note; a live owner is left alone (acquire waits visibly).
+# startup before acquire_install_lock. A re-run replaces the previous
+# installer outright: the recorded owner is killed as a tree, then the lock
+# is taken. If the owner somehow survives both signals (uninterruptible
+# delete, stale zombie snapshot), the lock is quarantined anyway with a
+# warning — a wedged owner cannot make progress, and the install must never
+# sit on the lock again.
 clear_stale_install_lock() {
 	[ -d "$INSTALL_LOCK_DIRECTORY" ] || return 0
 	if install_lock_owner_alive; then
-		return 0
+		local owner_pid=""
+		owner_pid="$(sed -n 's/.*"pid": *\([0-9][0-9]*\).*/\1/p' "$INSTALL_LOCK_DIRECTORY/owner.json" 2>/dev/null | head -n 1)"
+		if [ -n "$owner_pid" ]; then
+			install_event "install-lock" "passed" \
+				"Replacing a previous interrupted install." \
+				"stale installer process ${owner_pid} stopped; proceeding immediately"
+			kill_lock_owner_tree "$owner_pid"
+		fi
+	fi
+	if install_lock_owner_alive; then
+		prg_warn "The previous installer could not be stopped; clearing its lock anyway — it cannot make progress."
 	fi
 	install_event "install-lock" "passed" \
 		"Cleaned up an interrupted install." \
