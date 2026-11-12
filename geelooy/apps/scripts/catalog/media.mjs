@@ -42,6 +42,17 @@ export const MEDIA_APPS = Object.freeze([
 		commerceLabel: "Heavy processing planned"
 	}),
 	defineApp({
+		id: "music-player",
+		title: "Awtsmoos Music",
+		href: "./music-player/",
+		description: "Open a whole music folder from your device, list every song, save playlists in your browser, and keep playing in the background.",
+		icon: "♪",
+		chip: "Music",
+		categories: ["media"],
+		commerceLabel: "Core listening stays open",
+		commerceState: "free"
+	}),
+	defineApp({
 		id: "video-editor",
 		title: "Video Editor",
 		href: "./video-editor",
