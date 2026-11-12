@@ -121,7 +121,7 @@ html, body {
 .tab-close {
   flex: 0 0 auto;
   width: 22px;
-  height: 22px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

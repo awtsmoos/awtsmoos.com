@@ -17,6 +17,8 @@ class AwtsmoosHexViewer {
         this.currentOffset = 0;      // Starting byte offset for display
 
         this.initAwtsmoosBindings();
+        this.hexViewer.textContent = 'Drop a file to view its bytes.';
+        this.updateScrollButtons();
     }
 
     /**
@@ -78,6 +80,7 @@ class AwtsmoosHexViewer {
         this.bytes = new Uint8Array(arrayBuffer);
         this.currentOffset = 0;
         this.renderKavOfBytes();
+        this.updateScrollButtons();
     }
 
     /**
@@ -136,12 +139,28 @@ class AwtsmoosHexViewer {
      * @param {number} direction - 1 for down, -1 for up.
      */
     scrollOhrEinSof(direction) {
-        if (!this.bytes) return;
+        if (!this.bytes) {
+            this.hexViewer.textContent = 'Drop a file to view its bytes first.';
+            return;
+        }
         const newOffset = this.currentOffset + direction * this.rowsToShow * this.bytesPerRow;
         if (newOffset >= 0 && newOffset < this.bytes.length) {
             this.currentOffset = newOffset;
             this.renderKavOfBytes();
         }
+        this.updateScrollButtons();
+    }
+
+    /**
+     * @method updateScrollButtons
+     * @description Disables the scroll buttons when there is nothing to scroll
+     * to, so they are never silently dead: no file, top of file, or end of file.
+     */
+    updateScrollButtons() {
+        const hasBytes = !!this.bytes;
+        this.scrollUpBtn.disabled = !hasBytes || this.currentOffset <= 0;
+        this.scrollDownBtn.disabled = !hasBytes ||
+            this.currentOffset + this.rowsToShow * this.bytesPerRow >= this.bytes.length;
     }
 }
 

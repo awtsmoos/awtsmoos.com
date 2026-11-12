@@ -190,7 +190,10 @@ export function mountMoviePanel(container, context = {}) {
 		type: 'button',
 		text: 'Import project JSON',
 		style: buttonStyle(),
-		onclick: () => importFileInput.click()
+		onclick: () => {
+			announce('Choose a Movie Maker project JSON file to import.');
+			importFileInput.click();
+		}
 	});
 	const buttonRow = el('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } }, [
 		openButton, renderButton, copyButton, downloadButton, importButton, importFileInput

@@ -52,6 +52,11 @@
 	background: rgba(6, 13, 24, 0.92);
 }
 
+.transport button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+
 .transport button {
 	display: inline-flex;
 	align-items: center;

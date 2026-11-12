@@ -45,13 +45,13 @@
 	   to every phrase element. */
 	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
 	--hebrew-optical: 1; /* B"H 2026-11-10 site QA -- the user's law: Hebrew and English the EXACT same computed font-size, no optical multiplier, ever. This variable stays only so the older calc()s that reference it now compute 1x. */
-	max-width: 1180px;
+	max-width: min(1600px, calc(100% - 2rem));
 	margin: 0 auto;
 	/* B"H — Yaakov 2026-10-15: minimal horizontal padding, text gets the room. */
 	padding: 1rem 0.25rem 8rem;
-	background: var(--sefer-paper);
+	/* B"H batch 34: no paper card — the sefer is plain page now (no
+	   background, no radius), so the reading has no box around it. */
 	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
-	border-radius: 6px;
 }
 
 :where(:root[data-theme="dark"]) .meluket-sefer-active,

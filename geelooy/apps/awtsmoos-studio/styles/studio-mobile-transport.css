@@ -5,6 +5,10 @@ Blessed is He
 The Awtsmoos renews created time beat by beat while Awtsmoos.com gives play and scrub one calm rail above the thumb; no browser-default button may interrupt the cinematic rhythm from which each visible frame has come.
 */
 
+/* B"H - desktop gap: the play button was styled only inside the <=900px
+ * query, so at desktop width it rendered as an unstyled 21px button. */
+.studio-play-button { min-height: 24px; }
+
 @media (max-width: 900px) {
 	.studio-transport {
 		position: fixed;

@@ -590,16 +590,16 @@
 		}
 
 		/* Font Alchemist + Theme Engine: tile | title, pill dropdown below */
-		:root .post-reader-localized-context .settings-group:has(#fontSelector),
-		:root .post-reader-localized-context .settings-group:has(#themeSelector) {
+		:root .post-reader-localized-context .settings-group:has(#fontSelector):has(> .control-label),
+		:root .post-reader-localized-context .settings-group:has(#themeSelector):has(> .control-label) {
 			display: grid;
 			grid-template-columns: auto minmax(0, 1fr);
 			grid-template-areas: "tile label" "field field";
 			align-items: center;
 			gap: .95rem;
 		}
-		:root .post-reader-localized-context .settings-group:has(#fontSelector)::before,
-		:root .post-reader-localized-context .settings-group:has(#themeSelector)::before {
+		:root .post-reader-localized-context .settings-group:has(#fontSelector):has(> .control-label)::before,
+		:root .post-reader-localized-context .settings-group:has(#themeSelector):has(> .control-label)::before {
 			grid-area: tile;
 			inline-size: 3rem;
 			block-size: 3rem;
@@ -614,14 +614,14 @@
 			color: var(--lens-tile-ink);
 			box-shadow: 0 .2rem .6rem var(--lens-shadow), inset 0 1px 0 rgb(255 255 255 / 45%);
 		}
-		:root .post-reader-localized-context .settings-group:has(#fontSelector)::before {
+		:root .post-reader-localized-context .settings-group:has(#fontSelector):has(> .control-label)::before {
 			content: "A";
 		}
-		:root .post-reader-localized-context .settings-group:has(#themeSelector)::before {
+		:root .post-reader-localized-context .settings-group:has(#themeSelector):has(> .control-label)::before {
 			content: "✎";
 		}
-		:root .post-reader-localized-context .settings-group:has(#fontSelector) > .control-label,
-		:root .post-reader-localized-context .settings-group:has(#themeSelector) > .control-label {
+		:root .post-reader-localized-context .settings-group:has(#fontSelector):has(> .control-label) > .control-label,
+		:root .post-reader-localized-context .settings-group:has(#themeSelector):has(> .control-label) > .control-label {
 			grid-area: label;
 		}
 		:root .post-reader-localized-context .theme-controls {
@@ -1137,8 +1137,8 @@
 		   at a 1919px viewport) plus the title's 7vw margin left a ~450px
 		   dead band between the Contents bar and the first card. Tighten
 		   both so the text starts promptly. */
+		/* B"H batch 34: no paper card here either — plain page, no box. */
 		:root .post-reader-localized-context .meluket-sefer {
-			background: var(--sefer-paper);
 			padding: clamp(1rem, 3vw, 2rem) clamp(1.25rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
 		}
 		/* Title: huge dark-brown Hebrew serif, centered. */
@@ -1191,12 +1191,11 @@
 			text-wrap: pretty;
 			color: var(--sefer-ink);
 		}
-		/* Verse sections: reading column, dashed dream dividers. */
+		/* B"H batch 34: verse sections — plain column, no dashed dividers. */
 		:root .post-reader-localized-context .meluket-sefer-section {
 			max-width: none;
 			margin: 0 auto;
 			padding: clamp(2rem, 6vw, 3.5rem) 0;
-			border-top: 2px dashed var(--sefer-rule);
 		}
 		:root .post-reader-localized-context .meluket-sefer-section:first-of-type {
 			border-top: none;
@@ -1271,9 +1270,10 @@
 			font-size: var(--sefer-phrase-size, var(--post-text-size, 3rem));
 			line-height: 1.75;
 			color: var(--sefer-ink-soft);
-			border-top: 2px dashed var(--sefer-rule);
-			margin: 1em 0 0;
-			padding-top: 1em;
+			/* B"H batch 34: no dashed divider — the English sits tight
+			   under its Hebrew, like the sefer.css rule already says. */
+			margin: 0;
+			padding-top: 0;
 			text-wrap: pretty;
 			text-rendering: optimizeLegibility;
 		}
@@ -1320,7 +1320,6 @@
 			max-width: none;
 			margin: 0 auto;
 			padding: clamp(2rem, 6vw, 3.5rem) 0;
-			border-top: 2px dashed var(--sefer-rule);
 		}
 		:root .post-reader-localized-context .meluket-qa-title {
 			font-family: var(--dream-hebrew-font);
@@ -1726,10 +1725,9 @@
 			color: var(--sefer-ink);
 		}
 
-		/* ---------- verse sections: hairline dividers like the dream ---------- */
+		/* B"H batch 34: no hairline dividers between sections either. */
 		:root .post-reader-localized-context .meluket-sefer-section {
 			padding-block: 1.5rem;
-			border-block-end: 1px solid var(--sefer-rule);
 		}
 		:root .post-reader-localized-context .meluket-sefer-section:last-child {
 			border-block-end: 0;
@@ -2765,6 +2763,15 @@
 		font-size: 1.05rem;
 	}
 }
+
+		/* B"H batch 34 (2026-11-12): the open Aa / i panel sits above the dock
+		   (sheet z 986, info panel z 990, dock 983/984), so the Aa / i button
+		   disappears behind it and cannot be tapped again to close. While
+		   either panel is open, lift the dock above both (991) so Aa and i
+		   stay tappable to close. */
+		:root .post-reader-localized-context:has(.typography-details:not(.hidden-details), #readerInfoPanel:not([hidden])) .awtsmoos-floating-controls {
+			z-index: 991;
+		}
 
 
 /* ==== heichelos/post/styles/translations.css ==== */
@@ -7795,7 +7802,6 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	.post-reader-localized-context #realPost .meluket-sefer-section {
 		padding-block: 16px;
 		margin-bottom: 18px;
-		border-radius: 8px;
 	}
 
 	.post-reader-localized-context #realPost .meluket-phrase-pair {
@@ -7939,7 +7945,18 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	box-sizing: border-box;
 	position: fixed;
 	z-index: 990;
-	inset: auto max(8px, calc((100vw - 560px) / 2)) max(8px, env(safe-area-inset-bottom, 0px));
+	/* B"H batch 34 (2026-11-12): this panel toggled in the DOM but never
+	   painted. No hiding rule, clipped ancestor, or covering element
+	   exists in any served sheet — the one structural difference from
+	   the Aa panel, which paints, is the `inset` shorthand below
+	   (nested max()/calc()/env()). Longhands now, same geometry:
+	   bottom-anchored, centered, 560px at most. Background/ink live on
+	   this rule too (not only the later coherence pin), and the open
+	   state is explicit: visible, opaque. */
+	top: auto;
+	right: max(8px, calc((100vw - 560px) / 2));
+	bottom: max(8px, env(safe-area-inset-bottom, 0px));
+	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
 	width: auto;
@@ -7948,8 +7965,12 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	padding: 14px;
 	border: 1px solid #c6ad76;
 	border-radius: 19px;
+	background: #f9f4ea;
+	color: #2b2118;
 	box-shadow: 0 12px 34px rgb(20 14 5 / 26%);
 	font: 500 16px/1.45 system-ui, sans-serif;
+	visibility: visible;
+	opacity: 1;
 	overflow: hidden;
 }
 .post-reader-localized-context #readerInfoPanel[hidden],
@@ -8357,10 +8378,26 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	margin-inline-start: 8px;
 }
 .post-reader-localized-context .auto-scroll-semantic-range {
+	/* B"H batch 34 (2026-11-12): the rebuilt row was a bare <label> — no
+	   display, so `flex-wrap` did nothing and the long pace pill crowded
+	   over the "Speed" label. A real flex row now: label + pill on one
+	   line with a gap, the slider full-width on its own line below. */
+	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
 }
 .post-reader-localized-context .auto-scroll-semantic-range > span {
-	flex: 1 1 auto;
+	flex: 0 0 auto;
+	min-width: 0;
+}
+.post-reader-localized-context .auto-scroll-semantic-range > #autoScrollPaceDisplay {
+	flex: 0 1 auto;
+	min-width: 0;
+	margin-inline-start: 0;
+}
+.post-reader-localized-context .auto-scroll-semantic-range > #autoScrollPaceRange {
+	flex: 1 1 100%;
 	min-width: 0;
 }
 /* B"H 2026-11-10 round 3: "Sources & community" renders as a too-small

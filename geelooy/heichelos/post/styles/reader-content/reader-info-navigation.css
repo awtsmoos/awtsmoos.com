@@ -46,7 +46,18 @@
 	box-sizing: border-box;
 	position: fixed;
 	z-index: 990;
-	inset: auto max(8px, calc((100vw - 560px) / 2)) max(8px, env(safe-area-inset-bottom, 0px));
+	/* B"H batch 34 (2026-11-12): this panel toggled in the DOM but never
+	   painted. No hiding rule, clipped ancestor, or covering element
+	   exists in any served sheet — the one structural difference from
+	   the Aa panel, which paints, is the `inset` shorthand below
+	   (nested max()/calc()/env()). Longhands now, same geometry:
+	   bottom-anchored, centered, 560px at most. Background/ink live on
+	   this rule too (not only the later coherence pin), and the open
+	   state is explicit: visible, opaque. */
+	top: auto;
+	right: max(8px, calc((100vw - 560px) / 2));
+	bottom: max(8px, env(safe-area-inset-bottom, 0px));
+	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
 	width: auto;
@@ -55,8 +66,12 @@
 	padding: 14px;
 	border: 1px solid #c6ad76;
 	border-radius: 19px;
+	background: #f9f4ea;
+	color: #2b2118;
 	box-shadow: 0 12px 34px rgb(20 14 5 / 26%);
 	font: 500 16px/1.45 system-ui, sans-serif;
+	visibility: visible;
+	opacity: 1;
 	overflow: hidden;
 }
 .post-reader-localized-context #readerInfoPanel[hidden],

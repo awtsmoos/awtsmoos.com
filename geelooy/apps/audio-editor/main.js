@@ -252,6 +252,29 @@ function drawRoundedRect(ctx, x, y, width, height, radius) {
 }
 
 /**
+ * Show a short human-readable state in the status bar (never silently dead).
+ */
+function setStatus(message) {
+    const bar = document.getElementById('status-bar');
+    if (bar) bar.textContent = message;
+}
+
+/** Transport/edit buttons only mean something with audio loaded; disable them visibly until then. */
+function updateEditButtonStates() {
+    const hasClips = state.clips.length > 0;
+    const toStartBtn = document.getElementById('to-start-btn');
+    const splitBtn = document.getElementById('split-btn');
+    if (toStartBtn) {
+        toStartBtn.disabled = !hasClips;
+        toStartBtn.title = hasClips ? 'Go to start' : 'Add audio first';
+    }
+    if (splitBtn) {
+        splitBtn.disabled = !hasClips;
+        splitBtn.title = hasClips ? 'Split Clip (Razor)' : 'Add audio first';
+    }
+}
+
+/**
  * Event Listeners & Interaction
  */
 function setupEventListeners() {
@@ -265,17 +288,24 @@ function setupEventListeners() {
     const zoomSlider = document.getElementById('zoom-slider');
     const exportBtn = document.getElementById('export-btn');
 
-    addBtn.onclick = () => fileInput.click();
+    addBtn.onclick = () => {
+        // Reset so choosing the same file again still fires a change event.
+        fileInput.value = '';
+        setStatus('Choose audio files\u2026');
+        fileInput.click();
+    };
     fileInput.onchange = handleFileUpload;
     playBtn.onclick = togglePlay;
     toStartBtn.onclick = () => {
         stopPlayback();
         state.playHeadTime = 0;
         state.scrollX = 0;
+        setStatus('Back to start');
     };
     stopBtn.onclick = stopPlayback;
     splitBtn.onclick = splitSelectedClip;
     deleteBtn.onclick = deleteSelectedClip;
+    updateEditButtonStates();
     
     zoomSlider.oninput = (e) => {
         // Zoom around center
@@ -456,6 +486,7 @@ async function handleFileUpload(e) {
 
     document.getElementById('loading-overlay').classList.add('hidden');
     document.getElementById('export-btn').disabled = false;
+    updateEditButtonStates();
     render();
 }
 
@@ -479,7 +510,10 @@ function calculatePeaks(buffer, resolution) {
  * Editing Functions
  */
 function splitSelectedClip() {
-    if (!state.selectedClipId) return;
+    if (!state.selectedClipId) {
+        setStatus('Select a clip on the timeline first, then split at the playhead.');
+        return;
+    }
     const clipIndex = state.clips.findIndex(c => c.id === state.selectedClipId);
     if (clipIndex === -1) return;
     
@@ -503,7 +537,10 @@ function splitSelectedClip() {
         
         state.clips.push(rightClip);
         state.selectedClipId = rightClip.id; // Select new part
+        setStatus('Clip split.');
         render();
+    } else {
+        setStatus('Move the playhead inside the selected clip to split it.');
     }
 }
 
@@ -512,6 +549,7 @@ function deleteSelectedClip() {
     state.clips = state.clips.filter(c => c.id !== state.selectedClipId);
     state.selectedClipId = null;
     if (state.clips.length === 0) document.getElementById('export-btn').disabled = true;
+    updateEditButtonStates();
     render();
 }
 

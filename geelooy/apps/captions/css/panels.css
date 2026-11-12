@@ -17,6 +17,8 @@
 #controlPanels {
 	display: grid;
 	gap: 10px;
+	/* B"H button-sweep: let the last panel scroll fully clear of the sticky action shelf, so its Random buttons are never trapped underneath it. */
+	padding-bottom: 88px;
 }
 
 .control-panel {
@@ -86,9 +88,15 @@
 	grid-column: 1 / -1;
 }
 
+.action-shelf .generate-button {
+	pointer-events: auto;
+}
+
 .action-shelf {
 	position: sticky;
 	bottom: -10px;
+	/* B"H button-sweep: the shelf's gradient is transparent at the top yet still intercepts clicks; only the Generate button needs pointer events, so clicks pass through to the controls beneath. */
+	pointer-events: none;
 	margin-top: auto;
 	padding: 10px 0 max(10px, env(safe-area-inset-bottom));
 	background: linear-gradient(180deg, transparent, var(--ein-panel) 22%);

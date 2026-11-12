@@ -18,7 +18,8 @@
 		linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px),
 		radial-gradient(circle at center, rgba(22, 48, 75, .42), transparent 68%);
 	background-size: 30px 30px, 30px 30px, auto;
-	z-index: var(--ein-layer-stage);
+	/* B"H button-sweep: the fixed Movie Data Studio dock (z-index auto, later in the DOM) must paint above the stage, or its Show button is unclickable. Topbar/studio/backdrop keep their higher layers. */
+	z-index: 0;
 }
 
 .preview-frame {

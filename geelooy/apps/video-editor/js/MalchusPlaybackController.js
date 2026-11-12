@@ -14,6 +14,7 @@ export class MalchusPlaybackController {
 		this.createTimelineItem = createTimelineItem;
 		this.frameRequest = null;
 		this.bind();
+		this.syncAvailability();
 		this.renderFrame(0);
 	}
 
@@ -29,6 +30,20 @@ export class MalchusPlaybackController {
 			this.stopLoop();
 			this.renderFrame(this.dom.audioPlayer.currentTime);
 		});
+		this.dom.audioPlayer.addEventListener("loadedmetadata", () => this.syncAvailability());
+		this.dom.fileInput.addEventListener("change", () => setTimeout(() => this.syncAvailability(), 0));
+		this.dom.timeline.addEventListener("click", () => setTimeout(() => this.syncAvailability(), 0));
+		this.dom.timeline.addEventListener("keydown", () => setTimeout(() => this.syncAvailability(), 0));
+	}
+
+	/** Disables transport actions that have nothing to act on, and says why. */
+	syncAvailability() {
+		const hasAudio = Boolean(this.dom.audioPlayer.src);
+		this.dom.playBtn.disabled = !hasAudio;
+		this.dom.playBtn.title = hasAudio ? "Play" : "Import an audio file to play";
+		const hasSelection = Boolean(this.state.selectedItem);
+		this.dom.cutBtn.disabled = !hasSelection;
+		this.dom.cutBtn.title = hasSelection ? "Cut selected clip at playhead" : "Select a clip on the timeline to cut";
 	}
 
 	async play() {
@@ -63,6 +78,7 @@ export class MalchusPlaybackController {
 		const nextItem = this.createTimelineItem(nextConfig);
 		this.state.select(nextItem);
 		this.scale.syncWidth();
+		this.syncAvailability();
 	}
 
 	startLoop() {

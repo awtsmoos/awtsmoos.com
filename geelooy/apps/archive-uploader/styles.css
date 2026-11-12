@@ -235,6 +235,7 @@ button:disabled {
 .btn-xs {
     padding: 0.2rem 0.5rem;
     font-size: 0.7rem;
+    min-height: 24px;
 }
 
 /* --- CONSOLE --- */

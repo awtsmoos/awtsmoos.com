@@ -15,6 +15,7 @@ import { applyEmbeddedMode } from '../embed.js';
 import { installForms } from '../formBindings.js';
 import { installMacBridge } from '../macBridgeWiring.js';
 import { showError, showStatus } from '../render.js';
+import { driveState } from '../state.js';
 import { DriveBulkActionBar } from '../views/DriveBulkActionBar.js';
 import { DriveBulkDialog } from '../views/DriveBulkDialog.js';
 import { DriveCategoryController } from '../views/DriveCategoryController.js';
@@ -39,8 +40,8 @@ export class MalchusDriveApplication {
 		this.bulkBar = new DriveBulkActionBar();
 		this.bulkDialog = new DriveBulkDialog();
 		this.selection = new DriveSelectionController(entries => this.paintSelection(entries));
-		this.categories = new DriveCategoryController(() => this.hodViews?.renderEntries());
-		this.labelFilter = new DriveLabelFilter(() => this.hodViews?.renderEntries());
+		this.categories = new DriveCategoryController(() => this.renderEntriesOrIdentity());
+		this.labelFilter = new DriveLabelFilter(() => this.renderEntriesOrIdentity());
 		this.yesodEntries = new YesodEntryActionRouter(this.sharedDependencies());
 		this.details = new DriveDetailsPane(
 			(action, entry) => this.yesodEntries.handle(action, entry),
@@ -53,7 +54,7 @@ export class MalchusDriveApplication {
 			categories: this.categories,
 			labels: this.labelFilter
 		});
-		this.viewModes = new DriveViewModeController(() => this.hodViews.renderEntries());
+		this.viewModes = new DriveViewModeController(() => this.renderEntriesOrIdentity());
 		this.navigation = new DriveNavigationController({
 			openDirectory: path => this.yesodEntries.openDirectory(path),
 			viewModes: this.viewModes
@@ -95,7 +96,35 @@ export class MalchusDriveApplication {
 	}
 
 	refresh() {
+		if (!driveState.aliasId) {
+			this.announceIdentityRequired();
+			return Promise.resolve(null);
+		}
 		return this.tiferesRefresh?.refresh();
+	}
+
+	/**
+	 * Re-renders entries, or routes a signed-out browser to sign-in instead
+	 * of painting an empty list over the "Account required" guidance.
+	 */
+	renderEntriesOrIdentity() {
+		if (!driveState.aliasId) {
+			this.announceIdentityRequired();
+			return;
+		}
+		this.hodViews?.renderEntries();
+	}
+
+	/**
+	 * Shows the sign-in-required state and opens the account panel on it,
+	 * so a browse control never sits silently dead while signed out.
+	 */
+	announceIdentityRequired() {
+		this.hodViews?.renderIdentityRequired();
+		const account = document.querySelector('#drive-account');
+		if (account) account.open = true;
+		showStatus('Sign in to open Drive — choose an account above.');
+		document.querySelector('#alias-select')?.focus({ preventScroll: true });
 	}
 
 	paintSelection(entries) {

@@ -26,7 +26,12 @@ export class DriveCategoryController {
 	/** Selects one bounded presentation category and repaints the current entries only. */
 	set(category = 'all') {
 		const next = CATEGORIES.has(category) ? category : 'all';
-		if (next === this.active) return;
+		if (next === this.active) {
+			// A repeat tap still answers: signed-out it routes to sign-in,
+			// signed-in it repaints the list already on screen.
+			this.onChange(next);
+			return;
+		}
 		this.active = next;
 		this.paint();
 		this.onChange(next);

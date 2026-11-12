@@ -11,6 +11,8 @@
 import { ensureFeatureStyles } from "../../assets/feature-styles.js";
 import { DOM, State } from "../../state.js";
 
+let coreListenersBound = false;
+
 async function handleAction(actionId, context) {
 	const { Actions } = await import("../../actions/index.js");
 	return Actions.handle(actionId, context);
@@ -88,15 +90,24 @@ function bindSidebarResizer(container) {
 }
 
 export function setupCoreListeners() {
+	if (coreListenersBound) return;
+	coreListenersBound = true;
 	const container = document.querySelector(".app-container");
 	if (!container) return;
-	const toggleSidebar = event => { event?.stopPropagation(); container.classList.toggle("sidebar-collapsed"); };
+	const toggleSidebar = event => {
+		event?.stopPropagation();
+		const collapsed = container.classList.toggle("sidebar-collapsed");
+		for (const button of [DOM.mobileSidebarToggle, DOM.sidebarCollapseBtn]) if (button) button.setAttribute("aria-expanded", String(!collapsed));
+	};
 	if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.onclick = toggleSidebar;
 	if (DOM.sidebarCollapseBtn) DOM.sidebarCollapseBtn.onclick = toggleSidebar;
-	if (DOM.hamburgerMenuBtn) DOM.hamburgerMenuBtn.onclick = event => import("../../menus/index.js").then(({ Menus }) => Menus.showMainMenu(event));
+	if (DOM.hamburgerMenuBtn) DOM.hamburgerMenuBtn.onclick = event => import("../../menus/index.js").then(({ Menus }) => Menus.showMainMenu(event)).catch(error => { console.error("B\"H - Main menu failed to open.", error); void import("../../ui.js").then(({ UI }) => UI.showToast("Main menu could not open.", "error")); });
 	if (DOM.addWorkspaceBtn) DOM.addWorkspaceBtn.onclick = () => import("../../features/workspace-addition.js").then(({ WorkspaceAddition }) => WorkspaceAddition.showDialog());
 	if (DOM.fileCommanderBtn) DOM.fileCommanderBtn.onclick = () => void openFileCommander();
-	if (DOM.tunnelConsoleBtn) DOM.tunnelConsoleBtn.onclick = () => import("../../tunnel-ui/controller.js").then(({ TunnelConsole }) => TunnelConsole.toggle());
+	if (DOM.tunnelConsoleBtn) DOM.tunnelConsoleBtn.onclick = () => import("../../tunnel-ui/controller.js").then(({ TunnelConsole }) => TunnelConsole.toggle()).catch(error => { console.error("B\"H - Tunnel console failed to open.", error); void import("../../ui.js").then(({ UI }) => UI.showToast("Tunnel console could not open.", "error")); });
+	if (DOM.sidebarSearchBtn) DOM.sidebarSearchBtn.onclick = () => import("../../search-system.js").then(({ SearchSystem }) => { SearchSystem.init(); SearchSystem.show(); }).catch(error => { console.error("B\"H - Search failed to open.", error); void import("../../ui.js").then(({ UI }) => UI.showToast("Search could not open.", "error")); });
+	const tabManagerBtn = document.getElementById("tab-manager-btn");
+	if (tabManagerBtn) tabManagerBtn.onclick = () => import("../../tab-manager/controller.js").then(({ TMController }) => { TMController.init(); TMController.show(); }).catch(error => { console.error("B\"H - Tab manager failed to open.", error); void import("../../ui.js").then(({ UI }) => UI.showToast("Tab manager could not open.", "error")); });
 	bindGlobalButtons();
 	bindSidebarResizer(container);
 }

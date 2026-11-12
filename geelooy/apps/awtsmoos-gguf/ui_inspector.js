@@ -5,6 +5,7 @@
  */
 import { uiSurgery } from './ui_surgery.js';
 import { showTokenInspector } from './ui_modal.js';
+import { log } from './ui_base.js';
 
 const VOCAB_PAGE_SIZE = 200;
 
@@ -30,6 +31,7 @@ export const uiInspector = {
     _scores: [],
     _worker: null,
     _config: null,
+    _modelLoaded: false,
     
     init: function() {
         this.meta = document.getElementById('metadata');
@@ -71,6 +73,12 @@ export const uiInspector = {
                 if(this.vocabBrowserContainer) this.vocabBrowserContainer.classList.remove('hidden');
                 if(btnVocab) btnVocab.classList.add('active');
             }
+
+            // With no model loaded every view is empty, so a click otherwise
+            // changes nothing visible. Say so in the log instead of staying silent.
+            if (!this._modelLoaded) {
+                log(`Inspector: no model loaded — load a .gguf file to inspect ${view}.`, 'warn');
+            }
         };
 
         if (btnMeta) btnMeta.onclick = () => switchView('meta');
@@ -97,6 +105,7 @@ export const uiInspector = {
     setVocab: function(v, s) { 
         this._vocab = v || [];
         this._scores = s || [];
+        this._modelLoaded = this._vocab.length > 0;
         if (!this.vocabSlider) return;
 
         if (this._vocab.length > 0) {

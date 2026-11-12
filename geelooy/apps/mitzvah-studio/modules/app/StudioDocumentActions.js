@@ -36,7 +36,10 @@ export class StudioDocumentActions {
 			export: () => this.exportDocument(),
 			file: file => this.importFile(file),
 			grid: value => this.state.setGrid(value),
-			import: () => this.chooseFile?.(),
+			import: () => {
+				this.announce('Choose a Studio document JSON file to import.');
+				this.chooseFile?.();
+			},
 			load: () => this.loadDocument(true),
 			new: () => this.newDocument(),
 			play: () => this.openGame(),

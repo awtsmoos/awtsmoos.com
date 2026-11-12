@@ -17,7 +17,14 @@ export class UniversalChatLauncher {
 		this.button.type = "button";
 		this.button.className = "universal-chat-launcher";
 		this.button.dataset.universalChatLauncher = "true";
-		this.button.addEventListener("click", options.onOpen);
+		// B"H - never silently dead: with no opener (or a throwing one) the
+		// click used to do nothing. Fall back to the public chat app.
+		this.button.addEventListener("click", () => {
+			try {
+				if (typeof options.onOpen === "function") { options.onOpen(); return; }
+			} catch (error) { console.error("B\"H - Universal chat opener failed.", error); }
+			window.open("/apps/universal-chat/", "_blank", "noopener");
+		});
 		window.addEventListener("awtsmoosPrivateMessagingUnread", (event) => {
 			this.updateUnread(event.detail?.count || 0);
 		});

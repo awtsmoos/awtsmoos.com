@@ -38,7 +38,9 @@ export function buildInspector() {
                 // Content Area
                 el('div', 'panel flex-1 relative overflow-hidden', [
                     // Metadata View
-                    el('div', 'absolute inset-0 overflow-auto p-4', '', { id: 'metadata' }),
+                    el('div', 'absolute inset-0 overflow-auto p-4', [
+                        el('div', 'p-4 text-center text-muted', 'Load a .gguf file to inspect its metadata.')
+                    ], { id: 'metadata' }),
                     
                     // Tensor View
                     el('div', 'hidden absolute inset-0 flex flex-col', [
@@ -48,7 +50,9 @@ export function buildInspector() {
                             el('span', 'w-24 text-right', 'DIMS'),
                             el('span', 'w-16 text-right', 'SIZE')
                         ]),
-                        el('div', 'flex-1 overflow-auto', '', { id: 'tensorList' }),
+                        el('div', 'flex-1 overflow-auto', [
+                            el('div', 'p-4 text-center text-muted', 'Load a model to view tensors.')
+                        ], { id: 'tensorList' }),
                         el('div', 'p-2 text-xs text-muted border-t border-base flex-shrink-0', [
                             'Total Tensors: ', el('span', 'text-primary font-bold', '0', { id: 'tensorTotalCount' })
                         ])
@@ -66,7 +70,9 @@ export function buildInspector() {
                             el('span', 'text-xs font-mono text-accent-blue w-24 text-right', '0 / 0', {id: 'vocabOffsetLabel'})
                         ]),
                         /* B"H - Added vocab-grid class here explicitly */
-                        el('div', 'flex-1 overflow-auto p-1 vocab-grid', '', { id: 'vocabGrid' })
+                        el('div', 'flex-1 overflow-auto p-1 vocab-grid', [
+                            el('div', 'p-4 text-center text-muted', 'Vocabulary not loaded.')
+                        ], { id: 'vocabGrid' })
                     ], { id: 'vocabBrowserContainer' })
                 ])
             ]),

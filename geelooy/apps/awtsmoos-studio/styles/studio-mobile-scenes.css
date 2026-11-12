@@ -4,6 +4,10 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets canonical scenes become a truthful filmstrip without counterfeit screenshots; Awtsmoos.com gives number, mode, duration, and selected light the compact proportions of a finished mobile movie editor.
 */
+/* B"H - desktop gap: scene controls were styled only inside the <=900px
+ * query, so at desktop width they rendered as unstyled 21px buttons. */
+.studio-scene-control-button { min-height: 24px; }
+
 @media (max-width: 900px) {
 	.studio-scene-panel { border: 0; border-radius: 14px; background: #0d1723; box-shadow: none; }
 	.studio-scene-panel .aw-ui-panel__head { display: none; }
@@ -39,3 +43,10 @@ The Awtsmoos lets canonical scenes become a truthful filmstrip without counterfe
 .studio-scene-control-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* B"H - scene-card layout outside the mobile query: without the grid +
+ * ellipsis the card copy overflows horizontally at desktop width. */
+.studio-scene-card { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto auto; gap: 2px 7px; min-width: 0; overflow: hidden; }
+.studio-scene-card-preview { grid-row: 1 / 3; display: grid; place-items: center; min-height: 58px; }
+.studio-scene-card-copy { display: grid; min-width: 0; align-content: center; }
+.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }

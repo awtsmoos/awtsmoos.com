@@ -122,3 +122,10 @@
 .studio-inspector-panel .aw-ui-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* B"H - project rows had no CSS at all: the long description overflowed
+ * horizontally (scrollW 493) inside the unstyled button. */
+.studio-project-list { display: grid; gap: 8px; }
+.studio-project-row { display: grid; gap: 2px; min-width: 0; padding: 10px; text-align: left; border: 1px solid var(--aw-ui-line); border-radius: var(--aw-ui-radius-small); background: var(--aw-ui-surface-2); color: var(--aw-ui-text); cursor: pointer; }
+.studio-project-row > * { min-width: 0; overflow-wrap: anywhere; }
+.studio-project-row small { color: var(--aw-ui-muted); }

@@ -6,41 +6,7 @@ import { uiSurgery } from './ui_surgery.js'; // B"H - Import for layer/vocab cou
 import { setupChat } from './chat_main.js';
 import { logEngine, streamToken, startStreamMessage, endStreamMessage, onChatReady, setGeneratingState, updateProgress, setTensorCount } from './chat_view.js';
 
-import { createWorkerFromSources } from './worker_builder.js';
-import { BaseSource } from './worker_src/base.js';
-import { EnvSource } from './worker_src/env.js';
-import { WorkerMainSource } from './worker_src/worker_main.js'; 
-import { GGUFParserSource } from './worker_src/gguf_parser.js';
-import { TokenizerSource } from './worker_src/tokenizer.js';
-import { ModelLoaderSource } from './worker_src/model_loader.js'; 
-import { MathKernelsSource } from './worker_src/math_kernels.js';
-import { QuantCommonSource } from './worker_src/quant_common.js';
-import { QuantLegacySource } from './worker_src/quant_legacy.js';
-import { QuantKSource } from './worker_src/quant_k.js';
-import { QuantIQSource } from './worker_src/quant_iq.js'; // B"H - Import new quantizer
-import { TensorSource } from './worker_src/tensor.js';
-import { ConfigSource } from './worker_src/config.js';
-import { WeightsSource } from './worker_src/weights.js';
-import { LoopSource } from './worker_src/loop.js';
-import { MathStatsSource } from './worker_src/math_stats.js';
-import { MathActSource } from './worker_src/math_act.js';
-import { MathPosSource } from './worker_src/math_pos.js';
-import { ModelAttnSource } from './worker_src/model_attn.js';
-import { ModelFFNSource } from './worker_src/model_ffn.js';
-import { ModelBlockSource } from './worker_src/model_block.js';
-
-// SPM Modules
-import { PriorityQueueSource } from './worker_src/vocab/priority_queue.js';
-import { SPMSource } from './worker_src/vocab/spm.js';
-
-// WASM Modules (Turbo)
-import { AsmCommonSource } from './worker_src/asm_common.js';
-import { AsmKernelSource } from './worker_src/asm_kernels.js';
-import { AsmSource } from './worker_src/asm.js';
-import { MathWasmSource } from './worker_src/math_wasm.js';
-
-// Purification
-import { PurifierSource } from './worker_src/purifier.js';
+import { createWorker } from './worker_builder.js';
 
 let vocab = [];
 let worker = null;
@@ -67,38 +33,7 @@ function init() {
 
     try {
         log("Constructing Modular Engine...", 'info');
-        worker = createWorkerFromSources(
-            BaseSource, 
-            EnvSource, 
-            WorkerMainSource,
-            GGUFParserSource, 
-            PriorityQueueSource, 
-            SPMSource,
-            TokenizerSource,
-            ModelLoaderSource, 
-            MathKernelsSource, 
-            QuantCommonSource,
-            QuantLegacySource,
-            QuantKSource,
-            QuantIQSource, 
-            MathStatsSource,
-            MathActSource,
-            MathPosSource,
-            TensorSource, 
-            ConfigSource, 
-            WeightsSource, 
-            ModelAttnSource,
-            ModelFFNSource,
-            ModelBlockSource,
-            LoopSource,
-            // WASM Pipeline
-            AsmCommonSource,
-            AsmKernelSource,
-            AsmSource,
-            MathWasmSource,
-            // Purification
-            PurifierSource
-        );
+        worker = createWorker();
         
         // Give UI access to worker for purification
         uiInspector.setWorker(worker);
@@ -149,6 +84,7 @@ function init() {
         };
     } catch (e) {
         log(`Worker creation failed: ${e.message}\n${e.stack}`, 'error');
+        setStatus('Engine failed to start', false);
     }
 
     setupChat(sendPromptToWorker, stopWorkerGeneration, resetSession);
@@ -172,7 +108,12 @@ async function handleFile(e) {
     try {
         const buffer = await file.arrayBuffer();
         updateProgress(5, "Sending to Worker...");
-        if (worker) worker.postMessage({ type: 'INIT', payload: buffer }, [buffer]); 
+        if (worker) {
+            worker.postMessage({ type: 'INIT', payload: buffer }, [buffer]);
+        } else {
+            log('Engine is not running — the model cannot load.', 'error');
+            setStatus('Load failed — engine not running');
+        }
     } catch (err) {
         log(`ERROR: ${err.message}\n${err.stack}`, 'error');
         setStatus("Load Failed");

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
-  <link rel="stylesheet" href="./css/tunnel.css?v=71e4a77298">
+  <link rel="stylesheet" href="./css/tunnel.css?v=7ab1eeb9bd">
 </head>
 <body>
   <header class="topbar">
@@ -54,7 +54,7 @@
 
       <section class="panel" id="install">
         <div class="panel-head"><div><p class="eyebrow">Mode 1</p><h2>Install native tunnel</h2></div></div>
-        <div class="tabs" role="tablist"><button class="tab active" data-tab="powershell" role="tab">PowerShell</button><button class="tab" data-tab="cmd" role="tab">CMD</button><button class="tab" data-tab="unix" role="tab">Mac / Linux</button></div>
+        <div class="tabs" role="tablist"><button class="tab active" data-tab="powershell" role="tab" aria-selected="true">PowerShell</button><button class="tab" data-tab="cmd" role="tab" aria-selected="false">CMD</button><button class="tab" data-tab="unix" role="tab" aria-selected="false">Mac / Linux</button></div>
         <div class="command-card active" data-pane="powershell"><p class="lede">Recommended for Windows PowerShell:</p><div class="copy-row"><code id="cmdPowerShell">irm https://awtsmoos.com/api/tunnel/install/windows | iex</code><button class="button small copy" data-copy="cmdPowerShell">Copy</button></div></div>
         <div class="command-card" data-pane="cmd"><p class="lede">Use this from regular Windows CMD:</p><div class="copy-row"><code id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/api/tunnel/install/windows | iex"</code><button class="button small copy" data-copy="cmdCmd">Copy</button></div></div>
         <div class="command-card" data-pane="unix"><p class="lede">Use this on macOS or Linux:</p><div class="copy-row"><code id="cmdUnix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</code><button class="button small copy" data-copy="cmdUnix">Copy</button></div></div>

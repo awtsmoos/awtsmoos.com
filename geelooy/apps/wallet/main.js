@@ -38,6 +38,8 @@ async function refreshWallet() {
 
 /** Refreshes independent account balance and product-credit surfaces. */
 async function refreshWalletData() {
+	const usdValue = document.getElementById('usdValue');
+	if (usdValue) usdValue.textContent = 'Refreshing\u2026';
 	const [wallet] = await Promise.all([
 		refreshWallet(),
 		bootCreditPortfolio()
@@ -67,7 +69,12 @@ async function bootWallet() {
 	}
 }
 
-refreshButton?.addEventListener('click', refreshWalletData);
+refreshButton?.addEventListener('click', () => {
+	refreshWalletData().catch(error => {
+		console.error('Awtsmoos Wallet refresh failed', error);
+		setCheckoutStatus('Wallet could not refresh. Try again.', 'error');
+	});
+});
 paypalButton?.addEventListener('click', beginCheckout);
 bindTransfer({ onSuccess: refreshWallet });
 

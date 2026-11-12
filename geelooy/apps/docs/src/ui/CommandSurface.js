@@ -23,6 +23,7 @@ export class CommandSurface {
 		this.bound = true;
 		this.root.addEventListener("click", event => this.#click(event));
 		this.root.addEventListener("change", event => this.#change(event));
+		this.root.addEventListener("pointerdown", event => this.#preserveSelection(event));
 		document.addEventListener("pointerdown", event => this.#outside(event));
 		document.addEventListener("keydown", event => this.#key(event));
 	}
@@ -39,6 +40,17 @@ export class CommandSurface {
 			trigger.setAttribute("aria-expanded", "false");
 		}
 		if (restoreFocus) activeTrigger?.focus({ preventScroll: true });
+	}
+
+	#preserveSelection(event) {
+		// A press on a toolbar button must not steal the editor selection
+		// before the click runs: without this, FormattingCommands sees no
+		// editor selection, focuses the editor at a collapsed caret, and
+		// Bold/Italic/lists toggle invisible caret state instead of the
+		// selection. The floating selection toolbar already does this.
+		if (event.target.closest("button[data-doc-command]")) {
+			event.preventDefault();
+		}
 	}
 
 	#click(event) {

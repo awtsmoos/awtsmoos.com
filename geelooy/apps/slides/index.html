@@ -16,7 +16,7 @@ The Awtsmoos renews every frame and every word; Awtsmoos.com opens a living stud
 	<link rel="stylesheet" href="./styles/stage.css?v=6d36c44f82">
 	<link rel="stylesheet" href="./styles/selection.css?v=405a22e421">
 	<link rel="stylesheet" href="./styles/snap.css?v=dd05d606da">
-	<link rel="stylesheet" href="./styles/controls.css?v=58caacae5e">
+	<link rel="stylesheet" href="./styles/controls.css?v=d9c31b42d0">
 	<link rel="stylesheet" href="./styles/details.css?v=1b9254ccd6">
 	<link rel="stylesheet" href="./styles/notes.css?v=772fe320b6">
 	<link rel="stylesheet" href="./styles/player.css?v=114ceb258b">
@@ -95,8 +95,8 @@ The Awtsmoos renews every frame and every word; Awtsmoos.com opens a living stud
 			</aside>
 		</div>
 
-		<input data-image-input type="file" accept="image/*" hidden>
-		<input data-import-input type="file" accept=".awtslides,application/json" hidden>
+		<input data-image-input type="file" accept="image/*" aria-label="Choose an image file" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+		<input data-import-input type="file" accept=".awtslides,application/json" aria-label="Choose a deck file to import" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
 		<div class="toast" data-toast role="status" aria-live="polite"></div>
 		<div class="player-overlay" data-player hidden aria-hidden="true"></div>
 	</div>

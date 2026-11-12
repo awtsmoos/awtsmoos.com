@@ -6,3 +6,15 @@
  */
 @import url("./panels-tree.css");
 @import url("./panels-properties.css");
+
+/* B"H - Movie JSON panel had no position rule: it landed at the static
+ * top-left under the toolbar. Center it below the movie bar. */
+#movie-json-panel {
+	position: absolute;
+	top: 118px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: min(560px, calc(100vw - 20px));
+	max-height: calc(100% - 130px);
+	z-index: 25;
+}

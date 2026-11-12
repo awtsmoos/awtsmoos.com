@@ -88,6 +88,8 @@ export function mountStatus() {
   };
 
   const refresh = async () => {
+    button.disabled = true;
+    button.textContent = "Checking\u2026";
     box.textContent = "Checking tunnel server...";
     try {
       const status = formatStatus(await fetchTunnelStatus());
@@ -97,6 +99,9 @@ export function mountStatus() {
     } catch (e) {
       box.textContent = e.stack || e.message;
       setConn(false);
+    } finally {
+      button.disabled = false;
+      button.textContent = "Refresh";
     }
   };
 
@@ -163,7 +168,10 @@ export function mountMissions() {
  */
 function activateTab(tab, tabs, panes) {
   const id = tab.dataset.tab;
-  for (const one of tabs) one.classList.toggle("active", one === tab);
+  for (const one of tabs) {
+    one.classList.toggle("active", one === tab);
+    one.setAttribute("aria-selected", one === tab ? "true" : "false");
+  }
   for (const pane of panes) pane.classList.toggle("active", pane.dataset.pane === id);
 }
 

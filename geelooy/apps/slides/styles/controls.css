@@ -18,6 +18,11 @@ button {
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+
 button:hover, button:focus-visible {
 	border-color: var(--line-strong);
 	background: rgba(255, 255, 255, 0.1);

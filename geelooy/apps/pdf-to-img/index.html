@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-        <link rel="stylesheet" href="./styles.css?v=fbedb708bb">
+        <link rel="stylesheet" href="./styles.css?v=71e56cf38b">
         <link rel="stylesheet" href="../styles/awp-polish.css?v=e535bd94a1">
     </head>
 <body class="pdf-glass awp-app awp-app-pdf">
@@ -30,7 +30,7 @@
 
         <div class="controls" id="controls">
             <div class="stats" id="status-text">0 files loaded</div>
-            <button class="btn awp-cta" id="convert-btn">
+            <button class="btn awp-cta" id="convert-btn" disabled title="Add a PDF file to convert">
                 <i class="fa-solid fa-bolt"></i> Convert & Download
             </button>
         </div>
@@ -89,6 +89,8 @@
         });
 
         convertBtn.addEventListener('click', startConversion);
+
+        updateControls();
 
         // --- Core Logic ---
 
@@ -165,17 +167,25 @@
         }
 
         function updateControls() {
-            if (pdfQueue.length > 0) {
-                controls.classList.add('visible');
+            const hasFiles = pdfQueue.length > 0;
+            controls.classList.toggle('visible', hasFiles);
+            convertBtn.disabled = !hasFiles;
+            convertBtn.title = hasFiles ? 'Convert every loaded PDF to PNG images' : 'Add a PDF file to convert';
+            if (hasFiles) {
                 const totalPages = pdfQueue.reduce((acc, item) => acc + item.numPages, 0);
                 statusText.textContent = `${pdfQueue.length} Files (${totalPages} Total Pages)`;
+            } else {
+                statusText.textContent = '0 files loaded \u2014 add a PDF to convert';
             }
         }
 
         // --- Conversion Logic ---
 
         async function startConversion() {
-            if (pdfQueue.length === 0) return;
+            if (pdfQueue.length === 0) {
+                statusText.textContent = 'Add a PDF file first, then convert.';
+                return;
+            }
 
             convertBtn.disabled = true;
             convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;

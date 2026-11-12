@@ -31,11 +31,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   .meluket-sefer with only a max-width shrink-wraps to its
 		   content until the bundles land. width: 100% here (in the HTML
 		   itself, zero network wait) holds it full-width from the first
-		   byte. The cap is 1180px (sefer.css:48), NOT 68ch: ch is
+		   byte. The cap is 1600px (sefer.css:48), NOT 68ch: ch is
 		   measured against the sefer's tiny 7px container font, so 68ch
 		   capped the early sefer at ~242px — the narrow column itself.
 		   Headless probe, round 14: early sefer 242px with the ch cap. */
-		.meluket-sefer { width: 100%; max-width: min(1180px, calc(100% - 1rem)); margin-inline: auto; }
+		.meluket-sefer { width: 100%; max-width: min(1600px, calc(100% - 2rem)); margin-inline: auto; }
 		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
@@ -67,7 +67,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=42eae017b7">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=8a1614762b">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -76,7 +76,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     styles and then visibly switched. These three links load them with
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=07c16901a9">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=3bcae39c37">
 	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=2b3eb200cf">
 	<script>
 		try {
@@ -240,7 +240,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				// which under load left the body unmounted for minutes on plain
 				// loads. The bootstrap calls the same function later; hydration is
 				// stamped, so the second call is a no-op.
-				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=99281d0fb2').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=9d91c18d88').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

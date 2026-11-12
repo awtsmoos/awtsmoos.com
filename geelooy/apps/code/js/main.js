@@ -31,6 +31,10 @@ function awakenEmbedBridge() {
 /** Starts the smallest truthful editor graph, leaving every optional feature dormant. */
 async function manifestCode() {
 	initializeDOM();
+	// B"H - wire the shell buttons now, before the slow storage recall and
+	// the deferred interaction layer: clicks during the long async boot
+	// were silently dead (menu, search, tab manager, tunnel).
+	void import("./app/listeners/core.js").then(({ setupCoreListeners }) => setupCoreListeners()).catch(error => console.warn("B\"H - Core listeners unavailable.", error));
 	watchFeatureStyles();
 	awakenIcons();
 	const { App } = await import("./app/index.js");

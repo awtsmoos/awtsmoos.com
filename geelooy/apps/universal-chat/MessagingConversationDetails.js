@@ -28,6 +28,8 @@ export class MessagingConversationDetails {
 
 	show() {
 		if (!this.details) {
+			this.elements.detailsBody.textContent = 'Open a conversation to see its details.';
+			this.elements.details.hidden = false;
 			return;
 		}
 		if (this.details.kind === "group") {

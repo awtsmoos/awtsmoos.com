@@ -37,7 +37,11 @@ export async function installDriveIdentity({
 		if (!identity?.alias) {
 			populateAliases(select, []);
 			chip.textContent = 'Choose account';
-			account.open = true;
+			// B"H: leave the account panel closed on load. It is an absolute
+			// dropdown hanging over the toolbar: auto-opening it covers the
+			// view and refresh controls (shots drive-1/2/3). The terminal
+			// message points at the chip, and browse controls open the
+			// panel on demand when signed out.
 			identityRequired();
 			status('Sign in or choose an alias to open Drive.');
 			return identity;
@@ -49,7 +53,7 @@ export async function installDriveIdentity({
 		await refresh();
 		return identity;
 	} catch (reason) {
-		account.open = true;
+		// Panel stays closed: see the note above; browse controls open it on demand.
 		chip.textContent = 'Account';
 		identityError(reason);
 		error(reason);

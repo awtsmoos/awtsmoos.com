@@ -355,10 +355,13 @@ function renderExtensions(ctx) {
       ok ? " — the ExtensionHost worker is driving extensions."
          : " — unpacked extensions below run in limited local mode until the ExtensionHost worker loads."));
     hb.appendChild(p);
-    const btn = h(`<button class="btn primary" id="x-load">Load unpacked…</button>
-      <input type="file" id="x-files" webkitdirectory multiple hidden>`);
+    // B"H - h() keeps only the FIRST root element, so the file input in
+    // the old two-root call was discarded and the change listener threw
+    // on null. Build the button and the input as separate roots.
+    const btn = h(`<button class="btn primary" id="x-load">Load unpacked…</button>`);
     hb.appendChild(btn);
-    const fi = hb.querySelector("#x-files");
+    const fi = h(`<input type="file" id="x-files" webkitdirectory multiple hidden>`);
+    hb.appendChild(fi);
     btn.addEventListener("click", () => fi.click());
     fi.addEventListener("change", async () => {
       if (!fi.files.length) return;

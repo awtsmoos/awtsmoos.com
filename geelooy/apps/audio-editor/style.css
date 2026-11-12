@@ -166,7 +166,8 @@ canvas {
 /* Grouping containers */
 .tool-controls { justify-self: start; display: flex; gap: 8px; }
 .transport-controls { justify-self: center; display: flex; align-items: center; gap: 24px; }
-.zoom-controls { justify-self: end; display: flex; align-items: center; gap: 8px; }
+/* B"H button-sweep: keep the zoom controls clear of the floating universal-chat launcher in the bottom-right corner. */
+.zoom-controls { justify-self: end; display: flex; align-items: center; gap: 8px; margin-right: 120px; }
 
 /* 6. Iconic Buttons (Play, Split, etc) */
 .icon-btn {
@@ -193,6 +194,24 @@ canvas {
 .icon-btn:active {
     transform: scale(0.92);
     background-color: rgba(255,255,255,0.2);
+}
+
+.icon-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.icon-btn:disabled:hover {
+    background: transparent;
+}
+
+/* File picker input: triggered by #add-track-btn; kept focusable-but-invisible so the native picker opens reliably. */
+.visually-hidden-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
 }
 
 /* Specialized Buttons */

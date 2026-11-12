@@ -7,6 +7,8 @@
  */
 .aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs {
 	display: grid;
+	/* B"H button-sweep: studio-panels.css also sets grid-template-columns: repeat(4, minmax(0, 1fr)) on this nav, squeezing the first four tabs to ~22px with unreadable clipped labels. Neutralize it so every tab uses the minmax(76px, 1fr) auto columns below. */
+	grid-template-columns: none;
 	grid-auto-flow: column;
 	grid-auto-columns: minmax(76px, 1fr);
 	gap: 6px;
@@ -68,5 +70,12 @@
 @media (prefers-reduced-motion: reduce) {
 	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab {
 		transition-duration: .01ms;
+	}
+}
+
+@media (min-width: 761px) {
+	/* B"H button-sweep: the fixed desktop chrome rail covers the left ~106px of the tabs row; start the tabs right of it. (The rail is display:none on mobile, so this stays desktop-only.) */
+	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs {
+		padding-left: 116px;
 	}
 }

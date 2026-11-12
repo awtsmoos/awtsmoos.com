@@ -24,11 +24,13 @@ export class FileController {
 	}
 
 	pickImage() {
+		this.toast.show('Choose an image file to add');
 		this.imageInput.value = '';
 		this.imageInput.click();
 	}
 
 	pickImport() {
+		this.toast.show('Choose a deck file to import');
 		this.importInput.value = '';
 		this.importInput.click();
 	}

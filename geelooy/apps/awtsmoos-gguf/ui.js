@@ -40,7 +40,16 @@ export function initUI() {
 
     // Wire up Tabs (Main View)
     if (uiBase.tabMeta && uiBase.tabChat) {
-        uiBase.tabMeta.onclick = () => switchTab('meta');
+        // INSPECTOR is the default tab, so clicking it while already open
+        // changes nothing visible. Acknowledge the click in the log instead
+        // of leaving it silently dead.
+        uiBase.tabMeta.onclick = () => {
+            if (!uiBase.viewInspector.classList.contains('hidden')) {
+                log('Inspector tab is already open — load a .gguf file to inspect it.', 'info');
+            } else {
+                switchTab('meta');
+            }
+        };
         uiBase.tabChat.onclick = () => switchTab('chat');
     }
 

@@ -41,7 +41,7 @@ export class BroadcasterController {
 			await this.session.stop();
 			this.stopButton.hidden = true;
 			this.mirror.disabled = true;
-			this.setStatus(this.describeError(error), "error");
+			this.setStatus(this.describeError(error, useVideo), "error");
 		} finally {
 			this.setBusy(false);
 		}
@@ -83,9 +83,9 @@ export class BroadcasterController {
 	}
 
 	/** Translate common media failures into useful human guidance. */
-	describeError(error) {
+	describeError(error, useVideo = false) {
 		if (error?.name === "NotAllowedError") return "Camera or microphone permission was not granted.";
-		if (error?.name === "NotFoundError") return "No matching camera or microphone was found.";
+		if (error?.name === "NotFoundError") return useVideo ? "No camera or microphone was found on this device." : "No microphone was found on this device.";
 		if (error?.name === "NotReadableError") return "The camera or microphone is already in use.";
 		return error?.message || "Could not start this broadcast.";
 	}

@@ -234,10 +234,26 @@
 	margin-inline-start: 8px;
 }
 .post-reader-localized-context .auto-scroll-semantic-range {
+	/* B"H batch 34 (2026-11-12): the rebuilt row was a bare <label> — no
+	   display, so `flex-wrap` did nothing and the long pace pill crowded
+	   over the "Speed" label. A real flex row now: label + pill on one
+	   line with a gap, the slider full-width on its own line below. */
+	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
 }
 .post-reader-localized-context .auto-scroll-semantic-range > span {
-	flex: 1 1 auto;
+	flex: 0 0 auto;
+	min-width: 0;
+}
+.post-reader-localized-context .auto-scroll-semantic-range > #autoScrollPaceDisplay {
+	flex: 0 1 auto;
+	min-width: 0;
+	margin-inline-start: 0;
+}
+.post-reader-localized-context .auto-scroll-semantic-range > #autoScrollPaceRange {
+	flex: 1 1 100%;
 	min-width: 0;
 }
 /* B"H 2026-11-10 round 3: "Sources & community" renders as a too-small

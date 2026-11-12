@@ -9,14 +9,17 @@ export const SearchSystem = {
     currentScopeItem: null, isSearching: false, stopSearchFlag: false,
 
     init() {
+        // B"H - idempotent: #search-overlay never existed in index.html, so
+        // the old early return left the search button unwired forever. Build it.
+        if (this._wired) return;
         this.overlay = document.getElementById('search-overlay');
+        if (!this.overlay) this.overlay = this._buildOverlay();
         this.input = document.getElementById('global-search-input');
         this.resultsContainer = document.getElementById('search-results');
         this.contentToggle = document.getElementById('search-content-toggle');
         this.scopeDisplay = document.getElementById('search-scope-display');
         this.searchButton = document.getElementById('global-search-btn');
-        
-        if (!this.overlay) return;
+        this._wired = true;
 
         document.getElementById('sidebar-search-btn').onclick = () => this.show();
         document.getElementById('search-close-btn').onclick = () => this.hide();
@@ -27,6 +30,22 @@ export const SearchSystem = {
         
         this.input.addEventListener('keydown', (e) => { if (e.key === 'Enter') this.performSearch(); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.overlay.classList.contains('visible')) this.hide(); });
+    },
+
+    _buildOverlay() {
+        const overlay = document.createElement('div');
+        overlay.id = 'search-overlay';
+        overlay.className = 'search-overlay hidden';
+        overlay.innerHTML = `<div class="search-window">
+            <div class="search-header"><h2>Search</h2><button id="search-close-btn" type="button" aria-label="Close search">\u2715</button></div>
+            <div class="search-controls">
+                <div class="search-input-group"><input id="global-search-input" type="text" placeholder="Search\u2026" autocomplete="off"><button id="global-search-btn" type="button">Search</button></div>
+                <div class="search-options"><label><input type="checkbox" id="search-content-toggle"> Search file contents</label><span id="search-scope-display" class="search-scope"></span></div>
+            </div>
+            <div id="search-results" class="search-results"></div>
+        </div>`;
+        document.body.appendChild(overlay);
+        return overlay;
     },
 
     show(scopeItem = null) {

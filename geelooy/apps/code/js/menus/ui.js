@@ -16,6 +16,7 @@ export const MenuUI = {
     hideAll() {
         if (DOM.contextMenu) DOM.contextMenu.style.display = "none";
         if (DOM.mainMenu) DOM.mainMenu.style.display = "none";
+        if (DOM.hamburgerMenuBtn) DOM.hamburgerMenuBtn.setAttribute("aria-expanded", "false");
         document.querySelectorAll(".context-active").forEach(el => el.classList.remove("context-active"));
         document.removeEventListener("click", this.handleDocumentClick);
     },

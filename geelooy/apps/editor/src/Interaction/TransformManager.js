@@ -45,7 +45,7 @@ export class TransformManager {
             this.eventEmitter.emit('objectTransformed', this.transformControls.object);
         });
         
-        this.eventEmitter.on('setTransformMode', (mode) => this.transformControls.setMode(mode));
+        this.eventEmitter.on('setTransformMode', (mode) => { this.transformControls.setMode(mode); this.eventEmitter.emit('transformModeChanged', mode); });
     }
 
     // Called by EditModeManager to switch behavior

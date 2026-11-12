@@ -6,7 +6,7 @@
  */
 @import url("./styles/foundation.css");
 @import url("./styles/toolbar.css");
-@import url("./styles/panels.css");
+@import url("./styles/panels.css?v=888b1f989d");
 @import url("./styles/timeline.css");
 @import url("./styles/mobile.css");
 @import url("./styles/interactions.css");

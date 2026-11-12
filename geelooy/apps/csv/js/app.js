@@ -136,6 +136,10 @@ async function verifyPermission(fileHandle, readWrite) {
 }
 
 async function openFile() {
+    // The system picker is a native dialog, invisible to the page: say at
+    // once that a file choice is expected, so the click never looks dead
+    // while the picker is open (or cannot open at all headlessly).
+    showToast('Choose a CSV file\u2026');
     if (window.showOpenFilePicker) {
         try {
             const [handle] = await window.showOpenFilePicker({
@@ -152,8 +156,12 @@ async function openFile() {
             loadData(text, file.name, handle, true);
             return;
         } catch (err) {
-            if (err.name === 'AbortError') return;
+            if (err.name === 'AbortError') {
+                toastElement?.classList.remove('active');
+                return;
+            }
             console.log("FS Access API failed, fallback.", err);
+            showToast('System picker unavailable \u2014 choose a file\u2026');
         }
     }
     fileInput.click();

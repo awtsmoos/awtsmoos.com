@@ -88,6 +88,7 @@ export const MainMenu = {
 			clientX: button.left,
 			clientY: button.bottom + 8
 		});
+		DOM.hamburgerMenuBtn.setAttribute("aria-expanded", "true");
 		setTimeout(() => document.addEventListener("click", MenuUI.handleDocumentClick, {
 			once: true
 		}), 10);

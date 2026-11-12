@@ -126,8 +126,8 @@ body.pdf-glass .controls {
   gap: 1rem;
   flex-wrap: wrap;
   margin: 1.75rem 0 1.25rem;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 1;
+  pointer-events: auto;
   transition: opacity .3s ease;
 }
 
