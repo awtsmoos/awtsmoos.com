@@ -58,12 +58,20 @@ async function delegate() {
 	let offset = 0;
 	let lastHeartbeat = Date.now();
 	const startedAt = Date.now();
-	// B"H — 15s installer budget (user order 2026-11-12): the install must
-	// finish fast and never sit stuck. Override only for a slow network:
-	// AWTSMOOS_INSTALL_MAX_SECONDS=120 curl ... | bash -s -- --full --yes
-	const maxInstallSeconds = Math.max(1, Number(process.env.AWTSMOOS_INSTALL_MAX_SECONDS || 15) || 15);
+	// B"H — 15s STALL budget (user order 2026-11-12, corrected 2026-11-13 after
+	// the Hetzner proof): a healthy install's real verification work takes
+	// ~19s end to end, so a wall-clock cap killed it at 97%. What must never
+	// happen is sitting with no progress: if the latest progress line has not
+	// changed for maxStallSeconds, the install is wedged and is stopped.
+	// AWTSMOOS_INSTALL_MAX_SECONDS overrides the stall window. The absolute
+	// backstop (180s) only covers a forever-trickling install; the pairing
+	// probe's own ceiling is 120s.
+	const maxStallSeconds = Math.max(1, Number(process.env.AWTSMOOS_INSTALL_MAX_SECONDS || 15) || 15);
+	const maxTotalSeconds = 180;
 	let heartbeatLineOpen = false;
 	let deadlineFired = false;
+	let lastProgressText = "";
+	let lastProgressAt = Date.now();
 	process.stderr.write(`\n${colors.cyan}╭──────────────────────────────────────────────╮${colors.off}\n${colors.bold}${colors.gold}   ✦ AWTSMOOS / LIVE INSTALL CONTROL${colors.off}\n${colors.cyan}╰──────────────────────────────────────────────╯${colors.off}\n${colors.green}   ● Installer running${colors.off}\n   Runner PID  ${runner.pid}\n   Status      node "${controlPath}" status\n   Cancel      node "${controlPath}" cancel\n   Immediate   kill -TERM ${runner.pid}\n   Live log    ${logPath}\n${colors.dim}   Your installed tunnel is preserved until verification succeeds.${colors.off}\n\n`);
 	for (;;) {
 		await delay(200);
@@ -79,10 +87,14 @@ async function delegate() {
 		if (!alive(runner.pid)) throw new Error("installer_custody_runner_lost");
 		if (Date.now()-lastHeartbeat >= 500) {
 			const elapsed = Math.floor((Date.now()-startedAt)/1000);
-			if (!deadlineFired && elapsed > maxInstallSeconds) {
+			const progress = latestProgress(logPath);
+			if (progress !== lastProgressText) { lastProgressText = progress; lastProgressAt = Date.now(); }
+			const stalledFor = Math.floor((Date.now()-lastProgressAt)/1000);
+			if (!deadlineFired && (stalledFor > maxStallSeconds || elapsed > maxTotalSeconds)) {
 				deadlineFired = true;
 				if (heartbeatLineOpen) { process.stderr.write("\n"); heartbeatLineOpen = false; }
-				process.stderr.write(`${colors.gold}   ✕ Installer exceeded the ${maxInstallSeconds}s budget at ${latestProgress(logPath)} — stopping. Your installed tunnel is preserved.${colors.off}\n`);
+				const reason = stalledFor > maxStallSeconds ? `no progress for ${stalledFor}s` : `over the ${maxTotalSeconds}s total budget`;
+				process.stderr.write(`${colors.gold}   ✕ Installer stopped (${reason}) at ${progress} — your installed tunnel is preserved.${colors.off}\n`);
 				try { process.kill(runner.pid, "SIGTERM"); } catch {}
 				await delay(2000);
 				const finalReceipt = readReceipt();
@@ -97,7 +109,7 @@ async function delegate() {
 				// in the box above); a wrapped live line redraws wrong and copies
 				// as garbage. Truncate defensively to the terminal width.
 				const width = Math.max(40, Number(process.stderr.columns || 80));
-				const line = `   ◉ ${elapsed}s | ${latestProgress(logPath)}${silent > 5 ? ` (quiet ${silent}s)` : ""}`.slice(0, width - 1);
+				const line = `   ◉ ${elapsed}s | ${progress}${silent > 5 ? ` (quiet ${silent}s)` : ""}`.slice(0, width - 1);
 				process.stderr.write(`\r\x1b[2K${colors.cyan}${line}${colors.off}`);
 				heartbeatLineOpen = true;
 			}

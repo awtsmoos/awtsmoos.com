@@ -92,5 +92,38 @@ test('heartbeat is one live line rewritten in place, never a fresh line per tick
  assert.match(code,/\\r\\x1b\[2K/);
  assert.doesNotMatch(code,/◉ ACTIVE/);
  assert.match(code,/AWTSMOOS_INSTALL_MAX_SECONDS/);
- assert.match(code,/exceeded the .* budget/);
+ assert.match(code,/maxStallSeconds/);
+ assert.match(code,/lastProgressAt/);
+ assert.match(code,/Installer stopped \(/);
+ assert.match(code,/no progress for /);
+});
+test('a stalled installer is stopped after the stall window, not at a wall-clock cap', async()=>{
+ const os=require('node:os');
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'awt-custody-stall-'));
+ const runtime=path.join(root,'temporary-runtime'), recovery=path.join(root,'recovery');
+ fs.mkdirSync(runtime,{recursive:true});
+ const fake=path.join(runtime,'stalled-core.sh');
+ fs.writeFileSync(fake,'#!/bin/bash\nprintf "[ 20%%] step 1/3 Pruning displaced runtimes\\n"\nsleep 30\nexit 0\n');
+ let child;
+ try {
+  const started=Date.now();
+  child=spawn(process.execPath,[custody,'delegate',fake,runtime,recovery,root],{
+   stdio:['ignore','pipe','pipe'],
+   env:{...process.env,AWTSMOOS_INSTALL_MAX_SECONDS:'3'}
+  });
+  let stderr='';
+  child.stderr.on('data',(d)=>{stderr+=d.toString();});
+  child.stdout.on('data',()=>{});
+  const code=await Promise.race([
+   new Promise((resolve)=>{child.once('close',resolve);}),
+   new Promise((_,reject)=>setTimeout(()=>reject(Error('stall watchdog did not fire within 12s')),12000))
+  ]);
+  const elapsed=(Date.now()-started)/1000;
+  assert.notEqual(code,0,'stalled install must not report success');
+  assert.ok(elapsed<12,`stall stop must be fast (was ${elapsed}s)`);
+  assert.match(stderr,/no progress for/);
+ } finally {
+  if(child&&child.exitCode===null){try{child.kill('SIGTERM')}catch{}}
+  fs.rmSync(root,{recursive:true,force:true});
+ }
 });
