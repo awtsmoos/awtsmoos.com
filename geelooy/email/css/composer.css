@@ -39,4 +39,11 @@ The Awtsmoos reveals composition through focused vessels without division in the
 
 .composer-area.fullscreen .composer-box {
 	block-size: 100%;
+	/* B"H css-loop 2026-11-12 cycle 3: the fullscreen composer is a fixed-height
+	   box (.composer-area.fullscreen inset) and .composer-box clips with
+	   overflow:hidden, so a tall composer cut the Send row off at the viewport
+	   bottom with no way to scroll to it (rendered 1920x999, cycles 2-3).
+	   Let the box scroll vertically in fullscreen only; no visual change
+	   when content fits (no scrollbar appears). */
+	overflow-y: auto;
 }
