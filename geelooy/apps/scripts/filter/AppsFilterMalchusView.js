@@ -31,6 +31,8 @@ export class AppsFilterMalchusView {
 		const controlGevurah = new GevurahDomContract(this.filterForm, "Awtsmoos Apps filter");
 		this.searchInput = controlGevurah.require('input[name="q"]', "search input");
 		this.categorySelect = controlGevurah.require('select[name="category"]', "category select");
+		this.letterRow = controlGevurah.optional("[data-app-letters]");
+		this.letterButtons = this.letterRow ? Array.from(this.letterRow.querySelectorAll("[data-app-letter]")) : [];
 		this.cards = Object.freeze([]);
 	}
 
@@ -50,32 +52,43 @@ export class AppsFilterMalchusView {
 	/**
 	 * Reads raw filter controls without normalizing policy in the view layer.
 	 *
-	 * @returns {Readonly<{query:string,category:string}>} Current control values.
+	 * @returns {Readonly<{query:string,category:string,letter:string}>} Current control values.
 	 */
 	readState() {
+		const pressed = this.letterButtons.find((button) => button.getAttribute("aria-pressed") === "true");
 		return Object.freeze({
 			query: this.searchInput.value,
-			category: this.categorySelect.value
+			category: this.categorySelect.value,
+			letter: pressed ? String(pressed.dataset.appLetter || "") : ""
 		});
+	}
+
+	/** Presses one starting-letter button and releases the rest. */
+	pressLetter(letter) {
+		for (const button of this.letterButtons) {
+			button.setAttribute("aria-pressed", String(button.dataset.appLetter === letter));
+		}
+		return this.readState().letter;
 	}
 
 	/**
 	 * Writes normalized programmatic state through the single DOM mutation boundary.
 	 *
-	 * @param {Readonly<{query:string,category:string}>} malchusState State to manifest.
-	 * @returns {Readonly<{query:string,category:string}>} Actual values after native control coercion.
-	 * @sideEffects Mutates only the search input and category select values.
+	 * @param {Readonly<{query:string,category:string,letter:string}>} malchusState State to manifest.
+	 * @returns {Readonly<{query:string,category:string,letter:string}>} Actual values after native control coercion.
+	 * @sideEffects Mutates only the search input, category select, and letter buttons.
 	 */
 	writeState(malchusState) {
 		this.searchInput.value = malchusState.query;
 		this.categorySelect.value = malchusState.category;
+		this.pressLetter(malchusState.letter || "");
 		return this.readState();
 	}
 
 	/**
 	 * Applies one pure filter policy to rendered cards without changing catalog order.
 	 *
-	 * @param {{matches(search:string,categories:string):boolean}} hodPolicy Filter policy.
+	 * @param {{matches(search:string,categories:string,letter:string):boolean}} hodPolicy Filter policy.
 	 * @returns {number} Number of visible cards after manifestation.
 	 * @sideEffects Updates card hidden states, empty-state visibility, and result text.
 	 */
@@ -85,7 +98,8 @@ export class AppsFilterMalchusView {
 		for (const malchusCard of this.cards) {
 			const isVisible = hodPolicy.matches(
 				malchusCard.dataset.search,
-				malchusCard.dataset.category
+				malchusCard.dataset.category,
+				malchusCard.dataset.letter
 			);
 			malchusCard.hidden = !isVisible;
 			visibleCount += isVisible ? 1 : 0;

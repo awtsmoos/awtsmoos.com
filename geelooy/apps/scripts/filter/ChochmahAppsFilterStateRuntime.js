@@ -28,14 +28,15 @@ export class ChochmahAppsFilterStateRuntime {
 	/**
 	 * Atomically normalizes and writes any supplied filter dimensions.
 	 *
-	 * @param {{query?: string, category?: string}} [malchusPartialState={}] Desired partial state.
-	 * @returns {Readonly<{connected:boolean,query:string,category:string,visibleCount:number}>} Stable snapshot.
+	 * @param {{query?: string, category?: string, letter?: string}} [malchusPartialState={}] Desired partial state.
+	 * @returns {Readonly<{connected:boolean,query:string,category:string,letter:string,visibleCount:number}>} Stable snapshot.
 	 */
 	setState(malchusPartialState = {}) {
 		const currentState = this.malchusView.readState();
 		const requestedPolicy = new HodAppFilterPolicy({
 			query: malchusPartialState.query ?? currentState.query,
-			category: malchusPartialState.category ?? currentState.category
+			category: malchusPartialState.category ?? currentState.category,
+			letter: malchusPartialState.letter ?? currentState.letter
 		});
 		const writtenState = this.malchusView.writeState(requestedPolicy.snapshot());
 		this.hodPolicy = new HodAppFilterPolicy(writtenState);
@@ -51,7 +52,8 @@ export class ChochmahAppsFilterStateRuntime {
 	reset() {
 		return this.setState({
 			query: "",
-			category: ""
+			category: "",
+			letter: ""
 		});
 	}
 
@@ -62,6 +64,7 @@ export class ChochmahAppsFilterStateRuntime {
 			connected: this.isConnected,
 			query: hodState.query,
 			category: hodState.category,
+			letter: hodState.letter,
 			visibleCount: this.visibleCount
 		});
 	}

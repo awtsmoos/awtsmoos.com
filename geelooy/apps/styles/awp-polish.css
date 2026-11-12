@@ -297,6 +297,51 @@
 	letter-spacing: 0.03em;
 	color: var(--awp-muted);
 }
+/* B"H — the starting-letter row: one tap narrows to a single letter. */
+.awp-app .apps-letter-filter {
+	margin: 1rem 0 0;
+	padding: 0;
+	border: 0;
+}
+.awp-app .apps-letter-filter legend {
+	margin-bottom: 0.5rem;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--awp-muted);
+}
+.awp-app .apps-letter-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+}
+.awp-app .apps-letter-row button {
+	min-width: 2rem;
+	min-height: 2rem;
+	padding: 0.15rem 0.45rem;
+	border: 1px solid color-mix(in srgb, var(--awp-accent) 35%, transparent);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--awp-text);
+	font: inherit;
+	font-size: 0.85rem;
+	cursor: pointer;
+}
+.awp-app .apps-letter-row button:hover {
+	border-color: var(--awp-accent);
+}
+.awp-app .apps-letter-row button[aria-pressed="true"] {
+	background: var(--awp-accent);
+	border-color: var(--awp-accent);
+	color: #100f0d;
+	font-weight: 700;
+}
+.awp-app .apps-letter-row button:focus-visible {
+	outline: 2px solid var(--awp-accent);
+	outline-offset: 2px;
+}
+.awp-app .apps-letter-row button:active {
+	transform: scale(0.96);
+}
 /* B"H — section heading rhythm: the eyebrow breathes before the grid. */
 .awp-app .apps-section-heading {
 	margin: 2.2rem 0 1.2rem;

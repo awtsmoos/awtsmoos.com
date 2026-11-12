@@ -20,7 +20,7 @@ export class NetzachAppsFilterBindings {
 	/**
 	 * Creates an unconnected listener vessel.
 	 *
-	 * @param {{filterForm: HTMLFormElement, searchInput: HTMLInputElement, categorySelect: HTMLSelectElement}} malchusView
+	 * @param {{filterForm: HTMLFormElement, searchInput: HTMLInputElement, categorySelect: HTMLSelectElement, letterRow: HTMLElement|null, pressLetter: (letter:string)=>string}} malchusView
 	 * 	The mounted DOM view whose controls emit filter intentions.
 	 * @param {() => unknown} tiferesApply
 	 * 	Callback that re-applies current filter state after a user event.
@@ -30,13 +30,14 @@ export class NetzachAppsFilterBindings {
 		this.tiferesApply = tiferesApply;
 		this.netzachAbortController = null;
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleLetterClick = this.handleLetterClick.bind(this);
 	}
 
 	/**
-	 * Connects submit, input, and change listeners exactly once.
+	 * Connects submit, input, change, and letter-click listeners exactly once.
 	 *
 	 * @returns {NetzachAppsFilterBindings} This binding vessel for fluent orchestration.
-	 * @sideEffects Adds three DOM listeners governed by one AbortController signal.
+	 * @sideEffects Adds four DOM listeners governed by one AbortController signal.
 	 */
 	connect() {
 		if (this.netzachAbortController) {
@@ -49,6 +50,7 @@ export class NetzachAppsFilterBindings {
 		this.malchusView.filterForm.addEventListener("submit", this.handleSubmit, { signal });
 		this.malchusView.searchInput.addEventListener("input", this.tiferesApply, { signal });
 		this.malchusView.categorySelect.addEventListener("change", this.tiferesApply, { signal });
+		this.malchusView.letterRow?.addEventListener("click", this.handleLetterClick, { signal });
 		return this;
 	}
 
@@ -73,6 +75,20 @@ export class NetzachAppsFilterBindings {
 	 */
 	handleSubmit(event) {
 		event.preventDefault();
+		this.tiferesApply();
+	}
+
+	/**
+	 * Presses the clicked starting letter and re-applies the filter.
+	 *
+	 * @param {MouseEvent} event Browser click from the letter row.
+	 * @returns {void}
+	 * @sideEffects Updates the pressed letter button and invokes the apply callback.
+	 */
+	handleLetterClick(event) {
+		const button = event.target.closest("[data-app-letter]");
+		if (!button) return;
+		this.malchusView.pressLetter(button.dataset.appLetter || "");
 		this.tiferesApply();
 	}
 }

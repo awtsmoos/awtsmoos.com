@@ -63,6 +63,12 @@ function appIconElement(app) {
 	return icon;
 }
 
+/** First A–Z letter of a title, or "" when it starts with something else. */
+function firstCatalogLetter(title) {
+	const first = String(title || "").trim().charAt(0).toUpperCase();
+	return /^[A-Z]$/.test(first) ? first : "";
+}
+
 /** @param {object} app Catalog record. @returns {string} Complete normalized search text. */
 function searchableText(app) {
 	return [
@@ -91,6 +97,7 @@ export function renderAppCard(app) {
 	card.dataset.appCard = "";
 	card.dataset.appId = app.id;
 	card.dataset.category = app.categories.join(" ");
+	card.dataset.letter = firstCatalogLetter(app.title);
 	card.dataset.search = searchableText(app);
 
 	const icon = appIconElement(app);

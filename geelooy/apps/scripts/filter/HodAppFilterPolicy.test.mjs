@@ -41,6 +41,13 @@ assert.equal(joinedPolicy.matches("code editor", "creative tools"), true);
 assert.equal(joinedPolicy.matches("code editor", "creative"), false);
 assert.equal(joinedPolicy.matches("image studio", "creative tools"), false);
 assert.equal(Object.isFrozen(joinedPolicy), true);
-assert.deepEqual(joinedPolicy.snapshot(), { query: "code", category: "tools" });
+assert.deepEqual(joinedPolicy.snapshot(), { query: "code", category: "tools", letter: "" });
+
+const letterPolicy = new HodAppFilterPolicy({ letter: " m " });
+assert.equal(letterPolicy.snapshot().letter, "M");
+assert.equal(letterPolicy.matches("music app", "media", "M"), true);
+assert.equal(letterPolicy.matches("music app", "media", "A"), false);
+assert.equal(letterPolicy.matches("music app", "media", ""), false);
+assert.equal(new HodAppFilterPolicy({ letter: "42" }).snapshot().letter, "");
 
 console.log('B"H HodAppFilterPolicy.test passed');

@@ -26,7 +26,7 @@ for (const token of ["revealAppsFilterTiferes", "appsFilterRuntimeReady", "AppsF
 assert.doesNotMatch(entry, /PUBLIC_APPS|renderAppCatalog|addEventListener/);
 assert.match(runtime, /extends ChochmahAppsFilterStateRuntime/);
 
-for (const token of ["PUBLIC_APPS", "AppsFilterMalchusView", "NetzachAppsFilterBindings", "connect()", "apply()", "destroy()"]) {
+for (const token of ["PUBLIC_APPS", "AppsFilterMalchusView", "NetzachAppsFilterBindings", "byCatalogTitle", "connect()", "apply()", "destroy()"]) {
 	assert.ok(runtime.includes(token), `Apps runtime missing ${token}`);
 }
 

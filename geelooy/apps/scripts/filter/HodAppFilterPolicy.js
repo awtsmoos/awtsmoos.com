@@ -14,36 +14,39 @@ export class HodAppFilterPolicy {
 	/**
 	 * Creates an immutable normalized filter policy.
 	 *
-	 * @param {{query?:unknown, category?:unknown}} [rawState={}] Untrusted filter values.
+	 * @param {{query?:unknown, category?:unknown, letter?:unknown}} [rawState={}] Untrusted filter values.
 	 */
 	constructor(rawState = {}) {
 		this.query = normalizeHodQuery(rawState.query);
 		this.category = normalizeHodCategory(rawState.category);
+		this.letter = normalizeHodLetter(rawState.letter);
 		Object.freeze(this);
 	}
 
 	/**
-	 * Tests one catalog record against both current filter dimensions.
+	 * Tests one catalog record against all current filter dimensions.
 	 *
 	 * @param {unknown} searchableText Lowercase searchable text stored on the card.
 	 * @param {unknown} categoryText Whitespace-separated category token string.
-	 * @returns {boolean} True when query and category both match.
+	 * @param {unknown} letterText Starting letter stored on the card.
+	 * @returns {boolean} True when query, category, and letter all match.
 	 */
-	matches(searchableText, categoryText) {
+	matches(searchableText, categoryText, letterText) {
 		const hodSearchText = String(searchableText || "");
 		const hodCategories = tokenizeHodCategories(categoryText);
 		const queryMatches = !this.query || hodSearchText.includes(this.query);
 		const categoryMatches = !this.category || hodCategories.includes(this.category);
-		return queryMatches && categoryMatches;
+		const letterMatches = !this.letter || String(letterText || "") === this.letter;
+		return queryMatches && categoryMatches && letterMatches;
 	}
 
 	/**
 	 * Returns the normalized data state for logs, tests, or route snapshots.
 	 *
-	 * @returns {Readonly<{query:string,category:string}>} This immutable policy state.
+	 * @returns {Readonly<{query:string,category:string,letter:string}>} This immutable policy state.
 	 */
 	snapshot() {
-		return Object.freeze({ query: this.query, category: this.category });
+		return Object.freeze({ query: this.query, category: this.category, letter: this.letter });
 	}
 }
 
@@ -65,6 +68,17 @@ export function normalizeHodQuery(rawQuery) {
  */
 export function normalizeHodCategory(rawCategory) {
 	return String(rawCategory || "");
+}
+
+/**
+ * Keeps a single A–Z starting letter, or "" for all.
+ *
+ * @param {unknown} rawLetter Raw letter input.
+ * @returns {string} Uppercase letter or empty string.
+ */
+export function normalizeHodLetter(rawLetter) {
+	const letter = String(rawLetter || "").trim().toUpperCase();
+	return /^[A-Z]$/.test(letter) ? letter : "";
 }
 
 /**

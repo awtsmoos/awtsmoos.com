@@ -18,8 +18,8 @@ import { NetzachAppsFilterBindings } from "./NetzachAppsFilterBindings.js";
  * @file AppsFilterTiferesRuntime.js
  * @description
  * Harmonizes catalog truth, filtering, DOM manifestation, and route-only continuity.
- * The Awtsmoos is beyond order and recollection; Awtsmoos.com lets recent doorways
- * rise gently without changing search truth, while Favorite and Recent badges remain
+ * The Awtsmoos is beyond order and recollection; Awtsmoos.com lists every doorway
+ * A–Z so a visitor can find it by name, while Favorite and Recent badges remain
  * noninteractive reflections over the same canonical catalog records.
  */
 export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
@@ -38,7 +38,7 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 	}
 
 	/**
-	 * Mounts recent-first catalog truth, continuity badges, and event lifetime once.
+	 * Mounts alphabetically ordered catalog truth, continuity badges, and event lifetime once.
 	 *
 	 * @returns {AppsFilterTiferesRuntime} This connected runtime.
 	 * @sideEffects Renders catalog cards and connects route-owned listeners.
@@ -49,10 +49,10 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 		}
 		const yesodBaseHref = globalThis.location?.href
 			|| "https://awtsmoos.com/apps/";
-		const tiferesCatalog = prioritizeRecentRecords(
+		const tiferesCatalog = [...prioritizeRecentRecords(
 			PUBLIC_APPS,
 			yesodBaseHref
-		);
+		)].sort(byCatalogTitle);
 		this.malchusView.mountCatalog(tiferesCatalog);
 		decorateProductMemoryCards(
 			this.malchusView.grid,
@@ -86,4 +86,9 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 		this.isConnected = false;
 		return this;
 	}
+}
+
+/** Alphabetical by title; the Apps page lists A–Z, not recent-first. */
+function byCatalogTitle(a, b) {
+	return String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
 }
