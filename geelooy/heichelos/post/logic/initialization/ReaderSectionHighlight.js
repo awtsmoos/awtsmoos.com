@@ -34,9 +34,49 @@ let selectedSubs = [];
  * the stylesheet defines never appeared. Paint all three now: the pair
  * keeps its existing selection class, its section gains .is-reading,
  * and the pair's Hebrew and English blocks gain .is-reading-sub.
- */
+ * B"H batch 55 — INLINE WASH + PADDING (the deliberate exception after
+ * 6 failed cascade batches): the batch-54 check PROVED the class IS
+ * applied (the gold edge shows) yet the 18% wash reads as "plain
+ * cream" and the sheet padding does not reach the glyphs. The wash
+ * (35% now) and the phrase padding are ALSO pinned inline on the
+ * painted pair, so they show whatever sheet the browser holds. The
+ * class + sheet rule stay (the law8 inset edge on .is-reading-sub is
+ * a second marker). Inline paint is cleared from the old pair on
+ * unpaint, same path as the class — so exactly one pair ever carries
+ * it. Only the three inline properties this function sets are ever
+ * cleared (backgroundColor / borderInlineStart / borderRadius on the
+ * pair, paddingInline on the phrases); no other inline style is
+ * touched. */
+const INLINE_WASH_BG = 'rgb(212 169 78 / 0.35)';
+const INLINE_WASH_EDGE = 'max(5px, 0.05em) solid #d4a94e';
+const INLINE_PHRASE_PAD = 'max(14px, 0.28em)';
+function clearInlinePaint(pair, subs) {
+	try {
+		if (pair && pair.style) {
+			pair.style.backgroundColor = '';
+			pair.style.borderInlineStart = '';
+			pair.style.borderRadius = '';
+		}
+		for (const sub of subs || []) {
+			if (sub && sub.style) sub.style.paddingInline = '';
+		}
+	} catch (_) {}
+}
+function setInlinePaint(pair, subs) {
+	try {
+		if (pair && pair.style) {
+			pair.style.backgroundColor = INLINE_WASH_BG;
+			pair.style.borderInlineStart = INLINE_WASH_EDGE;
+			pair.style.borderRadius = '6px';
+		}
+		for (const sub of subs || []) {
+			if (sub && sub.style) sub.style.paddingInline = INLINE_PHRASE_PAD;
+		}
+	} catch (_) {}
+}
 function paintReaderPair(pair) {
 	if (selectedPair === pair) return pair;
+	clearInlinePaint(selectedPair, selectedSubs);
 	selectedPair?.classList.remove('is-pair-selected');
 	for (const sub of selectedSubs) sub.classList.remove('is-reading-sub');
 	selectedSubs = [];
@@ -66,6 +106,7 @@ function paintReaderPair(pair) {
 			pair.classList.add('is-reading-sub');
 			selectedSubs.push(pair);
 		}
+		setInlinePaint(pair, selectedSubs);
 	}
 	/* B"H batch 54 — record that a pair is highlighted, so the page
 	   (and any CSS fallback) can tell a highlight exists. Removed
@@ -195,6 +236,12 @@ function adoptInlineHighlight() {
 		if (!subs.length && typeof painted.matches === 'function' && painted.matches('.awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')) {
 			selectedSubs.push(painted);
 		}
+		/* B"H batch 55 — the adopted pair may carry the class but not
+		   the inline wash (the template script sets both, but if its
+		   inline-style lines ever failed, adoption must still give the
+		   pair the inline paint, so the wash shows). setInlinePaint
+		   is idempotent; the later unpaint clears it. */
+		setInlinePaint(painted, selectedSubs);
 	} catch (_) {}
 }
 

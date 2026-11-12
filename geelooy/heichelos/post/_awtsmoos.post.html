@@ -98,6 +98,26 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		:root .post-reader-localized-context #readerInfoList[hidden],
 		:root .post-reader-localized-context #readerInfoFootnoteList[hidden] { display: none; }
 		:root .post-reader-localized-context .reader-index-choice { display: block; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+		/* B"H batch 55 — PADDING + WASH + TABS, pinned HERE (network-first,
+		   always fresh, :root-prefixed so they beat the bundle and any
+		   stale sheet). The bundle's padding rules (column 16px, pair
+		   0.12em, phrase 0.28em) are correct and match the DOM, yet the
+		   rendered check still sees the widest glyphs ~2px from the card
+		   border after 6 batches — static analysis cannot see why. The
+		   same holds for the 18% wash (too faint to read) and the
+		   unselected tab (sheet says light, browser shows dark). These
+		   template rules are the network-first backstop; the wash and
+		   the padding are ALSO pinned inline on the painted pair (see
+		   the marker script below + ReaderSectionHighlight.js), and the
+		   tab paint is pinned inline in showReaderExploreTab. */
+		:root .post-reader-localized-context #realPost .meluket-sefer { padding-inline: 16px; box-sizing: border-box; }
+		:root .post-reader-localized-context #realPost .meluket-phrase-pair { padding-inline: max(12px, 0.12em); box-sizing: border-box; }
+		:root .post-reader-localized-context #realPost .meluket-phrase--he,
+		:root .post-reader-localized-context #realPost .meluket-phrase--en { padding-inline: max(14px, 0.28em); box-sizing: border-box; }
+		:root .post-reader-localized-context #realPost:not(.has-pair-highlight) .meluket-sefer-section:first-of-type .meluket-phrase-pair:first-of-type { background-color: rgb(212 169 78 / 0.35); border-inline-start: max(5px, 0.05em) solid #d4a94e; border-radius: 6px; }
+		:root .post-reader-localized-context .reader-info-tabs { position: relative; z-index: 2; background: #f9f4ea; border-bottom: 1px solid #e6dcc4; }
+		:root .post-reader-localized-context .reader-info-tabs button { background: #fffefa; color: #655641; border: 1px solid #d9c49f; }
+		:root .post-reader-localized-context .reader-info-tabs button.is-active { background: #3e2b12; border-color: #3e2b12; color: #fffaf0; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
 		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
@@ -146,7 +166,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=a72600f4e9">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=dec13db61f">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -166,7 +186,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	</script>
 </head>
 <body>
-	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="54">
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="55">
 		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
 		     vars on <html>, but a stylesheet rule sets --post-text-size
 		     directly on THIS div, so it needs the same vars inline on
@@ -248,7 +268,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     competes with the Torah. A batch that touches the marker
 		     updates the data-batch attributes to its own batch (the
 		     same per-batch step as the bundle pin). -->
-		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="54" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
+		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="55" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
 		<script>
 		try {
 			var __awtsmoosBundleLink = document.querySelector('link[href*="post-bundle.css?v="]');
@@ -316,12 +336,31 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					/* Same class placement as the module's paintReaderPair:
 					   .is-pair-selected on the pair (the wash), .is-reading
 					   on its section, .is-reading-sub on its Hebrew/English
-					   phrases (the law8 inset edge). */
+					   phrases (the law8 inset edge).
+					   B"H batch 55 — INLINE WASH + PADDING (the deliberate
+					   exception after 6 failed cascade batches): the
+					   batch-54 check PROVED the class IS applied (the gold
+					   edge shows) yet the 18% wash reads as "plain cream"
+					   and the sheet padding does not reach the glyphs. The
+					   wash (35% now) and the phrase padding are ALSO pinned
+					   inline on this pair, so they show whatever sheet the
+					   browser holds. The module's paintReaderPair sets the
+					   same inline paint when it moves the highlight, and
+					   clears it from the old pair — so exactly one pair
+					   ever carries it. The .has-pair-highlight stamp turns
+					   off the :not(.has-pair-highlight) first-pair fallback
+					   rule in the template <style> above. */
 					__awtsmoosFirstPair.classList.add('is-pair-selected');
+					__awtsmoosFirstPair.style.backgroundColor = 'rgb(212 169 78 / 0.35)';
+					__awtsmoosFirstPair.style.borderInlineStart = 'max(5px, 0.05em) solid #d4a94e';
+					__awtsmoosFirstPair.style.borderRadius = '6px';
 					var __awtsmoosSec2 = __awtsmoosFirstPair.closest('.meluket-sefer-section');
 					if (__awtsmoosSec2) __awtsmoosSec2.classList.add('is-reading');
 					var __awtsmoosSubs = __awtsmoosFirstPair.querySelectorAll('.meluket-phrase--he, .meluket-phrase--en');
-					for (var __awtsmoosSi = 0; __awtsmoosSi < __awtsmoosSubs.length; __awtsmoosSi++) __awtsmoosSubs[__awtsmoosSi].classList.add('is-reading-sub');
+					for (var __awtsmoosSi = 0; __awtsmoosSi < __awtsmoosSubs.length; __awtsmoosSi++) {
+						__awtsmoosSubs[__awtsmoosSi].classList.add('is-reading-sub');
+						__awtsmoosSubs[__awtsmoosSi].style.paddingInline = 'max(14px, 0.28em)';
+					}
 					var __awtsmoosRealPost = document.getElementById('realPost');
 					if (__awtsmoosRealPost) __awtsmoosRealPost.classList.add('has-pair-highlight');
 				}
@@ -468,6 +507,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   cream with dark ink, whatever sheet the browser holds. */
 					panel.style.background = '#f9f4ea';
 					panel.style.color = '#2b2118';
+					/* B"H batch 55 — the dark bar: the panel is cream in
+					   the sheet AND pinned cream inline above, with no
+					   box-shadow in any served sheet — yet the check still
+					   sees a ~25px dark-navy bar at the dialog's very
+					   bottom. Pin box-shadow: none INLINE too, so no
+					   stale sheet can put a dark shadow under the panel. */
+					panel.style.boxShadow = 'none';
 					/* B"H batch 54 — "Show more passages" renders dark
 					   text on dark navy in the real browser although the
 					   bundle pins it #f5ead1 (the same stale/mixed-sheet
@@ -479,6 +525,39 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 						dialogBtns[bi].style.background = '#fffdf6';
 						dialogBtns[bi].style.color = '#2b2118';
 						dialogBtns[bi].style.border = '1px solid #d9c9a8';
+					}
+					/* B"H batch 55 — the dark bar, direct suppression:
+					   #readerInfoEmpty is the ONLY element after the last
+					   visible button in BOTH dialog views (an empty <p>,
+					   hidden). If its [hidden] is ever beaten it renders
+					   at the panel's very bottom — pin it light inline
+					   here (and clear it on close, below) so even if it
+					   renders it is cream, never dark. The [hidden] rule
+					   itself is raised to (2,3,0) in the bundle, and the
+					   <p> carries a cream background in the sheet too.
+					   TAB PAINT: the unselected tab renders dark text on
+					   dark navy although the sheet says light cream. The
+					   tabs' paint is pinned inline in showReaderExploreTab
+					   (ReaderInfoViews.js) on every switch; pin it HERE
+					   too, on open, so the first paint is already legible
+					   even before any switch. Only background / color /
+					   border are pinned. */
+					var emptyNote = byId('readerInfoEmpty');
+					if (emptyNote) {
+						emptyNote.style.background = '#f9f4ea';
+						emptyNote.style.color = '#655641';
+					}
+					var tabBtns = panel.querySelectorAll('.reader-info-tabs button');
+					for (var ti = 0; ti < tabBtns.length; ti++) {
+						if (tabBtns[ti].classList.contains('is-active')) {
+							tabBtns[ti].style.background = '#3e2b12';
+							tabBtns[ti].style.borderColor = '#3e2b12';
+							tabBtns[ti].style.color = '#fffaf0';
+						} else {
+							tabBtns[ti].style.background = '#fffefa';
+							tabBtns[ti].style.borderColor = '#d9c49f';
+							tabBtns[ti].style.color = '#655641';
+						}
 					}
 					/* B"H batch 53 — pin the heading h2's layout INLINE:
 					   the flex: 1 1 0% + min-width: 0 rule is correct in
@@ -540,6 +619,20 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 						dialogBtns[bi].style.background = '';
 						dialogBtns[bi].style.color = '';
 						dialogBtns[bi].style.border = '';
+					}
+					/* B"H batch 55 — clear the inline pins set on open
+					   (empty-note light paint + tab paints), so a later
+					   open re-pins them fresh from the current state. */
+					var emptyNote = byId('readerInfoEmpty');
+					if (emptyNote) {
+						emptyNote.style.background = '';
+						emptyNote.style.color = '';
+					}
+					var tabBtns = panel.querySelectorAll('.reader-info-tabs button');
+					for (var ti = 0; ti < tabBtns.length; ti++) {
+						tabBtns[ti].style.background = '';
+						tabBtns[ti].style.borderColor = '';
+						tabBtns[ti].style.color = '';
 					}
 				}
 				if (backdrop) backdrop.removeAttribute('style');
@@ -747,12 +840,12 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				registerScript.src = '/register.js?v=2d272b4d5a';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=41cfbdd1e3').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=795fb5cba5').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
 				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-3').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=0f4238a130').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=d605067f86').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=515732976c');
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=0c9c299e14').catch(() => {});
+				import('/heichelos/post/postLogic.js?v=4c65b79f44');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage
 				// to the full canonical boot (postLogic module graph + API fetches),

@@ -6624,10 +6624,19 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    repaints without a scroll (see ReaderSectionHighlight.js: the
    observer + rect fallback). The wash is 18% now — unmistakable on
    cream, text still black-on-gold-tint and readable — and the edge
-   is 5px / 0.05em. */
+   is 5px / 0.05em.
+   B"H batch 55 — the batch-54 check PROVED the class IS applied
+   (the gold edge shows as a thin tan line at the card's right edge
+   in all three places checked) yet the wash still reads as "plain
+   cream": 18% gold over cream computes to roughly rgb(245,237,217)
+   against cream rgb(253,253,247) — a pale tint, not a clearly
+   visible wash. The wash is 35% now, unmistakable, text still
+   black-on-gold and readable. The wash is ALSO pinned inline on
+   the pair by the template script + the module (see ROOT-CAUSES.md:
+   the inline-style exception after 6 failed cascade batches). */
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
-	background-color: rgb(212 169 78 / 0.18);
+	background-color: rgb(212 169 78 / 0.35);
 	border-inline-start: max(5px, 0.05em) solid #d4a94e;
 	border-radius: 6px;
 	box-shadow: none;
@@ -6712,6 +6721,24 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    scrolls, and it now stamps .has-pair-highlight on #realPost
    whenever a pair is painted, so the page always records that a
    highlight exists. The wash rule itself is unchanged. */
+
+/* B"H batch 55 — FIRST-PAIR FALLBACK: if NO pair carries the
+   highlight class (every script failed — the template inline paint,
+   the module's rect fallback, the guard), the first pair still shows
+   the wash, so a fresh load is never highlight-less. The rule only
+   applies while #realPost does NOT carry .has-pair-highlight; the
+   moment any pair is painted (template script or module), the stamp
+   turns this fallback off, so exactly one pair is ever highlighted.
+   The first pair IS the current pair on an initial load (no
+   ?section=); on a ?section= load the script paints that section's
+   opening pair instead and the fallback stays off. */
+.post-reader-localized-context #realPost:not(.has-pair-highlight) .meluket-sefer-section:first-of-type .meluket-phrase-pair:first-of-type {
+	background-color: rgb(212 169 78 / 0.35);
+	border-inline-start: max(5px, 0.05em) solid #d4a94e;
+	border-radius: 6px;
+	box-shadow: none;
+	outline: none;
+}
 
 
 /* ==== heichelos/post/styles/reader-content/reader-info-navigation.css ==== */
@@ -6851,6 +6878,20 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
+/* B"H batch 55 — the dark bar: the ONLY element after the last visible
+   button in BOTH dialog views is #readerInfoEmpty (an empty <p>,
+   hidden), and its [hidden] rule above is (1,2,0) — the same
+   specificity class that lost the Explore-tabs tie in batch 54. If
+   [hidden] is beaten, the empty <p> renders at the panel's very
+   bottom. This rule raises it to (2,3,0) so hidden really means
+   hidden, whatever sheet the browser holds. The <p> also carries a
+   light background (submenus sheet) so even if it renders it is
+   cream, never dark. See ROOT-CAUSES.md — the bar's element could
+   not be identified by static analysis in 7 batches; this is direct
+   suppression, not another diagnosis. */
+:root .post-reader-localized-context #readerInfoPanel #readerInfoEmpty[hidden] {
+	display: none;
+}
 /* B"H batch 48: the floating "N online" pill shows "0 online", does
    not work, and overlaps the reading text — hide both launcher variants
    on reader post pages, always (not only while the guide is open).
@@ -6945,12 +6986,28 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 }
 /* B"H batch 49 (item D) — the Explore tabs: Sections | Footnotes. Each
    tab has its own list (and its own scroller), so scrolling the
-   footnotes never moves the sections and vice versa. */
+   footnotes never moves the sections and vice versa.
+   B"H batch 55 — TAB-BAR OVERLAP: after scrolling, the top row's
+   Hebrew line reads as "hidden under the tabs". The tabs are in normal
+   flow (not sticky), but they had a TRANSPARENT background, so a
+   half-scrolled row could appear to bleed into them. The tabs are a
+   solid, opaque header now (the panel's cream + a bottom border), so
+   they read as a clean bar and no row can show through them. The
+   button paints themselves are pinned INLINE in showReaderExploreTab
+   (ReaderInfoViews.js) — active dark, unselected light — because the
+   sheet's light unselected paint did not show in the real browser
+   (same stale/mixed-sheet failure as "Show more" before batch 54);
+   the sheet rules below are the backup. */
 .post-reader-localized-context .reader-info-tabs {
 	flex: 0 0 auto;
 	display: flex;
 	gap: 6px;
 	margin: 2px 0 8px;
+	position: relative;
+	z-index: 2;
+	background: #f9f4ea;
+	border-bottom: 1px solid #e6dcc4;
+	padding-bottom: 8px;
 }
 .post-reader-localized-context .reader-info-tabs[hidden] {
 	display: none;
@@ -7133,7 +7190,11 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context #readerInfoList,
 .post-reader-localized-context #readerInfoFootnoteList {
 	flex: 1 1 auto;
-	padding: 6px 3px 10px;
+	/* B"H batch 55 — TAB-BAR OVERLAP: the first row starts clearly
+	   below the tabs (top padding 6px -> 10px), so the separation
+	   between the tab header and the first row is unambiguous even
+	   after scrolling. Scroll behavior is unchanged. */
+	padding: 10px 3px 10px;
 	align-content: start;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
@@ -7270,6 +7331,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	margin: 10px 6px;
 	color: #655641;
 	font-size: 14px;
+	/* B"H batch 55 — the dark bar: this empty status <p> is the ONLY
+	   element after the last visible button in BOTH dialog views, so
+	   if its [hidden] is ever beaten it renders at the panel's very
+	   bottom. It carries the panel's cream background now, so even if
+	   it renders it is cream, never dark. The [hidden] rule itself is
+	   raised to (2,3,0) in reader-info-navigation.css, and paintInfo
+	   pins it light inline too. */
+	background: #f9f4ea;
 }
 
 

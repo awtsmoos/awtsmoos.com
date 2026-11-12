@@ -12,7 +12,7 @@ import {
 import {
 	showReaderMenuView,
 	showReaderExploreTab
-} from './ReaderInfoViews.js?v=reader-smooth-20261112-3';
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-4';
 import {
 	stampLetteredSectionLabels
 } from './ReaderInfoList.js?v=reader-info-nested-20261112-3';

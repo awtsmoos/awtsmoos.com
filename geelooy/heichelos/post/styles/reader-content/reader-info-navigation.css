@@ -136,6 +136,20 @@
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
+/* B"H batch 55 — the dark bar: the ONLY element after the last visible
+   button in BOTH dialog views is #readerInfoEmpty (an empty <p>,
+   hidden), and its [hidden] rule above is (1,2,0) — the same
+   specificity class that lost the Explore-tabs tie in batch 54. If
+   [hidden] is beaten, the empty <p> renders at the panel's very
+   bottom. This rule raises it to (2,3,0) so hidden really means
+   hidden, whatever sheet the browser holds. The <p> also carries a
+   light background (submenus sheet) so even if it renders it is
+   cream, never dark. See ROOT-CAUSES.md — the bar's element could
+   not be identified by static analysis in 7 batches; this is direct
+   suppression, not another diagnosis. */
+:root .post-reader-localized-context #readerInfoPanel #readerInfoEmpty[hidden] {
+	display: none;
+}
 /* B"H batch 48: the floating "N online" pill shows "0 online", does
    not work, and overlaps the reading text — hide both launcher variants
    on reader post pages, always (not only while the guide is open).
@@ -230,12 +244,28 @@
 }
 /* B"H batch 49 (item D) — the Explore tabs: Sections | Footnotes. Each
    tab has its own list (and its own scroller), so scrolling the
-   footnotes never moves the sections and vice versa. */
+   footnotes never moves the sections and vice versa.
+   B"H batch 55 — TAB-BAR OVERLAP: after scrolling, the top row's
+   Hebrew line reads as "hidden under the tabs". The tabs are in normal
+   flow (not sticky), but they had a TRANSPARENT background, so a
+   half-scrolled row could appear to bleed into them. The tabs are a
+   solid, opaque header now (the panel's cream + a bottom border), so
+   they read as a clean bar and no row can show through them. The
+   button paints themselves are pinned INLINE in showReaderExploreTab
+   (ReaderInfoViews.js) — active dark, unselected light — because the
+   sheet's light unselected paint did not show in the real browser
+   (same stale/mixed-sheet failure as "Show more" before batch 54);
+   the sheet rules below are the backup. */
 .post-reader-localized-context .reader-info-tabs {
 	flex: 0 0 auto;
 	display: flex;
 	gap: 6px;
 	margin: 2px 0 8px;
+	position: relative;
+	z-index: 2;
+	background: #f9f4ea;
+	border-bottom: 1px solid #e6dcc4;
+	padding-bottom: 8px;
 }
 .post-reader-localized-context .reader-info-tabs[hidden] {
 	display: none;

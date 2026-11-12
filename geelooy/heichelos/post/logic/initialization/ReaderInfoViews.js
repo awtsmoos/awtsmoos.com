@@ -60,6 +60,30 @@ export function showReaderExploreTab(state, tab) {
 			const active = btn.dataset.readerTab === tab;
 			btn.setAttribute('aria-selected', active ? 'true' : 'false');
 			btn.classList.toggle('is-active', active);
+			/* B"H batch 55 — INLINE TAB PAINT (the deliberate exception
+			   after 6 failed cascade batches): the sheet says the
+			   unselected tab is light cream (#fffefa / #655641) and the
+			   active tab dark brown (#3e2b12 / #fffaf0), yet the real
+			   browser shows the unselected tab as dark text on dark
+			   navy — the same stale/mixed-sheet failure batch 45
+			   pinned the dialog buttons against and batch 54 pinned
+			   "Show more" against (inline in paintInfo, which FIXED
+			   it). The tabs were never pinned inline. Pin the paint
+			   HERE, where tab state lives: it runs on open (via
+			   showReaderMenuView) AND on every switch, so the inline
+			   paint always matches the state. The sheet rules stay as
+			   backup. Only background / color / border are pinned. */
+			try {
+				if (active) {
+					btn.style.background = '#3e2b12';
+					btn.style.borderColor = '#3e2b12';
+					btn.style.color = '#fffaf0';
+				} else {
+					btn.style.background = '#fffefa';
+					btn.style.borderColor = '#d9c49f';
+					btn.style.color = '#655641';
+				}
+			} catch (_) {}
 		}
 	}
 	/* The "Show more" button belongs to the active list. */

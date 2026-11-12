@@ -19,11 +19,11 @@ const PAGES_CACHE = CACHE_VERSION + '-pages';
 // Assets to pre-cache on install — B"H 2026-10-13: expanded to cover the
 // critical JS boot chain so repeat visits are instant (app-like).
 const PRECACHE_URLS = [
-  '/heichelos/post/styles/post-bundle.css?v=a72600f4e9',
+  '/heichelos/post/styles/post-bundle.css?v=dec13db61f',
   '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581',
   '/heichelos/post/styles/reader-tree-live.css?v=c46ffb47da',
   '/heichelos/post/styles/reader-controls/torah-authority/settings-mobile.css',
-  '/heichelos/post/postLogic.js?v=515732976c',
+  '/heichelos/post/postLogic.js?v=4c65b79f44',
   '/shared/MeaningfulActivity.js',
   '/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-040',
   '/heichelos/post/logic/initialization/ReaderBootState.js?v=reader-runtime-004',

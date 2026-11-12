@@ -29,7 +29,11 @@
 .post-reader-localized-context #readerInfoList,
 .post-reader-localized-context #readerInfoFootnoteList {
 	flex: 1 1 auto;
-	padding: 6px 3px 10px;
+	/* B"H batch 55 — TAB-BAR OVERLAP: the first row starts clearly
+	   below the tabs (top padding 6px -> 10px), so the separation
+	   between the tab header and the first row is unambiguous even
+	   after scrolling. Scroll behavior is unchanged. */
+	padding: 10px 3px 10px;
 	align-content: start;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
@@ -166,4 +170,12 @@
 	margin: 10px 6px;
 	color: #655641;
 	font-size: 14px;
+	/* B"H batch 55 — the dark bar: this empty status <p> is the ONLY
+	   element after the last visible button in BOTH dialog views, so
+	   if its [hidden] is ever beaten it renders at the panel's very
+	   bottom. It carries the panel's cream background now, so even if
+	   it renders it is cream, never dark. The [hidden] rule itself is
+	   raised to (2,3,0) in reader-info-navigation.css, and paintInfo
+	   pins it light inline too. */
+	background: #f9f4ea;
 }
