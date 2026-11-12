@@ -10,9 +10,9 @@
  * From units the reader takes its flight, with Hebrew and English side by side in light.
  */
 
-import { buildUnitPhrasesHtml } from './UnitsPhrases.js?v=units-002';
+import { buildUnitPhrasesHtml } from './UnitsPhrases.js?v=units-003';
 import { unitNotesHtml } from './UnitsNotes.js';
-import { escapeHtml, unitEnglishHtml, unitHebrewHtml } from './UnitsText.js';
+import { escapeHtml, unitEnglishHtml, unitHebrewHtml, unitLeadingPage } from './UnitsText.js?v=units-003';
 
 /**
  * Presents a canonical Vilna page marker without hiding the next teaching.
@@ -37,6 +37,14 @@ function renderContentUnit(unit, index) {
 	const english = unitEnglishHtml(unit);
 	const phrasesHtml = String(english || '').trim() ? '' : buildUnitPhrasesHtml(unit);
 	if (!hebrew && !String(english || '').trim() && !phrasesHtml) return '';
+	/* B"H batch 41: a leading <page n="N"/> on either side of the pair
+	   becomes [עמוד N] at the head of BOTH the Hebrew and English divs
+	   (unitHebrewHtml/unitEnglishHtml strip the raw marker; the pair's
+	   page turn is kept inline, on both sides, as batch 30 does). When the
+	   unit renders as phrases, the prefix lives in buildUnitPhrasesHtml. */
+	const page = unitLeadingPage(unit);
+	const hebrewMarked = page ? '[עמוד ' + page + '] ' + hebrew : hebrew;
+	const englishMarked = page ? '[עמוד ' + page + '] ' + english : english;
 
 	const type = typeof unit.type === 'string' ? unit.type : '';
 	const metadata = type
@@ -45,10 +53,10 @@ function renderContentUnit(unit, index) {
 		: '';
 	const bilingual = phrasesHtml || (
 		(hebrew
-			? '<div class="bavli-unit-he" dir="rtl" lang="he" style="line-height:1.9;">' + hebrew + '</div>'
+			? '<div class="bavli-unit-he" dir="rtl" lang="he" style="line-height:1.9;">' + hebrewMarked + '</div>'
 			: '')
 		+ (String(english || '').trim()
-			? '<div class="bavli-unit-en" dir="ltr" lang="en" style="line-height:1.75;margin-top:0.35em;">' + english + '</div>'
+			? '<div class="bavli-unit-en" dir="ltr" lang="en" style="line-height:1.75;margin-top:0.35em;">' + englishMarked + '</div>'
 			: '')
 	);
 

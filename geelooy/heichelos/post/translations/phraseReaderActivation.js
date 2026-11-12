@@ -29,7 +29,7 @@ const MIN_ALIGNED_PHRASES = 20;
  * subsectionId is the phrase order inside its section.
  */
 /**
- * B"H batch 30 — printed-page markers. The imported corpora prefix the
+ * B"H batch 30 + batch 41 — printed-page markers. The imported corpora prefix the
  * first phrase of each printed page with a literal <pg n="N"/> tag in
  * BOTH the Hebrew source and the English content. Rendered raw it leaked
  * onto the page as visible text; the reader law keeps page turns inline
@@ -37,13 +37,15 @@ const MIN_ALIGNED_PHRASES = 20;
  * a marker anywhere else is dropped (its page turn is the next
  * phrase's leading marker).
  */
-const PG_MARKER_RE = /<pg\s+n="?(\d+)"?\s*\/>/g;
-const PG_LEAD_RE = /^\s*<pg\s+n="?(\d+)"?\s*\/>\s*/;
+const PAGE_MARKER_NUM_RE = /<\/?"?\s*(?:pg|page)\s+n\s*=\s*"?(\d+)"?\s*\/?>/gi;
+const PAGE_MARKER_BARE_RE = /<\/?(?:pg|page)\s*\/?>/gi;
+const PAGE_MARKER_LEAD_RE = /^\s*<\/?"?\s*(?:pg|page)\s+n\s*=\s*"?(\d+)"?\s*\/?>/i;
 function awtsmoosPageMarkerLocal(text) {
 	const s = text == null ? '' : String(text);
-	const lead = s.match(PG_LEAD_RE);
-	if (lead) return { page: lead[1], text: s.replace(PG_LEAD_RE, '').replace(PG_MARKER_RE, '').trim() };
-	return { page: null, text: s.replace(PG_MARKER_RE, '') };
+	const lead = s.match(PAGE_MARKER_LEAD_RE);
+	const strip = (v) => v.replace(PAGE_MARKER_NUM_RE, '').replace(PAGE_MARKER_BARE_RE, '');
+	if (lead) return { page: lead[1], text: strip(s.replace(PAGE_MARKER_LEAD_RE, '')).trim() };
+	return { page: null, text: strip(s) };
 }
 
 export function buildPhraseTranslations(post, rows) {
@@ -52,7 +54,7 @@ export function buildPhraseTranslations(post, rows) {
 	for (const row of list) {
 		const hebrewRaw = row && row.sourceHebrew != null ? String(row.sourceHebrew) : "";
 		if (!hebrewRaw.trim()) continue;
-		// B"H batch 30: <pg n="N"/> printed-page markers -> [עמוד N] lead.
+		// B"H batch 30 + batch 41: <pg n="N"/> / <page n="N"/> printed-page markers -> [עמוד N] lead.
 		const heMark = awtsmoosPageMarkerLocal(hebrewRaw);
 		const enMark = awtsmoosPageMarkerLocal(row && row.content != null ? String(row.content) : "");
 		const pg = heMark.page || enMark.page;
@@ -153,7 +155,7 @@ export async function activatePhraseReaderFromApi(post, rows) {
 			} catch (_) { /* window.post is best-effort */ }
 		}
 		const { awakenPhraseTranslationReader } = await import(
-			"../logic/scribe/MeluketSeferReader.js?v=9d91c18d88"
+			"../logic/scribe/MeluketSeferReader.js?v=9001dad3b2"
 		);
 		const mounted = awakenPhraseTranslationReader(enriched);
 		if (mounted) {

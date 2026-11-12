@@ -11,7 +11,7 @@
 
 import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
 import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-006';
-import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-012';
+import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-013';
 import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
 import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-004';
 import {
@@ -21,7 +21,7 @@ import {
 import {
 	beginDiscussion,
 	beginTranslation
-} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-013';
+} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-014';
 import {
 	renderPlainBilingualFallback
 } from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-002';
@@ -118,7 +118,7 @@ async function igniteInner() {
 	// B"H 2026-11-10 round 5: build the sefer from the embedded phrases NOW
 	// — the text is already in the HTML, no API wait. Runs in parallel with
 	// manifestCanonicalReader; the API awaken below enhances it in place.
-	const seferModulePromise = import('../scribe/MeluketSeferReader.js?v=9d91c18d88');
+	const seferModulePromise = import('../scribe/MeluketSeferReader.js?v=9001dad3b2');
 	const embedAwakenPromise = seferModulePromise.then((m) => {
 		try { return m.awakenMeluketSeferReaderFromEmbed(); } catch (_) { return false; }
 	}).catch(() => false);

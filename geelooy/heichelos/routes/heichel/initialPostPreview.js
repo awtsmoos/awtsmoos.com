@@ -5,6 +5,12 @@
 const PREVIEW_CHAR_LIMIT = 9000;
 const PREVIEW_PARAGRAPH_LIMIT = 8;
 
+/* B"H batch 41: units-shaped posts (e.g. Sefer HaSichos) have no
+   phraseTranslations / translations rows / content string, so the preview
+   renders their units via InitialContentUnits.js (markers converted).
+   InitialContentUnits is CJS (module.exports), same as this file. */
+const { renderReadableUnits } = require('../../post/initial-content/InitialContentUnits.js');
+
 /** Escapes one server-visible Torah fragment without trusting post HTML. */
 function escapeHtml(value) {
 	return String(value ?? '')
@@ -150,6 +156,18 @@ function renderInitialPostPreview(data = {}, translations) {
 		: (Array.isArray(post.phraseTranslations) ? post.phraseTranslations : translations);
 	const seferHtml = renderSeferInitialHtml(seferRows, title);
 	if (seferHtml) return seferHtml;
+	// B"H batch 41: units-shaped posts (Sefer HaSichos and siblings) — the
+	// post record carries its text as post.units. firstText() reads
+	// post.content/body/text, packed content, dayuh and envelope sections —
+	// never post.units — so this preview simply never read them, #realPost
+	// shipped empty, and the reader sat blank until the client boot
+	// finished. The live data proves the server fetch DOES return units
+	// (the fields projection does not filter them out).
+	const units = Array.isArray(post.units) ? post.units : [];
+	if (units.length) {
+		const unitsBody = renderReadableUnits(units);
+		if (unitsBody) return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post data-awtsmoos-server-preview><header class="awtsmoos-initial-post-header"><h1 class="awtsmoos-initial-post-title">${escapeHtml(title)}</h1></header><div class="awtsmoos-initial-post-body" data-awtsmoos-client-render>${unitsBody}</div></article>`;
+	}
 	const paragraphs = paragraphsFrom(firstText(envelope, post));
 	if (!paragraphs.length) return '';
 	const body = paragraphs.map(renderParagraph).join('');
@@ -224,7 +242,7 @@ function renderSeferInitialHtml(rows, title) {
  * Rows without Hebrew are skipped — the client skips them too.
  */
 /**
- * B"H batch 30 — printed-page markers. The imported corpora prefix the
+ * B"H batch 30 + batch 41 — printed-page markers. The imported corpora prefix the
  * first phrase of each printed page with a literal <pg n="N"/> tag in
  * BOTH the Hebrew source and the English content. Rendered raw it leaked
  * onto the page as visible text; the reader law keeps page turns inline
@@ -232,13 +250,15 @@ function renderSeferInitialHtml(rows, title) {
  * a marker anywhere else is dropped (its page turn is the next
  * phrase's leading marker).
  */
-const PG_MARKER_RE = /<pg\s+n="?(\d+)"?\s*\/>/g;
-const PG_LEAD_RE = /^\s*<pg\s+n="?(\d+)"?\s*\/>\s*/;
+const PAGE_MARKER_NUM_RE = /<\/?"?\s*(?:pg|page)\s+n\s*=\s*"?(\d+)"?\s*\/?>/gi;
+const PAGE_MARKER_BARE_RE = /<\/?(?:pg|page)\s*\/?>/gi;
+const PAGE_MARKER_LEAD_RE = /^\s*<\/?"?\s*(?:pg|page)\s+n\s*=\s*"?(\d+)"?\s*\/?>/i;
 function awtsmoosPageMarker(text) {
 	const s = text == null ? '' : String(text);
-	const lead = s.match(PG_LEAD_RE);
-	if (lead) return { page: lead[1], text: s.replace(PG_LEAD_RE, '').replace(PG_MARKER_RE, '').trim() };
-	return { page: null, text: s.replace(PG_MARKER_RE, '') };
+	const lead = s.match(PAGE_MARKER_LEAD_RE);
+	const strip = (v) => v.replace(PAGE_MARKER_NUM_RE, '').replace(PAGE_MARKER_BARE_RE, '');
+	if (lead) return { page: lead[1], text: strip(s.replace(PAGE_MARKER_LEAD_RE, '')).trim() };
+	return { page: null, text: strip(s) };
 }
 
 function slimPhraseTranslationRows(rows) {
@@ -251,7 +271,7 @@ function slimPhraseTranslationRows(rows) {
 		const rawHebrew = row && row.sourceHebrew != null ? String(row.sourceHebrew)
 			: (row && row.source && row.source.hebrew != null ? String(row.source.hebrew) : '');
 		const rawContent = row && row.content != null ? String(row.content) : (row && row.en != null ? String(row.en) : '');
-		// B"H batch 30: <pg n="N"/> printed-page markers -> [עמוד N] lead.
+		// B"H batch 30 + batch 41: <pg n="N"/> / <page n="N"/> printed-page markers -> [עמוד N] lead.
 		const hebrewMark = awtsmoosPageMarker(rawHebrew);
 		const contentMark = awtsmoosPageMarker(rawContent);
 		const page = hebrewMark.page || contentMark.page;
