@@ -543,21 +543,25 @@ body.awtsmoos-src-open .awtsmoos-dock {
 	transition: none;
 }
 
-/* Current section: one quiet background change plus a plain edge on
-   the active pair's phrases. Visible on phone and desktop, no
-   transition, no shadow, no glow. The #realPost selectors beat the
-   pair-selection sheet's reset of the phrase edge. */
+/* Current section / active pair (B"H batch 31 highlight, quieted batch 38):
+   the 10% gold fills (section + phrases) stacked into a solid tan box
+   around every visible phrase at phone width, and the 65% edge read as a
+   brown border — the rendered checks flagged exactly that for four
+   rounds. The highlight's FUNCTION stays (the current pair is still
+   marked); its paint is now one faint edge only, no fills anywhere:
+   section transparent, phrases transparent, edge at 30% alpha. The
+   #realPost selectors still beat the pair-selection sheet's reset. */
 .post-reader-localized-context #realPost .meluket-sefer-section.is-reading {
-	background: rgb(201 153 47 / 0.10);
+	background: transparent;
 }
 .post-reader-localized-context #realPost .meluket-phrase--he.is-reading-sub,
 .post-reader-localized-context #realPost .meluket-phrase--en.is-reading-sub {
-	background: rgb(201 153 47 / 0.10);
+	background: transparent;
 	/* B"H batch 31: inset shadow edge, never border/padding (see above). */
-	box-shadow: inset 3px 0 0 rgb(138 109 59 / 0.65);
+	box-shadow: inset 3px 0 0 rgb(138 109 59 / 0.30);
 }
 .post-reader-localized-context #realPost .meluket-phrase--he.is-reading-sub {
-	box-shadow: inset -3px 0 0 rgb(138 109 59 / 0.65);
+	box-shadow: inset -3px 0 0 rgb(138 109 59 / 0.30);
 }
 
 /* Hebrew and English: the exact same size, locked last. */

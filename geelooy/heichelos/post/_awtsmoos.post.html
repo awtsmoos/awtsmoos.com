@@ -95,7 +95,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=991a3ec720">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=8e2b29222f">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -105,7 +105,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
 	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=3bcae39c37">
-	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=2b3eb200cf">
+	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=9a0062a277">
 	<script>
 		try {
 			const theme = localStorage.getItem('awtsmoos-theme');
@@ -216,6 +216,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			if (open) {
 				if (panel) {
 					panel.style.display = 'flex';
+					/* B"H batch 38: column + internal scroll, inline, so the panel
+					   can never lay out as a row or clip its last button even if
+					   a stylesheet rule ever loses again. */
+					panel.style.flexDirection = 'column';
+					panel.style.overflowY = 'auto';
 					panel.style.visibility = 'visible';
 					panel.style.opacity = '1';
 					panel.style.position = 'fixed';

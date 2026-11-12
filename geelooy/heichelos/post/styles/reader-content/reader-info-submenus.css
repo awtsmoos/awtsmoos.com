@@ -12,7 +12,10 @@
 
 .post-reader-localized-context #readerInfoHome {
 	flex: 1 1 auto;
-	padding: 3px;
+	padding: 3px 3px 14px;
+	/* B"H batch 38: bottom breathing room so the last button ("Browse
+	   this Heichel") can scroll fully into view instead of sitting
+	   half-cut at the panel's bottom edge. */
 }
 
 .post-reader-localized-context #readerInfoList {

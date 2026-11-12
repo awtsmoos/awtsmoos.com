@@ -1665,9 +1665,13 @@
 		}
 
 		/* ---------- title: visually OUTSIDE the card, on the page ---------- */
+		/* B"H batch 38: the paper background made the heading read as a tan
+		   box across the top of the card (the checks flagged it with the
+		   phrase boxes). Title now sits on the card itself; the double rule
+		   below it (meluket-sefer.css) stays as the divider. */
 		:root .post-reader-localized-context .meluket-sefer-title {
 			text-align: center;
-			background: var(--sefer-paper);
+			background: transparent;
 			margin: calc(var(--dream-pad, 2rem) * -1) calc(var(--dream-pad, 2rem) * -1) 1rem;
 			padding: calc(var(--dream-pad, 2rem) * 0.5) var(--dream-pad, 2rem) 0;
 			border-radius: 1.75rem 1.75rem 0 0;

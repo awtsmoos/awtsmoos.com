@@ -1671,9 +1671,13 @@
 		}
 
 		/* ---------- title: visually OUTSIDE the card, on the page ---------- */
+		/* B"H batch 38: the paper background made the heading read as a tan
+		   box across the top of the card (the checks flagged it with the
+		   phrase boxes). Title now sits on the card itself; the double rule
+		   below it (meluket-sefer.css) stays as the divider. */
 		:root .post-reader-localized-context .meluket-sefer-title {
 			text-align: center;
-			background: var(--sefer-paper);
+			background: transparent;
 			margin: calc(var(--dream-pad, 2rem) * -1) calc(var(--dream-pad, 2rem) * -1) 1rem;
 			padding: calc(var(--dream-pad, 2rem) * 0.5) var(--dream-pad, 2rem) 0;
 			border-radius: 1.75rem 1.75rem 0 0;
@@ -7912,10 +7916,15 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	outline: none;
 }
 
+/* B"H batch 38: the pair ring + 9% fill was a second box around the
+   current pair (the rendered checks flagged boxes for four rounds; the
+   fills were the boxes). The current pair is still marked — by the
+   phrases' faint inset edge in meluket-law8.css — so the pair itself
+   stays unpainted: no fill, no ring. */
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
-	background-color: rgb(233 196 95 / 9%);
-	box-shadow: inset 0 0 0 2px rgb(172 122 25 / 38%);
+	background-color: transparent;
+	box-shadow: none;
 	outline: none;
 }
 
@@ -8060,7 +8069,10 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 
 .post-reader-localized-context #readerInfoHome {
 	flex: 1 1 auto;
-	padding: 3px;
+	padding: 3px 3px 14px;
+	/* B"H batch 38: bottom breathing room so the last button ("Browse
+	   this Heichel") can scroll fully into view instead of sitting
+	   half-cut at the panel's bottom edge. */
 }
 
 .post-reader-localized-context #readerInfoList {
