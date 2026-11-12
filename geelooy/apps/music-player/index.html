@@ -1,0 +1,158 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- Awtsmoos Music Player: your own device library, your own playlists, playing on in the background. -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Awtsmoos Music Player — open a whole folder from your device, list every song, save playlists in your browser, sort by name or date, and keep playing in the background.">
+	<meta name="theme-color" content="#12061f">
+	<title>Awtsmoos Music Player</title>
+	<link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+	<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+	<header class="topbar">
+		<button class="icon-btn" id="toggle-library" aria-label="Show or hide library panel" title="Library panel">&#9776;</button>
+		<div class="brand">
+			<span class="brand-mark" aria-hidden="true">&#9834;</span>
+			<div>
+				<h1>Awtsmoos Music</h1>
+				<p>Your library. Your playlists. Always playing.</p>
+			</div>
+		</div>
+		<div class="top-actions">
+			<button class="btn primary" id="btn-folder">Open folder</button>
+			<button class="btn" id="btn-files">Add files</button>
+			<input type="file" id="file-input" accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.flac,.opus,.webm,.aif,.aiff" multiple hidden>
+			<label class="search-box">
+				<span aria-hidden="true">&#128269;</span>
+				<input type="search" id="search" placeholder="Search songs…" aria-label="Search songs">
+			</label>
+			<label class="sort-box">
+				<span>Sort</span>
+				<select id="sort" aria-label="Sort tracks">
+					<option value="name-asc">Name A–Z</option>
+					<option value="name-desc">Name Z–A</option>
+					<option value="added-desc">Newest added</option>
+					<option value="added-asc">Oldest added</option>
+					<option value="date-desc">Newest file</option>
+					<option value="date-asc">Oldest file</option>
+					<option value="duration-desc">Longest first</option>
+					<option value="duration-asc">Shortest first</option>
+				</select>
+			</label>
+			<button class="btn ghost" id="btn-reconnect" hidden>Reconnect folder</button>
+			<button class="icon-btn" id="toggle-queue" aria-label="Show or hide Up Next panel" title="Up Next panel">&#9776; Queue</button>
+		</div>
+	</header>
+
+	<div class="shell">
+		<aside class="panel panel-library" id="panel-library" aria-label="Library">
+			<section class="panel-block">
+				<h2>Playlists</h2>
+				<div class="new-playlist">
+					<input type="text" id="new-playlist-name" placeholder="New playlist name" aria-label="New playlist name" maxlength="60">
+					<button class="btn small primary" id="btn-new-playlist">Create</button>
+				</div>
+				<ul class="playlist-list" id="playlist-list"></ul>
+			</section>
+			<section class="panel-block">
+				<h2>Sources</h2>
+				<ul class="source-list" id="source-list"></ul>
+				<p class="hint">Folders stay on your device. Only their names and your playlists are kept in this browser.</p>
+			</section>
+			<section class="panel-block">
+				<h2>Library</h2>
+				<p class="stats" id="library-stats">No songs yet.</p>
+				<button class="btn small danger-ghost" id="btn-clear-library">Remove all songs</button>
+			</section>
+		</aside>
+
+		<main class="stage">
+			<section class="hero" aria-label="Now playing">
+				<div class="hero-art">
+					<canvas id="visualizer" width="640" height="360" aria-label="Live audio visualizer"></canvas>
+					<div class="hero-fallback" id="hero-fallback" aria-hidden="true">&#9834;</div>
+				</div>
+				<div class="hero-info">
+					<p class="eyebrow" id="now-state">Ready</p>
+					<h2 id="now-title">Pick a song to begin</h2>
+					<p id="now-artist">Open a folder or add files — your music never leaves your device.</p>
+					<p class="now-meta" id="now-meta"></p>
+					<div class="transport" role="group" aria-label="Playback controls">
+						<button class="t-btn" id="btn-shuffle" aria-label="Shuffle" title="Shuffle">&#128256;</button>
+						<button class="t-btn big" id="btn-prev" aria-label="Previous track" title="Previous">&#9198;</button>
+						<button class="t-btn big play" id="btn-play" aria-label="Play or pause" title="Play or pause">&#9654;</button>
+						<button class="t-btn big" id="btn-next" aria-label="Next track" title="Next">&#9197;</button>
+						<button class="t-btn" id="btn-repeat" aria-label="Repeat mode" title="Repeat: off">&#128257;</button>
+					</div>
+					<div class="seek-row">
+						<span id="time-cur">0:00</span>
+						<input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Seek">
+						<span id="time-total">0:00</span>
+					</div>
+					<div class="mix-row">
+						<label>Volume <input type="range" id="volume" min="0" max="100" value="85" aria-label="Volume"></label>
+						<label>Speed
+							<select id="rate" aria-label="Playback speed">
+								<option value="0.75">0.75&times;</option>
+								<option value="1" selected>1&times;</option>
+								<option value="1.25">1.25&times;</option>
+								<option value="1.5">1.5&times;</option>
+								<option value="2">2&times;</option>
+							</select>
+						</label>
+						<button class="btn small" id="btn-play-all">Play all</button>
+					</div>
+				</div>
+			</section>
+
+			<section class="list-wrap" aria-label="Track list">
+				<div class="list-head">
+					<h2 id="list-title">All songs</h2>
+					<span id="track-count"></span>
+				</div>
+				<div class="empty" id="empty-state">
+					<p class="empty-note">&#9834;</p>
+					<p><strong>No songs yet.</strong></p>
+					<p>Open a whole music folder from your device, or add files. Everything is listed here, saved in this browser, and ready to play — even in the background.</p>
+					<button class="btn primary" id="btn-folder-empty">Open a music folder</button>
+				</div>
+				<ol class="track-list" id="track-list"></ol>
+			</section>
+		</main>
+
+		<aside class="panel panel-queue" id="panel-queue" aria-label="Up Next">
+			<section class="panel-block">
+				<div class="queue-head">
+					<h2>Up Next</h2>
+					<button class="btn small ghost" id="btn-clear-queue">Clear</button>
+				</div>
+				<ol class="queue-list" id="queue-list"></ol>
+				<p class="hint">The queue keeps playing in the background — lock the screen or switch apps and the music goes on.</p>
+			</section>
+		</aside>
+	</div>
+
+	<footer class="playerbar" aria-label="Mini player">
+		<button class="mini-art" id="mini-expand" aria-label="Open now playing" title="Open now playing">&#9834;</button>
+		<div class="mini-info">
+			<strong id="mini-title">Nothing playing</strong>
+			<span id="mini-artist">Awtsmoos Music</span>
+		</div>
+		<div class="mini-progress"><i id="mini-progress"></i></div>
+		<button class="t-btn" id="mini-prev" aria-label="Previous track">&#9198;</button>
+		<button class="t-btn play" id="mini-play" aria-label="Play or pause">&#9654;</button>
+		<button class="t-btn" id="mini-next" aria-label="Next track">&#9197;</button>
+	</footer>
+
+	<div class="popover" id="menu-popover" hidden></div>
+	<div class="toast" id="toast" role="status" aria-live="polite"></div>
+	<div class="drop-hint" id="drop-hint" aria-hidden="true"><p>Drop music here<br><span>folders and files welcome</span></p></div>
+	<audio id="audio" preload="metadata"></audio>
+	<script type="module" src="js/app.js?v=1.0.0"></script>
+</body>
+</html>
