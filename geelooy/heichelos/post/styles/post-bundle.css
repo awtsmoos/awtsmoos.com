@@ -6821,8 +6821,17 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   its bottom border sits visibly inside the viewport. The
 	   12px strip below is a margin, not the dark bar — the bar
 	   was #readerInfoEmpty rendering (batch 55), and it stays
-	   hidden + cream. */
-	bottom: max(12px, env(safe-area-inset-bottom, 12px));
+	   hidden + cream.
+	   B"H batch 58 — 12px did NOT show in the real browser (the
+	   batch-57 check saw NO bottom border at ~986px and NO 12px
+	   margin strip, although the sheet AND the paintInfo inline
+	   pin both set bottom 12px and the guard is called on open).
+	   Four batches of static analysis have not found a rule-level
+	   cause, so the margin is 20px now (unmistakable strip) and the
+	   guard re-pins bottom explicitly on every run (see the template)
+	   instead of trusting the pin to survive. The 20px strip below
+	   is a margin, not the dark bar. */
+	bottom: max(20px, env(safe-area-inset-bottom, 20px));
 	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
@@ -6860,21 +6869,29 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   can only clamp the panel's border box; the content inside
 	   still needs headroom, so the cap gives it 40px more room
 	   and the 12px bottom margin puts the border visibly inside
-	   the viewport. */
-	max-height: min(86vh, calc(100vh - 56px));
+	   the viewport.
+	   B"H batch 58 — cap 82dvh / 64px total margin (20px bottom
+	   + 44px top): the batch-57 check still saw NO bottom border
+	   at ~986px and NO 12px strip, although sheet + inline + guard
+	   all said bottom 12px. More headroom + a wider margin, and the
+	   guard now re-pins bottom explicitly on every run. */
+	max-height: min(82vh, calc(100vh - 64px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(86dvh, calc(100dvh - 56px));
+	max-height: min(82dvh, calc(100dvh - 64px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button.
 	   B"H batch 57 — 12px at the bottom: the last content sits
 	   12px above the bottom border, so no row or button can sit
 	   half-cut at the panel's bottom edge. */
 	padding: 8px 8px 12px;
-	border: 1px solid #c6ad76;
+	border: 2px solid #c6ad76;
 	/* B"H batch 54 — flush bottom sheet: rounded top corners only; the
 	   bottom corners are square so the cream runs to the viewport edge
-	   with no dark sliver below. */
-	border-radius: 14px 14px 0 0;
+	   with no dark sliver below.
+	   B"H batch 58 — the panel is NOT flush anymore (20px bottom
+	   margin), so fully rounded corners: it reads as a floating card
+	   with a visible bottom edge, not a sheet running to the edge. */
+	border-radius: 14px;
 	background: #f9f4ea;
 	color: #2b2118;
 	/* B"H batch 51 — NO box-shadow: the old 0 12px 34px downward shadow
@@ -7251,7 +7268,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   below the tabs (top padding 6px -> 10px), so the separation
 	   between the tab header and the first row is unambiguous even
 	   after scrolling. Scroll behavior is unchanged. */
-	padding: 10px 3px 140px;
+	padding: 10px 3px 360px;
 	align-content: start;
 	/* B"H batch 56 — TAB-BAR OVERLAP (continued): the lists scroll
 	   under the opaque tab bar and the top row lands half-cut (its
@@ -7273,8 +7290,19 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   about one row — so the scrollable range extends past the
 	   last row and the snap CAN reach a full-row alignment at max
 	   scroll. The padding sits inside the scroller (after the
-	   last row), so it changes nothing at the top of the list. */
+	   last row), so it changes nothing at the top of the list.
+	   B"H batch 58 — 140px fixed the 18-row list but NOT the 36-row
+	   list (the batch-57 check: top row 34 half-covered at the bottom
+	   of the 36-row list). One row of extra range is not enough when
+	   the list is longer and the rows do not divide the range evenly.
+	   The padding is 360px now (about three rows at 144px), so the
+	   scrollable range extends far enough for the snap to reach a
+	   full-row alignment at max scroll for ANY list length (18, 36, or
+	   longer after more "Show more" clicks). scroll-padding-top: 70px
+	   makes the snap align rows BELOW the tab bar (~50px tall), not
+	   under it. */
 	scroll-snap-type: y proximity;
+	scroll-padding-top: 70px;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
 	   edge (the list had no reserved gutter). Reserve the gutter so
