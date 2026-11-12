@@ -93,7 +93,11 @@ async function delegate() {
 			// One live line, rewritten in place — never a fresh line per tick.
 			if (process.stderr.isTTY) {
 				const silent = logAgeSeconds(logPath);
-				const line = `   ◉ ${elapsed}s | core PID ${receipt?.corePid || runner.pid} | ${latestProgress(logPath)}${silent > 5 ? ` (quiet ${silent}s)` : ""}`;
+				// One short line that fits an 80-column terminal (core PID is already
+				// in the box above); a wrapped live line redraws wrong and copies
+				// as garbage. Truncate defensively to the terminal width.
+				const width = Math.max(40, Number(process.stderr.columns || 80));
+				const line = `   ◉ ${elapsed}s | ${latestProgress(logPath)}${silent > 5 ? ` (quiet ${silent}s)` : ""}`.slice(0, width - 1);
 				process.stderr.write(`\r\x1b[2K${colors.cyan}${line}${colors.off}`);
 				heartbeatLineOpen = true;
 			}

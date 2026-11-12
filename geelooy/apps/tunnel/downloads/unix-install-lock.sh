@@ -18,6 +18,23 @@ INSTALL_LOCK_TOKEN=""
 # and our own ancestor chain (bootstrap -> custody -> this shell) is excluded.
 # The 12s wait in acquire_install_lock survives only as a fallback for the rare
 # case where the kill itself fails.
+# B"H — Kill a stale installer AND its whole tree. The custody runner is a
+# detached process-group leader, so killing its group also gets the core
+# shell and any hung child (a core wedged in rm -rf defers SIGTERM while
+# it waits, and a lone PID kill leaves the child behind). Group kill is
+# used ONLY when the target is itself a group leader (pgid == pid) — a
+# plain child (delegate, bootstrap) is killed by PID alone, so the user's
+# own shell group is never touched.
+kill_installer_tree() {
+	local pid="$1" signal="$2" pgid=""
+	pgid="$(ps -o pgid= -p "$pid" 2>/dev/null | tr -d '[:space:]')"
+	if [ -n "$pgid" ] && [ "$pgid" = "$pid" ]; then
+		kill "-$signal" "-$pgid" 2>/dev/null
+	else
+		kill "-$signal" "$pid" 2>/dev/null
+	fi
+}
+
 kill_stale_installers() {
 	local self="$$"
 	# Our own runtime root: every process of THIS run (bootstrap, custody
@@ -61,7 +78,7 @@ kill_stale_installers() {
 			esac
 		fi
 		[ "$matched" = "1" ] || continue
-		if kill -TERM "$pid" 2>/dev/null; then
+		if kill_installer_tree "$pid" TERM; then
 			killed=$(( killed + 1 ))
 		fi
 	done < <(ps -eo pid=,args= 2>/dev/null)
@@ -85,7 +102,7 @@ kill_stale_installers() {
 			esac
 		fi
 		[ "$matched" = "1" ] || continue
-		kill -KILL "$pid" 2>/dev/null || true
+		kill_installer_tree "$pid" KILL || true
 	done < <(ps -eo pid=,args= 2>/dev/null)
 	install_event "install-lock" "passed" \
 		"Cleared a previous interrupted install." \
@@ -157,12 +174,13 @@ clean_all_tunnel_state() {
 
 acquire_install_lock() {
 	local timeout_seconds="${AWTSMOOS_INSTALL_LOCK_TIMEOUT_SECONDS:-12}"
-	local sample=0
 	local announced_wait=0
-	# One liveness probe per second: each node+ps probe costs ~1s itself, so
-	# counting seconds (not 0.1s samples) keeps the real wait near the
-	# advertised timeout instead of ballooning to minutes.
-	while [ "$sample" -lt "$timeout_seconds" ]; do
+	# B"H — wall-clock deadline, not a sample count: each node liveness probe
+	# costs ~1s itself, so counting samples ballooned the advertised 12s
+	# wait to 24s+ (and past the installer's 15s budget). SECONDS is the
+	# shell's own uptime clock; the deadline is honest now.
+	local deadline=$(( SECONDS + timeout_seconds ))
+	while [ "$SECONDS" -lt "$deadline" ]; do
 		if mkdir "$INSTALL_LOCK_DIRECTORY" 2>/dev/null; then
 			if INSTALL_LOCK_TOKEN="$(run_with_timeout 20 "install lock claim" -- node \
 				"$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock-owner.cjs" \
@@ -182,7 +200,6 @@ acquire_install_lock() {
 			announced_wait=1
 		fi
 		sleep 1
-		sample=$(( sample + 1 ))
 	done
 	prg_warn "Another installer still holds the install lock after ${timeout_seconds}s."
 	return 1
