@@ -186,3 +186,36 @@
 	color: #8a7a5c;
 	letter-spacing: 0.02em;
 }
+
+/* B"H batch 54 — PADDING, guaranteed floor: the pair (0.12em) +
+   phrase (0.28em) padding rules above are correct in the bundle,
+   match the DOM, and no served rule overrides them — yet the
+   rendered check still sees the widest glyphs FLUSH against the
+   card border at 1920px (five batches now). Static analysis cannot
+   see why, so the gap is guaranteed at the COLUMN as well: the
+   sefer column itself carries 16px inline padding, so no glyph in
+   any pair, phrase, or section marker can reach the column edge
+   even if the pair/phrase padding ever fails again. The column is
+   border-box, so its width does not change; the pairs (width auto)
+   fill the content box inside the padding. Permanent (always on),
+   so selection still never re-wraps text. */
+.post-reader-localized-context #realPost .meluket-sefer {
+	padding-inline: 16px;
+	box-sizing: border-box;
+}
+
+/* B"H batch 54 — HIGHLIGHT, initial paint moved out of the module:
+   the wash rule above is correct and would show if the class were
+   applied, yet the class never reached a pair in five batches — the
+   module files serve 200 with no syntax error, the init logic is
+   sound on paper, and static analysis cannot find the break. The
+   initial pair is now painted SYNCHRONOUSLY by the template's own
+   inline script (marker block): the first pair — or the ?section=
+   lettered section's opening pair — gets .is-pair-selected /
+   .is-reading / .is-reading-sub during parsing, before any module
+   loads, so the gold wash is present from the first paint with
+   zero module dependency. The module (ReaderSectionHighlight.js)
+   still owns the LIVE highlight: it moves the class as the reader
+   scrolls, and it now stamps .has-pair-highlight on #realPost
+   whenever a pair is painted, so the page always records that a
+   highlight exists. The wash rule itself is unchanged. */

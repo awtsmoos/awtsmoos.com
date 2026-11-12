@@ -84,9 +84,19 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   beats the bundle). The list is a one-column grid spanning
 		   the panel and the dialog's only scroller (flex: 1 1 auto +
 		   min-height: 0 + overflow-y: auto, as in the bundle); every
-		   row button is a full-width block. */
-		:root .post-reader-localized-context #readerInfoList,
-		:root .post-reader-localized-context #readerInfoFootnoteList { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; width: 100%; min-width: 0; box-sizing: border-box; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+		   row button is a full-width block.
+		   B"H batch 54 — the grid rule above MUST NOT match a hidden
+		   list: at (1,2,0) it ties the bundle's [hidden] display:none
+		   rule (1,2,0), and the tie goes to whichever sheet the
+		   browser reads last — the rendered check proved the hidden
+		   list still displays (both lists stacked, tabs not switching).
+		   The grid now applies only to :not([hidden]) lists, and an
+		   explicit :root [hidden] display:none at (1,3,1) beats every
+		   grid rule, so a hidden list can never display. */
+		:root .post-reader-localized-context #readerInfoList:not([hidden]),
+		:root .post-reader-localized-context #readerInfoFootnoteList:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; width: 100%; min-width: 0; box-sizing: border-box; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+		:root .post-reader-localized-context #readerInfoList[hidden],
+		:root .post-reader-localized-context #readerInfoFootnoteList[hidden] { display: none; }
 		:root .post-reader-localized-context .reader-index-choice { display: block; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
@@ -136,7 +146,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=1b297571ee">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=a72600f4e9">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -156,7 +166,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	</script>
 </head>
 <body>
-	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="53">
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="54">
 		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
 		     vars on <html>, but a stylesheet rule sets --post-text-size
 		     directly on THIS div, so it needs the same vars inline on
@@ -238,7 +248,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     competes with the Torah. A batch that touches the marker
 		     updates the data-batch attributes to its own batch (the
 		     same per-batch step as the bundle pin). -->
-		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="53" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
+		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="54" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
 		<script>
 		try {
 			var __awtsmoosBundleLink = document.querySelector('link[href*="post-bundle.css?v="]');
@@ -263,6 +273,59 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				var __awtsmoosBatchNum = __awtsmoosMarker.getAttribute('data-batch') || '';
 				if (__awtsmoosBatchNum) __awtsmoosMarkerBatch.textContent = 'batch ' + __awtsmoosBatchNum;
 			}
+			/* B"H batch 54 — INITIAL highlight, painted HERE (synchronous,
+			   during parsing, no module, no timer): the JS highlight
+			   module has failed in all 5 batches (49–53) — its wash rule
+			   matches the DOM and would show if the class were applied,
+			   the module files serve 200 with no syntax error, yet the
+			   class never reaches a pair in the real browser. The module
+			   is not trusted for the first paint anymore. Paint the
+			   first pair (the subtitle) with the highlight class NOW,
+			   in the HTML's own script, so the gold wash is present
+			   from the first paint with zero JS-module dependency. The
+			   highlight module, when it runs, moves the class as the
+			   reader scrolls (paintReaderPair removes it from the old
+			   pair); if the module never runs, the first pair stays
+			   highlighted — visible, correct for a fresh load. The
+			   ?section= deep link is honoured too: if the URL names a
+			   section, its first pair is painted instead. */
+			try {
+				/* ?section=N is a LETTERED section (1–8: alef–ches), so
+				   resolve it to that lettered section's opening passage:
+				   the pair whose Hebrew text starts with the letter + ".".
+				   A bare #sec-NNN hash still works via the module. */
+				var __awtsmoosLetters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח'];
+				var __awtsmoosSecMatch = (window.location.search || '').match(/[?&]section=(\d+)/);
+				var __awtsmoosFirstPair = null;
+				if (__awtsmoosSecMatch) {
+					var __awtsmoosSecNum = Number(__awtsmoosSecMatch[1]);
+					var __awtsmoosLetter = __awtsmoosLetters[__awtsmoosSecNum - 1] || '';
+					if (__awtsmoosLetter) {
+						var __awtsmoosHes = document.querySelectorAll('#realPost .meluket-phrase--he');
+						for (var __awtsmoosHi = 0; __awtsmoosHi < __awtsmoosHes.length; __awtsmoosHi++) {
+							var __awtsmoosHeText = (__awtsmoosHes[__awtsmoosHi].textContent || '').trim();
+							if (__awtsmoosHeText.indexOf(__awtsmoosLetter + '.') === 0) {
+								__awtsmoosFirstPair = __awtsmoosHes[__awtsmoosHi].closest('.meluket-phrase-pair');
+								break;
+							}
+						}
+					}
+				}
+				if (!__awtsmoosFirstPair) __awtsmoosFirstPair = document.querySelector('#realPost .meluket-phrase-pair');
+				if (__awtsmoosFirstPair) {
+					/* Same class placement as the module's paintReaderPair:
+					   .is-pair-selected on the pair (the wash), .is-reading
+					   on its section, .is-reading-sub on its Hebrew/English
+					   phrases (the law8 inset edge). */
+					__awtsmoosFirstPair.classList.add('is-pair-selected');
+					var __awtsmoosSec2 = __awtsmoosFirstPair.closest('.meluket-sefer-section');
+					if (__awtsmoosSec2) __awtsmoosSec2.classList.add('is-reading');
+					var __awtsmoosSubs = __awtsmoosFirstPair.querySelectorAll('.meluket-phrase--he, .meluket-phrase--en');
+					for (var __awtsmoosSi = 0; __awtsmoosSi < __awtsmoosSubs.length; __awtsmoosSi++) __awtsmoosSubs[__awtsmoosSi].classList.add('is-reading-sub');
+					var __awtsmoosRealPost = document.getElementById('realPost');
+					if (__awtsmoosRealPost) __awtsmoosRealPost.classList.add('has-pair-highlight');
+				}
+			} catch (_) {}
 		} catch (_) {}
 		</script>
 	</div>
@@ -318,8 +381,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				if (!fitPanel || fitPanel.hidden) return;
 				var fitRect = fitPanel.getBoundingClientRect();
 				var fitVH = window.innerHeight || 0;
-				if (fitVH > 0 && fitRect.bottom > fitVH - 8) {
-					fitPanel.style.maxHeight = Math.max(200, fitVH - 24) + 'px';
+				if (fitVH > 0 && fitRect.bottom > fitVH) {
+					fitPanel.style.maxHeight = Math.max(200, fitVH) + 'px';
 				}
 			} catch (_) {}
 		}
@@ -353,16 +416,18 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					panel.style.position = 'fixed';
 					panel.style.zIndex = '990';
 					panel.style.top = 'auto';
-					/* B"H batch 51 — bottom margin 16px (was 8px): the strip
-					   below a bottom-anchored panel is backdrop, and at 8px
-					   plus the old shadow it read as a dark bar sliced at
-					   the viewport bottom. 16px reads as a margin.
-					   B"H batch 53 — 16px STILL read as a dark bar in the
-					   batch-52 check (the strip is backdrop #17130d, and
-					   against the cream panel any dark strip reads as a
-					   bar). 24px, with the panel's own border + radius
-					   pinned below, reads as a margin. */
-					panel.style.bottom = '24px';
+					/* B"H batch 54 — the dark bar is the BACKDROP (#17130d)
+					   showing in the strip below the bottom-anchored
+					   panel: batch 51 (16px) and batch 53 (24px) both
+					   made the margin BIGGER, which made the dark strip
+					   TALLER and more bar-like — the wrong direction.
+					   Any dark strip below the cream panel reads as a
+					   bar, so there must be NO strip: the panel sits
+					   FLUSH at the viewport bottom (bottom 0, safe-area
+					   only), square bottom corners, its cream running
+					   to the viewport edge. The fit guard above now
+					   treats bottom == viewport height as inside. */
+					panel.style.bottom = 'max(0px, env(safe-area-inset-bottom, 0px))';
 					panel.style.left = '50%';
 					panel.style.right = 'auto';
 					panel.style.transform = 'translateX(-50%)';
@@ -389,8 +454,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   strip. Cap 90dvh / 40px total margin, and the
 					   measurement guard below clamps the panel into the
 					   viewport by real geometry if it ever overflows. */
-					panel.style.maxHeight = 'min(90vh, calc(100vh - 40px))';
-					panel.style.maxHeight = 'min(90dvh, calc(100dvh - 40px))';
+					panel.style.maxHeight = 'min(90vh, calc(100vh - 16px))';
+					panel.style.maxHeight = 'min(90dvh, calc(100dvh - 16px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
@@ -403,7 +468,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   cream with dark ink, whatever sheet the browser holds. */
 					panel.style.background = '#f9f4ea';
 					panel.style.color = '#2b2118';
-					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack');
+					/* B"H batch 54 — "Show more passages" renders dark
+					   text on dark navy in the real browser although the
+					   bundle pins it #f5ead1 (the same stale/mixed-sheet
+					   failure batch 45 pinned the other dialog buttons
+					   against). Pin it light inline with the rest, so
+					   it is always cream with dark ink. */
+					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack, #readerInfoMore');
 					for (var bi = 0; bi < dialogBtns.length; bi++) {
 						dialogBtns[bi].style.background = '#fffdf6';
 						dialogBtns[bi].style.color = '#2b2118';
@@ -432,7 +503,10 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 						heading.style.paddingInlineEnd = '16px';
 					}
 					panel.style.border = '1px solid #d9c9a8';
-					panel.style.borderRadius = '14px';
+					/* B"H batch 54 — flush bottom: rounded top corners
+					   only; the bottom corners are square so the cream
+					   runs to the viewport edge with no dark sliver. */
+					panel.style.borderRadius = '14px 14px 0 0';
 					var home = byId('readerInfoHome');
 					if (home) home.scrollTop = 0;
 					var list = byId('readerInfoList');
@@ -461,7 +535,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			} else {
 				if (panel) {
 					panel.removeAttribute('style');
-					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack');
+					var dialogBtns = panel.querySelectorAll('#readerInfoHome button, #readerInfoHome a, #readerInfoClose, #readerInfoBack, #readerInfoMore');
 					for (var bi = 0; bi < dialogBtns.length; bi++) {
 						dialogBtns[bi].style.background = '';
 						dialogBtns[bi].style.color = '';
@@ -677,8 +751,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-3').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=0f4238a130').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=0849edb1ea').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=7c9807daed');
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=d605067f86').catch(() => {});
+				import('/heichelos/post/postLogic.js?v=515732976c');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage
 				// to the full canonical boot (postLogic module graph + API fetches),

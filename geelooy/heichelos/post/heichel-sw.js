@@ -1,11 +1,15 @@
 // B"H — Heichel Reader Service Worker
-// Auto-clearing cache: the server stamps 18e36a32a with the running
+// Auto-clearing cache: the server stamps __AWTSMOOS_BUILD_ID__ with the running
 // build identity on every deploy, so CACHE_VERSION changes automatically, the
 // browser installs the new worker by itself, and old caches are deleted on
 // activate. No human ever bumps a version string. HTML is network-first
 // (always fresh). CSS/JS are cache-first with background revalidation.
+// B"H batch 54 — restore the __AWTSMOOS_BUILD_ID__ placeholder: batch 53
+// staged the SERVED (already stamped) file, so the literal batch-52 SHA
+// 18e36a32a was committed and the served SW still reports the batch-52
+// build id. The placeholder is what the server stamps on deploy.
 
-const AWTSMOOS_BUILD_ID = '18e36a32a';
+const AWTSMOOS_BUILD_ID = '__AWTSMOOS_BUILD_ID__';
 const CACHE_VERSION = AWTSMOOS_BUILD_ID.startsWith('__AWTSMOOS_BUILD')
 	? 'heichel-reader-v4'
 	: 'heichel-reader-' + AWTSMOOS_BUILD_ID;
@@ -15,11 +19,11 @@ const PAGES_CACHE = CACHE_VERSION + '-pages';
 // Assets to pre-cache on install — B"H 2026-10-13: expanded to cover the
 // critical JS boot chain so repeat visits are instant (app-like).
 const PRECACHE_URLS = [
-  '/heichelos/post/styles/post-bundle.css?v=1b297571ee',
+  '/heichelos/post/styles/post-bundle.css?v=a72600f4e9',
   '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581',
   '/heichelos/post/styles/reader-tree-live.css?v=c46ffb47da',
   '/heichelos/post/styles/reader-controls/torah-authority/settings-mobile.css',
-  '/heichelos/post/postLogic.js?v=7c9807daed',
+  '/heichelos/post/postLogic.js?v=515732976c',
   '/shared/MeaningfulActivity.js',
   '/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-040',
   '/heichelos/post/logic/initialization/ReaderBootState.js?v=reader-runtime-004',

@@ -58,7 +58,7 @@ async function awakenReadingTelemetry() {
 		   one served stale (pre-batch-51, no observer/rect fallback)
 		   from the worker cache. Both pins are the content hash now,
 		   so both imports resolve to the same module record. */
-		import('./ReaderSectionHighlight.js?v=0849edb1ea')
+		import('./ReaderSectionHighlight.js?v=d605067f86')
 	]);
 	return readingPromise;
 }

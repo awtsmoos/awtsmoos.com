@@ -61,8 +61,15 @@
 	/* B"H batch 51 — the bottom margin is 16px now (was 8px): with the
 	   panel bottom-anchored, the strip below it is backdrop, and at 8px
 	   plus the old downward shadow it read as a dark bar sliced at the
-	   viewport bottom. A clear 16px margin reads as a margin, not a cut. */
-	bottom: max(16px, env(safe-area-inset-bottom, 0px));
+	   viewport bottom. A clear 16px margin reads as a margin, not a cut.
+	   B"H batch 54 — 16px AND 24px both still read as a dark bar (the
+	   strip is backdrop #17130d, and against the cream panel ANY dark
+	   strip reads as a bar, so a bigger margin only made a taller bar).
+	   The panel is FLUSH at the viewport bottom now (bottom 0, safe-area
+	   only), square bottom corners, its cream running to the viewport
+	   edge — there is no strip below it to read as a bar. The cap's
+	   total margin is top-only (16px) now. */
+	bottom: max(0px, env(safe-area-inset-bottom, 0px));
 	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
@@ -90,15 +97,20 @@
 	   margins widen to 16px bottom / 40px total, and the template's
 	   paintInfo now MEASURES the real rect and clamps the panel into
 	   the viewport if it ever overflows — real geometry, not a fourth
-	   cap guess. Cap 90dvh / 40px total margin. */
-	max-height: min(90vh, calc(100vh - 40px));
+	   cap guess. Cap 90dvh / 40px total margin.
+	   B"H batch 54 — the panel is flush at the viewport bottom now
+	   (bottom 0), so the total margin is top-only: 16px. */
+	max-height: min(90vh, calc(100vh - 16px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(90dvh, calc(100dvh - 40px));
+	max-height: min(90dvh, calc(100dvh - 16px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
 	padding: 8px;
 	border: 1px solid #c6ad76;
-	border-radius: 19px;
+	/* B"H batch 54 — flush bottom sheet: rounded top corners only; the
+	   bottom corners are square so the cream runs to the viewport edge
+	   with no dark sliver below. */
+	border-radius: 14px 14px 0 0;
 	background: #f9f4ea;
 	color: #2b2118;
 	/* B"H batch 51 — NO box-shadow: the old 0 12px 34px downward shadow

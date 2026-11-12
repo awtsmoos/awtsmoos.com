@@ -67,6 +67,13 @@ function paintReaderPair(pair) {
 			selectedSubs.push(pair);
 		}
 	}
+	/* B"H batch 54 — record that a pair is highlighted, so the page
+	   (and any CSS fallback) can tell a highlight exists. Removed
+	   when the selection is cleared; re-added on the next paint. */
+	try {
+		const root = document.getElementById('realPost');
+		if (root) root.classList.toggle('has-pair-highlight', !!pair);
+	} catch (_) {}
 	return pair;
 }
 
@@ -143,6 +150,52 @@ function updateReaderHighlight() {
 		const byRect = findReaderPairByRect(root);
 		if (byRect) paintReaderPair(byRect);
 	}
+}
+
+/* B"H batch 54 — correctness guard, NOT a retry timer: if no pair in
+   the DOM carries .is-pair-selected (the module never painted, or a
+   re-mount dropped the class and the observer's 20s window lapsed),
+   paint the rect pair now. This runs only on load and when the tab
+   becomes visible — events, not a loop — so a highlight can never
+   silently be absent on a settled page. The template's inline script
+   already paints the first pair at parse time; this guard is the
+   backstop for every later state. */
+function ensureReaderHighlightPainted() {
+	try {
+		if (shouldPauseHighlight()) return;
+		const root = document.getElementById('realPost');
+		if (!root) return;
+		if (root.querySelector('.meluket-phrase-pair.is-pair-selected, .awtsmoos-initial-unit.is-pair-selected')) return;
+		paintCurrentPairNow();
+	} catch (_) {}
+}
+
+/* B"H batch 54 — adopt the pair the template's inline script already
+   painted (the first pair, or the ?section= opening pair): it carries
+   .is-pair-selected before this module loads, so without adoption the
+   module would paint a second pair and two would be highlighted. The
+   adoption only tracks the already-painted pair; the next paint moves
+   the class off it through the normal path. */
+function adoptInlineHighlight() {
+	try {
+		const root = document.getElementById('realPost');
+		if (!root || selectedPair) return;
+		const painted = root.querySelector('.meluket-phrase-pair.is-pair-selected, .awtsmoos-initial-unit.is-pair-selected');
+		if (!painted) return;
+		selectedPair = painted;
+		const section = painted.closest('.meluket-sefer-section, .awtsmoos-initial-unit, section[data-awtsmoos-unit]');
+		if (section && section !== painted) selectedSection = section;
+		else if (section === painted) selectedSection = painted;
+		const subs = typeof painted.querySelectorAll === 'function'
+			? painted.querySelectorAll('.meluket-phrase--he, .meluket-phrase--en, .awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')
+			: [];
+		for (const sub of subs) {
+			if (sub.classList.contains('is-reading-sub')) selectedSubs.push(sub);
+		}
+		if (!subs.length && typeof painted.matches === 'function' && painted.matches('.awtsmoos-initial-unit-he, .awtsmoos-initial-unit-en')) {
+			selectedSubs.push(painted);
+		}
+	} catch (_) {}
 }
 
 /* B"H batch 53 — the class was never reaching the pair. The wash
@@ -223,6 +276,20 @@ export function initSectionHighlight() {
 	});
 	window.addEventListener('pageshow', () => {
 		try { frameGate.queue(); } catch (_) {}
+	});
+	/* B"H batch 54 — adopt the inline-painted pair before the first
+	   sample, and run the correctness guard on load + when the tab
+	   becomes visible (the visibilitychange handler above only
+	   re-queues the frame gate; the guard repaints if the class is
+	   actually missing). */
+	adoptInlineHighlight();
+	if (document.readyState === 'complete') {
+		ensureReaderHighlightPainted();
+	} else {
+		window.addEventListener('load', ensureReaderHighlightPainted, { once: true });
+	}
+	document.addEventListener('visibilitychange', () => {
+		try { if (!document.hidden) ensureReaderHighlightPainted(); } catch (_) {}
 	});
 	frameGate.queue();
 	/* B"H batch 53 — load-time guarantee (see paintCurrentPairNow):

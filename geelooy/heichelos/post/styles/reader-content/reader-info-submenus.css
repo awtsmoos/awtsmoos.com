@@ -108,7 +108,14 @@
 	flex: 0 0 auto;
 	width: 100%;
 	margin-top: 7px;
-	background: #f5ead1;
+	/* B"H batch 54 — the button rendered dark text on dark navy in the
+	   real browser although this rule pins it #f5ead1 (the same
+	   stale/mixed-sheet failure batch 45 pinned the other dialog
+	   buttons against). Pin the full light paint here AND inline in
+	   paintInfo, so it is always cream with dark ink. */
+	background: #fffdf6;
+	color: #2b2118;
+	border: 1px solid #d9c9a8;
 	text-align: center;
 }
 

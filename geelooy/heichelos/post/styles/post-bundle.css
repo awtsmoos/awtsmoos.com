@@ -6680,6 +6680,39 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	letter-spacing: 0.02em;
 }
 
+/* B"H batch 54 — PADDING, guaranteed floor: the pair (0.12em) +
+   phrase (0.28em) padding rules above are correct in the bundle,
+   match the DOM, and no served rule overrides them — yet the
+   rendered check still sees the widest glyphs FLUSH against the
+   card border at 1920px (five batches now). Static analysis cannot
+   see why, so the gap is guaranteed at the COLUMN as well: the
+   sefer column itself carries 16px inline padding, so no glyph in
+   any pair, phrase, or section marker can reach the column edge
+   even if the pair/phrase padding ever fails again. The column is
+   border-box, so its width does not change; the pairs (width auto)
+   fill the content box inside the padding. Permanent (always on),
+   so selection still never re-wraps text. */
+.post-reader-localized-context #realPost .meluket-sefer {
+	padding-inline: 16px;
+	box-sizing: border-box;
+}
+
+/* B"H batch 54 — HIGHLIGHT, initial paint moved out of the module:
+   the wash rule above is correct and would show if the class were
+   applied, yet the class never reached a pair in five batches — the
+   module files serve 200 with no syntax error, the init logic is
+   sound on paper, and static analysis cannot find the break. The
+   initial pair is now painted SYNCHRONOUSLY by the template's own
+   inline script (marker block): the first pair — or the ?section=
+   lettered section's opening pair — gets .is-pair-selected /
+   .is-reading / .is-reading-sub during parsing, before any module
+   loads, so the gold wash is present from the first paint with
+   zero module dependency. The module (ReaderSectionHighlight.js)
+   still owns the LIVE highlight: it moves the class as the reader
+   scrolls, and it now stamps .has-pair-highlight on #realPost
+   whenever a pair is painted, so the page always records that a
+   highlight exists. The wash rule itself is unchanged. */
+
 
 /* ==== heichelos/post/styles/reader-content/reader-info-navigation.css ==== */
 /* B"H — Boruch Hashem — Blessed is He.
@@ -6743,8 +6776,15 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	/* B"H batch 51 — the bottom margin is 16px now (was 8px): with the
 	   panel bottom-anchored, the strip below it is backdrop, and at 8px
 	   plus the old downward shadow it read as a dark bar sliced at the
-	   viewport bottom. A clear 16px margin reads as a margin, not a cut. */
-	bottom: max(16px, env(safe-area-inset-bottom, 0px));
+	   viewport bottom. A clear 16px margin reads as a margin, not a cut.
+	   B"H batch 54 — 16px AND 24px both still read as a dark bar (the
+	   strip is backdrop #17130d, and against the cream panel ANY dark
+	   strip reads as a bar, so a bigger margin only made a taller bar).
+	   The panel is FLUSH at the viewport bottom now (bottom 0, safe-area
+	   only), square bottom corners, its cream running to the viewport
+	   edge — there is no strip below it to read as a bar. The cap's
+	   total margin is top-only (16px) now. */
+	bottom: max(0px, env(safe-area-inset-bottom, 0px));
 	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
@@ -6772,15 +6812,20 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   margins widen to 16px bottom / 40px total, and the template's
 	   paintInfo now MEASURES the real rect and clamps the panel into
 	   the viewport if it ever overflows — real geometry, not a fourth
-	   cap guess. Cap 90dvh / 40px total margin. */
-	max-height: min(90vh, calc(100vh - 40px));
+	   cap guess. Cap 90dvh / 40px total margin.
+	   B"H batch 54 — the panel is flush at the viewport bottom now
+	   (bottom 0), so the total margin is top-only: 16px. */
+	max-height: min(90vh, calc(100vh - 16px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(90dvh, calc(100dvh - 40px));
+	max-height: min(90dvh, calc(100dvh - 16px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
 	padding: 8px;
 	border: 1px solid #c6ad76;
-	border-radius: 19px;
+	/* B"H batch 54 — flush bottom sheet: rounded top corners only; the
+	   bottom corners are square so the cream runs to the viewport edge
+	   with no dark sliver below. */
+	border-radius: 14px 14px 0 0;
 	background: #f9f4ea;
 	color: #2b2118;
 	/* B"H batch 51 — NO box-shadow: the old 0 12px 34px downward shadow
@@ -7167,7 +7212,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	flex: 0 0 auto;
 	width: 100%;
 	margin-top: 7px;
-	background: #f5ead1;
+	/* B"H batch 54 — the button rendered dark text on dark navy in the
+	   real browser although this rule pins it #f5ead1 (the same
+	   stale/mixed-sheet failure batch 45 pinned the other dialog
+	   buttons against). Pin the full light paint here AND inline in
+	   paintInfo, so it is always cream with dark ink. */
+	background: #fffdf6;
+	color: #2b2118;
+	border: 1px solid #d9c9a8;
 	text-align: center;
 }
 
