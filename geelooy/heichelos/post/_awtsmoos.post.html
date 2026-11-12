@@ -197,6 +197,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			var panel = byId('typographyDetails');
 			var trigger = byId('typographyBtn');
 			if (!panel || !trigger) return false;
+			/* B"H batch 40: one panel at a time. Opening Aa closes the info
+			   dialog — without this the two panels overlap, crossing text,
+			   and the Settings close X ends up covered by the info dialog.
+			   setInfo(false) is idempotent when info is already closed, and
+			   it never calls back here (its own cross-close is guarded by
+			   `if (open)`), so there is no recursion. */
+			if (open) setInfo(false);
 			panel.classList.toggle('hidden-details', !open);
 			panel.setAttribute('aria-hidden', String(!open));
 			trigger.classList.toggle('pushed', open);
@@ -278,6 +285,9 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			var backdrop = byId('readerInfoBackdrop');
 			var trigger = byId('readerInfoBtn');
 			if (!panel || !trigger) return false;
+			/* B"H batch 40: one panel at a time. Opening i closes the settings
+			   panel — the mirror of the setTypography cross-close above. */
+			if (open) setTypography(false);
 			panel.hidden = !open;
 			if (backdrop) backdrop.hidden = !open;
 			paintInfo(open);
