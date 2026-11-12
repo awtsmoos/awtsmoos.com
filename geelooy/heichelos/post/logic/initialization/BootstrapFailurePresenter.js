@@ -47,14 +47,29 @@ export class MalchusBootstrapFailurePresenter {
 		   viewport already carries server-painted text, leave it in place
 		   (the failure is still recorded on body.dataset and the console
 		   above) so the beginning stays readable. A genuinely missing post
-		   has no server preview, so its error still shows. */
-		let serverPainted = null;
+		   has no server preview, so its error still shows.
+		   B"H batch 44: the live first paint is the full server render
+		   (phrase divs in #realPost), NOT the initialPostPreview <article>,
+		   so it carries NO data-awtsmoos-server-preview marker — the
+		   batch-42 check alone would not recognize it and would wipe it.
+		   Keep the marker check, and also keep ANY non-empty text already
+		   in the viewport (phrase content or plain text). Only a genuinely
+		   empty viewport still shows the error. */
+		let hasReadableText = false;
 		try {
-			serverPainted = malchusViewport.querySelector('[data-awtsmoos-server-preview]');
+			const serverPainted = malchusViewport.querySelector('[data-awtsmoos-server-preview]');
+			hasReadableText = Boolean(serverPainted && String(serverPainted.textContent || '').trim());
 		} catch (_) {
-			serverPainted = null;
+			hasReadableText = false;
 		}
-		if (serverPainted && String(serverPainted.textContent || '').trim()) {
+		if (!hasReadableText) {
+			try {
+				hasReadableText = Boolean(String(malchusViewport.textContent || '').trim());
+			} catch (_) {
+				hasReadableText = false;
+			}
+		}
+		if (hasReadableText) {
 			return ohrMessage;
 		}
 		const malchusFailure = this.document.createElement('div');
