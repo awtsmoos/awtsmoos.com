@@ -32,7 +32,7 @@ function probeDuration(file) {
 			audio.src = '';
 			resolve(value);
 		};
-		const timer = setTimeout(() => done(null), 8000);
+		const timer = setTimeout(() => done(null), 3000);
 		audio.onloadedmetadata = () => { clearTimeout(timer); done(Number.isFinite(audio.duration) ? audio.duration : null); };
 		audio.onerror = () => { clearTimeout(timer); done(null); };
 		audio.src = url;

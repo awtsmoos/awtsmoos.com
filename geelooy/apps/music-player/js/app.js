@@ -137,13 +137,17 @@ async function reconnectFolders() {
 async function addPicked(picked) {
 	const { files, sourceName, dirHandle } = picked;
 	if (!files.length) { toast('No audio files found there.'); return; }
-	toast('Adding ' + files.length + ' song' + (files.length === 1 ? '' : 's') + '…');
+	const total = files.length;
 	const known = new Set(Array.from(state.tracks.values()).map((t) => t.name + '|' + t.size + '|' + t.lastModified));
-	let added = 0, dupes = 0;
+	let added = 0, dupes = 0, done = 0;
 	const failures = [];
-	for (const { file, handle } of files) {
+	// Sticky progress: the old static toast vanished after 3s while a big
+	// folder was still being read, so the library looked dead for minutes.
+	const showProgress = () => toast('Adding ' + done + ' of ' + total + '…', true);
+	showProgress();
+	const processOne = async ({ file, handle }) => {
 		const key = file.name + '|' + file.size + '|' + file.lastModified;
-		if (known.has(key)) { dupes++; continue; }
+		if (known.has(key)) { dupes++; return; }
 		known.add(key);
 		try {
 			const track = await fileToTrack(file, sourceName, handle);
@@ -161,7 +165,22 @@ async function addPicked(picked) {
 		} catch (err) {
 			failures.push(file.name + ' — ' + errText(err));
 		}
-	}
+	};
+	// Four files at a time: a phone reads metadata far faster in parallel
+	// than one-by-one, and one slow file can no longer stall the whole folder.
+	// Songs also appear in the list as they land instead of only at the end.
+	let next = 0;
+	const worker = async () => {
+		for (;;) {
+			const item = next < total ? files[next++] : null;
+			if (!item) return;
+			await processOne(item);
+			done++;
+			showProgress();
+			if (done % 5 === 0) { try { renderAll(); } catch { /* final render below */ } }
+		}
+	};
+	await Promise.all(Array.from({ length: Math.min(4, total) }, worker));
 	try {
 		if (dirHandle) await saveFolderHandle(sourceName, dirHandle);
 	} catch (err) {
@@ -200,7 +219,9 @@ function openFolder() {
 
 async function openFolderAsync() {
 	try {
-		const picked = await pickFolder();
+		// The scan itself used to show nothing at all until every file was
+		// read — on a phone that can be a long silence for a big folder.
+		const picked = await pickFolder((n) => toast('Found ' + n + ' song' + (n === 1 ? '' : 's') + ' in this folder so far…', true));
 		await addPicked(picked);
 	} catch (err) {
 		if (err && err.name === 'AbortError') return; // user closed the picker
