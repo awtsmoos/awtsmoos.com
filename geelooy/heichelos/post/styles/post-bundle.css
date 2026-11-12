@@ -6537,21 +6537,38 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	transition: none;
 }
 
+/* B"H batch 50 — the post title ("ש״פ תולדות") had NO padding rule at
+   all (the cascade audit found padding-inline: none for the title h1),
+   so its widest glyphs could sit flush on the card edge and be cut.
+   The title gets the same permanent inline padding + anywhere-wrap +
+   max-inline-size as the phrases, so no Hebrew glyph in the reading
+   column can reach the card edge. The title's own font-size (the
+   inline clamp) is untouched. */
+.post-reader-localized-context #realPost .meluket-sefer-title-he {
+	padding-inline: max(12px, 0.25em);
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	max-inline-size: 100%;
+	box-sizing: border-box;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit {
 	transition: none;
 	transition-delay: 0ms;
 	translate: none;
-	/* B"H batch 49 (item C — load speed): the browser lays out ALL 79
-	   phrase pairs on load (each with Hebrew + English at 144px), which
-	   is the slowest part of the first paint after the CSS. Defer the
-	   off-screen pairs' layout: content-visibility:auto skips them
-	   until they near the viewport, and the intrinsic-size estimate
-	   keeps the scrollbar stable. The pair on screen is always
-	   rendered, so the highlight's elementFromPoint and the deep-link
-	   scroll still find it. */
-	content-visibility: auto;
-	contain-intrinsic-size: auto 480px;
+	/* B"H batch 50 — REMOVE the batch-49 content-visibility:auto +
+	   contain-intrinsic-size on phrase pairs (item C). It broke the
+	   highlight: off-screen pairs are skipped and laid out at the
+	   480px estimate, so the highlight's elementFromPoint cannot
+	   reliably find the pair at the viewport line and no pair ever
+	   gets .is-pair-selected in the real browser (the batch-49 worker
+	   flagged this risk). It also breaks deep-link scroll and scroll
+	   anchoring the same way. First paint is server-rendered HTML, so
+	   removing it costs layout work after paint, not the first paint.
+	   The pair is border-box now, so the selected pair's gold edge
+	   (border-inline-start) cannot widen the card past the column. */
+	box-sizing: border-box;
 }
 
 /* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served
@@ -6694,10 +6711,16 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   bottom-anchored at 8px, so its top starts at 100dvh - 96dvh = 4dvh
 	   and the panel + its bottom offset can exceed the viewport. Cap
 	   at 94dvh with a 24px total margin (12px top + 12px bottom) so the
-	   panel's top AND bottom edges are both inside the viewport. */
-	max-height: min(94vh, calc(100vh - 24px));
+	   panel's top AND bottom edges are both inside the viewport.
+	   B"H batch 50 — the batch-49 cap STILL did not show in the real
+	   browser (the rendered check ran against a stale bundle cached
+	   during the restart's 502 window, and the SW cached the 502 HTML).
+	   The cap itself wins the cascade in the live bundle, so lower it
+	   further for real clearance (92dvh / 32px total margin) and fix
+	   the SW so a 502 can never pin the page to the old bundle again. */
+	max-height: min(92vh, calc(100vh - 32px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(94dvh, calc(100dvh - 24px));
+	max-height: min(92dvh, calc(100dvh - 32px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
 	padding: 8px;
@@ -6747,11 +6770,26 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	gap: 9px;
 	/* B"H batch 48: 10px -> 6px, part of fitting every button. */
 	margin-bottom: 6px;
+	/* B"H batch 50 — the Explore heading's final letter was clipped at
+	   the dialog's right edge: the heading row could grow past the
+	   panel's content box (the panel's overflow:hidden then cut the
+	   last letter). The row can never exceed the panel now, and the
+	   heading text has a small end buffer so its last letter never
+	   sits flush on the panel edge. */
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
 }
 .post-reader-localized-context .reader-info-heading h2 {
 	flex: 1;
 	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
 	margin: 0;
+	/* B"H batch 50 — a small end buffer so the heading's last letter
+	   never sits flush on the panel edge (the final "e" of "Choose a
+	   section or footnote" was clipped there). */
+	padding-inline-end: 4px;
 	font: 750 19px/1.35 system-ui, sans-serif;
 	/* B"H batch 48: the Explore heading ("Choose a section or footnote")
 	   clipped at the right edge — nowrap + ellipsis cut it. It wraps now
@@ -6981,6 +7019,11 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	flex: 1 1 auto;
 	padding: 6px 3px 10px;
 	align-content: start;
+	/* B"H batch 50 — the white rectangle overlapping rows' right side:
+	   when the vertical scrollbar appears it overlays the rows' right
+	   edge (the list had no reserved gutter). Reserve the gutter so
+	   the scrollbar never covers row content. */
+	scrollbar-gutter: stable;
 	/* B"H batch 49 (item A) — the old content-visibility: auto on the
 	   LIST itself is removed: on a scroll container it can keep the
 	   browser from computing the full scroll height, so the list
@@ -7030,6 +7073,10 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context .reader-index-choice {
 	display: block;
 	width: 100%;
+	/* B"H batch 50 — a row button can never be wider than the list:
+	   max-width caps it even if a long title sizes it up, so no white
+	   rectangle of button background can overlap the rows' right side. */
+	max-width: 100%;
 	/* B"H batch 39: min-width:0 + anywhere-wrap so no label can ever force
 	   the scroller wider than the dialog (a 1px overflow used to draw a
 	   horizontal scrollbar at the dialog's bottom). */
@@ -7076,7 +7123,13 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 }
 
 .post-reader-localized-context .reader-index-choice-detail {
-	margin-top: 4px;
+	/* B"H batch 50 — the passage text and the "Section N · 1 passage ·
+	   Explore ›" label still collided in the real browser (the
+	   batch-49 block layout is in the live bundle, but the check ran
+	   on a stale one; the gap is widened so the two can never touch
+	   even at 144px, and the template pins the block layout inline as
+	   a backup). */
+	margin-top: 6px;
 	font-size: 13px;
 	font-weight: 400;
 	line-height: 1.4;

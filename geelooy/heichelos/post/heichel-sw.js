@@ -15,7 +15,7 @@ const PAGES_CACHE = CACHE_VERSION + '-pages';
 // Assets to pre-cache on install — B"H 2026-10-13: expanded to cover the
 // critical JS boot chain so repeat visits are instant (app-like).
 const PRECACHE_URLS = [
-  '/heichelos/post/styles/post-bundle.css?v=c484f6311c',
+  '/heichelos/post/styles/post-bundle.css?v=5eb8b687cf',
   '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581',
   '/heichelos/post/styles/reader-tree-live.css?v=c46ffb47da',
   '/heichelos/post/styles/reader-controls/torah-authority/settings-mobile.css',
@@ -59,13 +59,21 @@ self.addEventListener('fetch', (event) => {
   
   // HTML pages: network-first, fallback to cache
   // This ensures users always get the freshest HTML
+  // B"H batch 50 — only cache a GOOD response: the old code cached
+  // whatever fetch returned, including a 502 during a restart, so the
+  // 502 poisoned the page cache and the next load served the stale
+  // cached HTML (old bundle pin) instead of the fresh page — that is
+  // how the whole batch-49 render stayed stale after the deploy.
+  // A failed/502 response is returned to the page but never stored.
   if (event.request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       fetch(event.request).then((response) => {
-        const responseClone = response.clone();
-        caches.open(PAGES_CACHE).then((cache) => {
-          cache.put(event.request, responseClone);
-        });
+        if (response.ok) {
+          const responseClone = response.clone();
+          caches.open(PAGES_CACHE).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
         return response;
       }).catch(() => {
         return caches.match(event.request);

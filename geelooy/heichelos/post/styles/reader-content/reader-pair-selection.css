@@ -44,21 +44,38 @@
 	transition: none;
 }
 
+/* B"H batch 50 — the post title ("ש״פ תולדות") had NO padding rule at
+   all (the cascade audit found padding-inline: none for the title h1),
+   so its widest glyphs could sit flush on the card edge and be cut.
+   The title gets the same permanent inline padding + anywhere-wrap +
+   max-inline-size as the phrases, so no Hebrew glyph in the reading
+   column can reach the card edge. The title's own font-size (the
+   inline clamp) is untouched. */
+.post-reader-localized-context #realPost .meluket-sefer-title-he {
+	padding-inline: max(12px, 0.25em);
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	max-inline-size: 100%;
+	box-sizing: border-box;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit {
 	transition: none;
 	transition-delay: 0ms;
 	translate: none;
-	/* B"H batch 49 (item C — load speed): the browser lays out ALL 79
-	   phrase pairs on load (each with Hebrew + English at 144px), which
-	   is the slowest part of the first paint after the CSS. Defer the
-	   off-screen pairs' layout: content-visibility:auto skips them
-	   until they near the viewport, and the intrinsic-size estimate
-	   keeps the scrollbar stable. The pair on screen is always
-	   rendered, so the highlight's elementFromPoint and the deep-link
-	   scroll still find it. */
-	content-visibility: auto;
-	contain-intrinsic-size: auto 480px;
+	/* B"H batch 50 — REMOVE the batch-49 content-visibility:auto +
+	   contain-intrinsic-size on phrase pairs (item C). It broke the
+	   highlight: off-screen pairs are skipped and laid out at the
+	   480px estimate, so the highlight's elementFromPoint cannot
+	   reliably find the pair at the viewport line and no pair ever
+	   gets .is-pair-selected in the real browser (the batch-49 worker
+	   flagged this risk). It also breaks deep-link scroll and scroll
+	   anchoring the same way. First paint is server-rendered HTML, so
+	   removing it costs layout work after paint, not the first paint.
+	   The pair is border-box now, so the selected pair's gold edge
+	   (border-inline-start) cannot widen the card past the column. */
+	box-sizing: border-box;
 }
 
 /* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served

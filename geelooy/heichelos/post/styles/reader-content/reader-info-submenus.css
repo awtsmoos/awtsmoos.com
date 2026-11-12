@@ -24,6 +24,11 @@
 	flex: 1 1 auto;
 	padding: 6px 3px 10px;
 	align-content: start;
+	/* B"H batch 50 — the white rectangle overlapping rows' right side:
+	   when the vertical scrollbar appears it overlays the rows' right
+	   edge (the list had no reserved gutter). Reserve the gutter so
+	   the scrollbar never covers row content. */
+	scrollbar-gutter: stable;
 	/* B"H batch 49 (item A) — the old content-visibility: auto on the
 	   LIST itself is removed: on a scroll container it can keep the
 	   browser from computing the full scroll height, so the list
@@ -73,6 +78,10 @@
 .post-reader-localized-context .reader-index-choice {
 	display: block;
 	width: 100%;
+	/* B"H batch 50 — a row button can never be wider than the list:
+	   max-width caps it even if a long title sizes it up, so no white
+	   rectangle of button background can overlap the rows' right side. */
+	max-width: 100%;
 	/* B"H batch 39: min-width:0 + anywhere-wrap so no label can ever force
 	   the scroller wider than the dialog (a 1px overflow used to draw a
 	   horizontal scrollbar at the dialog's bottom). */
@@ -119,7 +128,13 @@
 }
 
 .post-reader-localized-context .reader-index-choice-detail {
-	margin-top: 4px;
+	/* B"H batch 50 — the passage text and the "Section N · 1 passage ·
+	   Explore ›" label still collided in the real browser (the
+	   batch-49 block layout is in the live bundle, but the check ran
+	   on a stale one; the gap is widened so the two can never touch
+	   even at 144px, and the template pins the block layout inline as
+	   a backup). */
+	margin-top: 6px;
 	font-size: 13px;
 	font-weight: 400;
 	line-height: 1.4;

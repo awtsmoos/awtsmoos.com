@@ -72,6 +72,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   horizontal overflow draw a scrollbar at the dialog's bottom. x is hidden
 		   here (network-first, beats the bundle) and in the bundle source; y stays auto. */
 		.post-reader-localized-context #readerInfoPanel #readerInfoHome { overflow-x: hidden; }
+		/* B"H batch 50 — the "0 online" pill must be GONE from reader
+		   post pages. The bootstrap gate removes it at the source, but
+		   batch 49 left the template's register.js pin at the old -003
+		   content hash, so a cached old register.js kept mounting the
+		   old bootstrap and the pill appeared. This rule lives in the
+		   HTML itself (network-first, always fresh), so it hides the
+		   launcher even if an old bootstrap ever mounts it — belt and
+		   braces behind the gate. The Explore rows' title and detail
+		   are block spans (stacked, never colliding) here too, so the
+		   rows stay clean even if the bundle is stale. */
+		:root body .universal-chat-launcher,
+		:root body .universal-chat-floating-launcher,
+		:root body .universal-chat-header-launcher { display: none; }
+		.post-reader-localized-context .reader-index-choice-title,
+		.post-reader-localized-context .reader-index-choice-detail { display: block; }
 		/* B"H round 10 — the title area above card 1 renders as a blank
 		   peach band in the settled view and the title is invisible. The
 		   title color lives in the sefer bundle (dark #2b2118 in light
@@ -99,7 +114,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=c484f6311c">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=5eb8b687cf">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -270,9 +285,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   B"H batch 49 — the batch-48 cap STILL overflowed at
 					   144px: 96dvh with an 8px bottom offset can exceed the
 					   viewport. Cap at 94dvh with a 24px total margin so the
-					   panel's top AND bottom edges are both inside it. */
-					panel.style.maxHeight = 'min(94vh, calc(100vh - 24px))';
-					panel.style.maxHeight = 'min(94dvh, calc(100dvh - 24px))';
+					   panel's top AND bottom edges are both inside it.
+					   B"H batch 50 — the batch-49 cap STILL did not show in
+					   the real browser (stale bundle cached during the
+					   restart's 502 window). Lower it further for real
+					   clearance: 92dvh with a 32px total margin. */
+					panel.style.maxHeight = 'min(92vh, calc(100vh - 32px))';
+					panel.style.maxHeight = 'min(92dvh, calc(100dvh - 32px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
@@ -365,6 +384,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			bindClick('readerInfoBtn', function () { setInfo(!infoOpen()); });
 			bindClick('readerInfoClose', function () { setInfo(false); });
 			bindClick('readerInfoBackdrop', function () { setInfo(false); });
+			/* B"H batch 50 — the (i) button rendered dark navy in the
+			   real browser even though the bundle's light rule (1,2,0)
+			   beats the dock rule (0,4,2): the check ran on a stale
+			   bundle with no light rule, so the transparent button
+			   showed the dark navy dock through it. Pin the light paint
+			   INLINE (the batch-45 precedent for dialog buttons) — an
+			   inline style beats every sheet, so the (i) is light even
+			   with a stale bundle. The bundle rule stays as well. Dock
+			   layout/position untouched — only this button's look. */
+			var infoBtnEl = byId('readerInfoBtn');
+			if (infoBtnEl) {
+				infoBtnEl.style.background = '#fffaf0';
+				infoBtnEl.style.color = '#3e2b12';
+				infoBtnEl.style.border = '1px solid #d9c49f';
+			}
 			/* B"H batch 46: the dialog's list is its only scroller, so a
 			   scroll gesture that starts inside the dialog must scroll the
 			   list, never the page behind the opaque backdrop. Wheel and
@@ -378,6 +412,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			function dialogScroller() {
 				var list = byId('readerInfoList');
 				if (list && !list.hidden) return list;
+				/* B"H batch 50 — the Footnotes tab has its own list
+				   (#readerInfoFootnoteList); the old router only knew
+				   the sections list and the home view, so wheel
+				   gestures on the Footnotes tab had no scroller and did
+				   nothing. Route them to the visible list, whichever
+				   tab is showing. */
+				var fnList = byId('readerInfoFootnoteList');
+				if (fnList && !fnList.hidden) return fnList;
 				var home = byId('readerInfoHome');
 				if (home && !home.hidden) return home;
 				return null;
@@ -436,7 +478,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				const registerScript = document.createElement('script');
-				registerScript.src = '/register.js?v=03b20cf90a';
+				/* B"H batch 50 — the register.js pin MUST match the file's
+				   content hash: batch 49 bumped universal-chat to -004
+				   but left this pin at 03b20cf90a (the -003 hash), so
+				   the browser kept serving cached old register.js and
+				   the old bootstrap (no pill gate) → the pill appeared.
+				   This pin is the -005 content hash now. */
+				registerScript.src = '/register.js?v=2d272b4d5a';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
 				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-4').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
