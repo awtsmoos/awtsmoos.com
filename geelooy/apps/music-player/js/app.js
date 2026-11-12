@@ -30,12 +30,13 @@ const player = new Player(audioEl, {
 	onQueue: renderQueue,
 });
 
-function toast(msg) {
+function toast(msg, sticky) {
 	const el = $('toast');
 	el.textContent = msg;
 	el.classList.add('show');
+	el.classList.toggle('sticky', !!sticky);
 	clearTimeout(toast.timer);
-	toast.timer = setTimeout(() => el.classList.remove('show'), 3200);
+	if (!sticky) toast.timer = setTimeout(() => el.classList.remove('show', 'sticky'), 3200);
 }
 
 // Every failure gets a human-readable line, shown on screen and kept in
@@ -56,7 +57,7 @@ function logError(stage, err) {
 		const box = $('diagnostics');
 		if (box) box.open = true;
 	}
-	toast(text);
+	toast(text, true); // error toasts stay until tapped
 }
 
 function updateDiagSupport() {
@@ -562,6 +563,14 @@ function openAddMenu(trackId, anchor) {
 }
 
 // ---------- events ----------
+// One toggle for both breakpoints: desktop hides with .collapsed, the phone
+// drawer shows only with .open. The × inside the drawer uses the same toggle.
+function toggleLibrary() {
+	const p = $('panel-library');
+	p.classList.toggle('collapsed');
+	p.classList.toggle('open');
+}
+
 function wireEvents() {
 	$('btn-folder').onclick = openFolder;
 	$('btn-folder-empty').onclick = openFolder;
@@ -605,7 +614,9 @@ function wireEvents() {
 	$('btn-shuffle').onclick = () => { player.shuffleQueue(!player.shuffle); updatePlayButtons(); renderQueue(); };
 	$('btn-repeat').onclick = () => { player.cycleRepeat(); updatePlayButtons(); toast('Repeat: ' + player.repeat + '.'); };
 	$('mini-expand').onclick = () => document.querySelector('.hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
-	$('toggle-library').onclick = () => $('panel-library').classList.toggle('collapsed');
+	$('toggle-library').onclick = toggleLibrary;
+	$('btn-close-library').onclick = toggleLibrary;
+	$('toast').onclick = () => $('toast').classList.remove('show', 'sticky');
 	$('toggle-queue').onclick = () => $('panel-queue').classList.toggle('collapsed');
 	$('btn-clear-queue').onclick = () => { player.queue = []; player.index = -1; renderQueue(); };
 

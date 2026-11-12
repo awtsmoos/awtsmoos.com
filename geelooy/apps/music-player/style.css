@@ -118,6 +118,11 @@ button { cursor: pointer; }
 }
 .panel.collapsed { width: 0; min-width: 0; padding: 0; margin: 0 -8px; opacity: 0; border-width: 0; transform: scaleX(0.9); pointer-events: none; }
 .panel h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.panel-close {
+	display: none; position: absolute; top: 10px; right: 10px; z-index: 2;
+	width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+	background: rgba(0, 0, 0, 0.35); font-size: 19px; line-height: 1;
+}
 .panel-block { margin-bottom: 22px; }
 .panel-block:last-child { margin-bottom: 0; }
 .hint { font-size: 12.5px; line-height: 1.55; color: var(--muted); margin: 10px 0 0; }
@@ -285,6 +290,7 @@ input[type="range"] { accent-color: var(--pink); height: 22px; }
 	max-width: calc(100% - 32px); text-align: center;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.sticky { cursor: pointer; border-color: var(--pink); }
 .drop-hint {
 	position: fixed; inset: 14px; z-index: 100; display: none; place-items: center;
 	background: rgba(13, 6, 24, 0.86); border: 3px dashed var(--pink); border-radius: 24px;
@@ -307,8 +313,15 @@ body.dragging .drop-hint { display: grid; }
 	.panel-library {
 		position: fixed; left: 0; top: 0; bottom: 0; z-index: 70; width: min(320px, 86vw);
 		border-radius: 0 18px 18px 0; overflow-y: auto; height: auto; max-height: 100%;
+		transform: translateX(-105%);
 	}
-	.panel-library.collapsed { transform: translateX(-105%); width: min(320px, 86vw); margin: 0; opacity: 1; }
+	/* On a phone the drawer is shut unless it has .open. The desktop .collapsed
+	   rule is neutralized here so the two classes cannot fight each other;
+	   .open is listed last so it wins when both are present. */
+	.panel-library.collapsed { transform: translateX(-105%); width: min(320px, 86vw); margin: 0; padding: 16px; opacity: 1; border-width: 1px; pointer-events: auto; }
+	.panel-library.open { transform: none; }
+	.panel-close { display: grid; place-items: center; }
+	#toggle-queue { display: none; }
 	.track-row { grid-template-columns: 28px 1fr auto; }
 	.track-row .t-meta.t-date { display: none; }
 	.track-row .t-actions button span { display: none; }
