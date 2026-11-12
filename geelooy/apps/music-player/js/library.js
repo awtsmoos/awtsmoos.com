@@ -81,20 +81,6 @@ export async function pickFolder(onProgress) {
 	return { sourceName: dir.name, dirHandle: dir, files: found };
 }
 
-export async function pickFiles() {
-	if (!window.showOpenFilePicker) throw new Error('This browser does not support the file picker.');
-	const handles = await window.showOpenFilePicker({
-		multiple: true,
-		types: [{ description: 'Audio', accept: { 'audio/*': ['.mp3', '.wav', '.ogg', '.oga', '.m4a', '.aac', '.flac', '.opus', '.webm', '.aif', '.aiff'] } }],
-	});
-	const out = [];
-	for (const h of handles) {
-		if (!isAudioName(h.name)) continue;
-		out.push({ file: await h.getFile(), handle: h });
-	}
-	return { sourceName: 'Chosen files', dirHandle: null, files: out };
-}
-
 async function entryToFiles(entry, out) {
 	if (entry.isFile) {
 		if (!isAudioName(entry.name)) return;

@@ -6,7 +6,7 @@ A clean, vivid, professional music player that plays your own audio, from your o
 ## What it does
 
 - **Open a whole folder** from your device (File System Access API, `showDirectoryPicker`, recursive scan). Every audio file inside is listed: mp3, wav, ogg, m4a, aac, flac, opus, webm, aif, mp4 audio.
-- **Add files** individually, or **drag and drop** folders and files anywhere on the page.
+- **Add files** with a plain file input (a real `<label>` for it, so the tap opens the picker natively on every phone browser, old or new). Files are stored in the browser, so they play after a reload with no permission prompt.
 - **Library list** with title, artist (parsed from `Artist - Title` file names), duration, size, and file date.
 - **Sort** by name A–Z / Z–A, newest / oldest added, newest / oldest file, longest / shortest.
 - **Search** by title, artist, or file name.

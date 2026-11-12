@@ -67,6 +67,14 @@ button { cursor: pointer; }
 	-webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .brand p { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
+.app-version {
+	font-size: 11px; font-weight: 600; letter-spacing: 0.04em; vertical-align: middle;
+	color: var(--muted); -webkit-text-fill-color: var(--muted); background: none;
+	-webkit-background-clip: initial; background-clip: initial;
+}
+.visually-hidden-file {
+	position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none;
+}
 .top-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
 .btn {

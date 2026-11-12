@@ -2,7 +2,7 @@
 // playlists, sorting, and the player together.
 import { db } from './db.js';
 import {
-	isAudioName, fileToTrack, pickFolder, pickFiles,
+	isAudioName, fileToTrack, pickFolder,
 	collectFromDrop, resolveTrackFile, handleNeedsPermission,
 } from './library.js';
 import { Player } from './player.js';
@@ -184,12 +184,18 @@ async function addPicked(picked) {
 	}
 }
 
-// The fallback file input must be clicked SYNCHRONOUSLY in the tap handler:
-// after any await the tap is over, and phones/tablets silently ignore a
-// programmatic file-input click with no tap behind it. That was the bug.
+// Open folder: the system folder picker when this browser has one
+// (desktop Chrome, Android Chrome 132+). On older Android there is no folder
+// picker at all, so the button opens the plain file picker instead and says
+// so — picking the songs inside a folder by hand always works.
 function openFolder() {
-	if (!window.showDirectoryPicker) { folderInputFallback(); return; }
-	openFolderAsync();
+	if (window.showDirectoryPicker) { openFolderAsync(); return; }
+	if (/Android/i.test(navigator.userAgent)) {
+		toast('This Chrome can’t open a whole folder — pick the songs inside it instead.');
+		$('file-input').click();
+		return;
+	}
+	folderInputFallback();
 }
 
 async function openFolderAsync() {
@@ -223,22 +229,6 @@ function folderInputFallback() {
 		}
 	};
 	input.click();
-}
-
-function addFiles() {
-	if (!window.showOpenFilePicker) { $('file-input').click(); return; }
-	addFilesAsync();
-}
-
-async function addFilesAsync() {
-	try {
-		const picked = await pickFiles();
-		await addPicked(picked);
-	} catch (err) {
-		if (err && err.name === 'AbortError') return; // user closed the picker
-		logError('Opening the file picker failed', err);
-		$('file-input').click();
-	}
 }
 
 // ---------- playback ----------
@@ -574,7 +564,11 @@ function toggleLibrary() {
 function wireEvents() {
 	$('btn-folder').onclick = openFolder;
 	$('btn-folder-empty').onclick = openFolder;
-	$('btn-files').onclick = addFiles;
+	// "Add files" is a <label> for the file input, so it needs no click handler
+	// at all — the tap opens the picker natively. Keyboard: Enter/Space on it.
+	$('btn-files').addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('file-input').click(); }
+	});
 	$('file-input').onchange = async (e) => {
 		try {
 			const files = Array.from(e.target.files || []).filter((f) => isAudioName(f.name));
