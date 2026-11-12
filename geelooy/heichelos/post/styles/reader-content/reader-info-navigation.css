@@ -68,8 +68,19 @@
 	   The panel is FLUSH at the viewport bottom now (bottom 0, safe-area
 	   only), square bottom corners, its cream running to the viewport
 	   edge — there is no strip below it to read as a bar. The cap's
-	   total margin is top-only (16px) now. */
-	bottom: max(0px, env(safe-area-inset-bottom, 0px));
+	   total margin is top-only (16px) now.
+	   B"H batch 57 — the flush bottom put the panel's border
+	   exactly at the viewport edge: the batch-56 check could not
+	   see the border and read the panel as running off-screen,
+	   and the fit guard measures the panel's BORDER BOX (which
+	   fits by construction for a bottom-anchored panel), so it is
+	   blind to content clipped INSIDE the panel by overflow:
+	   hidden. The panel gets a real 12px bottom margin now, so
+	   its bottom border sits visibly inside the viewport. The
+	   12px strip below is a margin, not the dark bar — the bar
+	   was #readerInfoEmpty rendering (batch 55), and it stays
+	   hidden + cream. */
+	bottom: max(12px, env(safe-area-inset-bottom, 12px));
 	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
@@ -99,13 +110,24 @@
 	   the viewport if it ever overflows — real geometry, not a fourth
 	   cap guess. Cap 90dvh / 40px total margin.
 	   B"H batch 54 — the panel is flush at the viewport bottom now
-	   (bottom 0), so the total margin is top-only: 16px. */
-	max-height: min(90vh, calc(100vh - 16px));
+	   (bottom 0), so the total margin is top-only: 16px.
+	   B"H batch 57 — cap lowered to 86dvh / 56px total margin
+	   (12px bottom + 44px top): the batch-56 check still saw
+	   the dialog's bottom past the viewport and a partial row
+	   cut off, although the guard + cap said it fits. The guard
+	   can only clamp the panel's border box; the content inside
+	   still needs headroom, so the cap gives it 40px more room
+	   and the 12px bottom margin puts the border visibly inside
+	   the viewport. */
+	max-height: min(86vh, calc(100vh - 56px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(90dvh, calc(100dvh - 16px));
+	max-height: min(86dvh, calc(100dvh - 56px));
 	min-height: 0;
-	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
-	padding: 8px;
+	/* B"H batch 48: 14px -> 8px, part of fitting every button.
+	   B"H batch 57 — 12px at the bottom: the last content sits
+	   12px above the bottom border, so no row or button can sit
+	   half-cut at the panel's bottom edge. */
+	padding: 8px 8px 12px;
 	border: 1px solid #c6ad76;
 	/* B"H batch 54 — flush bottom sheet: rounded top corners only; the
 	   bottom corners are square so the cream runs to the viewport edge

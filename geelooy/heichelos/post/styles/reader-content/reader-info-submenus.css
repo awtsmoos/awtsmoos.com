@@ -59,7 +59,7 @@
 	   below the tabs (top padding 6px -> 10px), so the separation
 	   between the tab header and the first row is unambiguous even
 	   after scrolling. Scroll behavior is unchanged. */
-	padding: 10px 3px 10px;
+	padding: 10px 3px 140px;
 	align-content: start;
 	/* B"H batch 56 — TAB-BAR OVERLAP (continued): the lists scroll
 	   under the opaque tab bar and the top row lands half-cut (its
@@ -70,7 +70,18 @@
 	   snap point, so it does not fight the user or change the feel
 	   of a long scroll. The rows carry `scroll-snap-align: start`
 	   below; the template `<style>` carries the same rules as a
-	   network-first backstop. */
+	   network-first backstop.
+	   B"H batch 57 — the snap did NOT engage at the BOTTOM of the
+	   list: at max scroll there is no more content to scroll, so
+	   the top row stays half-cut and no snap point is reachable
+	   (the batch-56 check saw it at the bottom of the 18-row list
+	   and of the 36-row expanded list, and after 0.5-/1-page
+	   scrolls that land near the bottom; small scrolls from the
+	   top were fine). The lists gain 140px of BOTTOM padding —
+	   about one row — so the scrollable range extends past the
+	   last row and the snap CAN reach a full-row alignment at max
+	   scroll. The padding sits inside the scroller (after the
+	   last row), so it changes nothing at the top of the list. */
 	scroll-snap-type: y proximity;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
