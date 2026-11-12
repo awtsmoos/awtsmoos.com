@@ -10,6 +10,7 @@
  */
 
 import { installIkarSearch } from './ikar-search.js?v=ikar-search-001';
+import { mountIkarGroupings } from './ikar-groupings.js?v=ikar-groupings-001';
 
 const IKAR_ROOT = '/heichelos/ikar';
 
@@ -30,6 +31,10 @@ export function boot() {
 
 	const discovery = root.querySelector('.heichel-semantic-discovery');
 	if (discovery) enhanceDiscovery(root, discovery);
+
+	// B"H — batch 35: the full navigator never boots on Ikar's stable path,
+	// so mount the Collections tab here; it owns ?view=groupings.
+	void mountIkarGroupings();
 
 	// B"H — Daily Chitas is a virtual series (not in the API). The full
 	// navigator never boots on Ikar's stable path, so mount the chitas
