@@ -59,6 +59,28 @@ export function listFrom(data) {
 	return [];
 }
 
+/**
+ * Runs an async function over a list with at most `limit` requests in flight.
+ * B"H social fix 1: the profile fired one request per alias for every tab at
+ * once (~40 aliases x 4 sections = ~160 concurrent calls), which overloaded
+ * the 2-CPU server so the 8s overall deadline fired. Batching keeps the
+ * server responsive. Results come back in input order; a failed item becomes
+ * undefined (loaders already turn failures into empty lists).
+ */
+export async function mapLimit(list, limit, fn) {
+	const items = Array.isArray(list) ? list : [];
+	const out = new Array(items.length);
+	const workers = Math.max(1, Math.min(limit || 5, items.length));
+	let next = 0;
+	await Promise.all(new Array(workers).fill(0).map(async () => {
+		while (next < items.length) {
+			const i = next++;
+			try { out[i] = await fn(items[i], i); } catch { out[i] = undefined; }
+		}
+	}));
+	return out;
+}
+
 /** Gives every alias one stable string id for renderers and state. */
 function normalizeAlias(alias) {
 	const id = alias?.id || alias?.aliasId || alias?.inputId || alias?.name || '';

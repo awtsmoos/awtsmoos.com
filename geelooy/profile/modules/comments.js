@@ -68,28 +68,25 @@ export async function renderProfileComments() {
 	const list = one(".profile-comments-list");
 	if (!list) return;
 	list.innerHTML = '<div class="pd-skeleton-list" aria-hidden="true"><div class="pd-skeleton"></div><div class="pd-skeleton"></div></div>';
-	// B"H: never leave the UI stuck loading. 8s overall deadline, always a terminal state.
-	const OVERALL_TIMEOUT_MS = 8000;
-	let groups;
-	try {
-		groups = await Promise.race([
-			Promise.all(state.aliases.map(loadCommentsForAlias)),
-			new Promise((_, reject) => setTimeout(
-				() => reject(new Error("Loading comments took too long.")),
-				OVERALL_TIMEOUT_MS
-			))
-		]);
-	} catch (error) {
-		replaceWith(list, commentsErrorCard(
-			(error && error.message) || "Comments could not load. Check your connection and try again."
-		));
-		return;
+	// B"H social fix 1: batched + progressive (same parallel-flood defect as
+	// the Posts tab — ~40 simultaneous requests behind an 8s deadline).
+	// Aliases load 5 at a time; each batch's cards append as they land.
+	// (loadCommentsForAlias never throws — a failure is an empty list.)
+	const aliases = state.aliases || [];
+	let total = 0;
+	let shown = false;
+	for (let start = 0; start < aliases.length; start += 5) {
+		const batch = aliases.slice(start, start + 5);
+		const groups = await Promise.all(batch.map(loadCommentsForAlias));
+		const items = groups.flat();
+		total += items.length;
+		if (items.length) {
+			if (!shown) { list.innerHTML = ''; shown = true; }
+			list.append(...items.map(commentCard));
+		}
 	}
-	const items = groups.flat();
-	setStat('comments', String(items.length));
-	if (!items.length) {
+	setStat('comments', String(total));
+	if (!shown) {
 		replaceWith(list, emptyCard("No comments yet. Join a conversation to see it here."));
-		return;
 	}
-	replaceWith(list, ...items.map(commentCard));
 }

@@ -111,7 +111,105 @@ export async function submitComment(heichelId, postId, parentCommentId, content,
 	return body?.success ?? body;
 }
 
-async function fetchFeed(endpoint, { limit, offset, aliasId, filters }) {
+/* ============ fallback sources (B"H social fix 1) ============ */
+/* The tab endpoints (home/discover/trending) only surface the handful of
+   posts written through the social write path — in practice the 2 duplicated
+   "Write-path test" posts, or nothing for trending — while the base
+   chronological feed holds the real corpus posts and the simulation series
+   holds 501,629 posts. The river tops up from those sources so it never
+   runs dry and never shows only test posts. Shapes differ per source, so
+   each is normalized to the card shape here. */
+
+function normalizeBasePost(p = {}) {
+	const src = p.source || {};
+	const ss = p.socialSummary || {};
+	const comments = ss.comments || {};
+	const reactions = ss.reactions || {};
+	return {
+		postId: String(p.id || p.postId || ''),
+		id: String(p.id || p.postId || ''),
+		title: p.title || '',
+		heTitle: p.heTitle || '',
+		heichelId: p.heichelId || src.heichelId || 'ikar',
+		heichelName: src.heichelName || p.heichelName || '',
+		seriesId: src.seriesId || p.seriesId || 'root',
+		aliasId: p.aliasId || '',
+		authorName: src.authorName || p.authorName || '',
+		excerpt: p.excerpt || '',
+		createdAt: p.createdAt || 0,
+		updatedAt: p.updatedAt || p.createdAt || 0,
+		commentCount: Number(comments.total || 0),
+		comments: Number(comments.total || 0),
+		shareCount: 0,
+		reactionSummary: {
+			counts: (reactions.counts && typeof reactions.counts === 'object') ? reactions.counts : {},
+			viewerEmoji: reactions.viewerEmoji || ''
+		},
+		_rankScore: 0
+	};
+}
+
+async function fetchBaseFeedPage(cursor, limit) {
+	const qs = new URLSearchParams({ limit: String(limit) });
+	if (cursor) qs.set('cursor', cursor);
+	const res = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin' });
+	if (!res.ok) throw new Error(`Feed base answered ${res.status}`);
+	const body = await res.json();
+	const rows = Array.isArray(body?.data) ? body.data : (Array.isArray(body?.success) ? body.success : []);
+	const pageInfo = body?.meta?.pageInfo || {};
+	return {
+		items: rows.map(normalizeBasePost),
+		nextCursor: pageInfo.nextCursor || '',
+		hasMore: pageInfo.hasMore === true,
+		total: pageInfo.total ?? null
+	};
+}
+
+function normalizeSimPost(p = {}) {
+	const content = String(p.content || '');
+	return {
+		postId: String(p.postId || p.id || ''),
+		id: String(p.postId || p.id || ''),
+		title: p.title || '',
+		heichelId: p.heichelId || 'ikar',
+		heichelName: '',
+		seriesId: p.seriesId || 'simulation',
+		aliasId: '',
+		authorName: '',
+		excerpt: content.slice(0, 240),
+		createdAt: Date.now(),
+		updatedAt: Date.now(),
+		commentCount: 0,
+		comments: 0,
+		shareCount: 0,
+		reactionSummary: { counts: {}, viewerEmoji: '' },
+		_rankScore: 0
+	};
+}
+
+async function fetchSimPage(offset, limit) {
+	const qs = new URLSearchParams({ limit: String(limit), offset: String(offset) });
+	const res = await fetch(`/api/social/heichelos/ikar/series/simulation/posts?${qs}`, { credentials: 'same-origin' });
+	if (!res.ok) throw new Error(`Feed simulation answered ${res.status}`);
+	const body = await res.json();
+	const ids = Array.isArray(body) ? body : (Array.isArray(body?.success) ? body.success : (Array.isArray(body?.data) ? body.data : []));
+	const wanted = ids.slice(0, limit);
+	const details = [];
+	for (let i = 0; i < wanted.length; i += 5) {
+		const batch = wanted.slice(i, i + 5);
+		const rows = await Promise.all(batch.map(async (id) => {
+			try {
+				const r = await fetch(`/api/social/heichelos/ikar/series/simulation/post/${encodeURIComponent(String(id))}`, { credentials: 'same-origin' });
+				if (!r.ok) return null;
+				return await r.json();
+			} catch { return null; }
+		}));
+		for (const row of rows) if (row) details.push(row);
+	}
+	return { items: details.map(normalizeSimPost), fetched: wanted.length, exhausted: ids.length < limit };
+}
+
+async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }) {
 	const qs = new URLSearchParams({ limit: String(limit), offset: String(offset) });
 	if (endpoint === 'home') qs.set('aliasId', aliasId);
 	// B"H — Yaakov 2026-10-13: filter params travel to the server (best effort).
@@ -125,11 +223,39 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters }) {
 	const body = await res.json();
 	const data = body?.success ?? body ?? {};
 	perfLedger.markApi(endpoint, ms, Number(res.headers.get('content-length')) || 0);
-	return {
-		items: Array.isArray(data.items) ? data.items : [],
-		nextOffset: data.nextOffset ?? null,
-		total: data.total ?? null
-	};
+	let items = Array.isArray(data.items) ? data.items : [];
+	const nextOffset = data.nextOffset ?? null;
+	const total = data.total ?? null;
+	// B"H social fix 1: top up from the base feed + the simulation series when
+	// the tab endpoint returns fewer than a page (it only ever returns the 2
+	// test posts, or 0 for trending). `fallback` carries the cursors across
+	// pages so each source is consumed once, in order, and never repeated.
+	const fb = fallback || null;
+	const seen = new Set(items.map(it => String(it.postId || it.id || '')));
+	if (fb && items.length < limit && !fb.baseDone) {
+		try {
+			const base = await fetchBaseFeedPage(fb.baseCursor, limit - items.length);
+			for (const it of base.items) {
+				const key = String(it.postId || it.id || '');
+				if (key && !seen.has(key)) { seen.add(key); items.push(it); }
+			}
+			fb.baseCursor = base.nextCursor || '';
+			if (!base.hasMore) fb.baseDone = true;
+		} catch (_) { fb.baseDone = true; }
+	}
+	if (fb && items.length < limit && !fb.simDone) {
+		try {
+			const sim = await fetchSimPage(fb.simOffset, limit - items.length);
+			for (const it of sim.items) {
+				const key = String(it.postId || it.id || '');
+				if (key && !seen.has(key)) { seen.add(key); items.push(it); }
+			}
+			fb.simOffset += sim.fetched;
+			if (sim.exhausted) fb.simDone = true;
+		} catch (_) { fb.simDone = true; }
+	}
+	const done = nextOffset === null && (!fb || (fb.baseDone && fb.simDone));
+	return { items, nextOffset, total, done };
 }
 
 function clientRerank(items, aliasId, followedSet) {
@@ -200,7 +326,8 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		observer: null,
 		skeletons: [],
 		filters: loadFilters(),
-		allItems: []
+		allItems: [],
+		fallback: { baseCursor: '', baseDone: false, simOffset: 0, simDone: false }
 	};
 
 	async function loadFollowed() {
@@ -244,8 +371,8 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		showSkeletons(3);
 		const tab = TABS.find(t => t.id === state.tab);
 		try {
-			const { items, nextOffset } = await fetchFeed(tab.endpoint, {
-				limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId, filters: state.filters
+			const { items, nextOffset, done } = await fetchFeed(tab.endpoint, {
+				limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId, filters: state.filters, fallback: state.fallback
 			});
 			clearSkeletons();
 			// B"H — client-side filtering is authoritative: the server may
@@ -257,7 +384,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 				// This page was fully filtered out — keep paging, don't stall.
 				state.nextOffset = nextOffset ?? (state.nextOffset + items.length);
 				state.loading = false;
-				if (nextOffset === null) {
+				if (done) {
 					state.done = true;
 					if (!river.querySelector('.feed-card')) river.append(renderEmpty(''));
 					setStatus(t('status.caughtUp'), false);
@@ -303,7 +430,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			perfLedger.markRender(performance.now() - t0, ranked.length);
 			rememberSeen(ranked);
 			state.nextOffset = nextOffset ?? (state.nextOffset + items.length);
-			if (nextOffset === null || items.length < PAGE_SIZE) state.done = true;
+			if (done) state.done = true;
 			setStatus(state.done ? t('status.caughtUp') : t('status.scrollMore'), false);
 			// Prefetch one page ahead while idle.
 			if (!state.done && 'requestIdleCallback' in window) {
@@ -351,6 +478,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.nextOffset = 0;
 		state.done = false;
 		state.allItems = [];
+		state.fallback = { baseCursor: '', baseDone: false, simOffset: 0, simDone: false };
 		prefetchCache.clear();
 		river.replaceChildren();
 		sentinel.textContent = t('status.loadMore');
@@ -406,6 +534,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.nextOffset = 0;
 		state.done = false;
 		state.allItems = [];
+		state.fallback = { baseCursor: '', baseDone: false, simOffset: 0, simDone: false };
 		prefetchCache.clear();
 		river.replaceChildren();
 		tabsEl.querySelectorAll('[role="tab"]').forEach(el => {

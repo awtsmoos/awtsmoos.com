@@ -27,8 +27,19 @@ export async function renderHeichelos() {
   const list = one(".heichel-list");
   if (!list) return;
   replaceWith(list, emptyCard("Loading your Heichelos…", "loading"));
-  const groups = await Promise.all(state.aliases.map(loadHeichelosForAlias));
-  const items = groups.flat();
+  // B"H social fix 1: batched. The old code fired one heichelos/details request
+  // per alias at once (~40) with a 9s per-request timeout; under the profile's
+  // ~160-call load they queued past 9s and every alias showed
+  // "Profile API timed out". Aliases now load 5 at a time, so each request
+  // finishes well inside its timeout. (loadHeichelosForAlias never throws —
+  // a failure is recorded in state.heichelErrors and shown as an error card.)
+  const aliases = state.aliases || [];
+  const items = [];
+  for (let start = 0; start < aliases.length; start += 5) {
+    const batch = aliases.slice(start, start + 5);
+    const groups = await Promise.all(batch.map(loadHeichelosForAlias));
+    items.push(...groups.flat());
+  }
   const failures = Array.from(state.heichelErrors.entries());
   const children = [];
   if (!items.length && !failures.length) {

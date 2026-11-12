@@ -8,7 +8,7 @@
  * B"H 2026-10-13: tabs bind FIRST (before any network) so they always work; stats load eagerly in background.
  */
 import { announceProfile, one, setStat } from './dom.js';
-import { getAliasDetails, getDefaultAlias } from './api.js';
+import { getAliasDetails, getDefaultAlias, mapLimit } from './api.js';
 import { listFollowers } from '/scripts/awtsmoos/social/profile/api.js';
 import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
@@ -91,11 +91,15 @@ export class ProfileDashboardController {
 	async loadStatsEagerly() {
 		const aliases = state.aliases;
 		if (!aliases.length) return;
-		const STAT_TIMEOUT_MS = 10000;
+		// B"H social fix 1: the stats loaders fired one request per alias at once
+		// (~40 per loader x 4 loaders = ~160 concurrent calls) alongside the
+		// Heichelos load, which queued past the timeouts. They now run 5 at a
+		// time, and the deadline is 30s so a slow batch still counts.
+		const STAT_TIMEOUT_MS = 30000;
 		const countAll = async (loader) => {
 			try {
 				const groups = await Promise.race([
-					Promise.all(aliases.map(loader)),
+					mapLimit(aliases, 5, loader),
 					new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), STAT_TIMEOUT_MS))
 				]);
 				return groups.flat().length;
@@ -124,10 +128,10 @@ export class ProfileDashboardController {
 	 */
 	async countFollowers(aliases) {
 		try {
-			const lists = await Promise.all(aliases.map(async (alias) => {
+			const lists = await mapLimit(aliases, 5, async (alias) => {
 				const followers = await listFollowers('alias', alias.id);
 				return Array.isArray(followers) ? followers.length : 0;
-			}));
+			});
 			return lists.reduce((sum, n) => sum + n, 0);
 		} catch {
 			return null;

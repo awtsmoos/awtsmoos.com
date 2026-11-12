@@ -59,36 +59,27 @@ export async function renderProfilePosts() {
 	if (!list) return;
 	// B"H: show a proper loading skeleton, not a confusing "Nothing here yet".
 	list.innerHTML = '<div class="pd-skeleton-list" aria-hidden="true"><div class="pd-skeleton"></div><div class="pd-skeleton"></div><div class="pd-skeleton"></div></div>';
-	// B"H: never leave the UI stuck loading. 8s overall deadline.
-	const OVERALL_TIMEOUT_MS = 8000;
-	let groups;
-	try {
-		groups = await Promise.race([
-			Promise.all(state.aliases.map(loadPostsForAlias)),
-			new Promise((_, reject) => setTimeout(
-				() => reject(new Error("Loading posts took too long.")),
-				OVERALL_TIMEOUT_MS
-			))
-		]);
-	} catch (error) {
-		const retry = emptyCard(
-			(error && error.message) || "Posts could not load. Check your connection and try again.",
-			"error"
-		);
-		const btn = document.createElement("button");
-		btn.type = "button";
-		btn.className = "g-button";
-		btn.textContent = "Retry";
-		btn.addEventListener("click", () => { renderProfilePosts().catch(() => {}); });
-		retry.append(btn);
-		replaceWith(list, retry);
-		return;
+	// B"H social fix 1: batched + progressive. The old code fired one request
+	// per alias at once (~40) behind an 8s overall deadline, so a loaded server
+	// tripped the deadline and the tab showed "Loading posts took too long."
+	// Aliases now load 5 at a time and each batch's cards append as they land,
+	// so the tab shows posts within ~1s and never stalls on one slow alias.
+	// (loadPostsForAlias never throws — a failure is an empty list.)
+	const aliases = state.aliases || [];
+	let total = 0;
+	let shown = false;
+	for (let start = 0; start < aliases.length; start += 5) {
+		const batch = aliases.slice(start, start + 5);
+		const groups = await Promise.all(batch.map(loadPostsForAlias));
+		const items = groups.flat();
+		total += items.length;
+		if (items.length) {
+			if (!shown) { list.innerHTML = ''; shown = true; }
+			list.append(...items.map(postCard));
+		}
 	}
-	const items = groups.flat();
-	setStat('posts', String(items.length));
-	if (!items.length) {
+	setStat('posts', String(total));
+	if (!shown) {
 		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));
-		return;
 	}
-	replaceWith(list, ...items.map(postCard));
 }

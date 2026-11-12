@@ -747,6 +747,16 @@ function commentName(c) {
 	return c.authorName || authorName(c);
 }
 
+/* B"H social fix 1: a commenter's name is a link to their profile, so a
+   comment is a doorway to the person who wrote it (and from there to their
+   posts). Without an alias there is no profile to link to, so it stays text. */
+function commentAuthorHtml(c) {
+	const alias = String(c.aliasId || c.author || c.authorId || '');
+	const name = escapeHtml(commentName(c));
+	if (alias) return `<a class="feed-comment-author" href="/@${encodeURIComponent(alias)}">${name}</a>`;
+	return `<span class="feed-comment-author">${name}</span>`;
+}
+
 function commentText(c) {
 	return String(c.content ?? c.text ?? c.body ?? '').replace(/<[^>]*>/g, '').trim();
 }
@@ -838,7 +848,7 @@ function createCommentThread(item, opts = {}) {
 		el.innerHTML =
 			'<div class="feed-comment-head">' +
 				`<span class="feed-comment-avatar" aria-hidden="true">${escapeHtml(authorInitials(commentName(c)))}</span>` +
-				`<span class="feed-comment-author">${escapeHtml(commentName(c))}</span>` +
+				`${commentAuthorHtml(c)}` +
 				(stamp ? `<time class="feed-comment-time" datetime="${escapeAttr(new Date(stamp).toISOString())}">${timeAgo(stamp)}</time>` : '') +
 			'</div>' +
 			`<p class="feed-comment-text" dir="auto">${escapeHtml(commentText(c))}</p>` +
