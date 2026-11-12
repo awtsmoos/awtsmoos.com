@@ -145,6 +145,28 @@ function updateReaderHighlight() {
 	}
 }
 
+/* B"H batch 53 — the class was never reaching the pair. The wash
+   rule is the ONLY rule that can paint a selected pair and nothing
+   overrides it (verified over the served bundle: the :not() rule
+   touches only non-selected pairs), so if the class were applied the
+   wash would show. The frame-gated sample runs once at init and the
+   observer only fires on DOM mutations; if that one sample runs
+   before the pairs are laid out, nothing repaints until a scroll.
+   Paint SYNCHRONOUSLY via the rect fallback (plain geometry, no
+   hit-test, no gate) and report whether a pair was marked, so the
+   caller can retry until one is. */
+function paintCurrentPairNow() {
+	if (shouldPauseHighlight()) return false;
+	const root = document.getElementById('realPost');
+	if (!root) return false;
+	const byRect = findReaderPairByRect(root);
+	if (byRect) {
+		paintReaderPair(byRect);
+		return true;
+	}
+	return false;
+}
+
 /** One listener for nested scroll roots, with trailing paint after inertia. */
 export function initSectionHighlight() {
 	if (initialized || typeof document === 'undefined') return;
@@ -203,6 +225,24 @@ export function initSectionHighlight() {
 		try { frameGate.queue(); } catch (_) {}
 	});
 	frameGate.queue();
+	/* B"H batch 53 — load-time guarantee (see paintCurrentPairNow):
+	   paint the current pair SYNCHRONOUSLY on init, and if no pair
+	   is laid out yet, retry every 500ms for up to 10s. Bounded and
+	   self-stopping (clears on success or after 20 tries); the frame
+	   gate + observer + listeners stay as the live path. This is the
+	   only path that does not depend on a scroll, a mutation, or a
+	   visibility change to mark the current pair. */
+	try {
+		if (!paintCurrentPairNow()) {
+			let tries = 0;
+			const retry = setInterval(() => {
+				tries += 1;
+				let done = false;
+				try { done = paintCurrentPairNow(); } catch (_) {}
+				if (done || tries >= 20) clearInterval(retry);
+			}, 500);
+		}
+	} catch (_) {}
 }
 
 /** Clear old paint while preserving the original Torah nodes. */

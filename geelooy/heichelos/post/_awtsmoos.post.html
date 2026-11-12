@@ -74,6 +74,20 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   holds even with a stale bundle. The template is network-first
 		   and always fresh; the bundle is the fallback. */
 		:root .post-reader-localized-context #readerInfoPanel .reader-info-heading h2 { flex: 1 1 0%; min-width: 0; overflow: visible; text-overflow: clip; white-space: normal; }
+		/* B"H batch 53 — the Explore rows ended ragged (~100-330px
+		   short) although the bundle's grid rule (minmax(0, 1fr)) +
+		   width:100% on the buttons is correct and the buttons ARE
+		   direct grid children of the list. The sheet rule is not
+		   reaching the browser for a reason static analysis cannot
+		   see, so pin the same layout HERE, in the HTML itself
+		   (network-first, always fresh, :root-prefixed (1,3,0) so it
+		   beats the bundle). The list is a one-column grid spanning
+		   the panel and the dialog's only scroller (flex: 1 1 auto +
+		   min-height: 0 + overflow-y: auto, as in the bundle); every
+		   row button is a full-width block. */
+		:root .post-reader-localized-context #readerInfoList,
+		:root .post-reader-localized-context #readerInfoFootnoteList { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; width: 100%; min-width: 0; box-sizing: border-box; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+		:root .post-reader-localized-context .reader-index-choice { display: block; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
 		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
@@ -122,7 +136,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=83af053071">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=1b297571ee">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -142,7 +156,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	</script>
 </head>
 <body>
-	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="52">
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="53">
 		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
 		     vars on <html>, but a stylesheet rule sets --post-text-size
 		     directly on THIS div, so it needs the same vars inline on
@@ -215,16 +229,16 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     cannot view source, so the page itself must say which batch
 		     loaded. The pin span is filled by the script below from the
 		     bundle <link> (never hard-coded — it always names the
-		     page's bundle). The batch span is filled by the bundle's
-		     own stylesheet (reader-pair-selection.css ::after), so it
-		     names the bundle the browser actually APPLIED. If the pin
-		     says the new bundle but the batch says an old one, the
-		     browser is serving stale code — reload. Tiny, muted,
-		     centered at the foot of the post; it never competes with
-		     the Torah. A batch that touches the marker updates the
-		     data-batch attributes + the sheet's number to its own
-		     batch (the same per-batch step as the bundle pin). -->
-		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="52" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
+		     page's bundle). B"H batch 53 — the batch span is filled by
+		     the same script from the marker div's data-batch, as REAL
+		     DOM text: the batch-52 ::after generated content was not a
+		     DOM text node, so a page-text search for "batch" returned
+		     zero matches and the check could never confirm the batch.
+		     Tiny, muted, centered at the foot of the post; it never
+		     competes with the Torah. A batch that touches the marker
+		     updates the data-batch attributes to its own batch (the
+		     same per-batch step as the bundle pin). -->
+		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="53" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
 		<script>
 		try {
 			var __awtsmoosBundleLink = document.querySelector('link[href*="post-bundle.css?v="]');
@@ -235,6 +249,20 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			}
 			var __awtsmoosMarkerPin = document.querySelector('.awtsmoos-build-marker-pin');
 			if (__awtsmoosMarkerPin) __awtsmoosMarkerPin.textContent = __awtsmoosBundlePin ? ('Reader build · bundle ' + __awtsmoosBundlePin + ' · ') : 'Reader build · ';
+			/* B"H batch 53 — the batch span is REAL DOM text now, not a
+			   ::after: the ::after generated content is not a DOM text
+			   node, so a page-text search for "batch" returned zero
+			   matches even though the rule was in the bundle — the
+			   check could never confirm which batch loaded. Fill it
+			   here from the marker div's data-batch, so the footer
+			   reads "Reader build · bundle <pin> · batch 53" as real
+			   text: visible AND searchable. */
+			var __awtsmoosMarker = document.getElementById('awtsmoosBuildMarker');
+			var __awtsmoosMarkerBatch = document.querySelector('.awtsmoos-build-marker-batch');
+			if (__awtsmoosMarkerBatch && __awtsmoosMarker) {
+				var __awtsmoosBatchNum = __awtsmoosMarker.getAttribute('data-batch') || '';
+				if (__awtsmoosBatchNum) __awtsmoosMarkerBatch.textContent = 'batch ' + __awtsmoosBatchNum;
+			}
 		} catch (_) {}
 		</script>
 	</div>
@@ -275,6 +303,26 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   the panel paints it inline; closing clears them again. Geometry and
 		   stacking match the bundle rule (990 panel / 989 backdrop) so the Aa/i
 		   dock (991 while a panel is open) stays above it. */
+		/* B"H batch 53 — the fit guard, extracted so it can run from
+		   more than one place. Batch 51 measured the panel only when
+		   it OPENS (home view); the home → Explore switch (list +
+		   "Show more" appear) never re-measured, so Explore content
+		   could push the panel past the viewport with "Show more"
+		   cut off. This is called on open (paintInfo), on resize,
+		   AND by the panel MutationObserver below whenever the
+		   dialog's content changes — so every view change re-clamps.
+		   Only fires when the panel actually overflows. */
+		function clampInfoPanelFit() {
+			try {
+				var fitPanel = byId('readerInfoPanel');
+				if (!fitPanel || fitPanel.hidden) return;
+				var fitRect = fitPanel.getBoundingClientRect();
+				var fitVH = window.innerHeight || 0;
+				if (fitVH > 0 && fitRect.bottom > fitVH - 8) {
+					fitPanel.style.maxHeight = Math.max(200, fitVH - 24) + 'px';
+				}
+			} catch (_) {}
+		}
 		function paintInfo(open) {
 			var panel = byId('readerInfoPanel');
 			var backdrop = byId('readerInfoBackdrop');
@@ -308,8 +356,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					/* B"H batch 51 — bottom margin 16px (was 8px): the strip
 					   below a bottom-anchored panel is backdrop, and at 8px
 					   plus the old shadow it read as a dark bar sliced at
-					   the viewport bottom. 16px reads as a margin. */
-					panel.style.bottom = '16px';
+					   the viewport bottom. 16px reads as a margin.
+					   B"H batch 53 — 16px STILL read as a dark bar in the
+					   batch-52 check (the strip is backdrop #17130d, and
+					   against the cream panel any dark strip reads as a
+					   bar). 24px, with the panel's own border + radius
+					   pinned below, reads as a margin. */
+					panel.style.bottom = '24px';
 					panel.style.left = '50%';
 					panel.style.right = 'auto';
 					panel.style.transform = 'translateX(-50%)';
@@ -356,6 +409,30 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 						dialogBtns[bi].style.color = '#2b2118';
 						dialogBtns[bi].style.border = '1px solid #d9c9a8';
 					}
+					/* B"H batch 53 — pin the heading h2's layout INLINE:
+					   the flex: 1 1 0% + min-width: 0 rule is correct in
+					   the bundle AND in the template's :root rule, yet
+					   the Explore heading's final "e" still clips in
+					   the real browser. Pin it on the element itself
+					   (inline beats every sheet) so the heading can
+					   shrink and wrap instead of reaching the panel
+					   edge, with a 16px end buffer so the last glyph
+					   never sits against the border. Also pin the
+					   panel's own border + radius so its bottom edge
+					   is crisp against the dark backdrop (the "dark
+					   bar" the checks kept seeing is the backdrop
+					   strip below a bottom-anchored panel with no
+					   visible edge of its own). */
+					var heading = byId('readerInfoHeading');
+					if (heading) {
+						heading.style.flex = '1 1 0%';
+						heading.style.minWidth = '0';
+						heading.style.overflow = 'visible';
+						heading.style.whiteSpace = 'normal';
+						heading.style.paddingInlineEnd = '16px';
+					}
+					panel.style.border = '1px solid #d9c9a8';
+					panel.style.borderRadius = '14px';
 					var home = byId('readerInfoHome');
 					if (home) home.scrollTop = 0;
 					var list = byId('readerInfoList');
@@ -367,14 +444,10 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   the real rendered rect and, if the panel overflows,
 					   clamp its height to the viewport in real pixels.
 					   Only fires when the panel actually overflows, so
-					   it changes nothing when the CSS holds. */
-					try {
-						var fitRect = panel.getBoundingClientRect();
-						var fitVH = window.innerHeight || 0;
-						if (fitVH > 0 && fitRect.bottom > fitVH - 8) {
-							panel.style.maxHeight = Math.max(200, fitVH - 24) + 'px';
-						}
-					} catch (_) {}
+					   it changes nothing when the CSS holds.
+					   B"H batch 53 — extracted to clampInfoPanelFit()
+					   (above) so view changes re-clamp too. */
+					clampInfoPanelFit();
 				}
 				if (backdrop) {
 					backdrop.style.display = 'block';
@@ -539,13 +612,36 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				window.addEventListener('resize', function () {
 					try {
 						if (!infoOpen()) return;
-						var r = infoPanelEl.getBoundingClientRect();
-						var vh = window.innerHeight || 0;
-						if (vh > 0 && r.bottom > vh - 8) {
-							infoPanelEl.style.maxHeight = Math.max(200, vh - 24) + 'px';
-						}
+						clampInfoPanelFit();
 					} catch (_) {}
 				}, { passive: true });
+				/* B"H batch 53 — the home → Explore switch, a search
+				   filter, and "Show more" all change the panel's
+				   content WITHOUT reopening it, so paintInfo's fit
+				   guard never re-runs and Explore content can push
+				   the panel past the viewport ("Show more" cut off,
+				   dialog running past the bottom edge). Watch the
+				   panel's subtree and re-clamp whenever its content
+				   changes while it is open. Debounced through
+				   requestAnimationFrame (one re-measure per frame at
+				   most) so an 18-row render does not re-measure 18
+				   times. */
+				if (typeof MutationObserver !== 'undefined') {
+					try {
+						var __awtsmoosRefitQueued = false;
+						var __awtsmoosPanelObserver = new MutationObserver(function () {
+							if (__awtsmoosRefitQueued) return;
+							__awtsmoosRefitQueued = true;
+							var __awtsmoosRefitRun = function () {
+								__awtsmoosRefitQueued = false;
+								try { if (infoOpen()) clampInfoPanelFit(); } catch (_) {}
+							};
+							if (typeof requestAnimationFrame === 'function') requestAnimationFrame(__awtsmoosRefitRun);
+							else setTimeout(__awtsmoosRefitRun, 0);
+						});
+						__awtsmoosPanelObserver.observe(infoPanelEl, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+					} catch (_) {}
+				}
 			}
 			var lensClose = byId('scribeLensClose');
 			if (lensClose && lensClose.dataset.awtsmoosCloseBound !== 'true') {
@@ -581,8 +677,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-3').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=0f4238a130').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=e5f708dc89').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=69516f30d1');
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=0849edb1ea').catch(() => {});
+				import('/heichelos/post/postLogic.js?v=7c9807daed');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage
 				// to the full canonical boot (postLogic module graph + API fetches),
