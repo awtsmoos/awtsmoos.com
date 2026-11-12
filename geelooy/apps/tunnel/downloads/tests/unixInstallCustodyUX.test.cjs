@@ -87,3 +87,10 @@ test('cancel interrupts a slow installer subprocess without waiting for its slee
   fs.rmSync(root,{recursive:true,force:true});
  }
 });
+test('heartbeat is one live line rewritten in place, never a fresh line per tick',()=>{
+ const code=fs.readFileSync(custody,'utf8');
+ assert.match(code,/\\r\\x1b\[2K/);
+ assert.doesNotMatch(code,/◉ ACTIVE/);
+ assert.match(code,/AWTSMOOS_INSTALL_MAX_SECONDS/);
+ assert.match(code,/exceeded the .* budget/);
+});

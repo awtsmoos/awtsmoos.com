@@ -58,6 +58,12 @@ async function delegate() {
 	let offset = 0;
 	let lastHeartbeat = Date.now();
 	const startedAt = Date.now();
+	// B"H — 15s installer budget (user order 2026-11-12): the install must
+	// finish fast and never sit stuck. Override only for a slow network:
+	// AWTSMOOS_INSTALL_MAX_SECONDS=120 curl ... | bash -s -- --full --yes
+	const maxInstallSeconds = Math.max(1, Number(process.env.AWTSMOOS_INSTALL_MAX_SECONDS || 15) || 15);
+	let heartbeatLineOpen = false;
+	let deadlineFired = false;
 	process.stderr.write(`\n${colors.cyan}╭──────────────────────────────────────────────╮${colors.off}\n${colors.bold}${colors.gold}   ✦ AWTSMOOS / LIVE INSTALL CONTROL${colors.off}\n${colors.cyan}╰──────────────────────────────────────────────╯${colors.off}\n${colors.green}   ● Installer running${colors.off}\n   Runner PID  ${runner.pid}\n   Status      node "${controlPath}" status\n   Cancel      node "${controlPath}" cancel\n   Immediate   kill -TERM ${runner.pid}\n   Live log    ${logPath}\n${colors.dim}   Your installed tunnel is preserved until verification succeeds.${colors.off}\n\n`);
 	for (;;) {
 		await delay(200);
@@ -66,15 +72,31 @@ async function delegate() {
 		if (receipt?.terminal) {
 			mirrorLog(logPath, offset);
 			flushMirror();
+			if (heartbeatLineOpen) { process.stderr.write("\n"); heartbeatLineOpen = false; }
 			process.exitCode = Number(receipt.exitCode || 0);
 			return;
 		}
 		if (!alive(runner.pid)) throw new Error("installer_custody_runner_lost");
 		if (Date.now()-lastHeartbeat >= 500) {
-			const receipt = readReceipt();
 			const elapsed = Math.floor((Date.now()-startedAt)/1000);
-			const silent = logAgeSeconds(logPath);
-			process.stderr.write(`${colors.cyan}   ◉ ACTIVE${colors.off} | ${elapsed}s | core PID ${receipt?.corePid || runner.pid}\n${colors.dim}      ${latestProgress(logPath)}${colors.off}${silent > 5 ? ` ${colors.gold}(no new output for ${silent}s)${colors.off}` : ""}\n`);
+			if (!deadlineFired && elapsed > maxInstallSeconds) {
+				deadlineFired = true;
+				if (heartbeatLineOpen) { process.stderr.write("\n"); heartbeatLineOpen = false; }
+				process.stderr.write(`${colors.gold}   ✕ Installer exceeded the ${maxInstallSeconds}s budget at ${latestProgress(logPath)} — stopping. Your installed tunnel is preserved.${colors.off}\n`);
+				try { process.kill(runner.pid, "SIGTERM"); } catch {}
+				await delay(2000);
+				const finalReceipt = readReceipt();
+				process.exitCode = 1;
+				if (finalReceipt?.terminal) process.exitCode = Number(finalReceipt.exitCode || 1);
+				return;
+			}
+			// One live line, rewritten in place — never a fresh line per tick.
+			if (process.stderr.isTTY) {
+				const silent = logAgeSeconds(logPath);
+				const line = `   ◉ ${elapsed}s | core PID ${receipt?.corePid || runner.pid} | ${latestProgress(logPath)}${silent > 5 ? ` (quiet ${silent}s)` : ""}`;
+				process.stderr.write(`\r\x1b[2K${colors.cyan}${line}${colors.off}`);
+				heartbeatLineOpen = true;
+			}
 			lastHeartbeat=Date.now();
 		}
 	}
@@ -172,6 +194,9 @@ function printLog(bytes) {
 	incompleteLine = lines.pop();
 	for (const line of lines) {
 		const raw = line.replace(/\x1b\[[0-9;]*[A-Za-z]/g, "");
+		// The live heartbeat line already shows the latest progress; mirroring
+		// the core's own [ NN%] step lines would duplicate it on the terminal.
+		if (/^\[\s*\d+%\] step \d+\/\d+ /.test(raw)) continue;
 		let color = "";
 		if (/\b(FAILED|error|failure|timed out)\b/i.test(raw) || raw.includes("✕")) color = "\x1b[1;91m";
 		else if (/\b(warning|waiting|retrying)\b/i.test(raw) || raw.includes("⚠")) color = "\x1b[93m";

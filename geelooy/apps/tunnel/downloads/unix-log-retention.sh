@@ -44,6 +44,10 @@ rotate_runtime_logs() {
 	done
 }
 
+# B"H — Displaced runtimes are set aside with mv (instant on one volume),
+# never deleted in the foreground: rm -rf of a stale runtime tree is what
+# wedged the installer at 20% for 391s+ on a Mac (user order 2026-11-12:
+# 15s max, never stuck). The actual deletion sweeps in the background.
 prune_displaced_runtimes() {
 	local keep="${AWTSMOOS_RUNTIME_HISTORY_KEEP:-4}"
 	local count=0
@@ -53,6 +57,35 @@ prune_displaced_runtimes() {
 		"${ROOT}.recovery-displaced-"* \
 		"${ROOT}.failed-recovery-"* 2>/dev/null || true); do
 		count=$(( count + 1 ))
-		[ "$count" -le "$keep" ] || rm -rf "$directory"
+		[ "$count" -le "$keep" ] || set_aside_disposable_tree "$directory"
 	done
+	sweep_disposable_trash || true
+}
+
+# Move a disposable tree into the prune trash (same volume, so O(1)).
+# Never deletes in the foreground; a tree that cannot move is left in place
+# for the next run instead of blocking this install.
+set_aside_disposable_tree() {
+	local directory="$1"
+	local trash="${RECOVERY_ROOT}/.prune-trash"
+	[ -e "$directory" ] || return 0
+	[ -n "${RECOVERY_ROOT:-}" ] || return 0
+	mkdir -p "$trash" 2>/dev/null || return 0
+	mv "$directory" "$trash/" 2>/dev/null || prg_warn "Could not set aside a displaced runtime; leaving it in place."
+}
+
+# Delete the prune trash off the install's critical path. One sweeper at a
+# time; a guard older than 10 minutes is a dead sweep (killed with its
+# installer) and is ignored so the trash cannot grow forever.
+sweep_disposable_trash() {
+	local trash="${RECOVERY_ROOT}/.prune-trash"
+	[ -d "$trash" ] || return 0
+	local guard="${trash}.sweeping"
+	if [ -e "$guard" ]; then
+		find "$guard" -mmin +10 -delete 2>/dev/null || true
+		[ -e "$guard" ] && return 0
+	fi
+	: > "$guard" 2>/dev/null || return 0
+	( rm -rf "$trash"; rm -f "$guard" ) >/dev/null 2>&1 &
+	disown 2>/dev/null || true
 }

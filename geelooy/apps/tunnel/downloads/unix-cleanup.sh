@@ -34,7 +34,15 @@ remove_disposable_candidate() {
 		return 0
 	fi
 	prg_dim "Cleaning disposable install debris."
-	rm -rf "$candidate" || true
+	# B"H — set aside with mv, never rm -rf in the foreground (see
+	# prune_displaced_runtimes): deleting a stale tree here wedged the
+	# installer at 20%. The trash sweep runs off the critical path.
+	if declare -F set_aside_disposable_tree >/dev/null 2>&1; then
+		set_aside_disposable_tree "$candidate" || true
+	else
+		( rm -rf "$candidate" ) >/dev/null 2>&1 &
+		disown 2>/dev/null || true
+	fi
 }
 
 cleanup_disposable_state() {
