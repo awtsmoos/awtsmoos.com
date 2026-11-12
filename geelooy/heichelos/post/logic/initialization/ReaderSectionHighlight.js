@@ -87,6 +87,33 @@ export function selectReaderPairAtViewport(viewport, root) {
 	return pair;
 }
 
+/* B"H batch 51 — elementFromPoint is the ONLY finder, and it misses
+   when the sefer has not mounted yet (the module samples before the
+   pairs exist) or when the sampled point lands on a gap, a label, or
+   an overlay. The check saw no gold edge at all at 144px (only a
+   1-2px card-border line where a ~6px gold edge belongs), so the
+   class was never reaching the pair. Fall back to a rect scan: the
+   pair whose box contains the viewport's middle line, else the first
+   pair intersecting the viewport. No hit-testing, no overlay can
+   block it — plain geometry over the pairs already in the DOM. */
+export function findReaderPairByRect(root) {
+	if (!root || typeof root.querySelectorAll !== 'function') return null;
+	const height = window.innerHeight || 0;
+	if (!(height > 0)) return null;
+	const middle = height * 0.45;
+	let firstVisible = null;
+	const pairs = root.querySelectorAll('.meluket-phrase-pair, .awtsmoos-initial-unit');
+	for (const pair of pairs) {
+		if (typeof pair.getBoundingClientRect !== 'function') continue;
+		const rect = pair.getBoundingClientRect();
+		if (!rect || rect.height <= 0) continue;
+		if (rect.bottom < 0 || rect.top > height) continue;
+		if (!firstVisible) firstVisible = pair;
+		if (rect.top <= middle && rect.bottom >= middle) return pair;
+	}
+	return firstVisible;
+}
+
 /** Do nothing while an overlay covers the book or text is being selected. */
 function shouldPauseHighlight() {
 	if (document.hidden) return true;
@@ -103,11 +130,19 @@ function updateReaderHighlight() {
 	const root = document.getElementById('realPost');
 	if (!root) return;
 	if (selectedPair && !root.contains(selectedPair)) paintReaderPair(null);
-	selectReaderPairAtViewport({
+	const pair = selectReaderPairAtViewport({
 		width: window.innerWidth,
 		height: window.innerHeight,
 		elementFromPoint: document.elementFromPoint.bind(document)
 	}, root);
+	/* B"H batch 51 — if the hit-test found nothing (sefer mounting,
+	   a gap, a label, an overlay), fall back to the rect scan so the
+	   current pair is still marked. The fallback only runs when the
+	   hit-test misses, so the fast path is untouched. */
+	if (!pair) {
+		const byRect = findReaderPairByRect(root);
+		if (byRect) paintReaderPair(byRect);
+	}
 }
 
 /** One listener for nested scroll roots, with trailing paint after inertia. */
@@ -133,6 +168,27 @@ export function initSectionHighlight() {
 	window.addEventListener('awtsmoos:reader-highlight-resume', () => {
 		frameGate.queue();
 	});
+	/* B"H batch 51 — the sefer mounts AFTER this module initializes
+	   (MeluketSeferReader awakens on a later tick), so the first
+	   sample runs before any pair exists and, with no scroll after
+	   mount, nothing ever repaints — the highlight never appears.
+	   Watch #realPost for pairs arriving (mount / re-mount) and
+	   re-queue then; the watch ends after 20s so it is not a
+	   permanent observer. */
+	if (typeof MutationObserver !== 'undefined') {
+		try {
+			const root = document.getElementById('realPost');
+			if (root) {
+				const mo = new MutationObserver(() => {
+					try {
+						if (root.querySelector('.meluket-phrase-pair, .awtsmoos-initial-unit')) frameGate.queue();
+					} catch (_) {}
+				});
+				mo.observe(root, { childList: true, subtree: true });
+				setTimeout(() => { try { mo.disconnect(); } catch (_) {} }, 20000);
+			}
+		} catch (_) {}
+	}
 	frameGate.queue();
 }
 

@@ -114,7 +114,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=5eb8b687cf">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=f9983d1a5e">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -271,7 +271,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					panel.style.position = 'fixed';
 					panel.style.zIndex = '990';
 					panel.style.top = 'auto';
-					panel.style.bottom = '8px';
+					/* B"H batch 51 — bottom margin 16px (was 8px): the strip
+					   below a bottom-anchored panel is backdrop, and at 8px
+					   plus the old shadow it read as a dark bar sliced at
+					   the viewport bottom. 16px reads as a margin. */
+					panel.style.bottom = '16px';
 					panel.style.left = '50%';
 					panel.style.right = 'auto';
 					panel.style.transform = 'translateX(-50%)';
@@ -289,9 +293,17 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   B"H batch 50 — the batch-49 cap STILL did not show in
 					   the real browser (stale bundle cached during the
 					   restart's 502 window). Lower it further for real
-					   clearance: 92dvh with a 32px total margin. */
-					panel.style.maxHeight = 'min(92vh, calc(100vh - 32px))';
-					panel.style.maxHeight = 'min(92dvh, calc(100dvh - 32px))';
+					   clearance: 92dvh with a 32px total margin.
+					   B"H batch 51 — the cap was NEVER the mechanism: the
+					   panel box fits (bottom-anchored + capped), but the
+					   check still saw a dark bar sliced at the viewport
+					   bottom. That bar is the panel's downward box-shadow
+					   (removed from the sheet now) plus the 8px backdrop
+					   strip. Cap 90dvh / 40px total margin, and the
+					   measurement guard below clamps the panel into the
+					   viewport by real geometry if it ever overflows. */
+					panel.style.maxHeight = 'min(90vh, calc(100vh - 40px))';
+					panel.style.maxHeight = 'min(90dvh, calc(100dvh - 40px))';
 					/* B"H batch 39: the home scroller kept its scrollTop across
 					   closes and SPA navigation (only the list view ever reset
 					   its scroll), so reopening resumed mid-content and the
@@ -314,6 +326,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					if (home) home.scrollTop = 0;
 					var list = byId('readerInfoList');
 					if (list) list.scrollTop = 0;
+					/* B"H batch 51 — MEASURED fit guard: three rendered
+					   checks saw the dialog's bottom past the viewport
+					   (and "Show more" cut off) while the sheet + inline
+					   cap said it fits. Stop guessing at caps: measure
+					   the real rendered rect and, if the panel overflows,
+					   clamp its height to the viewport in real pixels.
+					   Only fires when the panel actually overflows, so
+					   it changes nothing when the CSS holds. */
+					try {
+						var fitRect = panel.getBoundingClientRect();
+						var fitVH = window.innerHeight || 0;
+						if (fitVH > 0 && fitRect.bottom > fitVH - 8) {
+							panel.style.maxHeight = Math.max(200, fitVH - 24) + 'px';
+						}
+					} catch (_) {}
 				}
 				if (backdrop) {
 					backdrop.style.display = 'block';
@@ -433,7 +460,17 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				   page); only gestures outside the list need routing. */
 				if (scroller.contains(e.target)) return;
 				e.preventDefault();
-				scroller.scrollTop += e.deltaY;
+				/* B"H batch 51 — the list barely moved on a wheel turn:
+				   a wheel delta is not always pixels. deltaMode 1 means
+				   lines and 2 means pages; adding the raw number then
+				   moves the list by a few px (lines) or a huge jump
+				   (pages). Normalize to pixels first — lines at ~40px,
+				   pages at a full list height — so a wheel turn always
+				   moves the list a real amount. */
+				var dy = e.deltaY || 0;
+				if (e.deltaMode === 1) dy = dy * 40;
+				else if (e.deltaMode === 2) dy = dy * scroller.clientHeight;
+				scroller.scrollTop += dy;
 			}
 			function routeDialogKeys(e) {
 				if (!infoOpen()) return;
@@ -456,6 +493,25 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				infoPanelEl.dataset.awtsmoosScrollRouted = '1';
 				infoPanelEl.addEventListener('wheel', routeDialogWheel, { passive: false });
 				infoPanelEl.addEventListener('keydown', routeDialogKeys);
+			}
+			/* B"H batch 51 — a rotation / resize while the guide is open
+			   can leave the pixel clamp from paintInfo stale (or a
+			   viewport that shrank can push the panel past the bottom).
+			   Re-measure on resize while open and re-clamp if needed;
+			   the dvh cap handles the normal case, this only fires on
+			   a real overflow. */
+			if (infoPanelEl && infoPanelEl.dataset.awtsmoosRefitBound !== '1') {
+				infoPanelEl.dataset.awtsmoosRefitBound = '1';
+				window.addEventListener('resize', function () {
+					try {
+						if (!infoOpen()) return;
+						var r = infoPanelEl.getBoundingClientRect();
+						var vh = window.innerHeight || 0;
+						if (vh > 0 && r.bottom > vh - 8) {
+							infoPanelEl.style.maxHeight = Math.max(200, vh - 24) + 'px';
+						}
+					} catch (_) {}
+				}, { passive: true });
 			}
 			var lensClose = byId('scribeLensClose');
 			if (lensClose && lensClose.dataset.awtsmoosCloseBound !== 'true') {
@@ -491,7 +547,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-3').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
-				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=28cc99d6cc').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=a260336d61').catch(() => {});
 				import('/heichelos/post/postLogic.js?v=reader-passive-038');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage

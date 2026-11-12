@@ -6512,13 +6512,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   proved padding that appears on selection re-wraps the text on every
 	   scroll step — this padding is always there, so selection changes
 	   nothing and scrolling never moves layout. */
-	/* B"H batch 48: 12px is invisible next to 144px glyphs (the user:
-	   "the highlight thing is still too close") — the gap scales with
-	   the text now (0.25em = 36px at 144px, 12px floor at small sizes),
-	   still permanent on every phrase. overflow-wrap stops a long Hebrew
-	   word running past the card edge and clipping its last letter (the
-	   final ם of "משיחות" was cut off at 144px on a phone). */
-	padding-inline: max(12px, 0.25em);
+	/* B"H batch 51 — the glyphs sat FLUSH against the card border: the
+	   36px phrase padding is only 0.25em at 144px (a quarter glyph),
+	   and the PAIR itself had no padding, so the gold edge hugged the
+	   words. The pair gets its own padding now, and the phrase padding
+	   grows — together ~57px at 144px between the gold edge and the
+	   widest glyph, a gap the eye can see. Permanent (always on), so
+	   selection still never re-wraps text. */
+	padding-inline: max(14px, 0.28em);
 	/* B"H batch 49 (failure 4 — glyph clipping): the batch-48
 	   overflow-wrap: break-word did NOT stop the clipping — a long
 	   Hebrew word (the header's "משיחות" at 144px) can itself be wider
@@ -6543,9 +6544,11 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    The title gets the same permanent inline padding + anywhere-wrap +
    max-inline-size as the phrases, so no Hebrew glyph in the reading
    column can reach the card edge. The title's own font-size (the
-   inline clamp) is untouched. */
+   inline clamp) is untouched.
+   B"H batch 51 — the title padding grows with the phrase padding
+   (0.28em) so the widest title glyph keeps the same visible gap. */
 .post-reader-localized-context #realPost .meluket-sefer-title-he {
-	padding-inline: max(12px, 0.25em);
+	padding-inline: max(14px, 0.28em);
 	overflow-wrap: anywhere;
 	word-break: break-word;
 	max-inline-size: 100%;
@@ -6567,8 +6570,14 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   anchoring the same way. First paint is server-rendered HTML, so
 	   removing it costs layout work after paint, not the first paint.
 	   The pair is border-box now, so the selected pair's gold edge
-	   (border-inline-start) cannot widen the card past the column. */
+	   (border-inline-start) cannot widen the card past the column.
+	   B"H batch 51 — the PAIR gets its own inline padding: the gold
+	   edge sits on the pair's border, and with no pair padding it
+	   hugged the phrases (the glyphs read as flush against the card
+	   border). Pair padding + phrase padding together put a visible
+	   gap between the gold edge and the widest glyph. */
 	box-sizing: border-box;
+	padding-inline: max(12px, 0.12em);
 }
 
 /* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served
@@ -6605,11 +6614,21 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    box-free (the batch-37 :not() rule above is untouched). The wash is
    light (10%) so the text stays black-on-cream and readable; the edge
    is the visible "you are here". The phrase padding (36px at 144px)
-   is the gap between the edge and the words. */
+   is the gap between the edge and the words.
+   B"H batch 51 — the 10% wash was nearly invisible on cream even
+   when applied (the one load that showed it called it "pale"), and
+   the gold edge never showed at all at 144px (the check saw only a
+   1-2px line — the card border — where a ~6px gold edge belongs),
+   which means the class itself was not reaching the pair: the
+   highlight module samples before the sefer mounts and never
+   repaints without a scroll (see ReaderSectionHighlight.js: the
+   observer + rect fallback). The wash is 18% now — unmistakable on
+   cream, text still black-on-gold-tint and readable — and the edge
+   is 5px / 0.05em. */
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
-	background-color: rgb(212 169 78 / 0.10);
-	border-inline-start: max(4px, 0.04em) solid #d4a94e;
+	background-color: rgb(212 169 78 / 0.18);
+	border-inline-start: max(5px, 0.05em) solid #d4a94e;
 	border-radius: 6px;
 	box-shadow: none;
 	outline: none;
@@ -6694,7 +6713,11 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   state is explicit: visible, opaque. */
 	top: auto;
 	right: max(8px, calc((100vw - 560px) / 2));
-	bottom: max(8px, env(safe-area-inset-bottom, 0px));
+	/* B"H batch 51 — the bottom margin is 16px now (was 8px): with the
+	   panel bottom-anchored, the strip below it is backdrop, and at 8px
+	   plus the old downward shadow it read as a dark bar sliced at the
+	   viewport bottom. A clear 16px margin reads as a margin, not a cut. */
+	bottom: max(16px, env(safe-area-inset-bottom, 0px));
 	left: max(8px, calc((100vw - 560px) / 2));
 	display: flex;
 	flex-direction: column;
@@ -6712,15 +6735,20 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   and the panel + its bottom offset can exceed the viewport. Cap
 	   at 94dvh with a 24px total margin (12px top + 12px bottom) so the
 	   panel's top AND bottom edges are both inside the viewport.
-	   B"H batch 50 — the batch-49 cap STILL did not show in the real
-	   browser (the rendered check ran against a stale bundle cached
-	   during the restart's 502 window, and the SW cached the 502 HTML).
-	   The cap itself wins the cascade in the live bundle, so lower it
-	   further for real clearance (92dvh / 32px total margin) and fix
-	   the SW so a 502 can never pin the page to the old bundle again. */
-	max-height: min(92vh, calc(100vh - 32px));
+	   B"H batch 51 — the cap was NEVER the mechanism: the panel box
+	   fits (bottom-anchored + capped), but the rendered check still
+	   saw a dark bar sliced at the viewport bottom. That bar is the
+	   panel's DOWNWARD box-shadow (0 12px 34px — darkest ~12px below
+	   the panel's bottom edge, i.e. just past the viewport edge) plus
+	   the 8px backdrop strip. The shadow is REMOVED below (the 1px
+	   border + the opaque backdrop already separate the dialog), the
+	   margins widen to 16px bottom / 40px total, and the template's
+	   paintInfo now MEASURES the real rect and clamps the panel into
+	   the viewport if it ever overflows — real geometry, not a fourth
+	   cap guess. Cap 90dvh / 40px total margin. */
+	max-height: min(90vh, calc(100vh - 40px));
 	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
-	max-height: min(92dvh, calc(100dvh - 32px));
+	max-height: min(90dvh, calc(100dvh - 40px));
 	min-height: 0;
 	/* B"H batch 48: 14px -> 8px, part of fitting every button. */
 	padding: 8px;
@@ -6728,7 +6756,12 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	border-radius: 19px;
 	background: #f9f4ea;
 	color: #2b2118;
-	box-shadow: 0 12px 34px rgb(20 14 5 / 26%);
+	/* B"H batch 51 — NO box-shadow: the old 0 12px 34px downward shadow
+	   was the dark bar sliced at the viewport bottom (its darkest band
+	   sits ~12px below the panel's bottom edge, past the viewport edge).
+	   The 1px border + the opaque backdrop separate the dialog already;
+	   a shadow buys nothing and reads as an overflow. */
+	box-shadow: none;
 	font: 500 16px/1.45 system-ui, sans-serif;
 	visibility: visible;
 	opacity: 1;
@@ -6776,6 +6809,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   last letter). The row can never exceed the panel now, and the
 	   heading text has a small end buffer so its last letter never
 	   sits flush on the panel edge. */
+	width: 100%;
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
@@ -6786,10 +6820,13 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	max-width: 100%;
 	box-sizing: border-box;
 	margin: 0;
-	/* B"H batch 50 — a small end buffer so the heading's last letter
-	   never sits flush on the panel edge (the final "e" of "Choose a
-	   section or footnote" was clipped there). */
-	padding-inline-end: 4px;
+	/* B"H batch 51 — the Explore heading's final "e" was STILL clipped
+	   at the dialog's right edge: the 4px end buffer was too small and
+	   the h2's content-sized flex basis (see reader-settings-coherence)
+	   let it reach the panel edge, where the panel's overflow:hidden
+	   cut it. The buffer is 12px now, and the coherence sheet forces
+	   a zero flex basis so the h2 must wrap inside the row. */
+	padding-inline-end: 12px;
 	font: 750 19px/1.35 system-ui, sans-serif;
 	/* B"H batch 48: the Explore heading ("Choose a section or footnote")
 	   clipped at the right edge — nowrap + ellipsis cut it. It wraps now
@@ -7003,6 +7040,13 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context #readerInfoFootnoteList,
 .post-reader-localized-context #readerTopSections {
 	display: grid;
+	/* B"H batch 51 — the Explore rows ended ~220-300px wide with ~45%
+	   of the dialog blank on the right: a grid with NO
+	   grid-template-columns sizes its implicit `auto` column to the
+	   rows' max-content (longest word / widest title), not to the
+	   container. The column MUST span the list: one flexible column,
+	   min 0 so long titles can shrink instead of forcing it wider. */
+	grid-template-columns: minmax(0, 1fr);
 	gap: 7px;
 }
 
@@ -7463,7 +7507,15 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	flex-wrap: wrap;
 }
 .post-reader-localized-context #readerInfoPanel .reader-info-heading h2 {
-	flex: 1 1 auto;
+	/* B"H batch 51 — the Explore heading's final "e" was STILL clipped
+	   at the dialog's right edge (third check): flex-basis auto sizes
+	   the h2 to its CONTENT, so it can reach the panel edge before
+	   shrinking, and the panel's overflow:hidden cuts the last glyph.
+	   Basis 0 now: the h2 starts at zero and grows only into the
+	   row's free space, so its text MUST wrap inside the row and can
+	   never reach the panel edge. The 12px end buffer lives in
+	   reader-info-navigation.css. */
+	flex: 1 1 0%;
 	min-width: 0;
 	overflow: visible;
 	text-overflow: clip;

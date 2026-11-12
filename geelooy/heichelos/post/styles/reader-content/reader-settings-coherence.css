@@ -316,7 +316,15 @@
 	flex-wrap: wrap;
 }
 .post-reader-localized-context #readerInfoPanel .reader-info-heading h2 {
-	flex: 1 1 auto;
+	/* B"H batch 51 — the Explore heading's final "e" was STILL clipped
+	   at the dialog's right edge (third check): flex-basis auto sizes
+	   the h2 to its CONTENT, so it can reach the panel edge before
+	   shrinking, and the panel's overflow:hidden cuts the last glyph.
+	   Basis 0 now: the h2 starts at zero and grows only into the
+	   row's free space, so its text MUST wrap inside the row and can
+	   never reach the panel edge. The 12px end buffer lives in
+	   reader-info-navigation.css. */
+	flex: 1 1 0%;
 	min-width: 0;
 	overflow: visible;
 	text-overflow: clip;

@@ -8,6 +8,13 @@
 .post-reader-localized-context #readerInfoFootnoteList,
 .post-reader-localized-context #readerTopSections {
 	display: grid;
+	/* B"H batch 51 — the Explore rows ended ~220-300px wide with ~45%
+	   of the dialog blank on the right: a grid with NO
+	   grid-template-columns sizes its implicit `auto` column to the
+	   rows' max-content (longest word / widest title), not to the
+	   container. The column MUST span the list: one flexible column,
+	   min 0 so long titles can shrink instead of forcing it wider. */
+	grid-template-columns: minmax(0, 1fr);
 	gap: 7px;
 }
 
