@@ -342,8 +342,9 @@
 .awp-app .apps-letter-row button:active {
 	transform: scale(0.96);
 }
-/* B"H — the shared .g-page press-scale (css-guarantee, six surface files) shrinks the whole page while pressed, so every hit target moves and small controls never receive their click; the Apps page opts out. */
-:where(.awp-app) .g-page:active {
+/* B"H — the shared press-scale (css-guarantee, six surface files) shrinks the whole page while pressed, so every hit target moves and small controls never receive their click; the Apps page opts out of both page-level scalers. */
+:where(.awp-app) .g-page:active,
+.awp-app.geelooy-app-shell:active {
 	transform: none;
 }
 /* B"H — section heading rhythm: the eyebrow breathes before the grid. */
