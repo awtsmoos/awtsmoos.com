@@ -300,7 +300,11 @@ function filteredTracks() {
 	}
 	const q = state.query.trim().toLowerCase();
 	if (q) list = list.filter((t) => (t.title + ' ' + t.artist + ' ' + t.name).toLowerCase().includes(q));
-	const byName = (a, b) => (a.title || a.name).localeCompare(b.title || b.name);
+	// Sort by the FILE name, not the parsed song title: a folder like
+	// "001 …", "002 …" must list in track order, 001 first. Numeric-aware
+	// so 9 comes before 10 even without zero-padding.
+	const byName = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+		|| (a.title || '').localeCompare(b.title || '');
 	switch (state.sort) {
 		case 'name-asc': list.sort(byName); break;
 		case 'name-desc': list.sort((a, b) => byName(b, a)); break;
