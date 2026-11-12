@@ -251,7 +251,10 @@
 	color: var(--dream-heichel-gold);
 	font-size: 1.4rem;
 	line-height: 1;
-	opacity: 0.75;
+	/* B"H css-loop 2026-11-12 cycle 4 (F5 residual): 0.75 faded the pale gold
+	   to ~1.6:1 on cream. Full opacity; the resting color now comes from the
+	   higher-specificity redesign rule (part-04, --ikar-gold-deep). */
+	opacity: 1;
 	transition: transform 0.25s ease, opacity 0.25s ease;
 }
 

@@ -57,7 +57,10 @@
 :root.heichel-os-document .dream-heichel-chevron {
 	margin-inline-start: auto;
 	align-self: center;
-	color: var(--ikar-gold);
+	/* B"H css-loop 2026-11-12 cycle 4 (F5 residual): --ikar-gold (#d4a94e) at
+	   opacity 0.75 on the cream card was ~1.6:1. Use the existing deep-gold
+	   text token instead (~4.6:1 on cream, ~3.5:1 on the dark card). */
+	color: var(--ikar-gold-deep);
 	font-size: 1.6rem;
 	font-weight: 300;
 	transition: transform 0.18s ease, color 0.18s ease;
