@@ -11,7 +11,7 @@
 const RETIREMENT_VERSION = "geelooy-offline-retirement-2026-07-15";
 const RETIREMENT_KEY = "awtsmoos-geelooy-offline-retirement";
 const METADATA_PREFIX = "awtsmoos-metadata-";
-const UNIVERSAL_CHAT_BOOTSTRAP = "/scripts/awtsmoos/social/universalChat/bootstrap.js?v=universal-chat-002";
+const UNIVERSAL_CHAT_BOOTSTRAP = "/scripts/awtsmoos/social/universalChat/bootstrap.js?v=universal-chat-003";
 
 function isDedicatedMessagingPage() {
 	return document.body?.hasAttribute("data-messaging-page") === true;

@@ -16,7 +16,7 @@ import { resolveUniversalChatContext } from "./contextResolver.js";
 
 const INSTANCE_KEY = "__awtsmoosUniversalChat";
 const STYLE_ROOT = "/scripts/awtsmoos/social/universalChat/";
-const STYLE_VERSION = "universal-chat-002";
+const STYLE_VERSION = "universal-chat-003";
 
 /** Creates or reuses the page's one Universal Chat session. */
 export function mountUniversalChat(options = {}) {
