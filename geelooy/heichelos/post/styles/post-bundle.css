@@ -6046,7 +6046,11 @@ body {
 
 .post-reader-localized-context .content {
 	position: relative;
-	inline-size: min(100%, 72rem);
+	/* B"H batch 36 (2026-11-12): batch 34 capped .meluket-sefer at 1600px
+	   but the column is really capped HERE, on .content (72rem ~= 1152px ~=
+	   60% of a 1919px viewport) — the rendered checks kept measuring ~60%.
+	   100rem = 1600px at the 16px root, matching the sefer cap. */
+	inline-size: min(100%, 100rem);
 	min-inline-size: 0;
 	margin-inline: auto;
 }
@@ -7888,6 +7892,26 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	translate: none;
 }
 
+/* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served
+   sheet paints a per-phrase tan box + solid border + dashed separator
+   (both themes, base + state classes). Belt and braces: force every
+   NON-selected pair/phrase box-free at (1,5,0)/(1,6,0), so no sheet in
+   any load order can box them. The user's batch-31 reading highlight
+   (.is-pair-selected / .is-reading-sub, ONE pair only) is preserved
+   via :not() — this rule never touches the highlighted pair. */
+.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair:not(.is-pair-selected) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair .meluket-phrase:not(.is-reading-sub) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
 	background-color: rgb(233 196 95 / 9%);
@@ -8368,31 +8392,42 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    block already sets, and the browser proved this file's rules do not
    reach the Related cards (they stayed white-on-white through round 6). */
 
-.post-reader-localized-context #autoScrollPaceDisplay {
+.post-reader-localized-context #autoScrollSemanticControls #autoScrollPaceDisplay {
 	background: #fffdf6;
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 	max-inline-size: 100%;
 	/* B"H 2026-11-10 round 4: the pill sat flush against the "Speed" label
-	   (zero gap, the final "d" touched its border). Give it breathing room. */
+	   (zero gap, the final "d" touched its border). Give it breathing room.
+	   B"H batch 37 (2026-11-12): the check still saw a dark pill
+	   overlapping the label — the (1,1,0) pin lost to variable-driven
+	   sheets somewhere in the load order. (2,1,0) now, variable-free, and
+	   the pill may shrink/wrap instead of ever covering the label. */
 	margin-inline-start: 8px;
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
-.post-reader-localized-context .auto-scroll-semantic-range {
+.post-reader-localized-context #autoScrollSemanticControls .auto-scroll-semantic-range {
 	/* B"H batch 34 (2026-11-12): the rebuilt row was a bare <label> — no
 	   display, so `flex-wrap` did nothing and the long pace pill crowded
 	   over the "Speed" label. A real flex row now: label + pill on one
-	   line with a gap, the slider full-width on its own line below. */
+	   line with a gap, the slider full-width on its own line below.
+	   B"H batch 37: same row, (1,2,0), full-width, so no sheet can
+	   un-flex it. */
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 6px 8px;
+	width: 100%;
+	box-sizing: border-box;
 }
 .post-reader-localized-context .auto-scroll-semantic-range > span {
 	flex: 0 0 auto;
 	min-width: 0;
 }
 .post-reader-localized-context .auto-scroll-semantic-range > #autoScrollPaceDisplay {
-	flex: 0 1 auto;
+	flex: 1 1 auto;
 	min-width: 0;
 	margin-inline-start: 0;
 }
@@ -8400,16 +8435,70 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	flex: 1 1 100%;
 	min-width: 0;
 }
+/* B"H batch 37: fallback — if the semantic controls do not mount, the
+   server-rendered .speed-readout-row stays live. Pin it the same way:
+   wrapping flex row, light pill, never overlapping the "Speed" label. */
+.post-reader-localized-context #typographyDetails .speed-readout-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 6px 8px;
+}
+.post-reader-localized-context #typographyDetails #autoScrollSpeedDisplay {
+	background: #fffdf6;
+	border: 1px solid #d9c9a8;
+	color: #2b2118;
+	max-width: 100%;
+	overflow-wrap: anywhere;
+}
 /* B"H 2026-11-10 round 3: "Sources & community" renders as a too-small
    circle with its label wrapping into broken lines — the floating-button
    sizing (56px, round) leaks into the dialog. In the dialog it is a
    full-width pill like its siblings. (2,2,0) beats the floating rules. */
 .post-reader-localized-context #readerInfoPanel .reader-info-actions #commentaryBtn {
+	/* B"H batch 37: the (1,3,0) floating-button rule still applied its
+	   circle geometry (inline-size 3.75rem, border-radius 50%, padding
+	   0 0.25rem, font-size 0.8rem, display inline-flex) because batch 34
+	   only overrode width/height. Override ALL of it now — a full-width
+	   dialog pill like its siblings. */
+	display: block;
 	width: 100%;
 	height: auto;
 	min-height: 44px;
+	inline-size: auto;
+	block-size: auto;
 	border-radius: 12px;
+	padding: 10px 14px;
+	font-size: 1rem;
+	line-height: 1.4;
 	white-space: normal;
+	text-align: center;
+}
+/* B"H batch 37: the dialog at phone width — the heading's nowrap/ellipsis
+   (reader-info-navigation.css) squeezed "Reading guide" against the
+   buttons, and the action list had no layout rule so "Browse this series"
+   and "Return to the beginning" could overlap. Let the heading wrap and
+   stack the actions in a column, every child full-width. */
+.post-reader-localized-context #readerInfoPanel .reader-info-heading {
+	flex-wrap: wrap;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-heading h2 {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: visible;
+	text-overflow: clip;
+	white-space: normal;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > button,
+.post-reader-localized-context #readerInfoPanel .reader-info-actions > a {
+	width: 100%;
+	box-sizing: border-box;
 }
 
 /* B"H 2026-11-10 round 6 — language toggle + chapter nav.

@@ -40,6 +40,34 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
 		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.4; direction: ltr; margin-top: 0; padding-top: 0; }
+		/* B"H batch 37 (2026-11-12) — three rendered defects, one block.
+		   Literal values only (no vars — the bundles have not loaded yet).
+		   (1) PHRASE BOXES: no served sheet paints a per-phrase tan box +
+		   dashed separator (cascade-verified, both themes, base + state
+		   classes). Belt and braces: force every NON-selected pair/phrase
+		   box-free here — this inline style ships with the HTML itself,
+		   network-first, so it reaches the browser even when a bundle is
+		   stale. The user's batch-31 reading highlight (.is-pair-selected
+		   / .is-reading-sub, ONE pair only) is explicitly preserved.
+		   (2) SPEED PILL: the live readout is #autoScrollPaceDisplay
+		   (rebuilt row); pin it light and clear of the "Speed" label at
+		   a specificity no variable-driven sheet can beat, and pin the
+		   old #autoScrollSpeedDisplay row the same way as fallback.
+		   (3) INFO DIALOG: the floating-button circle rule still applies
+		   to #commentaryBtn (batch 34 only overrode width/height); give
+		   it full dialog-button geometry, let the heading wrap, and stack
+		   the action buttons in a column so nothing overlaps at 384px. */
+		.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair:not(.is-pair-selected) { background: transparent; border: 0; box-shadow: none; outline: none; }
+		.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair .meluket-phrase:not(.is-reading-sub) { background: transparent; border: 0; box-shadow: none; outline: none; }
+		.post-reader-localized-context #autoScrollSemanticControls .auto-scroll-semantic-range { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; width: 100%; box-sizing: border-box; }
+		.post-reader-localized-context #autoScrollSemanticControls #autoScrollPaceDisplay { background: #fffdf6; border: 1px solid #d9c9a8; color: #2b2118; flex: 1 1 auto; min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+		.post-reader-localized-context #typographyDetails .speed-readout-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 6px 8px; }
+		.post-reader-localized-context #typographyDetails #autoScrollSpeedDisplay { background: #fffdf6; border: 1px solid #d9c9a8; color: #2b2118; max-width: 100%; overflow-wrap: anywhere; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-actions #commentaryBtn { display: block; width: 100%; height: auto; min-height: 44px; inline-size: auto; block-size: auto; border-radius: 12px; padding: 10px 14px; font-size: 1rem; line-height: 1.4; white-space: normal; text-align: center; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-heading { flex-wrap: wrap; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-heading h2 { flex: 1 1 auto; min-width: 0; overflow: visible; text-overflow: clip; white-space: normal; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 8px; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; }
 		/* B"H round 10 — the title area above card 1 renders as a blank
 		   peach band in the settled view and the title is invisible. The
 		   title color lives in the sefer bundle (dark #2b2118 in light
@@ -67,7 +95,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=8a1614762b">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=991a3ec720">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->

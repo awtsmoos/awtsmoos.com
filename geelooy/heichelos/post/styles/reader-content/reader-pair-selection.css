@@ -23,6 +23,26 @@
 	translate: none;
 }
 
+/* B"H batch 37 (2026-11-12): phrase boxes — cascade-verified: no served
+   sheet paints a per-phrase tan box + solid border + dashed separator
+   (both themes, base + state classes). Belt and braces: force every
+   NON-selected pair/phrase box-free at (1,5,0)/(1,6,0), so no sheet in
+   any load order can box them. The user's batch-31 reading highlight
+   (.is-pair-selected / .is-reading-sub, ONE pair only) is preserved
+   via :not() — this rule never touches the highlighted pair. */
+.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair:not(.is-pair-selected) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+.post-reader-localized-context #realPost .meluket-sefer .meluket-sefer-section .meluket-phrase-pair .meluket-phrase:not(.is-reading-sub) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+
 .post-reader-localized-context #realPost .meluket-phrase-pair.is-pair-selected,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit.is-pair-selected {
 	background-color: rgb(233 196 95 / 9%);
