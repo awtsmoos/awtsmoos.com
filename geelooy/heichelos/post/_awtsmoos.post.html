@@ -118,6 +118,18 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		:root .post-reader-localized-context .reader-info-tabs { position: relative; z-index: 2; background: #f9f4ea; border-bottom: 1px solid #e6dcc4; }
 		:root .post-reader-localized-context .reader-info-tabs button { background: #fffefa; color: #655641; border: 1px solid #d9c49f; }
 		:root .post-reader-localized-context .reader-info-tabs button.is-active { background: #3e2b12; border-color: #3e2b12; color: #fffaf0; }
+		/* B"H batch 56 — TAB-BAR OVERLAP: the Explore lists scroll
+		   under the opaque tab bar and the top row lands half-cut
+		   (its Hebrew line clipped, only the detail line visible).
+		   Scroll-snapping makes rows settle to full rows after a
+		   scroll, so the top row is fully visible at any scroll
+		   position. `proximity` (not `mandatory`) only snaps when
+		   close to a snap point, so it does not fight the user or
+		   change the feel of a long scroll. Same rule as the sheet
+		   (network-first backstop, as with the other dialog rules). */
+		:root .post-reader-localized-context #readerInfoList,
+		:root .post-reader-localized-context #readerInfoFootnoteList { scroll-snap-type: y proximity; }
+		:root .post-reader-localized-context .reader-index-choice { scroll-snap-align: start; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
 		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
@@ -166,7 +178,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=dec13db61f">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=fc0db2ad0f">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -186,7 +198,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	</script>
 </head>
 <body>
-	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="55">
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="56">
 		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
 		     vars on <html>, but a stylesheet rule sets --post-text-size
 		     directly on THIS div, so it needs the same vars inline on
@@ -268,7 +280,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     competes with the Torah. A batch that touches the marker
 		     updates the data-batch attributes to its own batch (the
 		     same per-batch step as the bundle pin). -->
-		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="55" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
+		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="56" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
 		<script>
 		try {
 			var __awtsmoosBundleLink = document.querySelector('link[href*="post-bundle.css?v="]');
@@ -413,16 +425,42 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   cut off. This is called on open (paintInfo), on resize,
 		   AND by the panel MutationObserver below whenever the
 		   dialog's content changes — so every view change re-clamps.
-		   Only fires when the panel actually overflows. */
+		   Only fires when the panel actually overflows.
+		   B"H batch 56 — the batch-53 guard was BACKWARDS: it set
+		   maxHeight to the FULL viewport height (fitVH = 998px),
+		   100px LARGER than the 90dvh cap (898px), so when it fired
+		   it EXPANDED the panel instead of shrinking it. In batch 54
+		   the content stayed under the cap, so the guard never fired
+		   and the dialog fit; in batch 55 the tabs grew past the cap
+		   (see the tabs note in the sheet), the guard fired, and the
+		   panel grew to the full viewport height with its bottom
+		   off-screen. A clamp must never raise the ceiling. This
+		   guard now clamps to the SMALLER of the sheet cap (90dvh)
+		   and the room from the panel's top to the viewport bottom
+		   less 8px clearance (so the bottom border stays visible),
+		   with a 200px floor, and it does nothing when the panel
+		   already fits. */
 		function clampInfoPanelFit() {
 			try {
 				var fitPanel = byId('readerInfoPanel');
 				if (!fitPanel || fitPanel.hidden) return;
 				var fitRect = fitPanel.getBoundingClientRect();
 				var fitVH = window.innerHeight || 0;
-				if (fitVH > 0 && fitRect.bottom > fitVH) {
-					fitPanel.style.maxHeight = Math.max(200, fitVH) + 'px';
-				}
+				if (fitVH <= 0) return;
+				/* Already inside the viewport (top and bottom both
+				   visible) — nothing to do. */
+				if (fitRect.top >= 0 && fitRect.bottom <= fitVH) return;
+				/* The sheet cap (90dvh) is the ceiling; the room from
+				   the panel's top to the viewport bottom, less 8px
+				   clearance so the bottom border stays visible, is
+				   the room. Clamp to whichever is smaller — never
+				   larger than the cap. Floor 200px so a degenerate
+				   measurement cannot collapse the dialog. */
+				var fitCap = Math.floor(fitVH * 0.9);
+				var fitRoom = Math.floor(fitVH - Math.max(0, fitRect.top) - 8);
+				var fitTarget = Math.min(fitCap, fitRoom);
+				if (fitTarget < 200) fitTarget = 200;
+				fitPanel.style.maxHeight = fitTarget + 'px';
 			} catch (_) {}
 		}
 		function paintInfo(open) {
@@ -454,6 +492,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					panel.style.opacity = '1';
 					panel.style.position = 'fixed';
 					panel.style.zIndex = '990';
+					/* B"H batch 56 — pin border-box inline (the sheet
+					   already sets it): maxHeight must mean total
+					   height, so the 90dvh cap and the fit guard's
+					   pixel clamp measure the same thing. */
+					panel.style.boxSizing = 'border-box';
 					panel.style.top = 'auto';
 					/* B"H batch 54 — the dark bar is the BACKDROP (#17130d)
 					   showing in the strip below the bottom-anchored
@@ -465,7 +508,13 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   FLUSH at the viewport bottom (bottom 0, safe-area
 					   only), square bottom corners, its cream running
 					   to the viewport edge. The fit guard above now
-					   treats bottom == viewport height as inside. */
+					   treats bottom == viewport height as inside.
+					   B"H batch 56 — the 0px fallback first: if the
+					   max(env()) declaration ever fails to parse, the
+					   assignment is ignored and the 0px pin stays, so
+					   bottom-anchoring survives (same pattern as the
+					   vh/dvh fallback for maxHeight below). */
+					panel.style.bottom = '0px';
 					panel.style.bottom = 'max(0px, env(safe-area-inset-bottom, 0px))';
 					panel.style.left = '50%';
 					panel.style.right = 'auto';
@@ -729,10 +778,22 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				if (!infoOpen()) return;
 				var scroller = dialogScroller();
 				if (!scroller) return;
-				/* Inside the list itself the browser scrolls natively (and
-				   overscroll-behavior:contain stops it chaining to the
-				   page); only gestures outside the list need routing. */
-				if (scroller.contains(e.target)) return;
+				/* B"H batch 56 — the old handler returned early for
+				   events INSIDE the scroller (native scrolling,
+				   deltaY as-is). For a real mouse wheel (deltaMode 0,
+				   deltaY ~100px/notch) and rows of ~110px at 144px,
+				   one notch moved ~1 row — the user experiences it as
+				   "barely moves" (the checker's small scrolls moved
+				   ~50px, half a row). Handle ALL wheel events in the
+				   dialog (inside and outside the list) and multiply
+				   the normalized delta so one turn moves several rows:
+				   pixels ×3 (one notch ~100px → ~300px ≈ 3 rows),
+				   lines ×100 (one line ≈ one row at 144px; three
+				   lines ≈ three rows), pages × clientHeight
+				   (UNCHANGED — a full-page scroll already moves a
+				   full page, ~9 rows, and must keep doing so). The
+				   dialog is modal over an opaque backdrop, so the
+				   page behind must not scroll: preventDefault stays. */
 				e.preventDefault();
 				/* B"H batch 51 — the list barely moved on a wheel turn:
 				   a wheel delta is not always pixels. deltaMode 1 means
@@ -742,8 +803,9 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				   pages at a full list height — so a wheel turn always
 				   moves the list a real amount. */
 				var dy = e.deltaY || 0;
-				if (e.deltaMode === 1) dy = dy * 40;
+				if (e.deltaMode === 1) dy = dy * 100;
 				else if (e.deltaMode === 2) dy = dy * scroller.clientHeight;
+				else dy = dy * 3;
 				scroller.scrollTop += dy;
 			}
 			function routeDialogKeys(e) {

@@ -7007,7 +7007,16 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	z-index: 2;
 	background: #f9f4ea;
 	border-bottom: 1px solid #e6dcc4;
-	padding-bottom: 8px;
+	/* B"H batch 56 — the `padding-bottom: 8px` that was here is
+	   REMOVED: the tabs already carry `margin: 2px 0 8px`, an 8px
+	   bottom margin that already provides the spacing below them,
+	   so the padding was redundant — and it added 8px (+1px border
+	   = 9px) to the panel's height in Explore view. In batch 54
+	   Explore was ~894px tall (76→970), already near the 898px
+	   cap; +9px pushed it past the cap, which tripped the (then
+	   backwards) fit guard and produced the batch-55 regression
+	   (dialog bottom off-screen). The solid background + bottom
+	   border (the tab-overlap fix) stay. */
 }
 .post-reader-localized-context .reader-info-tabs[hidden] {
 	display: none;
@@ -7185,6 +7194,32 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	/* B"H batch 38: bottom breathing room so the last button ("Browse
 	   this Heichel") can scroll fully into view instead of sitting
 	   half-cut at the panel's bottom edge. */
+	/* B"H batch 56 — HOME VIEW SCROLL: the home div could not
+	   scroll. It DOES get `overflow-y: auto` (computed: the
+	   template pins `overflow-x: hidden` on it, so overflow-y
+	   computes to auto), but it lacked `min-height: 0`, so as a
+	   flex child its automatic minimum size was its CONTENT height
+	   — it could never shrink below its content, so it sized to
+	   its full content height and the panel's `overflow: hidden`
+	   clipped whatever did not fit, with no way to reach the last
+	   buttons (the batch-55 check's "partial row cut off at the
+	   bottom edge" in home view). `min-height: 0` lets it shrink
+	   below its content height so it scrolls internally, like the
+	   Explore list (which does have min-height: 0). Only one
+	   scroller is ever visible at a time (home in home view, the
+	   list in Explore view — the other is hidden), so this does
+	   not reintroduce the batch-46 two-scroller problem (which
+	   was the PANEL scrolling alongside the list).
+	   `dialogScroller()` already returns the home div as the
+	   scroller when it is visible, so wheel/keyboard routing
+	   already treats it as a scroller — the CSS just never let
+	   it shrink. `overflow-y: auto` is pinned explicitly here
+	   (not left to the computed value) and `overscroll-behavior:
+	   contain` stops a scroll at the home div's end from chaining
+	   to the page behind the backdrop. */
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 }
 
 .post-reader-localized-context #readerInfoList,
@@ -7196,6 +7231,17 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   after scrolling. Scroll behavior is unchanged. */
 	padding: 10px 3px 10px;
 	align-content: start;
+	/* B"H batch 56 — TAB-BAR OVERLAP (continued): the lists scroll
+	   under the opaque tab bar and the top row lands half-cut (its
+	   Hebrew line clipped, only the detail line visible). Scroll-
+	   snapping makes rows settle to full rows after a scroll, so
+	   the top row is fully visible at any scroll position.
+	   `proximity` (not `mandatory`) only snaps when close to a
+	   snap point, so it does not fight the user or change the feel
+	   of a long scroll. The rows carry `scroll-snap-align: start`
+	   below; the template `<style>` carries the same rules as a
+	   network-first backstop. */
+	scroll-snap-type: y proximity;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
 	   edge (the list had no reserved gutter). Reserve the gutter so
@@ -7259,6 +7305,12 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	   horizontal scrollbar at the dialog's bottom). */
 	min-width: 0;
 	overflow-wrap: anywhere;
+	/* B"H batch 56 — TAB-BAR OVERLAP: the lists carry
+	   `scroll-snap-type: y proximity` (see the list rule above);
+	   each row snaps to the top of the scroll container when a
+	   scroll settles, so the top row is fully visible (not
+	   half-cut under the tab bar) at any scroll position. */
+	scroll-snap-align: start;
 }
 
 .post-reader-localized-context #readerInfoBack,

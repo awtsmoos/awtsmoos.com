@@ -265,7 +265,16 @@
 	z-index: 2;
 	background: #f9f4ea;
 	border-bottom: 1px solid #e6dcc4;
-	padding-bottom: 8px;
+	/* B"H batch 56 — the `padding-bottom: 8px` that was here is
+	   REMOVED: the tabs already carry `margin: 2px 0 8px`, an 8px
+	   bottom margin that already provides the spacing below them,
+	   so the padding was redundant — and it added 8px (+1px border
+	   = 9px) to the panel's height in Explore view. In batch 54
+	   Explore was ~894px tall (76→970), already near the 898px
+	   cap; +9px pushed it past the cap, which tripped the (then
+	   backwards) fit guard and produced the batch-55 regression
+	   (dialog bottom off-screen). The solid background + bottom
+	   border (the tab-overlap fix) stay. */
 }
 .post-reader-localized-context .reader-info-tabs[hidden] {
 	display: none;
