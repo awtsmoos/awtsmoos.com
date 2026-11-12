@@ -8,7 +8,7 @@
  */
 import {
 	bindReaderInfoActions
-} from './ReaderInfoActions.js?v=reader-smooth-20261112-3';
+} from './ReaderInfoActions.js?v=e8e35a1751';
 import {
 	showReaderMenuView,
 	showReaderExploreTab

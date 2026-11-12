@@ -189,6 +189,19 @@ export function initSectionHighlight() {
 			}
 		} catch (_) {}
 	}
+	/* B"H batch 52 — the highlight pauses while the tab is hidden
+	   (shouldPauseHighlight), and nothing re-queues when the tab
+	   becomes visible again — so a load that happened in a background
+	   tab, or a back/forward-cache restore, can leave the current
+	   pair unmarked until the next scroll. Re-queue on
+	   visibilitychange and on pageshow so the pair paints the moment
+	   the reader returns. */
+	document.addEventListener('visibilitychange', () => {
+		try { if (!document.hidden) frameGate.queue(); } catch (_) {}
+	});
+	window.addEventListener('pageshow', () => {
+		try { frameGate.queue(); } catch (_) {}
+	});
 	frameGate.queue();
 }
 

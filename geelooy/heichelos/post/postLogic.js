@@ -6,7 +6,7 @@ import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-040
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
 import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-020';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
-import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-008';
+import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=2529b6590d';
 
 /**
  * @fileoverview Enhances Torah already visible in the initial server response.
@@ -49,7 +49,10 @@ async function safelyAsync(subsystem, task) {
 function scheduleIdleInfrastructure() {
 	const awaken = () => {
 		void import('./logic/initialization/ReaderClientErrorReporter.js?v=reader-instant-001');
-		void import('./logic/initialization/ReaderServiceWorkerBoot.js?v=reader-instant-001');
+		/* B"H batch 52 — the worker boot carries the content hash now
+		   (shared with the template's import), so this file and the
+		   template load ONE module instance, not two. */
+		void import('./logic/initialization/ReaderServiceWorkerBoot.js?v=0f4238a130');
 	};
 	const schedule = () => {
 		if (globalThis.requestIdleCallback) {

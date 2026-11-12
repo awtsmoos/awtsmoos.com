@@ -6653,6 +6653,34 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    current pair) replaces the old transparent rule here; a later
    transparent background would undo the highlight. */
 
+/* B"H batch 52 — VISIBLE VERSION MARKER: three batches of fixes
+   "won their cascades" in the bundle and still did not show in the
+   real browser, because the browser was serving a stale bundle and
+   nothing on the rendered page said which batch had loaded. This
+   marker says it, in small text at the foot of the post, so the
+   rendered check can confirm the loaded batch by reading the page
+   (it cannot view source). The batch number rides in the BUNDLE
+   (this rule), so it names the bundle the browser actually APPLIED
+   — a stale bundle shows its own older batch number, never the new
+   one. The bundle pin rides in the page itself (the template's
+   inline script reads it from the bundle <link>), so the two halves
+   together prove the load: pin = the page's bundle, batch = the
+   applied bundle. A batch that touches this file updates the number
+   below to its own batch (the same per-batch step as the bundle
+   pin). Tiny, muted, centered — it never competes with the Torah. */
+.post-reader-localized-context .awtsmoos-build-marker {
+	display: block;
+	margin: 2.5rem auto 1rem;
+	padding: 0 1rem;
+	text-align: center;
+	font: 400 11px/1.5 system-ui, sans-serif;
+	color: #8a7a5c;
+	letter-spacing: 0.02em;
+}
+.post-reader-localized-context .awtsmoos-build-marker-batch::after {
+	content: "batch 52";
+}
+
 
 /* ==== heichelos/post/styles/reader-content/reader-info-navigation.css ==== */
 /* B"H — Boruch Hashem — Blessed is He.

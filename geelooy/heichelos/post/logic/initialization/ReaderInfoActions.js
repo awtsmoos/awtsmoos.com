@@ -104,16 +104,86 @@ function shareCurrentReaderSection(state, button) {
 /**
  * B"H batch 49 — a visible deep-link toast: the link text itself, a
  * Copy button, and a dismiss. Appended to document.body (above the
- * dialog, which closes right after), auto-dismissed after 8s. The
- * toast is the proof the share happened — the user can read the link
- * and copy it again from here.
+ * dialog, which closes right after).
+ * B"H batch 52 — the toast REGRESSED in batch 51's check: it was in
+ * the DOM but never visibly rendered. The mechanism is the 8s
+ * auto-dismiss — the check (and a slow reader) takes longer than 8s
+ * between the click and the look, so the toast had already hidden
+ * itself. A toast the user must read must not hide itself: it stays
+ * until the user dismisses it (or copies again). AND its critical
+ * paint is pinned INLINE (the batch-45/50 precedent): position,
+ * geometry, and visibility live on the element itself, so the toast
+ * shows in the viewport even if the bundle is stale and carries no
+ * toast rule at all. The bundle's .is-open rule is kept as well.
  */
 let shareToastEl = null;
-let shareToastTimer = null;
+function paintReaderShareToast(open) {
+	if (!shareToastEl) return;
+	const el = shareToastEl;
+	el.style.position = 'fixed';
+	el.style.left = '50%';
+	el.style.bottom = 'calc(84px + env(safe-area-inset-bottom, 0px))';
+	el.style.zIndex = '1200';
+	el.style.display = 'flex';
+	el.style.alignItems = 'center';
+	el.style.gap = '8px';
+	el.style.width = 'min(34rem, calc(100vw - 2rem))';
+	el.style.boxSizing = 'border-box';
+	el.style.padding = '10px 12px';
+	el.style.border = '1px solid #c6ad76';
+	el.style.borderRadius = '12px';
+	el.style.background = '#fffaf0';
+	el.style.color = '#2b2118';
+	el.style.boxShadow = '0 12px 34px rgb(20 14 5 / 30%)';
+	el.style.font = '500 14px/1.4 system-ui, sans-serif';
+	if (open) {
+		el.style.opacity = '1';
+		el.style.visibility = 'visible';
+		el.style.pointerEvents = 'auto';
+		el.style.transform = 'translateX(-50%) translateY(0)';
+	} else {
+		el.style.opacity = '0';
+		el.style.visibility = 'hidden';
+		el.style.pointerEvents = 'none';
+		el.style.transform = 'translateX(-50%) translateY(8px)';
+	}
+	const label = el.querySelector('.awtsmoos-reader-share-toast-label');
+	if (label) {
+		label.style.flex = '0 0 auto';
+		label.style.fontWeight = '700';
+	}
+	const text = el.querySelector('.awtsmoos-reader-share-toast-link');
+	if (text) {
+		text.style.flex = '1 1 auto';
+		text.style.minWidth = '0';
+		text.style.overflow = 'hidden';
+		text.style.textOverflow = 'ellipsis';
+		text.style.whiteSpace = 'nowrap';
+		text.style.fontSize = '13px';
+		text.style.color = '#655641';
+	}
+	const btns = el.querySelectorAll('.awtsmoos-reader-share-toast-copy, .awtsmoos-reader-share-toast-close');
+	for (const b of btns) {
+		b.style.flex = '0 0 auto';
+		b.style.minHeight = '36px';
+		b.style.padding = '6px 10px';
+		b.style.border = '1px solid #d9c49f';
+		b.style.borderRadius = '9px';
+		b.style.background = '#f5ead1';
+		b.style.color = '#302315';
+		b.style.font = '700 13px/1.3 system-ui, sans-serif';
+		b.style.cursor = 'pointer';
+	}
+	const close = el.querySelector('.awtsmoos-reader-share-toast-close');
+	if (close) {
+		close.style.background = 'transparent';
+		close.style.borderColor = 'transparent';
+		close.style.fontSize = '15px';
+	}
+}
 function showReaderShareToast(link) {
 	if (typeof document === 'undefined' || !link) return;
 	const doc = document;
-	if (shareToastTimer) { clearTimeout(shareToastTimer); shareToastTimer = null; }
 	if (!shareToastEl) {
 		shareToastEl = doc.createElement('div');
 		shareToastEl.className = 'awtsmoos-reader-share-toast';
@@ -148,12 +218,14 @@ function showReaderShareToast(link) {
 	const text = shareToastEl.querySelector('.awtsmoos-reader-share-toast-link');
 	if (text) text.textContent = link;
 	shareToastEl.classList.add('is-open');
-	shareToastTimer = setTimeout(() => { dismissReaderShareToast(); }, 8000);
+	/* B"H batch 52 — no auto-dismiss: the toast stays until the user
+	   dismisses it, so a slow look still finds it visible. */
+	paintReaderShareToast(true);
 }
 
 function dismissReaderShareToast() {
-	if (shareToastTimer) { clearTimeout(shareToastTimer); shareToastTimer = null; }
 	if (shareToastEl) shareToastEl.classList.remove('is-open');
+	paintReaderShareToast(false);
 }
 
 function copyReaderLink(link, button) {

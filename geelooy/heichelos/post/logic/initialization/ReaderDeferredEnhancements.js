@@ -51,7 +51,14 @@ async function awakenReadingTelemetry() {
 			const root = document.getElementById('realPost') || document.querySelector('.post-reader-localized-context');
 			if (postId && root) initReaderScrollSpy(postId, root);
 		}),
-		import('./ReaderSectionHighlight.js?v=reader-pairs-20261028-2')
+		/* B"H batch 52 — ONE highlight module, not two: the template
+		   imports ReaderSectionHighlight.js by content hash, but this
+		   file imported the SAME module under a static 2026-10-28 pin
+		   — two different URLs, two module instances, and the static
+		   one served stale (pre-batch-51, no observer/rect fallback)
+		   from the worker cache. Both pins are the content hash now,
+		   so both imports resolve to the same module record. */
+		import('./ReaderSectionHighlight.js?v=e5f708dc89')
 	]);
 	return readingPromise;
 }
