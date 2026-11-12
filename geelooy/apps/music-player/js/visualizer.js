@@ -45,6 +45,12 @@ export class Visualizer {
 		loop();
 	}
 
+	resume() {
+		if (this.audioCtx && this.audioCtx.state === 'suspended') {
+			this.audioCtx.resume().catch(() => {});
+		}
+	}
+
 	stop() {
 		this.running = false;
 		cancelAnimationFrame(this.raf);

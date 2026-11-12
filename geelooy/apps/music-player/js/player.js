@@ -1,9 +1,22 @@
 // B"H — Playback: one audio element, queue, shuffle/repeat, and the
 // Media Session API so playback keeps going in the background with
 // lock-screen and headset controls.
+//
+// BACKGROUND, READ THIS: the main element's sound runs through the Web Audio
+// visualizer graph (createMediaElementSource), and a phone browser suspends
+// that AudioContext the moment the page goes to the background — the music
+// would stop even though the element is still "playing". So when the page
+// hides mid-song, playback hands off to a second, never-routed <audio>
+// element (same track, same position) that plays straight to the speakers,
+// and hands back to the main element when the page returns. A service worker
+// cannot do this job — it cannot play audio at all.
 export class Player {
 	constructor(audioEl, hooks) {
 		this.audio = audioEl;
+		this.bgAudio = document.createElement('audio');
+		this.bgAudio.preload = 'metadata';
+		this.background = false;
+		this.pendingSeek = null;
 		this.hooks = hooks || {};
 		this.queue = [];
 		this.index = -1;
@@ -13,11 +26,8 @@ export class Player {
 		this.currentTrack = null;
 		this.objectUrl = null;
 
-		audioEl.addEventListener('ended', () => this.onEnded());
-		audioEl.addEventListener('timeupdate', () => this.hooks.onTime && this.hooks.onTime());
-		audioEl.addEventListener('play', () => this.hooks.onState && this.hooks.onState());
-		audioEl.addEventListener('pause', () => this.hooks.onState && this.hooks.onState());
-		audioEl.addEventListener('loadedmetadata', () => this.hooks.onTime && this.hooks.onTime());
+		this.attach(this.audio);
+		this.attach(this.bgAudio);
 
 		if ('mediaSession' in navigator) {
 			try {
@@ -28,6 +38,94 @@ export class Player {
 				navigator.mediaSession.setActionHandler('seekto', (d) => { if (d.seekTime != null) this.seek(d.seekTime); });
 			} catch (err) { console.warn('Media Session handlers unavailable', err); }
 		}
+	}
+
+	attach(el) {
+		el.addEventListener('ended', () => this.onEnded());
+		el.addEventListener('timeupdate', () => this.onTime(el));
+		el.addEventListener('play', () => this.hooks.onState && this.hooks.onState());
+		el.addEventListener('pause', () => this.hooks.onState && this.hooks.onState());
+		el.addEventListener('loadedmetadata', () => {
+			if (this.pendingSeek != null) {
+				try { el.currentTime = this.pendingSeek; } catch (err) { /* retry on next load */ }
+				this.pendingSeek = null;
+			}
+			this.hooks.onTime && this.hooks.onTime();
+		});
+	}
+
+	// The element actually making sound right now.
+	el() { return this.background ? this.bgAudio : this.audio; }
+	get playing() { const a = this.el(); return !a.paused && !a.ended; }
+	get duration() { return this.el().duration || this.currentTrack?.duration || 0; }
+	get currentTime() { return this.el().currentTime || 0; }
+
+	onTime(el) {
+		if (el !== this.el()) return;
+		this.updatePositionState();
+		this.hooks.onTime && this.hooks.onTime();
+	}
+
+	// The lock-screen notification shows live progress only when the session
+	// carries a position state; without it some phones treat the session as
+	// idle and drop it.
+	updatePositionState() {
+		if (!('mediaSession' in navigator) || !navigator.mediaSession.setPositionState) return;
+		const a = this.el();
+		const dur = a.duration;
+		if (!Number.isFinite(dur) || !dur) return;
+		try {
+			navigator.mediaSession.setPositionState({
+				duration: dur,
+				playbackRate: a.playbackRate || 1,
+				position: a.currentTime || 0,
+			});
+		} catch (err) { /* some browsers reject mid-seek; the next tick retries */ }
+	}
+
+	// Page hidden mid-song: move playback to the direct element so the
+	// suspended visualizer graph cannot silence it.
+	async enterBackground() {
+		if (this.background || !this.playing) return false;
+		const main = this.audio, bg = this.bgAudio;
+		const at = main.currentTime || 0;
+		bg.src = main.src;
+		bg.volume = main.volume;
+		bg.playbackRate = main.playbackRate;
+		try { bg.currentTime = at; } catch (err) { this.pendingSeek = at; }
+		try {
+			await bg.play();
+		} catch (err) {
+			console.warn('Background audio handoff failed, staying on the main element', err);
+			this.pendingSeek = null;
+			return false;
+		}
+		this.background = true;
+		main.pause();
+		console.info('[music] background handoff: direct audio element');
+		return true;
+	}
+
+	// Page visible again: hand playback back to the visualizer element.
+	async enterForeground() {
+		if (!this.background) return false;
+		const main = this.audio, bg = this.bgAudio;
+		const at = bg.currentTime || 0;
+		main.src = bg.src;
+		main.volume = bg.volume;
+		main.playbackRate = bg.playbackRate;
+		try { main.currentTime = at; } catch (err) { this.pendingSeek = at; }
+		try {
+			await main.play();
+		} catch (err) {
+			console.warn('Foreground return failed', err);
+			this.pendingSeek = null;
+			return false;
+		}
+		this.background = false;
+		bg.pause();
+		console.info('[music] foreground return: visualizer element');
+		return true;
 	}
 
 	setQueue(ids, startId) {
@@ -66,8 +164,9 @@ export class Player {
 		if (this.objectUrl) { URL.revokeObjectURL(this.objectUrl); this.objectUrl = null; }
 		this.objectUrl = URL.createObjectURL(file);
 		this.currentTrack = track;
-		this.audio.src = this.objectUrl;
-		this.audio.load();
+		const a = this.el();
+		a.src = this.objectUrl;
+		a.load();
 		if ('mediaSession' in navigator) {
 			try {
 				navigator.mediaSession.metadata = new MediaMetadata({
@@ -93,23 +192,29 @@ export class Player {
 		const track = await loadFile(id);
 		if (!track) return false;
 		await this.loadTrack(track.track, track.file);
-		try { await this.audio.play(); } catch (err) { console.warn('Playback blocked until a tap', err); }
+		try { await this.el().play(); } catch (err) { console.warn('Playback blocked until a tap', err); }
 		this.hooks.onQueue && this.hooks.onQueue();
 		return true;
 	}
 
 	async play() {
 		if (!this.currentTrack) return this.playCurrent(this.hooks.loadFile);
-		try { await this.audio.play(); } catch (err) { console.warn('Play failed', err); }
+		try { await this.el().play(); } catch (err) { console.warn('Play failed', err); }
 		return true;
 	}
 
-	pause() { this.audio.pause(); }
-	toggle() { return this.audio.paused ? this.play() : (this.pause(), Promise.resolve(true)); }
-	seek(seconds) { this.audio.currentTime = Math.max(0, Math.min(seconds, this.audio.duration || 0)); }
-	setVolume(v) { this.audio.volume = Math.max(0, Math.min(1, v)); }
-	setRate(r) { this.audio.playbackRate = r; }
-	get playing() { return !this.audio.paused && !this.audio.ended; }
+	pause() { this.el().pause(); }
+	toggle() { return this.el().paused ? this.play() : (this.pause(), Promise.resolve(true)); }
+	seek(seconds) { this.el().currentTime = Math.max(0, Math.min(seconds, this.duration || 0)); }
+	setVolume(v) {
+		const vol = Math.max(0, Math.min(1, v));
+		this.audio.volume = vol;
+		this.bgAudio.volume = vol;
+	}
+	setRate(r) {
+		this.audio.playbackRate = r;
+		this.bgAudio.playbackRate = r;
+	}
 
 	async next() {
 		if (this.repeat === 'one') { this.seek(0); return this.play(); }
@@ -119,7 +224,7 @@ export class Player {
 	}
 
 	async prev() {
-		if (this.audio.currentTime > 3) { this.seek(0); return true; }
+		if (this.el().currentTime > 3) { this.seek(0); return true; }
 		if (this.index > 0) { this.index -= 1; return this.playCurrent(this.hooks.loadFile); }
 		this.seek(0);
 		return true;

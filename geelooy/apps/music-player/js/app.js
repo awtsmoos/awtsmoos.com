@@ -30,6 +30,11 @@ const player = new Player(audioEl, {
 	onQueue: renderQueue,
 });
 
+// Debug handle: the headless rendered checks drive the background handoff
+// through this (player.enterBackground / enterForeground) instead of
+// guessing from the UI.
+window.__awtsmoosMusic = { player, viz };
+
 function toast(msg, sticky) {
 	const el = $('toast');
 	el.textContent = msg;
@@ -497,8 +502,8 @@ function updatePlayButtons() {
 }
 
 function updateTime() {
-	const dur = audioEl.duration || player.currentTrack?.duration || 0;
-	const cur = audioEl.currentTime || 0;
+	const dur = player.duration || 0;
+	const cur = player.currentTime || 0;
 	$('time-cur').textContent = fmtTime(cur);
 	$('time-total').textContent = fmtTime(dur);
 	if (!state.seeking && dur) $('seek').value = String(Math.round((cur / dur) * 1000));
@@ -537,7 +542,7 @@ async function removeTrack(id) {
 			await db.putPlaylist(pl);
 		}
 	}
-	if (player.currentTrack && player.currentTrack.id === id) { audioEl.pause(); player.currentTrack = null; renderNow(null); }
+	if (player.currentTrack && player.currentTrack.id === id) { player.pause(); player.currentTrack = null; renderNow(null); }
 	renderAll();
 	toast('Removed “' + (track ? track.title : 'song') + '”.');
 }
@@ -613,7 +618,7 @@ function wireEvents() {
 	$('btn-clear-library').onclick = async () => {
 		if (!state.tracks.size) return;
 		if (!confirm('Remove all ' + state.tracks.size + ' songs from this browser library? Your files on your device are not touched.')) return;
-		audioEl.pause();
+		player.pause();
 		await db.clearTracks();
 		state.tracks.clear();
 		player.queue = [];
@@ -641,17 +646,25 @@ function wireEvents() {
 
 	$('seek').addEventListener('pointerdown', () => { state.seeking = true; });
 	$('seek').addEventListener('input', (e) => {
-		const dur = audioEl.duration || player.currentTrack?.duration || 0;
+		const dur = player.duration || 0;
 		if (dur) $('time-cur').textContent = fmtTime((Number(e.target.value) / 1000) * dur);
 	});
 	$('seek').addEventListener('change', (e) => {
-		const dur = audioEl.duration || player.currentTrack?.duration || 0;
+		const dur = player.duration || 0;
 		if (dur) player.seek((Number(e.target.value) / 1000) * dur);
 		state.seeking = false;
 	});
 	$('volume').oninput = (e) => player.setVolume(Number(e.target.value) / 100);
 	$('rate').onchange = (e) => player.setRate(Number(e.target.value));
 	player.setVolume(0.85);
+
+	// Background: while the page is hidden, playback lives on the direct
+	// audio element (Player.enterBackground); when it returns, playback
+	// hands back to the visualizer element and the graph resumes.
+	document.addEventListener('visibilitychange', () => {
+		if (document.hidden) { player.enterBackground(); }
+		else { player.enterForeground(); viz.resume(); }
+	});
 
 	document.addEventListener('click', (e) => {
 		if (!$('menu-popover').hidden && !e.target.closest('#menu-popover') && !e.target.closest('.t-actions')) $('menu-popover').hidden = true;
