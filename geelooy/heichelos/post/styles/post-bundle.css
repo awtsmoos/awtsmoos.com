@@ -10,7 +10,7 @@
 		   settings, chapter nav, sources) readable as clean plain text.
 		   Element selectors only, placed before the <link> stylesheets, so the
 		   real CSS overrides cleanly when it loads. */
-		html { -webkit-text-size-adjust: 100%; }
+		
 		body {
 			font-family: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
 			font-size: 19px; line-height: 1.75; color: #1a1a1a; background: #fffdf7;
@@ -23,7 +23,7 @@
 		body h3 { font-size: 1.15em; margin: 0.9em 0 0.3em; color: inherit; }
 		body p { margin: 0.7em 0; max-width: 44em; color: inherit; }
 		body a { color: #0b5cad; text-decoration: underline; }
-		html[data-theme="dark"] body a { color: #7db8f0; }
+		
 		body img { max-width: 100%; height: auto; }
 		body button { font: inherit; padding: 0.5em 1em; color: inherit; }
 		body #realPost { min-height: 40vh; }
@@ -40,19 +40,9 @@
 /* B"H — inline contrast fix: readable article text in both themes.
 		   Inline in the template to bypass @import chain / bundle caching issues.
 		   Uses :root-prefixed selectors for specificity instead of !important. */
-		:root .post-reader-localized-context .sub-awtsmoos.heb,
-		:root .post-reader-localized-context .heb {
-			color: var(--sefer-reader-ink);
-		}
-		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
-		:root[data-theme="dark"] .post-reader-localized-context .heb {
-			color: var(--sefer-reader-ink);
-		}
-		:root[data-theme="dark"] .post-reader-localized-context,
-		:root[data-theme="dark"] .post-reader-localized-context .section {
-			background-color: var(--sefer-reader-bg);
-			background: var(--sefer-reader-bg);
-		}
+		
+		
+		
 
 /* B"H — extracted from _awtsmoos.post.html #awtsmoos-scribe-lens-panel */
 /* B"H — Scribe's Lens panel: dream design. Bottom sheet, icon tiles,
@@ -241,9 +231,7 @@
 			outline: 2px solid var(--lens-gold);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .scribe-lens-close:active {
-			transform: scale(.93);
-		}
+		
 		:root .post-reader-localized-context .scribe-lens-close:disabled {
 			opacity: .45;
 			cursor: not-allowed;
@@ -397,9 +385,7 @@
 			outline: 2px solid var(--lens-gold);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .font-adjust-btn:active {
-			transform: scale(.94);
-		}
+		
 		:root .post-reader-localized-context .font-adjust-btn:disabled {
 			opacity: .45;
 			cursor: not-allowed;
@@ -477,22 +463,13 @@
 			box-shadow: 0 .2rem .6rem var(--lens-shadow), inset 0 1px 0 rgb(255 255 255 / 45%);
 			transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
 		}
-		:root .post-reader-localized-context .auto-scroll-settings-toggle:hover {
-			border-color: var(--lens-gold);
-			transform: translateY(-1px);
-		}
+		
 		:root .post-reader-localized-context .auto-scroll-settings-toggle:focus-visible {
 			outline: 2px solid var(--lens-gold);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .auto-scroll-settings-toggle:active {
-			transform: scale(.98);
-		}
-		:root .post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
-			background: var(--lens-gold);
-			border-color: var(--lens-gold);
-			color: var(--lens-on-gold);
-		}
+		
+		
 		:root .post-reader-localized-context .auto-scroll-settings-toggle:disabled {
 			opacity: .45;
 			cursor: not-allowed;
@@ -724,16 +701,9 @@
 			color: var(--lens-soft);
 			font-weight: 400;
 		}
-		:root .post-reader-localized-context .reader-advanced-settings summary:hover {
-			color: var(--lens-gold-deep);
-		}
-		:root .post-reader-localized-context .reader-advanced-settings summary:focus-visible {
-			outline: 2px solid var(--lens-gold);
-			outline-offset: 2px;
-		}
-		:root .post-reader-localized-context .reader-advanced-settings summary:active {
-			transform: scale(.99);
-		}
+		
+		
+		
 		:root .post-reader-localized-context .color-picker-grid {
 			display: grid;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -794,9 +764,7 @@
 			outline: 2px solid var(--lens-gold);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context #resetDefaultsBtn:active {
-			transform: scale(.98);
-		}
+		
 		:root .post-reader-localized-context #resetDefaultsBtn:disabled {
 			opacity: .45;
 			cursor: not-allowed;
@@ -831,26 +799,14 @@
 			transform: translateY(-1px);
 			border-color: var(--lens-gold);
 		}
-		:root .post-reader-localized-context #typographyBtn:focus-visible,
-		:root .post-reader-localized-context #commentaryBtn:focus-visible {
-			outline: 2px solid var(--lens-gold);
-			outline-offset: 2px;
-		}
-		:root .post-reader-localized-context #typographyBtn:active,
-		:root .post-reader-localized-context #commentaryBtn:active {
-			transform: scale(.96);
-		}
+		
+		
 		:root .post-reader-localized-context #typographyBtn.pushed {
 			background: var(--lens-gold);
 			border-color: var(--lens-gold);
 			color: var(--lens-on-gold);
 		}
-		:root .post-reader-localized-context #typographyBtn:disabled,
-		:root .post-reader-localized-context #commentaryBtn:disabled {
-			opacity: .45;
-			cursor: not-allowed;
-			transform: none;
-		}
+		
 
 /* B"H — extracted from _awtsmoos.post.html #awtsmoos-sefer-body-tokens */
 /* B"H — Sefer body text tokens.
@@ -897,16 +853,8 @@
 			--sefer-reader-bg: #171209;
 		}
 		/* Critical body text: explicit colors in both themes, no @import dependency. */
-		:root .post-reader-localized-context .meluket-post-summary,
-		:root .post-reader-localized-context .meluket-summary,
-		:root .post-reader-localized-context .meluket-post-summary p,
-		:root .post-reader-localized-context .meluket-summary p {
-			color: var(--sefer-ink-soft);
-		}
-		:root .post-reader-localized-context .meluket-sefer-title-he,
-		:root .post-reader-localized-context .meluket-qa-title {
-			color: var(--sefer-title-ink);
-		}
+		
+		
 		/* B"H — the בס״ד title must never render faint: explicit ink, full
 		   opacity, no glow washout in light mode. */
 		:root .post-reader-localized-context .meluket-sefer-title-he {
@@ -916,14 +864,8 @@
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-sefer-title-he {
 			opacity: 1;
 		}
-		:root .post-reader-localized-context .meluket-hebrew,
-		:root .post-reader-localized-context .meluket-english {
-			color: var(--sefer-ink);
-		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-hebrew,
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-english {
-			color: var(--sefer-ink);
-		}
+		
+		
 		:root .post-reader-localized-context .meluket-post-summary {
 			background: var(--sefer-paper-deep);
 			border-color: var(--sefer-rule);
@@ -1006,10 +948,7 @@
 			background: rgb(122 82 31 / 10%);
 			border: 1px solid rgb(122 82 31 / 20%);
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel {
-			background: rgb(255 255 255 / 6%);
-			border-color: rgb(127 232 255 / 14%);
-		}
+		
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn,
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
 			flex: 1;
@@ -1028,27 +967,18 @@
 			min-height: 44px;
 			margin: 0;
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
-			color: var(--lens-lang-idle);
-		}
+		
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
 			color: var(--lens-lang-hover);
 			background: rgb(255 255 255 / 50%);
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
-			color: var(--lens-lang-hover);
-			background: rgb(255 255 255 / 8%);
-		}
+		
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
 			outline: 2px solid var(--lens-lang-focus);
 			outline-offset: 2px;
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
-			outline-color: var(--lens-lang-focus);
-		}
-		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:active {
-			transform: scale(0.97);
-		}
+		
+		
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:disabled {
 			opacity: 0.45;
 			cursor: not-allowed;
@@ -1061,12 +991,7 @@
 			color: var(--lens-active-ink);
 			box-shadow: 0 2px 8px rgb(199 154 75 / 40%);
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
-			background: var(--lens-gold);
-			border-color: var(--lens-gold);
-			color: var(--lens-active-ink);
-			box-shadow: 0 2px 8px rgb(217 169 78 / 30%);
-		}
+		
 		/* Footnote markers: real <sup>, LAW 8 gold pills — never gray boxes,
 		   never plain numbers. Tappable, keyboard accessible, popup on tap. */
 		:root .post-reader-localized-context sup.meluket-fn-marker,
@@ -1103,23 +1028,10 @@
 		}
 		/* Critical text sizes: Yaakov wants text MUCH bigger by default.
 		   These mirror meluket-sefer.css but load even when @import breaks. */
-		:root .post-reader-localized-context .meluket-hebrew {
-			font-size: clamp(2.2rem, 5vw, 3.4rem);
-			line-height: 1.9;
-		}
-		:root .post-reader-localized-context .meluket-english {
-			font-size: clamp(1.7rem, 4vw, 2.6rem);
-			line-height: 1.7;
-		}
-		:root .post-reader-localized-context .meluket-post-summary,
-		:root .post-reader-localized-context .meluket-summary {
-			font-size: clamp(1.5rem, 3.6vw, 2.2rem);
-			line-height: 1.65;
-		}
-		:root .post-reader-localized-context .meluket-sefer-title-he {
-			font-size: clamp(2.6rem, 6vw, 4rem);
-			line-height: 1.4;
-		}
+		
+		
+		
+		
 
 /* B"H — extracted from _awtsmoos.post.html #awtsmoos-dream-typography */
 /* B"H — Dream typography: match the approved mockups exactly.
@@ -1345,12 +1257,7 @@
 			color: var(--sefer-ink);
 			margin-bottom: 0.75rem;
 		}
-		:root .post-reader-localized-context .meluket-qa-a {
-			font-family: var(--dream-sans-font);
-			font-size: clamp(1.4rem, 3.6vw, 1.9rem);
-			line-height: 1.75;
-			color: var(--sefer-ink-soft);
-		}
+		
 		/* Text selection in the sefer's accent. */
 		:root .post-reader-localized-context .meluket-sefer ::selection {
 			background: var(--sefer-accent);
@@ -1539,18 +1446,12 @@
 		}
 
 		/* Advanced settings + color controls: warm */
-		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary {
-			color: var(--dream-ink);
-		}
+		
 		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary small {
 			color: var(--dream-ink-soft);
 		}
-		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary:hover {
-			color: var(--dream-gold-soft);
-		}
-		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary:focus-visible {
-			outline: 2px solid var(--dream-focus);
-		}
+		
+		
 		:root[data-theme="dark"] .post-reader-localized-context .color-control label {
 			color: var(--dream-ink);
 		}
@@ -1913,9 +1814,7 @@
 			outline: 3px solid var(--sefer-focus);
 			outline-offset: 3px;
 		}
-		:root .post-reader-localized-context #typographyBtn:active {
-			transform: translateY(1px) scale(0.97);
-		}
+		
 		:root .post-reader-localized-context #typographyBtn:disabled {
 			opacity: 0.45;
 			cursor: not-allowed;
@@ -1953,9 +1852,7 @@
 			outline: 3px solid var(--sefer-focus);
 			outline-offset: 3px;
 		}
-		:root .post-reader-localized-context #commentaryBtn:active {
-			transform: translateY(1px) scale(0.97);
-		}
+		
 		:root .post-reader-localized-context #commentaryBtn:disabled {
 			opacity: 0.45;
 			cursor: not-allowed;
@@ -1970,12 +1867,7 @@
 		}
 
 		/* ---------- reduced motion ---------- */
-		@media (prefers-reduced-motion: reduce) {
-			:root .post-reader-localized-context #typographyBtn,
-			:root .post-reader-localized-context #commentaryBtn {
-				transition: none;
-			}
-		}
+		
 
 /* B"H — extracted from _awtsmoos.post.html #awtsmoos-dream-sources-fn */
 /* B"H — Footnote popup + Sources sheet, dream-styled.
@@ -2085,10 +1977,7 @@
 			outline: 2px solid var(--sefer-focus);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .awtsmoos-fn-close:active,
-		:root .post-reader-localized-context .awtsmoos-src-close:active {
-			transform: scale(.94);
-		}
+		
 		:root .post-reader-localized-context .awtsmoos-fn-close:disabled,
 		:root .post-reader-localized-context .awtsmoos-src-close:disabled {
 			opacity: .45;
@@ -2221,9 +2110,7 @@
 			text-align: start;
 			transition: background-color .18s ease;
 		}
-		:root .post-reader-localized-context .awtsmoos-src-goto:hover {
-			background: var(--sefer-paper-deep);
-		}
+		
 		:root .post-reader-localized-context .awtsmoos-src-goto:focus-visible {
 			outline: 2px solid var(--sefer-focus);
 			outline-offset: -2px;
@@ -2330,9 +2217,7 @@
 			outline: 2px solid var(--sefer-focus);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .awtsmoos-src-send:active {
-			transform: scale(.96);
-		}
+		
 		:root .post-reader-localized-context .awtsmoos-src-send:disabled {
 			opacity: .5;
 			cursor: not-allowed;
@@ -2507,10 +2392,7 @@
 			outline: 2px solid var(--sefer-focus);
 			outline-offset: 2px;
 		}
-		:root .post-reader-localized-context .awtsmoos-social-actions button:active,
-		:root .post-reader-localized-context .awtsmoos-reaction-chip:active {
-			transform: scale(0.96);
-		}
+		
 		:root .post-reader-localized-context .awtsmoos-social-actions button:disabled,
 		:root .post-reader-localized-context .awtsmoos-reaction-chip:disabled {
 			opacity: 0.45;
@@ -2789,43 +2671,14 @@
  * Light theme: dark ink on light card. Dark theme: light ink on dark card.
  * No, ever — specificity via :root prefix and doubled classes.
  */
-.post-reader-localized-context .awtsmoos-translation-toolbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: .75rem;
-	width: min(820px, calc(100% - 1.5rem));
-	margin: -.35rem auto 1rem;
-	padding: .8rem .9rem;
-	border: 1px solid var(--sefer-rule, #d9c9a8);
-	border-radius: 18px;
-	background: var(--sefer-card, #fffdf6);
-	box-shadow: var(--sefer-shadow, 0 2px 14px rgba(90, 70, 40, 0.10));
-	color: var(--sefer-ink-soft, #5a4c3d);
-	font-family: var(--font-ui);
-}
-:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-toolbar {
-	border-color: var(--sefer-rule, #4a3a22);
-	background: var(--sefer-card, #201a10);
-	box-shadow: var(--sefer-shadow, 0 2px 18px rgba(0, 0, 0, 0.45));
-	color: var(--sefer-ink-soft, #c9b992);
-}
+
+
 /* B"H - third state: the Sanctuary dream repaints text pale for its dark chamber,
  * but this card takes its background from the sefer tokens, which stay light unless
  * data-theme is dark - pale status text on a cream card. Pair the card dark too. */
-:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-toolbar {
-	border-color: #4a3a22;
-	background: #201a10;
-	box-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
-	color: #c9b992;
-}
 
-.post-reader-localized-context .awtsmoos-translation-status {
-	font-size: .92rem;
-	font-weight: 800;
-	line-height: 1.35;
-	color: inherit;
-}
+
+
 
 /* B"H 2026-11-10 round 9 — Coby: the Hide/Show English pill was white on
    white. Two causes: the rule only matched inside
@@ -2837,112 +2690,32 @@
    paints every button in the reader with `color: var(--aw-text)` at
    (0,1,1), and button-hover.css does it at (0,16,0), and --aw-text is
    white. Set the var itself on the toggle so those rules resolve dark. */
-.awtsmoos-translation-toggle {
-	--aw-text: #2b2118;
-	min-width: 116px;
-	min-height: 44px;
-	padding: .65rem .85rem;
-	border: 1px solid #8a6d3b;
-	border-radius: 14px;
-	background: #fffdf6;
-	color: #2b2118;
-	font: 800 .9rem/1 var(--font-ui);
-	cursor: pointer;
-}
-:root[data-theme="dark"] .awtsmoos-translation-toggle {
-	--aw-text: #f0e7d3;
-	border-color: #d4a94e;
-	background: rgba(255,255,255,0.08);
-	color: #f0e7d3;
-}
-:root[data-dream="sanctuary"] .awtsmoos-translation-toggle {
-	--aw-text: #f0e7d3;
-	border-color: #d4a94e;
-	background: rgba(255,255,255,0.08);
-	color: #f0e7d3;
-}
-.post-reader-localized-context .awtsmoos-translation-toggle:hover {
-	filter: brightness(1.08);
-}
-.post-reader-localized-context .awtsmoos-translation-toggle:active {
-	transform: scale(0.98);
-}
-.post-reader-localized-context .awtsmoos-translation-toggle:focus-visible {
-	outline: 2px solid var(--sefer-focus, #b3541e);
-	outline-offset: 2px;
-}
-.post-reader-localized-context .awtsmoos-translation-toggle:disabled {
-	opacity: .45;
-	cursor: not-allowed;
-	transform: none;
-}
+
+
+
+
+
+
+
 
 /* B"H — English translation block: English under Hebrew, never side by side.
    Doubled class (0,2,0) beats the RTL Hebrew rules without. */
-.post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block {
-	direction: ltr;
-	text-align: left;
-	margin: .55rem 0 1rem;
-	padding: .9rem 1rem;
-	border-inline-start: 4px solid var(--sefer-accent, #8a6d3b);
-	border-radius: 14px;
-	background: var(--sefer-paper-deep, #efe4cd);
-	color: var(--sefer-ink, #2b2118);
-	font-family: var(--font-ui);
-	box-shadow: inset 0 1px 0 rgba(0, 0, 0, .04);
-	scroll-margin-block: 24vh;
-}
-:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block {
-	border-inline-start-color: var(--sefer-accent, #d4a94e);
-	background: rgba(15, 23, 42, .72);
-	color: var(--sefer-ink, #f0e7d3);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
-}
+
+
 /* B"H - Sanctuary pairing for the block: dream text rules repaint inner spans
  * pale; on the light paper-deep card they vanish. Dark card + light paragraph
  * (the paragraph rule outranks the dream repaint, so it needs its own flip). */
-:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block {
-	border-inline-start-color: #d4a94e;
-	background: rgba(15, 23, 42, .72);
-	color: #f0e7d3;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
-}
-:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
-	color: #f0e7d3;
-}
-:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-kicker {
-	color: #d4a94e;
-}
 
-.post-reader-localized-context .awtsmoos-translation-focus {
-	outline: 2px solid var(--sefer-focus, #b3541e);
-	outline-offset: 3px;
-}
 
-.post-reader-localized-context .awtsmoos-translation-kicker {
-	display: block;
-	margin-bottom: .4rem;
-	color: var(--sefer-accent, #8a6d3b);
-	font: 900 .74rem/1 var(--font-ui);
-	letter-spacing: .08em;
-	text-transform: uppercase;
-}
-:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-kicker {
-	color: var(--sefer-accent, #d4a94e);
-}
 
-.post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
-	margin: .45rem 0 0;
-	/* B"H — Yaakov 2026-10-12: English rides BIG beneath the original. */
-	font-size: calc(clamp(1.15rem, 4.8vw, 1.45rem) * var(--post-scale-ratio, 1));
-	line-height: 1.58;
-	color: var(--sefer-ink, #2b2118);
-	text-align: left;
-	direction: ltr;
-}
-:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
-	color: var(--sefer-ink, #f0e7d3);
-}
+
+
+
+
+
+
+
+
 
 /* B"H 2026-11-09: footnote numbers in the English translation render as
    the same small gold superscripts as the Hebrew body. The translation API
@@ -2950,55 +2723,29 @@
    them in <sup class="awtsmoos-translation-fn">, and this rule styles them
    exactly like .awtsmoos-plain-post-content sup (0.62em, super, gold, 700).
    Without it they sat on the baseline, full-size and cream. */
-.post-reader-localized-context .awtsmoos-translation-block sup {
-	font-size: 0.62em;
-	vertical-align: super;
-	line-height: 0;
-	color: var(--awt-gold, var(--law8-gold));
-	font-weight: 700;
-}
+
 
 /* B"H 2026-11-09: the server-rendered community/translation fragments below
    the reader (annotations aside) carry the same plain-digit footnote numbers
    as the translation API did; the server now wraps them in <sup>, and this
    rule gives them the same small gold superscript treatment as the reader
    body (0.62em, super, gold, 700). */
-.post-reader-localized-context [data-awtsmoos-indexed-annotations] sup {
-	font-size: 0.62em;
-	vertical-align: super;
-	line-height: 0;
-	color: var(--awt-gold, var(--law8-gold));
-	font-weight: 700;
-}
+
 
 /* B"H — Hidden translations: :root prefix (0,2,0+) hides without. */
-:root .post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
-	display: none;
-}
+
 
 /* B"H — Yaakov 2026-10-12: ONE bilingual typographic system for every post
  * type. Hebrew/Yiddish originals already ride at var(--post-text-size) via
  * the reborn reader rules; this layer only guarantees nikkud-safe rhythm
  * and clean stacked spacing, so Torah Ohr, Likkutei Sichos, maamarim, and
  * Tanya all read the same. No color fights: the theme system owns ink. */
-.post-reader-localized-context #realPost .toichen .sub-awtsmoos.heb,
-.post-reader-localized-context #realPost .section.heb .toichen {
-	line-height: 1.9;
-}
+
 /* B"H — translation blocks always stack below their Hebrew anchor with
  * breathing room, in every post type. */
-.post-reader-localized-context #realPost .awtsmoos-translation-block.awtsmoos-translation-block {
-	margin-top: 1rem;
-	margin-bottom: 1.75rem;
-}
 
-@media (max-width: 560px) {
-	.post-reader-localized-context .awtsmoos-translation-toolbar {
-		align-items: stretch;
-		flex-direction: column;
-	}
-	.post-reader-localized-context .awtsmoos-translation-toggle { width: 100%; }
-}
+
+
 
 
 /* ==== heichelos/post/rashi/rashi.css ==== */
@@ -3538,27 +3285,15 @@ body {
   touch-action: pan-y;
 }
 
-:where(.awtsmoospage, .all, .main, main, section, article, aside, header, footer, nav, form, fieldset, .card, .panel, .surface) {
-  min-width: 0;
-  max-width: 100%;
-}
 
-:where(.awtsmoospage, .all, .main, .scroll-view-wrapper, #realPost, #virtual-scroll-container) {
-  overscroll-behavior-y: auto;
-}
 
-:where(.awtsmoospage, .all, .main, .geelooy-home-shell, .geelooy-social-shell) {
-  overflow-wrap: anywhere;
-}
 
-:where(.awtsmoos-page-width, .page-width, .container, .shell, .wrap) {
-  inline-size: min(100%, var(--awts-container-max, 1200px));
-  margin-inline: auto;
-}
 
-:where([style*="width: 100vw"], [style*="width:100vw"]) {
-  max-width: 100%;
-}
+
+
+
+
+
 
 
 /* ==== style/foundation/reset/media.css ==== */
@@ -3568,58 +3303,29 @@ body {
  * Nothing may burst the vessel; even long code-lines receive a private river
  * instead of forcing the whole world to scroll sideways.
  */
-:where(img, video, canvas, svg, iframe, embed, object) {
-  max-width: 100%;
-}
 
-:where(img, video, canvas, svg) {
-  height: auto;
-}
 
-:where(input, select, textarea, button) {
-  max-width: 100%;
-  font: inherit;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(input, select, textarea) {
-  min-width: 0;
-  font-size: max(16px, 1em);
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(textarea, [contenteditable="true"], .editor, .CodeMirror, .cm-editor, pre, code) {
-  overflow-wrap: anywhere;
-  word-break: break-word;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(pre, .code-block, .hljs, .cm-scroller, .table-scroll, .table-wrap) {
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+
+
+
 
 :where(table) {
   max-width: 100%;
   border-collapse: collapse;
 }
 
-:where(dialog, [role="dialog"], .modal, .modal-root-open, .modal-content) {
-  max-inline-size: min(100% - 24px, var(--awts-modal-max, 720px));
-  max-block-size: calc(100dvh - var(--awts-safe-top) - var(--awts-safe-bottom) - 24px);
-}
+
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-button:hover {
-	filter: brightness(1.08);
-}
-button:active {
-	transform: scale(0.98);
-}
-button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
+
 
 
 /* ==== style/foundation/reset/focus.css ==== */
@@ -3629,97 +3335,37 @@ button:focus-visible {
  * The keyboard traveler sees the gate, the finger finds a forty-four pixel
  * landing place, and disabled controls become quiet without vanishing.
  */
-:where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="menuitem"], [role="tab"]):focus-visible {
-  outline: 3px solid rgba(245, 202, 112, .78);
-  outline-offset: 3px;
-}
 
-:where(button, .btn, [role="button"], input[type="button"], input[type="submit"], input[type="reset"]) {
-  min-inline-size: 44px;
-  min-block-size: 44px;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(245, 202, 112, .22);
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(a[href], button, .btn, [role="button"], [role="menuitem"], [role="tab"], summary) {
-  touch-action: manipulation;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(button, .btn, [role="button"]):where(:disabled, [aria-disabled="true"], .is-disabled) {
-  cursor: not-allowed;
-  opacity: .58;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where([hidden], .hidden, [aria-hidden="true"]) :where(a, button, input, select, textarea, [tabindex]) {
-  pointer-events: none;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-button:hover {
-	filter: brightness(1.08);
-}
-button:active {
-	transform: scale(0.98);
-}
-button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-[role="button"]:hover {
-	filter: brightness(1.08);
-}
-[role="button"]:active {
-	transform: scale(0.98);
-}
-[role="button"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-:where(button:hover) {
-	filter: brightness(1.08);
-}
-:where(button:active) {
-	transform: scale(0.98);
-}
-:where(button:focus-visible) {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-.btn:hover {
-	filter: brightness(1.08);
-}
-.btn:active {
-	transform: scale(0.98);
-}
-.btn:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-input[type="button"]:hover {
-	filter: brightness(1.08);
-}
-input[type="button"]:active {
-	transform: scale(0.98);
-}
-input[type="button"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-input[type="submit"]:hover {
-	filter: brightness(1.08);
-}
-input[type="submit"]:active {
-	transform: scale(0.98);
-}
-input[type="submit"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-input[type="reset"]:hover {
-	filter: brightness(1.08);
-}
-input[type="reset"]:active {
-	transform: scale(0.98);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 input[type="reset"]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
@@ -3776,10 +3422,7 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
   box-shadow: 0 0 0 1px rgba(255,255,255,.36) inset, 0 14px 35px rgba(214,168,79,.16);
 }
 
-:where(.awt-gold-border, .premium-border, .home-action-primary, .is-create):is(:hover, :focus-visible) {
-  border-color: rgba(245,202,112,.72);
-  box-shadow: 0 0 0 1px rgba(255,255,255,.5) inset, 0 20px 48px rgba(214,168,79,.24);
-}
+
 
 
 /* ==== style/foundation/effects/ambient-bg.css ==== */
@@ -3815,11 +3458,7 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
   will-change: transform;
 }
 
-.awt-hover-lift:is(:hover, :focus-within),
-:where(.premium-hover, .home-action-card, .home-post-card, .social-space-card, .home-route-card, .profile-hero-card):is(:hover, :focus-within) {
-  box-shadow: var(--motion-shadow-lift);
-  transform: translateY(var(--motion-hover-lift)) rotateX(var(--motion-tilt-x)) rotateY(var(--motion-tilt-y));
-}
+
 
 .awt-pressable:active,
 :where(button, .btn, [role="button"], .home-action-card, .home-route-card):active {
@@ -3830,15 +3469,9 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
 @keyframes awt-slide-in { from { opacity: 0; transform: translateY(var(--motion-slide-distance)); } to { opacity: 1; transform: translateY(0); } }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-:where(button:hover) {
-	filter: brightness(1.08);
-}
-:where(button:active) {
-	transform: scale(0.98);
-}
-:where(button:focus-visible) {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
+
 .btn:hover {
 	filter: brightness(1.08);
 }
@@ -3848,15 +3481,9 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
 .btn:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-[role="button"]:hover {
-	filter: brightness(1.08);
-}
-[role="button"]:active {
-	transform: scale(0.98);
-}
-[role="button"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
+
 
 
 /* ==== style/foundation/index.css ==== */
@@ -3875,90 +3502,29 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
  */
 
 
-:where(
-	.awtsmoospage,
-	.all,
-	.geelooy-home-shell,
-	.geelooy-social-shell,
-	.heichel-mobile-navigation,
-	.geelooy-main-stage,
-	.heichel-nav-panel,
-	.grid-realms,
-	.viewport,
-	.dynamic-grid,
-	.scroll-view-wrapper,
-	#realPost,
-	#virtual-scroll-container
-) {
-	max-width: 100%;
-	min-height: 0;
-	min-width: 0;
-}
 
-:where(.awts-scroll-document, [data-scroll-owner="document"]) {
-	overflow: visible;
-}
 
-:where(.awts-workspace, [data-scroll-owner="workspace"]) {
-	max-block-size: calc(100dvh - var(--awts-safe-top) - var(--awts-safe-bottom));
-	min-height: 0;
-	overflow: hidden;
-}
 
-:where(.awts-scroll-region, [data-scroll-region]) {
-	-webkit-overflow-scrolling: touch;
-	min-height: 0;
-	overflow: auto;
-	overscroll-behavior: contain;
-	scrollbar-gutter: stable;
-}
 
-:where(.modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments, [aria-hidden="true"].modal-gate-hidden) {
-	pointer-events: none;
-}
 
-:where(.modal-root-open, .context-menu-layer, .typography-details:not(.hidden-details), .sidebar:not(.hidden-comments)) {
-	pointer-events: auto;
-}
 
-:where(.geelooy-mobile-drawer, .heichel-library-sidebar, .typography-details, .sidebar, .awtsmoos-context-menu, .card-menu-panel, .dropdown, .dropdown-menu, [role="menu"], [data-dropdown]) {
-	-webkit-overflow-scrolling: touch;
-	max-block-size: calc(100dvh - var(--awts-safe-top) - var(--awts-safe-bottom) - 16px);
-	max-inline-size: calc(100dvw - var(--awts-safe-left) - var(--awts-safe-right) - 16px);
-	overflow-x: clip;
-	overflow-y: auto;
-	overscroll-behavior: contain;
-	z-index: var(--z-dropdown, 140);
-}
 
-:where(dialog, [role="dialog"], .modal, .modal-content, .modal-root-open) {
-	border-radius: var(--radius-glass, 1.6rem);
-	box-shadow: var(--shadow-modal, 0 30px 90px rgba(15, 23, 42, .32));
-	max-block-size: calc(100dvh - var(--awts-safe-top) - var(--awts-safe-bottom) - 24px);
-	max-inline-size: min(100% - 24px, var(--awts-modal-max, 760px));
-	overflow: auto;
-	z-index: var(--z-modal, 220);
-}
 
-:where(.geelooy-bottom-nav, .awtsmoos-floating-controls, .heichel-mobile-topbar, .home-command-dock) {
-	max-inline-size: calc(100dvw - var(--awts-safe-left) - var(--awts-safe-right));
-	padding-bottom: max(.75rem, var(--awts-safe-bottom));
-	z-index: var(--z-dock, 80);
-}
 
-:where(.geelooy-bottom-nav, .awtsmoos-floating-controls, .heichel-mobile-topbar, .card-menu-trigger, .topbar-icon, button, a) {
-	touch-action: manipulation;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:where(.geelooy-home-shell, .heichel-mobile-navigation, .post-reader-localized-context.awtsmoos-reader-vision) {
-	padding-bottom: var(--floating-clearance);
-}
 
-:where(.sidebarMitzvah, .home-sidebar-panel, .card-menu-panel, .awtsmoos-context-menu, .profile-dropdown, .alias-dropdown) {
-	max-width: calc(100dvw - var(--awts-safe-left) - var(--awts-safe-right) - 16px);
-	overflow-wrap: anywhere;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 @media (prefers-reduced-motion: reduce) {
 	*,
@@ -3972,21 +3538,11 @@ html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-men
 }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-button:hover {
-	filter: brightness(1.08);
-}
-button:active {
-	transform: scale(0.98);
-}
-button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-a:hover {
-	filter: brightness(1.08);
-}
-a:active {
-	transform: scale(0.98);
-}
+
+
+
+
+
 a:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
@@ -4007,18 +3563,8 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 }
 
 /* BH Yaakov 2026-10-08: Scribes Lens light-theme, matches pages without data-theme */
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
-  --reader-text: #21160a;
-  --reader-muted: #6d5a43;
-  --reader-bg: #fefcf8;
-  background: #fefcf8;
-}
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .setting-name,
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .control-label,
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details h3,
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details label {
-  color: #21160a;
-}
+
+
 
 /* BH Yaakov 2026-10-08: Scribe Lens theme sync - panel bg must match theme */
 :root[data-theme="dark"] .post-reader-localized-context .typography-content,
@@ -4029,14 +3575,8 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 }
 :root[data-theme="dark"] .post-reader-localized-context .setting-name { color: var(--light-text-f8fbff, #f8fbff); }
 :root[data-theme="dark"] .post-reader-localized-context .control-label { color: #f6cc72; }
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-content,
-:root:not([data-theme="dark"]) .post-reader-localized-context .settings-group,
-:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
-  background-color: var(--light-text-ffffff, #ffffff);
-  color: #21160a;
-}
-:root:not([data-theme="dark"]) .post-reader-localized-context .setting-name,
-:root:not([data-theme="dark"]) .post-reader-localized-context .control-label { color: #21160a; }
+
+
 
 
 /* ==== heichelos/post/styles/reader-controls/critical-shell.css ==== */
@@ -4071,10 +3611,7 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 	display: none;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(button, input, select) {
-	-webkit-tap-highlight-color: transparent;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 
 /* ==== heichelos/post/styles/reader-controls/live-template.css ==== */
@@ -4098,10 +3635,7 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
  * after they broke the theme system (white-on-white).
  */
 @media (max-width: 760px) {
-	.awtsmoos-reader-vision .main {
-		display: block;
-		min-inline-size: 0;
-	}
+	
 
 	.awtsmoos-reader-vision .scroll-view-wrapper,
 	.awtsmoos-reader-vision .content {
@@ -4180,15 +3714,9 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-:where(.awtsmoos-reader-vision .awtsmoos-floating-controls button):hover{
-	filter: brightness(1.08);
-}
-:where(.awtsmoos-reader-vision .awtsmoos-floating-controls button):active{
-	transform: scale(0.98);
-}
-:where(.awtsmoos-reader-vision .awtsmoos-floating-controls button):focus-visible{
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
+
 
 
 /* ==== heichelos/post/styles/reader-controls/torah-authority/surface.css ==== */
@@ -4290,11 +3818,7 @@ inline-size: 100%;
 	background: rgba(255, 255, 255, .018);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]):not(.meluket-phrase):not(.meluket-hebrew) {
-	direction: rtl;
-	text-align: start;
-	line-height: 1.78;
-}
+
 
 .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
 min-inline-size: 44px;
@@ -4523,11 +4047,7 @@ html:where(:root[data-theme="dark"]) body :where(.all.post-reader-localized-cont
 
 
 /* ---- Content spacing: applies in ALL themes ---- */
-html body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> .typography-details .typography-content {
-	gap: .55rem;
-	padding: .65rem;
-}
+
 
 /* ---- Dark content colors: DARK THEME ONLY ---- */
 
@@ -4542,54 +4062,31 @@ html:where(:root[data-theme="dark"]) body :where(.all.post-reader-localized-cont
 
 
 /* ---- Group geometry: applies in ALL themes ---- */
-html body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> :where(.typography-details) .typography-content > .settings-group {
-	gap: .55rem;
-	padding: .65rem;
-	border-radius: .85rem;
-	box-shadow: none;
-}
+
 
 /* ---- Dark group colors: DARK THEME ONLY ---- */
 
 
 /* ---- Dark group colors: DARK THEME ONLY ---- */
-html:where(:root[data-theme="dark"]) body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> :where(.typography-details) .typography-content > .settings-group {
-	border-color: rgba(123, 213, 255, .16);
-	background: #0a1727;
-}
+
 
 /* ---- Dark control text: DARK THEME ONLY ---- */
 
 
 /* ---- Dark control text: DARK THEME ONLY ---- */
-html:where(:root[data-theme="dark"]) :where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> .typography-details :is(button, select, input, output) {
-	color: #f8fbff;
-}
+
 
 /* ---- Auto-scroll button geometry: applies in ALL themes ---- */
 
 
 /* ---- Auto-scroll button geometry: applies in ALL themes ---- */
-html:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button) {
-	min-block-size: 44px;
-	font-size: .78rem;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---- Dark auto-scroll button colors: DARK THEME ONLY ---- */
 
 
 /* ---- Dark auto-scroll button colors: DARK THEME ONLY ---- */
-html:where(:root[data-theme="dark"]) :where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
-	> .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button) {
-	border-color: rgba(112, 225, 255, .22);
-	background: #0d1d30;
-	color: #eaf7ff;
-}
+
 
 /* ---- Dark semantic summary colors: DARK THEME ONLY ---- */
 
@@ -4603,26 +4100,15 @@ html:where(:root[data-theme="dark"]) body :where(.all.post-reader-localized-cont
 }
 
 /* B"H — Law 2: visible keyboard-focus ring token */
-:root:not([data-theme="dark"]) {
-  --focus-ring: #1a56db;
-}
+
 :root[data-theme="dark"] {
   --focus-ring: #8fb3ff;
 }
 
 /* B"H — Law 2: visible keyboard-focus rings for interactive elements */
-html:where(:root[data-theme="dark"]) :where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details :is(button, select, input, output):focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-html:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button):focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-html:where(:root[data-theme="dark"]) :where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button):focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
+
+
+
 html:where(:root[data-theme="dark"]) body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details .auto-scroll-semantic-summary:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
@@ -4672,11 +4158,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	transform: none;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
-	> :is(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):focus-visible {
-	outline: 3px solid rgba(103, 232, 249, .95);
-	outline-offset: 3px;
-}
+
 
 /* B"H — Coby Nov 10: the river button lives IN the dock now, next to the
    Aa and i buttons. When it is a child of the dock it is a dock button:
@@ -4807,12 +4289,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
-		> :is(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
-		transition: none;
-	}
-}
+
 
 
 /* ==== heichelos/post/styles/reader-controls/reader-recovery.css ==== */
@@ -4829,9 +4306,7 @@ body {
 	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
-	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
+
 
 .all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-dropdown-backdrop[hidden] {
 	display: none;
@@ -4856,16 +4331,9 @@ body {
 	line-height: 1.7;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]):not(.meluket-phrase):not(.meluket-hebrew) {
-	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif;
-	font-size: 1.08em;
-	line-height: 1.78;
-}
 
-.all.post-reader-localized-context.awtsmoos-reader-vision :is(#virtual-scroll-container, .awtsmoos-virtual-scroll) {
-	min-height: 0;
-	height: auto;
-}
+
+
 
 .all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container > .scroll-chunk {
 	min-height: 0;
@@ -4894,11 +4362,7 @@ body {
 
 
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-shell :is(.awtsmoos-chrome-btn, button) {
-	min-inline-size: 44px;
-	min-block-size: 44px;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
@@ -5019,19 +4483,7 @@ body {
    background with its gradient+panel anyway. The p / .heb / strong rules
    below must all keep the cream fallback with it — dark ink on this dark
    card would be dark-on-dark in the same window. */
-.post-reader-localized-context .awtsmoos-plain-post-content {
-	padding: clamp(1.4rem, 4vw, 2.4rem);
-	border: 1px solid var(--law8-rule);
-	border-radius: var(--law8-radius);
-	background: var(--social-panel, rgb(15 27 45));
-	color: var(--awt-text, #f8fbff);
-	/* B"H 2026-11-09 (re-fix): the HTML path appends bare text nodes
-	   (no <p> wrapper), so the size must live on the card itself for
-	   them to inherit it; the p rule below keeps paragraphs identical. */
-	font-size: var(--post-text-size, 1.35rem);
-	line-height: 1.7;
-	box-shadow: var(--law8-shadow);
-}
+
 
 .post-reader-localized-context .awtsmoos-plain-post-content p {
 	margin: 0 0 1.15rem;
@@ -5125,11 +4577,7 @@ body {
 	margin: 1.5rem 0;
 }
 
-.post-reader-localized-context .awtsmoos-plain-post-content strong,
-.post-reader-localized-context .awtsmoos-plain-post-content em,
-.post-reader-localized-context .awtsmoos-plain-post-content i {
-	color: var(--awt-text, #f8fbff);
-}
+
 
 /* ---------- discussion shell ---------- */
 .post-reader-localized-context .awtsmoos-social-discussion {
@@ -5168,10 +4616,7 @@ body {
 	line-height: 1.6;
 }
 
-.post-reader-localized-context .awtsmoos-social-thread {
-	display: grid;
-	gap: 1rem;
-}
+
 
 /* ---------- comments ---------- */
 .post-reader-localized-context .awtsmoos-social-comment {
@@ -5267,41 +4712,15 @@ body {
 }
 
 /* ---------- reaction chips + reply ---------- */
-.post-reader-localized-context .awtsmoos-reaction-chip {
-	min-block-size: 2.5rem;
-	padding: .5rem .85rem;
-	border: 1px solid var(--law8-rule);
-	border-radius: 999px;
-	background: var(--law8-card);
-	color: var(--law8-ink-soft);
-	font-family: var(--law8-ui);
-	font-weight: 700;
-	font-size: .85rem;
-	cursor: pointer;
-	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
-}
 
-.post-reader-localized-context .awtsmoos-reaction-chip:hover {
-	transform: translateY(-1px);
-	border-color: var(--law8-gold);
-	background: var(--law8-card-soft);
-	color: var(--law8-ink);
-}
 
-.post-reader-localized-context .awtsmoos-reaction-chip:active {
-	transform: translateY(1px) scale(.98);
-}
 
-.post-reader-localized-context .awtsmoos-reaction-chip:focus-visible {
-	outline: 2px solid var(--law8-gold-deep);
-	outline-offset: 2px;
-}
 
-.post-reader-localized-context .awtsmoos-reaction-chip:disabled {
-	opacity: .55;
-	cursor: not-allowed;
-	transform: none;
-}
+
+
+
+
+
 
 .post-reader-localized-context .awtsmoos-social-reply {
 	min-block-size: 2.5rem;
@@ -5337,21 +4756,10 @@ body {
 	cursor: not-allowed;
 }
 
-.post-reader-localized-context :where(.awtsmoos-social-discussion) :where(button, a):focus-visible {
-	outline: 2px solid var(--law8-gold-deep);
-	outline-offset: 2px;
-}
+
 
 /* ---------- comment composer ---------- */
-.post-reader-localized-context .awtsmoos-reply-box {
-	display: grid;
-	gap: .8rem;
-	padding: 1.1rem 1.2rem;
-	border: 1px solid var(--law8-rule);
-	border-radius: var(--law8-radius);
-	background: var(--law8-card-soft);
-	box-shadow: var(--law8-shadow-sm);
-}
+
 
 .post-reader-localized-context .reply-header {
 	display: flex;
@@ -5408,9 +4816,7 @@ body {
 	opacity: 1;
 }
 
-.post-reader-localized-context .awtsmoos-reply-title-input:hover {
-	border-color: var(--law8-gold);
-}
+
 
 .post-reader-localized-context .awtsmoos-reply-title-input:focus-visible {
 	outline: 2px solid var(--law8-gold-deep);
@@ -5450,14 +4856,9 @@ body {
 	box-shadow: var(--law8-shadow-sm);
 }
 
-.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):not(:disabled):hover {
-	filter: brightness(1.07);
-	transform: translateY(-1px);
-}
 
-.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):not(:disabled):active {
-	transform: translateY(1px) scale(.98);
-}
+
+
 
 .post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):focus-visible {
 	outline: 2px solid var(--law8-gold-deep);
@@ -5573,9 +4974,7 @@ body {
 
 /* ---------- responsive ---------- */
 @media (max-width: 560px) {
-	.post-reader-localized-context :where(#realPost.content) {
-		padding-inline: .7rem;
-	}
+	
 
 	.post-reader-localized-context .awtsmoos-social-comment .awtsmoos-social-comment {
 		margin-inline-start: .5rem;
@@ -5602,12 +5001,8 @@ body {
  * whatever ambient color the surrounding state offered. Theme-aware tokens
  * keep them legible in light and dark; dream-state rules still outrank these
  * (the dream sheets load later at equal-or-higher specificity). */
-.post-reader-localized-context .bavli-amud-heading {
-	color: var(--sefer-ink);
-}
-.post-reader-localized-context .bavli-amud-heading-en {
-	color: inherit;
-}
+
+
 .post-reader-localized-context .bavli-unit-note-title {
 	color: var(--sefer-ink);
 	font-weight: 700;
@@ -5627,12 +5022,7 @@ body {
  * These scoped rules (specificity (0,3,0) over the (0,2,0) base
  * rules) restore the chamber's own ink exactly where direct rules
  * had pinned the light one. Dawn (a light dream) is untouched. */
-[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-post-title,
-[data-dream="sanctuary"] .post-reader-localized-context .bavli-amud-heading,
-[data-dream="sanctuary"] .post-reader-localized-context .bavli-unit-note,
-[data-dream="sanctuary"] .post-reader-localized-context .bavli-unit-note-title {
-	color: var(--dream-ink);
-}
+
 
 /* B"H - FIX 52b: the English amud line (.bavli-amud-heading-en) needs
  * its own rule: reader-inline-extracted.css pins every [class*=
@@ -5720,9 +5110,7 @@ body {
 
 /* ---------- Mobile: tighter but still breathable ---------- */
 @media (max-width: 760px) {
-	.post-reader-localized-context #realPost {
-		padding-inline: 1rem;
-	}
+	
 
 	.post-reader-localized-context #realPost p,
 	.post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph {
@@ -5737,9 +5125,7 @@ body {
 		color: var(--sefer-ink);
 	}
 
-	.post-reader-localized-context #realPost .sub-awtsmoos {
-		padding: 0.9rem 0.8rem;
-	}
+	
 }
 
 /* ---------- Reduced motion: no transition on spacing ---------- */
@@ -5807,10 +5193,7 @@ body {
 	/* B"H no animations on the reader, ever — placeholder shimmer removed. */
 }
 
-.post-reader-localized-context #realPost img[loading="lazy"]:not([src=""]) {
-	animation: none;
-	background: none;
-}
+
 
 @keyframes image-placeholder-shimmer {
 	to { background-position: -200% 0; }
@@ -5836,9 +5219,7 @@ body {
 
 /* ---------- Smooth scrolling (not jumpy) ---------- */
 @media (prefers-reduced-motion: no-preference) {
-	.post-reader-localized-context {
-		scroll-behavior: auto;
-	}
+	
 	/* Only smooth for programmatic TOC navigation */
 	.reader-toc-link {
 		scroll-behavior: smooth;
@@ -5871,75 +5252,17 @@ body {
  * the universe's :root crown. Awtsmoos.com gives every token to the localized reader alone,
  * and one named layer ladder prevents floating vessels from fighting for impossible heights.
  */
-.post-reader-localized-context {
-	--font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--font-content: "Frank Ruhl Libre", Cardo, Georgia, serif;
-	--z-reader: 1;
-	--z-header: 80;
-	--z-controls: 140;
-	--z-sidebar: 260;
-	--z-popover: 320;
-	--z-command-palette: 380;
-	--z-modal: 440;
-	--awt-bg: #050b14;
-	--awt-bg-2: #081321;
-	--awt-panel: rgb(7 14 27 / 97%);
-	--awt-panel-2: rgb(17 27 47 / 94%);
-	--awt-card: rgb(255 255 255 / 5.5%);
-	--awt-line: rgb(191 203 226 / 14%);
-	--awt-line-hot: rgb(247 205 112 / 48%);
-	--awt-text: #f8fbff;
-	--aw-text: #f8fbff; /* B"H 2026-10-13: alias — 58 files use var(--aw-text) */
-	--awt-muted: #c4cce0;
-	--awt-dim: #8792aa;
-	--awt-gold: #f6c96c;
-	--awt-gold-bright: #ffe8a3;
-	--awt-cyan: #39d7ee;
-	--awt-violet: #8b5cf6;
-	--awt-magenta: #d946ef;
-	--awt-green: #10b981;
-	--awt-red: #fb7185;
-	--inline-bg-deep: #030814;
-	--inline-bg-glass: rgb(8 16 31 / 96%);
-	--inline-bg-blue: rgb(10 30 54 / 92%);
-	--inline-edge-gold: #f4c56b;
-	--inline-edge-violet: #9b5cff;
-	--inline-edge-pink: #f472b6;
-	--inline-text-white: #fffdf5;
-	--inline-text-blue: #dbeafe;
-	--inline-pill-bg: rgb(34 23 69 / 72%);
-	--inline-shadow-purple: rgb(139 92 246 / 38%);
-	--awt-radius-sm: 12px;
-	--awt-radius: 18px;
-	--awt-radius-lg: 26px;
-	--awt-safe-bottom: env(safe-area-inset-bottom, 0px);
-	--awt-safe-top: env(safe-area-inset-top, 0px);
-	--awt-reader-bottom-space: 112px;
-	--awt-header-space: 54px;
-	--awt-sidebar-height: min(72dvh, 620px);
-}
 
-.post-reader-localized-context :where(*) {
-	box-sizing: border-box;
-}
 
-.post-reader-localized-context :is(button, input, select, textarea) {
-	font-family: var(--font-ui);
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-.post-reader-localized-context :where(button) {
-	touch-action: manipulation;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-.post-reader-localized-context :is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]){
-	display: none;
-}
 
-.post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) {
-	--awt-polish-touch-size: 44px;
-}
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/shell.css ==== */
@@ -5951,63 +5274,13 @@ body {
  * The Awtsmoos renews one reader shell while every inner vessel keeps its own shore;
  * Awtsmoos.com holds safe areas, header, and page frame here so scroll geometry wars no more.
  */
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
-	--reader-safe-top: env(safe-area-inset-top, 0px);
-	--reader-safe-right: env(safe-area-inset-right, 0px);
-	--reader-safe-bottom: env(safe-area-inset-bottom, 0px);
-	--reader-safe-left: env(safe-area-inset-left, 0px);
-	--reader-panel-gutter: clamp(10px, 3vw, 18px);
-	--reader-touch-target: 44px;
-	position: relative;
-	display: block;
-	box-sizing: border-box;
-	inline-size: 100%;
-	max-inline-size: 100%;
-	min-block-size: 100dvh;
-	block-size: auto;
-	max-block-size: none;
-	margin: 0;
-	overflow-x: clip;
-	overflow-y: auto;
-	background:
-		radial-gradient(circle at 78% 0%, rgb(244 197 107 / 16%), transparent 25rem),
-		radial-gradient(circle at 8% 12%, rgb(57 215 238 / 10%), transparent 22rem),
-		linear-gradient(180deg, #060a12, #0b1020 38%, #050810);
-	color: var(--awt-text);
-	font-family: var(--font-ui);
-	-webkit-font-smoothing: antialiased;
-	isolation: isolate;
-	touch-action: pan-y;
-}
 
-.post-reader-localized-context > .awtsmoos-integrated-header {
-	position: sticky;
-	z-index: var(--z-header);
-	top: 0;
-	min-block-size: var(--awt-header-space);
-	overflow: clip;
-	backdrop-filter: blur(14px) saturate(125%);
-}
 
-.post-reader-localized-context > .main {
-	position: static;
-	display: block;
-	inline-size: 100%;
-	max-inline-size: 100%;
-	min-block-size: calc(100dvh - var(--awt-header-space));
-	block-size: auto;
-	max-block-size: none;
-	padding-block-end: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom));
-	overflow-x: clip;
-	overflow-y: visible;
-	touch-action: pan-y;
-}
 
-@media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context {
-		scroll-behavior: auto;
-	}
-}
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/scroll-root.css ==== */
@@ -6019,71 +5292,17 @@ body {
  * The Awtsmoos lets the reader river choose one measurable vessel and one geometry true;
  * Awtsmoos.com keeps width, padding, containment, and scroll behavior here so no second owner breaks through.
  */
-.post-reader-localized-context {
-	min-block-size: 100dvh;
-	overflow-x: clip;
-}
 
-.post-reader-localized-context .main {
-	position: relative;
-	inline-size: 100%;
-	min-inline-size: 0;
-}
 
-.post-reader-localized-context .scroll-view-wrapper {
-	position: relative;
-	z-index: var(--z-reader);
-	inline-size: 100%;
-	min-inline-size: 0;
-	min-block-size: 100dvh;
-	height: auto;
-	max-block-size: none;
-	padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem);
-	overflow-x: clip;
-	overflow-y: visible;
-	overscroll-behavior-y: auto;
-	-webkit-overflow-scrolling: touch;
-	scroll-behavior: auto;
-	touch-action: pan-y;
-	transform: translateZ(0);
-}
 
-.post-reader-localized-context .content {
-	position: relative;
-	/* B"H batch 36 (2026-11-12): batch 34 capped .meluket-sefer at 1600px
-	   but the column is really capped HERE, on .content (72rem ~= 1152px ~=
-	   60% of a 1919px viewport) — the rendered checks kept measuring ~60%.
-	   100rem = 1600px at the 16px root, matching the sefer cap. */
-	inline-size: min(100%, 100rem);
-	min-inline-size: 0;
-	margin-inline: auto;
-}
 
-.post-reader-localized-context :is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost){
-scroll-padding-top: clamp(12rem, 28vh, 22rem);
-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-                                                                            
-    padding-top: 10vh; 
-    padding-bottom: 2rem;
-    isolation: isolate;
-padding-block-start: 1rem;
-    scroll-padding-block-start: clamp(10rem, 28vh, 20rem);
-scroll-padding-top: clamp(12rem, 28vh, 22rem);
-scroll-behavior: smooth;
-    scrollbar-gutter: stable both-edges;
-    overscroll-behavior: contain;
-min-inline-size: 0;
-	contain: layout style;
-}
 
-@media (min-width: 900px) {
-	.post-reader-localized-context .scroll-view-wrapper {
-		padding-inline: clamp(2rem, 7vw, 8rem);
-	}
-}
+
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/reader.css ==== */
@@ -6102,250 +5321,62 @@ min-inline-size: 0;
    בס"ד, ~270px wide, cut off by the viewport) before JS applied the
    stored size. Cap the fallback at the 144px default Coby ordered, so
    first paint is big but never a single giant letter. */
-.post-reader-localized-context { --post-text-size: clamp(48px, 12vw, 144px); }
 
-.post-reader-localized-context .awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown{
-    width: min(820px, calc(100% - 1.5rem));
-    margin: clamp(.75rem, 3vw, 1.25rem) auto clamp(1rem, 4vw, 1.6rem);
-    padding: clamp(1rem, 4vw, 1.55rem);
-    border: 1px solid color-mix(in srgb, var(--sefer-accent) 34%, transparent);
-    border-radius: clamp(24px, 5vw, 36px);
-    background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--sefer-accent) 20%, transparent), transparent 16rem),
-        linear-gradient(180deg, var(--sefer-card), var(--sefer-paper-deep));
-    box-shadow: var(--sefer-shadow), inset 0 1px 0 color-mix(in srgb, var(--sefer-accent) 12%, transparent);
-    text-align: center;
-}
 
-.post-reader-localized-context .awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker,
-.post-reader-localized-context .awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count{
-    color: var(--inline-edge-gold, #f6c96c);
-    font: 900 clamp(.82rem, 3.2vw, 1rem)/1.2 var(--font-ui);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
 
-.post-reader-localized-context .awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main{
-    margin: .4rem 0;
-    color: var(--sefer-title-ink);
-    font-family: var(--font-content);
-    font-size: clamp(2rem, calc(var(--post-text-size) * .86), 4.8rem);
-    line-height: 1.18;
-    font-weight: 850;
-    text-shadow: none;
-}
 
-.post-reader-localized-context :is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container),
-.post-reader-localized-context .awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll{
-    display: block;
-    width: 100%;
-    max-width: 820px;
-    min-height: 140dvh;
-    height: auto;
-    margin-inline: auto;
-    padding-bottom: 2rem;
-    overflow: visible;
-}
 
-.post-reader-localized-context .scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk{
-    display: block;
-    min-height: 720px;
-    height: auto;
-    overflow: visible;
-    contain: layout style;
-    content-visibility: visible;
-}
 
-.post-reader-localized-context .section.section.section.section.section.section.section.section{
-    position: relative;
-    margin: clamp(1rem, 3.8vw, 2rem) auto;
-    padding: clamp(1rem, 4.5vw, 2.25rem);
-    border: 1px solid var(--sefer-rule);
-    border-radius: clamp(22px, 5vw, 34px);
-    background: var(--sefer-card);
-    box-shadow: var(--sefer-shadow);
-    overflow: hidden;
-    scroll-margin-top: calc(var(--awt-header-space) + 12px);
-    transform: translateZ(0);
-    /* B"H 2026-11-09: background is NOT transitioned. The text colour snaps
-       instantly on a theme flip / scroll-highlight, while a .22s background
-       fade passed through low contrast (dark text on a half-faded dark
-       background) — the same pale-on-dark window the body card had on
-       load. Border and shadow still ease; the background now snaps with
-       the text. */
-    transition: border-color .22s ease, box-shadow .22s ease;
-}
 
-:is(.post-reader-localized-context) .section.active.active.active.active.active.active.active.active,
-:is(.post-reader-localized-context) .section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section,
-:is(.post-reader-localized-context) .section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section,
-:is(.post-reader-localized-context) .section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section,
-.post-reader-localized-context .awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target{
-    border-color: rgba(246,201,108,.78);
-    background: radial-gradient(circle at 50% 0%, rgba(246,201,108,.14), transparent 18rem),
-        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06)),
-        rgba(17,24,39,.82);
-    box-shadow: 0 26px 78px rgba(244,197,107,.18), 0 0 0 2px rgba(244,197,107,.16);
-}
 
-.post-reader-localized-context .sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos{
-    display: block;
-    margin: clamp(.85rem, 3.2vw, 1.5rem) 0;
-    padding: clamp(1rem, 4.2vw, 1.9rem);
-    border: 1px solid var(--sefer-rule);
-    border-radius: clamp(18px, 4.3vw, 28px);
-    background: var(--sefer-card);
-    box-shadow: var(--sefer-shadow);
-    transform: translateZ(0);
-}
 
-:is(.post-reader-localized-context) .sub-awtsmoos.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub,
-:is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection,
-:is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub{
-    border-color: color-mix(in srgb, var(--sefer-accent) 52%, transparent);
-    background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--sefer-accent) 14%, transparent), transparent 14rem), var(--sefer-card);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--sefer-accent) 12%, transparent), 0 0 0 2px color-mix(in srgb, var(--sefer-accent) 12%, transparent), 0 18px 44px color-mix(in srgb, var(--sefer-accent) 10%, transparent);
-}
 
-:is(.post-reader-localized-context) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
-:is(.post-reader-localized-context) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
-.post-reader-localized-context .heb.heb.heb.heb.heb.heb.heb.heb{
-    direction: rtl;
-    text-align: center;
-    font-family: var(--font-content);
-    color: var(--sefer-ink);
-    text-shadow: none;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 /* B"H dark theme: light text on dark chamber */
-:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
-:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
-:is(:root[data-theme="dark"]) .post-reader-localized-context .heb.heb.heb.heb.heb.heb.heb.heb,
-:is(.post-reader-localized-context[data-theme="dark"]) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
-:is(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
-:is(.post-reader-localized-context[data-theme="dark"]) .heb.heb.heb.heb.heb.heb.heb.heb{
-    color: var(--sefer-reader-ink);
-    /* B"H no glowing effects on the reader, ever — Hebrew glow removed. */
-    text-shadow: none;
-}
+
 /* B"H dark theme: force dark chamber background (overrides transparent) */
-:is(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision,
-:is(:root[data-theme="dark"]) .post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context,
-:is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision),
-.post-reader-localized-context[data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"]{
-    background-color: var(--sefer-reader-bg);
-    background-image: none;
-}
+
 /* B"H — dark .section needs no override: the base rule above uses the
    theme-aware var(--sefer-card), so the warm card follows the theme. */
 
 
-:is(.post-reader-localized-context) :is(.section.heb) > .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
-:is(.post-reader-localized-context) :is(.section.heb) > :is(.toichen) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell),
-:is(.post-reader-localized-context) :is(.section.heb) > .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
-:is(.post-reader-localized-context) :is(.section.heb) > :is(.sub-awtsmoos.heb) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell){
-    font-size: var(--post-text-size);
-    line-height: 1.42;
-}
 
-:is(.post-reader-localized-context) :is(.section:not(.heb)) > .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
-:is(.post-reader-localized-context) :is(.section:not(.heb)) > .sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos,
-:is(.post-reader-localized-context) :is(.section:not(.heb)) > :is(.sub-awtsmoos) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell){
-    font-size: var(--post-text-size);
-    line-height: 1.55;
-}
 
-.post-reader-localized-context .awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header,
-.post-reader-localized-context .awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header *,
-.post-reader-localized-context .awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number{
-display: flex;
-    justify-content: center;
-    margin-block-end: .35rem;
-font-size: 1rem;
-    line-height: 1;
-border-radius: 999px;
-    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220);
-    color: #1b1205;
-    border: 1px solid rgba(255,255,255,.3);
-    box-shadow: 0 10px 22px rgba(0,0,0,.28);
-}
-.post-reader-localized-context .awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number{
-    border-radius: 999px;
-    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220);
-    color: #1b1205;
-    border: 1px solid rgba(255,255,255,.3);
-    box-shadow: 0 10px 22px rgba(0,0,0,.28);
-}
 
-.post-reader-localized-context .awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav{
-    display: grid;
-    gap: .85rem;
-    width: min(820px, calc(100% - 1.5rem));
-    margin: 1rem auto calc(var(--awt-reader-bottom-space) + 6rem);
-    padding: 1rem;
-    border: 1px solid var(--sefer-rule);
-    border-radius: 24px;
-    background: var(--sefer-card);
-    box-shadow: var(--sefer-shadow);
-}
 
-.post-reader-localized-context .awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .4rem;
-    color: var(--inline-edge-gold, #f6c96c);
-    font: 900 1rem/1 var(--font-ui);
-}
 
-.post-reader-localized-context .awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate{
-    display: grid;
-    grid-template-columns: 42px 1fr auto;
-    align-items: center;
-    gap: .8rem;
-    min-height: 58px;
-    padding: .8rem 1rem;
-    border: 1px solid color-mix(in srgb, var(--sefer-accent) 22%, transparent);
-    border-radius: 18px;
-    background: var(--sefer-card);
-    color: var(--sefer-ink);
-    text-decoration: none;
-    font: 900 1rem/1 var(--font-ui);
-}
 
-.post-reader-localized-context .awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow{
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
-    background: radial-gradient(circle at 35% 25%, #f8dc8f, #d89b1d);
-    color: #160d03;
-}
 
-.post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number{
-    color: var(--inline-text-blue, #cbd5e1);
-    font-size: .84rem;
-}
 
-.post-reader-localized-context .fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error,
-.post-reader-localized-context .awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder{
-    border: 1px dashed var(--awt-line);
-    border-radius: var(--awt-radius);
-    background: rgba(255,255,255,.05);
-    color: var(--awt-muted);
-    padding: 1.25rem;
-    text-align: center;
-}
 
-@media (prefers-reduced-motion: reduce) {
-    .post-reader-localized-context .section.section.section.section.section.section.section.section{ transition: none; }
-}
+
+
+
+
+
+
+
+
+
+
+
 /* B"H
  * Chapter 281: Local polish proof.
  * This file owns one small, concrete smoothness rule so the polish is local,
  * testable, and not duplicated across the import river.
  */
-.post-reader-localized-context .scroll-chunk { scroll-margin-top: calc(var(--awt-header-space) + 12px); }
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/actions/rail.css ==== */
@@ -6356,24 +5387,9 @@ border-radius: 999px;
  * The Awtsmoos gives the floating reader rail one measured shore and leaves each button its own light;
  * Awtsmoos.com keeps geometry here while control bodies answer touch and focus in their rightful site.
  */
-.post-reader-localized-context .awtsmoos-floating-controls {
-	position: fixed;
-	inset-inline-start: var(--reader-safe-left, 12px);
-	inset-block-end: calc(var(--reader-safe-bottom, 12px) + .2rem);
-	z-index: var(--reader-layer-controls, 3010);
-	display: flex;
-	align-items: center;
-	gap: .55rem;
-	pointer-events: none;
-}
 
-@media (min-width: 900px) {
-	.post-reader-localized-context .awtsmoos-floating-controls {
-		inset-block-start: calc(var(--reader-safe-top, 12px) + 4.75rem);
-		inset-block-end: auto;
-		flex-direction: column;
-	}
-}
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/actions/controls.css ==== */
@@ -6385,83 +5401,21 @@ border-radius: 999px;
  * The Awtsmoos lends each reader control one luminous body and one honest response to hand and key;
  * Awtsmoos.com keeps the orb's own geometry here while the rail merely tells the group where to be.
  */
-.post-reader-localized-context .awtsmoos-floating-controls button,
-.post-reader-localized-context .awtsmoos-auto-scroll-floating {
-	border: 1px solid rgb(127 232 255 / 24%);
-	background: linear-gradient(155deg, rgb(14 31 53 / 92%), rgb(5 13 27 / 94%));
-	color: var(--reader-text, #f8fbff);
-	box-shadow: 0 1rem 2.7rem rgb(0 0 0 / 34%), inset 0 1px 0 rgb(255 255 255 / 10%);
-	backdrop-filter: blur(22px) saturate(150%);
-	font-family: var(--font-ui, system-ui);
-	font-weight: 900;
-	line-height: 1;
-	touch-action: manipulation;
-	cursor: pointer;
-	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), box-shadow var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease), opacity var(--reader-motion, 180ms ease);
-}
 
-.post-reader-localized-context .awtsmoos-floating-controls button {
-	display: inline-grid;
-	place-items: center;
-	inline-size: 3.25rem;
-	block-size: 3.25rem;
-	padding: 0;
-	border-radius: 1rem;
-	font-size: 1.2rem;
-	pointer-events: auto;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-.post-reader-localized-context .awtsmoos-auto-scroll-floating {
-	position: fixed;
-	inset-inline-end: var(--reader-safe-right, 12px);
-	inset-block-end: calc(var(--reader-safe-bottom, 12px) + .2rem);
-	z-index: var(--reader-layer-controls, 3010);
-	display: inline-flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: .16rem;
-	inline-size: 4.75rem;
-	min-block-size: 4.75rem;
-	padding: .55rem;
-	border-radius: 999px;
-	background:
-		radial-gradient(circle at 32% 18%, rgb(129 255 226 / 84%), transparent 22%),
-		linear-gradient(145deg, #17b994, #075f6f 75%);
-	color: white;
-	text-align: center;
-}
 
-:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
-	font-size: 1.15rem;
-}
 
-:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
-:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-speed {
-	display: block;
-	font-size: .66rem;
-	line-height: 1.05;
-	font-variant-numeric: tabular-nums;
-}
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):focus-visible {
-	outline: 3px solid rgb(127 232 255 / 82%);
-	outline-offset: 3px;
-	box-shadow: 0 0 0 6px rgb(127 232 255 / 14%), 0 1rem 2.7rem rgb(0 0 0 / 34%);
-}
 
-@media (hover: hover) and (pointer: fine) {
-	.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):hover {
-		transform: translateY(-2px) scale(1.025);
-		border-color: var(--reader-line-hot, rgb(127 232 255 / 58%));
-		box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 38%), 0 0 1.8rem rgb(127 232 255 / 10%);
-	}
-}
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):active {
-	transform: translateY(1px) scale(.97);
-}
+
+
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/actions/states.css ==== */
@@ -6473,26 +5427,11 @@ border-radius: 999px;
  * The Awtsmoos lets state become visible without adding another sovereign sheet;
  * Awtsmoos.com makes running, pausing, opening, and quieting one consistent beat.
  */
-:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
-	border-color: rgb(255 130 148 / 52%);
-	background:
-		radial-gradient(circle at 32% 18%, rgb(255 205 213 / 58%), transparent 22%),
-		linear-gradient(145deg, #cb3f5d, #661e4a 78%);
-	box-shadow: 0 1rem 2.8rem rgb(0 0 0 / 34%), 0 0 2rem rgb(255 91 132 / 18%);
-}
 
-:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-is-paused {
-	border-color: rgb(246 204 114 / 56%);
-	background:
-		radial-gradient(circle at 32% 18%, rgb(255 240 190 / 58%), transparent 22%),
-		linear-gradient(145deg, #b57627, #5d3917 78%);
-}
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
-	opacity: 1;
-	visibility: visible;
-	transition: opacity var(--reader-motion, 180ms ease), transform var(--reader-motion, 180ms ease), visibility var(--reader-motion, 180ms ease);
-}
+
+
+
 
 :where(.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open)) .awtsmoos-auto-scroll-floating,
 :where(.post-reader-localized-context:has(.typography-details:not(.hidden-details))) .awtsmoos-floating-controls,
@@ -6503,20 +5442,9 @@ border-radius: 999px;
 	transform: translateY(.75rem) scale(.94);
 }
 
-:where(.post-reader-localized-context) .awtsmoos-floating-controls button[aria-pressed="true"] {
-	border-color: rgb(158 140 255 / 66%);
-	background: linear-gradient(145deg, rgb(75 60 152 / 92%), rgb(24 21 65 / 96%));
-	box-shadow: 0 0 1.7rem rgb(158 140 255 / 18%), inset 0 1px 0 rgb(255 255 255 / 12%);
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context :where(.awtsmoos-floating-controls, .awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating) {
-		transition-duration: .01ms;
-		animation-duration: .01ms;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-}
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/actions/community.css ==== */
@@ -6528,59 +5456,19 @@ border-radius: 999px;
  * The Awtsmoos lets community speech enter through a gentle glass gate;
  * Awtsmoos.com keeps comment actions coherent, tactile, and patient with every state.
  */
-.post-reader-localized-context .awtsmoos-comment-entry-monolith,
-.post-reader-localized-context .awtsmoos-scribe-altar,
-.post-reader-localized-context .ai-draft-bar {
-	display: flex;
-	flex-wrap: wrap;
-	gap: .65rem;
-	align-items: center;
-}
 
-.post-reader-localized-context :where(.awtsmoos-add-comment-btn, .btn, .btn-ai-draft, .awtsmoos-action-row button) {
-	min-block-size: 2.75rem;
-	padding: .68rem .9rem;
-	border: 1px solid rgb(127 232 255 / 18%);
-	border-radius: .85rem;
-	background: linear-gradient(145deg, rgb(16 34 57 / 86%), rgb(7 16 31 / 94%));
-	color: var(--reader-text, #f8fbff);
-	font: inherit;
-	font-weight: 800;
-	cursor: pointer;
-	box-shadow: inset 0 1px 0 rgb(255 255 255 / 7%), 0 .55rem 1.4rem rgb(0 0 0 / 16%);
-	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease), box-shadow var(--reader-motion, 180ms ease);
-}
 
-.post-reader-localized-context .btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft{
-font-size: 0.82rem;
-    padding: 0.45rem 0.75rem;
-border-color: rgb(158 140 255 / 34%);
-	background: linear-gradient(145deg, rgb(62 48 127 / 84%), rgb(25 20 66 / 94%));
-}
 
-.post-reader-localized-context :where(.awtsmoos-add-comment-btn, .btn, .btn-ai-draft, .awtsmoos-action-row button):focus-visible {
-	outline: 3px solid rgb(127 232 255 / 72%);
-	outline-offset: 3px;
-}
 
-.post-reader-localized-context :where(.awtsmoos-add-comment-btn, .btn, .btn-ai-draft, .awtsmoos-action-row button):active {
-	transform: translateY(1px) scale(.985);
-}
 
-.post-reader-localized-context :where(.awtsmoos-add-comment-btn, .btn, .btn-ai-draft, .awtsmoos-action-row button):disabled {
-	cursor: not-allowed;
-	opacity: .45;
-	filter: saturate(.45);
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (hover: hover) and (pointer: fine) {
-	.post-reader-localized-context :where(.awtsmoos-add-comment-btn, .btn, .btn-ai-draft, .awtsmoos-action-row button):hover {
-		transform: translateY(-1px);
-		border-color: var(--reader-line-hot, rgb(127 232 255 / 58%));
-		box-shadow: inset 0 1px 0 rgb(255 255 255 / 9%), 0 .8rem 1.8rem rgb(0 0 0 / 20%);
-	}
-}
+
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/actions.css ==== */
@@ -6602,80 +5490,17 @@ border-color: rgb(158 140 255 / 34%);
  * reader-scoped behavior with explicit selectors and no accidental bare names.
  */
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) button,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) a[href][href][href][href][href][href][href][href],
-:is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) summary,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) input[type="button"][type="button"][type="button"][type="button"][type="button"][type="button"][type="button"][type="button"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) input[type="submit"][type="submit"][type="submit"][type="submit"][type="submit"][type="submit"][type="submit"][type="submit"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) input[type="range"][type="range"][type="range"][type="range"][type="range"][type="range"][type="range"][type="range"],
-.post-reader-localized-context.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision select,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
-    cursor: pointer;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) button,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) a[href][href][href][href][href][href][href][href],
-:is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) summary,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable.awtsmoos-clickable,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
-    transition: transform .16s cubic-bezier(.2,.9,.2,1), box-shadow .16s ease, filter .16s ease, background .16s ease, border-color .16s ease, color .16s ease;
-    transform-origin: center;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) button:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) a[href]:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) summary:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"]:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible){
-    transform: translateY(-2px) scale(1.035);
-    filter: saturate(1.12) brightness(1.06);
-    border-color: rgba(246,201,108,.55);
-    box-shadow: 0 16px 38px rgba(0,0,0,.34), 0 0 0 1px rgba(246,201,108,.18), 0 0 24px rgba(34,211,238,.16);
-}
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) button:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) a[href]:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) summary:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"]:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item:active:active:active:active:active:active:active:active,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action:active:active:active:active:active:active:active:active{
-    transform: translateY(1px) scale(.985);
-    filter: brightness(.96);
-    box-shadow: inset 0 2px 10px rgba(0,0,0,.28);
-}
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) button:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) a[href]:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) summary:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"]:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible{
-    outline: 2px solid rgba(34,211,238,.72);
-    outline-offset: 3px;
-}
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) button:disabled:disabled:disabled:disabled:disabled:disabled:disabled:disabled,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) input:disabled:disabled:disabled:disabled:disabled:disabled:disabled:disabled,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) select:disabled:disabled:disabled:disabled:disabled:disabled:disabled:disabled,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) textarea:disabled:disabled:disabled:disabled:disabled:disabled:disabled:disabled,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) button[aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) input[aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) select[aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) textarea[aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"][aria-disabled="true"]{
-    cursor: not-allowed;
-    opacity: .55;
-    filter: grayscale(.25);
-    transform: none;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+
+
 
 .post-reader-localized-context.awtsmoos-reader-vision :is(button):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg)),
@@ -6689,66 +5514,26 @@ border-color: rgb(158 140 255 / 34%);
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-@media (hover: none) {
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) button:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) a[href]:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) summary:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"]:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
-    :is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible){
-        transform: none;
-    }
-}
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-clickable { min-height: var(--awt-polish-touch-size, 44px); }
+
+
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="button"]:hover {
-	filter: brightness(1.08);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="button"]:active {
-	transform: scale(0.98);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="button"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="submit"]:hover {
-	filter: brightness(1.08);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="submit"]:active {
-	transform: scale(0.98);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="submit"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="range"]:hover {
-	filter: brightness(1.08);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="range"]:active {
-	transform: scale(0.98);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) input[type="range"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision select):hover{
-	filter: brightness(1.08);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision select):active{
-	transform: scale(0.98);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision select):focus-visible{
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) button[aria-disabled="true"]:hover {
-	filter: brightness(1.08);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) button[aria-disabled="true"]:active {
-	transform: scale(0.98);
-}
-:where(.post-reader-localized-context.awtsmoos-reader-vision) button[aria-disabled="true"]:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/ideal/reborn/corrections/mobile-layout.css ==== */
@@ -6760,33 +5545,11 @@ border-color: rgb(158 140 255 / 34%);
  * The Awtsmoos keeps the reading river inside the handheld world without sideways exile;
  * Awtsmoos.com corrects only document flow here, leaving sidebar state to its rightful file.
  */
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .main,
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .content,
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .scroll-view-wrapper,
-.post-reader-localized-context.awtsmoos-reader-vision :where(#realPost) {
-	box-sizing: border-box;
-	inline-size: 100%;
-	min-inline-size: 0;
-	max-inline-size: 100%;
-	overflow-x: clip;
-}
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls {
-	max-inline-size: calc(
-		100dvi
-		- max(14px, env(safe-area-inset-left, 0px))
-		- max(14px, env(safe-area-inset-right, 0px))
-	);
-}
 
-@media (max-width: 760px) {
-	:where(.post-reader-localized-context.awtsmoos-reader-vision) .main,
-	:where(.post-reader-localized-context.awtsmoos-reader-vision) .content,
-	:where(.post-reader-localized-context.awtsmoos-reader-vision) .scroll-view-wrapper,
-	.post-reader-localized-context.awtsmoos-reader-vision :where(#realPost) {
-		padding-inline: 0;
-	}
-}
+
+
+
 
 
 /* ==== style/foundation/beauty/palette/parchment.css ==== */
@@ -6913,7 +5676,7 @@ border-color: rgb(158 140 255 / 34%);
 /* ==== style/foundation/beauty/motion/reveal.css ==== */
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H reveal: a gentle appearing of what already is. */
-.beauty-reveal { animation: awtBeautyReveal var(--motion-slow) var(--ease-entrance) both; }
+
 @keyframes awtBeautyReveal { from { opacity: 0; transform: translateY(.45rem); } to { opacity: 1; transform: none; } }
 
 
@@ -6963,57 +5726,30 @@ border-color: rgb(158 140 255 / 34%);
 /* ==== heichelos/post/styles/reader-beauty/chamber/background.css ==== */
 /* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context.awtsmoos-, :where(:root[data-theme="dark"]) .post-r); cascade order intentional, merge would break responsive/laye */
 /* B"H Reader chamber background. */
-.post-reader-localized-context.awtsmoos-reader-vision {
-    --color-ink: #1b1b1b;
-    background-color: #f3e4cc;
-    background-image: linear-gradient(180deg, #fffaf0, #f3e4cc);
-}
-:where(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision,
-:where(.post-reader-localized-context.awtsmoos-reader-vision[data-theme="dark"]) {
-    --color-ink: #fffdf5;
-    background-color: #0a1120;
-    background-image: linear-gradient(180deg, #0d1526, #060a14);
-}
+
+
 
 
 /* ==== heichelos/post/styles/reader-beauty/verses/numbering.css ==== */
 /* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H Reader verse numbering. */
-.awtsmoos-verse-number { color: rgba(122,82,31,.58); font-weight: 900; }
+
 
 
 /* ==== heichelos/post/styles/reader-beauty/scroll-spy.css ==== */
 /* B"H — Scroll-spy current-verse highlight. Subtle gold glow on the verse
    you are reading now. Tokenized, theme-aware, no !important. */
 
-:root {
-  --spy-glow-border: rgba(212, 175, 105, 0.45);
-  --spy-glow-soft: rgba(212, 175, 105, 0.10);
-  --spy-glow-strong: rgba(212, 175, 105, 0.22);
-  --spy-restored-flash: rgba(212, 175, 105, 0.30);
-}
 
-:root[data-theme="dark"] {
-  --spy-glow-border: rgba(232, 195, 125, 0.55);
-  --spy-glow-soft: rgba(232, 195, 125, 0.08);
-  --spy-glow-strong: rgba(232, 195, 125, 0.18);
-  --spy-restored-flash: rgba(232, 195, 125, 0.25);
-}
+
+
 
 /* The verse you are reading now — gentle luminous edge. */
-.scroll-chunk.awtsmoos-spy-current {
-  box-shadow:
-    0 0 0 1px var(--spy-glow-border),
-    0 0 1.5rem var(--spy-glow-soft);
-  border-radius: 0.5rem;
-  transition: box-shadow 0.45s ease;
-}
+
 
 /* Brief flash when scroll is restored after refresh — then settles
    into the normal spy highlight. */
-.scroll-chunk.awtsmoos-spy-restored {
-  animation: awtsmoos-spy-restore-flash 2.5s ease-out;
-}
+
 
 @keyframes awtsmoos-spy-restore-flash {
   0% {
@@ -7030,14 +5766,7 @@ border-color: rgb(158 140 255 / 34%);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scroll-chunk.awtsmoos-spy-current {
-    transition: none;
-  }
-  .scroll-chunk.awtsmoos-spy-restored {
-    animation: none;
-  }
-}
+
 
 
 /* ==== heichelos/post/styles/social/reader-shell.css ==== */
@@ -7049,74 +5778,21 @@ border-color: rgb(158 140 255 / 34%);
  * The Awtsmoos gives the post its luminous social garment while scroll remains on its rightful shore;
  * Awtsmoos.com owns presentation here, never topology, so the cascade needs no battle anymore.
  */
-.post-reader-localized-context {
-	--post-text-size: clamp(1.125rem, 4.6vw, 9999rem);
-	--social-panel: rgb(15 27 45 / 84%);
-	--social-line: rgb(255 255 255 / 12%);
-	background:
-		radial-gradient(circle at 12% -8%, rgb(37 112 154 / 28%), transparent 34%),
-		radial-gradient(circle at 88% 4%, rgb(106 76 188 / 18%), transparent 30%),
-		linear-gradient(180deg, #07111f, #030812 72%);
-}
 
-.post-reader-localized-context :where(#realPost.content) {
-	padding-block: 5.25rem 6rem;
-}
 
-.post-reader-localized-context .awtsmoos-post-title {
-	margin: 0 0 1.15rem;
-	color: var(--reader-text, #fff);
-	font: 900 clamp(2rem, 8vw, 4.1rem)/1.04 Inter, sans-serif;
-	letter-spacing: -.045em;
-	text-wrap: balance;
-}
 
-.post-reader-localized-context .awtsmoos-post-video-asset {
-	margin: 0 auto 1.35rem;
-	padding: .48rem;
-	border: 1px solid var(--social-line);
-	border-radius: 1.5rem;
-	background: linear-gradient(145deg, rgb(255 255 255 / 92%), rgb(229 235 246 / 88%));
-	box-shadow: 0 1.75rem 4.75rem rgb(0 0 0 / 38%);
-}
 
-.post-reader-localized-context .awtsmoos-post-video {
-	display: block;
-	inline-size: 100%;
-	max-block-size: 78dvh;
-	aspect-ratio: 9 / 16;
-	object-fit: contain;
-	border-radius: 1.1rem;
-	background: #000;
-}
 
-.post-reader-localized-context .awtsmoos-plain-post-content {
-	padding: clamp(1.1rem, 4vw, 2rem);
-	border: 1px solid var(--social-line);
-	border-radius: 1.5rem;
-	background:
-		linear-gradient(145deg, rgb(255 255 255 / 6%), transparent 58%),
-		var(--social-panel);
-	box-shadow: 0 1.2rem 3.5rem rgb(0 0 0 / 28%), inset 0 1px 0 rgb(255 255 255 / 5%);
-	backdrop-filter: blur(22px) saturate(135%);
-}
 
-.post-reader-localized-context .awtsmoos-plain-post-content,
-.post-reader-localized-context .awtsmoos-plain-post-content * {
-	font-size: var(--post-text-size);
-	line-height: 1.64;
-}
 
-@media (max-width: 35rem) {
-	.post-reader-localized-context :where(#realPost.content) {
-		padding-inline: .7rem;
-	}
 
-	.post-reader-localized-context .awtsmoos-post-video-asset {
-		padding: .34rem;
-		border-radius: 1.1rem;
-	}
-}
+
+
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/social/discussion/shell.css ==== */
@@ -7127,44 +5803,17 @@ border-color: rgb(158 140 255 / 34%);
  * The Awtsmoos gives the communal chamber one glass horizon, spacious and bright;
  * Awtsmoos.com keeps the discussion shell honest when the network succeeds or takes flight.
  */
-.awtsmoos-social-discussion {
-	margin: 2rem 0 7rem;
-	padding: clamp(1rem, 4vw, 1.6rem);
-	border: 1px solid rgb(127 232 255 / 14%);
-	border-radius: 1.6rem;
-	background:
-		radial-gradient(circle at 8% 0%, rgb(127 232 255 / 8%), transparent 30%),
-		linear-gradient(180deg, rgb(17 31 52 / 94%), rgb(7 15 28 / 97%));
-	box-shadow: 0 1.8rem 5rem rgb(0 0 0 / 32%), inset 0 1px 0 rgb(255 255 255 / 5%);
-	backdrop-filter: blur(22px) saturate(135%);
-}
 
-.awtsmoos-social-discussion > header {
-	margin-block-end: 1.2rem;
-}
 
-.awtsmoos-social-discussion > :where(header) span {
-	color: var(--reader-gold, #f4c96b);
-	font: 800 .78rem/1 Inter, sans-serif;
-	letter-spacing: .14em;
-	text-transform: uppercase;
-}
 
-.awtsmoos-social-discussion h2 {
-	margin: .45rem 0 .35rem;
-	font: 900 clamp(1.55rem, 6vw, 2.45rem)/1.06 Inter, sans-serif;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-.awtsmoos-social-discussion :where(header) p,
-.awtsmoos-social-empty {
-	color: var(--reader-muted, #aebdd0);
-}
 
-.awtsmoos-social-thread {
-	display: grid;
-	gap: .9rem;
-}
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/social/discussion/comments.css ==== */
@@ -7175,49 +5824,15 @@ border-color: rgb(158 140 255 / 34%);
  * The Awtsmoos lets each reply become a finite glass vessel for an infinite spark;
  * Awtsmoos.com gives depth and identity without letting nested voices grow visually dark.
  */
-.awtsmoos-social-comment {
-	margin-inline-start: calc(var(--reply-depth, 0) * .9rem);
-	padding: 1rem;
-	border: 1px solid var(--sefer-rule);
-	border-radius: 1.2rem;
-	background: var(--sefer-card);
-	color: var(--sefer-ink);
-	box-shadow: var(--sefer-shadow);
-	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), box-shadow var(--reader-motion, 180ms ease);
-}
 
-.awtsmoos-social-comment header {
-	display: grid;
-	grid-template-columns: 2.65rem 1fr;
-	gap: .75rem;
-	align-items: center;
-}
 
-.awtsmoos-social-avatar {
-	display: grid;
-	place-items: center;
-	inline-size: 2.65rem;
-	block-size: 2.65rem;
-	border-radius: .9rem;
-	background: linear-gradient(135deg, var(--sefer-accent), color-mix(in srgb, var(--sefer-accent) 70%, var(--sefer-focus)));
-	color: var(--sefer-on-accent);
-	font-weight: 900;
-}
 
-@media (hover: hover) and (pointer: fine) {
-	.awtsmoos-social-comment:hover {
-		transform: translateY(-1px);
-		border-color: color-mix(in srgb, var(--sefer-accent) 28%, transparent);
-		box-shadow: var(--sefer-shadow), 0 .8rem 2rem color-mix(in srgb, var(--sefer-accent) 18%, transparent);
-	}
-}
 
-@media (max-width: 560px) {
-	.awtsmoos-social-comment {
-		margin-inline-start: calc(var(--reply-depth, 0) * .45rem);
-		padding: .85rem;
-	}
-}
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/social/discussion/actions.css ==== */
@@ -7228,59 +5843,23 @@ border-color: rgb(158 140 255 / 34%);
  * The Awtsmoos lets reaction and reply become conscious motion instead of accidental chrome;
  * Awtsmoos.com gives every communal action focus, pressure, and a clear path home.
  */
-.awtsmoos-social-actions,
-.awtsmoos-social-reactions {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: .45rem;
-}
 
-.awtsmoos-social-actions {
-	justify-content: space-between;
-}
 
-.awtsmoos-reaction-chip,
-.awtsmoos-social-reply {
-	min-block-size: 2.75rem;
-	padding: .5rem .75rem;
-	border: 1px solid rgb(255 255 255 / 12%);
-	border-radius: 999px;
-	background: rgb(255 255 255 / 7%);
-	color: white;
-	font: 750 .84rem/1 Inter, sans-serif;
-	cursor: pointer;
-	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease);
-}
 
-.awtsmoos-social-reply {
-	color: var(--reader-gold, #f4c96b);
-}
 
-.awtsmoos-social-discussion :where(button, a):focus-visible {
-	outline: 3px solid rgb(127 232 255 / 72%);
-	outline-offset: 3px;
-}
 
-@media (hover: hover) and (pointer: fine) {
-	.awtsmoos-social-discussion :where(.awtsmoos-reaction-chip, .awtsmoos-social-reply):hover {
-		transform: translateY(-1px);
-		border-color: rgb(127 232 255 / 42%);
-		background: rgb(127 232 255 / 10%);
-	}
-}
 
-.awtsmoos-social-discussion :where(.awtsmoos-reaction-chip, .awtsmoos-social-reply):active {
-	transform: translateY(1px) scale(.98);
-}
+
+
+
+
+
+
+
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-.awtsmoos-reaction-chip:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-.awtsmoos-social-reply:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
+
+
 
 
 /* ==== heichelos/post/styles/social/discussion.css ==== */
@@ -7308,107 +5887,22 @@ border-color: rgb(158 140 255 / 34%);
 	box-sizing: border-box;
 }
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header{
-	position: sticky;
-	top: 0;
-	z-index: var(--z-header);
-	min-height: var(--reader-touch-target);
-	max-width: 100%;
-	overflow: clip;
-}
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
-	position: relative;
-	align-items: stretch;
-	overflow: visible;
-	min-width: 0;
-	min-height: calc(100dvh - var(--reader-mobile-header-space, 78px));
-	max-width: 100%;
-}
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content),
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container){
-	min-width: 0;
-	min-height: 0;
-	max-width: 100%;
-	overflow: visible;
-}
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) button,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"],
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) input,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) select,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) textarea,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
-	min-height: var(--reader-touch-target);
-	touch-action: manipulation;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs{
-	display: flex;
-	grid-template-columns: none;
-	max-width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-	overscroll-behavior-x: contain;
-	-webkit-overflow-scrolling: touch;
-	scrollbar-width: thin;
-	flex-wrap: nowrap;
-	scroll-snap-type: x proximity;
-}
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .tabs.tabs.tabs.tabs.tabs.tabs.tabs.tabs,
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"]{
-	max-width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-	overscroll-behavior-x: contain;
-	-webkit-overflow-scrolling: touch;
-	scrollbar-width: thin;
-	flex-wrap: nowrap;
-}
 
-:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn{
-	flex: 0 0 auto;
-	min-width: max(92px, 28vw);
-	min-height: var(--reader-touch-target);
-	scroll-snap-align: start;
-}
 
-@media (max-width: 900px) {
-	:root:root:root:root:root:root:root html,:root:root:root:root:root:root:root 
-	body{
-		min-height: 100dvh;
-		overflow-x: clip;
-	}
 
-	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
-		--reader-mobile-header-space: clamp(52px, 14vw, 68px);
-		--reader-mobile-bottom-space: calc(var(--ideal-dock-height) + var(--reader-safe-bottom) + 74px);
-	}
 
-	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header{
-		min-height: 52px;
-		max-height: 68px;
-	}
 
-	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
-		display: block;
-		min-height: calc(100dvh - var(--reader-mobile-header-space));
-		padding-bottom: var(--reader-mobile-bottom-space);
-	}
 
-	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll){
-		padding-bottom: calc(var(--reader-mobile-bottom-space) + 3rem);
-	}
-}
 
-@media (min-width: 900px) {
-	:is(html) body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
-		padding-inline-end: calc(var(--ideal-sidebar-width) + 18px);
-	}
-}
+
+
+
+
 
 
 /* ==== heichelos/post/styles/reader-content/scale.css ==== */
@@ -7419,37 +5913,15 @@ border-color: rgb(158 140 255 / 34%);
  * lets every reading vessel inherit that measure while controls remain bright.
  */
 
-.post-reader-localized-context,
-#realPost {
-	--sefer-phrase-size: var(--post-text-size, 48px);
-}
 
-.post-reader-localized-context .awtsmoos-initial-post-body,
-.post-reader-localized-context .toichen,
-#realPost.toichen,
-#realPost .toichen {
-	font-size: var(--post-text-size, 48px);
-}
 
-.post-reader-localized-context .awtsmoos-translation-block,
-.post-reader-localized-context .awtsmoos-translation-block p,
-#realPost .awtsmoos-translation-block,
-#realPost .awtsmoos-translation-block p {
-	font-size: var(--post-text-size, 48px);
-	line-height: 1.6;
-}
 
-.post-reader-localized-context .meluket-sefer,
-#realPost .meluket-sefer {
-	--sefer-phrase-size: var(--post-text-size, 48px);
-}
 
-.post-reader-localized-context sup.footnote-ref,
-#realPost sup.footnote-ref {
-	font-size: 0.62em;
-	vertical-align: super;
-	line-height: 0;
-}
+
+
+
+
+
 
 
 /* ==== heichelos/post/styles/reader-content/server-preview.css ==== */
@@ -7636,14 +6108,9 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	box-sizing: border-box;
 }
 
-.post-reader-localized-context {
-	overflow-x: clip;
-}
 
-.post-reader-localized-context .scroll-view-wrapper {
-	overflow-x: clip;
-	overflow-y: auto;
-}
+
+
 
 /* B"H round 8: #realPost leaves this group — its max-width lived here
    (100%) AND in reader-padding-fix.css (min(68ch, 100%), which wins),
@@ -7733,12 +6200,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 		padding-inline: 0.5rem;
 	}
 
-	.post-reader-localized-context .awtsmoos-floating-controls {
-		inset-inline-end: 8px;
-		bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-		min-height: 0;
-		backdrop-filter: none;
-	}
+	
 }
 
 
@@ -7840,9 +6302,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 		overscroll-behavior-x: none;
 	}
 
-	.post-reader-localized-context #realPost {
-		padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
-	}
+	
 
 	.post-reader-localized-context .awtsmoos-floating-controls {
 		position: fixed;
@@ -7955,9 +6415,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	border-radius: 11px;
 	overflow-wrap: anywhere;
 }
-.post-reader-localized-context #readerTopIndex > summary:hover {
-	background: #f4e8ce;
-}
+
 .post-reader-localized-context #readerTopIndex > summary:focus-visible {
 	outline: 3px solid #73500e;
 	outline-offset: 3px;
@@ -8284,9 +6742,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    Contemplate · 3 px/s") is long, and on a 390px panel its flex row ran
    out of room — the pill crowded the "Reading flow speed" label. Let the
    row wrap so the pill drops to its own line instead of squeezing. */
-.post-reader-localized-context #typographyDetails .speed-readout-row {
-	flex-wrap: wrap;
-}
+
 .post-reader-localized-context #typographyDetails .speed-readout-row > span {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -8304,11 +6760,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	border: 1px solid #d9c9a8;
 	color: #2b2118;
 }
-.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-icon,
-.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-label,
-.post-reader-localized-context #typographyDetails .auto-scroll-settings-toggle .awtsmoos-auto-scroll-speed {
-	color: #2b2118;
-}
+
 .post-reader-localized-context #typographyDetails select,
 .post-reader-localized-context #typographyDetails .font-selector {
 	background: #fffdf6;
@@ -8535,22 +6987,10 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    ("· Chapter 10" / "· Chapter 12") are pale light blue on white — the
    nav container's color does not cascade into its <a> elements, which
    take the blue accent. Pin both, variable-free, in both themes. */
-.post-reader-localized-context .meluket-lang-btn {
-	background: #fffdf6;
-	border: 2px solid #d9c9a8;
-	color: #2b2118;
-}
-.post-reader-localized-context .meluket-lang-btn.is-active {
-	background: #bd8f3f;
-	border-color: #bd8f3f;
-	color: #211809;
-}
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-nav a {
-	color: #2b2118;
-}
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-nav a:hover {
-	color: #8a6d2b;
-}
+
+
+
+
 /* B"H 2026-11-10 round 15 — the " · Chapter 12" number is a <span
    class="awtsmoos-chapter-gate-number"> inside the gate link, so the
    .awtsmoos-chapter-nav a rule above does not reach it; reborn
@@ -8564,11 +7004,7 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    SIBLING of the sefer, so the var is undefined there and the label
    ("Previous"/"Next") inherits white from the context — white on the
    white card. The gate and its label get the same (0,11,0) pin. */
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number,
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate,
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label.awtsmoos-chapter-gate-label {
-	color: #2b2118;
-}
+
 [data-theme="dark"] .post-reader-localized-context .awtsmoos-chapter-nav a {
 	color: #f5efe2;
 }
@@ -8599,21 +7035,8 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
    this list. The same trick covers the wysiwyg B/I/U buttons, every
    button in the Contents panel (#readerInfoPanel), and every button in
    the Sources dialog sheet. */
-:root:not([data-theme="dark"]) .comment-chip-action,
-:root:not([data-theme="dark"]) .awtsmoos-src-close,
-:root:not([data-theme="dark"]) .reply-add-section,
-:root:not([data-theme="dark"]) .awtsmoos-remove-section-btn,
-:root:not([data-theme="dark"]) .wysiwyg-btn,
-:root:not([data-theme="dark"]) .close-reply {
-	--aw-text: #2b2118;
-	background: #fffdf6;
-	border: 1px solid #d9c9a8;
-	color: #2b2118;
-}
-:root:not([data-theme="dark"]) #readerInfoPanel,
-:root:not([data-theme="dark"]) .awtsmoos-src-sheet {
-	--aw-text: #2b2118;
-}
+
+
 [data-theme="dark"] .comment-chip-action,
 [data-theme="dark"] .awtsmoos-src-close,
 [data-theme="dark"] .reply-add-section,
@@ -8639,132 +7062,44 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
  * duplicate ownership while the Awtsmoos keeps one renderer and two garments.
  */
 
-.post-reader-localized-context .awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card.awtsmoos-shared-comment-card{
-    display: grid;
-    gap: 0;
-    width: 100%;
-    min-width: 0;
-    border: 1px solid rgba(246,201,108,.24);
-    border-radius: 26px;
-    background: radial-gradient(circle at 12% 0%, rgba(139,92,246,.18), transparent 15rem),
-        linear-gradient(180deg, rgba(8,18,35,.98), rgba(3,8,18,.99));
-    box-shadow: 0 20px 54px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.07);
-    color: var(--inline-text-white);
-    overflow: hidden;
-}
 
-.post-reader-localized-context .awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header{
-    display: grid;
-    grid-template-columns: 48px minmax(0,1fr) auto;
-    gap: .75rem;
-    align-items: center;
-    padding: .9rem;
-    border-bottom: 1px solid rgba(255,255,255,.11);
-    background: rgba(7,13,27,.9);
-}
 
-.post-reader-localized-context .awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar.awtsmoos-comment-avatar{
-    display: grid;
-    place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 999px;
-    color: white;
-    background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%);
-    font: 950 1.08rem/1 var(--font-ui);
-    box-shadow: 0 0 24px rgba(139,92,246,.48);
-}
 
-.post-reader-localized-context .awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading{ display: grid; gap: .22rem; min-width: 0; }
 
-.post-reader-localized-context .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link{
-    color: var(--comment-author-ink, #ffffff);
-    text-decoration: none;
-    font: 950 var(--post-ui-chip-size, 16px)/1.16 var(--font-ui);
-    overflow-wrap: anywhere;
-}
 
-.post-reader-localized-context .awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta{
-    color: var(--inline-edge-gold);
-    font: 850 var(--post-inline-meta-size, 15px)/1.25 var(--font-ui);
-    overflow-wrap: anywhere;
-}
 
-.post-reader-localized-context .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body{
-    direction: rtl;
-    text-align: start;
-    padding: clamp(1rem,4vw,1.5rem);
-    color: #fffdf5;
-    font-family: var(--font-content);
-    font-size: var(--post-sidebar-comment-size, 32px);
-    font-weight: 700;
-    line-height: 1.55;
-    text-shadow: 0 8px 24px rgba(0,0,0,.5);
-    overflow-wrap: anywhere;
-}
 
-.post-reader-localized-context .awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph.awtsmoos-comment-paragraph{
-text-transform: none;
-display: block;
-    margin: 0 0 .85em;
-    color: inherit;
-}
 
-:is(.post-reader-localized-context) .awtsmoos-comment-paragraph:last-child:last-child:last-child:last-child:last-child:last-child:last-child:last-child{ margin-bottom: 0; }
 
-:is(.post-reader-localized-context) .awtsmoos-sidebar-comment-card .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body,
-:is(.post-reader-localized-context) .awtsmoos-sidebar-comment-card .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body *{
-    direction: rtl;
-    text-align: start;
-    font-family: var(--font-content);
-    font-size: var(--post-sidebar-comment-size, 32px);
-    font-weight: 700;
-    line-height: 1.55;
-    text-shadow: 0 8px 24px rgba(0,0,0,.5);
-}
 
-.post-reader-localized-context .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body *{
-    color: inherit;
-    font: inherit;
-    line-height: inherit;
-    text-shadow: inherit;
-}
 
-.post-reader-localized-context .awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock{
-    display: grid;
-    grid-template-columns: repeat(2,minmax(0,1fr));
-    gap: .75rem;
-    padding: 0 1rem 1rem;
-}
 
-.post-reader-localized-context .awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock button,
-.post-reader-localized-context .awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more summary,
-.post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip,
-.post-reader-localized-context .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item{
-    min-height: 54px;
-    border: 1px solid rgba(246,201,108,.22);
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(26,32,52,.95), rgba(10,15,30,.98));
-    color: #fffdf5;
-    font: 900 var(--post-ui-chip-size, 16px)/1 var(--font-ui);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
-}
 
-.post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip{ min-height: 42px; padding: .55rem .85rem; border-radius: 999px; }
-.post-reader-localized-context .awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more{ display: grid; padding: 0 1rem 1rem; }
-.post-reader-localized-context .menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown{ display: grid; gap: .6rem; margin-top: .6rem; }
-.post-reader-localized-context .awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy.awtsmoos-clipboard-proxy{ position: fixed; left: -9999px; top: 0; opacity: 0; }
 
-@media (max-width: 390px) {
-    .post-reader-localized-context .awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header{ grid-template-columns: 44px minmax(0,1fr); }
-    .post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip{ grid-column: 1 / -1; }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* B"H
  * Chapter 281: Local polish proof.
  * This file owns one small, concrete smoothness rule so the polish is local,
  * testable, and not duplicated across the import river.
  */
-.post-reader-localized-context .awtsmoos-sidebar-comment-card { scroll-margin-block: .75rem; }
+
 
 /* B"H 2026-11-10 round 11: in LIGHT theme the dock rule above paints
    these buttons dark-navy with white text — but the browser check shows
@@ -8772,14 +7107,7 @@ display: block;
    background, the white color wins the text. Force light-theme dock
    buttons dark-on-pale at (0,11,1), above the dock rule's (0,9,1) and
    button-hover's (0,10,0). Dark theme keeps the dark pill + light text. */
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock button,
-:root:not([data-theme="dark"]) .post-reader-localized-context .awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more summary,
-:root:not([data-theme="dark"]) .post-reader-localized-context .profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip.profile-chip,
-:root:not([data-theme="dark"]) .post-reader-localized-context .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item {
-	color: #2b2118;
-	background: #fffdf6;
-	border-color: #d9c9a8;
-}
+
 
 /* B"H 2026-11-10 round 12 — the round-11 (0,11,1) override fixed the
    pill BACKGROUND but not the text: button-hover.css has a second,
@@ -8813,25 +7141,4 @@ display: block;
    white in light theme. The retry, the message, and the card text
    branches are added below (the cards only render once the backend
    returns sources, but they would be white the moment it does). */
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-action-dock button,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-community-discussion-card button,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-comment-card button,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-social-reply,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-social-more-toggle,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-connect-actions button,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-social-more-action,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-social-readmore,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-retry,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-message,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-card strong,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-card small,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-card p,
-:root:not([data-theme="dark"]) :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-related-torah-card a {
-	color: #2b2118;
-	--aw-text: #2b2118;
-	background: #fffdf6;
-	border-color: #d9c9a8;
-	opacity: 1;
-}
+

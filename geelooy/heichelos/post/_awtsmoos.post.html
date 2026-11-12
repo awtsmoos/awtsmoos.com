@@ -99,17 +99,16 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=ab5b69c319">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=99b08f7d4a">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
-	<!-- B"H 2026-11-10, instant load: the sefer's own styles used to arrive
-	     via JS after mount, so first paint showed the preview in fallback
-	     styles and then visibly switched. These three links load them with
-	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
-	     them by id and does not inject duplicates. -->
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=3bcae39c37">
-	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=9a0062a277">
+	<!-- B"H batch 43 (2026-11-12), simplified reader CSS: the sefer's own
+	     styles now live in reader-tree-live.css (flat, no @import chains),
+	     loaded by ReaderFeatureStyles on intent/fallback; only the law8
+	     sheet links here so first paint keeps it. MeluketSeferReader.js
+	     finds it by id and does not inject a duplicate. -->
+	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581">
 	<script>
 		try {
 			const theme = localStorage.getItem('awtsmoos-theme');
@@ -342,14 +341,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=reader-passive-036');
+				import('/heichelos/post/postLogic.js?v=reader-passive-037');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage
 				// to the full canonical boot (postLogic module graph + API fetches),
 				// which under load left the body unmounted for minutes on plain
 				// loads. The bootstrap calls the same function later; hydration is
 				// stamped, so the second call is a no-op.
-				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=9001dad3b2').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=05b49b8a09').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

@@ -22,14 +22,15 @@ import { refreshTranslationStatus } from '../../translations/render.js?v=e72b932
 import { loadFontSize } from '../../functions/ui/Dimensionality.js';
 
 /**
- * B"H - Lever 1 (load-speed): the meluket CSS trio is consumed only by this
- * reader, so it self-injects on awakening instead of loading on every post.
+ * B"H - Batch 43 (2026-11-12): the meluket CSS is simplified — the sefer
+ * rules now live in reader-tree-live.css (loaded by ReaderFeatureStyles),
+ * so only the law8 sheet self-injects here on awakening. The template
+ * links it by the same id, so no duplicate is injected.
  * Idempotent ensureStyle pattern (modeled on ReaderFeatureStyles.js):
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=3bcae39c37'],
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=9a0062a277'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581'],
 ];
 
 function ensureSeferStyle(id, href) {
@@ -2232,7 +2233,7 @@ function finalizeSeferMount(sefer, post) {
 	const applySeferTheme = () => {
 		const theme = localStorage.getItem('awtsmoos-theme') || 'dark';
 		// B"H fix: NO !important inline styles (violates Yaakov's CSS Law 1).
-		// Colors are defined in meluket-sefer.css using :root[data-theme] selectors.
+		// Colors are defined in reader-tree-live.css using :root[data-theme] selectors.
 		// Set data-theme on the sefer root so CSS :root[data-theme] rules apply.
 		sefer.dataset.awtsmoosTheme = theme;
 		document.documentElement.dataset.theme = theme;

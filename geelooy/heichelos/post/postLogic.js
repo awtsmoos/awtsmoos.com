@@ -4,7 +4,7 @@
 
 import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-039';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
-import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-019';
+import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-020';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
 import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-008';
 
