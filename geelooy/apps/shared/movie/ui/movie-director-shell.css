@@ -44,7 +44,11 @@ Awtsmoos.com keeps tabs, touch targets, safe areas, and hierarchy calm at every 
 	min-height: 44px;
 	border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
 	border-radius: 12px;
-	background: color-mix(in srgb, Canvas 88%, currentColor 4%);
+	/* B"H css-loop 2026-11-12 cycle 4: Canvas resolved to white (no dark
+	   color-scheme on the dock) while color: inherit is near-white #f5fbff,
+	   so the Show button was white-on-#E8E8E8. A tint of currentColor reads
+	   on dark docks and on any light host alike. */
+	background: color-mix(in srgb, currentColor 12%, transparent);
 	color: inherit;
 	touch-action: manipulation;
 }
