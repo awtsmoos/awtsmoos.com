@@ -342,6 +342,10 @@
 .awp-app .apps-letter-row button:active {
 	transform: scale(0.96);
 }
+/* B"H — the shared .g-page press-scale (css-guarantee, six surface files) shrinks the whole page while pressed, so every hit target moves and small controls never receive their click; the Apps page opts out. */
+:where(.awp-app) .g-page:active {
+	transform: none;
+}
 /* B"H — section heading rhythm: the eyebrow breathes before the grid. */
 .awp-app .apps-section-heading {
 	margin: 2.2rem 0 1.2rem;
