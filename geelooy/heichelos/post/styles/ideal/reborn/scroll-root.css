@@ -37,7 +37,11 @@
 
 .post-reader-localized-context .content {
 	position: relative;
-	inline-size: min(100%, 72rem);
+	/* B"H batch 36 (2026-11-12): batch 34 capped .meluket-sefer at 1600px
+	   but the column is really capped HERE, on .content (72rem ~= 1152px ~=
+	   60% of a 1919px viewport) — the rendered checks kept measuring ~60%.
+	   100rem = 1600px at the 16px root, matching the sefer cap. */
+	inline-size: min(100%, 100rem);
 	min-inline-size: 0;
 	margin-inline: auto;
 }

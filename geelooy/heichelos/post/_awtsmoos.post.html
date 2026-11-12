@@ -175,6 +175,45 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			var panel = byId('typographyDetails');
 			return !!panel && !panel.classList.contains('hidden-details');
 		}
+		/* B"H batch 36 (2026-11-12): the panel's paint must not depend on any
+		   stylesheet — a stale cached sheet (the main.css pin rot this batch
+		   fixed) hid the panel even though the toggle ran and the fresh bundle
+		   carries the right rule. Inline styles beat every sheet, so opening
+		   the panel paints it inline; closing clears them again. Geometry and
+		   stacking match the bundle rule (990 panel / 989 backdrop) so the Aa/i
+		   dock (991 while a panel is open) stays above it. */
+		function paintInfo(open) {
+			var panel = byId('readerInfoPanel');
+			var backdrop = byId('readerInfoBackdrop');
+			if (open) {
+				if (panel) {
+					panel.style.display = 'flex';
+					panel.style.visibility = 'visible';
+					panel.style.opacity = '1';
+					panel.style.position = 'fixed';
+					panel.style.zIndex = '990';
+					panel.style.top = 'auto';
+					panel.style.bottom = '8px';
+					panel.style.left = '50%';
+					panel.style.right = 'auto';
+					panel.style.transform = 'translateX(-50%)';
+					panel.style.width = 'min(560px, calc(100vw - 16px))';
+					panel.style.maxHeight = 'min(86dvh, 680px)';
+				}
+				if (backdrop) {
+					backdrop.style.display = 'block';
+					backdrop.style.visibility = 'visible';
+					backdrop.style.opacity = '1';
+					backdrop.style.position = 'fixed';
+					backdrop.style.inset = '0';
+					backdrop.style.zIndex = '989';
+					backdrop.style.background = 'rgb(22 19 13 / 52%)';
+				}
+			} else {
+				if (panel) panel.removeAttribute('style');
+				if (backdrop) backdrop.removeAttribute('style');
+			}
+		}
 		function setInfo(open) {
 			var panel = byId('readerInfoPanel');
 			var backdrop = byId('readerInfoBackdrop');
@@ -182,6 +221,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			if (!panel || !trigger) return false;
 			panel.hidden = !open;
 			if (backdrop) backdrop.hidden = !open;
+			paintInfo(open);
 			trigger.setAttribute('aria-expanded', String(open));
 			if (open) { var close = byId('readerInfoClose'); if (close) close.focus({ preventScroll: true }); }
 			return true;

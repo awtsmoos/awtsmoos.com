@@ -3,9 +3,9 @@
 // Blessed is He
 
 const FULL_STYLE_ID = 'awtsmoos-reader-feature-styles';
-const FULL_STYLE_URL = '/heichelos/post/styles/main.css?v=reader-features-020';
+const FULL_STYLE_URL = '/heichelos/post/styles/main.css?v=reader-features-021';
 const SETTINGS_STYLE_ID = 'awtsmoos-reader-settings-styles';
-const SETTINGS_STYLE_URL = '/heichelos/post/styles/reader-settings.css?v=reader-settings-001';
+const SETTINGS_STYLE_URL = '/heichelos/post/styles/reader-settings.css?v=reader-settings-002';
 const COMMENTS_STYLE_ID = 'awtsmoos-reader-comments-styles';
 const COMMENTS_STYLE_URL = '/feed/css/anchoredComments.css?v=1';
 const FALLBACK_DELAY_MS = 8000;

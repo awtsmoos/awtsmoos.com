@@ -72,15 +72,27 @@ function injectStyles() {
 	const style = document.createElement('style');
 	style.id = STYLE_ID;
 	style.textContent = [
-		'.ikar-groupings-tabs{display:flex;flex-wrap:wrap;gap:.15rem;margin:0 0 .6rem}',
-		'.ikar-groupings-tabs button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;padding:.45rem .7rem;font:inherit;cursor:pointer;color:inherit}',
-		'.ikar-groupings-tabs button[aria-selected="true"]{border-bottom-color:currentColor;font-weight:600}',
+		/* B"H batch 36 (2026-11-12): explicit ink everywhere — batch 35 used
+		   color:inherit / currentColor, and the series pages inherit a
+		   near-white pale blue, so the tab and the whole panel rendered
+		   barely legible on cream while the identical component reads dark
+		   navy on the ikar root. Dark navy / sefer ink on cream here; the
+		   dark-theme overrides keep it legible there too. */
+		'.ikar-groupings-tabs{display:flex;flex-wrap:wrap;gap:.15rem;margin:0 0 .6rem;color:#1e2a4a}',
+		'.ikar-groupings-tabs button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;padding:.45rem .7rem;font:inherit;cursor:pointer;color:#1e2a4a}',
+		'.ikar-groupings-tabs button[aria-selected="true"]{border-bottom-color:#1e2a4a;font-weight:600}',
+		'.ikar-groupings-panel{color:#1e2a4a}',
+		'.ikar-groupings-panel h2{color:#1e2a4a}',
 		'.ikar-groupings-category{margin:0 0 1.4rem}',
-		'.ikar-groupings-category h3{margin:0 0 .15rem}',
-		'.ikar-groupings-category p{margin:0 0 .55rem}',
+		'.ikar-groupings-category h3{margin:0 0 .15rem;color:#2b2118}',
+		'.ikar-groupings-category p{margin:0 0 .55rem;color:#5a4f3a}',
 		'.ikar-groupings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr));gap:.5rem;list-style:none;margin:0;padding:0}',
-		'.ikar-groupings-grid a{display:block;padding:.55rem .7rem;border:1px solid rgba(127,127,127,.45);border-radius:.5rem;text-decoration:none;color:inherit}',
-		'.ikar-groupings-count{display:block;font-size:.85em;opacity:.75}'
+		'.ikar-groupings-grid a{display:block;padding:.55rem .7rem;border:1px solid #d9c9a8;border-radius:.5rem;text-decoration:none;color:#1e2a4a;background:#fffdf6}',
+		'.ikar-groupings-count{display:block;font-size:.85em;color:#5a4f3a}',
+		'[data-theme="dark"] .ikar-groupings-panel,[data-theme="dark"] .ikar-groupings-tabs,[data-theme="dark"] .ikar-groupings-tabs button,[data-theme="dark"] .ikar-groupings-panel h2,[data-theme="dark"] .ikar-groupings-category h3{color:#f0e7d3}',
+		'[data-theme="dark"] .ikar-groupings-tabs button[aria-selected="true"]{border-bottom-color:#f0e7d3}',
+		'[data-theme="dark"] .ikar-groupings-category p,[data-theme="dark"] .ikar-groupings-count{color:#cfc4a8}',
+		'[data-theme="dark"] .ikar-groupings-grid a{color:#f0e7d3;background:#2b2118;border-color:#6b5a34}'
 	].join('\n');
 	document.head.appendChild(style);
 }
