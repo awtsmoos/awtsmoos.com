@@ -67,7 +67,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		.post-reader-localized-context #readerInfoPanel .reader-info-heading { flex-wrap: wrap; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-heading h2 { flex: 1 1 auto; min-width: 0; overflow: visible; text-overflow: clip; white-space: normal; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 8px; }
-		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; }
+		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
+		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
+		   horizontal overflow draw a scrollbar at the dialog's bottom. x is hidden
+		   here (network-first, beats the bundle) and in the bundle source; y stays auto. */
+		.post-reader-localized-context #readerInfoPanel #readerInfoHome { overflow-x: hidden; }
 		/* B"H round 10 — the title area above card 1 renders as a blank
 		   peach band in the settled view and the title is invisible. The
 		   title color lives in the sefer bundle (dark #2b2118 in light
@@ -95,7 +99,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=8e2b29222f">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=ab5b69c319">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -220,6 +224,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					   can never lay out as a row or clip its last button even if
 					   a stylesheet rule ever loses again. */
 					panel.style.flexDirection = 'column';
+					/* B"H batch 39: overflow-y:auto used to compute overflow-x
+					   to auto too (CSS rule: one non-visible axis forces the
+					   other to auto), defeating the bundle's `overflow: hidden`
+					   and letting any 1px of overflow (focus outline past a
+					   full-width button, fractional pixels at zoom) draw a
+					   horizontal scrollbar at the dialog's bottom. Pin x
+					   hidden explicitly; y stays auto. */
+					panel.style.overflowX = 'hidden';
 					panel.style.overflowY = 'auto';
 					panel.style.visibility = 'visible';
 					panel.style.opacity = '1';
@@ -231,7 +243,21 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 					panel.style.right = 'auto';
 					panel.style.transform = 'translateX(-50%)';
 					panel.style.width = 'min(560px, calc(100vw - 16px))';
+					/* B"H batch 39: vh fallback first — if dvh ever fails to
+					   parse, the assignment is ignored and the vh cap stays;
+					   without it the cap would vanish and the bottom-anchored
+					   panel would extend off-screen. */
+					panel.style.maxHeight = 'min(86vh, 680px)';
 					panel.style.maxHeight = 'min(86dvh, 680px)';
+					/* B"H batch 39: the home scroller kept its scrollTop across
+					   closes and SPA navigation (only the list view ever reset
+					   its scroll), so reopening resumed mid-content and the
+					   last link landed half-cut. Every open starts at the top. */
+					panel.scrollTop = 0;
+					var home = byId('readerInfoHome');
+					if (home) home.scrollTop = 0;
+					var list = byId('readerInfoList');
+					if (list) list.scrollTop = 0;
 				}
 				if (backdrop) {
 					backdrop.style.display = 'block';

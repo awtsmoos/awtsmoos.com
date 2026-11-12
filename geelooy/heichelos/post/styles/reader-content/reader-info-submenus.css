@@ -66,6 +66,11 @@
 .post-reader-localized-context .reader-index-choice {
 	display: block;
 	width: 100%;
+	/* B"H batch 39: min-width:0 + anywhere-wrap so no label can ever force
+	   the scroller wider than the dialog (a 1px overflow used to draw a
+	   horizontal scrollbar at the dialog's bottom). */
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 .post-reader-localized-context #readerInfoBack,

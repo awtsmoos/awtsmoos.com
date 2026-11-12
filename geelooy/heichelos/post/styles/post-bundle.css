@@ -7993,6 +7993,8 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 	display: flex;
 	flex-direction: column;
 	width: auto;
+	max-height: min(86vh, 680px);
+	/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
 	max-height: min(86dvh, 680px);
 	min-height: 0;
 	padding: 14px;
@@ -8037,7 +8039,13 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context #readerTopSections {
 	box-sizing: border-box;
 	min-height: 0;
-	overflow: auto;
+	/* B"H batch 39: `overflow: auto` on both axes let any 1px of horizontal
+	   overflow (focus outline past a full-width button, fractional pixels
+	   at zoom) draw a horizontal scrollbar at the dialog's bottom. x is
+	   hidden; y stays auto. The list rows wrap (overflow-wrap:anywhere on
+	   title/detail), so nothing real is clipped. */
+	overflow-x: hidden;
+	overflow-y: auto;
 	overscroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
 }
@@ -8048,6 +8056,8 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 }
 @media (max-height: 440px) {
 	.post-reader-localized-context #readerInfoPanel {
+		max-height: 95vh;
+		/* B"H batch 39: vh fallback — if dvh fails to parse, the cap stays. */
 		max-height: 95dvh;
 		padding: 9px;
 	}
@@ -8123,6 +8133,11 @@ html[data-theme="dark"] body .post-reader-localized-context.post-reader-localize
 .post-reader-localized-context .reader-index-choice {
 	display: block;
 	width: 100%;
+	/* B"H batch 39: min-width:0 + anywhere-wrap so no label can ever force
+	   the scroller wider than the dialog (a 1px overflow used to draw a
+	   horizontal scrollbar at the dialog's bottom). */
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 .post-reader-localized-context #readerInfoBack,
