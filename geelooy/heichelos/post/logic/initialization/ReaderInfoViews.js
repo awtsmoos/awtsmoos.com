@@ -8,12 +8,13 @@
  */
 import {
 	collectReaderPairs,
-	collectReaderSections
-} from './ReaderInfoList.js?v=reader-smooth-20261028-1';
+	collectReaderSections,
+	collectReaderFootnotes
+} from './ReaderInfoList.js?v=reader-smooth-20261112-1';
 import {
 	appendReaderChoicePage,
 	matchingReaderChoices
-} from './ReaderInfoChoices.js?v=reader-smooth-20261028-1';
+} from './ReaderInfoChoices.js?v=reader-smooth-20261112-1';
 
 /** Filter option records first; create only the first page of matching rows. */
 export function filterReaderMenu(state, query) {
@@ -45,17 +46,20 @@ export function showReaderMenuView(state, stage, sectionIndex = null) {
 	}
 	const sections = collectReaderSections(state.root());
 	const section = sections[sectionIndex];
+	/* B"H batch 47: the Explore list is the jump list — ALL sub-sections
+	   AND ALL footnotes, each one tap to its place. Footnotes follow the
+	   sections in the same list (and in search), in number order. */
 	const rows = stage === 'pairs'
 		? collectReaderPairs(state.root(), sectionIndex)
-		: sections;
+		: [...sections, ...collectReaderFootnotes(state.root())];
 	state.section = stage === 'pairs' ? section : null;
 	state.options = rows;
 	state.heading.textContent = stage === 'pairs'
 		? `${sectionIndex + 1}. ${section?.hebrew || section?.english || 'Passages'}`
-		: 'Choose a section';
+		: 'Choose a section or footnote';
 	state.search.placeholder = stage === 'pairs'
 		? 'Find Hebrew or English in this section…'
-		: 'Find a section…';
+		: 'Find a section or footnote…';
 	filterReaderMenu(state, '');
 	return rows.length;
 }

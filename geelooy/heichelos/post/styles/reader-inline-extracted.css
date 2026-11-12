@@ -1641,7 +1641,11 @@
 
 		/* content column */
 		:root .post-reader-localized-context #realPost {
-			max-inline-size: min(46rem, calc(100vw - 2rem));
+			/* B"H batch 47: the column was 100vw - 2rem (16px a side) before
+			   the card's own 24px padding — at 144px only a few words fit
+			   per line. 0.5rem keeps a hair of page edge; the card still
+			   reads as a card. */
+			max-inline-size: min(46rem, calc(100vw - 0.5rem));
 			margin-inline: auto;
 			padding-block: 2.5rem 7rem;
 		}
@@ -1649,7 +1653,11 @@
 		/* ---------- the one content card ---------- */
 		:root .post-reader-localized-context #realPost .meluket-sefer,
 		:root[data-theme="light"] .post-reader-localized-context #realPost .meluket-sefer {
-			--dream-pad: clamp(1.5rem, 4vw, 2.75rem);
+			/* B"H batch 47: the card's side padding was clamp(1.5rem, 4vw,
+			   2.75rem) — 24px a side on a phone, the wide beige margins.
+			   8px a side now; the words get the room, the card keeps its
+			   edge. The desktop @media override below is untouched. */
+			--dream-pad: clamp(0.5rem, 2vw, 0.75rem);
 			background: var(--sefer-card);
 			border: 1px solid rgb(122 82 31 / 12%);
 			border-radius: 1.75rem;

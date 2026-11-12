@@ -8,7 +8,7 @@
  */
 import {
 	readerSections
-} from './ReaderInfoList.js?v=reader-info-nested-20261028-1';
+} from './ReaderInfoList.js?v=reader-info-nested-20261112-1';
 
 /** Resolve a section or bilingual passage from current existing DOM nodes. */
 export function resolveReaderJump(root, sectionIndex, pairIndex = null) {
@@ -67,4 +67,73 @@ export function findCurrentReaderPassage(root) {
 /** Navigate to the actual overview without recreating its original line breaks. */
 export function findReaderOverview(root) {
 	return root?.querySelector('.meluket-post-summary, .meluket-summary') || null;
+}
+
+/**
+ * B"H batch 47 — shareable deep links. One section is one address:
+ * ?section=N#sec-NNN (N is the 1-based section number; sec-NNN is the
+ * server-rendered section id, so the anchor exists in the first paint).
+ * A footnote adds ?footnote=M#fn-M. The canonical post URL stays clean —
+ * the query + hash live only on the shared / in-use address, never on
+ * the canonical link the server emits for search.
+ */
+
+/** 1-based section number for a pair/section/footnote element, or null. */
+export function sectionNumberForElement(root, element) {
+	if (!root || !element || typeof element.closest !== 'function') return null;
+	const section = element.closest('.meluket-sefer-section');
+	if (!section) return null;
+	const index = readerSections(root).indexOf(section);
+	return index < 0 ? null : index + 1;
+}
+
+/** Full shareable URL for a section number (1-based), or null. */
+export function sectionDeepLink(sectionNumber) {
+	if (!Number.isSafeInteger(sectionNumber) || sectionNumber < 1) return null;
+	return deepLinkUrl({ section: sectionNumber });
+}
+
+/** Full shareable URL for a pair/section element's section, or null. */
+export function sectionDeepLinkFor(root, element) {
+	return sectionDeepLink(sectionNumberForElement(root, element));
+}
+
+/** Full shareable URL for a footnote marker, or null. */
+export function footnoteDeepLinkFor(root, marker, fnNum) {
+	if (!/^\d+$/.test(String(fnNum ?? ''))) return null;
+	const section = sectionNumberForElement(root, marker);
+	return deepLinkUrl({ section: section || undefined, footnote: String(fnNum) });
+}
+
+/** Build the deep link from the current address, keeping its other params. */
+function deepLinkUrl({ section, footnote }) {
+	const loc = typeof globalThis !== 'undefined' ? globalThis.location : null;
+	if (!loc || !loc.href) return null;
+	let url;
+	try {
+		url = new URL(loc.href);
+	} catch (_) {
+		return null;
+	}
+	if (section) url.searchParams.set('section', String(section));
+	else url.searchParams.delete('section');
+	if (footnote) url.searchParams.set('footnote', String(footnote));
+	else url.searchParams.delete('footnote');
+	if (footnote) url.hash = `#fn-${footnote}`;
+	else if (section) url.hash = `#sec-${String(section).padStart(3, '0')}`;
+	else url.hash = '';
+	return url.toString();
+}
+
+/** Point the address bar at a deep link without adding a history entry. */
+export function replaceUrlWithDeepLink(link) {
+	if (!link) return false;
+	const hist = typeof globalThis !== 'undefined' ? globalThis.history : null;
+	if (!hist || typeof hist.replaceState !== 'function') return false;
+	try {
+		hist.replaceState(null, '', link);
+		return true;
+	} catch (_) {
+		return false;
+	}
 }

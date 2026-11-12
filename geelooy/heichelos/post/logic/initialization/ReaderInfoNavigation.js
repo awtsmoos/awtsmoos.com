@@ -8,10 +8,10 @@
  */
 import {
 	bindReaderInfoActions
-} from './ReaderInfoActions.js?v=reader-smooth-20261028-1';
+} from './ReaderInfoActions.js?v=reader-smooth-20261112-1';
 import {
 	showReaderMenuView
-} from './ReaderInfoViews.js?v=reader-smooth-20261028-1';
+} from './ReaderInfoViews.js?v=reader-smooth-20261112-1';
 import {
 	trapReaderDialogTab
 } from './ReaderInfoFocusTrap.js?v=reader-a11y-20261028-1';
@@ -37,7 +37,7 @@ export function initReaderInfoNavigation() {
 	initialized = true;
 
 	const state = {
-		button, panel, backdrop, topIndex, home, list,
+		button, panel, backdrop, home, list,
 		search, back, heading, empty, more,
 		root: () => get('realPost'),
 		stage: 'home',
@@ -47,6 +47,10 @@ export function initReaderInfoNavigation() {
 		panel.hidden = true;
 		backdrop.hidden = true;
 		button.setAttribute('aria-expanded', 'false');
+		/* B"H batch 47: the "N online" pill hides while the guide is open
+		   (body.awtsmoos-info-open) — the template's setInfo toggles the
+		   same class, so every open/close path is covered. */
+		if (document.body) document.body.classList.remove('awtsmoos-info-open');
 		if (restoreFocus) button.focus({ preventScroll: true });
 	};
 	state.open = (stage = 'home', sectionIndex = null) => {
@@ -54,6 +58,7 @@ export function initReaderInfoNavigation() {
 		panel.hidden = false;
 		backdrop.hidden = false;
 		button.setAttribute('aria-expanded', 'true');
+		if (document.body) document.body.classList.add('awtsmoos-info-open');
 		get('readerInfoClose')?.focus({ preventScroll: true });
 	};
 	button.addEventListener('click', () => {

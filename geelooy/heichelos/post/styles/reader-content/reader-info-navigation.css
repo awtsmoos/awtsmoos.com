@@ -91,6 +91,16 @@
 .post-reader-localized-context .reader-index-choice[hidden] {
 	display: none;
 }
+/* B"H batch 47: the floating "N online" pill (z 1100) sits above the open
+   dialog (z 990) and lands on its right side. While the Reading guide is
+   open, hide both launcher variants — the dialog is the only surface.
+   The body class is toggled by setInfo() in the template and by the
+   module's state.open/state.close, so every open/close path is covered.
+   Specificity beats the launcher's own display rule; no !important. */
+body.awtsmoos-info-open .universal-chat-launcher,
+body.awtsmoos-info-open .universal-chat-floating-launcher {
+	display: none;
+}
 .post-reader-localized-context .reader-info-heading {
 	display: flex;
 	flex: 0 0 auto;

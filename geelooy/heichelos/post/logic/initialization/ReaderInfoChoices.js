@@ -6,7 +6,10 @@
  * The Awtsmoos opens one chamber of Torah light at a time;
  * Awtsmoos.com frees the main thread from a hundred choices in a line.
  */
-import { readerIndexButton } from './ReaderInfoList.js?v=reader-smooth-20261028-1';
+import {
+	readerIndexButton,
+	readerFootnoteButton
+} from './ReaderInfoList.js?v=reader-smooth-20261112-1';
 
 export const READER_MENU_PAGE_SIZE = 18;
 
@@ -29,6 +32,11 @@ export function appendReaderChoicePage(state) {
 	const doc = state.list.ownerDocument;
 	const fragment = doc.createDocumentFragment();
 	for (const row of next) {
+		/* B"H batch 47: footnote rows jump straight to their note. */
+		if (row.kind === 'footnote') {
+			fragment.append(readerFootnoteButton(doc, row));
+			continue;
+		}
 		const parent = state.stage === 'pairs' ? state.section : row;
 		fragment.append(readerIndexButton(
 			doc,

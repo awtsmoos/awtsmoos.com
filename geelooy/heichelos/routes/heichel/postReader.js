@@ -103,11 +103,25 @@ function createPostReader($i) {
 		};
 	}
 
+	/**
+	 * B"H batch 47 — a shared section/footnote link (?section=N,
+	 * ?footnote=M) unfurls with that section's/footnote's first lines.
+	 * The hash is never sent to the server, so the query carries it.
+	 * Invalid numbers are ignored; the page falls back to its plain meta.
+	 */
+	function readDeepLinkSelection(query) {
+		const num = (v) => {
+			const n = Number(String(v ?? '').trim());
+			return Number.isSafeInteger(n) && n >= 1 && n <= 9999 ? n : null;
+		};
+		return { section: num(query?.section), footnote: num(query?.footnote) };
+	}
+
 	/** Resolves one teaching into the public reader template. */
-	async function renderResolvedReader(data, translations) {
+	async function renderResolvedReader(data, translations, selection) {
 		const context = routeContext(data);
 		const semantic = {
-			...buildPostSemantic(data),
+			...buildPostSemantic(data, { ...selection, translations }),
 			structuredDataTag: postStructuredDataTag(data)
 		};
 		const fragments = await traceAsync(
@@ -139,7 +153,7 @@ function createPostReader($i) {
 					readerData.loadPostTranslations(vars.heichel, 'root', vars.post).catch(() => null)
 				]);
 				if (!data.post) return renderPostNotFound(vars);
-				return renderResolvedReader(data, translations);
+				return renderResolvedReader(data, translations, readDeepLinkSelection(vars.query));
 			},
 			{ heichelId: vars.heichel, postId: vars.post }
 		);
@@ -159,7 +173,7 @@ function createPostReader($i) {
 					readerData.loadPostTranslations(vars.heichel, vars.series, vars.post).catch(() => null)
 				]);
 				if (!data.post) return renderPostNotFound(vars);
-				return renderResolvedReader(data, translations);
+				return renderResolvedReader(data, translations, readDeepLinkSelection(vars.query));
 			},
 			{ heichelId: vars.heichel, seriesId: vars.series, postId: vars.post }
 		);

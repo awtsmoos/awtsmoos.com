@@ -165,7 +165,7 @@ function detectContentLanguages(post) {
  * @param {string} heichelName Resolved heichel name (already plain text).
  * @returns {string} Plain-text description, unescaped.
  */
-function buildDescription(data, postTitle, heichelName) {
+function buildDescription(data, postTitle, heichelName, translations) {
 	const { hebrew, english } = firstExcerpts(data?.post);
 	if (hebrew && english) {
 		return cutWords(`${hebrew} / ${english}`, 220);
@@ -176,7 +176,112 @@ function buildDescription(data, postTitle, heichelName) {
 	if (english) {
 		return cutWords(english, 220);
 	}
+	/* B"H batch 47: sefer posts carry their text as translation rows, not
+	   post.units — the description was the generic fallback for all of
+	   them. The post's own opening lines (first section) describe it. */
+	const groups = groupTranslationSections(translationRows(translations));
+	if (groups.length) {
+		const first = sectionExcerpts(groups[0].rows);
+		if (first.hebrew && first.english) {
+			return cutWords(`${first.hebrew} / ${first.english}`, 220);
+		}
+		if (first.hebrew) {
+			return cutWords(first.hebrew, 220);
+		}
+		if (first.english) {
+			return cutWords(first.english, 220);
+		}
+	}
 	return `Read ${postTitle} in ${heichelName} on Awtsmoos.com.`.slice(0, 220);
+}
+
+/**
+ * B"H batch 47 — shareable deep links. A shared link carries its section
+ * as ?section=N and its footnote as ?footnote=M; the unfurl must show
+ * THAT section's / footnote's first lines, not the post's opening.
+ * The canonical URL stays the plain post URL (one canonical road).
+ */
+
+/** @description Rows the translations endpoint serves for a sefer post. */
+function translationRows(translations) {
+	return Array.isArray(translations) ? translations : [];
+}
+
+/**
+ * @description Groups sefer rows by their section key, in first-seen order
+ * (the same grouping renderSeferInitialHtml uses for sec-NNN).
+ */
+function groupTranslationSections(rows) {
+	const groups = [];
+	const byKey = new Map();
+	for (const row of rows) {
+		if (!row || typeof row !== 'object') continue;
+		const key = String(row.verseSection ?? row.sectionId ?? '');
+		if (!byKey.has(key)) {
+			const group = { key, rows: [] };
+			byKey.set(key, group);
+			groups.push(group);
+		}
+		byKey.get(key).rows.push(row);
+	}
+	return groups;
+}
+
+/** @description First Hebrew/English lines of one section's rows. */
+function sectionExcerpts(rows) {
+	let hebrew = '';
+	let english = '';
+	let fallbackHebrew = '';
+	let fallbackEnglish = '';
+	for (const row of rows) {
+		const he = stripLeadingMarkers(plainText(row.sourceHebrew ?? row.he ?? row.hebrew ?? ''));
+		const en = plainText(row.content ?? row.en ?? row.english ?? '');
+		if (!fallbackHebrew && he) fallbackHebrew = he;
+		if (!fallbackEnglish && en) fallbackEnglish = en;
+		if (!hebrew && he.length >= 60) hebrew = he;
+		if (!english && en.length >= 40) english = en;
+		if (hebrew && english) break;
+	}
+	return { hebrew: hebrew || fallbackHebrew, english: english || fallbackEnglish };
+}
+
+/** @description A footnote body by number, from the post record's footnotes[] array. */
+function footnoteByNumber(post, footnoteNumber) {
+	const notes = Array.isArray(post?.footnotes) ? post.footnotes : [];
+	return notes.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === String(footnoteNumber)) || null;
+}
+
+/**
+ * @description Resolves a section/footnote selection to its label + first
+ * lines. Footnote first (it names the exact note); section next. Returns
+ * null when the selection names nothing readable — the caller then keeps
+ * the plain post title/description instead of breaking the page.
+ */
+function resolveSelectionDescription(data, selection) {
+	const groups = groupTranslationSections(translationRows(selection?.translations));
+	if (selection?.footnote) {
+		const fn = footnoteByNumber(data?.post, selection.footnote);
+		if (fn) {
+			const he = plainText(fn.hebrew || fn.body || '');
+			const en = plainText(fn.english || fn.body_en || '');
+			const body = he && en ? `${he} / ${en}` : (he || en);
+			if (body) {
+				return { label: `Footnote ${selection.footnote}`, description: cutWords(body, 220) };
+			}
+		}
+	}
+	if (selection?.section) {
+		const group = groups[Number(selection.section) - 1];
+		if (group) {
+			const ex = sectionExcerpts(group.rows);
+			const body = ex.hebrew && ex.english
+				? `${ex.hebrew} / ${ex.english}` : (ex.hebrew || ex.english);
+			if (body) {
+				return { label: `Section ${selection.section}`, description: cutWords(body, 220) };
+			}
+		}
+	}
+	return null;
 }
 
 /**
@@ -247,15 +352,29 @@ function buildTitles(post, seriesName) {
 /**
  * @description Creates escaped metadata shared by direct and Road reader pages.
  * @param {object} data Reader data vessel.
+ * @param {object} [selection] Optional deep-link selection:
+ *   { section, footnote, translations } — a shared section/footnote link
+ *   unfurls with that section's/footnote's first lines (batch 47).
  * @returns {object} Search-facing semantic model.
  */
-function buildPostSemantic(data) {
+function buildPostSemantic(data, selection) {
 	const seriesName = resolveSeriesName(data);
-	const { pageTitle, articleTitle } = buildTitles(data?.post, seriesName);
+	const { pageTitle: basePageTitle, articleTitle } = buildTitles(data?.post, seriesName);
 	const heichelName = cleanText(data?.heichel?.name || data?.heichel?.title) || 'Geelooy Heichel';
 	const canonicalPath = buildCanonicalPath(data);
 	const canonicalUrl = `https://awtsmoos.com${canonicalPath}`;
-	const description = buildDescription(data, articleTitle, heichelName);
+	const translations = selection?.translations;
+	let pageTitle = basePageTitle;
+	let description = buildDescription(data, articleTitle, heichelName, translations);
+	if (selection?.section || selection?.footnote) {
+		const resolved = resolveSelectionDescription(data, selection);
+		if (resolved) {
+			pageTitle = seriesName
+				? `${articleTitle} — ${resolved.label} | ${seriesName} | Awtsmoos`
+				: `${articleTitle} — ${resolved.label} | Awtsmoos`;
+			description = resolved.description;
+		}
+	}
 	const languages = detectContentLanguages(data?.post);
 	return {
 		pageTitle: escapeHtml(pageTitle),
@@ -283,11 +402,16 @@ module.exports = {
 	detectContentLanguages,
 	escapeHtml,
 	firstExcerpts,
+	groupTranslationSections,
+	footnoteByNumber,
 	humanizeSeriesName,
+	resolveSelectionDescription,
 	resolveSeriesName,
 	plainText,
 	resolveHeichelId,
+	sectionExcerpts,
 	stripLeadingMarkers,
+	translationRows,
 	unitEnglish,
 	unitHebrew,
 	postUnits

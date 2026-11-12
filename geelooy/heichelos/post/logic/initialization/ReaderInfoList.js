@@ -7,9 +7,14 @@
  * Awtsmoos.com builds only what the learner chooses to see tonight.
  */
 
+/** A short preview of plain text, never a re-render of the source Torah. */
+function excerptText(text, limit = 64) {
+	return String(text ?? '').replace(/\s+/g, ' ').trim().slice(0, limit);
+}
+
 /** A short preview, never a re-render of the source Torah. */
 function excerpt(node, limit = 64) {
-	return (node?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, limit);
+	return excerptText(node?.textContent || '', limit);
 }
 
 /** Locate the live section nodes; no cached array across post updates. */
@@ -43,6 +48,52 @@ export function collectReaderPairs(root, sectionIndex) {
 	}));
 }
 
+/**
+ * B"H batch 47 — gather every footnote on the page, in number order, with
+ * the section that holds its marker. The marker is the authority for what
+ * is actually readable; the note text comes from the post's footnotes[]
+ * array first (the same source the footnote popup reads), then the shelf
+ * DOM, then the bare number — a row never blocks on a missing body.
+ */
+export function collectReaderFootnotes(root) {
+	if (!root?.querySelectorAll) return [];
+	const markers = [...root.querySelectorAll('sup.meluket-fn-marker[data-fn], sup[data-fn]')];
+	const api = (typeof window !== 'undefined' && window.post && Array.isArray(window.post.footnotes))
+		? window.post.footnotes : [];
+	const sections = readerSections(root);
+	const seen = new Set();
+	const notes = [];
+	for (const marker of markers) {
+		const n = String(marker.getAttribute('data-fn') || '').trim();
+		if (!/^\d+$/.test(n) || seen.has(n)) continue;
+		seen.add(n);
+		const apiFn = api.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === n) || null;
+		let hebrew = '';
+		let english = '';
+		if (apiFn) {
+			hebrew = excerptText(apiFn.hebrew || apiFn.body || '', 46);
+			english = excerptText(apiFn.english || apiFn.body_en || '', 52);
+		}
+		if (!hebrew && !english) {
+			const shelf = root.querySelector(`.meluket-footnote[data-fn="${n}"], #meluket-fn-${n}`);
+			english = excerpt(shelf, 52);
+		}
+		const sectionEl = marker.closest ? marker.closest('.meluket-sefer-section') : null;
+		const sectionIndex = sectionEl ? sections.indexOf(sectionEl) : -1;
+		notes.push({
+			kind: 'footnote',
+			index: notes.length,
+			n,
+			title: `Footnote ${n}`,
+			hebrew,
+			english,
+			sectionIndex: sectionIndex < 0 ? null : sectionIndex
+		});
+	}
+	notes.sort((a, b) => Number(a.n) - Number(b.n));
+	return notes;
+}
+
 /** Maintain the earlier public data contract for existing tests. */
 export function collectReaderIndex(root) {
 	return collectReaderSections(root).map(section => ({
@@ -74,6 +125,28 @@ export function readerIndexButton(doc, section, pair = null) {
 		detail.textContent = pair ? pair.english : `${section.count} passages · Explore ›`;
 		button.append(detail);
 	}
+	return button;
+}
+
+/**
+ * B"H batch 47 — render one footnote jump row: the number, its section,
+ * and the note's first lines. One tap jumps to the marker and opens it.
+ */
+export function readerFootnoteButton(doc, footnote) {
+	const button = doc.createElement('button');
+	button.type = 'button';
+	button.dataset.readerFootnote = String(footnote.n);
+	button.className = 'reader-index-choice';
+	const title = doc.createElement('span');
+	title.className = 'reader-index-choice-title';
+	title.textContent = footnote.title || `Footnote ${footnote.n}`;
+	button.append(title);
+	const detail = doc.createElement('span');
+	detail.className = 'reader-index-choice-detail';
+	const text = footnote.hebrew || footnote.english || '';
+	const where = footnote.sectionIndex != null ? `Section ${footnote.sectionIndex + 1} · ` : '';
+	detail.textContent = where + (text || 'Open this footnote');
+	button.append(detail);
 	return button;
 }
 

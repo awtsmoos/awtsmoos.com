@@ -35,7 +35,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   measured against the sefer's tiny 7px container font, so 68ch
 		   capped the early sefer at ~242px — the narrow column itself.
 		   Headless probe, round 14: early sefer 242px with the ch cap. */
-		.meluket-sefer { width: 100%; max-width: min(1600px, calc(100% - 2rem)); margin-inline: auto; }
+		.meluket-sefer { width: 100%; max-width: min(1600px, calc(100% - 0.5rem)); margin-inline: auto; }
 		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
@@ -99,7 +99,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=b1822caf51">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=9c48d1be84">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -162,6 +162,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			</div>
 			<div id="readerInfoHome" class="reader-info-actions">
 				<button type="button" data-reader-action="current">Continue at the highlighted passage</button>
+				<button type="button" data-reader-action="share">Share the highlighted section</button>
 				<button type="button" data-reader-action="previous">‹ Previous Hebrew + English passage</button>
 				<button type="button" data-reader-action="next">Next Hebrew + English passage ›</button>
 				<button type="button" data-reader-action="sections">Explore all sections and passages</button>
@@ -316,6 +317,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 			if (open) setTypography(false);
 			panel.hidden = !open;
 			if (backdrop) backdrop.hidden = !open;
+			/* B"H batch 47: the "N online" pill hides while the guide is
+			   open (body.awtsmoos-info-open) — the module's state.open /
+			   state.close toggles the same class, so every open/close
+			   path is covered. */
+			if (document.body) document.body.classList.toggle('awtsmoos-info-open', !!open);
 			paintInfo(open);
 			trigger.setAttribute('aria-expanded', String(open));
 			if (open) { var close = byId('readerInfoClose'); if (close) close.focus({ preventScroll: true }); }
@@ -414,7 +420,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				registerScript.src = '/register.js?v=03b20cf90a';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-2').catch((err) => { try { console.error('[reader-info] navigation failed to load', err); } catch (_) {} });
+				import('/heichelos/post/logic/initialization/ReaderDeepLink.js?v=reader-deeplink-20261112-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});

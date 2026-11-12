@@ -12,7 +12,14 @@
 .post-reader-localized-context #realPost .awtsmoos-initial-unit-he,
 .post-reader-localized-context #realPost .awtsmoos-initial-unit-en {
 	border-inline-start: 0;
-	padding-inline-start: 0;
+	/* B"H batch 47: the current-pair edge (inset shadow, meluket-law8)
+	   hugged the words because phrases had zero inline padding. A
+	   PERMANENT 12px inline padding on every phrase puts a breathing gap
+	   between the edge and the words. Permanent is the point: batch 31
+	   proved padding that appears on selection re-wraps the text on every
+	   scroll step — this padding is always there, so selection changes
+	   nothing and scrolling never moves layout. */
+	padding-inline: 12px;
 	transition: none;
 }
 
