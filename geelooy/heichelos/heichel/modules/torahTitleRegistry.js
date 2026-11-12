@@ -25,6 +25,9 @@ const BY_ID = Object.freeze({
 	mussar: pair('מוסר', 'Mussar'),
 	'torah-language-tools': pair('תרגומים ומילון', 'Translations & Dictionary'),
 	'daily-chitas': pair('חת״ת יומי', 'Daily Chitas'),
+	ayinBeisVolume1: pair('חלק ראשון', 'Part One'),
+	ayinBeisVolume2: pair('חלק שני', 'Part Two'),
+	ayinBeisVolume3: pair('חלק שלישי', 'Part Three'),
 	...TANACH_TITLES_BY_ID,
 	...BAVLI_TITLES_BY_ID,
 	...LEGACY_WORK_TITLES_BY_ID
@@ -49,6 +52,9 @@ const BY_HEBREW = Object.freeze({
 	'ראשית חכמה': 'Reishit Chochmah',
 	'דרך ה׳': 'Derech Hashem',
 	'ספרי חסידות נוספים': 'Additional Chassidus Works',
+	'חלק ראשון': 'Part One',
+	'חלק שני': 'Part Two',
+	'חלק שלישי': 'Part Three',
 	'עוד דפים': 'More Pages'
 });
 

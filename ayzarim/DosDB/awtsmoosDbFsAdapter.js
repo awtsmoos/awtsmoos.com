@@ -450,7 +450,18 @@ class AwtsmoosDbFamilyFs {
     if (raw) return this.rawDeleteObjectKey(id, key);
     return this.mutateObject(id, obj => { const existed = key in obj; delete obj[key]; return { key, existed }; });
   }
-  async getObjectKey(id, key) { const value = await this.get(id, { propertyMap: { [key]: true } }); return value && typeof value === "object" ? value[key] : undefined; }
+  async getObjectKey(id, key) {
+    const value = await this.get(id, { propertyMap: { [key]: true } });
+    if (Array.isArray(value)) {
+      // B"H 2026-11-12: directory-shaped collection - per-post child docs
+      // (posts/full/<postId>.awtsmoosJSON). A single-object collection
+      // cannot scale past the engine's 256MB decompression cap, so large
+      // collections are stored one doc per key; resolve the child directly.
+      const child = await this.get(`${id}/${key}`);
+      return child === undefined ? undefined : child;
+    }
+    return value && typeof value === "object" ? value[key] : undefined;
+  }
   async delete(id, recursive = false) {
     const found = this.find(id, "write");
     if (!found) return undefined;
