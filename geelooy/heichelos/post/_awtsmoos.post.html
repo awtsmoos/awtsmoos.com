@@ -39,7 +39,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		.meluket-phrase-pair { margin: 0 0 0.1em; }
 		.meluket-phrase { margin: 0; }
 		.meluket-phrase--he { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.45; text-align: right; direction: rtl; }
-		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.4; direction: ltr; border-top: 2px dashed #c6ad76; margin-top: 0; padding-top: 0; }
+		.meluket-phrase--en { font-size: clamp(2.4rem, 6.2vw, 3.4rem); line-height: 1.4; direction: ltr; margin-top: 0; padding-top: 0; }
 		/* B"H round 10 — the title area above card 1 renders as a blank
 		   peach band in the settled view and the title is invisible. The
 		   title color lives in the sefer bundle (dark #2b2118 in light
@@ -76,8 +76,8 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     styles and then visibly switched. These three links load them with
 	     the first paint instead. The JS trio (MeluketSeferReader.js) finds
 	     them by id and does not inject duplicates. -->
-	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=3ee8cef760">
-	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=dd8f252398">
+	<link id="awtsmoos-sefer-style-sefer" rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=07c16901a9">
+	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=2b3eb200cf">
 	<script>
 		try {
 			const theme = localStorage.getItem('awtsmoos-theme');
@@ -114,10 +114,6 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
 		<div class="main">
 			<div class="scroll-view-wrapper">
-				<details id="readerTopIndex" aria-label="Complete reader index">
-					<summary>Contents · Jump to any section</summary>
-					<nav id="readerTopSections" class="reader-index-items" aria-label="Post sections"></nav>
-				</details>
 				<div class="content" id="realPost"><?<script> return typeof initialContentHtml === "string" ? initialContentHtml : ""; </script>?></div>
 			</div>
 			<div class="sidebar hidden-comments"></div>
@@ -157,13 +153,83 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		<div id="awtsmoos-verse-menu-container"></div>
 	</div>
 	<script>
+	/* B"H batch 33 (2026-11-12): the Aa / i dock is bound HERE, in the template,
+	   with no module import — the buttons must work even when the reader's
+	   module graph or the service-worker cache fails on a phone. Target-phase
+	   handlers with stopImmediatePropagation, so the older body-level routers
+	   (PopoverGate, the typography fallback, the info module) can never
+	   double-toggle the same tap. Panels resolve lazily at tap time. */
+	(function () {
+		function byId(id) { try { return document.getElementById(id); } catch (e) { return null; } }
+		function setTypography(open) {
+			var panel = byId('typographyDetails');
+			var trigger = byId('typographyBtn');
+			if (!panel || !trigger) return false;
+			panel.classList.toggle('hidden-details', !open);
+			panel.setAttribute('aria-hidden', String(!open));
+			trigger.classList.toggle('pushed', open);
+			trigger.setAttribute('aria-expanded', String(open));
+			return true;
+		}
+		function typographyOpen() {
+			var panel = byId('typographyDetails');
+			return !!panel && !panel.classList.contains('hidden-details');
+		}
+		function setInfo(open) {
+			var panel = byId('readerInfoPanel');
+			var backdrop = byId('readerInfoBackdrop');
+			var trigger = byId('readerInfoBtn');
+			if (!panel || !trigger) return false;
+			panel.hidden = !open;
+			if (backdrop) backdrop.hidden = !open;
+			trigger.setAttribute('aria-expanded', String(open));
+			if (open) { var close = byId('readerInfoClose'); if (close) close.focus({ preventScroll: true }); }
+			return true;
+		}
+		function infoOpen() {
+			var panel = byId('readerInfoPanel');
+			return !!panel && !panel.hidden;
+		}
+		function bindClick(id, fn) {
+			var el = byId(id);
+			if (!el || el.dataset.awtsmoosDockBound === '1') return;
+			el.dataset.awtsmoosDockBound = '1';
+			el.addEventListener('click', function (e) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				try { fn(); } catch (err) {}
+			});
+		}
+		try {
+			bindClick('typographyBtn', function () { setTypography(!typographyOpen()); });
+			bindClick('readerInfoBtn', function () { setInfo(!infoOpen()); });
+			bindClick('readerInfoClose', function () { setInfo(false); });
+			bindClick('readerInfoBackdrop', function () { setInfo(false); });
+			var lensClose = byId('scribeLensClose');
+			if (lensClose && lensClose.dataset.awtsmoosCloseBound !== 'true') {
+				lensClose.dataset.awtsmoosCloseBound = 'true';
+				lensClose.addEventListener('click', function (e) {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					setTypography(false);
+				});
+			}
+			document.addEventListener('keydown', function (e) {
+				if (e.key !== 'Escape') return;
+				if (infoOpen()) { setInfo(false); return; }
+				if (typographyOpen()) setTypography(false);
+			});
+		} catch (err) {}
+	})();
+	</script>
+	<script>
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				const registerScript = document.createElement('script');
 				registerScript.src = '/register.js?v=fcaa78a126';
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
-				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261028-1').catch(() => {});
+				import('/heichelos/post/logic/initialization/ReaderInfoNavigation.js?v=reader-a11y-20261112-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=reader-worker-20261028-2').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=f23574cb20').catch(() => {});
@@ -174,7 +240,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				// which under load left the body unmounted for minutes on plain
 				// loads. The bootstrap calls the same function later; hydration is
 				// stamped, so the second call is a no-op.
-				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=3e2a79cd79').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=99281d0fb2').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

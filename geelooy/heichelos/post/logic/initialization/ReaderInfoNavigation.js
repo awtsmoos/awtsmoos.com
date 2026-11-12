@@ -13,9 +13,6 @@ import {
 	showReaderMenuView
 } from './ReaderInfoViews.js?v=reader-smooth-20261028-1';
 import {
-	renderReaderIndexes
-} from './ReaderInfoList.js?v=reader-smooth-20261028-1';
-import {
 	trapReaderDialogTab
 } from './ReaderInfoFocusTrap.js?v=reader-a11y-20261028-1';
 
@@ -28,8 +25,6 @@ export function initReaderInfoNavigation() {
 	const button = get('readerInfoBtn');
 	const panel = get('readerInfoPanel');
 	const backdrop = get('readerInfoBackdrop');
-	const topIndex = get('readerTopIndex');
-	const topSections = get('readerTopSections');
 	const home = get('readerInfoHome');
 	const list = get('readerInfoList');
 	const search = get('readerInfoSearch');
@@ -37,7 +32,7 @@ export function initReaderInfoNavigation() {
 	const heading = get('readerInfoHeading');
 	const empty = get('readerInfoEmpty');
 	const more = get('readerInfoMore');
-	if (![button, panel, backdrop, topIndex, topSections, home,
+	if (![button, panel, backdrop, home,
 		list, search, back, heading, empty, more].every(Boolean)) return false;
 	initialized = true;
 
@@ -73,14 +68,6 @@ export function initReaderInfoNavigation() {
 	}, true);
 	bindReaderInfoActions(state);
 
-	topIndex.addEventListener('toggle', () => {
-		if (topIndex.open) renderReaderIndexes(state.root(), topSections);
-	});
-	topSections.addEventListener('click', event => {
-		const choice = event.target.closest('button[data-reader-section]');
-		if (!choice) return;
-		state.open('pairs', Number(choice.dataset.readerSection));
-	});
 
 	const pathname = location.pathname;
 	const series = get('readerBrowseSeries');

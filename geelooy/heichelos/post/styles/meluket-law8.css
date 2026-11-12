@@ -287,8 +287,9 @@
 /* FIX 1: CLEAN MOBILE PADDING — even, minimal, consistent. No more
    stacked padding from wrapper + content + sections. */
 @media (max-width: 760px) {
+	/* B"H batch 33: narrower side padding so the reading fills more of the page. */
 	:root .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
-		padding-inline: 0.75rem;
+		padding-inline: 0.5rem;
 		padding-block-start: 1rem;
 	}
 	:root .post-reader-localized-context.awtsmoos-reader-vision .content,
@@ -481,7 +482,7 @@ body.awtsmoos-src-open .awtsmoos-dock {
 		padding-inline: 0.6rem;
 	}
 	.meluket-sefer-active .meluket-sefer-section {
-		padding-inline: 0.5rem;
+		padding-inline: 0.25rem;
 		margin-bottom: 0.6rem;
 	}
 	.meluket-sefer-active .meluket-phrase-pair {

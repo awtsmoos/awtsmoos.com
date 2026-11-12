@@ -174,31 +174,19 @@
 /* ---------- Section card : one teaching, dwelling in whitespace ----------
    Yaakov's law: minimal horizontal padding — the text breathes,
    the margins don't eat it. */
+/* B"H batch 33 (2026-11-12): no box around the reading — the section is
+   plain paper now (no background, border, radius, or clipping), so the
+   text fills the page and nothing is ever cut at the card edge. The
+   section-number badge stays (it is a section marker, not a box). */
 .meluket-sefer-active .meluket-sefer-section {
 	position: relative;
-	background: var(--sefer-card);
-	border: 1px solid var(--sefer-rule);
-	border-radius: 10px;
 	box-shadow: none;
 	margin: 0 0 2rem;
 	/* B"H — top padding clears the section-number badge (0.9rem + 2.8rem),
 	   so the first pair's English never slides under it. */
 	padding: 4rem 0.75rem 2rem;
-	overflow: hidden;
 }
 
-/* Warm top edge — like a sefer's page head. */
-.meluket-sefer-active .meluket-sefer-section::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 5px;
-	background: linear-gradient(90deg, var(--sefer-accent), var(--sefer-rule), var(--sefer-accent));
-	opacity: 0.65;
-	pointer-events: none;
-}
 
 /* Section number — the siman. */
 .meluket-sefer-active .meluket-section-marker {
@@ -310,14 +298,14 @@
    fallback all along: line-height 1.75, margin-top 1em, padding-top
    1em. That is the rest of the 40–65px card gaps. Space added; the
    rule finally governs. Margin and padding above the English go to 0
-   (the dashed rule itself is the separator) and line-height to 1.4. */
+   (the dashed rule itself is the separator) and line-height to 1.4.
+   B"H batch 33: the dashed rule is removed — no lines beside the text. */
 :root .post-reader-localized-context .meluket-sefer-active .meluket-phrase--en {
 	font-family: "Source Serif 4", Georgia, serif;
 	font-size: calc(var(--sefer-phrase-size));
 	font-weight: 700;
 	line-height: 1.35;
 	color: var(--sefer-ink);
-	border-top: 2px dashed var(--sefer-rule);
 	/* B"H 2026-11-10 round 6: the 1em margin + 1em padding above the English
 	   added ~114px of dead air inside every card (on top of the Hebrew
 	   line-height slack) — the 130–200px hole the visual check found.
@@ -684,13 +672,12 @@
 		border-radius: 0;
 	}
 	.meluket-sefer-active .meluket-sefer-section {
-		border-radius: 8px;
 		/* B"H — Coby Nov 10, screenshots: the section-number badge
 		   overlapped the first phrase on narrow screens — this override
 		   had cut the top padding (4rem) to 1rem, so the badge
 		   (0.9rem + 2.8rem tall) sat on the text. Top padding clears
 		   it again; only the bottom/sides stay tight. */
-		padding: 4rem 0.5rem 1.25rem;
+		padding: 4rem 0.25rem 1.25rem;
 		margin-bottom: 1.25rem;
 	}
 	.meluket-sefer-active .meluket-hebrew {
@@ -1767,6 +1754,15 @@
 body.awtsmoos-src-open .universal-chat-launcher,
 body.awtsmoos-src-open .universal-chat-floating-launcher {
   display: none;
+}
+/* B"H batch 33 (2026-11-12): the floating "N online" pill must never cover
+   reading text. On reader pages the launcher's own sheet parks it at
+   top:180px, which still lands on the text once you scroll. Hide the
+   floating variant here (this sheet loads only on post pages); a launcher
+   rehomed into the header is untouched. Specificity beats the launcher
+   sheet's body:has(...) rule, so no !important. */
+:root body:has(.all.post-reader-localized-context.awtsmoos-reader-vision) .universal-chat-floating-launcher {
+	display: none;
 }
 
 /* ==========================================================================

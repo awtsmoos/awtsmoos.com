@@ -32,10 +32,9 @@ function ratio(first, second) {
 	return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
-test('reader template retains a native, named contents control', () => {
-	assert.match(template, /<details id="readerTopIndex" aria-label="Complete reader index">/);
-	assert.match(template, /<summary>Contents · Jump to any section<\/summary>/);
-	assert.match(template, /reader-info-navigation\.css/);
+test('reader template carries no contents jump panel (removed batch 33)', () => {
+	assert.doesNotMatch(template, /readerTopIndex/);
+	assert.doesNotMatch(template, /Jump to any section/);
 });
 
 test('contents parchment and foreground exceed WCAG AA ordinary-text ratio', () => {
