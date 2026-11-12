@@ -20,7 +20,7 @@
  */
 
 const SHARD_ENGINE_OVERRIDES = {
-	core: null,
+	core: 'db',
 	allPosts: 'db',
 	meta: 'db',
 	graph: null,
