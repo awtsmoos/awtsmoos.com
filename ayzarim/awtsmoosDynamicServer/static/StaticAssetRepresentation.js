@@ -9,9 +9,10 @@
  * Awtsmoos.com keeps template freshness, selected bytes, length, validators, and body suppression explicit.
  *
  * Two automatic laws were added for Heichel scale:
- * - The Heichel reader service worker is stamped with the running build id at
- *   serve time (ServiceWorkerVersioning), so every deploy changes its bytes and
- *   browsers pick up the new worker with zero manual version bumps.
+ * - The Heichel reader service worker and the Heichel SPA script are stamped
+ *   with the running build id at serve time (ServiceWorkerVersioning), so every
+ *   deploy changes their bytes and browsers pick up the new worker with zero
+ *   manual version bumps — and the SPA script's fragment cache retires with it.
  * - Text assets without a fresh precompressed (.br/.gz) sibling are compressed
  *   on the fly through the shared bounded compression cache, so Brotli/gzip is
  *   actually wired for page loads instead of existing only as negotiation code.
@@ -36,6 +37,7 @@ const {
 } = require('./GeneratedCompressionCache.js');
 const {
 	isHeichelServiceWorker,
+	isHeichelSpaScript,
 	versionServiceWorker
 } = require('./ServiceWorkerVersioning.js');
 const {
@@ -62,8 +64,8 @@ async function readStaticAsset(context) {
 		response.setHeader('Cache-Control', 'no-cache');
 		return identity(await fs.readFile(context.filePath));
 	}
-	if (isHeichelServiceWorker(context.filePath)) {
-		return readVersionedServiceWorker(context);
+	if (isHeichelServiceWorker(context.filePath) || isHeichelSpaScript(context.filePath)) {
+		return readVersionedAsset(context);
 	}
 	const selected = await selectStaticRepresentation(
 		fs,
@@ -94,14 +96,15 @@ async function readStaticAsset(context) {
 }
 
 /**
- * @description Serves the Heichel reader worker stamped with the live build id.
+ * @description Serves a version-stamped asset (reader worker or Heichel SPA script) with the live build id.
  * The stamped bytes change on every deploy, so the browser's worker update check
- * installs the new worker and its activate handler purges stale caches — fully
- * automatic cache invalidation with no human remembering a version string.
+ * installs the new worker and its activate handler purges stale caches, and the
+ * SPA script's stamped version retires its cached fragments — fully automatic
+ * cache invalidation with no human remembering a version string.
  * @param {object} context Dynamic-server file context.
  * @returns {Promise<object>} Asset record for the versioned worker.
  */
-async function readVersionedServiceWorker(context) {
+async function readVersionedAsset(context) {
 	const { fs, request, response } = context.dependencies;
 	const versioned = Buffer.from(
 		versionServiceWorker(await fs.readFile(context.filePath, 'utf8'), resolveBuildId()),

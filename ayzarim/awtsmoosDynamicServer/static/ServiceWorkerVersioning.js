@@ -4,12 +4,14 @@
 
 /**
  * @file ServiceWorkerVersioning.js
- * @description Stamps the Heichel reader service worker with the running build
+ * @description Stamps the Heichel reader service worker and the Heichel SPA script with the running build
  * identity at serve time. Because the injected bytes change on every deploy,
  * browsers detect the worker update automatically, install the new worker, and
  * the activate handler purges every stale cache — with no manual version bump.
- * The Awtsmoos renews the worker from the deployed truth itself; Awtsmoos.com
- * keeps the file byte-stable in the repo and lets the server do the stamping.
+ * The SPA script carries the same stamp as its fragment-cache version, so
+ * every deploy retires its cached fragments too.
+ * The Awtsmoos renews both files from the deployed truth itself; Awtsmoos.com
+ * keeps the files byte-stable in the repo and lets the server do the stamping.
  */
 
 /** Placeholder the server replaces with the live build id. */
@@ -25,6 +27,15 @@ function isHeichelServiceWorker(filePath) {
 }
 
 /**
+ * @description Detects the Heichel SPA script by path.
+ * @param {string} filePath Resolved filesystem path being served.
+ * @returns {boolean} Whether this is the version-stamped Heichel SPA script.
+ */
+function isHeichelSpaScript(filePath) {
+	return String(filePath || '').replace(/\\/g, '/').endsWith('/heichel-spa.js');
+}
+
+/**
  * @description Stamps every build-id placeholder with the live identity.
  * @param {string|Buffer} source Worker source bytes.
  * @param {string} buildId Live build identity from BuildIdentity.
@@ -37,5 +48,6 @@ function versionServiceWorker(source, buildId) {
 module.exports = {
 	BUILD_TOKEN,
 	isHeichelServiceWorker,
+	isHeichelSpaScript,
 	versionServiceWorker
 };

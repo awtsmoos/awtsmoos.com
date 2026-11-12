@@ -30,6 +30,7 @@ const { sendCompressedTemplate } = require('./TemplateCompressedResponse.js');
 const {
 	BUILD_TOKEN,
 	isHeichelServiceWorker,
+	isHeichelSpaScript,
 	versionServiceWorker
 } = require('./ServiceWorkerVersioning.js');
 const {
@@ -39,6 +40,7 @@ const {
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..');
 const SW_PATH = path.join(REPO_ROOT, 'geelooy', 'heichelos', 'post', 'heichel-sw.js');
+const SPA_PATH = path.join(REPO_ROOT, 'geelooy', 'heichelos', 'heichel', 'semantic', 'heichel-spa.js');
 
 /** Minimal ServerResponse surface the static pipeline touches. */
 function fakeResponse() {
@@ -116,6 +118,16 @@ test('service worker is detected and stamped with the build id', async () => {
 	const stamped = versionServiceWorker('v=' + BUILD_TOKEN + ';', 'abc1234');
 	assert.equal(stamped, 'v=abc1234;');
 	assert.ok(!stamped.includes(BUILD_TOKEN));
+});
+
+test('heichel SPA script is detected and carries the build token', async () => {
+	assert.ok(isHeichelSpaScript('/a/b/heichel-spa.js'));
+	assert.ok(isHeichelSpaScript('C:\\a\\heichel-spa.js'));
+	assert.ok(!isHeichelSpaScript('/a/b/other.js'));
+	assert.ok(!isHeichelSpaScript('/a/b/heichel-sw.js'));
+	const spa = await fs.readFile(SPA_PATH, 'utf8');
+	assert.ok(spa.includes(BUILD_TOKEN), 'SPA script must carry the build token so deploys retire its fragment cache');
+	assert.ok(spa.includes('FRAGMENT_VERSION'), 'SPA script must version its fragment records');
 });
 
 test('build id is stable and non-empty within a process', () => {
@@ -208,6 +220,28 @@ test('served service worker carries the live build id and no-cache', async () =>
 	assert.ok(
 		text.includes("const AWTSMOOS_BUILD_ID = '" + buildId + "';"),
 		'worker source must carry the live build id so its bytes change every deploy'
+	);
+	resetBuildIdForTests();
+});
+
+test('served heichel SPA script carries the live build id and no-cache', async () => {
+	resetBuildIdForTests();
+	const buildId = resolveBuildId();
+	const { context, response } = staticContext({ filePath: SPA_PATH });
+	const asset = await readStaticAsset(context);
+	assert.equal(asset.handled, false);
+	assert.equal(response.getHeader('cache-control'), 'no-cache');
+	const encoding = response.getHeader('content-encoding');
+	const raw = Buffer.from(asset.content);
+	const text = (encoding === 'br'
+		? zlib.brotliDecompressSync(raw)
+		: encoding === 'gzip'
+		? zlib.gunzipSync(raw)
+		: raw).toString('utf8');
+	assert.ok(!text.includes(BUILD_TOKEN), 'placeholder must be stamped out');
+	assert.ok(
+		text.includes("const SPA_BUILD_ID = '" + buildId + "';"),
+		'SPA source must carry the live build id so its fragment cache retires every deploy'
 	);
 	resetBuildIdForTests();
 });

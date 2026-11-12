@@ -22,9 +22,20 @@
 const INSTALLED_KEY = '__awtsmoosHeichelSpaInstalled';
 const FRAGMENT_SELECTOR = '#heichel-semantic-fallback';
 const SHELL_SELECTOR = '[data-heichel-client-shell]';
-const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-006&persistent-geometry=true';
+const IKAR_FIRST_SRC = '/heichelos/heichel/ikar-first.js?v=ikar-first-007&persistent-geometry=true';
 const IKAR_SPECIAL_SERIES_SRC = '/heichelos/heichel/ikar-special-series.js?v=ikar-special-series-001';
 const CACHE_PREFIX = 'awtsmoos:spa-frag:';
+// B"H 2026-11-12: fragment-cache version. The server stamps
+// __AWTSMOOS_BUILD_ID__ with the running build identity at serve time
+// (see ayzarim/awtsmoosDynamicServer/static/ServiceWorkerVersioning.js),
+// so every deploy retires every cached fragment: a stored record whose
+// version is not the live one is a miss, never a paint. Unstamped
+// (local/dev serve) falls back to a fixed version, exactly like the
+// reader service worker.
+const SPA_BUILD_ID = '__AWTSMOOS_BUILD_ID__';
+const FRAGMENT_VERSION = SPA_BUILD_ID.startsWith('__AWTSMOOS_BUILD')
+	? 'spa-frag-v1'
+	: 'spa-frag-' + SPA_BUILD_ID;
 
 if (!window[INSTALLED_KEY]) {
 	window[INSTALLED_KEY] = true;
@@ -188,6 +199,16 @@ function cacheKey(href) {
 	return u.href;
 }
 
+/**
+ * Whether a stored fragment record belongs to the live build. A record
+ * written by an older build is a cache miss, never a paint — this is the
+ * whole fix: deploys retire fragments instead of racing them.
+ * Exported for the node contract test; the module script itself ignores exports.
+ */
+export function isCurrentFragmentRecord(rec) {
+	return !!rec && typeof rec.html === 'string' && rec.html.length > 0 && rec.v === FRAGMENT_VERSION;
+}
+
 async function getFragment(href) {
 	const key = cacheKey(href);
 	if (fragmentCache.has(key)) return fragmentCache.get(key);
@@ -195,10 +216,12 @@ async function getFragment(href) {
 		const raw = sessionStorage.getItem(CACHE_PREFIX + key);
 		if (raw) {
 			const rec = JSON.parse(raw);
-			if (rec && rec.html) {
+			if (isCurrentFragmentRecord(rec)) {
 				fragmentCache.set(key, rec);
 				return rec;
 			}
+			// Stale build: drop the record so it can never paint, then fetch fresh.
+			try { sessionStorage.removeItem(CACHE_PREFIX + key); } catch (_) {}
 		}
 	} catch (_) {}
 	if (inflight.has(key)) return inflight.get(key);
@@ -228,7 +251,7 @@ async function fetchFragment(href) {
 	const styles = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
 		.map(link => link.getAttribute('href'))
 		.filter(Boolean);
-	return { title: doc.title || '', html: node.outerHTML, styles };
+	return { v: FRAGMENT_VERSION, title: doc.title || '', html: node.outerHTML, styles };
 }
 
 /* ---------- stylesheet adoption (load-speed Lever 2) ---------- */

@@ -15,7 +15,6 @@ import {
 } from './torahTitleRegistry.js?v=torah-bilingual-004';
 import { titlePairByPattern } from './torahPatternTitleRegistry.js?v=torah-bilingual-004';
 import { parshaTitleByHebrew } from './torahParshaTitleRegistry.js?v=torah-parsha-001';
-import { transliterateTorahTitle } from './torahTitleTransliteration.js?v=torah-bilingual-002';
 import {
 	compositeEnglishHead,
 	compositeHebrewSegment
@@ -64,7 +63,7 @@ export function torahTitlePair(source = {}) {
 		explicitEnglish
 			|| curatedEnglish
 			|| compositeEnglish
-			|| (he ? parshaEnglishForHebrew(he) || transliterateTorahTitle(he) : fallbackEnglish || 'Torah')
+			|| (he ? parshaEnglishForHebrew(he) || he : fallbackEnglish || 'Torah')
 	);
 	return {
 		he,
@@ -105,5 +104,5 @@ export function humanizeTorahId(value = '') {
 
 function englishKind(explicit, curated, registered, he) {
 	if (explicit || curated || registered?.en) return 'canonical';
-	return he ? 'transliteration' : 'humanized';
+	return he ? 'hebrew' : 'humanized';
 }
