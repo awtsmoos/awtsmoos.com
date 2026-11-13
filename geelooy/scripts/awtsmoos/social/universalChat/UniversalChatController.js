@@ -49,7 +49,26 @@ export class UniversalChatController {
 
 	bindUi() {
 		const elements = this.shell.elements;
-		elements.close.addEventListener("click", () => this.shell.close());
+		// B"H social fix 23 (defect 3): the close button's click is retargeted
+		// to <html> (the same click-retargeting defect as the nav buttons —
+		// Fix 22), so the click handler never fires and the drawer stays open.
+		// Act on mousedown (primary button only), the way Fix 22 fixed the
+		// chat launcher and the Mail link; ignore the retargeted click for
+		// 2000ms so it cannot double-close. The click is retained for
+		// keyboard/assistive activation (which fires click without mousedown).
+		let closeMousedownAt = 0;
+		elements.close.addEventListener("mousedown", (event) => {
+			if (event.button !== 0) return;
+			closeMousedownAt = Date.now();
+			this.shell.close();
+		});
+		elements.close.addEventListener("click", (event) => {
+			if (Date.now() - closeMousedownAt < 2000) {
+				event.preventDefault();
+				return;
+			}
+			this.shell.close();
+		});
 		elements.view.addEventListener("change", () => this.feed.render());
 		elements.search.addEventListener("click", () => this.search());
 		elements.prompt.addEventListener("keydown", (event) => {

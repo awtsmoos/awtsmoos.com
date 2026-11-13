@@ -13,6 +13,44 @@ import { ensureMalchusProfileStyles } from './modules/ProfileStyles.js';
 import { renderTiferesSocialLaunchpad } from './modules/SocialLaunchpad.js';
 
 /**
+ * B"H social fix 23 (defect 1): enforce no filter on <body>.
+ * The Fix 22 stylesheet rule (filter:none in profile-dream.css) is provably
+ * in the served file, yet the rendered browser still shows the body carrying
+ * filter brightness(1.08) once scrolled — and no rule, inline style, or JS
+ * setter in the served code sets it (exhaustive search, see ROOT-CAUSES.md).
+ * A filter on an ancestor breaks position:fixed for the header and the chat
+ * drawer (both resolve against the filtered ancestor instead of the viewport).
+ * This guard enforces filter:none as an INLINE style (which beats any
+ * stylesheet rule) on load, on scroll, and whenever the body's style or class
+ * changes. It does not touch the dim (opacity on the header) or the layout.
+ * No !important.
+ */
+function enforceNoBodyFilter() {
+	try {
+		const targets = [document.documentElement, document.body, document.querySelector('.g-shell')];
+		for (const el of targets) {
+			if (!el) continue;
+			const computed = window.getComputedStyle(el);
+			if (computed && computed.filter && computed.filter !== 'none' && el.style.filter !== 'none') {
+				el.style.filter = 'none';
+			}
+		}
+	} catch (e) { /* the guard itself must never throw */ }
+}
+
+function startBodyFilterGuard() {
+	enforceNoBodyFilter();
+	try {
+		window.addEventListener('scroll', enforceNoBodyFilter, { passive: true });
+		if (typeof MutationObserver === 'function' && document.body) {
+			const observer = new MutationObserver(enforceNoBodyFilter);
+			observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
+			observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+		}
+	} catch (e) { /* the guard itself must never throw */ }
+}
+
+/**
  * Shows a visible boot failure instead of leaving the page stuck on "Loading…".
  * The inline watchdog in index.html watches window.__profileBootState; 'failed'
  * tells it the module ran but could not start, so it must not overwrite this message.
@@ -69,6 +107,7 @@ function bindStatShortcuts() {
 }
 
 window.__profileBootState = 'booting';
+startBodyFilterGuard();
 window.addEventListener('DOMContentLoaded', () => {
 	bootProfileSocialOs().catch(error => {
 		console.error('B"H profile boot failed:', error);

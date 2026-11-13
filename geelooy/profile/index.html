@@ -180,10 +180,15 @@
 					}
 				}
 			} catch (e) { /* the watchdog itself must never throw */ }
-		}, 20000);
+		// B"H social fix 23 (defect 4): 20s was too short for a first cold
+		// load — the module graph (script.js + its imports) can take longer
+		// than 20s to fetch on a cold cache over a slow server, so the
+		// watchdog fired a false "Profile failed to load" before the module
+		// even ran. 60s still bounds a genuine failure.
+		}, 60000);
 	})();
 	</script>
-	<script type="module" src="./script.js?v=f90f942b89"></script>
+	<script type="module" src="./script.js?v=e9fc7f5bfe65"></script>
 	<script type="module" src="./modules/readingStats.js?v=c481023b19"></script>
 	<script>
 	/* B"H — Initialize reading stats and privacy on profile load. */
