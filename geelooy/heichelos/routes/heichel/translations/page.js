@@ -74,10 +74,19 @@ function createTranslationPage($i) {
 			})
 		]);
 		const rows = translated?.success || [];
-		if (!data?.post || data.post.error || !rows.length) {
+		// B"H — 2026-11-13 sweep fix: the translations themselves are the
+		// page. A missing source post (POST_NOT_FOUND — the sichosKodesh posts
+		// are absent from the post store while their translations exist in the
+		// corpus) must not 404 a collection whose rows are real and served.
+		// The post stays the preferred title source; the parent link is only
+		// rendered when the post actually loaded. The missing posts remain a
+		// data gap for the import track — this page must not hide it by
+		// inventing a post, only stop discarding real translations.
+		if (!rows.length) {
 			return missingPage();
 		}
-		const sourceTitle = data.post.title || data.post.name || vars.post;
+		const postLoaded = Boolean(data?.post && !data.post.error);
+		const sourceTitle = data.post?.title || data.post?.name || vars.post;
 		const title = `English translation — ${sourceTitle} | Awtsmoos`;
 		const parent = `/heichelos/${encodeURIComponent(vars.heichel)}/series/${encodeURIComponent(vars.series)}/post/${encodeURIComponent(vars.post)}`;
 		const canonicalPath = `${parent}/translations`;
@@ -96,7 +105,7 @@ function createTranslationPage($i) {
 			`<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="${RICH_ROBOTS}"><link rel="canonical" href="${escapeHtml(canonical)}">`,
 			socialTags({ title, description, canonical }), schema,
 			TRANSLATION_PAGE_CSS,
-			`</head><body data-awtsmoos-translation-page><main><p><a href="${escapeHtml(parent)}">Original teaching</a></p><h1>${escapeHtml(title.replace(/ \| Awtsmoos$/, ''))}</h1>`,
+			`</head><body data-awtsmoos-translation-page><main>${postLoaded ? `<p><a href="${escapeHtml(parent)}">Original teaching</a></p>` : ''}<h1>${escapeHtml(title.replace(/ \| Awtsmoos$/, ''))}</h1>`,
 			renderTranslationRows(rows), '</main></body></html>'
 		].join('');
 		return { mimeType: 'text/html; charset=utf-8', response };
