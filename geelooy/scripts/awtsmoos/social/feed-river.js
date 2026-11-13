@@ -208,9 +208,11 @@ function isOrphanedTestPost(post = {}) {
  * - popular: most reactions/comments/references first. Every real post
  *   currently has 0 engagement (verified across the base feed's first 400
  *   rows), so the tie-break is series depth — how many of the pool's
- *   posts share the series, a proxy for a popular series — then newest.
- *   When real engagement exists, it ranks first; the proxy only breaks
- *   the all-zero ties.
+ *   posts share the series, a proxy for a popular series — then AUTHOR
+ *   depth (Fix 10: series depth is uniform on the live data, every post
+ *   its own series, so author depth is the level where the data varies)
+ *   — then newest. When real engagement exists, it ranks first; the
+ *   proxies only break the all-zero ties.
  * - personalized ("For You"): no reading-history signal reaches the
  *   top-up (the mode endpoint returns only the 2 test posts), so rank
  *   for discovery diversity — one post per series, in first-appearance
@@ -247,9 +249,12 @@ function rankTopUp(pool, mode, need) {
 	}
 	if (mode === 'popular') {
 		const depth = new Map();
+		const aliasDepth = new Map();
 		for (const p of ordered) {
 			const s = String(p.seriesId || p.series || '');
 			depth.set(s, (depth.get(s) || 0) + 1);
+			const a = String(p.aliasId || p.author || '');
+			aliasDepth.set(a, (aliasDepth.get(a) || 0) + 1);
 		}
 		return [...ordered].sort((a, b) => {
 			const e = engagementOf(b) - engagementOf(a);
@@ -257,6 +262,21 @@ function rankTopUp(pool, mode, need) {
 			const d = (depth.get(String(b.seriesId || b.series || '')) || 0)
 				- (depth.get(String(a.seriesId || a.series || '')) || 0);
 			if (d) return d;
+			// B"H social fix 10 (defect 2): series depth is UNIFORM on
+			// the live data — every post is its own series (verified
+			// 2026-11-13: 150 rows, 150 distinct series, seriesId ==
+			// postId), so the depth tie-break never fires and Popular
+			// collapses to recency == Latest. The next tie-break is
+			// AUTHOR depth — how many of the pool's posts share the
+			// alias, a proxy for a popular author (same proxy family as
+			// series depth, at the level where the data actually varies:
+			// rashba 19, ritva 18, shiltei 18 in the live pool). Still a
+			// proxy, not real engagement — the backend needs real
+			// engagement (or mode endpoints returning real ranked posts)
+			// for a true Popular ranking.
+			const ad = (aliasDepth.get(String(b.aliasId || b.author || '')) || 0)
+				- (aliasDepth.get(String(a.aliasId || a.author || '')) || 0);
+			if (ad) return ad;
 			const c = Number(b.createdAt || 0) - Number(a.createdAt || 0);
 			if (c) return c;
 			return String(a.postId || a.id || '').localeCompare(String(b.postId || b.id || ''));
@@ -555,6 +575,19 @@ async function fetchPage() {
 				// the hub showing 1 post with "caught up". Retry on the next
 				// page fetch, after a 10s backoff.
 				state.baseNextRetry = Date.now() + 10000;
+				// B"H social fix 10 (defect 4): a failed scan on an EMPTY
+				// river left the skeletons up FOREVER (rendered check
+				// 2026-11-13: >87s of skeletons) — the mode fetch yields 0
+				// renderable items (the 2 test posts are filtered), the
+				// scan is the only source of cards, and a scan failure
+				// only set a retry backoff without rendering anything.
+				// Show the error/retry state when nothing has rendered
+				// yet, so the hub is bounded (~16s worst case: mode fetch
+				// + 15s scan watchdog) instead of infinite. showError()
+				// is a no-op when cards already exist (offset > 0), and
+				// appendItems() removes the .feed-empty error when a later
+				// scan succeeds, so a retry can still fill the river.
+				if (state.offset === 0) showError();
 			}
 		}
 		if (state.modeDone && state.baseDone) state.done = true;
