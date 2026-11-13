@@ -209,6 +209,14 @@ async function fetchBaseFeedPage(cursor, limit) {
 
 function normalizeSimPost(p = {}) {
 	const content = String(p.content || '');
+	// B"H social fix 6 (defect 3): sim records carry NO timestamp —
+	// verified live (the detail record has postId/title/content/
+	// heichelId/seriesId/parentSeriesId/id only, no createdAt of any
+	// kind). Stamping Date.now() here made every sim post read "1s"
+	// ago — a fabricated date. Use the record's real timestamp when
+	// one exists, else 0: the card renders no time for a dateless post
+	// rather than a fake "now".
+	const stamp = Number(p.createdAt || p.updatedAt || p.timestamp || p.publishedAt) || 0;
 	return {
 		postId: String(p.postId || p.id || ''),
 		id: String(p.postId || p.id || ''),
@@ -219,8 +227,8 @@ function normalizeSimPost(p = {}) {
 		aliasId: '',
 		authorName: '',
 		excerpt: content.slice(0, 240),
-		createdAt: Date.now(),
-		updatedAt: Date.now(),
+		createdAt: stamp,
+		updatedAt: stamp,
 		commentCount: 0,
 		comments: 0,
 		shareCount: 0,

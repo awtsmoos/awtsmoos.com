@@ -162,50 +162,87 @@ function isBenchmarkPost(post = {}) {
  *   the all-zero ties.
  * - personalized ("For You"): no reading-history signal reaches the
  *   top-up (the mode endpoint returns only the 2 test posts), so rank
- *   for discovery diversity — round-robin across series, one post per
- *   series per round, in base (newest-first) order. The first page then
- *   shows 11 different series instead of 11 parts of 2–3 series.
+ *   for discovery diversity — one post per series, in first-appearance
+ *   (newest-first) series order, starting at the FIFTH series (see
+ *   rankTopUp: the four freshest series are Latest's head). The first
+ *   page then shows 10 different series instead of 10 parts of 2–3
+ *   series, and its top never duplicates Latest's top.
  * Each ranking is computed from real row data; nothing is invented. */
 function engagementOf(post) {
 	return Number(post.commentCount || 0) + Number(post.reactionCount || 0) + Number(post.referenceCount || 0);
 }
 
+/** B"H social fix 6 (defects 1, 2): the pool arrives in the API's row
+ * order, and the API's order for equal createdAt values is not
+ * guaranteed — base pages 2–3 carry createdAt ties (verified live:
+ * 1792487016084 x2 and 1792486987309 x4 on page 2, 4 ties on page 3).
+ * The ranking must be a pure function of the pool SET, not of the row
+ * order it happened to arrive in. Canonical total order: createdAt
+ * desc, postId asc as the tie-break (postIds are unique, so the order
+ * is total). Every mode ranks from this order, so a tie can never flip
+ * the output between loads. */
+function canonicalPoolOrder(pool) {
+	return [...pool].sort((a, b) => {
+		const d = Number(b.createdAt || 0) - Number(a.createdAt || 0);
+		if (d) return d;
+		return String(a.postId || a.id || '').localeCompare(String(b.postId || b.id || ''));
+	});
+}
+
 function rankTopUp(pool, mode, need) {
+	const ordered = canonicalPoolOrder(pool);
 	if (mode === 'latest') {
-		return [...pool]
-			.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
-			.slice(0, need);
+		return ordered.slice(0, need);
 	}
 	if (mode === 'popular') {
 		const depth = new Map();
-		for (const p of pool) {
+		for (const p of ordered) {
 			const s = String(p.seriesId || p.series || '');
 			depth.set(s, (depth.get(s) || 0) + 1);
 		}
-		return [...pool].sort((a, b) => {
+		return [...ordered].sort((a, b) => {
 			const e = engagementOf(b) - engagementOf(a);
 			if (e) return e;
 			const d = (depth.get(String(b.seriesId || b.series || '')) || 0)
 				- (depth.get(String(a.seriesId || a.series || '')) || 0);
 			if (d) return d;
-			return Number(b.createdAt || 0) - Number(a.createdAt || 0);
+			const c = Number(b.createdAt || 0) - Number(a.createdAt || 0);
+			if (c) return c;
+			return String(a.postId || a.id || '').localeCompare(String(b.postId || b.id || ''));
 		}).slice(0, need);
 	}
+	// B"H social fix 6 (defect 1): For You's round-robin used to start
+	// at the first series in first-appearance order — but the newest
+	// posts are spread across distinct series, so round 0's first picks
+	// ARE Latest's top posts (verified live in the Fix 5 check: the top
+	// three real posts were identical). For You now starts its
+	// round-robin at the FIFTH series in first-appearance order. The
+	// four freshest series are Latest's head — the four newest posts
+	// span at most four distinct series, so skipping four guarantees no
+	// overlap with Latest's first four — and For You discovers the next
+	// tier instead of duplicating it. A FIXED offset (not a rotation by
+	// content) is what keeps the ranking prefix-stable when the pool
+	// grows: the series order is first-appearance, so a smaller pool's
+	// series are a prefix of the full pool's, and the offset into them
+	// is the same — a truncated pool (slow page, 15s watchdog abort)
+	// renders a PREFIX of the full list, never a shuffle. Only round 0
+	// is used (one post per series): dipping into round 1 on a thin
+	// pool is what shuffled the tail in the Fix 5 check — with fewer
+	// series than `need`, round 1 interleaves second posts of early
+	// series where the full pool would put first posts of later series.
+	// A thin pool therefore renders fewer posts (the river's Load More
+	// fetches the rest), honestly, instead of a shuffled tail.
 	const bySeries = new Map();
-	for (const p of pool) {
+	for (const p of ordered) {
 		const s = String(p.seriesId || p.series || '');
 		if (!bySeries.has(s)) bySeries.set(s, []);
 		bySeries.get(s).push(p);
 	}
 	const seriesLists = [...bySeries.values()];
+	const FOR_YOU_SKIP = 4;
 	const out = [];
-	for (let round = 0; out.length < need; round++) {
-		let added = false;
-		for (const list of seriesLists) {
-			if (out.length >= need) break;
-			if (list[round]) { out.push(list[round]); added = true; }
-		}
-		if (!added) break;
+	for (let i = FOR_YOU_SKIP; i < seriesLists.length && out.length < need; i++) {
+		if (seriesLists[i][0]) out.push(seriesLists[i][0]);
 	}
 	return out;
 }

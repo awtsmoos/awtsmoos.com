@@ -21,6 +21,20 @@ function authorName(item) {
 	return item.authorName || item.aliasName || item.aliasId || item.author || 'Awtsmoos';
 }
 
+/** B"H social fix 6 (defect 3): a post with no timestamp must not
+ * render a fabricated "now". Simulation posts carry no createdAt in
+ * their record (verified live), and normalizeSimPost used to stamp
+ * Date.now() — so every sim post read "1s" ago. With no stamp, render
+ * no <time> element at all (the dot goes with it); the card still shows
+ * its heichel. Same guard the comment thread already uses (line ~852:
+ * the time renders only when a stamp exists). */
+function timeHtml(item) {
+	const stamp = Number(item.updatedAt || item.createdAt) || 0;
+	if (!stamp) return '';
+	return `<time datetime="${escapeAttr(new Date(stamp).toISOString())}">${timeAgo(stamp)}</time>`
+		+ `<span class="feed-card-dot" aria-hidden="true">·</span>`;
+}
+
 function currentAlias() {
 	return window.curAlias || window.currentAlias ||
 		document.body?.dataset?.aliasId ||
@@ -98,8 +112,7 @@ export function renderFeedCard(item = {}, opts = {}) {
 			<div class="feed-card-meta">
 				<a class="feed-card-author" href="${escapeAttr(aliasHref(item))}">${escapeHtml(authorName(item))}</a>
 				<div class="feed-card-sub">
-					<time datetime="${escapeAttr(new Date(Number(item.updatedAt) || Date.now()).toISOString())}">${timeAgo(item.updatedAt || item.createdAt)}</time>
-					<span class="feed-card-dot" aria-hidden="true">·</span>
+					${timeHtml(item)}
 					<span class="feed-card-heichel">${escapeHtml(item.heichelName || item.heichelId || '')}</span>
 				</div>
 			</div>
