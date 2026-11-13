@@ -17,6 +17,7 @@ import { renderProfileSeries, loadSeriesForAlias } from './series.js';
 import { renderProfileActivity } from './activity.js';
 import { emptyCard } from './cards.js';
 import { renderHeichelos } from './heichelos.js';
+import { renderProfileReading } from './reading.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
 import { bindTabs } from './tabs.js';
 import { setAliases, state } from './state.js';
@@ -36,7 +37,13 @@ const TAB_LOADERS = {
 	posts: renderProfilePosts,
 	activity: renderProfileActivity,
 	comments: renderProfileComments,
-	series: renderProfileSeries
+	series: renderProfileSeries,
+	// B"H social fix 3 (defect 7): Reading was never in this map — its
+	// content loaded only from a separate inline-script click binding in
+	// index.html, which never fired when the tab click did not reach the
+	// button (defect 6). It now loads through the same onActivate path
+	// as every other tab, on any activation (click, Enter, keyboard).
+	reading: renderProfileReading
 };
 
 export class ProfileDashboardController {
@@ -59,6 +66,16 @@ export class ProfileDashboardController {
 			getAliasDetails()
 		]);
 		setAliases(aliases, defaultAlias);
+		// B"H social fix 3 (defect 6): pre-load the default Posts CONTENT
+		// now (the aliases are in). Load the content only — never activate
+		// the tab or .click() it. The Posts tab is already the active tab
+		// in the HTML; if the user picked another tab during boot, their
+		// choice stands and the Posts content is simply ready when they
+		// return to it.
+		if (!this._tabsLoaded.has('posts')) {
+			this._tabsLoaded.add('posts');
+			TAB_LOADERS.posts().catch(() => { this._tabsLoaded.delete('posts'); });
+		}
 		this.personalizeHero();
 		// B"H: stats load eagerly in the background — real numbers, not 0s.
 		this.loadStatsEagerly();
@@ -72,7 +89,11 @@ export class ProfileDashboardController {
 	 * Safe to call once; the tabs module guards against double-binding.
 	 */
 	bindContentTabs() {
-		const loaded = new Set();
+		// B"H social fix 3 (defect 6): the loaded set lives on the
+		// instance so load() can pre-load the Posts content above without
+		// going through a click; onActivate still runs each loader once.
+		if (!this._tabsLoaded) this._tabsLoaded = new Set();
+		const loaded = this._tabsLoaded;
 		bindTabs({
 			onActivate: (key) => {
 				const load = TAB_LOADERS[key];

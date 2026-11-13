@@ -33,7 +33,16 @@ export const LANG_EVENT = 'awtsmoos-feed-lang';
 const STORE_KEY = 'awtsmoos-feed-lang';
 const LOCALE_BASE = '/feed/js/locales';
 
-const state = {
+/* B"H social fix 3 (defect 4): the feed page loads this module TWICE —
+// once as `/feed/js/i18n.js?v=1` (the page inline module, which calls
+// initI18n) and once as `./i18n.js` (imported by feed.js / cards.js /
+// filters.js, which call t()). Those are different module URLs, so the
+// browser keeps TWO module instances with TWO separate `state` objects:
+// initI18n fills one, t() reads the other (still empty) and returns the
+// raw key for everything. The state therefore lives on globalThis, shared
+// by every instance of this module, so whichever instance initializes
+// populates the strings all of them read. */
+const state = (globalThis.__awtsmoosFeedI18n ||= {
 	lang: 'en',
 	/** English reference — ultimate fallback for every key. */
 	en: {},
@@ -42,7 +51,7 @@ const state = {
 	/** Keys in the current locale that were uncertain: render English, mark it. */
 	fallback: new Set(),
 	ready: false
-};
+});
 
 function lsGet(key) {
 	try { return localStorage.getItem(key); } catch (_) { return null; }

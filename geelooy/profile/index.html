@@ -192,28 +192,13 @@
 		const userId = document.querySelector('[data-profile-handle]')?.textContent?.replace('@', '').trim() || null;
 		if (!userId) return;
 
-		// Initialize reading stats when Reading tab is clicked.
-		// B"H social fix 2: there are two [data-profile-tab="reading"]
-		// buttons — bind all of them, or the second one switches the panel
-		// without ever loading the stats.
-		const readingTabs = document.querySelectorAll('[data-profile-tab="reading"]');
-		const statsContainer = document.getElementById('reading-stats-container');
-		let statsLoaded = false;
-
-		if (readingTabs.length && statsContainer && window.ProfileReadingStats) {
-			readingTabs.forEach((readingTab) => {
-				readingTab.addEventListener('click', () => {
-					if (statsLoaded) return;
-					statsLoaded = true;
-					const viewerId = userId; // Own profile for now
-					new window.ProfileReadingStats({
-						container: statsContainer,
-						userId, viewerId
-					}).load();
-				});
-			});
-		}
-
+		// B"H social fix 3 (defect 7): the Reading tab no longer binds
+		// its own click listener here. It loads through the controller's
+		// TAB_LOADERS (profile/modules/reading.js), on ANY activation —
+		// the old binding never fired when the tab click did not reach the
+		// button, and it read the user id from the hero handle, which at
+		// DOMContentLoaded is still the "@you" placeholder (so it fetched
+		// stats for the alias "you", not the signed-in user).
 		// Initialize privacy settings in About tab
 		const privacyContainer = document.getElementById('reading-privacy-container');
 		if (privacyContainer && window.ReadingPrivacySettings) {

@@ -112,6 +112,21 @@ function postCard(post = {}) {
 	countsEl.className = "social-post-counts";
 	countsEl.textContent = counts ? countsText(counts) : "";
 	card.append(countsEl);
+	// B"H social fix 3 (defect 10): make the whole card open the post.
+	// The title is a real <a href> (postRouteFor) and no handler in the
+	// profile code intercepts it, so a plain title click SHOULD navigate;
+	// the rendered check still saw it not navigate, which no code-level
+	// cause explains (no interceptor, no pointer-events block, no
+	// :active transform on the link). The card-level handler below
+	// guarantees a click anywhere on the card — title included — opens
+	// the post even if the anchor's own default is somehow swallowed,
+	// and it is the normal card affordance anyway. Clicks on a link or
+	// button inside the card keep their own behavior.
+	card.addEventListener("click", (event) => {
+		if (event.target.closest("a, button")) return;
+		if (url) window.location.assign(url);
+	});
+	card.style.cursor = url ? "pointer" : "";
 	return card;
 }
 

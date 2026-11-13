@@ -42,10 +42,13 @@ export async function bootProfileSocialOs() {
 	bindStatShortcuts();
 	const controller = new ProfileDashboardController();
 	await controller.start();
-	// B"H: Posts is the default tab — load it immediately so it is never empty.
-	try {
-		document.querySelector('[data-profile-tab="posts"]')?.click();
-	} catch { /* default tab load must never break boot */ }
+	// B"H social fix 3 (defect 6): the old post-boot .click() on the Posts
+	// tab is GONE. It fired after controller.start() resolved — seconds
+	// into the page, while the user may already have clicked another tab
+	// — and forced Posts back on, which is exactly the reported symptom
+	// (a click was applied, then "Posts stayed selected"). The controller
+	// now pre-loads the Posts CONTENT inside load(), without activating
+	// the tab or clicking it; the click path belongs to the user only.
 	window.__profileBootState = 'ready';
 	window.addEventListener('awtsmoosAliasChange', () => renderTiferesSocialLaunchpad());
 	return controller;

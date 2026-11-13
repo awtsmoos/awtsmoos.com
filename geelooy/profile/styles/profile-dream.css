@@ -422,8 +422,14 @@
 	background: rgba(217, 169, 78, .14);
 	color: var(--pd-gold-deep);
 }
+/* B"H social fix 3 (defect 6): the :active scale is GONE. A mousedown
+   shrinks the button 4%, so the mouseup can land outside the shrunken
+   button and no click fires — while the button IS focused, so Enter then
+   fires a click. That is exactly the reported symptom (plain click
+   fails, Enter works). Press feedback is a background tint now; the
+   button never moves under the pointer. */
 .profile-dream .pd-tab:active {
-	transform: scale(.96);
+	background: rgba(217, 169, 78, .18);
 }
 .profile-dream .pd-tab:focus-visible {
 	outline: 2px solid var(--pd-gold);
@@ -874,7 +880,7 @@
 	color: var(--pd-gold-deep, #8a641f);
 }
 .profile-dream .profile-tabs [role="tab"]:active {
-	transform: scale(.96);
+	background: rgba(217, 169, 78, .18);
 }
 .profile-dream .profile-tabs [role="tab"]:focus-visible {
 	outline: 2px solid var(--pd-gold, #d9a94e);

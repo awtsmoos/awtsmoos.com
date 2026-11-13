@@ -48,7 +48,20 @@ function commentHeader(author, createdAt) {
 	avatar.textContent = author.slice(0, 1).toUpperCase() || "A";
 	const identity = document.createElement("div");
 	const alias = document.createElement("strong");
-	alias.textContent = `@${author}`;
+	// B"H social fix 3 (defect 9): the commenter name was plain text, so
+	// clicking it did nothing. Link it to the author's profile when the
+	// author is a real alias (not "anonymous"). The link keeps the
+	// surrounding strong styling (inherit color, no underline).
+	if (author && author !== "anonymous") {
+		const aliasLink = document.createElement("a");
+		aliasLink.href = `/@${encodeURIComponent(author)}`;
+		aliasLink.textContent = `@${author}`;
+		aliasLink.style.color = "inherit";
+		aliasLink.style.textDecoration = "none";
+		alias.append(aliasLink);
+	} else {
+		alias.textContent = `@${author}`;
+	}
 	const time = document.createElement("small");
 	time.textContent = formatDate(createdAt);
 	identity.append(alias, time);

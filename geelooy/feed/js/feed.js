@@ -149,6 +149,28 @@ function normalizeBasePost(p = {}) {
 	};
 }
 
+/* B"H social fix 3 (defects 1, 2): the two "Write-path test" records are
+   distinct rows with the same title, author, heichel and series — the
+   profile list dedupes them by this content key (fix 2), but the feed
+   river only deduped by postId, so the test post showed twice. And the
+   base feed's first 40 rows are ALL "Benchmark post N" (bench-speed
+   stress-test data, 22d old), so a top-up that takes the first page
+   shows only benchmark posts and never real content. Bench-speed rows
+   are skipped (the data still needs server-side cleanup) and the top-up
+   scans forward until it finds real posts. */
+function contentKey(item = {}) {
+	return [
+		String(item.title || '').trim().toLowerCase(),
+		String(item.aliasId || item.author || '').trim().toLowerCase(),
+		String(item.heichelId || item.heichel || '').trim().toLowerCase(),
+		String(item.seriesId || item.series || '').trim().toLowerCase()
+	].join('|');
+}
+
+function isBenchmarkPost(item = {}) {
+	return String(item.heichelId || item.heichel || '').toLowerCase() === 'bench-speed';
+}
+
 async function fetchBaseFeedPage(cursor, limit) {
 	const qs = new URLSearchParams({ limit: String(limit) });
 	if (cursor) qs.set('cursor', cursor);
@@ -249,16 +271,54 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 	// test posts, or 0 for trending). `fallback` carries the cursors across
 	// pages so each source is consumed once, in order, and never repeated.
 	const fb = fallback || null;
-	const seen = new Set(items.map(it => String(it.postId || it.id || '')));
+	const seen = new Set();
+	const seenContent = new Set();
+	// B"H social fix 3 (defect 2): dedupe the TAB items too — the two
+	// "Write-path test" records arrive here as tab items, distinct postIds
+	// with identical content. Drop the later duplicate from the list
+	// (never the underlying post). A key of '|||' means the item carries
+	// no title/author/heichel/series at all, so it is never collapsed.
+	items = items.filter((it) => {
+		const id = String(it.postId || it.id || '');
+		if (id) {
+			if (seen.has(id)) return false;
+			seen.add(id);
+		}
+		const ckey = contentKey(it);
+		if (ckey !== '|||' && seenContent.has(ckey)) return false;
+		if (ckey !== '|||') seenContent.add(ckey);
+		return true;
+	});
 	if (fb && items.length < limit && !fb.baseDone) {
+		// B"H social fix 3 (defect 1): scan the base feed forward — fetch
+		// pages of 50, skip bench-speed, keep real posts — until this river
+		// page is full or 3 base pages are scanned. One 14-row page only
+		// ever returned benchmark posts (the first 40 base rows are all
+		// bench-speed). If a scan finds no real post at all, the base is
+		// done for this river (it is not yielding real content), so the
+		// river does not spin re-fetching it.
 		try {
-			const base = await fetchBaseFeedPage(fb.baseCursor, limit - items.length);
-			for (const it of base.items) {
-				const key = String(it.postId || it.id || '');
-				if (key && !seen.has(key)) { seen.add(key); items.push(it); }
+			let foundReal = 0;
+			let pagesScanned = 0;
+			while (items.length < limit && !fb.baseDone && pagesScanned < 3) {
+				const base = await fetchBaseFeedPage(fb.baseCursor, 50);
+				pagesScanned++;
+				for (const it of base.items) {
+					if (isBenchmarkPost(it)) continue;
+					const key = String(it.postId || it.id || '');
+					const ckey = contentKey(it);
+					if (key && !seen.has(key) && (ckey === '|||' || !seenContent.has(ckey))) {
+						seen.add(key);
+						if (ckey !== '|||') seenContent.add(ckey);
+						items.push(it);
+						foundReal++;
+					}
+					if (items.length >= limit) break;
+				}
+				fb.baseCursor = base.nextCursor || '';
+				if (!base.hasMore) fb.baseDone = true;
 			}
-			fb.baseCursor = base.nextCursor || '';
-			if (!base.hasMore) fb.baseDone = true;
+			if (foundReal === 0) fb.baseDone = true;
 		} catch (_) { fb.baseDone = true; }
 	}
 	if (fb && items.length < limit && !fb.simDone) {
@@ -266,13 +326,27 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 			const sim = await fetchSimPage(fb.simOffset, limit - items.length);
 			for (const it of sim.items) {
 				const key = String(it.postId || it.id || '');
-				if (key && !seen.has(key)) { seen.add(key); items.push(it); }
+				const ckey = contentKey(it);
+				if (key && !seen.has(key) && (ckey === '|||' || !seenContent.has(ckey))) {
+					seen.add(key);
+					if (ckey !== '|||') seenContent.add(ckey);
+					items.push(it);
+				}
 			}
 			fb.simOffset += sim.fetched;
 			if (sim.exhausted) fb.simDone = true;
 		} catch (_) { fb.simDone = true; }
 	}
-	const done = nextOffset === null && (!fb || (fb.baseDone && fb.simDone));
+	// B"H social fix 3 (defect 3): the simulation series is effectively
+	// infinite (501,629 posts; its `exhausted` flag only trips on a short
+	// page, which never happens), so requiring simDone made `done`
+	// unreachable — the river auto-fetched forever (the sentinel sits
+	// within the observer's 700px margin while the river is short, and
+	// each load re-armed it), re-entering "status.loading" and disabling
+	// Load more. The sim is a bonus top-up for a page, not a source the
+	// river must exhaust: the river is done when the tab endpoint and the
+	// base feed (the real sources) are both exhausted.
+	const done = nextOffset === null && (!fb || fb.baseDone);
 	return { items, nextOffset, total, done };
 }
 

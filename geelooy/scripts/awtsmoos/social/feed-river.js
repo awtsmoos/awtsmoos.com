@@ -46,6 +46,12 @@ const state = {
 	baseDone: false,
 	liked: new Set(),
 	saved: new Set(),
+	// B"H social fix 3 (defect 2): dedupe the river LIST by postId AND
+	// content key (title+alias+heichel+series), the same way the profile
+	// list was deduped in fix 2. Persists across mode-item and top-up
+	// appends so a post never appears twice in one river session.
+	seenIds: new Set(),
+	seenContent: new Set(),
 	maamarLinks: null,
 	maamarLinksLoading: false
 };
@@ -111,6 +117,25 @@ function normalizeRiverPost(p = {}) {
 	};
 }
 
+/* B"H social fix 3 (defects 1, 2): same content key as the feed river
+   and the profile list — title+alias+heichel+series, lowercased. The
+   two "Write-path test" records share it, so a postId-only dedupe shows
+   the test post twice. Bench-speed rows are stress-test data (the base
+   feed's first 40 rows are all "Benchmark post N"); they are skipped so
+   the hub surfaces real content posts. */
+function contentKey(post = {}) {
+	return [
+		String(post.title || '').trim().toLowerCase(),
+		String(post.aliasId || post.author || '').trim().toLowerCase(),
+		String(post.heichelId || post.heichel || '').trim().toLowerCase(),
+		String(post.seriesId || post.series || '').trim().toLowerCase()
+	].join('|');
+}
+
+function isBenchmarkPost(post = {}) {
+	return String(post.heichelId || post.heichel || '').toLowerCase() === 'bench-speed';
+}
+
 function esc(s) {
 	return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -152,6 +177,7 @@ function cardHtml(post, index = 0) {
 	const excerpt = esc(post.excerpt || post.summary || post.description || '');
 	const kicker = esc(post.seriesTitle || post.seriesId || post.series || 'Awtsmoos');
 	const author = esc(post.authorName || post.author || post.aliasId || 'Awtsmoos');
+	const aliasId = String(post.aliasId || post.author || '').trim();
 	const initial = (author.trim()[0] || 'A').toUpperCase();
 	const likes = Number(post.reactionCount || post.likes || 0);
 	const comments = Number(post.commentCount || 0);
@@ -174,7 +200,7 @@ function cardHtml(post, index = 0) {
 			${why ? `<span class="feed-card__why">✦ ${why}</span>` : ''}
 			<div class="feed-card__meta">
 				<span class="feed-card__avatar" aria-hidden="true">${esc(initial)}</span>
-				<span>${author}</span>
+				${aliasId ? `<a class="feed-card__author" href="/@${encodeURIComponent(aliasId)}">${author}</a>` : `<span>${author}</span>`}
 			</div>
 			<div class="feed-card__actions">
 				<button class="feed-action ${liked ? 'feed-action--liked' : ''}" data-action="like" data-post="${id}" aria-pressed="${liked}" aria-label="${liked ? 'Unlike' : 'Like'} this post">
@@ -248,25 +274,46 @@ async function fetchPage() {
 			// time out and the river shows the tab posts — honest, and it renders.
 		if (items.length) appendItems(items);
 		if (items.length < PAGE_SIZE && !state.baseDone) {
+			// B"H social fix 3 (defect 1): scan the base feed forward —
+			// pages of 50, skip bench-speed — until this river page is full
+			// or 3 base pages are scanned. One 12-row page only ever
+			// returned benchmark posts (the first 40 base rows are all
+			// bench-speed). The 5s watchdog still bounds the whole top-up;
+			// a scan that finds no real post marks the base done so the
+			// river does not spin re-fetching it.
 			try {
 				const topController = new AbortController();
 				const topWatchdog = setTimeout(() => topController.abort(), 5000);
 				try {
-					const qs = new URLSearchParams({ limit: String(PAGE_SIZE - items.length) });
-					if (state.baseCursor) qs.set('cursor', state.baseCursor);
-					const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
-					if (!baseRes.ok) throw new Error('base feed ' + baseRes.status);
-					const baseBody = await baseRes.json();
-					const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
-					const seen = new Set(state.items.map(it => String(it.postId || it.id || '')));
 					const extra = [];
-					for (const row of baseRows.map(normalizeRiverPost)) {
-						const key = String(row.postId || row.id || '');
-						if (key && !seen.has(key)) { seen.add(key); extra.push(row); }
+					const need = PAGE_SIZE - items.length;
+					let foundReal = 0;
+					let pagesScanned = 0;
+					while (extra.length < need && !state.baseDone && pagesScanned < 3) {
+						const qs = new URLSearchParams({ limit: '50' });
+						if (state.baseCursor) qs.set('cursor', state.baseCursor);
+						const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
+						if (!baseRes.ok) throw new Error('base feed ' + baseRes.status);
+						const baseBody = await baseRes.json();
+						const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
+						pagesScanned++;
+						for (const row of baseRows.map(normalizeRiverPost)) {
+							if (isBenchmarkPost(row)) continue;
+							const key = String(row.postId || row.id || '');
+							const ckey = contentKey(row);
+							if (key && !state.seenIds.has(key) && (ckey === '|||' || !state.seenContent.has(ckey))) {
+								state.seenIds.add(key);
+								if (ckey !== '|||') state.seenContent.add(ckey);
+								extra.push(row);
+								foundReal++;
+							}
+							if (extra.length >= need) break;
+						}
+						const pageInfo = baseBody?.meta?.pageInfo || {};
+						state.baseCursor = pageInfo.nextCursor || '';
+						if (!pageInfo.hasMore) state.baseDone = true;
 					}
-					const pageInfo = baseBody?.meta?.pageInfo || {};
-					state.baseCursor = pageInfo.nextCursor || '';
-					if (!pageInfo.hasMore) state.baseDone = true;
+					if (foundReal === 0) state.baseDone = true;
 					if (extra.length) appendItems(extra);
 				} finally {
 					clearTimeout(topWatchdog);
@@ -287,6 +334,20 @@ async function fetchPage() {
 function appendItems(items) {
 	const river = document.getElementById('feed-river');
 	if (!river) return;
+	// B"H social fix 3 (defect 2): dedupe the LIST by postId AND content
+	// key (title+alias+heichel+series). The mode items and the top-up
+	// extras arrive through here separately, so the dedupe lives here —
+	// the two "Write-path test" records (distinct postIds, identical
+	// content) collapse to one. Never the underlying posts.
+	items = (items || []).filter((post) => {
+		const id = String(post.postId || post.id || '');
+		const ckey = contentKey(post);
+		if (id && state.seenIds.has(id)) return false;
+		if (ckey !== '|||' && state.seenContent.has(ckey)) return false;
+		if (id) state.seenIds.add(id);
+		if (ckey !== '|||') state.seenContent.add(ckey);
+		return true;
+	});
 	// Remove skeletons on first real content.
 	river.querySelectorAll('.feed-skeleton').forEach(el => el.remove());
 	// B"H social fix 2b: the river may be appended twice per page (mode items,
@@ -304,8 +365,23 @@ function appendItems(items) {
 }
 
 function isSignedIn() {
+	// B"H social fix 3 (defect 5): the old check read only window.curAlias
+	// (set asynchronously by the shell) or a ?alias= URL param — neither
+	// is set on the hub page when a tab fetch fails, so a signed-in user
+	// got the "Sign in to see your river" gate. Use the same alias
+	// resolution as the feed page (window.curAlias, window.currentAlias,
+	// body data-alias-id, localStorage), so the gate only shows for a
+	// genuinely signed-out visitor; a signed-in user whose fetch fails
+	// gets the "river paused" retry instead.
 	try {
-		return !!(window.curAlias || new URLSearchParams(window.location.search).get('alias'));
+		const alias = window.curAlias || window.currentAlias
+			|| document.body?.dataset?.aliasId
+			|| localStorage.getItem('awtsmoos-alias')
+			|| localStorage.getItem('awtsmoosAlias') || '';
+		const clean = String(alias).trim().toLowerCase();
+		if (!clean) return false;
+		if (['seeker', 'anonymous', 'guest'].includes(clean)) return false;
+		return true;
 	} catch (_) { return !!window.curAlias; }
 }
 
@@ -354,6 +430,8 @@ function resetAndLoad() {
 	state.modeDone = false;
 	state.baseCursor = '';
 	state.baseDone = false;
+	state.seenIds = new Set();
+	state.seenContent = new Set();
 	const river = document.getElementById('feed-river');
 	if (river) river.innerHTML = skeletonHtml(3);
 	fetchPage();

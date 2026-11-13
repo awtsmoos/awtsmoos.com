@@ -80,17 +80,38 @@ export class FeedObservatoryApi extends DomemObservatoryApi {
 		const homeItems = FeedObservatoryApi.itemsOf(homeBody);
 		if (homeItems.length >= 8) return home;
 		try {
-			const base = await this.read("feed", { limit: 8 }, "feedHome");
+			// B"H social fix 3 (defect 1): the base feed's first 40 rows are
+			// all "Benchmark post N" (bench-speed), so a top-up of 8 only ever
+			// returned benchmark posts. Read 50, skip bench-speed, dedupe by
+			// postId AND content key (the two "Write-path test" records share
+			// one), and keep only real posts.
+			const base = await this.read("feed", { limit: 50 }, "feedHome");
 			const baseBody = (base && base.body) || base;
 			const seen = new Set(homeItems.map((it) => String(it.postId || it.id || '')));
+			const seenContent = new Set(homeItems.map((it) => [
+				String(it.title || '').trim().toLowerCase(),
+				String(it.aliasId || it.author || '').trim().toLowerCase(),
+				String(it.heichelId || it.heichel || '').trim().toLowerCase(),
+				String(it.seriesId || it.series || '').trim().toLowerCase()
+			].join('|')));
 			const extra = FeedObservatoryApi.itemsOf(baseBody)
 				.map(FeedObservatoryApi.normalizeBasePost)
 				.filter((it) => {
+					if (String(it.heichelId || '').toLowerCase() === 'bench-speed') return false;
 					const key = String(it.postId || it.id || '');
 					if (!key || seen.has(key)) return false;
+					const ckey = [
+						String(it.title || '').trim().toLowerCase(),
+						String(it.aliasId || it.author || '').trim().toLowerCase(),
+						String(it.heichelId || it.heichel || '').trim().toLowerCase(),
+						String(it.seriesId || it.series || '').trim().toLowerCase()
+					].join('|');
+					if (seenContent.has(ckey)) return false;
 					seen.add(key);
+					seenContent.add(ckey);
 					return true;
-				});
+				})
+				.slice(0, Math.max(0, 8 - homeItems.length));
 			if (extra.length && homeBody && homeBody.success && typeof homeBody.success === 'object' && !Array.isArray(homeBody.success)) {
 				homeBody.success.items = [...homeItems, ...extra];
 				homeBody.success.total = homeBody.success.items.length;

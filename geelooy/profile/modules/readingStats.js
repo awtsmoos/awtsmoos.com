@@ -24,11 +24,22 @@ class ProfileReadingStats {
 		if (!this.container || !this.userId) return;
 
 		try {
-			// Fetch stats and recent reads in parallel
-			const [statsRes, recentRes] = await Promise.all([
-				fetch(`${this.apiBase}/reading/stats/${encodeURIComponent(this.userId)}`, { credentials: 'same-origin' }),
-				fetch(`${this.apiBase}/reading/recent/${encodeURIComponent(this.userId)}?limit=5`, { credentials: 'same-origin' })
-			]);
+			// B"H social fix 3 (defect 7): the two fetches had NO timeout —
+			// if the reading API hung, Promise.all never settled and no
+			// message ever rendered (the "could not be loaded" text below
+			// only runs in the catch). Bound to 8s so a hung API renders
+			// the honest failure message instead of a blank tab.
+			const controller = new AbortController();
+			const watchdog = setTimeout(() => controller.abort(), 8000);
+			let statsRes, recentRes;
+			try {
+				[statsRes, recentRes] = await Promise.all([
+					fetch(`${this.apiBase}/reading/stats/${encodeURIComponent(this.userId)}`, { credentials: 'same-origin', signal: controller.signal }),
+					fetch(`${this.apiBase}/reading/recent/${encodeURIComponent(this.userId)}?limit=5`, { credentials: 'same-origin', signal: controller.signal })
+				]);
+			} finally {
+				clearTimeout(watchdog);
+			}
 
 			const statsData = await statsRes.json();
 			const recentData = await recentRes.json();
