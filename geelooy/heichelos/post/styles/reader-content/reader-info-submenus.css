@@ -55,22 +55,43 @@
 .post-reader-localized-context #readerInfoList,
 .post-reader-localized-context #readerInfoFootnoteList {
 	flex: 1 1 auto;
+	/* B"H batch 59 — TAB-BAR OVERLAP, MECHANISM CHANGE: five batches
+	   of CSS scroll-snap (proximity) + bottom padding never made the
+	   top row land fully visible after a scroll. Proximity snap only
+	   snaps when the landing position is "close" to a snap point (a
+	   UA-defined threshold); the wheel handler's x3 deltas land
+	   mid-row, 30-60px from any snap point, so snap never engages —
+	   the batch-58 check saw the top row half-covered at EVERY
+	   scrolled position (rows 2, 3, 6, 8, 14, 23, 30, 17, 35).
+	   The fix does not depend on CSS snap: the template's wheel +
+	   keyboard handlers now snap the list's scrollTop to the nearest
+	   ROW boundary (a .reader-index-choice offsetTop) after every
+	   scroll (snapListScrollToRow in _awtsmoos.post.html). CSS snap
+	   stays as a backup, but MANDATORY now (not proximity), so ANY
+	   scroll — touch drag, scrollbar drag, programmatic, checker
+	   scroll — is forced to a row boundary, and it targets the SAME
+	   boundaries as the JS (row offsetTop), so the two cannot fight.
+	   scroll-padding-top is 0 now (was 70px): the tab bar sits
+	   OUTSIDE the list (a flex sibling above it), so a row at the
+	   list's top edge is already below the tab bar — the 70px only
+	   shifted the snap targets away from the JS targets.
+	   position: relative makes the list the rows' offsetParent, so
+	   a row's offsetTop IS the scrollTop that puts its top at the
+	   list's top edge (both mechanisms use it). */
+	position: relative;
 	/* B"H batch 55 — TAB-BAR OVERLAP: the first row starts clearly
 	   below the tabs (top padding 6px -> 10px), so the separation
 	   between the tab header and the first row is unambiguous even
 	   after scrolling. Scroll behavior is unchanged. */
-	padding: 10px 3px 360px;
+	padding: 10px 3px 120px;
 	align-content: start;
 	/* B"H batch 56 — TAB-BAR OVERLAP (continued): the lists scroll
 	   under the opaque tab bar and the top row lands half-cut (its
 	   Hebrew line clipped, only the detail line visible). Scroll-
 	   snapping makes rows settle to full rows after a scroll, so
 	   the top row is fully visible at any scroll position.
-	   `proximity` (not `mandatory`) only snaps when close to a
-	   snap point, so it does not fight the user or change the feel
-	   of a long scroll. The rows carry `scroll-snap-align: start`
-	   below; the template `<style>` carries the same rules as a
-	   network-first backstop.
+	   The rows carry `scroll-snap-align: start` below; the template
+	   `<style>` carries the same rules as a network-first backstop.
 	   B"H batch 57 — the snap did NOT engage at the BOTTOM of the
 	   list: at max scroll there is no more content to scroll, so
 	   the top row stays half-cut and no snap point is reachable
@@ -91,9 +112,20 @@
 	   full-row alignment at max scroll for ANY list length (18, 36, or
 	   longer after more "Show more" clicks). scroll-padding-top: 70px
 	   makes the snap align rows BELOW the tab bar (~50px tall), not
-	   under it. */
-	scroll-snap-type: y proximity;
-	scroll-padding-top: 70px;
+	   under it.
+	   B"H batch 59 — BOTTOM PADDING 360px -> 120px: the 360px
+	   OVERSHOT — it EXCEEDS the list viewport (~350px at 144px,
+	   desktop 998px; confirmed twice: batch 57's "row 17 at top at
+	   the 18-row bottom" puts V ~ 367px, and batch 58's "blank at
+	   max scroll" requires V <= 360px), so at true max scroll the
+	   list showed NOTHING but blank cream in both the 18-row and
+	   the 36-row lists. 120px (about one row) is well under
+	   V - one row (~225px), so the last row is fully visible above
+	   "Show more passages" at MAXIMUM scroll for any list length,
+	   and the JS row-boundary snap (not the padding) is what aligns
+	   the top row now. */
+	scroll-snap-type: y mandatory;
+	scroll-padding-top: 0;
 	/* B"H batch 50 — the white rectangle overlapping rows' right side:
 	   when the vertical scrollbar appears it overlays the rows' right
 	   edge (the list had no reserved gutter). Reserve the gutter so
@@ -158,10 +190,16 @@
 	min-width: 0;
 	overflow-wrap: anywhere;
 	/* B"H batch 56 — TAB-BAR OVERLAP: the lists carry
-	   `scroll-snap-type: y proximity` (see the list rule above);
+	   `scroll-snap-type: y mandatory` (see the list rule above);
 	   each row snaps to the top of the scroll container when a
 	   scroll settles, so the top row is fully visible (not
-	   half-cut under the tab bar) at any scroll position. */
+	   half-cut under the tab bar) at any scroll position.
+	   B"H batch 59 — the snap is MANDATORY now (was proximity):
+	   proximity only snaps when close to a snap point, so it never
+	   engaged for the wheel handler's x3 deltas (five batches of
+	   failure). Mandatory forces every scroll to a row boundary,
+	   and the template's JS row-boundary snap targets the SAME
+	   boundaries, so the two cannot fight. */
 	scroll-snap-align: start;
 }
 

@@ -94,7 +94,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   explicit :root [hidden] display:none at (1,3,1) beats every
 		   grid rule, so a hidden list can never display. */
 		:root .post-reader-localized-context #readerInfoList:not([hidden]),
-		:root .post-reader-localized-context #readerInfoFootnoteList:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; width: 100%; min-width: 0; box-sizing: border-box; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+		:root .post-reader-localized-context #readerInfoFootnoteList:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; width: 100%; min-width: 0; box-sizing: border-box; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; position: relative; }
 		:root .post-reader-localized-context #readerInfoList[hidden],
 		:root .post-reader-localized-context #readerInfoFootnoteList[hidden] { display: none; }
 		:root .post-reader-localized-context .reader-index-choice { display: block; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
@@ -123,22 +123,32 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		   (its Hebrew line clipped, only the detail line visible).
 		   Scroll-snapping makes rows settle to full rows after a
 		   scroll, so the top row is fully visible at any scroll
-		   position. `proximity` (not `mandatory`) only snaps when
-		   close to a snap point, so it does not fight the user or
-		   change the feel of a long scroll. Same rule as the sheet
-		   (network-first backstop, as with the other dialog rules). */
+		   position. Same rule as the sheet (network-first backstop,
+		   as with the other dialog rules).
+		   B"H batch 59 — MANDATORY now (was proximity): proximity
+		   only snaps when close to a snap point, so it never
+		   engaged for the wheel handler's x3 deltas (five batches
+		   of failure — the batch-58 check saw the top row
+		   half-covered at EVERY scrolled position). Mandatory
+		   forces EVERY scroll to a row boundary, and the template's
+		   JS row-boundary snap targets the SAME boundaries, so the
+		   two cannot fight. */
 		:root .post-reader-localized-context #readerInfoList,
-		:root .post-reader-localized-context #readerInfoFootnoteList { scroll-snap-type: y proximity; }
+		:root .post-reader-localized-context #readerInfoFootnoteList { scroll-snap-type: y mandatory; }
 		:root .post-reader-localized-context .reader-index-choice { scroll-snap-align: start; }
 		/* B"H batch 57 — list bottom padding (network-first backstop,
-		   same rule as the sheet): 360px past the last row, so the
-		   scrollable range extends far enough for the top row to
-		   align to a full row at max scroll for ANY list length (the
-		   batch-57 check: 140px fixed the 18-row list but NOT the
-		   36-row list). scroll-padding-top: 70px aligns rows BELOW
-		   the tab bar. B"H batch 58. */
+		   same rule as the sheet): 120px past the last row (about
+		   one row), so the last row is fully visible above "Show
+		   more passages" at MAXIMUM scroll for ANY list length.
+		   B"H batch 59 — 360px -> 120px: the 360px EXCEEDED the list
+		   viewport (~350px at 144px), so at true max scroll the list
+		   showed NOTHING but blank cream (batch-58 check, both the
+		   18-row and the 36-row lists). scroll-padding-top is 0 now
+		   (was 70px): the tab bar sits OUTSIDE the list, so a row at
+		   the list's top edge is already below it, and 0 keeps the
+		   CSS snap targets identical to the JS row-boundary snap. */
 		:root .post-reader-localized-context #readerInfoList,
-		:root .post-reader-localized-context #readerInfoFootnoteList { padding-bottom: 360px; scroll-padding-top: 70px; }
+		:root .post-reader-localized-context #readerInfoFootnoteList { padding-bottom: 120px; scroll-padding-top: 0; }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions { display: flex; flex-direction: column; gap: 6px; /* B"H batch 48: 8px -> 6px, part of fitting every button. */ }
 		.post-reader-localized-context #readerInfoPanel .reader-info-actions > button, .post-reader-localized-context #readerInfoPanel .reader-info-actions > a { width: 100%; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; }
 		/* B"H batch 39: the home scroller's `overflow: auto` (bundle) let any 1px of
@@ -187,7 +197,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     by styles/build-bundle.mjs; edit the source sheets, re-run the
 	     builder, and bump this pin. The bundle is hash-pinned, so nginx
 	     serves it immutable. -->
-	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=cf5eb3564b">
+	<link rel="stylesheet" href="/heichelos/post/styles/post-bundle.css?v=241a193a70">
 	<!-- comments.css (incl. the round-13 Reply-pill rule) is inside
 	     post-bundle.css above — it entered the closure via the same link
 	     this comment used to sit on. -->
@@ -207,7 +217,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	</script>
 </head>
 <body>
-	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="58">
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision" data-batch="59">
 		<!-- B"H 2026-11-10 round 12 — the early-scale boot in <head> set the
 		     vars on <html>, but a stylesheet rule sets --post-text-size
 		     directly on THIS div, so it needs the same vars inline on
@@ -289,7 +299,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 		     competes with the Torah. A batch that touches the marker
 		     updates the data-batch attributes to its own batch (the
 		     same per-batch step as the bundle pin). -->
-		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="58" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
+		<div id="awtsmoosBuildMarker" class="awtsmoos-build-marker" data-batch="59" role="note" aria-label="Reader build identity"><span class="awtsmoos-build-marker-pin"></span><span class="awtsmoos-build-marker-batch"></span></div>
 		<script>
 		try {
 			var __awtsmoosBundleLink = document.querySelector('link[href*="post-bundle.css?v="]');
@@ -849,6 +859,62 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				if (home && !home.hidden) return home;
 				return null;
 			}
+			/* B"H batch 59 — ROW-BOUNDARY SCROLL (snapListScrollToRow):
+			   five batches of CSS scroll-snap (proximity) + bottom
+			   padding never made the top row land fully visible after
+			   a scroll. Proximity snap only snaps when the landing
+			   position is "close" to a snap point (a UA-defined
+			   threshold); the wheel handler's x3 deltas land mid-row,
+			   30-60px from any snap point, so snap never engages —
+			   the batch-58 check saw the top row half-covered at EVERY
+			   scrolled position (rows 2, 3, 6, 8, 14, 23, 30, 17, 35).
+			   This does not depend on CSS snap: after every
+			   wheel/keyboard scroll of a LIST, snap the list's
+			   scrollTop to the nearest ROW boundary (a
+			   .reader-index-choice offsetTop). The lists are
+			   position: relative (sheet + backstop), so a row's
+			   offsetTop IS the scrollTop that puts its top at the
+			   list's top edge. CSS snap stays as a backup (mandatory
+			   now) and targets the SAME boundaries, so the two cannot
+			   fight. Only the two lists quantize — the home view
+			   (buttons, not rows) scrolls freely, as before. dir is
+			   the scroll direction (+1 down, -1 up, 0 unknown): if
+			   the scroll already landed on a boundary, move one row
+			   in the scroll direction so a wheel turn always moves. */
+			function snapListScrollToRow(scroller, dir) {
+				try {
+					if (!scroller) return;
+					if (scroller.id !== 'readerInfoList' && scroller.id !== 'readerInfoFootnoteList') return;
+					var rows = scroller.querySelectorAll('.reader-index-choice');
+					if (!rows || !rows.length) return;
+					var cur = scroller.scrollTop;
+					var max = scroller.scrollHeight - scroller.clientHeight;
+					if (max < 0) max = 0;
+					if (max === 0) return;
+					var best = null, bestDist = Infinity, i, b, d;
+					for (i = 0; i < rows.length; i++) {
+						b = rows[i].offsetTop;
+						if (b < 0 || b > max) continue;
+						d = Math.abs(b - cur);
+						if (d < bestDist) { bestDist = d; best = b; }
+					}
+					if (best === null) return;
+					if (bestDist <= 2 && dir) {
+						if (dir > 0) {
+							for (i = 0; i < rows.length; i++) {
+								b = rows[i].offsetTop;
+								if (b > cur + 2 && b <= max) { best = b; break; }
+							}
+						} else {
+							for (i = rows.length - 1; i >= 0; i--) {
+								b = rows[i].offsetTop;
+								if (b < cur - 2) { best = b; break; }
+							}
+						}
+					}
+					scroller.scrollTop = best;
+				} catch (_) {}
+			}
 			function routeDialogWheel(e) {
 				if (!infoOpen()) return;
 				var scroller = dialogScroller();
@@ -882,6 +948,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				else if (e.deltaMode === 2) dy = dy * scroller.clientHeight;
 				else dy = dy * 3;
 				scroller.scrollTop += dy;
+				/* B"H batch 59 — ROW-BOUNDARY SCROLL: snap the list to
+				   the nearest row after every wheel turn, so the top
+				   row is fully visible at any scroll position (see
+				   snapListScrollToRow above). */
+				snapListScrollToRow(scroller, dy);
 			}
 			function routeDialogKeys(e) {
 				if (!infoOpen()) return;
@@ -898,6 +969,11 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				else if (k === 'Home') scroller.scrollTop = 0;
 				else if (k === 'ArrowDown') scroller.scrollTop += 48;
 				else if (k === 'ArrowUp') scroller.scrollTop -= 48;
+				/* B"H batch 59 — ROW-BOUNDARY SCROLL: snap the list to
+				   the nearest row after every keyboard scroll, so the
+				   top row is fully visible at any scroll position
+				   (see snapListScrollToRow above). */
+				snapListScrollToRow(scroller, (k === 'PageDown' || k === 'End' || k === 'ArrowDown') ? 1 : -1);
 			}
 			var infoPanelEl = byId('readerInfoPanel');
 			if (infoPanelEl && infoPanelEl.dataset.awtsmoosScrollRouted !== '1') {
