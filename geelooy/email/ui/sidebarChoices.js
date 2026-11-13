@@ -25,12 +25,23 @@ export function renderMailFolders(ui, onSelect) {
 	if (!list) {
 		return;
 	}
+	// B"H social fix 13 (defect 3): at boot the folders paint before
+	// refreshSnippets() completes, when state.snippets is still [] — so
+	// folderCounts([]) returned all zeros and the badges briefly read
+	// "0 threads" before settling at 2. Same class as the profile stat:
+	// never show a count until it is final. While the history is still
+	// loading and no snippets have arrived, paint "—" instead of 0.
+	// (state.isLoadingHistory is true initially and false once
+	// refreshSnippets completes; the 'snippets' subscription re-renders
+	// with the real counts when they arrive. During a later poll refresh
+	// snippets are non-empty, so the real counts keep showing.)
+	const loading = state.isLoadingHistory && !(state.snippets || []).length;
 	const counts = folderCounts(state.snippets || []);
 	list.replaceChildren(...MAIL_FOLDERS.map(folder => {
 		return choiceButton({
 			id: folder.id,
 			presentation: folderPresentation(folder),
-			count: counts[folder.id] || 0,
+			count: loading ? null : (counts[folder.id] || 0),
 			active: state.view === folder.id,
 			kind: 'folder'
 		});
@@ -46,12 +57,16 @@ export function renderMailSenderCategories(ui, onSelect) {
 	if (!grid) {
 		return;
 	}
+	// B"H social fix 13 (defect 3): same loading rule as the folders —
+	// paint "—" while the history is still loading and no snippets have
+	// arrived, never a premature 0.
+	const loading = state.isLoadingHistory && !(state.snippets || []).length;
 	const counts = categoryCounts(state.snippets || []);
 	grid.replaceChildren(...SENDER_CATEGORIES.map(category => {
 		return choiceButton({
 			id: category.id,
 			presentation: categoryPresentation(category),
-			count: counts[category.id] || 0,
+			count: loading ? null : (counts[category.id] || 0),
 			active: state.senderCategory === category.id,
 			kind: 'category'
 		});
@@ -61,7 +76,10 @@ export function renderMailSenderCategories(ui, onSelect) {
 	});
 }
 
-/** Creates one truthful, icon-led folder or category choice. */
+/** Creates one truthful, icon-led folder or category choice.
+ * B"H social fix 13 (defect 3): a null count means "still loading" —
+ * the badge shows "—" and the label says "loading", never a
+ * premature 0. */
 function choiceButton({ id, presentation, count, active, kind }) {
 	const button = document.createElement('button');
 	button.type = 'button';
@@ -69,7 +87,9 @@ function choiceButton({ id, presentation, count, active, kind }) {
 	button.dataset[kind] = id;
 	button.setAttribute('role', 'tab');
 	button.setAttribute('aria-selected', String(active));
-	button.setAttribute('aria-label', `${presentation.label}, ${count} ${kind === 'folder' ? 'threads' : 'senders'}`);
+	button.setAttribute('aria-label', count == null
+		? `${presentation.label}, loading ${kind === 'folder' ? 'threads' : 'senders'}`
+		: `${presentation.label}, ${count} ${kind === 'folder' ? 'threads' : 'senders'}`);
 	button.append(
 		choiceIcon(presentation),
 		choiceLabel(presentation.label),
@@ -103,10 +123,11 @@ function choiceLabel(label) {
 	return node;
 }
 
-/** Creates the truthful count badge. */
+/** Creates the truthful count badge. A null count means "still loading"
+ * (B"H social fix 13, defect 3) and renders "—", never a premature 0. */
 function choiceCount(count) {
 	const node = document.createElement('span');
 	node.className = 'mail-folder-count';
-	node.textContent = String(count);
+	node.textContent = count == null ? '—' : String(count);
 	return node;
 }

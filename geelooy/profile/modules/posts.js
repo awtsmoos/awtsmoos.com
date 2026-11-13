@@ -207,13 +207,23 @@ function postCard(post = {}) {
 	return card;
 }
 
-/** Loads one alias's posts; never throws — failures become empty lists. */
-export async function loadPostsForAlias(alias) {
+/** Loads one alias's posts; never throws — failures become { ok: false }.
+ * B"H social fix 13 (defect 1): the old shape returned a bare list, so
+ * "this alias has no posts" and "this alias failed to load" were
+ * indistinguishable — a timed-out alias silently contributed nothing and
+ * the list rendered partial with no trace. The caller needs the
+ * distinction to retry the failed ones. The default timeout is 15s:
+ * the big aliases take 5-10s each on a loaded server (live probe
+ * 2026-11-13: ikar-rashash 97 rows in 10,168ms, ikar-tosafot 49 rows
+ * in 9,073ms, ikar-sha-arei-torat-bavel 64 rows in 5,581ms), so the
+ * old 9s timeout dropped exactly the aliases holding ~290 rows and
+ * the list settled at 212 instead of 500. */
+export async function loadPostsForAlias(alias, timeoutMs = 15000) {
 	try {
-		const data = await apiJson(`/api/social/profile/${encodeURIComponent(alias.id)}/posts`, { timeoutMs: 9000 });
-		return listFrom(data);
+		const data = await apiJson(`/api/social/profile/${encodeURIComponent(alias.id)}/posts`, { timeoutMs });
+		return { ok: true, rows: listFrom(data) };
 	} catch {
-		return [];
+		return { ok: false, rows: [] };
 	}
 }
 
@@ -253,7 +263,23 @@ export function createProfilePostDeduper() {
 	});
 }
 
-/** Renders every post across all aliases as linked cards. */
+/** Renders every post across all aliases as linked cards.
+ * B"H social fix 13 (defect 1): the list silently rendered only the
+ * aliases that loaded. The per-alias /posts endpoints are slow for the
+ * big aliases (live probe 2026-11-13: the three biggest take 5-10s
+ * each), so on a loaded server they passed the old 9s timeout and
+ * returned nothing — the list settled at 212 of 500 with no trace that
+ * anything was missing, and the Fix 12 sole-writer stat faithfully
+ * reported the partial total. The fix: the first pass uses a 15s
+ * timeout; the aliases that still fail get ONE bounded retry (1s
+ * backoff, 20s timeout, same 5-at-a-time batching — no extra
+ * concurrency, so it cannot wedge the server the way the stress-test
+ * parallel flood did); the stat is written only after the retry, so
+ * it never shows a partial total as final; and while the retry runs
+ * the list shows "Loading more posts…" (the existing .pd-loading
+ * style) instead of silently looking complete. If aliases still fail
+ * after the retry, the list says so and offers a user-initiated retry
+ * (one more pass per click, never automatic). */
 export async function renderProfilePosts() {
 	const list = one(".profile-posts-list");
 	if (!list) return;
@@ -264,7 +290,6 @@ export async function renderProfilePosts() {
 	// tripped the deadline and the tab showed "Loading posts took too long."
 	// Aliases now load 5 at a time and each batch's cards append as they land,
 	// so the tab shows posts within ~1s and never stalls on one slow alias.
-	// (loadPostsForAlias never throws — a failure is an empty list.)
 	const aliases = state.aliases || [];
 	// B"H social fix 2: counts come from the base feed's socialSummary.
 	// Load them once, in the background, so cards can show real counts.
@@ -280,32 +305,92 @@ export async function renderProfilePosts() {
 	// exactly the same set the list shows — the stat used to count the raw
 	// per-alias rows (502) while the list shows 500, and the stat flickered
 	// between the two depending on which writer finished last.
+	// B"H social fix 13 (defect 1): the deduper is shared across the first
+	// pass AND the retry, so a retried alias's posts dedupe against the
+	// first pass's — a retry can never double-count a post.
 	const dedupe = createProfilePostDeduper();
-	for (let start = 0; start < aliases.length; start += 5) {
-		const batch = aliases.slice(start, start + 5);
-		const groups = await Promise.all(batch.map(loadPostsForAlias));
-		const items = dedupe(groups.flat());
-		total += items.length;
-		if (items.length) {
-			if (!shown) { list.innerHTML = ''; shown = true; }
-			// B"H social fix 2b: render the cards NOW. The counts come from
-			// /api/social/feed, which can hang — awaiting it before appending
-			// left the whole list blank. Fill the counts in when/if it returns.
-			const cards = items.map(postCard);
-			list.append(...cards);
-			countsPromise.then(() => {
-				for (const card of cards) {
-					const c = countsByPostId.get(String(card.dataset.postId || ""));
-					if (!c) continue;
-					const el = card.querySelector(".social-post-counts");
-					if (el) el.textContent = countsText(c);
-				}
-			}).catch(() => {});
-			enrichCounts(cards).catch(() => {});
+	// Appends one batch's fresh cards (and fills their counts when ready).
+	// Clears only the skeleton / "loading more" note, never the retry
+	// button, so a manual retry stays available after a partial load.
+	const appendItems = (items) => {
+		const fresh = dedupe(items);
+		total += fresh.length;
+		if (!fresh.length) return;
+		if (!shown) {
+			shown = true;
+			list.querySelector(".pd-skeleton-list")?.remove();
+			list.querySelector(".profile-posts-more")?.remove();
 		}
-	}
+		// B"H social fix 2b: render the cards NOW. The counts come from
+		// /api/social/feed, which can hang — awaiting it before appending
+		// left the whole list blank. Fill the counts in when/if it returns.
+		const cards = fresh.map(postCard);
+		list.append(...cards);
+		countsPromise.then(() => {
+			for (const card of cards) {
+				const c = countsByPostId.get(String(card.dataset.postId || ""));
+				if (!c) continue;
+				const el = card.querySelector(".social-post-counts");
+				if (el) el.textContent = countsText(c);
+			}
+		}).catch(() => {});
+		enrichCounts(cards).catch(() => {});
+	};
+	// Loads one set of aliases, 5 at a time, returning the ones that failed.
+	const loadAliases = async (toLoad, timeoutMs) => {
+		const failed = [];
+		for (let start = 0; start < toLoad.length; start += 5) {
+			const batch = toLoad.slice(start, start + 5);
+			const results = await Promise.all(batch.map((alias) => loadPostsForAlias(alias, timeoutMs)));
+			results.forEach((result, i) => {
+				if (result.ok) appendItems(result.rows);
+				else failed.push(batch[i]);
+			});
+		}
+		return failed;
+	};
+	// One bounded retry for the aliases that did not load, with a longer
+	// timeout. Shows a "loading more" note while it runs so a partial
+	// list never looks complete.
+	const retryOnce = async (toRetry, timeoutMs) => {
+		const more = document.createElement("p");
+		more.className = "profile-posts-more pd-loading";
+		more.textContent = "Loading more posts…";
+		list.append(more);
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		const remaining = await loadAliases(toRetry, timeoutMs);
+		more.remove();
+		return remaining;
+	};
+	// First pass, then one bounded retry for the aliases that did not load.
+	let failed = await loadAliases(aliases, 15000);
+	if (failed.length) failed = await retryOnce(failed, 20000);
+	// The stat is the list's total and is written only once the list is
+	// final (first pass + retry), so it never shows a partial total.
 	setStat('posts', String(total));
-	if (!shown) {
+	if (!shown && !failed.length) {
 		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));
+		return;
+	}
+	if (failed.length) {
+		// The list is partial; say so and offer a user-initiated retry
+		// (one more pass per click, never automatic).
+		const retry = document.createElement("button");
+		retry.type = "button";
+		retry.className = "profile-posts-retry";
+		retry.textContent = "Some posts couldn't load — Retry";
+		retry.addEventListener("click", async () => {
+			retry.disabled = true;
+			retry.textContent = "Loading more posts…";
+			failed = await retryOnce(failed, 20000);
+			setStat('posts', String(total));
+			if (failed.length) {
+				retry.disabled = false;
+				retry.textContent = "Some posts couldn't load — Retry";
+			} else {
+				retry.remove();
+			}
+		});
+		list.append(retry);
 	}
 }

@@ -1633,6 +1633,31 @@ a.feed-ic-btn:visited {
 	height: 18px;
 }
 
+/* B"H social fix 13 (defect 2): pinched-fingers is the only emoji whose
+ * poster is landscape (1920x1280; the other 34 are square) and whose
+ * video is a square crop that cuts the face off at the bottom-left
+ * corner — so the tile rendered small (a 34x23 band in the 44x44 tile)
+ * and clipped (the video's face half cut off). The tile assumes square
+ * art: fill the tile width with the poster, and keep the poster — never
+ * the cropped video — on hover/focus. (The checker's "agreement" name
+ * points at handshake, but handshake's png and video are both square
+ * and render fully; the position row 5 col 6 + "pointing-hand" + the
+ * clipped/small rendering all identify pinched-fingers.) */
+.feed-react-option[data-react-emoji="pinched-fingers"] .feed-emoji-img {
+	width: 44px;
+	height: 44px;
+}
+
+.feed-react-option[data-react-emoji="pinched-fingers"]:hover .feed-emoji-video,
+.feed-react-option[data-react-emoji="pinched-fingers"]:focus-visible .feed-emoji-video {
+	opacity: 0;
+}
+
+.feed-react-option[data-react-emoji="pinched-fingers"]:hover .feed-emoji-img,
+.feed-react-option[data-react-emoji="pinched-fingers"]:focus-visible .feed-emoji-img {
+	opacity: 1;
+}
+
 /* ============ who-reacted popup ============ */
 .feed-react-who {
 	position: absolute;
