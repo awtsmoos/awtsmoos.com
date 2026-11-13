@@ -165,11 +165,16 @@ complete_install_experience() {
 	fi
 	# B"H — the final checks are the one place the installer goes quiet for
 	# seconds, so say so on the progress line (it resets the no-progress
-	# budget) and keep the wait short for instant: health was just proven
-	# by the instant check, so a short stability sample is enough.
+	# budget). For instant the check just proved the agent live, registered
+	# and supervised seconds ago — re-probing the executor would cost more
+	# seconds for the same answer, so trust the fresh proof and confirm the
+	# pid still matches; the full sampler still runs for every other mode.
 	install_progress 98 "Final checks: confirming the tunnel is live"
 	if instant_mode_requested; then
-		agent_pid="$(AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS=8 AWTSMOOS_FINAL_STABILITY_SAMPLES=2 verified_agent_pid || true)"
+		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+		if [ -z "$agent_pid" ] || ! runtime_pid_matches "$agent_pid"; then
+			agent_pid=""
+		fi
 	else
 		agent_pid="$(verified_agent_pid || true)"
 	fi
@@ -184,7 +189,11 @@ complete_install_experience() {
 			"Registration did not provide an authoritative tunnel ID." \
 			"pid=$agent_pid"
 	fi
-	if ! wait_for_service_supervision 5; then
+	if instant_mode_requested; then
+		service_supervision_ready || install_fail "complete" \
+			"Durable guardian did not remain singular at final display." \
+			"pid=$agent_pid $(service_health_summary)"
+	elif ! wait_for_service_supervision 5; then
 		install_fail "complete" \
 			"Durable guardian did not remain singular at final display." \
 			"pid=$agent_pid $(service_health_summary)"

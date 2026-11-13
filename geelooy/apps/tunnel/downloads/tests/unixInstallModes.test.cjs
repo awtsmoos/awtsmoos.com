@@ -108,8 +108,10 @@ test('the LIVE entry parser accepts --instant, --basic and --mode=instant', asyn
   assert.match(full.stdout, /rc=0 mode=full/);
 });
 
-test('instant completion uses a short readiness sample, not the 20s sampler', () => {
+test('instant completion trusts the fresh proof instead of re-probing', () => {
   const success = fs.readFileSync(path.join(__dirname, '..', 'unix-install-success.sh'), 'utf8');
   assert.match(success, /Final checks: confirming the tunnel is live/);
-  assert.match(success, /AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS=8 AWTSMOOS_FINAL_STABILITY_SAMPLES=2 verified_agent_pid/);
+  assert.match(success, /if instant_mode_requested; then\n\t\tagent_pid="\$\(cat "\$ROOT\/agent\.pid"/);
+  assert.match(success, /runtime_pid_matches "\$agent_pid"/);
+  assert.match(success, /service_supervision_ready \|\| install_fail "complete"/);
 });
