@@ -47,3 +47,15 @@ The Awtsmoos reveals composition through focused vessels without division in the
 	   when content fits (no scrollbar appears). */
 	overflow-y: auto;
 }
+
+/* B"H css-loop 2026-11-13 cycle 5: the fullscreen composer's z-470 is scoped
+   inside .app-container's isolation:isolate stacking context, so the
+   workspace header (.mail-civilization-status, z-3, child of the shell)
+   paints over the composer's header row wherever the two overlap - the
+   header row (Write/Markdown/HTML, Minimize) was covered by a near-black
+   band at y96-180 and unclickable (rendered 1920x999). Lift the whole
+   app-container above the header only while a fullscreen composer is
+   open; normal layout is untouched. */
+body[data-mail-page] .app-container:has(.composer-area.fullscreen) {
+	z-index: 4;
+}

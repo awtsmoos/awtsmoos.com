@@ -26,7 +26,13 @@
 	position: relative;
 	display: grid;
 	place-items: center;
-	width: min(100%, calc((100dvh - 230px) * 16 / 9));
+	/* B"H css-loop 2026-11-13 cycle 5: the 230px allowance covered only part
+	   of the shell chrome around the viewport (~473px measured at 1920x999:
+	   shell rows ~162 + filmstrip 150 + transport ~87 + panel padding 28 +
+	   mode bar 46), so the 16/9 stage overflowed the panel and the mode bar
+	   was clipped to ~18px. 500px leaves the stage fitting with the bar
+	   visible at every viewport height (max-width 1100px still caps tall screens). */
+	width: min(100%, calc((100dvh - 500px) * 16 / 9));
 	max-width: 1100px;
 	aspect-ratio: 16 / 9;
 	border: 1px solid #344c61;
