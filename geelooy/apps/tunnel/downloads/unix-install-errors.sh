@@ -148,19 +148,27 @@ run_with_timeout() {
 		fi
 		return "$rc"
 	fi
-	# Portable fallback (macOS has no GNU timeout): background watcher kills it.
-	local flag="${AWTSMOOS_INSTALL_RUNTIME:-/tmp}/timeout-$$.flag"
-	rm -f "$flag"
-	local rc=0 pid watcher timed_out=0
+	# Portable fallback (macOS has no GNU timeout): poll the child instead of
+	# a background watcher. A watcher subshell plus wait on it can block the
+	# full timeout on the old bash macOS ships: the subshell defers the kill
+	# while its sleep child runs, so a fast command still cost 15s and the
+	# installer sat on the lock past its own no-progress budget. Polling with
+	# kill -0 returns the moment the child exits, on any bash.
+	local rc=0 pid timed_out=0 elapsed_tenths=0
+	local poll_step=0.1 poll_limit=$(( seconds * 10 ))
+	if ! sleep 0.1 2>/dev/null; then poll_step=1; poll_limit=$seconds; fi
 	"$@" &
 	pid=$!
-	( sleep "$seconds" && touch "$flag" && kill -9 "$pid" 2>/dev/null ) &
-	watcher=$!
+	while kill -0 "$pid" 2>/dev/null; do
+		if [ "$elapsed_tenths" -ge "$poll_limit" ]; then
+			kill -9 "$pid" 2>/dev/null || true
+			timed_out=1
+			break
+		fi
+		sleep "$poll_step"
+		elapsed_tenths=$(( elapsed_tenths + 1 ))
+	done
 	wait "$pid" 2>/dev/null || rc=$?
-	kill "$watcher" 2>/dev/null
-	wait "$watcher" 2>/dev/null
-	[ -f "$flag" ] && timed_out=1
-	rm -f "$flag"
 	if [ "$timed_out" -eq 1 ]; then
 		prg_warn "Timed out after ${seconds}s waiting for: $label — continuing without it."
 		return 124

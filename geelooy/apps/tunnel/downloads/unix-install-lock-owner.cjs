@@ -82,7 +82,8 @@ function signature(pid) {
 			"-p", String(pid), "-o", "lstart=", "-o", "command="
 		], {
 			encoding: "utf8",
-			stdio: ["ignore", "pipe", "ignore"]
+			stdio: ["ignore", "pipe", "ignore"],
+			timeout: 3000
 		}).trim().slice(0, 2000);
 	} catch {
 		return "";

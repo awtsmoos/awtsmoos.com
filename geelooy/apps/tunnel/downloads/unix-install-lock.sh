@@ -175,6 +175,7 @@ clean_all_tunnel_state() {
 acquire_install_lock() {
 	local timeout_seconds="${AWTSMOOS_INSTALL_LOCK_TIMEOUT_SECONDS:-12}"
 	local announced_wait=0
+	local lock_wait_started=$SECONDS
 	# B"H — wall-clock deadline, not a sample count: each node liveness probe
 	# costs ~1s itself, so counting samples ballooned the advertised 12s
 	# wait to 24s+ (and past the installer's 15s budget). SECONDS is the
@@ -200,13 +201,14 @@ acquire_install_lock() {
 			announced_wait=1
 		fi
 		sleep 1
+		install_progress 20 "Claiming the install lock (waiting $(( SECONDS - lock_wait_started ))s)"
 	done
 	prg_warn "Another installer still holds the install lock after ${timeout_seconds}s."
 	return 1
 }
 
 install_lock_owner_alive() {
-	run_with_timeout 15 "install lock owner check" -- \
+	run_with_timeout 5 "install lock owner check" -- \
 		node "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock-owner.cjs" \
 		alive "$INSTALL_LOCK_DIRECTORY" "$ROOT" >/dev/null 2>&1
 }
@@ -263,7 +265,7 @@ quarantine_install_lock() {
 
 release_install_lock() {
 	[ "$INSTALL_LOCK_OWNED" = "1" ] || return 0
-	if run_with_timeout 15 "install lock release" -- \
+	if run_with_timeout 5 "install lock release" -- \
 		node "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock-owner.cjs" \
 		owns "$INSTALL_LOCK_DIRECTORY" "$ROOT" "$INSTALL_LOCK_TOKEN" "$$" \
 		>/dev/null 2>&1; then
