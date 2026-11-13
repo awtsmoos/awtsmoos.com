@@ -41,6 +41,9 @@ const state = {
 	nextOffset: 0,
 	loading: false,
 	done: false,
+	modeDone: false,
+	baseCursor: '',
+	baseDone: false,
 	liked: new Set(),
 	saved: new Set(),
 	maamarLinks: null,
@@ -82,6 +85,30 @@ function maamarLinkHtml(post) {
 	if (!entry || !entry.url) return '';
 	const label = entry.title ? `Read the full maamar: ${esc(entry.title)}` : 'Read the full maamar';
 	return `<a class="feed-card__maamar-link" href="${esc(entry.url)}" aria-label="${esc(label)}"><span aria-hidden="true">📖</span> Read the full maamar <span aria-hidden="true">→</span></a>`;
+}
+
+/** B"H social fix 2: base-feed rows carry seriesId inside source and
+ * counts inside socialSummary. Flatten them to the river card shape so the
+ * top-up posts link correctly and show real comment/reaction counts. */
+function normalizeRiverPost(p = {}) {
+	const src = p.source || {};
+	const ss = p.socialSummary || {};
+	return {
+		postId: String(p.id || p.postId || ''),
+		id: String(p.id || p.postId || ''),
+		title: p.title || '',
+		heichelId: p.heichelId || src.heichelId || 'ikar',
+		seriesId: src.seriesId || p.seriesId || 'root',
+		seriesTitle: src.seriesTitle || '',
+		aliasId: p.aliasId || '',
+		authorName: src.authorName || p.aliasId || '',
+		excerpt: p.excerpt || src.excerpt || '',
+		commentCount: Number((ss.comments || {}).total || p.commentCount || 0),
+		reactionCount: Number((ss.reactions || {}).total || p.reactionCount || p.likes || 0),
+		type: p.contentType || p.type || 'post',
+		createdAt: p.createdAt || 0,
+		updatedAt: p.updatedAt || p.createdAt || 0
+	};
 }
 
 function esc(s) {
@@ -151,10 +178,10 @@ function cardHtml(post, index = 0) {
 			</div>
 			<div class="feed-card__actions">
 				<button class="feed-action ${liked ? 'feed-action--liked' : ''}" data-action="like" data-post="${id}" aria-pressed="${liked}" aria-label="${liked ? 'Unlike' : 'Like'} this post">
-					${actionIcon(ICONS.heart)}<span>${likes || 'Like'}</span>
+					${actionIcon(ICONS.heart)}<span>${likes} Like${likes === 1 ? '' : 's'}</span>
 				</button>
 				<button class="feed-action" data-action="comment" data-post="${id}" aria-label="Comment on this post">
-					${actionIcon(ICONS.comment)}<span>${comments || 'Comment'}</span>
+					${actionIcon(ICONS.comment)}<span>${comments} Comment${comments === 1 ? '' : 's'}</span>
 				</button>
 				<button class="feed-action" data-action="share" data-post="${id}" aria-label="Share this post">
 					${actionIcon(ICONS.share)}<span>Share</span>
@@ -199,14 +226,55 @@ async function fetchPage() {
 	const controller = new AbortController();
 	const watchdog = setTimeout(() => controller.abort(), 20000);
 	try {
-		const url = `/api/social/feed/${mode.endpoint}?limit=${PAGE_SIZE}&offset=${state.nextOffset}`;
-		const res = await fetch(url, { credentials: 'same-origin', signal: controller.signal });
-		const data = await res.json();
-		const payload = data.success || data;
-		const items = payload.items || [];
-		state.nextOffset = payload.nextOffset;
-		if (payload.nextOffset == null || items.length === 0) state.done = true;
-		appendItems(items);
+		// B"H social fix 2: the tab endpoints (personalized/latest/popular)
+		// only ever return the 2 "Write-path test" posts. Top up every page
+		// from the base chronological feed so the hub shows real posts.
+		// The mode source and the base source are consumed independently and
+		// deduped by postId; the river is done only when both are exhausted.
+		let items = [];
+		if (!state.modeDone) {
+			const url = `/api/social/feed/${mode.endpoint}?limit=${PAGE_SIZE}&offset=${state.nextOffset}`;
+			const res = await fetch(url, { credentials: 'same-origin', signal: controller.signal });
+			const data = await res.json();
+			const payload = data.success || data;
+			items = payload.items || [];
+			state.nextOffset = payload.nextOffset;
+			if (payload.nextOffset == null || items.length === 0) state.modeDone = true;
+		}
+		// B"H social fix 2b: render the mode items NOW. The tab endpoints
+			// respond; the base feed API can hang. The top-up must never block
+			// the render, so it runs after, with a short 5s cap, and appends
+			// whatever it returns. Until the backend is fixed the top-up will
+			// time out and the river shows the tab posts — honest, and it renders.
+		if (items.length) appendItems(items);
+		if (items.length < PAGE_SIZE && !state.baseDone) {
+			try {
+				const topController = new AbortController();
+				const topWatchdog = setTimeout(() => topController.abort(), 5000);
+				try {
+					const qs = new URLSearchParams({ limit: String(PAGE_SIZE - items.length) });
+					if (state.baseCursor) qs.set('cursor', state.baseCursor);
+					const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
+					if (!baseRes.ok) throw new Error('base feed ' + baseRes.status);
+					const baseBody = await baseRes.json();
+					const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
+					const seen = new Set(state.items.map(it => String(it.postId || it.id || '')));
+					const extra = [];
+					for (const row of baseRows.map(normalizeRiverPost)) {
+						const key = String(row.postId || row.id || '');
+						if (key && !seen.has(key)) { seen.add(key); extra.push(row); }
+					}
+					const pageInfo = baseBody?.meta?.pageInfo || {};
+					state.baseCursor = pageInfo.nextCursor || '';
+					if (!pageInfo.hasMore) state.baseDone = true;
+					if (extra.length) appendItems(extra);
+				} finally {
+					clearTimeout(topWatchdog);
+				}
+			} catch (_) { state.baseDone = true; }
+		}
+		if (state.modeDone && state.baseDone) state.done = true;
+		if (!items.length && state.modeDone && state.baseDone) appendItems(items);
 	} catch (err) {
 		showError();
 	} finally {
@@ -221,6 +289,10 @@ function appendItems(items) {
 	if (!river) return;
 	// Remove skeletons on first real content.
 	river.querySelectorAll('.feed-skeleton').forEach(el => el.remove());
+	// B"H social fix 2b: the river may be appended twice per page (mode items,
+	// then the background top-up). If the first append showed the empty state
+	// and the top-up later brings real items, drop the empty state first.
+	if (items.length) river.querySelectorAll('.feed-empty').forEach(el => el.remove());
 	if (state.offset === 0 && items.length === 0) {
 		river.innerHTML = emptyHtml();
 		return;
@@ -279,6 +351,9 @@ function resetAndLoad() {
 	state.offset = 0;
 	state.nextOffset = 0;
 	state.done = false;
+	state.modeDone = false;
+	state.baseCursor = '';
+	state.baseDone = false;
 	const river = document.getElementById('feed-river');
 	if (river) river.innerHTML = skeletonHtml(3);
 	fetchPage();
@@ -317,7 +392,13 @@ function onAction(e) {
 		btn.setAttribute('aria-pressed', String(!liked));
 		burstLike(btn);
 		const label = btn.querySelector('span');
-		if (label && !/\d/.test(label.textContent)) label.textContent = !liked ? 'Liked' : 'Like';
+		if (label) {
+			const post = findPost(postId) || {};
+			const base = Number(post.reactionCount || post.likes || 0);
+			const next = liked ? Math.max(0, base - 1) : base + 1;
+			post.reactionCount = next;
+			label.textContent = `${next} Like${next === 1 ? '' : 's'}`;
+		}
 		// Fire-and-forget: record the reaction server-side.
 		// B"H 2026-10-13: include heichelId — the endpoint requires it (MISSING_REACTION_TARGET otherwise).
 		const post = findPost(postId) || {};

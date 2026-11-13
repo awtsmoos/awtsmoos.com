@@ -192,20 +192,25 @@
 		const userId = document.querySelector('[data-profile-handle]')?.textContent?.replace('@', '').trim() || null;
 		if (!userId) return;
 
-		// Initialize reading stats when Reading tab is clicked
-		const readingTab = document.querySelector('[data-profile-tab="reading"]');
+		// Initialize reading stats when Reading tab is clicked.
+		// B"H social fix 2: there are two [data-profile-tab="reading"]
+		// buttons — bind all of them, or the second one switches the panel
+		// without ever loading the stats.
+		const readingTabs = document.querySelectorAll('[data-profile-tab="reading"]');
 		const statsContainer = document.getElementById('reading-stats-container');
 		let statsLoaded = false;
 
-		if (readingTab && statsContainer && window.ProfileReadingStats) {
-			readingTab.addEventListener('click', () => {
-				if (statsLoaded) return;
-				statsLoaded = true;
-				const viewerId = userId; // Own profile for now
-				new window.ProfileReadingStats({
-					container: statsContainer,
-					userId, viewerId
-				}).load();
+		if (readingTabs.length && statsContainer && window.ProfileReadingStats) {
+			readingTabs.forEach((readingTab) => {
+				readingTab.addEventListener('click', () => {
+					if (statsLoaded) return;
+					statsLoaded = true;
+					const viewerId = userId; // Own profile for now
+					new window.ProfileReadingStats({
+						container: statsContainer,
+						userId, viewerId
+					}).load();
+				});
 			});
 		}
 

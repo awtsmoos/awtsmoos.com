@@ -152,7 +152,17 @@ function normalizeBasePost(p = {}) {
 async function fetchBaseFeedPage(cursor, limit) {
 	const qs = new URLSearchParams({ limit: String(limit) });
 	if (cursor) qs.set('cursor', cursor);
-	const res = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin' });
+	// B"H social fix 2b: the base feed API can HANG (single request, 30s
+	// timeout, 0 bytes). Never let it block the river — bound it to 8s and
+	// let the caller fall through to the next source on timeout.
+	const controller = new AbortController();
+	const watchdog = setTimeout(() => controller.abort(), 8000);
+	let res;
+	try {
+		res = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: controller.signal });
+	} finally {
+		clearTimeout(watchdog);
+	}
 	if (!res.ok) throw new Error(`Feed base answered ${res.status}`);
 	const body = await res.json();
 	const rows = Array.isArray(body?.data) ? body.data : (Array.isArray(body?.success) ? body.success : []);
@@ -199,9 +209,17 @@ async function fetchSimPage(offset, limit) {
 		const batch = wanted.slice(i, i + 5);
 		const rows = await Promise.all(batch.map(async (id) => {
 			try {
-				const r = await fetch(`/api/social/heichelos/ikar/series/simulation/post/${encodeURIComponent(String(id))}`, { credentials: 'same-origin' });
-				if (!r.ok) return null;
-				return await r.json();
+				// B"H social fix 2b: bound each detail read (5s) so one slow
+				// post cannot stall the whole batch.
+				const c = new AbortController();
+				const w = setTimeout(() => c.abort(), 5000);
+				try {
+					const r = await fetch(`/api/social/heichelos/ikar/series/simulation/post/${encodeURIComponent(String(id))}`, { credentials: 'same-origin', signal: c.signal });
+					if (!r.ok) return null;
+					return await r.json();
+				} finally {
+					clearTimeout(w);
+				}
 			} catch { return null; }
 		}));
 		for (const row of rows) if (row) details.push(row);

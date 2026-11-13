@@ -225,11 +225,11 @@ function renderPrefsForm(body, existing, close) {
 				'<label class="ch-field"><span class="ch-label">What to learn</span>' +
 					`<select class="ch-input" name="subject">${SUBJECTS.map(s => `<option${s === p.subject ? ' selected' : ''}>${s}</option>`).join('')}</select></label>` +
 				'<label class="ch-field"><span class="ch-label">Level</span>' +
-					`<select class="ch-input" name="level">${LEVELS.map(s => `<option${s === p.level ? ' selected' : ''}>${s}</option>`).join('')}</select></label>' +
+					`<select class="ch-input" name="level">${LEVELS.map(s => `<option${s === p.level ? ' selected' : ''}>${s}</option>`).join('')}</select></label>` +
 				'<label class="ch-field"><span class="ch-label">Time zone</span>' +
 					`<select class="ch-input" name="tz">${TIMEZONES.map(s => `<option${s === p.tz ? ' selected' : ''}>${s}</option>`).join('')}</select></label>` +
 				'<label class="ch-field"><span class="ch-label">Pace</span>' +
-					`<select class="ch-input" name="pace">${PACES.map(s => `<option${s === p.pace ? ' selected' : ''}>${s}</option>`).join('')}</select></label>' +
+					`<select class="ch-input" name="pace">${PACES.map(s => `<option${s === p.pace ? ' selected' : ''}>${s}</option>`).join('')}</select></label>` +
 			'</div>' +
 			'<fieldset class="ch-fieldset"><legend class="ch-label">Days you can learn</legend>' +
 				'<div class="ch-chips">' +

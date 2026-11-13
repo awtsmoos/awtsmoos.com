@@ -73,12 +73,17 @@ export class FeedObservatoryApi extends DomemObservatoryApi {
 		// chronological feed so the Observatory shows real posts. The envelope
 		// shape is preserved (success.items) so the existing renderer is untouched.
 		const home = await this.read("feed/home", { aliasId: alias, limit: 8 }, "feedHome");
-		const homeItems = FeedObservatoryApi.itemsOf(home);
+		// B"H social fix 2: read() returns the transport envelope
+		// {status, ok, body}; itemsOf must run on the API body, not the
+		// envelope, or it always returns [] and the top-up never happens.
+		const homeBody = (home && home.body) || home;
+		const homeItems = FeedObservatoryApi.itemsOf(homeBody);
 		if (homeItems.length >= 8) return home;
 		try {
 			const base = await this.read("feed", { limit: 8 }, "feedHome");
+			const baseBody = (base && base.body) || base;
 			const seen = new Set(homeItems.map((it) => String(it.postId || it.id || '')));
-			const extra = FeedObservatoryApi.itemsOf(base)
+			const extra = FeedObservatoryApi.itemsOf(baseBody)
 				.map(FeedObservatoryApi.normalizeBasePost)
 				.filter((it) => {
 					const key = String(it.postId || it.id || '');
@@ -86,9 +91,9 @@ export class FeedObservatoryApi extends DomemObservatoryApi {
 					seen.add(key);
 					return true;
 				});
-			if (extra.length && home && home.success && typeof home.success === 'object' && !Array.isArray(home.success)) {
-				home.success.items = [...homeItems, ...extra];
-				home.success.total = home.success.items.length;
+			if (extra.length && homeBody && homeBody.success && typeof homeBody.success === 'object' && !Array.isArray(homeBody.success)) {
+				homeBody.success.items = [...homeItems, ...extra];
+				homeBody.success.total = homeBody.success.items.length;
 			}
 		} catch (_) { /* home result stands on its own */ }
 		return home;

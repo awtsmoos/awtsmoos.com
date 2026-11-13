@@ -83,8 +83,17 @@
 		_overlay.classList.remove('alb-open');
 		document.body.style.overflow = '';
 		_isOpen = false;
-		// Clear src after transition to free memory
-		setTimeout(() => { if (!_isOpen) _img.src = ''; }, 300);
+		// B"H social fix 2: clear src after transition, then remove the
+		// overlay from the DOM entirely so no stray "Image viewer" dialog
+		// persists after it is closed. The next open() rebuilds it.
+		const overlay = _overlay;
+		const img = _img;
+		setTimeout(() => {
+			if (_isOpen) return;
+			if (img) img.src = '';
+			if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+			if (_overlay === overlay) { _overlay = null; _img = null; _caption = null; }
+		}, 300);
 	}
 
 	function isOpen() { return _isOpen; }
@@ -94,7 +103,10 @@
 	 * or inside a container with "awtsmoos-lightbox" becomes tappable.
 	 */
 	function enhanceAll(root = document) {
-		_build();
+		// B"H social fix 2: do NOT build the overlay here. The overlay is a
+		// role="dialog" aria-label="Image viewer" element; building it on load
+		// leaves a stray closed dialog in the DOM on every page (its Close
+		// button is unclickable while closed). It is built only by open().
 		const selector = 'img.awtsmoos-lightbox-img, .awtsmoos-lightbox img';
 		root.querySelectorAll(selector).forEach(img => {
 			if (img.hasAttribute('data-alb-bound')) return;

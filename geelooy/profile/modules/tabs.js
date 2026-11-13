@@ -77,5 +77,21 @@ export function bindTabs(options = {}) {
 			activateTab(tabs[next], onActivate);
 		});
 	}
+	// B"H social fix 2 (defect 4): delegated safety net. The per-button
+	// listener above is correct, but a mouse click that does not reach it
+	// (hit-testing) leaves the tab unswitched while Enter still works. A
+	// single delegated listener on the tabs container catches a click on any
+	// descendant of a tab and activates it. activateTab is idempotent, so
+	// firing twice for one click is harmless.
+	const wrap = document.querySelector('[data-profile-tabs-wrap]');
+	if (wrap && !wrap.dataset.tabsDelegated) {
+		wrap.dataset.tabsDelegated = '1';
+		wrap.addEventListener('click', (event) => {
+			const button = event.target && event.target.closest
+				? event.target.closest('[data-profile-tab]')
+				: null;
+			if (button) activateTab(button, onActivate);
+		});
+	}
 	return tabs;
 }

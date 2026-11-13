@@ -33,16 +33,25 @@ class ProfileReadingStats {
 			const statsData = await statsRes.json();
 			const recentData = await recentRes.json();
 
-			// Privacy restricted — don't show anything
+			// B"H social fix 2: privacy-restricted is a real answer, not an
+			// empty tab. Say so instead of hiding the container (which left
+			// the Reading tab as a bare heading with no content at all).
 			if (statsData?.error?.code === 'PRIVACY_RESTRICTED') {
-				this.container.style.display = 'none';
+				this.container.innerHTML = `
+					<div class="pd-reading-empty">
+						<p>Reading activity is private.</p>
+					</div>`;
 				return;
 			}
 
 			this.render(statsData, recentData?.recent || []);
 		} catch {
-			// Silently hide on error — analytics should never break profile
-			this.container.style.display = 'none';
+			// B"H social fix 2: a failed load is still an answer — say so
+			// instead of hiding the container and leaving a blank tab.
+			this.container.innerHTML = `
+				<div class="pd-reading-empty">
+					<p>Reading activity could not be loaded.</p>
+				</div>`;
 		}
 	}
 

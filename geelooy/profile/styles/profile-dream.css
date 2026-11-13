@@ -379,7 +379,10 @@
 .profile-dream .pd-tabs-wrap {
 	position: sticky;
 	top: 3.85rem;
-	z-index: 15;
+	/* B"H social fix 2 (defect 4): above the sticky topbar (z-index 20) so
+	   the tabs stay clickable even when the topbar runs taller than the
+	   3.85rem the tabs stick at. */
+	z-index: 25;
 	margin-top: .9rem;
 	padding: .55rem .9rem;
 	background: rgba(250, 246, 236, .94);
