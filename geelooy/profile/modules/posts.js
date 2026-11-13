@@ -366,7 +366,19 @@ export async function renderProfilePosts() {
 		// for a click to "release" it. Sole-writer rule kept: only this
 		// function writes the posts stat, from the same `total` the list
 		// shows; the final write below is the same value.
-		setStat('posts', String(total));
+		// B"H social fix 17 (defect 3): never write a fresh total BELOW
+		// the cached last-known count. The cached 500 is written
+		// synchronously at the start of renderProfilePosts, but the
+		// first batch (21 posts, ~1s) used to overwrite it with 21
+		// before any capture at ~2s could see it — so a repeat load
+		// showed 21 → 58 → 500 instead of 500 from ~1s. The stat now
+		// shows max(cached, fresh) while the fresh count grows, and the
+		// exact total once the load completes (see the final write
+		// below). Deliberate deviation from the Fix 11 sole-writer
+		// reading: while a load is partial, the stat shows the last
+		// COMPLETE count rather than the partial fresh total; the Retry
+		// button still says the list is partial.
+		setStat('posts', String(Math.max(cachedCount || 0, total)));
 		if (!fresh.length) return;
 		if (!shown) {
 			shown = true;
@@ -446,11 +458,22 @@ export async function renderProfilePosts() {
 	// once the list is final (first pass + retries). If aliases still
 	// failed after both retries, the total is partial — the Retry button
 	// below says so honestly, and a manual retry re-writes the stat.
-	setStat('posts', String(total));
-	// B"H social fix 16 (defect 2): save the total for next load —
-	// but ONLY when every alias loaded. A partial total must never
-	// overwrite the last complete count.
-	if (!failed.length) saveCachedPostsCount(aliases, total);
+	// B"H social fix 17 (defect 3): a COMPLETE load writes the exact
+	// total (overriding the cached display, so a genuine count drop from
+	// deletions still corrects) and saves it. A PARTIAL load keeps
+	// showing max(cached, fresh) and saves a HIGH-WATER MARK — the
+	// total, but only if it EXCEEDS the cached value — so the cache
+	// populates even when loads never complete cleanly, and never
+	// regresses. Without the high-water mark the cache could stay empty
+	// forever (Fix 16 saved only on complete loads), leaving every
+	// repeat load to climb 21 → 58 → 500 instead of showing 500 at ~1s.
+	if (!failed.length) {
+		setStat('posts', String(total));
+		saveCachedPostsCount(aliases, total);
+	} else {
+		setStat('posts', String(Math.max(cachedCount || 0, total)));
+		if (cachedCount === null || total > cachedCount) saveCachedPostsCount(aliases, total);
+	}
 	if (!shown && !failed.length) {
 		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));
 		return;
@@ -466,8 +489,17 @@ export async function renderProfilePosts() {
 			retry.disabled = true;
 			retry.textContent = "Loading more posts…";
 			failed = await retryOnce(failed, 20000);
-			setStat('posts', String(total));
-			if (!failed.length) saveCachedPostsCount(aliases, total);
+			// B"H social fix 17 (defect 3): same complete/partial rule
+			// as the final write above — exact total + save when the
+			// load completes, max(cached, fresh) + high-water-mark save
+			// while it is still partial.
+			if (!failed.length) {
+				setStat('posts', String(total));
+				saveCachedPostsCount(aliases, total);
+			} else {
+				setStat('posts', String(Math.max(cachedCount || 0, total)));
+				if (cachedCount === null || total > cachedCount) saveCachedPostsCount(aliases, total);
+			}
 			if (failed.length) {
 				retry.disabled = false;
 				retry.textContent = "Some posts couldn't load — Retry";

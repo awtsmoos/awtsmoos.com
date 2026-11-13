@@ -478,13 +478,40 @@ async function fetchPage() {
 		// deduped by postId; the river is done only when both are exhausted.
 		let items = [];
 		if (!state.modeDone) {
-			const url = `/api/social/feed/${mode.endpoint}?limit=${PAGE_SIZE}&offset=${state.nextOffset}`;
-			const res = await fetch(url, { credentials: 'same-origin', signal: controller.signal });
-			const data = await res.json();
-			const payload = data.success || data;
-			items = payload.items || [];
-			state.nextOffset = payload.nextOffset;
-			if (payload.nextOffset == null || items.length === 0) state.modeDone = true;
+			// B"H social fix 17 (defect 1): the mode fetch used the shared
+			// 20s watchdog and its failure fell through to the OUTER catch,
+			// which called showError() and NEVER ran the top-up — so a cold
+			// postsByHeichel index (latest times out at 30s, popular 22.7s;
+			// the mode endpoints only ever return the 2 orphaned
+			// "Write-path test" posts, which are filtered out below) left
+			// the river empty on all three modes even though the base feed
+			// (/api/social/feed) answers in ~1.7s. The mode endpoints
+			// contribute nothing renderable, so a mode failure costs
+			// nothing. Give the mode fetch its OWN ~6s abort (warm it
+			// answers in ~1-2s); on any failure mark it done and CONTINUE
+			// to the pool cache + top-up, which is the real source of
+			// cards. The outer catch stays as a backstop for genuinely
+			// unexpected errors.
+			const modeController = new AbortController();
+			const modeWatchdog = setTimeout(() => modeController.abort(), 6000);
+			try {
+				const url = `/api/social/feed/${mode.endpoint}?limit=${PAGE_SIZE}&offset=${state.nextOffset}`;
+				const res = await fetch(url, { credentials: 'same-origin', signal: modeController.signal });
+				if (!res.ok) throw new Error('mode feed ' + res.status);
+				const data = await res.json();
+				const payload = data.success || data;
+				items = payload.items || [];
+				state.nextOffset = payload.nextOffset;
+				if (payload.nextOffset == null || items.length === 0) state.modeDone = true;
+			} catch (modeError) {
+				// Mode source unavailable (cold index scan / timeout /
+				// bad status) — the top-up below is the real source of
+				// cards, so skip the mode source and keep going.
+				items = [];
+				state.modeDone = true;
+			} finally {
+				clearTimeout(modeWatchdog);
+			}
 		}
 		// B"H social fix 7 (defect 1): the mode endpoints return exactly
 		// the 2 orphaned "Write-path test" posts, and the hub renders mode
