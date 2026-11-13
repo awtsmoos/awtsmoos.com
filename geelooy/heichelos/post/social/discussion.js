@@ -18,7 +18,10 @@ import { createCommentCard } from "./CommentCard.js?v=aafdf6e831";
 // through the same comment-tree endpoint, and submit.js already inserts
 // the new comment into this thread (appendDiscussionComment). Pin is the
 // sha256 first-10 of CommentSection.js, same convention as CommentCard.
-import { CommentSection } from "../CommentSection.js?v=3514b3ebca";
+// B"H social fix 11 (defect 1): the CommentSection pin follows its
+// content hash — CommentSection.js changed (closeEditorSurface now clears
+// the wrapper's inline display), so its pin moves 3514b3ebca -> 415bbd01d3.
+import { CommentSection } from "../CommentSection.js?v=415bbd01d3";
 import { commentAuthor } from "./CommentText.js";
 
 /**

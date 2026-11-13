@@ -57,6 +57,15 @@ export class CommentSection {
         [this.scopeRow, this.titleInput, this.editorWrapper, this.sectionList, this.addSectionBtn, this.mediaTrigger, this.galleryContainer, this.buttonContainer, this.errorLine]
             .filter(Boolean)
             .forEach(node => { node.hidden = true; });
+        // B"H social fix 11 (defect 1): the editor wrapper carries an
+        // INLINE display:grid — set in createEditorInterface and again in
+        // revealEditor() — and an inline display beats the UA [hidden]
+        // rule, so hidden=true alone never hid the wrapper: its B/I/U/Link
+        // toolbar stayed visible below the button both before opening and
+        // after Cancel (only the toolbar shows — the content area is empty
+        // and the source area is display:none). Clear the inline display
+        // here; revealEditor() sets it back to "grid".
+        if (this.editorWrapper) this.editorWrapper.style.display = "none";
         if (this.btn) this.btn.hidden = false;
     }
 

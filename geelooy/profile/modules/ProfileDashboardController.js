@@ -12,7 +12,7 @@ import { getAliasDetails, getDefaultAlias, mapLimit } from './api.js';
 import { listFollowers } from '/scripts/awtsmoos/social/profile/api.js';
 import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
-import { renderProfilePosts, loadPostsForAlias } from './posts.js';
+import { renderProfilePosts, loadPostsForAlias, createProfilePostDeduper } from './posts.js';
 import { renderProfileSeries, loadSeriesForAlias } from './series.js';
 import { renderProfileActivity } from './activity.js';
 import { emptyCard } from './cards.js';
@@ -130,7 +130,13 @@ export class ProfileDashboardController {
 		};
 		try {
 			const [posts, comments, series, followers] = await Promise.all([
-				countAll(loadPostsForAlias),
+				// B"H social fix 11 (defect 2): the hero Posts stat must
+				// count the SAME set the Posts list shows — the list drops
+				// test posts + duplicates (createProfilePostDeduper), so
+				// counting the raw per-alias rows gave 502 while the list
+				// shows 500, and the stat flickered between the two
+				// depending on which writer finished last.
+				this.countFilteredPosts(aliases),
 				countAll(loadCommentsForAlias),
 				countAll(loadSeriesForAlias),
 				this.countFollowers(aliases)
@@ -140,6 +146,27 @@ export class ProfileDashboardController {
 			if (series != null) setStat('series', String(series));
 			if (followers != null) setStat('followers', String(followers));
 		} catch { /* stats are best-effort; tabs set them on load too */ }
+	}
+
+	/**
+	 * B"H social fix 11 (defect 2): counts the posts the profile list
+	 * actually shows — the same dedupe the list uses (test posts +
+	 * duplicates dropped), so the hero stat and the list total agree.
+	 * Same 30s timeout race as countAll: a timeout returns null so the
+	 * stat keeps its previous value instead of a partial count.
+	 */
+	async countFilteredPosts(aliases) {
+		const STAT_TIMEOUT_MS = 30000;
+		const dedupe = createProfilePostDeduper();
+		try {
+			const groups = await Promise.race([
+				mapLimit(aliases, 5, loadPostsForAlias),
+				new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), STAT_TIMEOUT_MS))
+			]);
+			return dedupe(groups.flat()).length;
+		} catch {
+			return null;
+		}
 	}
 
 	/**

@@ -208,6 +208,42 @@ export async function loadPostsForAlias(alias) {
 	}
 }
 
+/** B"H social fix 2 (defect 8): the same post can arrive twice — the two
+ * "Write-path test" records are distinct rows with the same title, author,
+ * heichel and series. Dedupe the LIST (never the underlying posts) by
+ * postId and by that content key, so the list shows each post once.
+ * B"H social fix 5 (defect 4): test posts are not shown in the list at
+ * all (the underlying posts are untouched).
+ * B"H social fix 11 (defect 2): the hero Posts stat and the Posts list
+ * counted DIFFERENT things — the list drops test posts + duplicates while
+ * loadStatsEagerly counted the raw per-alias rows, so the stat flickered
+ * 502 vs 500 across loads (whichever writer finished last won). The
+ * dedupe is now ONE shared factory so both paths count exactly the same
+ * set: the list total and the stat total agree by construction. One
+ * deduper instance must be shared across all batches/groups of a single
+ * count, so cross-batch duplicates are caught. */
+export function createProfilePostDeduper() {
+	const seenIds = new Set();
+	const seenContent = new Set();
+	return (items) => (items || []).filter((post) => {
+		if (isTestPost(post)) return false;
+		const id = String(post.postId || post.id || "");
+		if (id) {
+			if (seenIds.has(id)) return false;
+			seenIds.add(id);
+		}
+		const key = [
+			cleanText(post.title || "").toLowerCase(),
+			String(post.aliasId || post.author || "").toLowerCase(),
+			String(post.heichelId || post.heichel || "").toLowerCase(),
+			String(post.seriesId || post.series || "").toLowerCase()
+		].join("|");
+		if (seenContent.has(key)) return false;
+		seenContent.add(key);
+		return true;
+	});
+}
+
 /** Renders every post across all aliases as linked cards. */
 export async function renderProfilePosts() {
 	const list = one(".profile-posts-list");
@@ -230,27 +266,12 @@ export async function renderProfilePosts() {
 	// "Write-path test" records are distinct rows with the same title, author,
 	// heichel and series. Dedupe the LIST (never the underlying posts) by
 	// postId and by that content key, so the list shows each post once.
-	const seenIds = new Set();
-	const seenContent = new Set();
-	const dedupe = (items) => items.filter((post) => {
-		// B"H social fix 5 (defect 4): test posts are not shown in the
-		// list at all (the underlying posts are untouched).
-		if (isTestPost(post)) return false;
-		const id = String(post.postId || post.id || "");
-		if (id) {
-			if (seenIds.has(id)) return false;
-			seenIds.add(id);
-		}
-		const key = [
-			cleanText(post.title || "").toLowerCase(),
-			String(post.aliasId || post.author || "").toLowerCase(),
-			String(post.heichelId || post.heichel || "").toLowerCase(),
-			String(post.seriesId || post.series || "").toLowerCase()
-		].join("|");
-		if (seenContent.has(key)) return false;
-		seenContent.add(key);
-		return true;
-	});
+	// B"H social fix 11 (defect 2): the dedupe lives in ONE shared factory
+	// (createProfilePostDeduper, above) so the hero Posts stat counts
+	// exactly the same set the list shows — the stat used to count the raw
+	// per-alias rows (502) while the list shows 500, and the stat flickered
+	// between the two depending on which writer finished last.
+	const dedupe = createProfilePostDeduper();
 	for (let start = 0; start < aliases.length; start += 5) {
 		const batch = aliases.slice(start, start + 5);
 		const groups = await Promise.all(batch.map(loadPostsForAlias));
