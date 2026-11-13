@@ -343,7 +343,9 @@
 				k: clicks,
 				ev: diagEvents.slice(),
 				mut: diagMutations.slice(),
-				sc: diagScrolls.slice()
+				sc: diagScrolls.slice(),
+				anc: navDiagAncestors(header),
+				pt: diagPointer.slice()
 			};
 			var json = JSON.stringify(snap);
 			var el = document.getElementById('awtsmoos-nav-diag');
@@ -480,6 +482,119 @@
 		} catch (err) {}
 	}
 
+	/* B"H social fix 21 (defects 1, 2): the Fix 20 check proved the click
+	 * retargets BETWEEN pointerdown and pointerup — pd/md/focus target
+	 * 'chat'/'mail' (connected), then pu/mu/ck target
+	 * 'html.geelooy-route-ready' — and the header's rect top is exactly
+	 * 11 - scrollY (it scrolls with the page although computed position
+	 * reads "fixed"). Six static investigations found NO code that does
+	 * either (no containing-block property on any header ancestor in the
+	 * served CSS chain; no re-render trigger in the served JS). The
+	 * snapshot alone cannot name the ancestor that makes the fixed header
+	 * scroll, nor prove whether the button moved, was replaced, or was
+	 * covered mid-click, so the diagnostic now also records (a) an
+	 * ancestor walk — every header ancestor's computed containing-block
+	 * properties plus its rect top; (b) pointer forensics — coordinates,
+	 * the buttons' rects, whether the button is the SAME object as at
+	 * install, and elementFromPoint at the pointerup coordinates; (c) a
+	 * header-subtree childList observer that only fires when the launcher
+	 * or mail portal is added/removed. Still read-only: no
+	 * preventDefault, no stopPropagation, no DOM writes except the diag
+	 * div + data attribute; every step try/catch-guarded. Buffers are
+	 * rings (pt 6) so the JSON stays short enough to read from the page
+	 * text. */
+	var DIAG_PT_MAX = 6;
+	var diagPointer = [];
+	var diagChatEl = null;
+	var diagMailEl = null;
+
+	/* One ancestor walk: [tag.class, rectTop, {non-default computed props}].
+	 * A fixed header scrolls with the page only when an ancestor creates a
+	 * containing block (transform/filter/backdrop-filter/will-change/
+	 * contain/perspective/clip-path/content-visibility). The walk names the
+	 * exact ancestor and property; rectTop shows which ancestors scroll
+	 * with the page (rectTop ~ 11 - scrollY) and which stay put. */
+	function navDiagAncestors(header) {
+		var out = [];
+		try {
+			var el = header;
+			var guard = 0;
+			while (el && el.nodeType === 1 && guard < 8) {
+				guard++;
+				var props = {};
+				try {
+					var cs = window.getComputedStyle(el);
+					if (cs) {
+						if (cs.transform && cs.transform !== 'none') props.tr = String(cs.transform).slice(0, 40);
+						if (cs.filter && cs.filter !== 'none') props.fl = String(cs.filter).slice(0, 40);
+						var bf = null;
+						try { bf = cs.getPropertyValue('backdrop-filter'); } catch (err) { bf = null; }
+						if (bf && bf !== 'none') props.bf = String(bf).slice(0, 40);
+						if (cs.willChange && cs.willChange !== 'auto') props.wc = String(cs.willChange).slice(0, 40);
+						if (cs.contain && cs.contain !== 'none') props.cn = String(cs.contain).slice(0, 40);
+						if (cs.perspective && cs.perspective !== 'none') props.pe = String(cs.perspective).slice(0, 40);
+						var cp = null;
+						try { cp = cs.getPropertyValue('clip-path'); } catch (err) { cp = null; }
+						if (cp && cp !== 'none') props.cp = String(cp).slice(0, 40);
+						var cv = null;
+						try { cv = cs.getPropertyValue('content-visibility'); } catch (err) { cv = null; }
+						if (cv && cv !== 'visible') props.cv = String(cv).slice(0, 40);
+						if (cs.position && cs.position !== 'static') props.pos = cs.position;
+						if (cs.overflow && cs.overflow !== 'visible') props.ov = String(cs.overflow).slice(0, 20);
+					}
+				} catch (err) {}
+				var top = null;
+				try { top = Math.round(el.getBoundingClientRect().top); } catch (err) { top = null; }
+				out.push([navDiagDescribeTarget(el), top, props]);
+				if (el === document.documentElement) break;
+				el = el.parentElement;
+			}
+		} catch (err) {}
+		return out;
+	}
+
+	/* One pointer/mouse event with forensics: [ms, kind, target, cx, cy,
+	 * chatRect, mailRect, chatSame, mailSame, hitAt].
+	 * cx/cy: pointer coordinates (-1 when absent). chatRect/mailRect:
+	 * [left, top, width, height] or null. chatSame/mailSame: 1 the button
+	 * is the SAME object as at install, 0 a different object (re-rendered),
+	 * -1 not found. hitAt (pu/mu/ck only): elementFromPoint at the pointer
+	 * coordinates — if it returns the button while the event target is
+	 * html, the event was dispatched with a different target; if it
+	 * returns html too, the button is genuinely not under the pointer. */
+	function navDiagRecordPointer(kind, ev) {
+		try {
+			if (kind !== 'pd' && kind !== 'md' && kind !== 'mu' && kind !== 'pu' && kind !== 'ck') return;
+			var cx = -1; var cy = -1;
+			try {
+				if (ev && typeof ev.clientX === 'number') cx = Math.round(ev.clientX);
+				if (ev && typeof ev.clientY === 'number') cy = Math.round(ev.clientY);
+			} catch (err) {}
+			var chat = null; var mail = null;
+			try { chat = document.querySelector('.universal-chat-launcher'); } catch (err) { chat = null; }
+			try { mail = document.querySelector('.g-mail-portal'); } catch (err) { mail = null; }
+			if (!diagChatEl && chat) diagChatEl = chat;
+			if (!diagMailEl && mail) diagMailEl = mail;
+			var chatRect = null; var mailRect = null;
+			try {
+				if (chat) { var b = chat.getBoundingClientRect(); chatRect = [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; }
+			} catch (err) {}
+			try {
+				if (mail) { var b2 = mail.getBoundingClientRect(); mailRect = [Math.round(b2.left), Math.round(b2.top), Math.round(b2.width), Math.round(b2.height)]; }
+			} catch (err) {}
+			var chatSame = chat ? (chat === diagChatEl ? 1 : 0) : -1;
+			var mailSame = mail ? (mail === diagMailEl ? 1 : 0) : -1;
+			var hitAt = '';
+			if ((kind === 'pu' || kind === 'mu' || kind === 'ck') && cx >= 0 && cy >= 0) {
+				try {
+					var hit = document.elementFromPoint(cx, cy);
+					hitAt = navDiagDescribeTarget(hit);
+				} catch (err) { hitAt = '?'; }
+			}
+			navDiagPush(diagPointer, [navDiagMs(), kind, navDiagDescribeTarget(ev ? ev.target : null), cx, cy, chatRect, mailRect, chatSame, mailSame, hitAt], DIAG_PT_MAX);
+		} catch (err) {}
+	}
+
 	function installNavDiag(shell) {
 		try {
 			if (navDiagInstalled) return;
@@ -503,6 +618,7 @@
 			document.addEventListener('click', function (ev) {
 				try {
 					navDiagRecordEvent('ck', ev);
+					navDiagRecordPointer('ck', ev);
 					clicks.total++;
 					var t = ev.target; var label = '';
 					if (t && t.closest) {
@@ -549,7 +665,7 @@
 			for (var ei = 0; ei < diagEventKinds.length; ei++) {
 				(function (type, kind) {
 					document.addEventListener(type, function (ev) {
-						try { navDiagRecordEvent(kind, ev); snapshotNavDiag(shell, clicks); } catch (err) {}
+						try { navDiagRecordEvent(kind, ev); navDiagRecordPointer(kind, ev); snapshotNavDiag(shell, clicks); } catch (err) {}
 					}, true);
 				})(diagEventKinds[ei][0], diagEventKinds[ei][1]);
 			}
@@ -575,6 +691,55 @@
 					} catch (err) {}
 					for (var ti = 0; ti < diagTargets.length; ti++) {
 						if (diagTargets[ti]) diagObserver.observe(diagTargets[ti], { attributes: true, attributeFilter: diagAttrFilter, childList: true, subtree: false });
+					}
+				}
+			} catch (err) {}
+			try { diagChatEl = document.querySelector('.universal-chat-launcher'); } catch (err) { diagChatEl = null; }
+			try { diagMailEl = document.querySelector('.g-mail-portal'); } catch (err) { diagMailEl = null; }
+			/* B"H social fix 21: the Fix 20 observer watches childList only
+			 * on html/body/.g-shell/header with subtree off, so a re-render
+			 * of the header's INNER content (launcher/mail replaced) is
+			 * invisible to it. This second observer watches the header
+			 * subtree, but only records when the launcher or mail portal
+			 * (or a node containing one) is added or removed — the ink,
+			 * dropdowns, and search suggestions are filtered out so the
+			 * ring never floods. Type 'cs' (childList-subtree) distinguishes
+			 * it from the direct-child 'cl'. */
+			try {
+				if (typeof MutationObserver === 'function') {
+					var diagHeader2 = null;
+					try { diagHeader2 = shell.querySelector(':scope > header'); } catch (err) { diagHeader2 = null; }
+					if (diagHeader2) {
+						var diagSubObserver = new MutationObserver(function (records) {
+							try {
+								for (var ri = 0; ri < records.length; ri++) {
+									var rec = records[ri];
+									if (rec.type !== 'childList') continue;
+									var hit21 = false;
+									var nodes21 = [];
+									try { nodes21 = nodes21.concat(Array.prototype.slice.call(rec.addedNodes || [])); } catch (err) {}
+									try { nodes21 = nodes21.concat(Array.prototype.slice.call(rec.removedNodes || [])); } catch (err) {}
+									for (var ni = 0; ni < nodes21.length; ni++) {
+										var n21 = nodes21[ni];
+										if (!n21 || n21.nodeType !== 1) continue;
+										try {
+											if (n21.matches && (n21.matches('.universal-chat-launcher') || n21.matches('.g-mail-portal'))) { hit21 = true; break; }
+											if (n21.querySelector && (n21.querySelector('.universal-chat-launcher') || n21.querySelector('.g-mail-portal'))) { hit21 = true; break; }
+										} catch (err) {}
+									}
+									if (!hit21) continue;
+									var names21 = [];
+									for (var nj = 0; nj < nodes21.length && names21.length < 3; nj++) {
+										var m21 = nodes21[nj];
+										if (m21 && m21.id === 'awtsmoos-nav-diag') continue;
+										names21.push(navDiagDescribeTarget(m21));
+									}
+									if (names21.length) navDiagPush(diagMutations, [navDiagMs(), 'cs', navDiagDescribeTarget(rec.target), names21.join(',')], DIAG_MUT_MAX);
+								}
+								snapshotNavDiag(shell, clicks);
+							} catch (err) {}
+						});
+						diagSubObserver.observe(diagHeader2, { childList: true, subtree: true });
 					}
 				}
 			} catch (err) {}
