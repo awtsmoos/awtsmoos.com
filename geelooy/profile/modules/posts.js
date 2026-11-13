@@ -264,22 +264,20 @@ export function createProfilePostDeduper() {
 }
 
 /** Renders every post across all aliases as linked cards.
- * B"H social fix 13 (defect 1): the list silently rendered only the
- * aliases that loaded. The per-alias /posts endpoints are slow for the
- * big aliases (live probe 2026-11-13: the three biggest take 5-10s
- * each), so on a loaded server they passed the old 9s timeout and
- * returned nothing — the list settled at 212 of 500 with no trace that
- * anything was missing, and the Fix 12 sole-writer stat faithfully
- * reported the partial total. The fix: the first pass uses a 15s
- * timeout; the aliases that still fail get ONE bounded retry (1s
- * backoff, 20s timeout, same 10-at-a-time batching — no extra
- * concurrency, so it cannot wedge the server the way the stress-test
- * parallel flood did); the stat is written only after the retry, so
- * it never shows a partial total as final; and while the retry runs
- * the list shows "Loading more posts…" (the existing .pd-loading
- * style) instead of silently looking complete. If aliases still fail
- * after the retry, the list says so and offers a user-initiated retry
- * (one more pass per click, never automatic). */
+ * B"H social fix 15 (defect 1): two changes on top of the Fix 13 retry.
+ * (a) The stat is now written PROGRESSIVELY in appendItems, on every
+ * batch — the stat used to be written only at the very end (first pass
+ * + retry, ~40-46s under load), so the list showed cards from ~1s while
+ * the stat sat at "—" for 30s+, and it appeared "immediately after" a
+ * tab click in two consecutive checks because the click coincided with
+ * the retry finishing. There is NO code path from a Heichelos click to
+ * this stat (see ROOT-CAUSES.md); the progressive write dissolves the
+ * symptom entirely. (b) Up to TWO bounded retry passes, not one — the
+ * Fix 14 check's second load settled at 204, not 500, because aliases
+ * still failed after a single 20s retry under load; a second pass
+ * catches the spike's stragglers. If aliases still fail after both
+ * retries, the list says so and offers a user-initiated retry (one more
+ * pass per click, never automatic). */
 export async function renderProfilePosts() {
 	const list = one(".profile-posts-list");
 	if (!list) return;
@@ -315,6 +313,19 @@ export async function renderProfilePosts() {
 	const appendItems = (items) => {
 		const fresh = dedupe(items);
 		total += fresh.length;
+		// B"H social fix 15 (defect 1): write the stat PROGRESSIVELY, on
+		// every batch, not only at the very end. The stat used to be
+		// written once after first pass + retry (~40-46s under load), so
+		// the list showed cards from ~1s while the stat sat at "—" for
+		// 30s+ — and it appeared "immediately after" a tab click in two
+		// consecutive checks, because the click coincided with the retry
+		// finishing (see ROOT-CAUSES.md: no code path links a Heichelos
+		// click to this stat). The stat now grows as batches land, so it
+		// shows a real number within ~1s and there is never a "—" waiting
+		// for a click to "release" it. Sole-writer rule kept: only this
+		// function writes the posts stat, from the same `total` the list
+		// shows; the final write below is the same value.
+		setStat('posts', String(total));
 		if (!fresh.length) return;
 		if (!shown) {
 			shown = true;
@@ -375,11 +386,25 @@ export async function renderProfilePosts() {
 		more.remove();
 		return remaining;
 	};
-	// First pass, then one bounded retry for the aliases that did not load.
+	// First pass, then up to TWO bounded retries for the aliases that did
+	// not load. B"H social fix 15 (defect 1): one retry was not enough —
+	// the Fix 14 check's second load settled at 204, not 500, because
+	// aliases still failed after the single 20s retry (per-alias latency
+	// is load-dependent: the same 1-row response took 112ms one run and
+	// 9.29s another, so a load spike can sink a whole retry pass). A
+	// second pass at a later time catches the aliases that timed out
+	// during the spike. Same 10-at-a-time batching, no extra
+	// concurrency; the stat is written progressively (above), so the
+	// user sees it grow through the retries instead of sitting at "—".
 	let failed = await loadAliases(aliases, 15000);
-	if (failed.length) failed = await retryOnce(failed, 20000);
-	// The stat is the list's total and is written only once the list is
-	// final (first pass + retry), so it never shows a partial total.
+	for (let attempt = 0; attempt < 2 && failed.length; attempt++) {
+		failed = await retryOnce(failed, 20000);
+	}
+	// The stat is the list's total. It was already written progressively
+	// in appendItems (Fix 15); this final write confirms the same value
+	// once the list is final (first pass + retries). If aliases still
+	// failed after both retries, the total is partial — the Retry button
+	// below says so honestly, and a manual retry re-writes the stat.
 	setStat('posts', String(total));
 	if (!shown && !failed.length) {
 		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));

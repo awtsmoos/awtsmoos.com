@@ -33,7 +33,22 @@
 	max-width: 44rem;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 0 0 max(6rem, env(safe-area-inset-bottom));
+	/* B"H social fix 15 (defect 3): the global header is position:fixed
+	   (style/geelooy-app/header/shell/frame.css: .g-unusual-header), so
+	   every page must clear it with top padding. The shell fallback
+	   (style/geelooy-app/shell/content.css: body.geelooy-app-shell main
+	   → padding-top header-h + 1.25rem) SHOULD do that, but the rendered
+	   check shows the profile card overlapping the header's centre at
+	   1920px (Search truncated, action buttons covered) — the fallback
+	   does not hold in the real browser for this page, for a reason
+	   static analysis cannot pin down (the rule is present in the served
+	   CSS and wins on specificity; see ROOT-CAUSES.md). The profile
+	   therefore clears the header ITSELF, in its own stylesheet, so it
+	   does not depend on the shell fallback chain. The value matches the
+	   shell fallback exactly (header-h + 1.25rem), so if the fallback
+	   does apply it writes the same value — no conflict, no double
+	   padding. No !important. */
+	padding: calc(var(--g-header-h, 4.75rem) + 1.25rem) 0 max(6rem, env(safe-area-inset-bottom));
 	background:
 		radial-gradient(40rem 22rem at 50% -4rem, rgba(217, 169, 78, .14), transparent 65%),
 		var(--pd-cream);
