@@ -72,13 +72,35 @@ export class ProfileDashboardController {
 		// in the HTML; if the user picked another tab during boot, their
 		// choice stands and the Posts content is simply ready when they
 		// return to it.
+		let postsBoot = null;
 		if (!this._tabsLoaded.has('posts')) {
 			this._tabsLoaded.add('posts');
-			TAB_LOADERS.posts().catch(() => { this._tabsLoaded.delete('posts'); });
+			postsBoot = TAB_LOADERS.posts();
+			postsBoot.catch(() => { this._tabsLoaded.delete('posts'); });
 		}
 		this.personalizeHero();
-		// B"H: stats load eagerly in the background — real numbers, not 0s.
-		this.loadStatsEagerly();
+		// B"H social fix 14 (defect 1): the stats loaders (comments /
+		// series / followers, 3 loaders x 5-at-a-time = 15 concurrent
+		// requests) used to fire at the same moment as the Posts
+		// pre-load, so the profile booted ~25 concurrent slow
+		// per-alias requests on a 2-CPU box and the slow /posts
+		// aliases passed their 15s timeout, forcing the retry and
+		// pushing the hero Posts stat to ~45s (Fix 13 check, reload
+		// 2). The stats loaders now wait until the Posts pre-load
+		// settles (both branches run them, so they still load if the
+		// Posts load fails) — the Posts load, which gates the hero
+		// stat, runs with only the Heichelos load competing. The
+		// secondary stats appear a few seconds later; they are
+		// best-effort and their template values (0) already match
+		// this user's real counts.
+		if (postsBoot) {
+			postsBoot.then(
+				() => this.loadStatsEagerly(),
+				() => this.loadStatsEagerly()
+			);
+		} else {
+			this.loadStatsEagerly();
+		}
 		try { renderTiferesSocialLaunchpad(); } catch { /* launchpad must never break boot */ }
 		try { renderAliases(); } catch { /* aliases must never break boot */ }
 		try { await renderHeichelos(); } catch { /* heichelos must never break boot */ }

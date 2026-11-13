@@ -272,7 +272,7 @@ export function createProfilePostDeduper() {
  * anything was missing, and the Fix 12 sole-writer stat faithfully
  * reported the partial total. The fix: the first pass uses a 15s
  * timeout; the aliases that still fail get ONE bounded retry (1s
- * backoff, 20s timeout, same 5-at-a-time batching — no extra
+ * backoff, 20s timeout, same 10-at-a-time batching — no extra
  * concurrency, so it cannot wedge the server the way the stress-test
  * parallel flood did); the stat is written only after the retry, so
  * it never shows a partial total as final; and while the retry runs
@@ -288,7 +288,7 @@ export async function renderProfilePosts() {
 	// B"H social fix 1: batched + progressive. The old code fired one request
 	// per alias at once (~40) behind an 8s overall deadline, so a loaded server
 	// tripped the deadline and the tab showed "Loading posts took too long."
-	// Aliases now load 5 at a time and each batch's cards append as they land,
+	// Aliases now load 10 at a time (Fix 14; was 5) and each batch's cards append as they land,
 	// so the tab shows posts within ~1s and never stalls on one slow alias.
 	const aliases = state.aliases || [];
 	// B"H social fix 2: counts come from the base feed's socialSummary.
@@ -336,11 +336,24 @@ export async function renderProfilePosts() {
 		}).catch(() => {});
 		enrichCounts(cards).catch(() => {});
 	};
-	// Loads one set of aliases, 5 at a time, returning the ones that failed.
+	// B"H social fix 14 (defect 1): 10 at a time, not 5. The hero Posts
+	// stat is written only after the first pass + retry, and with
+	// 5-at-a-time batching over ~40 aliases the first pass is 8
+	// sequential batches — the 5 slowest aliases (5–10s each unloaded:
+	// rashash 10.2s, tosafot 9.1s, sha-arei 5.6s, petach 4.8s, piskei
+	// 4.2s) spread across batches make it ~30–37s even unloaded, and
+	// under boot contention slow aliases passed the 15s timeout so the
+	// retry (+~21s) pushed the stat to ~45s (Fix 13 check, reload 2).
+	// 10 at a time is 4 batches, so the slow aliases overlap and the
+	// first pass is ~20–25s. The stats loaders are deferred until this
+	// load settles (ProfileDashboardController), so the net boot
+	// concurrency DROPS (25 → 15) — this is not extra load on the server.
+	const POSTS_BATCH = 10;
+	// Loads one set of aliases, 10 at a time, returning the ones that failed.
 	const loadAliases = async (toLoad, timeoutMs) => {
 		const failed = [];
-		for (let start = 0; start < toLoad.length; start += 5) {
-			const batch = toLoad.slice(start, start + 5);
+		for (let start = 0; start < toLoad.length; start += POSTS_BATCH) {
+			const batch = toLoad.slice(start, start + POSTS_BATCH);
 			const results = await Promise.all(batch.map((alias) => loadPostsForAlias(alias, timeoutMs)));
 			results.forEach((result, i) => {
 				if (result.ok) appendItems(result.rows);

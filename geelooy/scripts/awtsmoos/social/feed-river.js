@@ -212,7 +212,10 @@ function isOrphanedTestPost(post = {}) {
  *   depth (Fix 10: series depth is uniform on the live data, every post
  *   its own series, so author depth is the level where the data varies)
  *   — then newest. When real engagement exists, it ranks first; the
- *   proxies only break the all-zero ties.
+ *   proxies only break the all-zero ties. Fix 14 caps the top 12 at 2
+ *   posts per alias: on a homogeneous pool (all Meiri, Fix 13 check)
+ *   the alias-depth tie-break has no signal and Popular collapses to
+ *   recency == Latest, so the cap is what makes Popular differ.
  * - personalized ("For You"): no reading-history signal reaches the
  *   top-up (the mode endpoint returns only the 2 test posts), so rank
  *   for discovery diversity — one post per series, in first-appearance
@@ -256,7 +259,7 @@ function rankTopUp(pool, mode, need) {
 			const a = String(p.aliasId || p.author || '');
 			aliasDepth.set(a, (aliasDepth.get(a) || 0) + 1);
 		}
-		return [...ordered].sort((a, b) => {
+		const ranked = [...ordered].sort((a, b) => {
 			const e = engagementOf(b) - engagementOf(a);
 			if (e) return e;
 			const d = (depth.get(String(b.seriesId || b.series || '')) || 0)
@@ -280,7 +283,41 @@ function rankTopUp(pool, mode, need) {
 			const c = Number(b.createdAt || 0) - Number(a.createdAt || 0);
 			if (c) return c;
 			return String(a.postId || a.id || '').localeCompare(String(b.postId || b.id || ''));
-		}).slice(0, need);
+		});
+		// B"H social fix 14 (defect 3): Popular == Latest AGAIN on a
+		// homogeneous pool (Fix 13 check: all Meiri titles). The
+		// alias-depth tie-break has no signal when the pool is one
+		// alias deep, so it collapses to recency == Latest — the same
+		// failure as Fix 10, on a different pool (Rashba, then Meiri).
+		// Cap Popular at 2 posts per alias in the top 12 (proven in
+		// node on the Rashba pool in Fix 11, and on the current Meiri
+		// pool here): the top 12 then spans 6 distinct aliases
+		// instead of 1, while #1 stays the newest post by the deepest
+		// alias. Still a proxy — it does not invent engagement — to
+		// be replaced by the /ask semantic ranking when it lands. If
+		// the pool is too homogeneous to fill `need` at 2 per alias,
+		// the remainder fills from the next-ranked posts, so the
+		// river still fills its page (diversity is a preference, not
+		// a hard gate).
+		const POPULAR_PER_ALIAS = 2;
+		const perAlias = new Map();
+		const out = [];
+		for (const p of ranked) {
+			const a = String(p.aliasId || p.author || '');
+			const n = (perAlias.get(a) || 0) + 1;
+			perAlias.set(a, n);
+			if (n <= POPULAR_PER_ALIAS) out.push(p);
+			if (out.length >= need) break;
+		}
+		if (out.length < need) {
+			const taken = new Set(out.map(p => String(p.postId || p.id || '')));
+			for (const p of ranked) {
+				if (out.length >= need) break;
+				const k = String(p.postId || p.id || '');
+				if (!taken.has(k)) { out.push(p); taken.add(k); }
+			}
+		}
+		return out;
 	}
 	// B"H social fix 6 (defect 1): For You's round-robin used to start
 	// at the first series in first-appearance order — but the newest
