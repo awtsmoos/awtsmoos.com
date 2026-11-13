@@ -340,7 +340,10 @@
 				} : null,
 				c: navDiagAtPoint(chat),
 				m: navDiagAtPoint(mail),
-				k: clicks
+				k: clicks,
+				ev: diagEvents.slice(),
+				mut: diagMutations.slice(),
+				sc: diagScrolls.slice()
 			};
 			var json = JSON.stringify(snap);
 			var el = document.getElementById('awtsmoos-nav-diag');
@@ -368,6 +371,115 @@
 		} catch (err) { return null; }
 	}
 
+	/* B"H social fix 20 (defect 1): the Fix 19 check proved the click
+	 * reaches the document (total increments) but its target is <html>
+	 * (chat/mail stay 0, last "html@0"), scrollY resets to 0, and after
+	 * a click the header stops staying fixed (top -2608 at y 2619) —
+	 * and four static investigations found NO code that does any of
+	 * that. The snapshot alone cannot distinguish the three live
+	 * possibilities (a real pointer click retargeted mid-click, a
+	 * synthetic click dispatched on <html>, the button detached
+	 * between mousedown and mouseup), so the diagnostic now also
+	 * records the full pointer-event sequence, focus moves, scroll
+	 * positions with timestamps, and every class/style/hidden/inert
+	 * change on html/body/.g-shell/header. Still read-only: no
+	 * preventDefault, no stopPropagation, no DOM writes except the
+	 * diag div + data attribute; every step try/catch-guarded.
+	 * Buffers are rings (ev 12, mut 8, sc 8) so the JSON stays short
+	 * enough to read from the page text. */
+	var DIAG_EV_MAX = 12;
+	var DIAG_MUT_MAX = 8;
+	var DIAG_SC_MAX = 8;
+	var diagEvents = [];
+	var diagMutations = [];
+	var diagScrolls = [];
+	var diagT0 = 0;
+	try { diagT0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : 0; } catch (err) { diagT0 = 0; }
+
+	function navDiagMs() {
+		try {
+			if (typeof performance !== 'undefined' && performance.now) return Math.round(performance.now() - diagT0);
+		} catch (err) {}
+		return 0;
+	}
+
+	function navDiagDescribeTarget(t) {
+		if (!t) return '?';
+		try {
+			if (t === document) return 'document';
+			if (t === window) return 'window';
+			if (t.closest) {
+				if (t.closest('.universal-chat-launcher')) return 'chat';
+				if (t.closest('.g-mail-portal')) return 'mail';
+			}
+			var tag = (t.tagName || '?').toLowerCase();
+			var cls = String(t.className || '').split(' ')[0];
+			if (cls) return tag + '.' + cls;
+			return tag;
+		} catch (err) { return '?'; }
+	}
+
+	function navDiagPush(list, item, max) {
+		try {
+			list.push(item);
+			while (list.length > max) list.shift();
+		} catch (err) {}
+	}
+
+	/* One pointer/focus event: [ms, kind, target, scrollY, chatConnected, mailConnected].
+	 * kind: pd pointerdown, md mousedown, mu mouseup, pu pointerup, ck click,
+	 * fi focusin, fo focus. Connected: 1 still in the document, 0 detached,
+	 * -1 not found — a 0 at mousedown/mouseup would prove the button was
+	 * detached mid-click (the classic click-retarget-to-<html> cause). */
+	function navDiagRecordEvent(kind, ev) {
+		try {
+			var chat = null; var mail = null;
+			try { chat = document.querySelector('.universal-chat-launcher'); } catch (err) { chat = null; }
+			try { mail = document.querySelector('.g-mail-portal'); } catch (err) { mail = null; }
+			var chatConn = chat ? (document.contains ? (document.contains(chat) ? 1 : 0) : 1) : -1;
+			var mailConn = mail ? (document.contains ? (document.contains(mail) ? 1 : 0) : 1) : -1;
+			navDiagPush(diagEvents, [
+				navDiagMs(), kind, navDiagDescribeTarget(ev ? ev.target : null),
+				Math.round(window.scrollY || 0), chatConn, mailConn
+			], DIAG_EV_MAX);
+		} catch (err) {}
+	}
+
+	/* One DOM mutation on html/body/.g-shell/header: [ms, type, target, detail].
+	 * type: 'at' attribute (class/style/hidden/inert only — data-nav-diag is
+	 * excluded from the filter so the diagnostic's own writes never
+	 * self-trigger), 'cl' childList add/remove. The diag div itself is
+	 * filtered out; its textContent writes are characterData, unobserved. */
+	function navDiagRecordMutation(m) {
+		try {
+			var detail = '';
+			if (m.type === 'attributes') {
+				var name = m.attributeName || '';
+				if (name === 'class') detail = 'class:' + String(m.target.className || '').slice(0, 60);
+				else if (name === 'style') detail = 'style:' + String(m.target.getAttribute ? (m.target.getAttribute('style') || '') : '').slice(0, 60);
+				else detail = name + ':' + String(m.target.getAttribute ? (m.target.getAttribute(name) || '') : '').slice(0, 40);
+			} else if (m.type === 'childList') {
+				var names = [];
+				var nodes = [];
+				try { nodes = Array.prototype.slice.call(m.addedNodes || []); } catch (err) { nodes = []; }
+				for (var i = 0; i < nodes.length && names.length < 3; i++) {
+					var n = nodes[i];
+					if (n && n.id === 'awtsmoos-nav-diag') continue;
+					names.push('+' + navDiagDescribeTarget(n));
+				}
+				try { nodes = Array.prototype.slice.call(m.removedNodes || []); } catch (err) { nodes = []; }
+				for (var j = 0; j < nodes.length && names.length < 3; j++) {
+					var n2 = nodes[j];
+					if (n2 && n2.id === 'awtsmoos-nav-diag') continue;
+					names.push('-' + navDiagDescribeTarget(n2));
+				}
+				if (!names.length) return;
+				detail = names.join(',');
+			} else { return; }
+			navDiagPush(diagMutations, [navDiagMs(), m.type === 'attributes' ? 'at' : 'cl', navDiagDescribeTarget(m.target), detail], DIAG_MUT_MAX);
+		} catch (err) {}
+	}
+
 	function installNavDiag(shell) {
 		try {
 			if (navDiagInstalled) return;
@@ -390,6 +502,7 @@
 			var clicks = { total: 0, chat: 0, mail: 0, last: '' };
 			document.addEventListener('click', function (ev) {
 				try {
+					navDiagRecordEvent('ck', ev);
 					clicks.total++;
 					var t = ev.target; var label = '';
 					if (t && t.closest) {
@@ -404,17 +517,68 @@
 				} catch (err) { /* diagnostic only */ }
 			}, true);
 			var pending = false;
+			var lastDiagScrollY = -1;
 			var schedule = function () {
 				if (pending) return;
 				pending = true;
+				var afterFrame = function () {
+					pending = false;
+					var y = Math.round(window.scrollY || 0);
+					if (y !== lastDiagScrollY) {
+						lastDiagScrollY = y;
+						navDiagPush(diagScrolls, [navDiagMs(), y], DIAG_SC_MAX);
+					}
+					snapshotNavDiag(shell, clicks);
+				};
 				if (typeof window.requestAnimationFrame === 'function') {
-					window.requestAnimationFrame(function () { pending = false; snapshotNavDiag(shell, clicks); });
+					window.requestAnimationFrame(afterFrame);
 				} else {
-					window.setTimeout(function () { pending = false; snapshotNavDiag(shell, clicks); }, 50);
+					window.setTimeout(afterFrame, 50);
 				}
 			};
 			window.addEventListener('scroll', schedule, { passive: true });
 			window.addEventListener('resize', schedule, { passive: true });
+			/* Pointer/focus sequence around every click, capture phase so
+			 * the targets are seen even if a later handler stops the event.
+			 * Read-only: these listeners never preventDefault or stop
+			 * propagation. */
+			var diagEventKinds = [
+				['pointerdown', 'pd'], ['mousedown', 'md'], ['mouseup', 'mu'],
+				['pointerup', 'pu'], ['focusin', 'fi'], ['focus', 'fo']
+			];
+			for (var ei = 0; ei < diagEventKinds.length; ei++) {
+				(function (type, kind) {
+					document.addEventListener(type, function (ev) {
+						try { navDiagRecordEvent(kind, ev); snapshotNavDiag(shell, clicks); } catch (err) {}
+					}, true);
+				})(diagEventKinds[ei][0], diagEventKinds[ei][1]);
+			}
+			/* Class/style/hidden/inert changes on the header's ancestors
+			 * (a transform/filter/will-change on one of them is the only
+			 * way a fixed header stops being viewport-fixed). Subtree is
+			 * off on purpose: descendant changes (dropdown panels, ink)
+			 * cannot affect the header's containing block and would flood
+			 * the ring. */
+			try {
+				if (typeof MutationObserver === 'function') {
+					var diagObserver = new MutationObserver(function (records) {
+						try {
+							for (var ri = 0; ri < records.length; ri++) navDiagRecordMutation(records[ri]);
+							snapshotNavDiag(shell, clicks);
+						} catch (err) {}
+					});
+					var diagAttrFilter = ['class', 'style', 'hidden', 'inert'];
+					var diagTargets = [document.documentElement, document.body, shell];
+					try {
+						var diagHeader = shell.querySelector(':scope > header');
+						if (diagHeader) diagTargets.push(diagHeader);
+					} catch (err) {}
+					for (var ti = 0; ti < diagTargets.length; ti++) {
+						if (diagTargets[ti]) diagObserver.observe(diagTargets[ti], { attributes: true, attributeFilter: diagAttrFilter, childList: true, subtree: false });
+					}
+				}
+			} catch (err) {}
+			navDiagPush(diagScrolls, [navDiagMs(), Math.round(window.scrollY || 0)], DIAG_SC_MAX);
 			snapshotNavDiag(shell, clicks);
 		} catch (err) { /* diagnostic only; never touches the shell */ }
 	}

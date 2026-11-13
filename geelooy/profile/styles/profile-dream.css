@@ -428,10 +428,20 @@ body.geelooy-app-shell .g-shell {
 /* ---------- tabs ---------- */
 .profile-dream .pd-tabs-wrap {
 	position: sticky;
-	top: 3.85rem;
+	/* B"H social fix 20 (defect 2): the fixed global header occupies
+	   viewport y ~11px..~92px (top max(.7rem, safe-area) + 81px tall,
+	   Fix 19 check), so the old 3.85rem stick point put the tabs'
+	   top ~30px UNDER the header — the nav half-clipped the
+	   Posts/Activity/Comments row when scrolled. Stick the tabs just
+	   below the header's bottom instead: header top + header height
+	   (--g-header-h, 4.75rem) + 1rem gap = ~103px, clearing the
+	   measured 92px bottom. The sticky topbar above the tabs stays
+	   at top:0 (hidden under the header when scrolled, as before);
+	   only the tabs move. */
+	top: calc(max(.7rem, env(safe-area-inset-top)) + var(--g-header-h, 4.75rem) + 1rem);
 	/* B"H social fix 2 (defect 4): above the sticky topbar (z-index 20) so
 	   the tabs stay clickable even when the topbar runs taller than the
-	   3.85rem the tabs stick at. */
+	   point the tabs stick at (Fix 20: just below the fixed header). */
 	z-index: 25;
 	margin-top: .9rem;
 	padding: .55rem .9rem;
@@ -1026,8 +1036,9 @@ body.geelooy-app-shell .g-shell {
    breakout is a no-op there and the rail still scrolls by touch as before.
    The breakout is 100vw wide starting at the viewport's left edge; the
    overflow-x clip on the document keeps the scrollbar-width sliver from
-   adding a horizontal scrollbar. The sticky top (3.85rem) is untouched,
-   so the bar still sticks under the topbar on scroll. */
+   adding a horizontal scrollbar. The sticky top (Fix 20: just below
+   the fixed header) is untouched, so the bar still sticks under the
+   topbar on scroll. */
 @media (min-width: 560px) {
 	.profile-dream .pd-tabs-wrap {
 		width: 100vw;
@@ -1044,11 +1055,12 @@ html:has(.profile-dream) {
 }
 
 /* B"H social fix 5 (defect 1): a post title scrolled into view can land
-   under the sticky tabs-wrap (which occupies ~62px–124px from the viewport
-   top), so a click on it lands on the bar instead of the link. Keep the
-   card and its link/title clear of the sticky bar when scrolled into view. */
+   under the sticky tabs-wrap (which occupies ~103px–165px from the viewport
+   top since Fix 20 moved it below the fixed header), so a click on it lands
+   on the bar instead of the link. Keep the card and its link/title clear of
+   the sticky bar when scrolled into view. */
 .profile-dream .social-post-card,
 .profile-dream .social-post-card .social-post-link,
 .profile-dream .social-post-card h3 {
-	scroll-margin-top: 8.5rem;
+	scroll-margin-top: 11rem;
 }
