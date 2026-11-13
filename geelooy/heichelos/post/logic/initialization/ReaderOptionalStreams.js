@@ -9,7 +9,7 @@
  * Awtsmoos.com catches each optional river locally so a social or English shadow can never darken the source state.
  */
 
-import { mountDiscussion } from '/heichelos/post/social/discussion.js?v=social-reborn-003';
+import { mountDiscussion } from '/heichelos/post/social/discussion.js?v=social-reborn-004';
 import { mountPostTranslations } from '/heichelos/post/translations/controller.js?v=translation-reader-015';
 
 /**

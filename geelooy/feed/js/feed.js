@@ -168,7 +168,17 @@ function contentKey(item = {}) {
 }
 
 function isBenchmarkPost(item = {}) {
-	return String(item.heichelId || item.heichel || '').toLowerCase() === 'bench-speed';
+	// B"H social fix 4 (defect 7): same extended skip as the hub —
+	// bench-speed, the ikar Platform Proof test post, bench-import
+	// rows, and any "test submission" title. The feed passed with
+	// the bench-speed check alone only because the Platform Proof
+	// post is the first real base row; it must not render.
+	const heichel = String(item.heichelId || item.heichel || '').toLowerCase();
+	if (heichel === 'bench-speed') return true;
+	if (String(item.seriesId || item.series || '').toLowerCase() === 'platform-proof-submissions') return true;
+	if (String(item.aliasId || item.author || '').toLowerCase() === 'bench-import') return true;
+	if (/test submission/i.test(String(item.title || item.postTitle || ''))) return true;
+	return false;
 }
 
 async function fetchBaseFeedPage(cursor, limit) {
@@ -289,7 +299,7 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 		if (ckey !== '|||') seenContent.add(ckey);
 		return true;
 	});
-	if (fb && items.length < limit && !fb.baseDone) {
+	if (fb && items.length < limit && !fb.baseDone && Date.now() >= (fb.baseNextRetry || 0)) {
 		// B"H social fix 3 (defect 1): scan the base feed forward — fetch
 		// pages of 50, skip bench-speed, keep real posts — until this river
 		// page is full or 3 base pages are scanned. One 14-row page only
@@ -319,7 +329,14 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 				if (!base.hasMore) fb.baseDone = true;
 			}
 			if (foundReal === 0) fb.baseDone = true;
-		} catch (_) { fb.baseDone = true; }
+		} catch (_) {
+			// B"H social fix 4: a failed base scan (hang, abort, bad
+			// status) must not mark the base done for the session —
+			// that fail-once left the feed with only test + sim posts
+			// after one slow fetch. Retry on the next page load,
+			// after a 10s backoff.
+			fb.baseNextRetry = Date.now() + 10000;
+		}
 	}
 	if (fb && items.length < limit && !fb.simDone) {
 		try {
@@ -419,7 +436,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		skeletons: [],
 		filters: loadFilters(),
 		allItems: [],
-		fallback: { baseCursor: '', baseDone: false, simOffset: 0, simDone: false }
+		fallback: { baseCursor: '', baseDone: false, baseNextRetry: 0, simOffset: 0, simDone: false }
 	};
 
 	async function loadFollowed() {
@@ -570,7 +587,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.nextOffset = 0;
 		state.done = false;
 		state.allItems = [];
-		state.fallback = { baseCursor: '', baseDone: false, simOffset: 0, simDone: false };
+		state.fallback = { baseCursor: '', baseDone: false, baseNextRetry: 0, simOffset: 0, simDone: false };
 		prefetchCache.clear();
 		river.replaceChildren();
 		sentinel.textContent = t('status.loadMore');
@@ -626,7 +643,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.nextOffset = 0;
 		state.done = false;
 		state.allItems = [];
-		state.fallback = { baseCursor: '', baseDone: false, simOffset: 0, simDone: false };
+		state.fallback = { baseCursor: '', baseDone: false, baseNextRetry: 0, simOffset: 0, simDone: false };
 		prefetchCache.clear();
 		river.replaceChildren();
 		tabsEl.querySelectorAll('[role="tab"]').forEach(el => {

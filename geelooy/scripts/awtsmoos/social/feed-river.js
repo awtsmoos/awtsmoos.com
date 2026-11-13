@@ -44,6 +44,7 @@ const state = {
 	modeDone: false,
 	baseCursor: '',
 	baseDone: false,
+	baseNextRetry: 0,
 	liked: new Set(),
 	saved: new Set(),
 	// B"H social fix 3 (defect 2): dedupe the river LIST by postId AND
@@ -133,7 +134,17 @@ function contentKey(post = {}) {
 }
 
 function isBenchmarkPost(post = {}) {
-	return String(post.heichelId || post.heichel || '').toLowerCase() === 'bench-speed';
+	// B"H social fix 4 (defect 7): bench-speed is not the only test
+	// source. The "Platform Proof" test post is heichel ikar, series
+	// platform-proof-submissions, alias muse-audit-01 — Fix 3's
+	// bench-speed check let it through. Skip it (and any other test
+	// submission / bench-import row) here and in feed.js alike.
+	const heichel = String(post.heichelId || post.heichel || '').toLowerCase();
+	if (heichel === 'bench-speed') return true;
+	if (String(post.seriesId || post.series || '').toLowerCase() === 'platform-proof-submissions') return true;
+	if (String(post.aliasId || post.author || '').toLowerCase() === 'bench-import') return true;
+	if (/test submission/i.test(String(post.title || post.postTitle || ''))) return true;
+	return false;
 }
 
 function esc(s) {
@@ -273,23 +284,29 @@ async function fetchPage() {
 			// whatever it returns. Until the backend is fixed the top-up will
 			// time out and the river shows the tab posts — honest, and it renders.
 		if (items.length) appendItems(items);
-		if (items.length < PAGE_SIZE && !state.baseDone) {
-			// B"H social fix 3 (defect 1): scan the base feed forward —
-			// pages of 50, skip bench-speed — until this river page is full
-			// or 3 base pages are scanned. One 12-row page only ever
-			// returned benchmark posts (the first 40 base rows are all
-			// bench-speed). The 5s watchdog still bounds the whole top-up;
-			// a scan that finds no real post marks the base done so the
-			// river does not spin re-fetching it.
+		if (items.length < PAGE_SIZE && !state.baseDone && Date.now() >= (state.baseNextRetry || 0)) {
+			// B"H social fix 4 (defect 1): Fix 3's scan pre-added every real
+			// row's postId to state.seenIds (and its content key to
+			// state.seenContent) and only then called appendItems(extra) —
+			// whose filter drops every post already in seenIds. The scan
+			// therefore found 10 real posts and rendered 0 of them, and the
+			// hub showed only the test post. The scan now dedupes within
+			// itself (a LOCAL set) and lets appendItems own the global sets;
+			// each page's extras append as they land, so an abort does not
+			// discard them. The watchdog is 15s, not 5s: one base page takes
+			// ~2.8s, so three pages cannot fit in 5s. A failed scan no longer
+			// marks the base done (fail-once showed "caught up" with 1 post);
+			// it sets a 10s retry backoff instead.
 			try {
 				const topController = new AbortController();
-				const topWatchdog = setTimeout(() => topController.abort(), 5000);
+				const topWatchdog = setTimeout(() => topController.abort(), 15000);
 				try {
-					const extra = [];
 					const need = PAGE_SIZE - items.length;
 					let foundReal = 0;
 					let pagesScanned = 0;
-					while (extra.length < need && !state.baseDone && pagesScanned < 3) {
+					const scanSeen = new Set();
+					const scanSeenContent = new Set();
+					while (foundReal < need && !state.baseDone && pagesScanned < 3) {
 						const qs = new URLSearchParams({ limit: '50' });
 						if (state.baseCursor) qs.set('cursor', state.baseCursor);
 						const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
@@ -297,28 +314,36 @@ async function fetchPage() {
 						const baseBody = await baseRes.json();
 						const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
 						pagesScanned++;
+						const pageExtras = [];
 						for (const row of baseRows.map(normalizeRiverPost)) {
 							if (isBenchmarkPost(row)) continue;
 							const key = String(row.postId || row.id || '');
 							const ckey = contentKey(row);
-							if (key && !state.seenIds.has(key) && (ckey === '|||' || !state.seenContent.has(ckey))) {
-								state.seenIds.add(key);
-								if (ckey !== '|||') state.seenContent.add(ckey);
-								extra.push(row);
-								foundReal++;
-							}
-							if (extra.length >= need) break;
+							if (!key) continue;
+							if (scanSeen.has(key)) continue;
+							if (ckey !== '|||' && scanSeenContent.has(ckey)) continue;
+							scanSeen.add(key);
+							if (ckey !== '|||') scanSeenContent.add(ckey);
+							pageExtras.push(row);
+							foundReal++;
+							if (foundReal >= need) break;
 						}
+						if (pageExtras.length) appendItems(pageExtras);
 						const pageInfo = baseBody?.meta?.pageInfo || {};
 						state.baseCursor = pageInfo.nextCursor || '';
 						if (!pageInfo.hasMore) state.baseDone = true;
 					}
-					if (foundReal === 0) state.baseDone = true;
-					if (extra.length) appendItems(extra);
+					if (foundReal === 0 && pagesScanned > 0) state.baseDone = true;
 				} finally {
 					clearTimeout(topWatchdog);
 				}
-			} catch (_) { state.baseDone = true; }
+			} catch (_) {
+				// B"H social fix 4: a failed top-up (hang, abort, bad status)
+				// must NOT mark the base done — that fail-once is what left
+				// the hub showing 1 post with "caught up". Retry on the next
+				// page fetch, after a 10s backoff.
+				state.baseNextRetry = Date.now() + 10000;
+			}
 		}
 		if (state.modeDone && state.baseDone) state.done = true;
 		if (!items.length && state.modeDone && state.baseDone) appendItems(items);
@@ -430,6 +455,7 @@ function resetAndLoad() {
 	state.modeDone = false;
 	state.baseCursor = '';
 	state.baseDone = false;
+	state.baseNextRetry = 0;
 	state.seenIds = new Set();
 	state.seenContent = new Set();
 	const river = document.getElementById('feed-river');

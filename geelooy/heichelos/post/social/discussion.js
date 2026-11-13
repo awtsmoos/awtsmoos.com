@@ -2,7 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-import { createCommentCard } from "./CommentCard.js";
+// B"H social fix 4 (defect 5): pin the CommentCard import so the
+// Fix 3 author-link code cannot be served stale from any cache
+// layer — the SW is cache-first for ?v= URLs and network-first
+// for unpinned ones (fetch failure falls back to the cached
+// pre-Fix-3 copy). A new URL is a cache miss everywhere.
+import { createCommentCard } from "./CommentCard.js?v=f1420379f1";
 
 /**
  * @file Mounts the canonical Heichel discussion beneath a post while each comment keeps its own safe social and Torah layers.

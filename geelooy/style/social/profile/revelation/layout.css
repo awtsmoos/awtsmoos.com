@@ -101,6 +101,31 @@
 	text-decoration: none;
 }
 
+/* B"H social fix 4 (defect 6): the stats section had no layout rule
+ * at all — the number and label rendered as adjacent inline boxes
+ * with no gap, so they read "2posts". Lay the stats out as a
+ * wrapping row with a real gap, and give each stat a
+ * baseline-aligned number/label pair.
+ */
+.profile-app .profile-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem 1.5rem;
+}
+.profile-app .profile-stat {
+	display: flex;
+	align-items: baseline;
+	gap: .35rem;
+}
+/* B"H social fix 4 (defect 6): the hero actions must never overlap
+ * the identity copy — keep each action card inside its own track.
+ * (The main overlap fix is the revelation pin bump in index.css:
+ * the 900px stacking fix of 2026-11-08 was served stale under the
+ * unchanged ?v=profile-revelation-001 pin.)
+ */
+.profile-app .profile-hero-action {
+	min-width: 0;
+}
 /* B"H 2026-10-22 (frontend-fixes): at desktop widths the main column is
    capped at 42rem (../mobile.css, min-width:860px) while the identity
    stacking rules key on max-width:760px viewports that never occur there —

@@ -8,12 +8,21 @@
 .profile-app .profile-topbar {
 	z-index: var(--profile-z-sticky);
 }
+/* B"H social fix 4 (defect 6): the rail forced 5 buttons (icon + title
+ * + detail) into 5 equal minmax(0,1fr) tracks of a 42rem column — about
+ * 125px each, while "Contributions" alone needs ~170px. The buttons are
+ * also min-width: max-content (unified.css), so they overflowed their
+ * tracks and the next button's background covered the tail of each label
+ * ("Contrib", "Networ"). A rail is a scroller, not a squeeze: flex,
+ * overflow-x auto, buttons sized to their content and never shrunk, so
+ * every label is fully visible at any width. */
 .profile-app .profile-destination-rail {
 	position: sticky;
 	top: 4.4rem;
 	z-index: var(--profile-z-sticky);
-	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
+	display: flex;
+	overflow-x: auto;
+	scrollbar-width: none;
 	width: 100%;
 	max-width: none;
 	gap: .45rem;
@@ -24,9 +33,12 @@
 	background: rgba(255, 255, 255, .94);
 	box-shadow: var(--profile-shadow);
 	backdrop-filter: blur(18px);
-	overflow: visible;
+}
+.profile-app .profile-destination-rail::-webkit-scrollbar {
+	display: none;
 }
 .profile-app .profile-destination {
+	flex: none;
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
 	gap: .55rem;

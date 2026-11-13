@@ -123,7 +123,26 @@ function postCard(post = {}) {
 	// and it is the normal card affordance anyway. Clicks on a link or
 	// button inside the card keep their own behavior.
 	card.addEventListener("click", (event) => {
-		if (event.target.closest("a, button")) return;
+		const link = event.target.closest("a");
+		if (link) {
+			// B"H social fix 4 (defect 3): the title link is a real <a> and
+			// its native navigation is the path — but the rendered check saw
+			// a plain title click hang with a stuck progress bar (the SPA
+			// navigation never committing). If the URL has not changed ~3s
+			// after the click, force a full load of the link. A healthy
+			// navigation (native or SPA) changes the URL first, so the timer
+			// then does nothing. Same-origin links only.
+			if (link.href && link.origin === window.location.origin && !link.href.endsWith("#")) {
+				const href = link.href;
+				const before = window.location.href;
+				setTimeout(() => {
+					if (window.location.href !== before) return;
+					window.location.assign(href);
+				}, 3000);
+			}
+			return;
+		}
+		if (event.target.closest("button")) return;
 		if (url) window.location.assign(url);
 	});
 	card.style.cursor = url ? "pointer" : "";
