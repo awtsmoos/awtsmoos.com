@@ -45,6 +45,10 @@ const state = {
 	baseCursor: '',
 	baseDone: false,
 	baseNextRetry: 0,
+	// B"H social fix 9 (defect 2): true while a reset came from a tab
+	// switch or a retry (serve the first page from the cached pool);
+	// false for pull-to-refresh (an explicit refresh must re-fetch).
+	usePoolCache: false,
 	liked: new Set(),
 	saved: new Set(),
 	// B"H social fix 3 (defect 2): dedupe the river LIST by postId AND
@@ -56,6 +60,25 @@ const state = {
 	maamarLinks: null,
 	maamarLinksLoading: false
 };
+
+// B"H social fix 9 (defect 2): the top-up pool is the same for every
+// tab — the base scan is mode-independent; only rankTopUp differs,
+// and it is a pure function of (pool, mode, need). Cache the
+// first-page pool so a tab switch re-ranks rows already in memory
+// instead of re-fetching the same 3 base pages (~8.5s of skeletons:
+// mode fetch ~0.9s + 3 pages at ~1.8–3.0s each, measured 2026-11-13).
+// TTL 120s; pull-to-refresh bypasses it and refreshes the cache.
+// Only a scan that started at baseCursor '' (the first page) is
+// cacheable — a Load More scan covers later pages and must never
+// overwrite it.
+let poolCache = null; // { pool, cursor, baseDone, at }
+const POOL_CACHE_TTL_MS = 120000;
+
+function snapshotPoolCache(pool, scanStartCursor) {
+	if (!pool || !pool.length) return;
+	if (scanStartCursor !== '') return;
+	poolCache = { pool: pool.slice(), cursor: state.baseCursor, baseDone: state.baseDone, at: Date.now() };
+}
 
 // B"H — Load the social-post -> source-maamar link mappings from AwtsmoosDB
 // (maamar-links-index-v1 post, kind=maamar-link-index). Per Yaakov's standing
@@ -420,7 +443,33 @@ async function fetchPage() {
 			// whatever it returns. Until the backend is fixed the top-up will
 			// time out and the river shows the tab posts — honest, and it renders.
 		if (items.length) appendItems(items);
-		if (items.length < PAGE_SIZE && !state.baseDone && Date.now() >= (state.baseNextRetry || 0)) {
+		// B"H social fix 9 (defect 2): serve a tab switch from the cached
+		// first-page pool when it is fresh. The pool is mode-independent
+		// and rankTopUp is pure, so the re-ranked list is IDENTICAL to
+		// what a fresh 3-page scan would render — without the ~8.5s of
+		// skeletons. The mode fetch above still runs (fast, ~0.9s) so mode
+		// items keep their order ahead of the top-up; the skeleton shows
+		// only for that fetch, not for the whole scan. If the cached rank
+		// cannot fill a full page (thin pool, or overlap with mode items
+		// already rendered), fall through to the normal scan.
+		let servedFromCache = false;
+		if (state.usePoolCache && poolCache && Date.now() - poolCache.at < POOL_CACHE_TTL_MS) {
+			const cached = rankTopUp(poolCache.pool, state.mode, PAGE_SIZE - items.length)
+				.filter((post) => {
+					const id = String(post.postId || post.id || '');
+					const ckey = contentKey(post);
+					if (id && state.seenIds.has(id)) return false;
+					if (ckey !== '|||' && state.seenContent.has(ckey)) return false;
+					return true;
+				});
+			if (cached.length === PAGE_SIZE - items.length) {
+				appendItems(cached);
+				state.baseCursor = poolCache.cursor;
+				state.baseDone = poolCache.baseDone;
+				servedFromCache = true;
+			}
+		}
+		if (!servedFromCache && items.length < PAGE_SIZE && !state.baseDone && Date.now() >= (state.baseNextRetry || 0)) {
 			// B"H social fix 4 (defect 1): Fix 3's scan pre-added every real
 			// row's postId to state.seenIds (and its content key to
 			// state.seenContent) and only then called appendItems(extra) —
@@ -451,6 +500,7 @@ async function fetchPage() {
 					// Rows already shown (mode items) are excluded from
 					// the pool up front, so the ranked top N are all new.
 					const pool = [];
+					const scanStartCursor = state.baseCursor;
 					try {
 						while (!state.baseDone && pagesScanned < 3) {
 							if (state.mode === 'latest' && pool.length >= need) break;
@@ -490,9 +540,11 @@ async function fetchPage() {
 						// collected: rank and append what we have, then
 						// rethrow so the backoff still applies.
 						if (pool.length) appendItems(rankTopUp(pool, state.mode, need));
+						snapshotPoolCache(pool, scanStartCursor);
 						throw scanError;
 					}
 					if (pool.length) appendItems(rankTopUp(pool, state.mode, need));
+					snapshotPoolCache(pool, scanStartCursor);
 					if (pool.length === 0 && pagesScanned > 0) state.baseDone = true;
 				} finally {
 					clearTimeout(topWatchdog);
@@ -595,7 +647,7 @@ function showError() {
 			<p class="feed-empty__text">Something interrupted the feed. Take a breath and try again.</p>
 			<button class="feed-empty__cta" id="feed-retry">Try Again</button>
 		</div>`;
-		document.getElementById('feed-retry')?.addEventListener('click', resetAndLoad);
+		document.getElementById('feed-retry')?.addEventListener('click', () => resetAndLoad());
 	}
 }
 
@@ -607,7 +659,7 @@ function renderSentinel(loading) {
 		: (state.done && state.offset > 0 ? '✦ You are all caught up' : '');
 }
 
-function resetAndLoad() {
+function resetAndLoad(useCache = true) {
 	state.items = [];
 	state.offset = 0;
 	state.nextOffset = 0;
@@ -616,6 +668,7 @@ function resetAndLoad() {
 	state.baseCursor = '';
 	state.baseDone = false;
 	state.baseNextRetry = 0;
+	state.usePoolCache = useCache;
 	state.seenIds = new Set();
 	state.seenContent = new Set();
 	const river = document.getElementById('feed-river');
@@ -714,7 +767,10 @@ function initPullToRefresh() {
 	document.addEventListener('touchend', () => {
 		if (pulling && ptr.getAttribute('data-active') === 'true') {
 			ptr.setAttribute('data-active', 'false');
-			resetAndLoad();
+			// B"H social fix 9 (defect 2): an explicit pull-to-refresh
+			// must re-fetch — it bypasses the tab-switch pool cache
+			// (and the fresh scan refreshes it).
+			resetAndLoad(false);
 		}
 		pulling = false;
 	}, { passive: true });
