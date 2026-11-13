@@ -21,7 +21,7 @@ import {
 import {
 	beginDiscussion,
 	beginTranslation
-} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-016';
+} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-017';
 import {
 	renderPlainBilingualFallback
 } from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-002';

@@ -181,6 +181,27 @@ function isBenchmarkPost(item = {}) {
 	return false;
 }
 
+/* B"H social fix 8 (defect 2): the two "Write-path test" records are
+   orphaned (POST_NOT_FOUND in the post store — their pages 404), and
+   Fix 7 hid them from the hub only. They still top the FEED as its
+   first card (the tab endpoints return exactly those 2 rows). Hide them
+   from the feed's rendered LIST too — same check as the hub's
+   isOrphanedTestPost, same two verified-orphaned postIds, or title
+   "Write-path test" + alias asdf. LIST-ONLY, NOT a deletion: the records
+   stay in the data, they are simply not shown. */
+const ORPHANED_TEST_POST_IDS = new Set([
+	'post_1794364379034_ikihjkqbvmf',
+	'post_1794363158834_rm5osi5gr08'
+]);
+
+function isOrphanedTestPost(item = {}) {
+	const id = String(item.postId || item.id || '');
+	if (ORPHANED_TEST_POST_IDS.has(id)) return true;
+	const title = String(item.title || item.postTitle || '').trim().toLowerCase();
+	const alias = String(item.aliasId || item.author || '').trim().toLowerCase();
+	return title === 'write-path test' && alias === 'asdf';
+}
+
 async function fetchBaseFeedPage(cursor, limit) {
 	const qs = new URLSearchParams({ limit: String(limit) });
 	if (cursor) qs.set('cursor', cursor);
@@ -297,6 +318,10 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 	// (never the underlying post). A key of '|||' means the item carries
 	// no title/author/heichel/series at all, so it is never collapsed.
 	items = items.filter((it) => {
+		// B"H social fix 8 (defect 2): the orphaned "Write-path test"
+		// records arrive here as tab items — filter them from the
+		// feed's list (never the underlying posts), before the dedupe.
+		if (isOrphanedTestPost(it)) return false;
 		const id = String(it.postId || it.id || '');
 		if (id) {
 			if (seen.has(id)) return false;
@@ -323,6 +348,7 @@ async function fetchFeed(endpoint, { limit, offset, aliasId, filters, fallback }
 				pagesScanned++;
 				for (const it of base.items) {
 					if (isBenchmarkPost(it)) continue;
+					if (isOrphanedTestPost(it)) continue;
 					const key = String(it.postId || it.id || '');
 					const ckey = contentKey(it);
 					if (key && !seen.has(key) && (ckey === '|||' || !seenContent.has(ckey))) {

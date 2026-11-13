@@ -8,6 +8,17 @@
 // for unpinned ones (fetch failure falls back to the cached
 // pre-Fix-3 copy). A new URL is a cache miss everywhere.
 import { createCommentCard } from "./CommentCard.js?v=aafdf6e831";
+// B"H social fix 8 (defect 1): the COMMUNITY section had no way to add a
+// comment — it rendered only the thread (or the "Be the first..." empty
+// state) and the composer lived in the sidebar Insights tab, which the
+// reader never opens from here. Mount the existing CommentSection
+// composer in the discussion section itself, between the header and the
+// thread, so a signed-in reader can open the form on the post page.
+// The composer is the same class the sidebar uses: its Transmit posts
+// through the same comment-tree endpoint, and submit.js already inserts
+// the new comment into this thread (appendDiscussionComment). Pin is the
+// sha256 first-10 of CommentSection.js, same convention as CommentCard.
+import { CommentSection } from "../CommentSection.js?v=3514b3ebca";
 import { commentAuthor } from "./CommentText.js";
 
 /**
@@ -21,6 +32,12 @@ export async function mountDiscussion(viewport) {
 	document.getElementById("awtsmoos-social-discussion")?.remove();
 	const section = discussionSection();
 	viewport.appendChild(section);
+	// B"H social fix 8 (defect 1): the composer mounts here, immediately,
+	// so it is visible even while the thread is still loading — it does
+	// not depend on the thread fetch. A composer failure must never break
+	// the thread itself (the discussion stays readable), so the mount is
+	// guarded inside mountComposer.
+	mountComposer(section);
 	const thread = section.querySelector(".awtsmoos-social-thread");
 	try {
 		const comments = await fetchCommentTree();
@@ -83,8 +100,26 @@ function discussionSection() {
 	header.append(kicker, title, copy);
 	const thread = document.createElement("div");
 	thread.className = "awtsmoos-social-thread";
-	section.append(header, thread);
+	const composer = document.createElement("div");
+	composer.className = "awtsmoos-social-composer";
+	section.append(header, composer, thread);
 	return section;
+}
+
+/** B"H social fix 8 (defect 1): mounts the comment composer between the
+ * header and the thread. Scope "root" posts at the post itself (the
+ * discussion thread is post-level, not verse-anchored); the button label
+ * says plainly what it does. Guarded: if the composer cannot mount, the
+ * thread still renders and the failure is only a warning — a missing
+ * composer is a lost nicety, a broken thread is a defect. */
+function mountComposer(section) {
+	try {
+		const mount = section.querySelector(".awtsmoos-social-composer");
+		if (!mount) return;
+		new CommentSection(mount, { scope: "root", label: "✍️ Add a comment" });
+	} catch (error) {
+		console.warn("B\"H social composer could not mount", error);
+	}
 }
 
 /** B"H social fix 5 (defect 3): which of the thread's distinct authors
