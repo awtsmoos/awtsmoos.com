@@ -19,11 +19,34 @@ export class UniversalChatLauncher {
 		this.button.dataset.universalChatLauncher = "true";
 		// B"H - never silently dead: with no opener (or a throwing one) the
 		// click used to do nothing. Fall back to the public chat app.
-		this.button.addEventListener("click", () => {
+		const open = () => {
 			try {
 				if (typeof options.onOpen === "function") { options.onOpen(); return; }
 			} catch (error) { console.error("B\"H - Universal chat opener failed.", error); }
 			window.open("/apps/universal-chat/", "_blank", "noopener");
+		};
+		// B"H social fix 22 (defect 2): the Fix 21 rendered check proved
+		// the click retargets between pointerdown and pointerup —
+		// pointerdown/mousedown reach this button, but pointerup/mouseup/
+		// click are delivered to <html> even at scroll 0, so the click
+		// handler never fires and the chat never opens. No pointer
+		// capture, re-render, or retargeting code exists in the served
+		// shell (7th investigation). mousedown reliably reaches the
+		// button, so act on it as well; the guard ignores the click that
+		// follows a mousedown-open, so a healthy browser (where both
+		// fire) opens exactly once. The click listener stays for
+		// keyboard/assistive activation (Enter/Space fire click with no
+		// mousedown). Primary button only, so a right-click still opens
+		// the context menu.
+		let lastMousedownOpen = 0;
+		this.button.addEventListener("mousedown", (event) => {
+			if (event.button !== 0) return;
+			lastMousedownOpen = Date.now();
+			open();
+		});
+		this.button.addEventListener("click", () => {
+			if (Date.now() - lastMousedownOpen < 2000) return;
+			open();
 		});
 		window.addEventListener("awtsmoosPrivateMessagingUnread", (event) => {
 			this.updateUnread(event.detail?.count || 0);

@@ -31,6 +31,30 @@ export function createHeaderPortal(root, options) {
 	);
 	portal.href = options.href;
 	portal.dataset.portal = options.kind;
+	// B"H social fix 22 (defect 2): this portal is a plain anchor with
+	// no handler, so it relies entirely on the browser's default
+	// navigation when the click targets it. The Fix 21 rendered check
+	// proved the click retargets to <html> even at scroll 0
+	// (pointerdown/mousedown reach the portal, pointerup/mouseup/click
+	// do not), so Mail never navigates. mousedown reliably reaches the
+	// portal, so navigate on it (primary button only); the click guard
+	// suppresses the duplicate default navigation on a healthy
+	// browser. The flag is set only after assign succeeds, so a
+	// throwing assign still leaves the click to navigate. No pointer
+	// capture or retargeting code exists in the served shell (7th
+	// investigation) — the mechanism is still unknown; this makes the
+	// portal work despite it.
+	let lastMousedownNav = 0;
+	portal.addEventListener('mousedown', (event) => {
+		if (event.button !== 0) return;
+		try {
+			globalThis.location.assign(options.href);
+			lastMousedownNav = Date.now();
+		} catch (err) { /* fall through: the click still navigates */ }
+	});
+	portal.addEventListener('click', (event) => {
+		if (Date.now() - lastMousedownNav < 2000) event.preventDefault();
+	});
 	portal.setAttribute('aria-label', options.ariaLabel || `Open ${options.label}`);
 	portal.append(
 		createPortalGlyph(root, options.icon),

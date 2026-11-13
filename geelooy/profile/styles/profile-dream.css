@@ -1064,3 +1064,22 @@ html:has(.profile-dream) {
 .profile-dream .social-post-card h3 {
 	scroll-margin-top: 11rem;
 }
+
+/* B"H social fix 22 (defect 1): the shared nav is position:fixed, so it
+   must resolve against the viewport. A filter on an ancestor makes a
+   fixed element resolve against that ancestor instead, so the nav
+   scrolls with the page. The Fix 21 rendered check proved <body> carries
+   filter:brightness(1.08) once scrolled (and no filter at scroll 0),
+   while no rule in the served code sets it (7th investigation: the full
+   157-file @import chain, the served JS, and the served HTML are all
+   clean — every brightness(1.08) rule is a :hover on buttons/links, and
+   no JS sets body.style.filter). The filter's source is not in the
+   served code; neutralize any containing-block filter on the header's
+   ancestors so the nav stays fixed on scroll regardless of which rule
+   sets it. This does not touch the dim: the dim is opacity on the header
+   (.g-shell.is-dim > header), not a body filter. No !important. */
+html.geelooy-route-ready body,
+body.awtsmoos-bg-profile,
+.g-shell {
+	filter: none;
+}
