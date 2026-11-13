@@ -148,6 +148,34 @@ function isBenchmarkPost(post = {}) {
 	return false;
 }
 
+/** B"H social fix 7 (defect 1): the two "Write-path test" records are
+ * ORPHANED — they exist in the feed index but POST_NOT_FOUND in the
+ * post store (verified live in every fix-1–6 check: their pages 404),
+ * so their cards lead to "Post not found". The three tab endpoints
+ * return exactly these 2 posts, and the hub renders mode items FIRST,
+ * before the ranked top-up — so one of them tops EVERY tab, and the
+ * For You offset fix (Fix 6) could never move it: the offset applies
+ * to the top-up, not to the mode items. Hide them from the hub's
+ * rendered LIST only (consistent with the profile list hiding Worker J
+ * and the feed hiding benchmark posts): the records stay in the data,
+ * they are simply not shown. NOT a deletion — the user has not answered
+ * the deletion question yet. Matched by the two verified-orphaned
+ * postIds, or by the test title + alias (either covers both records).
+ * The base feed never carries them (0 of the live 150-row sample), so
+ * the mode-item filter is the operative one; the pool-scan check is
+ * belt-and-braces in case the base feed ever does. */
+const ORPHANED_TEST_POST_IDS = new Set([
+	'post_1794364379034_ikihjkqbvmf',
+	'post_1794363158834_rm5osi5gr08'
+]);
+function isOrphanedTestPost(post = {}) {
+	const id = String(post.postId || post.id || '');
+	if (ORPHANED_TEST_POST_IDS.has(id)) return true;
+	const title = String(post.title || post.postTitle || '').trim().toLowerCase();
+	const alias = String(post.aliasId || post.author || '').trim().toLowerCase();
+	return title === 'write-path test' && alias === 'asdf';
+}
+
 /** B"H social fix 5 (defect 2): the three hub tabs showed the IDENTICAL
  * 11-post list because the top-up was mode-blind — every mode's endpoint
  * returns the same 2 test posts, and the scan took the first N real rows
@@ -378,6 +406,14 @@ async function fetchPage() {
 			state.nextOffset = payload.nextOffset;
 			if (payload.nextOffset == null || items.length === 0) state.modeDone = true;
 		}
+		// B"H social fix 7 (defect 1): the mode endpoints return exactly
+		// the 2 orphaned "Write-path test" posts, and the hub renders mode
+		// items FIRST — so one of them tops every tab. Drop them from the
+		// rendered list here (list-only, NOT a deletion), BEFORE the
+		// top-up math: `need` is PAGE_SIZE - items.length, so filtering
+		// first lets the ranked top-up fill the whole page with real
+		// posts instead of leaving the orphaned card at position 1.
+		items = items.filter((p) => !isOrphanedTestPost(p));
 		// B"H social fix 2b: render the mode items NOW. The tab endpoints
 			// respond; the base feed API can hang. The top-up must never block
 			// the render, so it runs after, with a short 5s cap, and appends
@@ -427,6 +463,13 @@ async function fetchPage() {
 							pagesScanned++;
 							for (const row of baseRows.map(normalizeRiverPost)) {
 								if (isBenchmarkPost(row)) continue;
+								// B"H social fix 7 (defect 1): belt-and-braces —
+								// the base feed never carries the orphaned test
+								// posts (0 of the live 150-row sample), but if
+								// it ever does they must not re-enter through
+								// the top-up after being filtered from the mode
+								// items.
+								if (isOrphanedTestPost(row)) continue;
 								const key = String(row.postId || row.id || '');
 								const ckey = contentKey(row);
 								if (!key) continue;
