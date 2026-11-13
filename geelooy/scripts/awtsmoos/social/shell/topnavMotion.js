@@ -45,6 +45,7 @@
 	var READY_CLASS = 'is-ready';
 	var INK_CLASS = 'gnav-ink';
 	var DIM_CLASS = 'is-dim';
+	var navDiagInstalled = false;
 
 	var reduceMotionQuery = null;
 	try {
@@ -302,6 +303,122 @@
 		};
 	}
 
+
+	/* ------------------------------------------------------------------
+	 * Nav diagnostic — B"H social fix 19 (defects 1, 2).
+	 * Four investigations found no mechanism in the served code for the
+	 * rendered-check observations (global nav scrolling away; chat button
+	 * and Mail link doing nothing), and the checker tools cannot run JS.
+	 * So the live values are written INTO the DOM where the checker can
+	 * read them: a visually-hidden div (#awtsmoos-nav-diag) plus a
+	 * data-nav-diag attribute on <html>, holding a compact JSON snapshot
+	 * (header computed position + bounding rect, scrollY, the element at
+	 * the chat button's and Mail link's centers, and whether a click ever
+	 * reached either control). Read-only: it never touches the header,
+	 * the buttons, or any handler, never prevents default, never stops
+	 * propagation, and every step is try/catch-guarded so a failure
+	 * cannot affect the shell. Remove once defects 1-2 are resolved.
+	 * ------------------------------------------------------------------ */
+	function snapshotNavDiag(shell, clicks) {
+		try {
+			var header = null;
+			try { header = shell.querySelector(':scope > header'); } catch (err) { header = null; }
+			if (!header) { try { header = document.querySelector('.g-unusual-header'); } catch (err) { header = null; } }
+			var cs = null; var rect = null;
+			if (header) {
+				try { cs = window.getComputedStyle(header); } catch (err) { cs = null; }
+				try { rect = header.getBoundingClientRect(); } catch (err) { rect = null; }
+			}
+			var chat = null; var mail = null;
+			try { chat = document.querySelector('.universal-chat-launcher'); } catch (err) { chat = null; }
+			try { mail = document.querySelector('.g-mail-portal'); } catch (err) { mail = null; }
+			var snap = {
+				y: Math.round(window.scrollY || 0),
+				h: (header && cs && rect) ? {
+					pos: cs.position, top: Math.round(rect.top), h: Math.round(rect.height),
+					z: cs.zIndex, o: cs.opacity, d: cs.display
+				} : null,
+				c: navDiagAtPoint(chat),
+				m: navDiagAtPoint(mail),
+				k: clicks
+			};
+			var json = JSON.stringify(snap);
+			var el = document.getElementById('awtsmoos-nav-diag');
+			if (el) el.textContent = json;
+			try { document.documentElement.setAttribute('data-nav-diag', json); } catch (err) {}
+		} catch (err) { /* diagnostic only; never touches the shell */ }
+	}
+
+	function navDiagAtPoint(node) {
+		if (!node) return null;
+		try {
+			var b = node.getBoundingClientRect();
+			var cx = b.left + b.width / 2; var cy = b.top + b.height / 2;
+			var hit = document.elementFromPoint(cx, cy);
+			var hitName = null;
+			if (hit) {
+				hitName = (hit.tagName || '').toLowerCase();
+				var cls = String(hit.className || '').split(' ')[0];
+				if (cls) hitName += '.' + cls;
+			}
+			return {
+				cx: Math.round(cx), cy: Math.round(cy),
+				hit: hitName, self: hit === node || (node.contains ? node.contains(hit) : false)
+			};
+		} catch (err) { return null; }
+	}
+
+	function installNavDiag(shell) {
+		try {
+			if (navDiagInstalled) return;
+			navDiagInstalled = true;
+			var el = document.getElementById('awtsmoos-nav-diag');
+			if (!el) {
+				el = document.createElement('div');
+				el.id = 'awtsmoos-nav-diag';
+				el.setAttribute('aria-hidden', 'true');
+				el.style.position = 'absolute';
+				el.style.left = '-9999px';
+				el.style.top = '0';
+				el.style.width = '1px';
+				el.style.height = '1px';
+				el.style.overflow = 'hidden';
+				el.style.clip = 'rect(0 0 0 0)';
+				el.style.whiteSpace = 'nowrap';
+				(document.body || document.documentElement).appendChild(el);
+			}
+			var clicks = { total: 0, chat: 0, mail: 0, last: '' };
+			document.addEventListener('click', function (ev) {
+				try {
+					clicks.total++;
+					var t = ev.target; var label = '';
+					if (t && t.closest) {
+						if (t.closest('.universal-chat-launcher')) label = 'chat';
+						else if (t.closest('.g-mail-portal')) label = 'mail';
+						else label = (t.tagName || '').toLowerCase();
+					}
+					if (label === 'chat') clicks.chat++;
+					if (label === 'mail') clicks.mail++;
+					clicks.last = label + '@' + Math.round(window.scrollY || 0);
+					snapshotNavDiag(shell, clicks);
+				} catch (err) { /* diagnostic only */ }
+			}, true);
+			var pending = false;
+			var schedule = function () {
+				if (pending) return;
+				pending = true;
+				if (typeof window.requestAnimationFrame === 'function') {
+					window.requestAnimationFrame(function () { pending = false; snapshotNavDiag(shell, clicks); });
+				} else {
+					window.setTimeout(function () { pending = false; snapshotNavDiag(shell, clicks); }, 50);
+				}
+			};
+			window.addEventListener('scroll', schedule, { passive: true });
+			window.addEventListener('resize', schedule, { passive: true });
+			snapshotNavDiag(shell, clicks);
+		} catch (err) { /* diagnostic only; never touches the shell */ }
+	}
+
 	/* ------------------------------------------------------------------
 	 * Boot.
 	 * ------------------------------------------------------------------ */
@@ -313,6 +430,7 @@
 		shell.classList.add(READY_CLASS);
 		shell.removeAttribute('data-state');
 		initInk(shell);
+		installNavDiag(shell);
 
 		window.__topnavDim = function (on) {
 			setDim(getShell(), on);

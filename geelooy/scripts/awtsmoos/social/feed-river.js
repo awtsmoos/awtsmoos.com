@@ -365,14 +365,28 @@ function rankTopUp(pool, mode, need) {
 		// the remainder fills from the next-ranked posts, so the
 		// river still fills its page (diversity is a preference, not
 		// a hard gate).
+		// B"H social fix 19 (defect 3): Popular's top 12 were all ONE
+		// series (Fix 18 check: 15905-007 x12). The series-depth
+		// tie-break concentrates the head on the pool's deepest series,
+		// and the per-alias cap spreads AUTHORS but not series. Cap the
+		// top 12 at 2 posts per SERIES too — the same pattern as Fix 14.
+		// Verified in node on the live base-50 pool: 6 -> 9 distinct
+		// series, still differs from Latest, #1 stays the deepest
+		// series' newest. Same fallback: a pool too homogeneous to fill
+		// `need` at 2 per series fills from the next-ranked posts below.
 		const POPULAR_PER_ALIAS = 2;
+		const POPULAR_PER_SERIES = 2;
 		const perAlias = new Map();
+		const perSeries = new Map();
 		const out = [];
 		for (const p of ranked) {
 			const a = String(p.aliasId || p.author || '');
 			const n = (perAlias.get(a) || 0) + 1;
 			perAlias.set(a, n);
-			if (n <= POPULAR_PER_ALIAS) out.push(p);
+			const s = String(p.seriesId || p.series || '');
+			const m = (perSeries.get(s) || 0) + 1;
+			perSeries.set(s, m);
+			if (n <= POPULAR_PER_ALIAS && m <= POPULAR_PER_SERIES) out.push(p);
 			if (out.length >= need) break;
 		}
 		if (out.length < need) {
