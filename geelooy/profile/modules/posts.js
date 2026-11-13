@@ -71,6 +71,23 @@ function countsText(counts) {
 	return `💬 ${c} Comment${c === 1 ? "" : "s"} · ❤️ ${r} Reaction${r === 1 ? "" : "s"}`;
 }
 
+/** B"H social fix 5 (defect 4): test posts are never shown in the
+ * profile Posts list (the underlying posts are NOT deleted). Same
+ * markers as the feed's isBenchmarkPost (feed.js, feed-river.js) plus
+ * the Worker J submission series, whose posts arrive here through the
+ * per-alias posts endpoint rather than the base feed. */
+function isTestPost(post = {}) {
+	const heichel = String(post.heichelId || post.heichel || '').toLowerCase();
+	if (heichel === 'bench-speed') return true;
+	const series = String(post.seriesId || post.series || '').toLowerCase();
+	if (series === 'platform-proof-submissions') return true;
+	if (series === 'submissions-test-j') return true;
+	if (String(post.aliasId || post.author || '').toLowerCase() === 'bench-import') return true;
+	if (/test submission/i.test(String(post.title || post.postTitle || ''))) return true;
+	if (/^worker j\b/i.test(String(post.title || post.postTitle || '').trim())) return true;
+	return false;
+}
+
 /** Builds one post card linking to the live post. */
 function postCard(post = {}) {
 	const id = cleanText(post.id || post.postId || "");
@@ -122,8 +139,40 @@ function postCard(post = {}) {
 	// the post even if the anchor's own default is somehow swallowed,
 	// and it is the normal card affordance anyway. Clicks on a link or
 	// button inside the card keep their own behavior.
-	card.addEventListener("click", (event) => {
-		const link = event.target.closest("a");
+	// B"H social fix 5 (defect 1): the click itself is the failure, so a
+	// click-only fallback cannot fix it. A pointerdown on the card arms a
+	// 2s timer to navigate to the link; a pointermove (a drag/scroll) or
+	// a pointerup or a click on the card cancels it, so a normal tap
+	// navigates by its own click and a drag never navigates. The timer
+	// only fires when the pointer went down on a link and then NOTHING
+	// followed on the card for 2s — the exact signature of a swallowed
+	// click (the element moved between pointerdown and pointerup, e.g. a
+	// focus scroll, so the pointerup and the click land elsewhere).
+	// Same-origin links only.
+	let pendingNavTimer = null;
+	const cancelPendingNav = () => {
+		if (pendingNavTimer !== null) {
+			clearTimeout(pendingNavTimer);
+			pendingNavTimer = null;
+		}
+	};
+	card.addEventListener('pointerdown', (event) => {
+		const link = event.target.closest('a');
+		if (!link || !link.href || link.origin !== window.location.origin || link.href.endsWith('#')) return;
+		cancelPendingNav();
+		const href = link.href;
+		const before = window.location.href;
+		pendingNavTimer = setTimeout(() => {
+			pendingNavTimer = null;
+			if (window.location.href !== before) return;
+			window.location.assign(href);
+		}, 2000);
+	});
+	card.addEventListener('pointermove', cancelPendingNav);
+	card.addEventListener('pointerup', cancelPendingNav);
+	card.addEventListener('click', (event) => {
+		cancelPendingNav();
+		const link = event.target.closest('a');
 		if (link) {
 			// B"H social fix 4 (defect 3): the title link is a real <a> and
 			// its native navigation is the path — but the rendered check saw
@@ -132,7 +181,7 @@ function postCard(post = {}) {
 			// after the click, force a full load of the link. A healthy
 			// navigation (native or SPA) changes the URL first, so the timer
 			// then does nothing. Same-origin links only.
-			if (link.href && link.origin === window.location.origin && !link.href.endsWith("#")) {
+			if (link.href && link.origin === window.location.origin && !link.href.endsWith('#')) {
 				const href = link.href;
 				const before = window.location.href;
 				setTimeout(() => {
@@ -142,7 +191,7 @@ function postCard(post = {}) {
 			}
 			return;
 		}
-		if (event.target.closest("button")) return;
+		if (event.target.closest('button')) return;
 		if (url) window.location.assign(url);
 	});
 	card.style.cursor = url ? "pointer" : "";
@@ -184,6 +233,9 @@ export async function renderProfilePosts() {
 	const seenIds = new Set();
 	const seenContent = new Set();
 	const dedupe = (items) => items.filter((post) => {
+		// B"H social fix 5 (defect 4): test posts are not shown in the
+		// list at all (the underlying posts are untouched).
+		if (isTestPost(post)) return false;
 		const id = String(post.postId || post.id || "");
 		if (id) {
 			if (seenIds.has(id)) return false;

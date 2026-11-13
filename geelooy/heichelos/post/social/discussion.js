@@ -7,7 +7,8 @@
 // layer — the SW is cache-first for ?v= URLs and network-first
 // for unpinned ones (fetch failure falls back to the cached
 // pre-Fix-3 copy). A new URL is a cache miss everywhere.
-import { createCommentCard } from "./CommentCard.js?v=f1420379f1";
+import { createCommentCard } from "./CommentCard.js?v=aafdf6e831";
+import { commentAuthor } from "./CommentText.js";
 
 /**
  * @file Mounts the canonical Heichel discussion beneath a post while each comment keeps its own safe social and Torah layers.
@@ -27,8 +28,19 @@ export async function mountDiscussion(viewport) {
 			thread.appendChild(emptyState());
 			return section;
 		}
+		// B"H social fix 5 (defect 3): the commenter names ARE links now,
+		// but a link to an alias that does not exist lands on "Profile
+		// unavailable" — the meluket translation rows are authored by the
+		// import alias meluket_translation_en, which has no profile
+		// (the alias endpoint answers NO_ALIAS for it). Verify the
+		// distinct authors once, up front, and link only the ones that
+		// exist; the rest render as plain text. One bounded check per
+		// distinct author (usually one), never one per card. A check
+		// that fails or times out leaves the author unlinked — a missing
+		// link is a nicety lost, a dead link is a defect.
+		const existingAliases = await fetchExistingAliases(comments);
 		for (const comment of comments) {
-			thread.appendChild(await createCommentCard(comment));
+			thread.appendChild(await createCommentCard(comment, 0, existingAliases));
 		}
 	} catch (error) {
 		// A failed load is NOT an empty thread: show an honest error state
@@ -73,6 +85,35 @@ function discussionSection() {
 	thread.className = "awtsmoos-social-thread";
 	section.append(header, thread);
 	return section;
+}
+
+/** B"H social fix 5 (defect 3): which of the thread's distinct authors
+ * actually have a profile? The alias endpoint answers 200 + NO_ALIAS for
+ * a missing alias (e.g. the import alias meluket_translation_en) and a
+ * record for a real one. Returns the set of authors that exist; an
+ * author whose check fails or times out is left out (plain text, never
+ * a dead link). Replies share their parent's author in practice, so
+ * only the top-level authors are checked. */
+async function fetchExistingAliases(comments) {
+	const authors = [...new Set((comments || []).map(c => commentAuthor(c)).filter(a => a && a !== 'anonymous'))];
+	const found = new Set();
+	if (!authors.length) return found;
+	await Promise.all(authors.map(async (alias) => {
+		try {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), 5000);
+			try {
+				const res = await fetch(`/api/social/alias/${encodeURIComponent(alias)}`, { credentials: 'same-origin', signal: controller.signal });
+				if (!res.ok) return;
+				const data = await res.json();
+				if (data && data.error) return;
+				found.add(alias);
+			} finally {
+				clearTimeout(timer);
+			}
+		} catch (_) { /* unknown — do not link */ }
+	}));
+	return found;
 }
 
 async function fetchCommentTree() {

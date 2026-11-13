@@ -112,6 +112,7 @@ function normalizeRiverPost(p = {}) {
 		excerpt: p.excerpt || src.excerpt || '',
 		commentCount: Number((ss.comments || {}).total || p.commentCount || 0),
 		reactionCount: Number((ss.reactions || {}).total || p.reactionCount || p.likes || 0),
+		referenceCount: Number((ss.references || {}).total || 0),
 		type: p.contentType || p.type || 'post',
 		createdAt: p.createdAt || 0,
 		updatedAt: p.updatedAt || p.createdAt || 0
@@ -145,6 +146,68 @@ function isBenchmarkPost(post = {}) {
 	if (String(post.aliasId || post.author || '').toLowerCase() === 'bench-import') return true;
 	if (/test submission/i.test(String(post.title || post.postTitle || ''))) return true;
 	return false;
+}
+
+/** B"H social fix 5 (defect 2): the three hub tabs showed the IDENTICAL
+ * 11-post list because the top-up was mode-blind — every mode's endpoint
+ * returns the same 2 test posts, and the scan took the first N real rows
+ * of the base feed in base order for every mode. The top-up now ranks its
+ * pool by the tab's own rule:
+ * - latest: newest first (createdAt desc — the base feed's own order).
+ * - popular: most reactions/comments/references first. Every real post
+ *   currently has 0 engagement (verified across the base feed's first 400
+ *   rows), so the tie-break is series depth — how many of the pool's
+ *   posts share the series, a proxy for a popular series — then newest.
+ *   When real engagement exists, it ranks first; the proxy only breaks
+ *   the all-zero ties.
+ * - personalized ("For You"): no reading-history signal reaches the
+ *   top-up (the mode endpoint returns only the 2 test posts), so rank
+ *   for discovery diversity — round-robin across series, one post per
+ *   series per round, in base (newest-first) order. The first page then
+ *   shows 11 different series instead of 11 parts of 2–3 series.
+ * Each ranking is computed from real row data; nothing is invented. */
+function engagementOf(post) {
+	return Number(post.commentCount || 0) + Number(post.reactionCount || 0) + Number(post.referenceCount || 0);
+}
+
+function rankTopUp(pool, mode, need) {
+	if (mode === 'latest') {
+		return [...pool]
+			.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
+			.slice(0, need);
+	}
+	if (mode === 'popular') {
+		const depth = new Map();
+		for (const p of pool) {
+			const s = String(p.seriesId || p.series || '');
+			depth.set(s, (depth.get(s) || 0) + 1);
+		}
+		return [...pool].sort((a, b) => {
+			const e = engagementOf(b) - engagementOf(a);
+			if (e) return e;
+			const d = (depth.get(String(b.seriesId || b.series || '')) || 0)
+				- (depth.get(String(a.seriesId || a.series || '')) || 0);
+			if (d) return d;
+			return Number(b.createdAt || 0) - Number(a.createdAt || 0);
+		}).slice(0, need);
+	}
+	const bySeries = new Map();
+	for (const p of pool) {
+		const s = String(p.seriesId || p.series || '');
+		if (!bySeries.has(s)) bySeries.set(s, []);
+		bySeries.get(s).push(p);
+	}
+	const seriesLists = [...bySeries.values()];
+	const out = [];
+	for (let round = 0; out.length < need; round++) {
+		let added = false;
+		for (const list of seriesLists) {
+			if (out.length >= need) break;
+			if (list[round]) { out.push(list[round]); added = true; }
+		}
+		if (!added) break;
+	}
+	return out;
 }
 
 function esc(s) {
@@ -302,38 +365,55 @@ async function fetchPage() {
 				const topWatchdog = setTimeout(() => topController.abort(), 15000);
 				try {
 					const need = PAGE_SIZE - items.length;
-					let foundReal = 0;
 					let pagesScanned = 0;
 					const scanSeen = new Set();
 					const scanSeenContent = new Set();
-					while (foundReal < need && !state.baseDone && pagesScanned < 3) {
-						const qs = new URLSearchParams({ limit: '50' });
-						if (state.baseCursor) qs.set('cursor', state.baseCursor);
-						const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
-						if (!baseRes.ok) throw new Error('base feed ' + baseRes.status);
-						const baseBody = await baseRes.json();
-						const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
-						pagesScanned++;
-						const pageExtras = [];
-						for (const row of baseRows.map(normalizeRiverPost)) {
-							if (isBenchmarkPost(row)) continue;
-							const key = String(row.postId || row.id || '');
-							const ckey = contentKey(row);
-							if (!key) continue;
-							if (scanSeen.has(key)) continue;
-							if (ckey !== '|||' && scanSeenContent.has(ckey)) continue;
-							scanSeen.add(key);
-							if (ckey !== '|||') scanSeenContent.add(ckey);
-							pageExtras.push(row);
-							foundReal++;
-							if (foundReal >= need) break;
+					// B"H social fix 5 (defect 2): collect a POOL of real
+					// posts first, then rank it by the tab's own rule
+					// (rankTopUp) — the old code took the first N real rows
+					// in base order for every mode, so all three tabs
+					// showed the identical list. Latest stops early (its
+					// ranking IS base order); Popular and For You scan the
+					// full 3 pages so the ranking has a pool to work on.
+					// Rows already shown (mode items) are excluded from
+					// the pool up front, so the ranked top N are all new.
+					const pool = [];
+					try {
+						while (!state.baseDone && pagesScanned < 3) {
+							if (state.mode === 'latest' && pool.length >= need) break;
+							const qs = new URLSearchParams({ limit: '50' });
+							if (state.baseCursor) qs.set('cursor', state.baseCursor);
+							const baseRes = await fetch(`/api/social/feed?${qs}`, { credentials: 'same-origin', signal: topController.signal });
+							if (!baseRes.ok) throw new Error('base feed ' + baseRes.status);
+							const baseBody = await baseRes.json();
+							const baseRows = Array.isArray(baseBody?.data) ? baseBody.data : (Array.isArray(baseBody?.success) ? baseBody.success : []);
+							pagesScanned++;
+							for (const row of baseRows.map(normalizeRiverPost)) {
+								if (isBenchmarkPost(row)) continue;
+								const key = String(row.postId || row.id || '');
+								const ckey = contentKey(row);
+								if (!key) continue;
+								if (scanSeen.has(key)) continue;
+								if (ckey !== '|||' && scanSeenContent.has(ckey)) continue;
+								if (state.seenIds.has(key)) continue;
+								if (ckey !== '|||' && state.seenContent.has(ckey)) continue;
+								scanSeen.add(key);
+								if (ckey !== '|||') scanSeenContent.add(ckey);
+								pool.push(row);
+							}
+							const pageInfo = baseBody?.meta?.pageInfo || {};
+							state.baseCursor = pageInfo.nextCursor || '';
+							if (!pageInfo.hasMore) state.baseDone = true;
 						}
-						if (pageExtras.length) appendItems(pageExtras);
-						const pageInfo = baseBody?.meta?.pageInfo || {};
-						state.baseCursor = pageInfo.nextCursor || '';
-						if (!pageInfo.hasMore) state.baseDone = true;
+					} catch (scanError) {
+						// A slow page must not discard the pool already
+						// collected: rank and append what we have, then
+						// rethrow so the backoff still applies.
+						if (pool.length) appendItems(rankTopUp(pool, state.mode, need));
+						throw scanError;
 					}
-					if (foundReal === 0 && pagesScanned > 0) state.baseDone = true;
+					if (pool.length) appendItems(rankTopUp(pool, state.mode, need));
+					if (pool.length === 0 && pagesScanned > 0) state.baseDone = true;
 				} finally {
 					clearTimeout(topWatchdog);
 				}

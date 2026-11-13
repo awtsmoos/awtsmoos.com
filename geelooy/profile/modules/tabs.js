@@ -67,7 +67,15 @@ export function bindTabs(options = {}) {
 	for (const button of tabs) {
 		if (button.dataset.tabsBound === '1') continue;
 		button.dataset.tabsBound = '1';
-		button.addEventListener('click', () => activateTab(button, onActivate));
+		button.addEventListener('click', () => {
+			activateTab(button, onActivate);
+			// B"H social fix 5 (defect 1): the mousedown guard below stops
+			// the button taking focus on a mouse click (so no focus scroll
+			// can move it). Restore focus explicitly here, without
+			// scrolling, so the arrow-key flow still starts from the
+			// tab the user just clicked.
+			try { button.focus({ preventScroll: true }); } catch { /* focus is best-effort */ }
+		});
 		button.addEventListener('keydown', event => {
 			if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
 			event.preventDefault();
@@ -92,6 +100,60 @@ export function bindTabs(options = {}) {
 				: null;
 			if (button) activateTab(button, onActivate);
 		});
+		// B"H social fix 5 (defect 1): the click path itself is the
+		// failure — four rounds of code review found the handlers
+		// correct, the pins fresh, and no interceptor, yet plain mouse
+		// clicks still do not switch tabs while Enter does. The two
+		// mechanisms that can swallow a mouse click without touching
+		// the keyboard path are (a) the rail is only ~44rem wide, so
+		// Heichelos/About/Reading sit off-screen right in a scrolling
+		// rail and a click can land on empty rail instead of the tab,
+		// and (b) a mousedown focus-scroll moves the button between
+		// mousedown and mouseup, so the mouseup lands elsewhere and
+		// no click ever fires. Both are fixed here AND in the CSS
+		// (the tabs-wrap breaks out of the 44rem column at desktop
+		// widths, so every tab is on-screen): (a) a mousedown on a
+		// tab no longer takes focus, so no focus scroll can move the
+		// button under the pointer; (b) a pointerdown arms a short
+		// timer that activates the tab if no pointerup/click follows
+		// on the wrap — the exact signature of a swallowed click.
+		// A normal tap cancels the timer on pointerup (the click
+		// then activates as usual); a rail drag cancels it on
+		// pointermove, so scrolling the rail never switches tabs.
+		// activateTab is idempotent, so a timer firing AND a click
+		// firing for the same press is harmless.
+		let pendingTabTimer = null;
+		let pendingTabButton = null;
+		const cancelPendingTab = () => {
+			if (pendingTabTimer !== null) {
+				clearTimeout(pendingTabTimer);
+				pendingTabTimer = null;
+				pendingTabButton = null;
+			}
+		};
+		wrap.addEventListener('mousedown', (event) => {
+			const button = event.target && event.target.closest
+				? event.target.closest('[data-profile-tab]')
+				: null;
+			if (button) event.preventDefault();
+		});
+		wrap.addEventListener('pointerdown', (event) => {
+			const button = event.target && event.target.closest
+				? event.target.closest('[data-profile-tab]')
+				: null;
+			if (!button) return;
+			cancelPendingTab();
+			pendingTabButton = button;
+			pendingTabTimer = setTimeout(() => {
+				pendingTabTimer = null;
+				const target = pendingTabButton;
+				pendingTabButton = null;
+				if (target) activateTab(target, onActivate);
+			}, 400);
+		});
+		wrap.addEventListener('pointermove', cancelPendingTab);
+		wrap.addEventListener('pointerup', cancelPendingTab);
+		wrap.addEventListener('click', cancelPendingTab);
 	}
 	return tabs;
 }

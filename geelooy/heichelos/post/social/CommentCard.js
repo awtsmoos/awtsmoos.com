@@ -22,8 +22,13 @@ import { cleanExcerpt } from "./textExcerpt.js";
 const STYLE_ID = "awtsmoos-social-more-style";
 const COMMENT_EXCERPT_CHARS = 420;
 
-/** Creates one safe comment card and recursively reveals any already-authorized replies. */
-export async function createCommentCard(comment, depth = 0) {
+/** Creates one safe comment card and recursively reveals any already-authorized replies.
+ * @param {Set<string>|null} [existingAliases] Verified alias ids (from
+ * discussion.js). When provided, the author name links only when the
+ * author is in the set; when null (a freshly created comment, whose
+ * author is the signed-in user), the old rule applies (link unless
+ * anonymous). */
+export async function createCommentCard(comment, depth = 0, existingAliases = null) {
 	ensureMoreStyle();
 	const card = document.createElement("article");
 	card.className = "awtsmoos-social-comment";
@@ -32,16 +37,16 @@ export async function createCommentCard(comment, depth = 0) {
 	const author = commentAuthor(comment);
 	const visibleText = commentVisibleText(comment);
 	card.append(
-		commentHeader(author, comment?.createdAt),
+		commentHeader(author, comment?.createdAt, existingAliases),
 		commentBody(visibleText),
 		await commentActions(card, comment, author)
 	);
 	startCommentReadingIntelligence(card, comment, visibleText);
-	await appendReplies(card, comment?.replies, depth);
+	await appendReplies(card, comment?.replies, depth, existingAliases);
 	return card;
 }
 
-function commentHeader(author, createdAt) {
+function commentHeader(author, createdAt, existingAliases = null) {
 	const header = document.createElement("header");
 	const avatar = document.createElement("span");
 	avatar.className = "awtsmoos-social-avatar";
@@ -52,7 +57,14 @@ function commentHeader(author, createdAt) {
 	// clicking it did nothing. Link it to the author's profile when the
 	// author is a real alias (not "anonymous"). The link keeps the
 	// surrounding strong styling (inherit color, no underline).
-	if (author && author !== "anonymous") {
+	// B"H social fix 5 (defect 3): link ONLY when the alias exists.
+	// Import aliases such as meluket_translation_en have no profile —
+	// linking them lands on "Profile unavailable". discussion.js verifies
+	// the thread's authors up front and passes the set; an unverified
+	// author renders as plain text.
+	const linkable = author && author !== "anonymous"
+		&& (existingAliases === null || existingAliases.has(author));
+	if (linkable) {
 		const aliasLink = document.createElement("a");
 		aliasLink.href = `/@${encodeURIComponent(author)}`;
 		aliasLink.textContent = `@${author}`;
@@ -227,9 +239,9 @@ function ownerActionsSection(comment, author, card, details) {
 	return section;
 }
 
-async function appendReplies(card, replies, depth) {
+async function appendReplies(card, replies, depth, existingAliases = null) {
 	for (const reply of Array.isArray(replies) ? replies : []) {
-		card.appendChild(await createCommentCard(reply, depth + 1));
+		card.appendChild(await createCommentCard(reply, depth + 1, existingAliases));
 	}
 }
 

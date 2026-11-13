@@ -964,3 +964,41 @@
 	-webkit-touch-callout: none;
 	color: var(--pd-ink);
 }
+
+/* B"H social fix 5 (defect 1): the tab rail is unreachable by mouse.
+   The page column is capped at 44rem, so the eight tabs (~900px) overflow
+   the rail and Heichelos/About/Reading sit off-screen right in a scrolling
+   rail at EVERY viewport width — a click on one can land on empty rail
+   instead of the tab, while Enter (which needs no pointer position) works.
+   At desktop widths the tabs-wrap breaks out of the 44rem column to the
+   full viewport width, so every tab is on-screen and no rail scroll is
+   needed to reach it. At phone widths the wrap is already 100vw, so the
+   breakout is a no-op there and the rail still scrolls by touch as before.
+   The breakout is 100vw wide starting at the viewport's left edge; the
+   overflow-x clip on the document keeps the scrollbar-width sliver from
+   adding a horizontal scrollbar. The sticky top (3.85rem) is untouched,
+   so the bar still sticks under the topbar on scroll. */
+@media (min-width: 560px) {
+	.profile-dream .pd-tabs-wrap {
+		width: 100vw;
+		max-width: none;
+		margin-left: calc(50% - 50vw);
+		margin-right: calc(50% - 50vw);
+		border-left: 0;
+		border-right: 0;
+		border-radius: 0;
+	}
+}
+html:has(.profile-dream) {
+	overflow-x: clip;
+}
+
+/* B"H social fix 5 (defect 1): a post title scrolled into view can land
+   under the sticky tabs-wrap (which occupies ~62px–124px from the viewport
+   top), so a click on it lands on the bar instead of the link. Keep the
+   card and its link/title clear of the sticky bar when scrolled into view. */
+.profile-dream .social-post-card,
+.profile-dream .social-post-card .social-post-link,
+.profile-dream .social-post-card h3 {
+	scroll-margin-top: 8.5rem;
+}

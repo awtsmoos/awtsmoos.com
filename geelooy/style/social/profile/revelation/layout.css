@@ -126,6 +126,16 @@
 .profile-app .profile-hero-action {
 	min-width: 0;
 }
+/* B"H social fix 5 (defect 5): the label and subtext inside a hero
+ * action are a bare <strong> + <small> in one span, so they render on
+ * one line with no space between them ("MessageDirect conversation").
+ * Stack them as a column with a small gap. */
+.profile-app .profile-hero-action > span:last-child,
+.profile-app .profile-about-action > span:last-child {
+	display: flex;
+	flex-direction: column;
+	gap: .1rem;
+}
 /* B"H 2026-10-22 (frontend-fixes): at desktop widths the main column is
    capped at 42rem (../mobile.css, min-width:860px) while the identity
    stacking rules key on max-width:760px viewports that never occur there —
