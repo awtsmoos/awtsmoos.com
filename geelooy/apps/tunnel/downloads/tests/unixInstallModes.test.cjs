@@ -84,3 +84,26 @@ test('the entry offers instant as a flag, an alias and the first menu choice', (
   assert.match(unix, /1\|instant\|basic\) AWTSMOOS_INSTALL_MODE="instant"/);
   assert.match(unix, /instant\)\n\t\t\tawt_dim "  1\. Verify the installed tunnel in seconds"/);
 });
+
+test('the LIVE entry parser accepts --instant, --basic and --mode=instant', async () => {
+  // B"H — the served entry is unix-secure.sh + unix-entry-request.sh, NOT
+  // the legacy unix.sh: this is the parser a real install actually runs.
+  const entryFile = path.join(__dirname, '..', 'unix-entry-request.sh');
+  const entry = fs.readFileSync(entryFile, 'utf8');
+  assert.match(entry, /--instant\|--basic\) AWTSMOOS_INSTALL_MODE="instant"/);
+  assert.match(entry, /--mode=instant\|--mode=basic\) AWTSMOOS_INSTALL_MODE="instant"/);
+  assert.match(entry, /--instant, --basic/);
+  const run = (args) => new Promise((resolve, reject) => {
+    execFile('bash', ['-c', `. '${entryFile}'\nparse_secure_installer_args ${args}\necho "rc=$? mode=$AWTSMOOS_INSTALL_MODE"`],
+      (error, stdout, stderr) => {
+        if (error && error.code === undefined) return reject(error);
+        resolve({ code: error ? error.code : 0, stdout, stderr });
+      });
+  });
+  for (const args of ['--instant --yes', '--basic --yes', '--mode=instant']) {
+    const r = await run(args);
+    assert.match(r.stdout, /rc=0 mode=instant/, `parse failed for ${args}: ${r.stdout} ${r.stderr}`);
+  }
+  const full = await run('--full --yes');
+  assert.match(full.stdout, /rc=0 mode=full/);
+});

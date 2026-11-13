@@ -20,6 +20,7 @@ print_secure_installer_help() {
 	cat >&2 <<EOF
 Usage: curl -fsSL ${AWTSMOOS_INSTALL_ORIGIN}/api/tunnel/install/unix | bash -s -- [options]
 
+  --instant, --basic  Very fast basic install: verify a healthy tunnel in seconds, agent only
   --full              Full tunnel features (default)
   --minimal           System Node.js 18+, no browser auto-open
   --agent-only        Headless agent installation
@@ -59,9 +60,11 @@ parse_secure_installer_args() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
 			--full) AWTSMOOS_INSTALL_MODE="full"; AWTSMOOS_MODE_FLAG_SEEN=1 ;;
+			--instant|--basic) AWTSMOOS_INSTALL_MODE="instant"; AWTSMOOS_MODE_FLAG_SEEN=1 ;;
 			--minimal) AWTSMOOS_INSTALL_MODE="minimal"; AWTSMOOS_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only"; AWTSMOOS_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--mode=full) AWTSMOOS_INSTALL_MODE="full"; AWTSMOOS_MODE_FLAG_SEEN=1 ;;
+			--mode=instant|--mode=basic) AWTSMOOS_INSTALL_MODE="instant"; AWTSMOOS_MODE_FLAG_SEEN=1 ;;
 			--mode=minimal|--mode=agent-only) AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWTSMOOS_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--simple-poll|--simple-approval|--simple-websocket|--simple-file)
 				echo "Retired insecure simple-agent mode: $1. Use --agent-only instead." >&2
