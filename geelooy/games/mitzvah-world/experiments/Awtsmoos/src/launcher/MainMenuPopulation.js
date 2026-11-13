@@ -7,17 +7,37 @@
  * @description Streams population only when a real realtime endpoint is explicit or appropriate for the current host.
  * The Awtsmoos reveals shared presence without turning a static localhost study server into a counterfeit websocket host;
  * Awtsmoos.com preserves explicit development endpoints and production census while local single-player stays quietly offline.
+ * One bounded retry keeps a single slow attempt on a high-latency connection (or a contended server) from leaving the menu
+ * permanently offline; a missing endpoint stays silent at once and is never retried.
  */
 
 import { requestWorldPopulation } from '../network/WorldPopulationClient.js';
 import { createWorldBrowserModel } from './WorldBrowserModel.js';
 
-export async function loadMainMenuPopulation(menu, state, options, render) {
-	const census = await requestWorldPopulation({
+// A census typically settles in under a second on a fast connection, but the
+// socket open plus one round trip has been measured past two seconds from a
+// fast host alone; fifteen seconds keeps a high-latency phone inside the
+// budget while still bounding the menu's wait.
+const POPULATION_TIMEOUT_MS = 15000;
+const POPULATION_RETRY_DELAY_MS = 1000;
+
+export async function loadMainMenuPopulation(menu, state, options = {}, render) {
+	const url = resolveMainMenuRealtimeUrl(options);
+	const timeoutMs = options.timeoutMs ?? POPULATION_TIMEOUT_MS;
+	let census = await requestWorldPopulation({
 		WebSocketClass: options.WebSocketClass,
-		timeoutMs: options.timeoutMs,
-		url: resolveMainMenuRealtimeUrl(options)
+		timeoutMs,
+		url
 	});
+	if (!census.available && url && menu.isConnected && menu.dataset.launching !== 'true') {
+		await sleep(options.retryDelayMs ?? POPULATION_RETRY_DELAY_MS, options);
+		if (!menu.isConnected || menu.dataset.launching === 'true') return;
+		census = await requestWorldPopulation({
+			WebSocketClass: options.WebSocketClass,
+			timeoutMs,
+			url
+		});
+	}
 	if (!menu.isConnected || menu.dataset.launching === 'true') return;
 	state.model = createWorldBrowserModel(census);
 	if (state.section === 'worlds') render();
@@ -47,4 +67,10 @@ function isImplicitLocalPreviewUrl(url, environment) {
 	} catch {
 		return false;
 	}
+}
+
+function sleep(delayMs, options = {}) {
+	const schedule = options.schedule || globalThis.setTimeout?.bind(globalThis);
+	if (!schedule || delayMs <= 0) return Promise.resolve();
+	return new Promise(resolve => schedule(resolve, delayMs));
 }
