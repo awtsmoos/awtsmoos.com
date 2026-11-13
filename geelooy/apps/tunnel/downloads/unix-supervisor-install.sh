@@ -164,6 +164,17 @@ wait_for_runtime() {
 			[ $(( elapsed_samples - last_progress_sample )) -ge "$no_progress_samples" ]; then
 			break
 		fi
+		# B"H — the readiness wait is the longest stretch in the installer (a
+		# healthy Mac registration took ~83s). The custody watchdog kills
+		# the install after 15s with no PROGRESS output, and the old 15s
+		# tick wrote only to the event log — the progress line stayed silent
+		# and the watchdog fired on a healthy install mid-promotion. Say so
+		# on the progress line every 5s so the wait is visible and the
+		# watchdog sees movement. The message changes each tick so the
+		# progress line is never deduped away.
+		if [ "$(( elapsed_samples % 20 ))" -eq 0 ] && [ "$elapsed_samples" -gt 0 ]; then
+			install_progress "$INSTALL_PROGRESS_LAST" "Waiting for the agent to register… ($(( elapsed_samples / 4 ))s)"
+		fi
 		# B"H 2026-11-06: the readiness wait is the longest silent stretch
 		# in the installer (45–600s). Say so every 15s with the live
 		# receipt state, so a slow registration never looks like a hang.

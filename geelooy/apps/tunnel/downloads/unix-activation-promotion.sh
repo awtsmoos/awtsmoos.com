@@ -67,6 +67,11 @@ promote_candidate_root() {
 start_promoted_candidate() {
 	local rollback="$1"
 	local failed="$2"
+	# B"H — the promotion file moves and the old runtime stops silently for
+	# seconds before the readiness wait starts ticking; say so here so the
+	# gap from the 78% line to the first wait tick stays well inside the
+	# no-progress budget.
+	install_progress "$INSTALL_PROGRESS_LAST" "Starting the promoted agent…"
 	start_supervisor
 	if candidate_is_stably_active; then
 		# B"H 2026-11-08 hardening: the readiness probe above accepts a
