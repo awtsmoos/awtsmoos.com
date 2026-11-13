@@ -176,6 +176,7 @@ Usage: curl -fsSL $origin/api/tunnel/install/unix | bash -s -- [options]
 
 Options:
   --full            Select complete tunnel features (default; no forced re-pairing)
+  --instant, --basic  Very fast basic install: verify a healthy tunnel in seconds, agent only
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
   --keep-old-tunnels  Keep earlier runtime installations, but still pair this new one
@@ -200,28 +201,30 @@ prompt_install_mode() {
 	[ -t 2 ] || return 0
 	[ -r /dev/tty ] || return 0
 	printf '\n%sHow would you like to install?%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" >&2
-	printf '  %s1)%s Full %s(recommended)%s — complete tunnel with browser support\n' \
+	printf '  %s1)%s Instant — very fast basic install, seconds\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s2)%s Full %s(recommended)%s — complete tunnel with browser support\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" "$AWT_C_DIM" "$AWT_C_OFF" >&2
-	printf '  %s2)%s Minimal — agent + registration, uses your system Node.js\n' \
+	printf '  %s3)%s Minimal — agent + registration, uses your system Node.js\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s3)%s Agent only — fastest, for headless servers\n' \
+	printf '  %s4)%s Agent only — full agent install for headless servers\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s4)%s Simple tunnel (poll) — file-based, no pairing needed\n' \
+	printf '  %s5)%s Simple tunnel (poll) — file-based, no pairing needed\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s5)%s Simple tunnel (approval) — file-based with manual approval\n' \
+	printf '  %s6)%s Simple tunnel (approval) — file-based with manual approval\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s6)%s Simple tunnel (websocket) — real-time, falls back to poll\n' \
+	printf '  %s7)%s Simple tunnel (websocket) — real-time, falls back to poll\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s7)%s Simple tunnel (file) — pure file, zero HTTP, air-gapped\n' \
+	printf '  %s8)%s Simple tunnel (file) — pure file, zero HTTP, air-gapped\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
 	printf '\n%sAuth management:%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" >&2
-	printf '  %s8)%s Delete old auth — remove all credentials, start fresh\n' \
+	printf '  %s9)%s Delete old auth — remove all credentials, start fresh\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s9)%s Reset tunnel — clear config, keep auth\n' \
+	printf '  %s10)%s Reset tunnel — clear config, keep auth\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '  %s10)%s Continue — keep existing auth and config\n' \
+	printf '  %s11)%s Continue — keep existing auth and config\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '%sChoose [1-10] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
+	printf '%sChoose [1-11] (default 2): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
 	if ! IFS= read -r choice </dev/tty; then
 		printf '\n' >&2
 		return 0
@@ -230,19 +233,21 @@ prompt_install_mode() {
 	# away a working paired device. Only a deliberate mode change or the
 	# separate --reinstall flag requests a fresh identity/replacement.
 	case "$choice" in
-		''|1|full|8|9|10|delete-auth|reset-tunnel|continue) ;;
+		''|1|2|full|instant|basic|9|10|11|delete-auth|reset-tunnel|continue) ;;
 		*) AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 	esac
 	case "$choice" in
-		2|minimal) AWTSMOOS_INSTALL_MODE="minimal" ;;
-		3|agent-only|agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
-		4|simple-poll) AWTSMOOS_INSTALL_MODE="simple-poll" ;;
-		5|simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
-		6|simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
-		7|simple-file) AWTSMOOS_INSTALL_MODE="simple-file" ;;
-		8|delete-auth) AWTSMOOS_INSTALL_MODE="delete-auth" ;;
-		9|reset-tunnel) AWTSMOOS_INSTALL_MODE="reset-tunnel" ;;
-		10|continue) AWTSMOOS_INSTALL_MODE="continue" ;;
+		1|instant|basic) AWTSMOOS_INSTALL_MODE="instant" ;;
+		2|full) ;;
+		3|minimal) AWTSMOOS_INSTALL_MODE="minimal" ;;
+		4|agent-only|agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+		5|simple-poll) AWTSMOOS_INSTALL_MODE="simple-poll" ;;
+		6|simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
+		7|simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
+		8|simple-file) AWTSMOOS_INSTALL_MODE="simple-file" ;;
+		9|delete-auth) AWTSMOOS_INSTALL_MODE="delete-auth" ;;
+		10|reset-tunnel) AWTSMOOS_INSTALL_MODE="reset-tunnel" ;;
+		11|continue) AWTSMOOS_INSTALL_MODE="continue" ;;
 		*) AWTSMOOS_INSTALL_MODE="full" ;;
 	esac
 }
@@ -251,6 +256,7 @@ parse_installer_args() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
 			--full)            AWTSMOOS_INSTALL_MODE="full"; AWT_MODE_FLAG_SEEN=1 ;;
+			--instant|--basic) AWTSMOOS_INSTALL_MODE="instant"; AWT_MODE_FLAG_SEEN=1 ;;
 			--minimal)         AWTSMOOS_INSTALL_MODE="minimal"; AWT_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only"; AWT_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--simple-poll)     AWTSMOOS_INSTALL_MODE="simple-poll" ;;
@@ -260,7 +266,7 @@ parse_installer_args() {
 			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
 			--keep-old-tunnels) AWTSMOOS_KEEP_OLD_TUNNELS=1 ;;
 			--reuse-identity)  AWTSMOOS_REUSE_IDENTITY=1 ;;
-			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWT_MODE_FLAG_SEEN=1; [ "$AWTSMOOS_INSTALL_MODE" = full ] || AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWT_MODE_FLAG_SEEN=1; [ "$AWTSMOOS_INSTALL_MODE" = full ] || [ "$AWTSMOOS_INSTALL_MODE" = instant ] || AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--quick)           AWT_QUICK=1 ;;
 			--reinstall)       AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--refresh)         AWTSMOOS_INSTALL_REFRESH=1 ;;
@@ -274,7 +280,7 @@ parse_installer_args() {
 		shift
 	done
 	case "$AWTSMOOS_INSTALL_MODE" in
-		""|full|minimal|agent-only|simple-poll|simple-approval|simple-websocket|simple-file) ;;
+		""|full|minimal|agent-only|instant|simple-poll|simple-approval|simple-websocket|simple-file) ;;
 		*) awt_warn "Unknown mode '$AWTSMOOS_INSTALL_MODE'; using 'full'."; AWTSMOOS_INSTALL_MODE="full" ;;
 	esac
 }
@@ -288,6 +294,11 @@ print_install_plan() {
 			awt_dim "  2. Keep old state safe until the new tunnel works"
 			awt_dim "  3. Reuse a healthy agent, or approve a new identity if needed"
 			awt_dim "  4. Register, switch over, then retire old installs"
+			;;
+		instant)
+			awt_dim "  1. Verify the installed tunnel in seconds"
+			awt_dim "  2. If healthy, done — no download, no restart"
+			awt_dim "  3. If not, install the agent only"
 			;;
 		minimal)
 			awt_dim "  1. Fetch the verified installer"

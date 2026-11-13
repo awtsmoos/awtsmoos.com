@@ -128,3 +128,15 @@ repair_self_verified_installed_release() {
 	restart_verified_release "replaced_current_generation_offline" \
 		"Locally sealed release restarted with fresh active queues while metadata was offline."
 }
+
+# B"H — Instant mode (user order 2026-11-12): the very fast basic install.
+# A healthy sealed local release is verified from its own seal — no
+# published-metadata fetch, no restart, no recovery lanes, no emergency
+# runtime. Anything less than healthy returns 1 and the normal install runs.
+instant_fast_path() {
+	install_progress 30 "Instant check: verifying installed tunnel"
+	installed_runtime_self_verified || return 1
+	current_runtime_is_stably_healthy || return 1
+	install_progress 90 "Instant check passed: sealed release healthy, tunnel live"
+	return 0
+}

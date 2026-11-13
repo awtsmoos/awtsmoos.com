@@ -67,6 +67,15 @@ without_errexit cleanup_disposable_state "$(pwd)" || true
 
 install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
+# B"H — Instant mode (user order 2026-11-12): the very fast basic install.
+# A healthy sealed local release is verified from its own seal and the
+# tunnel is confirmed live — no metadata fetch, no restart, no lanes.
+# Anything less than healthy falls through to the normal install.
+if instant_mode_requested && instant_fast_path; then
+	install_progress 97 "Instant install verified"
+	complete_install_experience "instant"
+	exit 0
+fi
 # B"H — never let this phase die silently (Yaakov 2026-10-14): run the
 # metadata fetch and its recovery lanes with errexit off so every internal
 # failure becomes a return code that reaches the beautiful error card.
