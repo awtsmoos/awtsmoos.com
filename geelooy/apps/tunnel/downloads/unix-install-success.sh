@@ -163,7 +163,16 @@ complete_install_experience() {
 		print_skip_start_card "$version" "$tunnel_name" "$project_root"
 		return 0
 	fi
-	agent_pid="$(verified_agent_pid || true)"
+	# B"H — the final checks are the one place the installer goes quiet for
+	# seconds, so say so on the progress line (it resets the no-progress
+	# budget) and keep the wait short for instant: health was just proven
+	# by the instant check, so a short stability sample is enough.
+	install_progress 98 "Final checks: confirming the tunnel is live"
+	if instant_mode_requested; then
+		agent_pid="$(AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS=8 AWTSMOOS_FINAL_STABILITY_SAMPLES=2 verified_agent_pid || true)"
+	else
+		agent_pid="$(verified_agent_pid || true)"
+	fi
 	if [ -z "$agent_pid" ]; then
 		install_fail "complete" \
 			"Registration or durable guardian did not converge." \
