@@ -11,6 +11,41 @@ import { apiJson, listFrom } from "./api.js";
 import { postRouteFor } from "./postRoute.js";
 import { state } from "./state.js";
 
+/** B"H social fix 16 (defect 2): the Posts stat shows the last-known
+ * total immediately (from localStorage) while the fresh count loads.
+ * The per-alias endpoints are slow and load-dependent (the same
+ * 1-row response took 112ms one run and 9.29s another), so the
+ * progressive fresh count takes 15-50s to reach 500 — and there is
+ * NO faster count source (re-confirmed live 2026-11-13:
+ * /api/social/profile/<alias> returns stats.posts: 1 — one alias
+ * only, on a synthetic profile — and is load-dependent (30s timeout
+ * in one probe, 0.76s in another); /alias/<alias> returns NO_ALIAS;
+ * /posts?limit=1 is 404 INVALID_ROUTE; the 500 is the sum across
+ * ~40 aliases, computed client-side). The cached count is the last COMPLETE total (saved
+ * only when every alias loaded); the fresh progressive count
+ * overwrites it as batches land, so a stale value self-corrects
+ * within seconds. Keyed by the alias list so a changed alias set
+ * does not reuse an old count. */
+const POSTS_COUNT_CACHE_KEY = 'awtsmoos-profile-posts-count-v1';
+function readCachedPostsCount(aliases) {
+	try {
+		const raw = localStorage.getItem(POSTS_COUNT_CACHE_KEY);
+		if (!raw) return null;
+		const saved = JSON.parse(raw);
+		const key = (aliases || []).map((a) => String(a.id || '')).sort().join(',');
+		if (saved && saved.aliases === key && Number.isFinite(saved.count) && saved.count >= 0) {
+			return saved.count;
+		}
+	} catch { /* a bad cache entry is the same as no cache */ }
+	return null;
+}
+function saveCachedPostsCount(aliases, count) {
+	try {
+		const key = (aliases || []).map((a) => String(a.id || '')).sort().join(',');
+		localStorage.setItem(POSTS_COUNT_CACHE_KEY, JSON.stringify({ aliases: key, count }));
+	} catch { /* private mode / quota — the stat still works, just uncached */ }
+}
+
 /** Counts by postId, from the base feed's socialSummary (one call).
  * The profile posts endpoint carries no comment/reaction counts, so they are
  * filled from the feed API, which does. Posts the base feed does not cover
@@ -289,6 +324,12 @@ export async function renderProfilePosts() {
 	// Aliases now load 10 at a time (Fix 14; was 5) and each batch's cards append as they land,
 	// so the tab shows posts within ~1s and never stalls on one slow alias.
 	const aliases = state.aliases || [];
+	// B"H social fix 16 (defect 2): show the last-known total
+	// immediately so the stat is a real number within ~1s on repeat
+	// loads, while the fresh count loads underneath. The fresh
+	// progressive writes in appendItems overwrite it as batches land.
+	const cachedCount = readCachedPostsCount(aliases);
+	if (cachedCount !== null) setStat('posts', String(cachedCount));
 	// B"H social fix 2: counts come from the base feed's socialSummary.
 	// Load them once, in the background, so cards can show real counts.
 	const countsPromise = loadCounts();
@@ -406,6 +447,10 @@ export async function renderProfilePosts() {
 	// failed after both retries, the total is partial — the Retry button
 	// below says so honestly, and a manual retry re-writes the stat.
 	setStat('posts', String(total));
+	// B"H social fix 16 (defect 2): save the total for next load —
+	// but ONLY when every alias loaded. A partial total must never
+	// overwrite the last complete count.
+	if (!failed.length) saveCachedPostsCount(aliases, total);
 	if (!shown && !failed.length) {
 		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));
 		return;
@@ -422,6 +467,7 @@ export async function renderProfilePosts() {
 			retry.textContent = "Loading more posts…";
 			failed = await retryOnce(failed, 20000);
 			setStat('posts', String(total));
+			if (!failed.length) saveCachedPostsCount(aliases, total);
 			if (failed.length) {
 				retry.disabled = false;
 				retry.textContent = "Some posts couldn't load — Retry";

@@ -192,7 +192,13 @@ export class ProfileDashboardController {
 	personalizeHero() {
 		try {
 			const primary = state.aliases.find(a => a.default) || state.aliases[0];
-			if (!primary) return;
+			if (!primary) {
+				// B"H social fix 16 (defect 4): no alias to show — reveal
+				// anyway so the placeholder (or the signed-out card) appears
+				// rather than staying hidden.
+				document.querySelector('[data-profile]')?.classList.add('is-hero-resolved');
+				return;
+			}
 			const handle = document.querySelector('[data-profile-handle]');
 			if (handle) handle.textContent = `@${primary.id}`;
 			const name = document.querySelector('[data-profile-name]');
@@ -206,6 +212,11 @@ export class ProfileDashboardController {
 				bio.textContent = bioText;
 				bio.hidden = false;
 			}
+			// B"H social fix 16 (defect 4): reveal the hero identity now
+			// that it is filled. The template hides name/handle/avatar
+			// until this runs, so the page never flashes "Your profile
+			// @you".
+			document.querySelector('[data-profile]')?.classList.add('is-hero-resolved');
 		} catch { /* hero personalization must never break boot */ }
 	}
 

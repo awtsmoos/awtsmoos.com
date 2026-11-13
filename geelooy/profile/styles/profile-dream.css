@@ -56,6 +56,27 @@
 	min-height: 100vh;
 }
 
+/* B"H social fix 16 (defect 1): the global header is trapped in the
+   .g-shell stacking context. shell/content.css sets .g-shell
+   { position: relative; z-index: var(--g-z-base); } (= 0), so the
+   header's z-index: 80 only competes INSIDE .g-shell and cannot
+   compete with page content in the root stacking context. The
+   profile's sticky topbar (z-index 20) and relative hero (z-index
+   auto, later in DOM order) therefore paint ABOVE the fixed header
+   whenever they overlap it — which happens as soon as the page
+   scrolls (scroll-memory restore on reload, tab scrollIntoView,
+   manual scroll). The main's 6rem padding-top (Fix 15) only
+   prevents overlap at scroll 0; it cannot help once scrolled.
+   Raising .g-shell to the header's own z-index (80) on this page
+   lets the whole shell — header, dock, menus — paint above page
+   content, which is the header's design intent. Scoped to the
+   profile (this stylesheet loads only here); the shell-level
+   .g-shell z-0 remains for other pages — see ROOT-CAUSES.md for
+   the coordinated shell fix. No !important. */
+body.geelooy-app-shell .g-shell {
+	z-index: var(--g-z-header, 80);
+}
+
 /* ---------- top bar ---------- */
 .profile-dream .pd-topbar {
 	position: sticky;
@@ -113,6 +134,20 @@
 .profile-dream .pd-topbar-btn:focus-visible {
 	outline: 2px solid var(--pd-gold);
 	outline-offset: 2px;
+}
+
+/* B"H social fix 16 (defect 4): the template renders "Your profile",
+   "@you" and the "א" avatar before the alias resolves
+   (personalizeHero fills them from state.aliases after the network
+   load). Hide the identity until it resolves, so the page never
+   flashes a wrong placeholder. visibility (not display) keeps the
+   hero's size, so nothing shifts when the real identity appears.
+   The signed-out path is exempt (is-signed-out hides the whole hero
+   and shows the sign-in card instead). */
+.profile-dream:not(.is-hero-resolved):not(.is-signed-out) [data-profile-name],
+.profile-dream:not(.is-hero-resolved):not(.is-signed-out) [data-profile-handle],
+.profile-dream:not(.is-hero-resolved):not(.is-signed-out) [data-profile-avatar] {
+	visibility: hidden;
 }
 
 /* ---------- hero ---------- */
