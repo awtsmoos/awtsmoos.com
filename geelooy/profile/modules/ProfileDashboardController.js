@@ -20,7 +20,7 @@ import { renderHeichelos } from './heichelos.js';
 import { renderProfileReading } from './reading.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
 import { bindTabs } from './tabs.js';
-import { setAliases, state } from './state.js';
+import { setAliases, state, readCachedAliases } from './state.js';
 
 /**
  * The shell session's alias, or "" when the shell has no signed-in
@@ -61,10 +61,31 @@ export class ProfileDashboardController {
 		// B"H: tabs bind FIRST — before any network — so they always switch panels
 		// and load content even if later boot steps fail.
 		this.bindContentTabs();
-		const [defaultAlias, aliases] = await Promise.all([
+		// B"H social fix 18 (defect 2): the old code awaited
+		// Promise.all([loadDefaultAlias(), getAliasDetails()]) — when the
+		// alias-list API timed out (Fix 17 check: "Profile API timed out:
+		// /api/social/aliases/details") the throw killed load(), start()
+		// rendered the failure, and the posts — and the cached 500 —
+		// never showed. Settle the two legs separately; when the alias
+		// list fails, fall back to the last-known alias list saved by
+		// state.js, so boot continues and the cached stat shows. Only
+		// when there are no aliases at all (fresh + cached) does boot
+		// fail, with the original API error preserved for renderFailure.
+		const [defaultAliasResult, aliasesResult] = await Promise.allSettled([
 			this.loadDefaultAlias(),
 			getAliasDetails()
 		]);
+		const defaultAlias = defaultAliasResult.status === 'fulfilled' ? (defaultAliasResult.value || '') : '';
+		let aliases = null;
+		if (aliasesResult.status === 'fulfilled' && Array.isArray(aliasesResult.value) && aliasesResult.value.length) {
+			aliases = aliasesResult.value;
+		} else {
+			aliases = readCachedAliases();
+		}
+		if (!aliases || !aliases.length) {
+			const reason = aliasesResult.status === 'rejected' ? aliasesResult.reason : null;
+			throw new Error((reason && reason.message) || 'No aliases available.');
+		}
 		setAliases(aliases, defaultAlias);
 		// B"H social fix 3 (defect 6): pre-load the default Posts CONTENT
 		// now (the aliases are in). Load the content only — never activate
@@ -103,7 +124,15 @@ export class ProfileDashboardController {
 		}
 		try { renderTiferesSocialLaunchpad(); } catch { /* launchpad must never break boot */ }
 		try { renderAliases(); } catch { /* aliases must never break boot */ }
-		try { await renderHeichelos(); } catch { /* heichelos must never break boot */ }
+		// B"H social fix 18 (defect 5): load() used to await
+		// renderHeichelos() last, so the "Profile dashboard loaded."
+		// announcement in start() only fired after the Heichelos list
+		// finished — when it is slow, the status text stayed "Loading
+		// profile dashboard…" long after the stats and posts had loaded.
+		// Heichelos now loads in the background (like renderAliases):
+		// the announcement fires once aliases + hero + posts boot are
+		// done, and the Heichelos list still lands when it is ready.
+		try { renderHeichelos().catch(() => {}); } catch { /* heichelos must never break boot */ }
 	}
 
 	/**

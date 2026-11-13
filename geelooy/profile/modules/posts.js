@@ -9,7 +9,7 @@ import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
 import { postRouteFor } from "./postRoute.js";
-import { state } from "./state.js";
+import { state, readCachedAliases } from "./state.js";
 
 /** B"H social fix 16 (defect 2): the Posts stat shows the last-known
  * total immediately (from localStorage) while the fresh count loads.
@@ -32,7 +32,13 @@ function readCachedPostsCount(aliases) {
 		const raw = localStorage.getItem(POSTS_COUNT_CACHE_KEY);
 		if (!raw) return null;
 		const saved = JSON.parse(raw);
-		const key = (aliases || []).map((a) => String(a.id || '')).sort().join(',');
+		// B"H social fix 18 (defect 2): the key is the alias list — when
+		// the profile booted from the last-known aliases (the alias API
+		// timed out) the caller may pass an empty list. Fall back to the
+		// last-known alias list so the cached 500 still matches.
+		let list = aliases || [];
+		if (!list.length) list = readCachedAliases() || [];
+		const key = list.map((a) => String(a.id || '')).sort().join(',');
 		if (saved && saved.aliases === key && Number.isFinite(saved.count) && saved.count >= 0) {
 			return saved.count;
 		}
@@ -41,7 +47,12 @@ function readCachedPostsCount(aliases) {
 }
 function saveCachedPostsCount(aliases, count) {
 	try {
-		const key = (aliases || []).map((a) => String(a.id || '')).sort().join(',');
+		// B"H social fix 18 (defect 2): same fallback as the read — a
+		// complete load that ran on the last-known aliases must save
+		// under the last-known-alias key, or the read can never match it.
+		let list = aliases || [];
+		if (!list.length) list = readCachedAliases() || [];
+		const key = list.map((a) => String(a.id || '')).sort().join(',');
 		localStorage.setItem(POSTS_COUNT_CACHE_KEY, JSON.stringify({ aliases: key, count }));
 	} catch { /* private mode / quota — the stat still works, just uncached */ }
 }

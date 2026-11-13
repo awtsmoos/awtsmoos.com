@@ -71,13 +71,79 @@ const state = {
 // Only a scan that started at baseCursor '' (the first page) is
 // cacheable — a Load More scan covers later pages and must never
 // overwrite it.
-let poolCache = null; // { pool, cursor, baseDone, at }
+let poolCache = null; // { pool, cursor, baseDone, at, persisted }
 const POOL_CACHE_TTL_MS = 120000;
+
+// B"H social fix 18 (defect 1): the in-memory pool cache is empty on a
+// fresh tab, so when the API is degraded (base feed hangs past the 15s
+// watchdog — measured 17.3s live 2026-11-13, and the Fix 17 check saw
+// the whole backend degraded after ~01:00) the river has nothing and
+// shows "The river paused" — and "Try Again" re-runs the same failing
+// scan and fails again. Persist the pool to localStorage on every
+// successful first-page scan; on a fresh tab, restore it and render a
+// real page from it immediately. Stale real posts beat an error screen;
+// the live scan still runs on scroll / mode switch / Try Again and
+// replaces the pool the moment the API answers. The stored rows are the
+// already normalized, already test-post-filtered pool rows; they are
+// re-filtered on read (belt-and-braces) and re-ranked per mode like the
+// in-memory cache. TTL 7 days — a week-old real post is still a real
+// post, and the live scan replaces it when it can.
+const POOL_STORE_KEY = 'awtsmoos-feed-pool-v1';
+const POOL_STORE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const POOL_STORE_MAX = 60;
+
+function readPersistedPool() {
+	try {
+		const raw = localStorage.getItem(POOL_STORE_KEY);
+		if (!raw) return null;
+		const saved = JSON.parse(raw);
+		if (!saved || !Array.isArray(saved.pool) || !saved.pool.length) return null;
+		if (typeof saved.at !== 'number' || Date.now() - saved.at > POOL_STORE_TTL_MS) return null;
+		const pool = saved.pool.filter((row) => row && typeof row === 'object' && (row.postId || row.id) && !isOrphanedTestPost(row) && !isBenchmarkPost(row));
+		if (!pool.length) return null;
+		return { pool, cursor: typeof saved.cursor === 'string' ? saved.cursor : '', baseDone: saved.baseDone === true, at: Date.now(), persisted: true };
+	} catch { return null; }
+}
+
+function writePersistedPool(pool, cursor, baseDone) {
+	try {
+		if (!pool || !pool.length) return;
+		localStorage.setItem(POOL_STORE_KEY, JSON.stringify({ pool: pool.slice(0, POOL_STORE_MAX), cursor: cursor || '', baseDone: baseDone === true, at: Date.now() }));
+	} catch { /* private mode / quota — the river still works, just uncached */ }
+}
 
 function snapshotPoolCache(pool, scanStartCursor) {
 	if (!pool || !pool.length) return;
 	if (scanStartCursor !== '') return;
 	poolCache = { pool: pool.slice(), cursor: state.baseCursor, baseDone: state.baseDone, at: Date.now() };
+	writePersistedPool(pool, state.baseCursor, state.baseDone);
+}
+
+// B"H social fix 18 (defect 1): last-resort fallback for a FIRST load,
+// where usePoolCache is still false (it only turns true on Try Again /
+// tab switch via resetAndLoad), so the cache-serve block never runs.
+// When the mode fetch AND the top-up both failed and nothing rendered,
+// show the persisted pool instead of the error. Returns true when it
+// rendered a page. The healthy path is untouched — this only runs when
+// the river would otherwise show "The river paused" on an empty page.
+function renderPersistedFallback() {
+	if (state.offset !== 0) return false;
+	const restored = readPersistedPool();
+	if (!restored) return false;
+	const ranked = rankTopUp(restored.pool, state.mode, PAGE_SIZE)
+		.filter((post) => {
+			const id = String(post.postId || post.id || '');
+			const ckey = contentKey(post);
+			if (id && state.seenIds.has(id)) return false;
+			if (ckey !== '|||' && state.seenContent.has(ckey)) return false;
+			return true;
+		});
+	if (!ranked.length) return false;
+	appendItems(ranked);
+	poolCache = restored;
+	state.baseCursor = restored.cursor;
+	state.baseDone = restored.baseDone;
+	return true;
 }
 
 // B"H — Load the social-post -> source-maamar link mappings from AwtsmoosDB
@@ -536,6 +602,18 @@ async function fetchPage() {
 		// only for that fetch, not for the whole scan. If the cached rank
 		// cannot fill a full page (thin pool, or overlap with mode items
 		// already rendered), fall through to the normal scan.
+		// B"H social fix 18 (defect 1): restore the persisted pool on a
+		// fresh tab, where the in-memory poolCache is empty. The restore
+		// stamps at=now so the cache-serve block below treats it as fresh
+		// for this session; the stored save time is what the 7-day TTL
+		// checks. The next scan (scroll / mode switch / Try Again) starts
+		// from the restored cursor and refreshes the pool when the API
+		// answers; a scan that starts at '' re-snapshots it (in-memory
+		// and persisted) — see snapshotPoolCache.
+		if (state.usePoolCache && (!poolCache || Date.now() - poolCache.at >= POOL_CACHE_TTL_MS)) {
+			const restored = readPersistedPool();
+			if (restored) poolCache = restored;
+		}
 		let servedFromCache = false;
 		if (state.usePoolCache && poolCache && Date.now() - poolCache.at < POOL_CACHE_TTL_MS) {
 			const cached = rankTopUp(poolCache.pool, state.mode, PAGE_SIZE - items.length)
@@ -651,13 +729,20 @@ async function fetchPage() {
 				// is a no-op when cards already exist (offset > 0), and
 				// appendItems() removes the .feed-empty error when a later
 				// scan succeeds, so a retry can still fill the river.
-				if (state.offset === 0) showError();
+				// B"H social fix 18 (defect 1): a first load has
+				// usePoolCache false, so the cache-serve block never ran —
+				// when the scan fails too, the persisted pool is the last
+				// resort. Render it instead of the error when it exists.
+				if (state.offset === 0 && !renderPersistedFallback()) showError();
 			}
 		}
 		if (state.modeDone && state.baseDone) state.done = true;
 		if (!items.length && state.modeDone && state.baseDone) appendItems(items);
 	} catch (err) {
-		showError();
+		// B"H social fix 18 (defect 1): same last resort as the scan
+		// failure above — an unexpected error on an empty river shows
+		// the persisted pool when one exists, not the error panel.
+		if (state.offset === 0 && !renderPersistedFallback()) showError();
 	} finally {
 		clearTimeout(watchdog);
 		state.loading = false;
