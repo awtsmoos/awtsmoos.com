@@ -35,15 +35,24 @@ async function loadCounts() {
 	} catch { /* counts stay unknown; cards render without them */ }
 }
 
-/** Comment count for one post, from the comment-tree meta (native + social). */
+/** Comment count for one post, from the comment-tree ROWS (genuine comments only).
+ * B"H social fix 12 (defect 3): meta.native is NOT a total — it equals the
+ * page limit (limit=1 → native=1, limit=5 → native=5, limit=100 →
+ * native=100, proven live on the meluket post, whose 100 rows are ALL
+ * imported translation phrases with zero genuine comments). Counting meta
+ * therefore showed "1 Comment" on a post with no real comments, while the
+ * header Comments stat (comments the user WROTE, via the per-alias
+ * /comments endpoint) correctly read 0. The rows are the ground truth: a
+ * row without importedAt is a genuine user comment; rows WITH importedAt
+ * are imported translation phrases, not comments. */
 async function fetchCommentCount(post) {
 	try {
 		const heichel = post.heichelId || post.heichel || "ikar";
 		const id = post.postId || post.id || "";
 		if (!id) return null;
-		const data = await apiJson(`/api/social/heichelos/${encodeURIComponent(heichel)}/posts/${encodeURIComponent(id)}/comment-tree?limit=1`, { timeoutMs: 9000 });
-		const meta = data && data.meta ? data.meta : {};
-		return Number(meta.native || 0) + Number(meta.social || 0);
+		const data = await apiJson(`/api/social/heichelos/${encodeURIComponent(heichel)}/posts/${encodeURIComponent(id)}/comment-tree?limit=100`, { timeoutMs: 9000 });
+		const rows = listFrom(data);
+		return rows.filter((row) => !row.importedAt).length;
 	} catch { return null; }
 }
 

@@ -348,7 +348,6 @@ const EMOJI_VIDEO_BASE = '/feed/assets/emojis';
 const YARMULKE_EMOJIS = [
 	{ id: 'laughing', name: 'laughter' },
 	{ id: 'love', name: 'love' },
-	{ id: 'thumbsup', name: 'thumbs up' },
 	{ id: 'praying', name: 'prayer' },
 	{ id: 'crying', name: 'tears' },
 	{ id: 'surprised', name: 'wow' },
@@ -359,7 +358,6 @@ const YARMULKE_EMOJIS = [
 	{ id: 'star-eyes', name: 'amazed' },
 	{ id: 'holding-back-tears', name: 'moved' },
 	{ id: 'hug', name: 'hug' },
-	{ id: 'thinking', name: 'thinking' },
 	{ id: 'guy-thumbsup', name: 'approval' },
 	{ id: 'guy-cheering', name: 'celebration' },
 	{ id: 'guy-facepalm', name: 'facepalm' },
@@ -372,11 +370,9 @@ const YARMULKE_EMOJIS = [
 	{ id: 'muscle', name: 'strength' },
 	{ id: 'handshake', name: 'agreement' },
 	{ id: 'ok-hand', name: 'okay' },
-	{ id: 'wave', name: 'hello' },
 	{ id: 'popcorn', name: 'popcorn' },
 	{ id: 'sleeping', name: 'sleepy' },
 	{ id: 'smirk', name: 'smirk' },
-	{ id: 'zany-face', name: 'silly' },
 	{ id: 'nerd-face', name: 'nerdy' },
 	{ id: 'pleading-face', name: 'pleading' },
 	{ id: 'partying-face', name: 'partying' },
@@ -390,7 +386,14 @@ const YARMULKE_EMOJIS = [
 const EMOJI_BY_ID = Object.fromEntries(YARMULKE_EMOJIS.map(e => [e.id, e]));
 const REACTION_NAMES = Object.fromEntries(YARMULKE_EMOJIS.map(e => [e.id, e.name]));
 /* Legacy unicode reactions map onto their yarmulke equivalents. */
-const LEGACY_REACTION_MAP = { '👍': 'thumbsup', '❤️': 'love', '😂': 'laughing', '😮': 'surprised', '🙏': 'praying', '✨': 'star-eyes' };
+/* B"H social fix 12 (defect 2): 'thumbsup' has no image file (neither
+ * thumbsup.png nor thumbsup.mp4 exists in the repo or the Drive mirror —
+ * only 35 of the 39 emoji files were ever made), so a legacy 👍 rendered
+ * a broken image. It maps to 'guy-thumbsup', which exists. The other
+ * three missing files (thinking, wave, zany-face) have no equivalent and
+ * are dropped from the picker below; stored reactions with those kinds
+ * are dropped by normalizeReactionId rather than rendered broken. */
+const LEGACY_REACTION_MAP = { '👍': 'guy-thumbsup', '❤️': 'love', '😂': 'laughing', '😮': 'surprised', '🙏': 'praying', '✨': 'star-eyes' };
 
 function emojiImg(id, cls = '') {
 	const e = EMOJI_BY_ID[id];
@@ -404,9 +407,16 @@ function emojiVideo(id, cls = '') {
 	return `<video class="feed-emoji-video ${cls}" muted loop playsinline preload="none" poster="${EMOJI_IMAGE_BASE}/${id}.png" data-video-src="${EMOJI_VIDEO_BASE}/${id}.mp4" aria-hidden="true" tabindex="-1"></video>`;
 }
 
+/* B"H social fix 12 (defect 2): stored reaction kinds for the four
+ * removed emojis must never render a broken image. 'thumbsup' maps to
+ * its existing twin 'guy-thumbsup'; thinking/wave/zany-face have no
+ * equivalent, so they normalize to '' and their chips/faces are skipped
+ * by the callers' `if (id)` guards. */
+const REMOVED_REACTION_MAP = { 'thumbsup': 'guy-thumbsup' };
 function normalizeReactionId(raw) {
 	const s = String(raw || '');
-	return EMOJI_BY_ID[s] ? s : (LEGACY_REACTION_MAP[s] || '');
+	const mapped = REMOVED_REACTION_MAP[s] || s;
+	return EMOJI_BY_ID[mapped] ? mapped : (LEGACY_REACTION_MAP[mapped] || '');
 }
 
 function initialReactionSummary(item) {
@@ -439,8 +449,11 @@ function initialReactionSummary(item) {
 		}
 	}
 	const legacy = Number(item.reactionCount ?? item.likes ?? 0);
-	if (legacy > 0 && !Object.keys(counts).length) counts['thumbsup'] = legacy;
-	return { counts, viewerEmoji: norm(item.viewerReaction || item.viewerEmoji || (item.viewerLiked ? 'thumbsup' : '')), reactors };
+	// B"H social fix 12 (defect 2): the legacy like fallback used
+	// 'thumbsup', whose image file does not exist — a liked post rendered
+	// a broken face image. 'guy-thumbsup' exists and means the same.
+	if (legacy > 0 && !Object.keys(counts).length) counts['guy-thumbsup'] = legacy;
+	return { counts, viewerEmoji: norm(item.viewerReaction || item.viewerEmoji || (item.viewerLiked ? 'guy-thumbsup' : '')), reactors };
 }
 
 function topReactions(summary, limit = 3) {

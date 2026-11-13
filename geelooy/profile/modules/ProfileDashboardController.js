@@ -12,7 +12,7 @@ import { getAliasDetails, getDefaultAlias, mapLimit } from './api.js';
 import { listFollowers } from '/scripts/awtsmoos/social/profile/api.js';
 import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
-import { renderProfilePosts, loadPostsForAlias, createProfilePostDeduper } from './posts.js';
+import { renderProfilePosts } from './posts.js';
 import { renderProfileSeries, loadSeriesForAlias } from './series.js';
 import { renderProfileActivity } from './activity.js';
 import { emptyCard } from './cards.js';
@@ -129,44 +129,24 @@ export class ProfileDashboardController {
 			}
 		};
 		try {
-			const [posts, comments, series, followers] = await Promise.all([
-				// B"H social fix 11 (defect 2): the hero Posts stat must
-				// count the SAME set the Posts list shows — the list drops
-				// test posts + duplicates (createProfilePostDeduper), so
-				// counting the raw per-alias rows gave 502 while the list
-				// shows 500, and the stat flickered between the two
-				// depending on which writer finished last.
-				this.countFilteredPosts(aliases),
+			const [comments, series, followers] = await Promise.all([
+				// B"H social fix 12 (defect 1): the hero Posts stat has ONE
+				// writer now — renderProfilePosts, which writes the list's
+				// own total at the end of its render. Fix 11 made both
+				// writers count the same SET, but they still fetched the
+				// same ~40 per-alias endpoints INDEPENDENTLY, so per-alias
+				// failures/timeouts made their totals differ across runs
+				// (0 → 321 → 500 in the Fix 11 rendered check). One writer
+				// from one fetch means the stat is written once, from the
+				// list's own data, and always agrees with the list.
 				countAll(loadCommentsForAlias),
 				countAll(loadSeriesForAlias),
 				this.countFollowers(aliases)
 			]);
-			if (posts != null) setStat('posts', String(posts));
 			if (comments != null) setStat('comments', String(comments));
 			if (series != null) setStat('series', String(series));
 			if (followers != null) setStat('followers', String(followers));
 		} catch { /* stats are best-effort; tabs set them on load too */ }
-	}
-
-	/**
-	 * B"H social fix 11 (defect 2): counts the posts the profile list
-	 * actually shows — the same dedupe the list uses (test posts +
-	 * duplicates dropped), so the hero stat and the list total agree.
-	 * Same 30s timeout race as countAll: a timeout returns null so the
-	 * stat keeps its previous value instead of a partial count.
-	 */
-	async countFilteredPosts(aliases) {
-		const STAT_TIMEOUT_MS = 30000;
-		const dedupe = createProfilePostDeduper();
-		try {
-			const groups = await Promise.race([
-				mapLimit(aliases, 5, loadPostsForAlias),
-				new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), STAT_TIMEOUT_MS))
-			]);
-			return dedupe(groups.flat()).length;
-		} catch {
-			return null;
-		}
 	}
 
 	/**
