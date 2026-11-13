@@ -27,6 +27,7 @@ export class MitzvahWorldManagedConnection {
 		this.socketOwner = new MitzvahWorldManagedSocket(options);
 		this.state = 'idle';
 		this.startPromise = null;
+		this.startRetryReject = null;
 		this.stopped = false;
 		this.reconnectLoop = new MitzvahWorldReconnectLoop(
 			new MitzvahWorldBackoff(options),
@@ -47,7 +48,15 @@ export class MitzvahWorldManagedConnection {
 		this.reconnectLoop.resume();
 		this.state = 'connecting';
 		const generation = ++this.generation;
-		const operation = this.startFresh(displayName, worldId, generation);
+		// A failed first attempt used to be terminal: the attempt set
+		// state='failed' and rethrew, and the reconnect loop only healed a
+		// socket that had already connected, so a second concurrent tab
+		// whose first join raced the server had to reload and rejoin by
+		// hand. Retry the fresh join through the same bounded loop instead;
+		// the promise settles only on success or exhaustion, and the
+		// session keeps showing 'connecting' meanwhile (its start is not
+		// on the boot path, so local play is not delayed).
+		const operation = this.startWithRetry(displayName, worldId, generation);
 		const tracked = operation.finally(() => {
 			if (this.startPromise === tracked) {
 				this.startPromise = null;
@@ -55,6 +64,46 @@ export class MitzvahWorldManagedConnection {
 		});
 		this.startPromise = tracked;
 		return tracked;
+	}
+
+	async startWithRetry(displayName, worldId, generation) {
+		try {
+			return await this.startFresh(displayName, worldId, generation);
+		} catch (firstError) {
+			if (this.stopped || generation !== this.generation) {
+				throw firstError;
+			}
+			return await new Promise((resolve, reject) => {
+				this.startRetryReject = reject;
+				const attempt = () => {
+					if (this.stopped || generation !== this.generation) {
+						this.startRetryReject = null;
+						reject(this.lastError || firstError);
+						return;
+					}
+					this.state = 'waiting-to-reconnect';
+					this.reconnectLoop.start(
+						async () => {
+							const client = await this.startFresh(
+								displayName,
+								worldId,
+								generation
+							);
+							this.startRetryReject = null;
+							resolve(client);
+							return client;
+						},
+						() => attempt(),
+						() => {
+							this.startRetryReject = null;
+							this.state = 'failed';
+							reject(this.lastError || firstError);
+						}
+					);
+				};
+				attempt();
+			});
+		}
 	}
 
 	startFresh(displayName, worldId, generation) {
@@ -115,5 +164,15 @@ export class MitzvahWorldManagedConnection {
 		this.socketOwner.release(undefined, true);
 		this.client?.close?.('CONNECTION_STOPPED');
 		this.client = null;
+		// A start retry waiting on the backoff timer would otherwise never
+		// settle once the loop is stopped; release its waiter now.
+		if (this.startRetryReject) {
+			const reject = this.startRetryReject;
+			this.startRetryReject = null;
+			reject(Object.assign(
+				new Error('Realtime connection was stopped.'),
+				{ code: 'CONNECTION_STOPPED' }
+			));
+		}
 	}
 }

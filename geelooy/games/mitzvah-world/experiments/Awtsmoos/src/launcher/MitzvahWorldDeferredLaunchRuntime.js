@@ -24,7 +24,7 @@ let deferredAuthoritiesPromise = null;
 
 /** Launches one non-menu route after this deferred capability boundary has intentionally loaded. */
 export async function launchDeferredMitzvahWorldRoute(context, route) {
-	const routes = await createDeferredRoutes(context);
+	const routes = await createDeferredRoutes(context, context.dependencies?.onProgress);
 	if (route === 'materials') {
 		context.revealHosts(context.hosts, false);
 		return routes.modes.materials(context.hosts);
@@ -48,7 +48,13 @@ export async function launchDeferredMitzvahWorldRoute(context, route) {
 
 /** Launches one menu selection through the matching deferred route handler. */
 export async function launchDeferredMitzvahWorldMenuSelection(context, selection = {}) {
-	const routes = await createDeferredRoutes(context);
+	// The selection carries the launch transaction's observed onProgress
+	// (the one that re-arms the stall deadline); the context's dependencies
+	// onProgress predates the transaction and cannot re-arm it.
+	const routes = await createDeferredRoutes(
+		context,
+		selection.onProgress || context.dependencies?.onProgress
+	);
 	const handler = routes.handlers.menu?.[selection.mode];
 	if (typeof handler !== 'function') {
 		throw new Error(`No ${selection.mode || 'unknown'} launcher is installed.`);
@@ -57,8 +63,10 @@ export async function launchDeferredMitzvahWorldMenuSelection(context, selection
 }
 
 /** Constructs mode and route authorities only inside the versioned deferred capability boundary. */
-async function createDeferredRoutes(context) {
-	const authorities = await loadDeferredAuthorities();
+async function createDeferredRoutes(context, onProgress = null) {
+	const authorities = await loadDeferredAuthorities(
+		onProgress || context.dependencies?.onProgress
+	);
 	const modes = context.dependencies.modeLoaders
 		|| authorities.createMitzvahWorldModeLoaders(context.environment);
 	const handlers = authorities.createMitzvahWorldRouteHandlers({
@@ -73,8 +81,24 @@ async function createDeferredRoutes(context) {
 }
 
 /** Loads both deferred authorities once so they share one release identity and one retryable promise. */
-async function loadDeferredAuthorities() {
+async function loadDeferredAuthorities(onProgress = null) {
 	if (!deferredAuthoritiesPromise) {
+		// The menu launch transaction re-arms its 30s stall timer only on
+		// progress reports, and nobody reports progress while these two
+		// module imports are in flight — so a slow import on a contended
+		// second tab tripped WORLD_ENTRY_STALL_TIMEOUT and the Join click
+		// never navigated, even though the import would have settled. Report
+		// progress while loading (the 90s hard timeout still bounds a hung
+		// import), and once more when both modules resolve.
+		const progress = typeof onProgress === 'function' ? onProgress : null;
+		progress?.({ stage: 'deferred-authorities-loading' });
+		const heartbeat = progress
+			? setInterval(
+				() => progress({ stage: 'deferred-authorities-loading' }),
+				10000
+			)
+			: null;
+		heartbeat?.unref?.();
 		deferredAuthoritiesPromise = Promise.all([
 			import(MODE_LOADERS_URL),
 			import(ROUTE_HANDLERS_URL)
@@ -84,6 +108,9 @@ async function loadDeferredAuthorities() {
 		})).catch(error => {
 			deferredAuthoritiesPromise = null;
 			throw error;
+		}).finally(() => {
+			if (heartbeat !== null) clearInterval(heartbeat);
+			progress?.({ stage: 'deferred-authorities-loaded' });
 		});
 	}
 	return deferredAuthoritiesPromise;

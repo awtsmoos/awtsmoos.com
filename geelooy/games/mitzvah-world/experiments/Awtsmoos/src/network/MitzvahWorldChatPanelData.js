@@ -58,10 +58,53 @@ export async function refreshChatPanelHistory(panel) {
 
 export async function refreshChatPanelCensus(panel) {
 	const output = panel.root.querySelector('[data-chat-population]');
+	// The live world already knows the connected count, and the census
+	// request costs one realtime request on a socket that already carries
+	// 15Hz player input against an 80-request/5s server limit — so a census
+	// request can be rate-limited and leave the panel reading "Population
+	// unavailable" while the same tab shows live peers. Derive the count
+	// from the world the client already holds (the same number the census
+	// returns: connected players in this world, self included) and spend
+	// no request at all. Only when the world is not available yet (before
+	// the first join) fall back to the census request.
+	const live = liveChatPopulation(panel.client);
+	if (live !== null) {
+		output.textContent = `${live} connected`;
+		return;
+	}
 	try {
-		const response = await panel.client.census();
+		const response = await censusWithRetry(panel);
 		output.textContent = `${response.payload.connected} connected`;
 	} catch {
 		output.textContent = 'Population unavailable';
 	}
+}
+
+function liveChatPopulation(client) {
+	const players = client?.world?.players
+		|| client?.realtime?.world?.players;
+	if (!Array.isArray(players)) return null;
+	return players.filter(player => player?.connected !== false).length;
+}
+
+async function censusWithRetry(panel, attempts = 2) {
+	let lastError = null;
+	for (let attempt = 0; attempt < attempts; attempt += 1) {
+		try {
+			return await panel.client.census();
+		} catch (error) {
+			lastError = error;
+			if (attempt + 1 < attempts) {
+				await sleep(1000, panel.environment);
+			}
+		}
+	}
+	throw lastError;
+}
+
+function sleep(delayMs, environment = globalThis) {
+	const schedule = environment?.setTimeout?.bind(environment)
+		|| globalThis.setTimeout?.bind(globalThis);
+	if (!schedule || delayMs <= 0) return Promise.resolve();
+	return new Promise(resolve => schedule(resolve, delayMs));
 }

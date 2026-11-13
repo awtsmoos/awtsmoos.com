@@ -42,6 +42,7 @@ export class AuthoritativeMultiplayerBridge {
 			enemyAuthority: null,
 			heartbeatElapsed: 0,
 			lastRevision: 0,
+			peerSignature: '',
 			population: null,
 			runtime,
 			stateElapsed: 0,
@@ -86,6 +87,19 @@ export class AuthoritativeMultiplayerBridge {
 		this.population?.sync(world?.players || []);
 		this.enemyAuthority?.sync(world);
 		this.runtime.state.multiplayer = world;
+		// A peer joining or leaving changes the minimap's dots, but the
+		// minimap only re-renders when its own refresh runs and notices a
+		// peer-signature change — and the per-frame loop refreshes only the
+		// bootstrap minimap, which is released at handoff, so the live
+		// coordinated minimap kept a departed peer's dot forever. Refresh
+		// the UI the moment the peer SET changes (join/leave/connect-flag),
+		// not on movement deltas, so the refresh is cheap and the dot
+		// disappears with the peer.
+		const signature = peerSetSignature(world?.players || []);
+		if (signature !== this.peerSignature) {
+			this.peerSignature = signature;
+			this.runtime.ui?.refresh?.();
+		}
 	}
 
 	update(deltaSeconds) {
@@ -126,4 +140,14 @@ export class AuthoritativeMultiplayerBridge {
 	diagnostics() {
 		return multiplayerBridgeDiagnostics(this);
 	}
+}
+
+/** One stable string for the peer SET (ids + connected flags), ignoring movement. */
+function peerSetSignature(players) {
+	return JSON.stringify(
+		(players || []).map(player => [
+			player?.id,
+			player?.connected !== false
+		]).sort((left, right) => String(left[0]).localeCompare(String(right[0])))
+	);
 }

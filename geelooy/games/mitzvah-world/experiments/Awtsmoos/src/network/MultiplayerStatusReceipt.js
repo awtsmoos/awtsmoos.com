@@ -11,12 +11,19 @@
 
 export function revealMultiplayerStatus(session, forcedState = null) {
 	const players = session.client?.world?.players || [];
+	// The server keeps a departed player in the world snapshot with
+	// connected:false (it re-adds them on every input-response snapshot),
+	// so counting every listed player flaps the badge between 0 and 1
+	// after a peer leaves. Only connected players are peers.
+	const connectedPeers = players.filter(
+		player => player?.connected !== false
+	).length;
 	return {
 		error: session.error?.message || null,
 		mode: 'multiplayer',
 		peerCount: Math.max(
 			0,
-			players.length - (session.client?.playerId ? 1 : 0)
+			connectedPeers - (session.client?.playerId ? 1 : 0)
 		),
 		state: forcedState
 			|| session.state
