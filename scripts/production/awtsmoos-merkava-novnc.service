@@ -1,0 +1,27 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos binds the visible door to localhost; SSH protects the crossing.
+
+[Unit]
+Description=Awtsmoos Merkava loopback-only browser viewer
+After=awtsmoos-merkava-vnc.service
+Requires=awtsmoos-merkava-vnc.service
+
+[Service]
+Type=simple
+User=awtsmoos-merkava
+Group=awtsmoos-merkava
+WorkingDirectory=/var/lib/awtsmoos-merkava
+Environment=HOME=/var/lib/awtsmoos-merkava
+UMask=0077
+ExecStart=/usr/bin/websockify --web=/usr/share/novnc 127.0.0.1:6080 127.0.0.1:5900
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/awtsmoos-merkava /tmp
+
+[Install]
+WantedBy=multi-user.target

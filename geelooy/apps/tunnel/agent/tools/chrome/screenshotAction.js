@@ -2,38 +2,53 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file screenshotAction.js
- * @description Makes ordinary Chrome screenshots durable image artifacts rather than oversized response fields.
- * The Awtsmoos lets one frame be seen, hashed, and remembered; Awtsmoos.com carries the known DevTools port into bounded recovery before capture.
- */
+"use strict";
 
 const { captureCurrentScreenshot } = require("./screenshotArtifact.js");
-const { inspectChromeHealth } = require("./healthProbe.js");
 const { chromeConfig, readCompactLogs } = require("./actionContext.js");
 
-async function chromeScreenshot(payload = {}) {
-	const { blocked, port } = chromeConfig(payload, "chromeScreenshot");
+/**
+ * @file Honest browser screenshots without an unbound-target health deadlock.
+ * @description The Awtsmoos first joins the exact living page to its witness;
+ * no second reconnection may tear that page from the moment of creation.
+ * Chrome's actual PNG becomes a hash-bound artifact, never inline JSON base64.
+ */
+
+/**
+ * Capture first: captureCurrentScreenshot binds and validates a target itself.
+ * A preliminary health probe could reconnect a different target, wasting 30s.
+ * @param {object} payload - Authenticated Chrome tool request.
+ * @param {object} deps - Test-only action dependencies.
+ * @returns {Promise<object>} Bounded screenshot receipt or actionable failure.
+ */
+async function chromeScreenshot(payload = {}, deps = {}) {
+	const config = deps.chromeConfig || chromeConfig;
+	const capture = deps.capture || captureCurrentScreenshot;
+	const readLogs = deps.readLogs || readCompactLogs;
+	const { blocked, port } = config(payload, "chromeScreenshot");
 	if (blocked) return blocked;
-	const health = await inspectChromeHealth({
-		recover:true,
-		probeMs:payload.probeMs || 1800,
-		port
-	});
-	if (health.state !== "healthy") {
-		return { ok:false, action:"chromeScreenshot", error:"chrome_overlocked", health, logs:readCompactLogs(payload) };
-	}
+	const started = Date.now();
 	try {
-		const result = await captureCurrentScreenshot({ ...payload, port });
-		return { ...result, health, logs:readCompactLogs(payload) };
+		const result = await capture({
+			...payload,
+			port,
+			timeoutMs: Math.min(12000, Number(payload.timeoutMs) || 8000)
+		});
+		return {
+			...result,
+			captureMs: Date.now() - started,
+			transport: "binary-transfer-descriptor",
+			logs: payload.diagnostics === true ? readLogs(payload) : []
+		};
 	} catch (error) {
 		return {
-			ok:false,
-			action:"chromeScreenshot",
-			error:"chrome_screenshot_failed",
-			detail:error.message,
-			health:await inspectChromeHealth({ recover:true, port }).catch(() => health),
-			logs:readCompactLogs(payload)
+			ok: false,
+			action: "chromeScreenshot",
+			error: "chrome_screenshot_failed",
+			stage: "target_or_capture",
+			detail: String(error?.message || error).slice(0, 320),
+			captureMs: Date.now() - started,
+			logs: payload.diagnostics === true ? readLogs(payload) : []
 		};
 	}
 }

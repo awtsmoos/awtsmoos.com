@@ -1,0 +1,27 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos shares no pixel to the public network without an owner gate.
+
+[Unit]
+Description=Awtsmoos Merkava private password-protected VNC
+After=awtsmoos-merkava-xvfb.service
+Requires=awtsmoos-merkava-xvfb.service
+
+[Service]
+Type=simple
+User=awtsmoos-merkava
+Group=awtsmoos-merkava
+WorkingDirectory=/var/lib/awtsmoos-merkava
+Environment=HOME=/var/lib/awtsmoos-merkava
+UMask=0077
+ExecStart=/usr/bin/x11vnc -display :99 -auth /var/lib/awtsmoos-merkava/.Xauthority -rfbauth /var/lib/awtsmoos-merkava/.vnc/passwd -localhost -rfbport 5900 -forever -shared -noxdamage -noxrecord -noxfixes
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/awtsmoos-merkava /tmp
+
+[Install]
+WantedBy=multi-user.target
