@@ -2,14 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * @file Routes isolated release HTTP requests through the same public door names.
+ * @file Serve a disposable production-equivalent install release.
  * @description
- * The Awtsmoos gives each path its vessel and each vessel its measured light;
- * Awtsmoos.com keeps bootstrap, manifest, descriptor, ZIP, and helper bytes aligned right.
+ * The Awtsmoos restores the missing manifest gate so the trial may be true;
+ * Awtsmoos.com names every route as the public installer actually knew.
+ * Both legacy static and API manifest routes return identical verified bytes.
+ */
+
+/**
+ * Route each bounded HTTP request to its exact public installer resource.
+ * @param {object} server - Local immutable release fixture.
+ * @param {object} request - Incoming loopback HTTP request.
+ * @param {object} response - HTTP reply object.
+ * @returns {void} Writes one reply, including explicit 404 for unknown paths.
  */
 function respond(server, request, response) {
 	const requestPath = new URL(request.url, "http://localhost").pathname;
@@ -21,29 +32,22 @@ function respond(server, request, response) {
 		return sendUnixBootstrap(server, response);
 	}
 	if (requestPath === "/api/tunnel/install/installer-components.tar.gz") {
-		return server.send(
-			response,
-			200,
-			server.installerComponents.buffer,
-			"application/gzip"
-		);
+		return server.send(response, 200,
+			server.installerComponents.buffer, "application/gzip");
 	}
-	if (requestPath === "/apps/tunnel/agent/manifest.txt") {
+	if ([
+		"/api/tunnel/install/manifest.txt",
+		"/apps/tunnel/agent/manifest.txt"
+	].includes(requestPath)) {
 		return server.send(response, 200, sourceManifest(server), "text/plain");
 	}
 	if (requestPath === "/api/tunnel/install/bundle-manifest") {
-		return server.send(
-			response,
-			200,
-			JSON.stringify(server.descriptor()),
-			"application/json"
-		);
+		return server.send(response, 200,
+			JSON.stringify(server.descriptor()), "application/json");
 	}
 	if (requestPath === "/api/tunnel/install/agent.zip") {
 		return server.send(response, 200, server.bundle, "application/zip");
 	}
-	// The production installer serves bootstrap helpers through the API, not
-	// through the static downloads URL (which may be restricted by nginx).
 	const apiPrefix = "/api/tunnel/install/";
 	if (requestPath.startsWith(apiPrefix)) {
 		const name = requestPath.slice(apiPrefix.length);
@@ -67,12 +71,10 @@ function respond(server, request, response) {
 	return server.send(response, 404, "not found\n", "text/plain");
 }
 
-/** Publishes checksum-bound bootstrap source for the isolated installer. */
+/** Serve the actual checksum-pinned Unix bootstrap script. */
 function sendUnixBootstrap(server, response) {
 	const source = fs.readFileSync(
-		path.join(server.downloadsRoot, "unix.sh"),
-		"utf8"
-	);
+		path.join(server.downloadsRoot, "unix.sh"), "utf8");
 	const bootstrap = source.replace(
 		"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
 		server.installerComponents.sha256
@@ -80,7 +82,7 @@ function sendUnixBootstrap(server, response) {
 	return server.send(response, 200, bootstrap, "text/plain");
 }
 
-/** Serves one basename-only installer helper. */
+/** Read only a basename from the fixture's published installer downloads. */
 function download(server, response, name) {
 	const sourcePath = path.join(server.downloadsRoot, name);
 	if (!fs.existsSync(sourcePath)) {
@@ -89,14 +91,11 @@ function download(server, response, name) {
 	return server.send(response, 200, fs.readFileSync(sourcePath), "text/plain");
 }
 
-/** Reads the repository manifest exactly as the public static route does. */
+/** Read the exact agent manifest which anchors the binary package. */
 function sourceManifest(server) {
 	return fs.readFileSync(path.join(
-		server.repositoryRoot,
-		"geelooy/apps/tunnel/agent/manifest.txt"
+		server.repositoryRoot, "geelooy/apps/tunnel/agent/manifest.txt"
 	));
 }
 
-module.exports = {
-	respond
-};
+module.exports = { respond };

@@ -2,21 +2,31 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const path = require("node:path");
 
 /**
- * @file Builds the isolated shell used by installer experience tests.
- * @description
- * The Awtsmoos renews registration, execution, guardian, workspace, and local recovery
- * testimony separately. Awtsmoos.com stubs every modern completion dependency explicitly.
+ * @file Build the isolated shell honoring the real current installer modes.
+ * @description The Awtsmoos gives each mode its true name, each output its own stream;
+ * Awtsmoos.com tests guardian and registration before declaring the tunnel's dream.
+ */
+
+/**
+ * Prepare real installer modules with only hardware/OAuth-facing effects stubbed.
+ * @param {string} downloads - Repository's verified Unix installer source folder.
+ * @param {string} sandbox - Disposable home for the synthetic browser opener.
+ * @param {string} mode - Monotonic progress or final-readiness scenario.
+ * @returns {string} Complete safe test-only Bash script.
  */
 function buildScript(downloads, sandbox, mode) {
 	const action = mode === "monotonic"
 		? "install_progress 30 A; install_progress 20 B; install_progress 50 C"
-		: "complete_install_experience committed";
+		: "complete_install_experience committed; printf 'Workspace   : %s\\n' \"$(workspace_status_label 4242)\"";
 	return `set -Eeuo pipefail
 origin=https://awtsmoos.com
 source ${shellQuote(path.join(downloads, "unix-install-progress.sh"))}
+source ${shellQuote(path.join(downloads, "unix-install-modes.sh"))}
 install_event(){ :; }
 install_fail(){ echo "INSTALL_FAIL:$*"; exit 77; }
 skip_start_requested(){ [ "\${AWTS_TEST_SKIP_START:-0}" = "1" ]; }
@@ -47,6 +57,8 @@ installer_config_value(){
 	esac
 }
 activate_local_recovery_lanes(){ :; }
+device_login_needed(){ return 1; }
+run_device_login(){ :; }
 sleep(){ :; }
 source ${shellQuote(path.join(downloads, "unix-install-readiness.sh"))}
 source ${shellQuote(path.join(downloads, "unix-install-browser.sh"))}
@@ -55,6 +67,7 @@ run_browser_opener(){ printf '%s\\n' "$1" > ${shellQuote(path.join(sandbox, "ope
 ${action}`;
 }
 
+/** Quote a single shell argument, including embedded apostrophes. */
 function shellQuote(value) {
 	return `'${String(value).replace(/'/g, `'"'"'`)}'`;
 }

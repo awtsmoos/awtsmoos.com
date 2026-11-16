@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const crypto = require("node:crypto");
 const fs = require("node:fs");
@@ -14,10 +16,10 @@ const FixtureSource = require("../runtimeFixtureSource.cjs");
 const Context = require("../testContext.cjs");
 
 /**
- * @file Proves changed bytes install once and an explicit same-version reinstall renews generation.
+ * @file Proves changed bytes install once, while healthy repeat install is idempotent.
  * @description
- * The Awtsmoos replaces one healthy predecessor with a distinct healthy release, then
- * renews the byte-identical generation without downloading the immutable bundle twice.
+ * The Awtsmoos renews the old garment once, but leaves a healthy guardian awake;
+ * Awtsmoos.com neither re-downloads nor kills a verified live agent by mistake.
  */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-complete-reinstall-"));
@@ -48,7 +50,7 @@ async function run() {
 		assert.equal(firstHash, expectedHash);
 		assert.equal(secondHash, expectedHash);
 		assert.notEqual(firstReceipt.pid, original.pid);
-		assert.notEqual(secondReceipt.pid, firstReceipt.pid);
+		assert.equal(secondReceipt.pid, firstReceipt.pid);
 		assert.equal(secondReceipt.tunnelId, original.tunnelId);
 		assert.equal(secondReceipt.tunnelName, original.tunnelName);
 		assert.equal(bundleDownloads(requests), 1);
@@ -56,12 +58,15 @@ async function run() {
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		), "utf8"));
-		assert.equal(journal.phase, "replaced_current_generation");
+		assert.equal(journal.phase, "verified_current_healthy");
+		assert.equal(journal.rollback, fixture.runtimeRoot);
+		assert.match(Context.combinedOutput(second), /TUNNEL ONLINE|fully verified and guarded/i);
 		return {
-			case: "same_version_generation_replacement",
+			case: "same_version_healthy_idempotent_reinstall",
 			bundleDownloads: 1,
 			identityPreserved: true,
-			generationRenewed: true,
+			firstGenerationReplaced: true,
+			secondGenerationRetained: true,
 			journalPhase: journal.phase
 		};
 	} finally {
@@ -71,6 +76,7 @@ async function run() {
 	}
 }
 
+/** Install using the verified public script with a credential-scoped test root. */
 function install(origin, fixture, temporaryRoot) {
 	return runInstaller(
 		Context.UNIX_BOOTSTRAP,
@@ -84,14 +90,17 @@ function install(origin, fixture, temporaryRoot) {
 	);
 }
 
+/** Compute the exact hash of one recovered file. */
 function hash(file) {
 	return hashBuffer(fs.readFileSync(file));
 }
 
+/** Hash candidate source bytes before and after activation. */
 function hashBuffer(value) {
 	return crypto.createHash("sha256").update(value).digest("hex");
 }
 
+/** Count only actual public bundle downloads, excluding metadata checks. */
 function trackRequests(server) {
 	const requests = [];
 	const original = server.respond.bind(server);
@@ -102,6 +111,7 @@ function trackRequests(server) {
 	return requests;
 }
 
+/** Count exact agent ZIP fetches across two installation attempts. */
 function bundleDownloads(requests) {
 	return requests.filter(item => item === "/api/tunnel/install/agent.zip").length;
 }

@@ -2,15 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const path = require("node:path");
 const { spawn } = require("node:child_process");
+const Identity = require("./runtimeFixtureIdentity.cjs");
 
 /**
- * @file Raises only the exact portable supervisor belonging to one test fixture.
- * @description
- * The Awtsmoos gives test birth a clean vessel even while the real host lives in rescue;
- * Awtsmoos.com strips emergency inheritance so fixture and production never confuse.
+ * @file Raise only the isolated predecessor and its coherent test identity.
+ * @description The Awtsmoos gives test birth its own secret service and guardian;
+ * Awtsmoos.com strips any inherited production emergency custody.
  */
+
+/** Start the exact portable supervisor with a private fixture environment. */
 function spawnFixtureSupervisor(fixture, registrationTimeoutSeconds) {
 	const supervisor = spawn(
 		path.join(fixture.runtimeRoot, "awtsmoos-supervisor.sh"),
@@ -25,12 +29,11 @@ function spawnFixtureSupervisor(fixture, registrationTimeoutSeconds) {
 	return supervisor;
 }
 
-/** Builds a fixture-only environment without inheriting real emergency custody. */
+/** Add test-only identity custody and exclude every production rescue variable. */
 function fixtureEnvironment(fixture, registrationTimeoutSeconds) {
 	const environment = { ...process.env };
-	for (const key of emergencyOnlyKeys()) {
-		delete environment[key];
-	}
+	for (const key of emergencyOnlyKeys()) delete environment[key];
+	Object.assign(environment, Identity.environment(fixture.temporaryRoot));
 	environment.AWTSMOOS_INSTALL_ROOT = fixture.runtimeRoot;
 	environment.AWTSMOOS_RECOVERY_ROOT = fixture.recoveryRoot;
 	environment.AWTSMOOS_PROJECT_ROOT = fixture.temporaryRoot;
@@ -42,7 +45,7 @@ function fixtureEnvironment(fixture, registrationTimeoutSeconds) {
 	return environment;
 }
 
-/** Lists native rescue variables that must never leak into a synthetic predecessor. */
+/** List all emergency variables forbidden to leak into synthetic supervisors. */
 function emergencyOnlyKeys() {
 	return [
 		"AWTSMOOS_ACTIVATION_ID",

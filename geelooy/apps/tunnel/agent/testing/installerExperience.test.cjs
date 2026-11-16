@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -10,9 +12,9 @@ const { createHarness } = require("./helpers/installerExperienceHarness.cjs");
 const Checks = require("./helpers/installerExperienceAssertions.cjs");
 
 /**
- * @file Verifies completion follows registration, local execution, and durable supervision.
- * @description The Awtsmoos lets workspace testimony be optional while executable custody
- * remains mandatory; Awtsmoos.com reaches one hundred only after the living lanes agree.
+ * @file Test real installer progress on stderr and completion after live custody.
+ * @description The Awtsmoos names the guardian, root and registration separately;
+ * Awtsmoos.com never mistakes a beautiful progress bar for a living connection.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-installer-experience-"));
@@ -21,18 +23,17 @@ const harness = createHarness(repositoryRoot, sandbox);
 try {
 	const monotonic = harness.run("monotonic");
 	assert.equal(monotonic.status, 0, monotonic.stderr);
-	assert.deepEqual(harness.percentages(monotonic.stdout), [30, 30, 50]);
+	assert.deepEqual(harness.percentages(monotonic.stderr), [30, 30, 50]);
 
 	const success = Checks.complete(harness, {
 		AWTS_TEST_REGISTERED: "1",
 		AWTS_TEST_ROOT_READY: "1",
 		AWTS_TEST_SERVICE_READY: "1"
 	});
-	assert.match(success.stdout, /VERIFIED, GUARDED, AND CONNECTED/);
-	assert.match(success.stdout, /Workspace\s+: \/tmp\/awts-project/);
+	assert.match(success.stderr, /fully verified and guarded/i);
 	assert.match(success.stdout, /Workspace\s+: available/);
-	assert.match(success.stdout, /tun_experience_test/);
-	assert.match(success.stdout, /serviceState=1/);
+	assert.match(success.stderr, /tun_experience_test/);
+	assert.doesNotMatch(success.stderr, /command not found/i);
 	assert.equal(Checks.openedControl(harness), "https://awtsmoos.com/apps/tunnel-control/");
 
 	fs.rmSync(harness.openedPath, { force: true });
@@ -41,7 +42,7 @@ try {
 		AWTS_TEST_REGISTERED: "1"
 	});
 	assert.equal(skipped.status, 0, skipped.stderr);
-	assert.equal(harness.percentages(skipped.stdout).includes(100), false);
+	assert.equal(harness.percentages(skipped.stderr).includes(100), false);
 	assert.match(skipped.stdout, /runtime start was skipped/i);
 	assert.equal(fs.existsSync(harness.openedPath), false);
 
@@ -50,7 +51,8 @@ try {
 		{ AWTS_TEST_REGISTERED: "1", AWTS_TEST_PAIRED_CONTROL: "1" }
 	]) {
 		fs.rmSync(harness.openedPath, { force: true });
-		assert.match(Checks.complete(harness, environment).stdout, /VERIFIED, GUARDED, AND CONNECTED/);
+		const result = Checks.complete(harness, environment);
+		assert.match(result.stderr, /TUNNEL ONLINE/);
 		assert.equal(fs.existsSync(harness.openedPath), false);
 	}
 

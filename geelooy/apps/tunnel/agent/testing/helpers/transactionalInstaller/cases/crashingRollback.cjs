@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -13,12 +15,11 @@ const Context = require("../testContext.cjs");
 const Diagnostics = require("./crashingRollbackDiagnostics.cjs");
 
 /**
- * @file Proves a crashing candidate never displaces the healthy predecessor.
+ * @file Prove a crashing, coherently paired candidate fails before promotion.
  * @description
- * The Awtsmoos distinguishes failed publication from failed service. The installer
- * returns nonzero because the candidate is unfit, while the exact predecessor bytes,
- * registration receipt, supervisor, and project-root readiness remain continuously
- * recoverable. The journal records failure before promotion, not a fictional rollback.
+ * The Awtsmoos preserves the prior guardian while the trial is run;
+ * Awtsmoos.com records candidate_probe_failed and forgets no healthy one.
+ * A keyless fixture must never be confused with this genuine startup test.
  */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-install-rollback-"));
@@ -47,21 +48,21 @@ async function run() {
 			}),
 			temporaryRoot
 		);
-		assert.notEqual(result.status, 0, "unfit candidate must fail publication");
+		assert.notEqual(result.status, 0, "broken candidate must fail activation");
 		await requireRegisteredFixture(fixture, result);
 		verifyExactPredecessor(fixture, result);
 		const journal = JSON.parse(Diagnostics.read(
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		));
+		assert.equal(journal.schemaVersion, 2);
 		assert.equal(journal.phase, "candidate_probe_failed");
 		assert.equal(journal.rollback, fixture.runtimeRoot);
-		// The journal, sentinel, runtime version, and live agent are the authoritative
-		// preservation proof. Installer copy may change without weakening that proof.
+		assert(journal.candidate?.startsWith(`${fixture.runtimeRoot}.candidate-`));
 		assert.match(Context.combinedOutput(result), /FAILED|candidate|probe/i);
 		assert.equal(candidateDirectories(fixture).length, 0);
 		return {
-			case: "crashing_candidate_rejected_before_promotion",
+			case: "crashing_candidate_probe_rejected",
 			status: result.status,
 			preservedVersion: "1.0.100",
 			journalPhase: journal.phase,
@@ -75,6 +76,7 @@ async function run() {
 	}
 }
 
+/** Confirm the registered predecessor remains alive after candidate failure. */
 async function requireRegisteredFixture(fixture, result) {
 	try {
 		await fixture.waitForAgent(12000);
@@ -83,26 +85,26 @@ async function requireRegisteredFixture(fixture, result) {
 	}
 }
 
+/** Verify the unchanged predecessor identity and original sentinel bytes. */
 function verifyExactPredecessor(fixture, result) {
 	const version = Diagnostics.read(fixture.runtimeRoot, "install-state.txt").trim();
 	const sentinel = Diagnostics.read(fixture.runtimeRoot, "sentinel.txt");
 	if (version !== "1.0.100" || sentinel !== "older-runtime\n") {
-		throw new Error(Diagnostics.build(
-			fixture,
-			result,
-			new Error(`exact_predecessor_identity_lost version=${version}`)
-		));
+		throw new Error(Diagnostics.build(fixture, result,
+			new Error(`exact_predecessor_identity_lost version=${version}`)));
 	}
 	assert.equal(fs.existsSync(path.join(fixture.runtimeRoot, "connection-state.json")), true);
 	assert.equal(fs.existsSync(path.join(fixture.runtimeRoot, "project-root-state.json")), true);
 }
 
+/** Reject any orphan candidate after the safe cleanup of a failed startup. */
 function candidateDirectories(fixture) {
 	const parent = path.dirname(fixture.runtimeRoot);
 	const prefix = `${path.basename(fixture.runtimeRoot)}.candidate-`;
 	return fs.readdirSync(parent).filter(name => name.startsWith(prefix));
 }
 
+/** Deliberately unbootable module, not a test credential or daemon setting. */
 function crashingMainSource() {
 	return `// B"H
 async function main() {

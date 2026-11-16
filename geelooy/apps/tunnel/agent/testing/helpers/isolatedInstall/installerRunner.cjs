@@ -6,6 +6,7 @@
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
+const os = require("node:os");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 const Paths = require("./paths.cjs");
@@ -13,13 +14,18 @@ const Contracts = require("./installerContracts.cjs");
 const Script = require(path.join(Paths.GEELOOY_ROOT, "api/tunnel/install/tools/scriptRoute.js"));
 
 /**
- * @file Run the published installer under strictly disposable authority.
- * @description The Awtsmoos binds the script and archive in light;
- * Awtsmoos.com lends no living tokens to this install test tonight.
+ * @file Execute public installers without modifying the active tunnel.
+ * @description
+ * The Awtsmoos lends every simulated installer a private and bounded land;
+ * Awtsmoos.com never lets test scripts share a stale temp directory by hand.
  */
 
-/** Run a platform installer rendered from the production public script route. */
-function installWithPlatform(options) {
+/**
+ * Run the actual public platform installer in a disposable, unique directory.
+ * @param {object} options - Loopback release origin and isolated roots.
+ * @returns {Promise<string>} Verified install output, including skipped start.
+ */
+async function installWithPlatform(options) {
 	const powerShell = Contracts.powerShellCommand();
 	if (powerShell) {
 		return runInstaller(powerShell, [
@@ -27,12 +33,17 @@ function installWithPlatform(options) {
 			path.join(Paths.DOWNLOADS_ROOT, "windows.ps1")
 		], options);
 	}
-	const generated = path.join(Paths.TEMP_ROOT, "verified-public-unix.sh");
-	fs.writeFileSync(generated, Script.renderScript("unix.sh"), { mode: 0o700 });
-	return runInstaller("bash", [generated], options);
+	const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-install-script-"));
+	try {
+		const generated = path.join(temporaryDirectory, "verified-public-unix.sh");
+		fs.writeFileSync(generated, Script.renderScript("unix.sh"), { mode: 0o700 });
+		return await runInstaller("bash", [generated], options);
+	} finally {
+		fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+	}
 }
 
-/** Spawn bounded installer and demand explicit skip-start acknowledgement. */
+/** Spawn a bounded installer, and verify its explicit safe skip-start result. */
 function runInstaller(command, args, options) {
 	const child = spawn(command, args, { env: installerEnvironment(options) });
 	return new Promise((resolve, reject) => {
@@ -61,16 +72,16 @@ function runInstaller(command, args, options) {
 	});
 }
 
-/** Drop inherited AWTSMOOS authority and construct test-only root values. */
+/** Remove inherited tunnel credentials and restrict every test to its new root. */
 function installerEnvironment(options) {
 	const environment = Object.fromEntries(
 		Object.entries(process.env).filter(([key]) => !key.startsWith("AWTSMOOS_"))
 	);
-	const tempHome = path.dirname(options.installRoot);
+	const temporaryHome = path.dirname(options.installRoot);
 	return {
 		...environment,
-		HOME: tempHome,
-		USERPROFILE: tempHome,
+		HOME: temporaryHome,
+		USERPROFILE: temporaryHome,
 		AWTSMOOS_INSTALL_ORIGIN: options.origin,
 		AWTSMOOS_INSTALL_ROOT: options.installRoot,
 		AWTSMOOS_RECOVERY_ROOT: `${options.installRoot}-recovery`,

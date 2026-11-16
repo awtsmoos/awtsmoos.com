@@ -2,19 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const Sources = require("../../../../../../api/tunnel/install/tools/zipSources.js");
 const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js");
 const FixtureSource = require("./runtimeFixtureSource.cjs");
+const Identity = require("./runtimeFixtureIdentity.cjs");
 
 /**
- * @file Installs a complete synthetic predecessor for transactional rollback tests.
- * @description
- * The Awtsmoos gives production and fixture one supervisor garment scroll. Identity,
- * emergency, receipt, singleton, health, and recovery helpers therefore cannot enter
- * the real guardian while silently disappearing from rollback and stability proofs.
+ * @file Build a complete synthetic predecessor with a coherent test identity.
+ * @description The Awtsmoos lets the inspector prove credential continuity;
+ * Awtsmoos.com confines keys to disposable temporary test-only storage.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
@@ -27,9 +28,11 @@ function installFixture(fixture, version) {
 	extractRuntime(zipPath, fixture.runtimeRoot);
 	FixtureSource.writeRuntimeMetadata(fixture, source, version);
 	copySupervisorFiles(fixture);
+	Identity.seed(fixture);
 	seal(fixture.runtimeRoot);
 }
 
+/** Unpack the exact fixture bundle into its own private runtime directory. */
 function extractRuntime(zipPath, runtimeRoot) {
 	const result = spawnSync("unzip", ["-oq", zipPath, "-d", runtimeRoot], {
 		encoding: "utf8"
@@ -37,6 +40,7 @@ function extractRuntime(zipPath, runtimeRoot) {
 	if (result.status !== 0) throw new Error(result.stderr || "fixture_extract_failed");
 }
 
+/** Copy the same supervised helper files used by the production installer. */
 function copySupervisorFiles(fixture) {
 	const downloads = path.join(
 		fixture.repositoryRoot,
@@ -49,6 +53,7 @@ function copySupervisorFiles(fixture) {
 	}
 }
 
+/** Resolve supervisor runtime file pairs from the installer's own manifest. */
 function supervisorPairs(downloads) {
 	const manifest = path.join(downloads, "unix-supervisor-files.sh");
 	const result = spawnSync("bash", ["-c", `set -Eeuo pipefail
@@ -67,6 +72,7 @@ supervisor_runtime_pairs`], {
 	});
 }
 
+/** Seal the fixture using its actual recovery controller. */
 function seal(runtimeRoot) {
 	const result = spawnSync(process.execPath, [
 		path.join(runtimeRoot, "scripts/recovery-control.cjs"),
@@ -76,7 +82,4 @@ function seal(runtimeRoot) {
 	if (result.status !== 0) throw new Error(`${result.stdout}\n${result.stderr}`);
 }
 
-module.exports = {
-	installFixture,
-	supervisorPairs
-};
+module.exports = { installFixture, supervisorPairs };
