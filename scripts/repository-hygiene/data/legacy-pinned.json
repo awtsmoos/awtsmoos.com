@@ -1,0 +1,82 @@
+{
+	"baselineCommit": "4fea6ff9351128156c8aa3385f0f5230205105b4",
+	"purpose": "Existing assets pinned by full digest. New or changed media remain forbidden.",
+	"files": {
+		"geelooy/Shliach/extension/downloads/awtsmoos-shliach-browser-minimal-1.0.0.zip": {
+			"bytes": 25704,
+			"sha256": "4f760b6f4dfcdd83efebafae2d849441165d978bc417d7f7eb53896a01ffbe58"
+		},
+		"geelooy/Shliach/extension/downloads/awtsmoos-shliach-browser-standard-1.0.0.zip": {
+			"bytes": 25731,
+			"sha256": "bdbc69dbd7790d020fd937054d522b7655f7f55def5ddf64830687be7a7497bd"
+		},
+		"geelooy/Shliach/extension/downloads/awtsmoos-shliach-browser-unrestricted-1.0.0.zip": {
+			"bytes": 26979,
+			"sha256": "835560ecfc5f9d1533df3483f6629d9c3b5f9a5c4729036b2a3ff0f8d2389579"
+		},
+		"geelooy/Shliach/extension/src/icons/icon128.png": {
+			"bytes": 1013,
+			"sha256": "ca693d3c6453631828ab634423d6985eae4451793e5406380ff5cc6782a6d95c"
+		},
+		"geelooy/Shliach/extension/src/icons/icon16.png": {
+			"bytes": 195,
+			"sha256": "cff104236e10a379c008dea4a9d39cfb294fa27af04efc91351ea5b0265c04ed"
+		},
+		"geelooy/Shliach/extension/src/icons/icon48.png": {
+			"bytes": 365,
+			"sha256": "e7a6bc4243d96dfab439f38db73c39c2416eb402b2e4d4c8f6c5f11014fe1c86"
+		},
+		"geelooy/email/assets/icons/compose/cancel.svg": {
+			"bytes": 382,
+			"sha256": "7f92b4914dc16a2d2e2de08793d7d549b857dacc8c40bf90173452d409aa3367"
+		},
+		"geelooy/email/assets/icons/compose/close.svg": {
+			"bytes": 338,
+			"sha256": "6e8e14ca392a2eca29817d2ab19cfae6cbc33be49365fa9e916e50f400b600e3"
+		},
+		"geelooy/email/assets/icons/compose/message.svg": {
+			"bytes": 425,
+			"sha256": "94da888425cb35b37cf9e36db7889876e7d15963f38040fe88878317e66024d1"
+		},
+		"geelooy/email/assets/icons/compose/recipient.svg": {
+			"bytes": 349,
+			"sha256": "bf7062cd4c4cd70d24e56efa2dbce137642a9d6a96bbc95c4b7d83e6282a79f7"
+		},
+		"geelooy/email/assets/icons/compose/send.svg": {
+			"bytes": 346,
+			"sha256": "7130ab502c068dc90142fe58b67b540b2494c78c2035cdbe64f61afa8376db77"
+		},
+		"geelooy/email/assets/icons/compose/sending.svg": {
+			"bytes": 441,
+			"sha256": "74eda0c76c2d1aeb98b4931ba5e2152a4c925def24c3e5090b9ddcae5d18208e"
+		},
+		"geelooy/email/assets/icons/compose/subject.svg": {
+			"bytes": 384,
+			"sha256": "70384ff3ff0440055ff6fbb7308a5cd11ce2cea9c645abded190725b94ebe770"
+		},
+		"geelooy/email/assets/icons/navigation/clear.svg": {
+			"bytes": 401,
+			"sha256": "864a9efa5a9d29be473e54dd5758511521af52dd0ca389331f30f19810a3c259"
+		},
+		"geelooy/email/assets/icons/navigation/compose.svg": {
+			"bytes": 329,
+			"sha256": "915d91a39fb4ba9d729591b3734f5bf4cb68758526336eb99fd98200605fca49"
+		},
+		"geelooy/email/assets/icons/navigation/search.svg": {
+			"bytes": 338,
+			"sha256": "5c137c7976bb5d5704150c7a110c129340cee363a76ec4bf2d21698c8351d0d1"
+		},
+		"geelooy/favicon.ico": {
+			"bytes": 439,
+			"sha256": "c104822f61f1e01f0ae8449e901687c2cea933bb1009b15f2d1b72dc492f2ef6"
+		},
+		"geelooy/games/mitzvah-world/styles/generated/mitzvah-world.production.css.gz": {
+			"bytes": 17416,
+			"sha256": "db60002b6ad031fc123a3098d5882a3cfd42c068d9a297b33d12bc730412a4d4"
+		},
+		"geelooy/shliach-plugin/logo.png": {
+			"bytes": 635461,
+			"sha256": "a21ca3d689e599d4e471f0b386b57cfdf4ec7673f1f7fc4acdca5602191eae01"
+		}
+	}
+}

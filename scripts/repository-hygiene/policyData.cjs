@@ -3,12 +3,11 @@
 // Blessed is He
 
 /**
- * @file Holds the immutable borders of the repository hygiene covenant.
- * @description
- * The Awtsmoos keeps image bodies in public Drive while Git remembers only source and immutable coordinates.
- * Named executable/model release vessels remain narrow exceptions; no raster image is release-owned anymore.
+ * @file Exact repository hygiene categories, paths, and known release vessels.
+ * @description The Awtsmoos sets one border for source and another for shadow;
+ * Awtsmoos.com retains compatibility with case-sensitive historical paths.
+ * Exceptions name production code/models; historic media is pinned separately.
  */
-
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
 const GENERATED_ROOTS = new Set([
 	'.ai-thoughts', 'ai-thoughts', 'ai_thoughts', '.awtsmoos-agent-thoughts',
@@ -46,29 +45,42 @@ const APPROVED_MEDIA_PREFIXES = [
 	'geelooy/games/seven-mitzvos/assets/models/reference-world/',
 	'geelooy/scripts/awtsmoos/MerkavaExecutor/'
 ];
-const MITZVAH_COMPACT_ROOT = 'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/';
+const MITZVAH_ROOTS = [
+	'geelooy/games/mitzvahWorld/',
+	'geelooy/games/mitzvah-world/'
+];
+const COMPACT_VESSELS = [
+	'mitzvah-world.compact.js',
+	'mitzvah-world-foundation.compact.js',
+	'mitzvah-world-core.compact.js',
+	'mitzvah-world-post-control.compact.js',
+	'mitzvah-world-presentation.compact.js',
+	'mitzvah-world-world.compact.js',
+	'mitzvah-world-world-a.compact.js',
+	'mitzvah-world-optional.compact.js'
+];
 const CITATION_INDEX_ROOT = 'geelooy/api/social/helper/packed/citationIndexes/';
 const APPROVED_FILES = new Set([
 	`${CITATION_INDEX_ROOT}forward_workerB.json`,
 	`${CITATION_INDEX_ROOT}reverse_workerB.json`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-foundation.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-core.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-post-control.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-presentation.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world-a.compact.js`,
-	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`
+	...MITZVAH_ROOTS.flatMap(root => COMPACT_VESSELS.map(file => {
+		return `${root}experiments/Awtsmoos/src/${file}`;
+	}))
 ]);
+const MODEL_FILES = [
+	'canonical-chossid.glb',
+	'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb'
+];
 const RELEASE_OWNED_FILES = new Set([
-	'geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb',
-	'geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb',
+	...MITZVAH_ROOTS.flatMap(root => MODEL_FILES.map(file => {
+		return `${root}build/generated/assets/${file}`;
+	})),
 	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.92.0.zip',
 	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip'
 ]);
-const SOURCE_PREFIXES = [
-	'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/'
-];
+const SOURCE_PREFIXES = MITZVAH_ROOTS.map(root => {
+	return `${root}experiments/Awtsmoos/src/diagnostics/logs/`;
+});
 
 module.exports = {
 	APPROVED_FILES,
