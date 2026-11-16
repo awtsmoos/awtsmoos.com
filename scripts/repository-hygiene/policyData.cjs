@@ -76,7 +76,8 @@ const RELEASE_OWNED_FILES = new Set([
 		return `${root}build/generated/assets/${file}`;
 	})),
 	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.92.0.zip',
-	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip'
+	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip',
+	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.1.zip'
 ]);
 const SOURCE_PREFIXES = MITZVAH_ROOTS.map(root => {
 	return `${root}experiments/Awtsmoos/src/diagnostics/logs/`;
