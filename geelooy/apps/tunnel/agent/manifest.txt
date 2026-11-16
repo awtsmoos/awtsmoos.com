@@ -1,5 +1,5 @@
 B"H
-1.0.723
+1.0.724
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1983,6 +1983,7 @@ tools/chrome/proofBundle.js
 tools/chrome/scopePolicy.js
 tools/chrome/screenshotAction.js
 tools/chrome/screenshotArtifact.js
+tools/chrome/screenshotImage.js
 tools/chrome/screenshotPipeline.js
 tools/chrome/screenshotTransfer.js
 tools/chrome/scriptAction.js
