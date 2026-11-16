@@ -50,6 +50,16 @@ function deserializeJSON(buffer, metadata) {
 		return temp.deserializeArray(buffer);
 	}
 	if (magic !== magicJSON) {
+		// B"H 2026-11-12 (plain-JSON flat maps): posts.awtsmoosJSON flat
+		// collections are plain JSON (flatten fix + installs), not binary.
+		// Parse them so getObjectKeys/getValue can enumerate/read them
+		// instead of returning null (which empties series post lists).
+		try {
+			const len = finiteLength(buffer);
+			const text = Buffer.from(buffer.subarray(0, len === null ? buffer.length : len)).toString("utf8");
+			const parsed = JSON.parse(text);
+			if (parsed && typeof parsed === "object") return parsed;
+		} catch {}
 		logInvalidBuffer(buffer, magicBytes);
 		return null;
 	}

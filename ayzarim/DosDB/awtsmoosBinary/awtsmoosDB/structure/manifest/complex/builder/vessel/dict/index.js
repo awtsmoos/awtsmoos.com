@@ -127,12 +127,30 @@ class DictManifestor {
 
         visited.set(val, circularEntry);
         
-        for (const k of Object.keys(val)) {
-            if (k.startsWith('_isAwtsmoos')) continue;
-            occupied.add(k);
-            
-            const valSeal = builder.build(val[k], visited);
-            d.set(k, valSeal, { isPtr: true });
+        const keys = Object.keys(val).filter(k => !k.startsWith('_isAwtsmoos'));
+        for (const k of keys) occupied.add(k);
+        // B"H bulk-load (2026-11-12): for large dictionaries, build the map
+        // in one bulk pass (bottom-up, via Dictionary.bulkLoadEntries)
+        // instead of per-key inserts. Buffer values are pre-built pointers
+        // (used directly, not rebuilt), so a bulk loader can pass blob
+        // pointers without holding the raw values in memory. Small
+        // dictionaries keep the proven per-key path.
+        if (keys.length > 50 && typeof d.bulkLoadEntries === 'function') {
+            const entries = keys.map(k => {
+                const v = val[k];
+                const valSeal = Buffer.isBuffer(v) ? v : builder.build(v, visited);
+                return { key: k, value: valSeal };
+            });
+            d.bulkLoadEntries(entries);
+        } else {
+            for (const k of keys) {
+                // B"H bulk-load (2026-11-12): a Buffer value is a pre-built
+                // pointer (used directly); builder.build on a Buffer would
+                // treat it as binary data and build it as an array.
+                const v = val[k];
+                const valSeal = Buffer.isBuffer(v) ? v : builder.build(v, visited);
+                d.set(k, valSeal, { isPtr: true });
+            }
         }
 
         if (shouldCapturePrototype(val)) {

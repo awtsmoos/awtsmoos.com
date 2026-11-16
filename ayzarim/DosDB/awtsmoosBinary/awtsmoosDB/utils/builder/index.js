@@ -107,6 +107,32 @@ class StructBuilder {
         }
         return dict.seal();
     }
+
+    /**
+     * B"H bulk-load (2026-11-12): builds a dictionary from entries in one
+     * bulk pass (bottom-up, via Dictionary.bulkLoadEntries) instead of
+     * per-key inserts. Each entry is {key, value} where value may be a JS
+     * value (built via this.build) or a pre-built pointer Buffer (used
+     * directly, so callers need not hold the raw values in memory).
+     * Returns the IdentityAnchor pointer, so the result is a proper
+     * LiveHandle container (traversable), unlike a raw Dictionary pointer
+     * set via isPtr. Fresh-vessel bulk loads only.
+     */
+    buildBulkMap(entries, visited = new Map()) {
+        const Dictionary = require('../../structure/dictionary/index.js');
+        const anchor = new IdentityAnchor(this.db);
+        const anchorPtr = anchor.create(constants.VAL_TYPE.DICTIONARY, Buffer.alloc(0));
+        const dictEntries = (entries || []).map(entry => {
+            const value = entry && Buffer.isBuffer(entry.value)
+                ? entry.value
+                : this.build(entry ? entry.value : null, visited);
+            return { key: entry ? entry.key : '', value };
+        });
+        const dict = new Dictionary(this.allocator);
+        const dictPtr = dict.bulkLoadEntries(dictEntries);
+        anchor.update(constants.VAL_TYPE.DICTIONARY, dictPtr);
+        return anchorPtr;
+    }
 }
 
 module.exports = StructBuilder;

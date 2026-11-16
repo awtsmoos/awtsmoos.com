@@ -369,12 +369,16 @@ class DosDBBridge {
    * @returns {object|null} Writer options or null.
    */
   _directWriteOptions(options = {}) {
-    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState) return null;
+    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState && !options.isPtr) return null;
     return {
       assumeNew: !!options.assumeNew,
       skipFree: !!options.skipFree,
       skipIndexes: !!options.skipIndexes,
-      skipOldState: !!options.skipOldState
+      skipOldState: !!options.skipOldState,
+      // B"H bulk-load (2026-11-12): isPtr lets a caller pass a pre-built
+      // binary pointer (e.g. a bulk-loaded directory map) instead of a JS
+      // value; the writer uses it directly without rebuilding it.
+      isPtr: !!options.isPtr
     };
   }
 
@@ -404,12 +408,16 @@ class DosDBBridge {
    * @returns {object|null} Writer options or null.
    */
   _directWriteOptions(options = {}) {
-    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState) return null;
+    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState && !options.isPtr) return null;
     return {
       assumeNew: !!options.assumeNew,
       skipFree: !!options.skipFree,
       skipIndexes: !!options.skipIndexes,
-      skipOldState: !!options.skipOldState
+      skipOldState: !!options.skipOldState,
+      // B"H bulk-load (2026-11-12): isPtr lets a caller pass a pre-built
+      // binary pointer (e.g. a bulk-loaded directory map) instead of a JS
+      // value; the writer uses it directly without rebuilding it.
+      isPtr: !!options.isPtr
     };
   }
 

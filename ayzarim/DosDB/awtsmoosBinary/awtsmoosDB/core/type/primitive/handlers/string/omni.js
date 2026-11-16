@@ -17,6 +17,19 @@ const DestinationRouter = require('../heavy/destinations/router.js');
 
 class StringTypeHandler {
     static handle(val, context) {
+        // B"H 2026-11-12 (bulk-load skip-compression): when
+        // AWTSMOOS_SKIP_OMNI=1, store the string uncompressed. omni.pack
+        // is 93% of bulk-load build time but saves only ~19% of bytes;
+        // skipping it makes bulk builds ~14x faster. The live app never
+        // sets this flag, so live behavior is unchanged. The reader
+        // already handles both VAL_TYPE.STRING and STRING_OMNI.
+        if (process.env.AWTSMOOS_SKIP_OMNI === '1') {
+            const dataBuf = Buffer.from(val, 'utf8');
+            if (context.db.metrics) {
+                context.db.metrics.add(dataBuf.length);
+            }
+            return DestinationRouter.route(dataBuf, constants.VAL_TYPE.STRING, context);
+        }
         const hasMarker = val.includes('\x07');
         const dataBuf = omni.pack(val);
         const infoType = hasMarker ? constants.VAL_TYPE.STRING_OMNI : constants.VAL_TYPE.STRING;

@@ -3,8 +3,10 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos keeps verified archives and rescue tools outside the replaceable live tree;
-# Awtsmoos.com stores exact Node-aware recovery vessels so a broken PATH cannot erase what can be.
+# The Awtsmoos guards an incumbent from an unproved promotion;
+# Awtsmoos.com allows a truly empty first installation to enter motion.
+
+# Validate the runtime being protected before permitting a rollback seed.
 runtime_probe_compatible() {
 	local runtime_root="$1"
 	local node_bin="$(recovery_node_bin 2>/dev/null || true)"
@@ -23,6 +25,7 @@ require(path.join(root, "lib", "runtime", "main-dependencies.js"));
 NODE
 }
 
+# Place authenticated emergency binaries outside the replaceable runtime root.
 install_rescue_runtime() {
 	local recovery_bin="$RECOVERY_ROOT/bin"
 	local canonical=""
@@ -58,27 +61,30 @@ install_rescue_runtime() {
 		"sha256=$canonical_hash"
 }
 
-# B"H — counts the sealed known-good runtime versions that can be rolled
-# back to. A machine that has only ever fast-repaired may have none at all.
+# Count sealed known-good versions, never treating an empty directory as proof.
 recovery_version_count() {
 	local versions_root="$RECOVERY_ROOT/versions"
 	[ -d "$versions_root" ] || { printf '0\n'; return 0; }
 	local count=0 entry=""
 	for entry in "$versions_root"/*/; do
 		[ -d "$entry" ] || continue
-		count=$(( count + 1 ))
+		count=$((count + 1))
 	done
 	printf '%s\n' "$count"
 }
 
-# B"H — refuses to proceed without a rollback path. The Nov 6 failure was
-# "No healthy recovery version exists" at rollback time, after the
-# predecessor was already displaced. A prior version is enough to proceed
-# even when the fresh seed just failed; zero versions is a hard stop.
+# A first install has no predecessor to displace. An existing incumbent still
+# needs a real sealed rollback path: never manufacture an empty recovery record.
 require_rollback_path() {
 	local count
 	count="$(recovery_version_count)"
 	if [ "${count:-0}" -ge 1 ]; then
+		return 0
+	fi
+	if [ -n "${ROOT:-}" ] && [ ! -f "$ROOT/main.js" ] && \
+		[ ! -f "$ROOT/install-state.txt" ] && [ ! -d "$ROOT/lib" ]; then
+		install_event "recovery" "not-required" \
+			"First installation has no active runtime to displace." "root=$ROOT"
 		return 0
 	fi
 	install_event "recovery" "failed" \
@@ -89,43 +95,8 @@ require_rollback_path() {
 	return 1
 }
 
-archive_known_good_runtime() {
-	local reason="${1:-known_good_before_activation}"
-	local version=""
-	local stamp=""
-	local identifier=""
-	local versions_root="$RECOVERY_ROOT/versions"
-	local temporary=""
-	local destination=""
-	local file_list=""
-	if [ ! -f "$ROOT/main.js" ]; then
-		return 0
-	fi
-	if ! runtime_probe_compatible "$ROOT"; then
-		install_event "archive" "skipped" \
-			"Current runtime did not pass the compatibility probe." "$ROOT"
-		return 1
-	fi
-	version="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf '%s' unknown)"
-	stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-	identifier="${stamp}-${version//[^0-9A-Za-z._-]/_}"
-	temporary="$versions_root/.${identifier}.tmp-$$"
-	destination="$versions_root/$identifier"
-	file_list="$temporary/files.txt"
-	mkdir -p "$temporary"
-	if ! write_archive_file_list "$file_list"; then
-		rm -rf "$temporary"
-		return 1
-	fi
-	if ! tar -cf "$temporary/runtime.tar" -C "$ROOT" -T "$file_list"; then
-		rm -rf "$temporary"
-		install_event "archive" "failed" "Could not create the known-good archive." "$ROOT"
-		return 1
-	fi
-	write_archive_metadata "$temporary" "$version" "$reason"
-	rm -f "$file_list"
-	mv "$temporary" "$destination"
-	prune_recovery_versions
-	install_event "archive" "passed" "Preserved a known-good runtime." \
-		"version=$version directory=$destination"
-}
+# Load the independently verified archival implementation from the same package.
+if [ -n "${AWTSMOOS_INSTALL_RUNTIME:-}" ] && \
+	[ -f "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-store-archive.sh" ]; then
+	source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-store-archive.sh"
+fi

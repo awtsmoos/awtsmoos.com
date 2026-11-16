@@ -1,9 +1,20 @@
 // B"H
-const crypto = require('node:crypto');
-const net = require('node:net');
-const Frames = require('./relayFrames.cjs');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — The mock relay records every direction, parse error, and socket event. */
+"use strict";
+
+const net = require("node:net");
+const Frames = require("./relayFrames.cjs");
+const Handshake = require("./relayHandshake.cjs");
+const Messages = require("./relayMessages.cjs");
+const Identity = require("./relayRequestIdentity.cjs");
+
+/**
+ * @file A disposable Awtsmoos WebSocket relay that rejects HTTP probes safely.
+ * @description Awtsmoos.com gives each arriving socket its own narrow gate;
+ * a false knock cannot break the true tunnel's state.
+ */
 class Relay {
 	constructor() {
 		this.messages = [];
@@ -12,44 +23,56 @@ class Relay {
 		this.errors = [];
 		this.buffer = Buffer.alloc(0);
 		this.ready = false;
+		this.sockets = new Set();
 	}
 
+	/** Listen only on the local loopback address, without real relay credentials. */
 	async start() {
 		this.server = net.createServer(socket => this.attach(socket));
-		await new Promise(resolve => this.server.listen(0, '127.0.0.1', resolve));
+		await new Promise(resolve => this.server.listen(0, "127.0.0.1", resolve));
 		this.port = this.server.address().port;
-		this.events.push({ event: 'listening', port: this.port });
+		this.events.push({ event: "listening", port: this.port });
 		return `ws://127.0.0.1:${this.port}`;
 	}
 
+	/** Destroy only test clients and close the synthetic listener. */
 	close() {
-		try { this.socket?.destroy(); } catch {}
-		try { this.server?.close(); } catch {}
+		for (const socket of this.sockets) socket.destroy();
+		this.server?.close();
 	}
 
+	/** Keep probes separate until a correctly upgraded WebSocket is accepted. */
 	attach(socket) {
-		// B"H — Every reconnect begins a new HTTP upgrade and frame buffer.
-		// A restarted agent must never have its handshake parsed as a data frame.
-		this.socket = socket;
-		this.ready = false;
-		this.buffer = Buffer.alloc(0);
-		this.events.push({ event: 'connected' });
+		this.sockets.add(socket);
+		this.events.push({ event: "connected" });
 		let headers = Buffer.alloc(0);
-		socket.on('data', chunk => {
-			if (socket !== this.socket) return;
-			if (this.ready) return this.consumeFrames(chunk);
+		let upgraded = false;
+		socket.on("data", chunk => {
+			if (upgraded) {
+				if (socket === this.socket) Messages.consumeFrames(this, chunk);
+				return;
+			}
 			headers = Buffer.concat([headers, chunk]);
-			const headerEnd = headers.indexOf('\r\n\r\n');
-			if (headerEnd < 0) return;
-			this.acceptHandshake(socket, headers.slice(0, headerEnd));
+			if (headers.length > 16384) {
+				this.errors.push("http:header_too_large");
+				socket.destroy();
+				return;
+			}
+			const boundary = headers.indexOf("\r\n\r\n");
+			if (boundary < 0) return;
+			if (!Handshake.acceptHandshake(socket, headers.slice(0, boundary), this.errors)) return;
+			upgraded = true;
+			this.socket = socket;
 			this.ready = true;
-			this.events.push({ event: 'handshake' });
-			const remaining = headers.slice(headerEnd + 4);
-			if (remaining.length) this.consumeFrames(remaining);
+			this.buffer = Buffer.alloc(0);
+			this.events.push({ event: "handshake" });
+			const remaining = headers.slice(boundary + 4);
+			if (remaining.length) Messages.consumeFrames(this, remaining);
 		});
-		socket.on('error', error => this.errors.push(`socket:${error.message}`));
-		socket.on('close', () => {
-			this.events.push({ event: 'closed' });
+		socket.on("error", error => this.errors.push(`socket:${error.message}`));
+		socket.on("close", () => {
+			this.sockets.delete(socket);
+			this.events.push({ event: "closed" });
 			if (this.socket === socket) {
 				this.ready = false;
 				this.socket = null;
@@ -58,52 +81,15 @@ class Relay {
 		});
 	}
 
-	acceptHandshake(socket, headers) {
-		const match = /Sec-WebSocket-Key:\s*(.+)/i.exec(headers.toString('utf8'));
-		if (!match) throw new Error('missing_websocket_key');
-		const accept = crypto.createHash('sha1')
-			.update(`${match[1].trim()}258EAFA5-E914-47DA-95CA-C5AB0DC85B11`)
-			.digest('base64');
-		socket.write([
-			'HTTP/1.1 101 Switching Protocols',
-			'Upgrade: websocket',
-			'Connection: Upgrade',
-			`Sec-WebSocket-Accept: ${accept}`,
-			'',
-			''
-		].join('\r\n'));
-	}
-
-	consumeFrames(chunk) {
-		this.buffer = Buffer.concat([this.buffer, chunk]);
-		while (true) {
-			const frame = Frames.readClientFrame(this.buffer);
-			if (!frame) return;
-			this.buffer = this.buffer.slice(frame.consumed);
-			this.events.push({ event: 'frame', opcode: frame.opcode, bytes: frame.payload.length });
-			if (frame.opcode !== 1 && frame.opcode !== 2) continue;
-			try {
-				const message = JSON.parse(frame.payload.toString('utf8'));
-				this.messages.push(message);
-				if (message.type === 'TUNNEL_REGISTER') {
-					this.send({
-						type: 'TUNNEL_ACK',
-						ok: true,
-						tunnelName: message.tunnelName || message.name,
-						serverTime: new Date().toISOString()
-					});
-				}
-			} catch (error) {
-				this.errors.push(`json:${error.message}:${frame.payload.toString('utf8').slice(0, 400)}`);
-			}
-		}
-	}
-
+	/** Send a synthetic protocol message only on an upgraded connection. */
 	send(value) {
-		this.sent.push(value);
-		this.socket.write(Frames.writeServerFrame(JSON.stringify(value)));
+		if (!this.ready || !this.socket) throw new Error("relay_websocket_not_ready");
+		const envelope = Identity.complete(value);
+		this.sent.push(envelope);
+		this.socket.write(Frames.writeServerFrame(JSON.stringify(envelope)));
 	}
 
+	/** Observe command responses with bounded polling and useful failure evidence. */
 	waitFor(predicate, timeoutMs = 12000) {
 		return new Promise((resolve, reject) => {
 			const startedAt = Date.now();
@@ -121,6 +107,7 @@ class Relay {
 		});
 	}
 
+	/** Preserve bounded evidence for diagnosis without exposing live state. */
 	snapshot() {
 		return {
 			ready: this.ready,

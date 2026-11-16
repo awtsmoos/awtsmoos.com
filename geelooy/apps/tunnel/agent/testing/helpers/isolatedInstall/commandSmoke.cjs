@@ -4,13 +4,14 @@
 
 const assert = require("node:assert/strict");
 const Requests = require("./requests.cjs");
+const StateProbe = require("./commandStateProbe.cjs");
 
 /**
- * @file Proves command jobs by their own durable status instead of unrelated stats.
+ * @file Proves command jobs by durable status instead of unrelated stats.
  * @description
  * The Awtsmoos gives each command a private worker covenant and a durable job record.
- * Awtsmoos.com therefore proves a long command through commandStatus, then proves its
- * cancellation and output without assuming the general action-worker registry owns it.
+ * Awtsmoos.com awaits true execution before demanding its cancellation and output,
+ * without assuming the general action-worker registry owns its identity.
  */
 async function run(relay) {
 	const completed = await start(
@@ -39,13 +40,7 @@ async function run(relay) {
 	assert.match(page.content, /COMMAND_ALPHA/);
 
 	const long = await start(relay, "command-long", nodeCommand("setInterval(()=>{},1000)"));
-	const running = await Requests.sendRequest(relay, "command-long-status", {
-		kind: "command",
-		action: "commandStatus",
-		jobId: long.jobId
-	});
-	assert.equal(running.status, "running", JSON.stringify(running));
-	assert.equal(running.worker.state, "running");
+	await StateProbe.waitForRunning(relay, long.jobId);
 	const cancelled = await Requests.sendRequest(relay, "command-cancel", {
 		kind: "command",
 		action: "commandCancel",
@@ -65,6 +60,7 @@ async function run(relay) {
 	return { completedJobId: completed.jobId, cancelledJobId: long.jobId, isolatedCommands: count };
 }
 
+/** Start a command with a unique request ID inside the disposable install. */
 async function start(relay, id, command) {
 	const response = await Requests.sendRequest(relay, id, {
 		kind: "command",
@@ -78,6 +74,7 @@ async function start(relay, id, command) {
 	return response;
 }
 
+/** Exercise multiple isolated jobs and verify the correct durable outputs. */
 async function runIsolated(relay, count) {
 	const jobs = await Promise.all(Array.from({ length: count }, (_, index) => {
 		return start(relay, `isolation-start-${index}`, nodeCommand(`console.log('ISOLATED_${index}')`));
@@ -92,6 +89,7 @@ async function runIsolated(relay, count) {
 	}).then(result => assert.match(result.content, new RegExp(`ISOLATED_${index}`)))));
 }
 
+/** Poll until terminal completion, rejecting unexpected early termination. */
 async function waitForCompleted(relay, job, index) {
 	const deadline = Date.now() + 60000;
 	let attempt = 0;
@@ -109,6 +107,7 @@ async function waitForCompleted(relay, job, index) {
 	assert.fail(`command_wait_deadline:${job.jobId}`);
 }
 
+/** Escape script arguments for a disposable Node subprocess. */
 function nodeCommand(script) {
 	return `${JSON.stringify(process.execPath)} -e ${JSON.stringify(script)}`;
 }

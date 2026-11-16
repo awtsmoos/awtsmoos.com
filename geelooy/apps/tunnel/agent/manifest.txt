@@ -2178,7 +2178,11 @@ tools/fs/actionGroups/remoteDriveActions.js
 tools/fs/actionGroups/remoteModuleCompat.js
 tools/fs/actionGroups/remoteNativeDesktopActions.js
 tools/fs/actionGroups/renderLabActions.js
+tools/fs/actionGroups/runtimeActionEngine.js
+tools/fs/actionGroups/runtimeActionOptions.js
 tools/fs/actionGroups/runtimeActions.js
+tools/fs/actionGroups/runtimeMerkavaService.js
+tools/fs/actionGroups/runtimeRemoteModules.js
 tools/fs/actionGroups/scanOutputPager.js
 tools/fs/actionGroups/scanOutputRows.js
 tools/fs/actionGroups/scanWorkerActions.js

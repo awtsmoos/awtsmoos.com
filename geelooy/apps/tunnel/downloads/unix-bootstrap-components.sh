@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos gathers installer, guardian, startup, and rescue garments into one verified archive;
-# Awtsmoos.com keeps one authenticated road forward, so fallback cannot weaken what the hash must guard.
+# The Awtsmoos binds every executable helper to one SHA-sealed archive;
+# Awtsmoos.com carries the new recovery-store submodule without removing the old guard.
 helpers=(
 	unix-node-runtime.sh unix-entry-request.sh unix-entry-quick.cjs
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
@@ -26,6 +26,7 @@ helpers=(
 	unix-legacy-fallback.sh unix-install-resume.sh unix-fast-repair-health.sh
 	unix-fast-repair-root.sh unix-fast-repair.sh unix-metadata-fallback.sh unix-package-stage.sh
 	unix-recovery-archive-list.sh unix-recovery-retention.sh unix-recovery-store.sh
+	unix-recovery-store-archive.sh
 	unix-recovery-validation.sh unix-recovery-identity.sh unix-recovery-candidates.sh
 	unix-recovery-rescue.sh unix-emergency-capture.sh unix-emergency-runtime.sh
 	unix-fresh-identity-grant.sh unix-activation-state.sh unix-activation-fresh.sh

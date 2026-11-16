@@ -54,12 +54,30 @@ module.exports = {
         
     //    console.log("Reading",resolvedPath);
         
-        // PRIORITY 1: DISCOVERY. Check if the path AS GIVEN exists as either a file OR a directory.
+        // PRIORITY 1: DISCOVERY. Check if the path AS GIVEN exists as a file.
+        // B"H 2026-11-12 (EISDIR fix): a bare name that exists as a DIRECTORY
+        // must not win over a sibling data file. When both `posts/` (per-post
+        // child docs) and `posts.awtsmoosJSON` (the flat collection) exist,
+        // a data read (getValue/get) needs the FILE; opening the directory as
+        // a file throws EISDIR and the post preview comes back empty. So a
+        // directory falls through to the .awtsmoosJSON / .json hunt below and
+        // is only returned when no data file exists next to it.
         try {
             const stat = await fs.stat(resolvedPath);
-            // If it exists "as is", THAT is what the user is referring to.
-            // This correctly handles both `image.png` and `my_folder` when isDir=false.
-            if (stat.isFile() || stat.isDirectory()) {
+            if (stat.isFile()) {
+                return resolvedPath;
+            }
+            if (stat.isDirectory()) {
+                const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
+                try {
+                    const s2 = await fs.stat(awtsmoosJsonPath);
+                    if (s2.isFile()) return awtsmoosJsonPath;
+                } catch {}
+                const jsonPath = `${resolvedPath}.json`;
+                try {
+                    const s3 = await fs.stat(jsonPath);
+                    if (s3.isFile()) return jsonPath;
+                } catch {}
                 return resolvedPath;
             }
         } catch (e) {

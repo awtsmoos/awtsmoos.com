@@ -409,6 +409,12 @@ module.exports = {
                         success: s
                     }
                 }
+                // B"H 2026-11-12 (plain-JSON flat maps): a .awtsmoosJSON file
+                // that is plain JSON (e.g. the series posts flat map) is a
+                // valid data object too. Parse it instead of returning null.
+                try {
+                    return { success: JSON.parse(data.toString('utf8')) };
+                } catch {}
                 return null;
             } 
 			
@@ -440,9 +446,32 @@ module.exports = {
                         success: mpt
                     }
                 } else {
-					
-					
-				}
+                    // B"H 2026-11-12 (plain-JSON flat maps): project the
+                    // parsed JSON object by the propertyMap. props is
+                    // { topKey: true | {field: true, ...} }; the flat map
+                    // is { postId: postDoc, ... }.
+                    try {
+                        const parsed = JSON.parse((await fs.readFile(path)).toString('utf8'));
+                        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                            const result = {};
+                            for (const k of Object.keys(props)) {
+                                if (!(k in parsed)) continue;
+                                const want = props[k];
+                                const val = parsed[k];
+                                if (want === true || want == null) { result[k] = val; continue; }
+                                if (typeof want === 'object' && val && typeof val === 'object' && !Array.isArray(val)) {
+                                    const sub = {};
+                                    for (const f of Object.keys(want)) if (want[f] && f in val) sub[f] = val[f];
+                                    result[k] = sub;
+                                } else {
+                                    result[k] = val;
+                                }
+                            }
+                            return { success: result };
+                        }
+                        return { success: parsed };
+                    } catch {}
+                }
                 return null;
 			}
         } catch (e) {
@@ -477,10 +506,10 @@ module.exports = {
                 });
 				
                 
-                if(p.success) {
+                if(p && p.success) {
                     return p;
                 }
-                if(p.error) {
+                if(p && p.error) {
                   //  console.log("parse issue",p);
                     return {
                         error: {

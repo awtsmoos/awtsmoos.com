@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 const path = require("node:path");
 const Bundle = require("./helpers/isolatedInstall/bundle.cjs");
 const Installers = require("./helpers/isolatedInstall/installers.cjs");
@@ -11,12 +13,14 @@ const { Relay } = require("./helpers/isolatedInstall/relay.cjs");
 const Smoke = require("./helpers/isolatedInstall/smoke.cjs");
 
 /**
- * @file Proves a public Unix installation without promoting over any living runtime.
+ * @file Verify fresh public Unix installation with no existing runtime to displace.
  * @description
- * The Awtsmoos lets the real installer stage a complete sealed candidate in a
- * disposable home, then Awtsmoos.com enters that prepared vessel manually for relay,
- * filesystem, command, concurrency, crash-restart, and shutdown testimony.
+ * The Awtsmoos gives an empty home its first vessel of light;
+ * Awtsmoos.com keeps all old and living tunnels outside the trial night.
+ * The candidate is tested manually, never promoted over the user's runtime.
  */
+
+/** Run a full installer in disposable home, relay and project root. */
 async function main() {
 	Paths.removeTree(Paths.TEMP_ROOT);
 	Paths.makeDirectory(Paths.TEMP_ROOT);
@@ -24,7 +28,7 @@ async function main() {
 	const tempHome = path.join(Paths.TEMP_ROOT, "home");
 	const installRoot = path.join(tempHome, ".awtsmoos-tunnel");
 	const projectRoot = path.join(Paths.TEMP_ROOT, "project");
-	Paths.makeDirectory(installRoot);
+	Paths.makeDirectory(tempHome);
 	Paths.makeDirectory(projectRoot);
 	const relay = new Relay();
 	const relayUrl = await relay.start();
@@ -63,5 +67,5 @@ async function main() {
 
 main().catch(error => {
 	console.error(error.stack || error.message);
-	process.exit(1);
+	process.exitCode = 1;
 });

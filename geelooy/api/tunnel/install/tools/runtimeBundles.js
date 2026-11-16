@@ -9,95 +9,82 @@ const Tar = require("./installerComponentTar.js");
 const { geelooyRoot } = require("./sourceFile.js");
 
 /**
- * @file Self-contained runtime bundles for installed tunnels (Yaakov 2026-10-11 hard rule).
+ * @file Builds self-contained runtime bundles with consumer-correct paths.
  * @description
- * ABSOLUTELY NOTHING in the installed tunnel may depend on the mw-repo being
- * present on the host. These tarballs carry every out-of-agent runtime module
- * the agent needs (Merkava, SSH server, AwtsmoosDB, chatgpt sentinel) with
- * repo-relative paths preserved, so the installed agent resolves them from its
- * own install root instead of ../../../../.. escapes into a missing repo.
- *
- * Built on demand from the repo with the same stale-cache discipline as the
- * installer components: rebuild when source changes, else serve the verified
- * cached bundle.
+ * The Awtsmoos renews source and installed runtime as one living vessel.
+ * Awtsmoos.com must archive each runtime from the root its consumer expects:
+ * Merkava begins at `scripts/`, while repo-level bundles retain `geelooy/`
+ * or `ayzarim/`. A stray prefix may never hide the light from its keli.
  */
-
 const BUNDLES = Object.freeze({
-	// name: [repo-relative source dirs] (geelooyRoot() = <repo>/geelooy)
-	"merkava": [
+	merkava: bundleSpec("geelooy", [
 		"scripts/awtsmoos/MerkavaExecutor",
 		"scripts/awtsmoos/MerkavaASTParser",
-		"scripts/awtsmoos/compiling",
-	],
-	// Standalone merkava-shot distribution (Yaakov 2026-10-13): the
-	// self-contained screenshot bundle + installer + README. No repo needed.
-	"merkava-shot": [
-		"apps/tunnel/downloads/merkava-shot",
-	],
-	"ssh-server": ["../ayzarim/ssh"],
-	"awtsmoosdb": ["../ayzarim/DosDB/awtsmoosBinary"],
-	"chatgpt-sentinel": ["ai/js/chatgpt/sentinel"],
+		"scripts/awtsmoos/compiling"
+	]),
+	"merkava-shot": bundleSpec("repo", ["apps/tunnel/downloads/merkava-shot"]),
+	"ssh-server": bundleSpec("repo", ["../ayzarim/ssh"]),
+	awtsmoosdb: bundleSpec("repo", ["../ayzarim/DosDB/awtsmoosBinary"]),
+	"chatgpt-sentinel": bundleSpec("repo", ["ai/js/chatgpt/sentinel"])
 });
 
 const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos-agent"]);
+let cached = null;
 
-let cached = null; // { [name]: { buffer, bytes, sha256, files, sourceSha256 } }
+function bundleSpec(archiveRoot, directories) {
+	return Object.freeze({ archiveRoot, directories: Object.freeze(directories) });
+}
 
 function bundleNames() {
 	return Object.keys(BUNDLES);
 }
 
-function collectFiles(dirs) {
-	const root = geelooyRoot();
+function collectFiles(specification) {
+	const sourceRoot = geelooyRoot();
+	const archiveRoot = specification.archiveRoot === "geelooy"
+		? sourceRoot
+		: path.resolve(sourceRoot, "..");
 	const files = [];
-	for (const dir of dirs) {
-		const abs = path.resolve(root, dir);
-		walk(abs, root, files);
+	for (const directory of specification.directories) {
+		walk(path.resolve(sourceRoot, directory), archiveRoot, files);
 	}
-	// Deterministic order for a stable hash.
-	files.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+	files.sort((left, right) => left.name.localeCompare(right.name));
 	return files;
 }
 
-function walk(abs, root, files) {
+function walk(directory, archiveRoot, files) {
 	let entries;
 	try {
-		entries = fs.readdirSync(abs, { withFileTypes: true });
+		entries = fs.readdirSync(directory, { withFileTypes: true });
 	} catch {
 		return;
 	}
 	for (const entry of entries) {
 		if (entry.isDirectory() && SKIP_DIRS.has(entry.name)) continue;
-		const full = path.join(abs, entry.name);
+		const fullPath = path.join(directory, entry.name);
 		if (entry.isDirectory()) {
-			walk(full, root, files);
+			walk(fullPath, archiveRoot, files);
 		} else if (entry.isFile()) {
-			// Repo-relative name, e.g. scripts/awtsmoos/MerkavaExecutor/... or ayzarim/ssh/...
-			const repoRoot = path.resolve(root, "..");
-			files.push({ name: path.relative(repoRoot, full), data: fs.readFileSync(full) });
+			files.push({
+				name: path.relative(archiveRoot, fullPath),
+				data: fs.readFileSync(fullPath)
+			});
 		}
 	}
 }
 
 function buildBundle(name) {
-	const dirs = BUNDLES[name];
-	if (!dirs) throw new Error(`unknown_runtime_bundle:${name}`);
-	// B"H — do not traverse and hash 1,100+ source files on every GET.
-	// A bounded refresh keeps live development compatible, while verified
-	// production upgrades restart the server and reset this process cache.
-	const old = cached && cached[name];
-	if (old && Date.now() - Number(old.builtAt || 0) < 120000) return old;
-	const sources = collectFiles(dirs);
+	const specification = BUNDLES[name];
+	if (!specification) throw new Error(`unknown_runtime_bundle:${name}`);
+	const previous = cached && cached[name];
+	if (previous && Date.now() - Number(previous.builtAt || 0) < 120000) return previous;
+	const sources = collectFiles(specification);
 	if (!sources.length) throw new Error(`runtime_bundle_empty:${name}`);
-	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(s => [
-		Buffer.from(`${s.name}\0`),
-		s.data,
-	])));
-	const prior = cached && cached[name];
-	if (prior && prior.sourceSha256 === sourceSha256) return prior;
+	const sourceSha256 = sourceHash(sources);
+	if (previous && previous.sourceSha256 === sourceSha256) return previous;
 	const buffer = zlib.gzipSync(Tar.buildTar(sources), {
 		level: zlib.constants.Z_BEST_COMPRESSION,
-		mtime: 0,
+		mtime: 0
 	});
 	const built = Object.freeze({
 		buffer,
@@ -105,19 +92,26 @@ function buildBundle(name) {
 		sha256: Tar.hash(buffer),
 		files: sources.length,
 		sourceSha256,
-		builtAt: Date.now(),
+		builtAt: Date.now()
 	});
 	cached = { ...(cached || {}), [name]: built };
 	return built;
+}
+
+function sourceHash(sources) {
+	return Tar.hash(Buffer.concat(sources.flatMap(source => [
+		Buffer.from(`${source.name}\0`),
+		source.data
+	])));
 }
 
 function getBundle(name) {
 	try {
 		return buildBundle(name);
 	} catch (error) {
-		const prior = cached && cached[name];
-		if (prior && prior.buffer && prior.sha256) {
-			return Object.freeze({ ...prior, staleSourceFallback: true });
+		const previous = cached && cached[name];
+		if (previous?.buffer && previous?.sha256) {
+			return Object.freeze({ ...previous, staleSourceFallback: true });
 		}
 		throw error;
 	}

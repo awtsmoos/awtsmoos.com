@@ -200,6 +200,13 @@ async function main() {
 	}
 	const topup = Boolean(arg('topup', ''));
 	const resume = Boolean(arg('resume', ''));
+	// B"H bulk-write law (2026-11-12): --assume-new passes the fast-write
+	// flags (assumeNew + skipIndexes) to the shard store, skipping
+	// old-state capture + index updates for records known to be new.
+	// Only set it when writing to a FRESH vessel (all keys new); a
+	// top-up/resume that re-writes existing keys must NOT set it, or the
+	// old values' space is never freed.
+	const assumeNew = Boolean(arg('assume-new', ''));
 	if (topup && resume) usageError('--resume cannot be combined with --topup');
 	const sinceOffset = intArg('since-offset', -1);
 	if (topup && sinceOffset < 0) usageError('--topup requires --since-offset=<bulk-pass high-water offset>');
@@ -292,9 +299,13 @@ async function main() {
 				value: envelope,
 				meta: { compat: 'awtsmoosdb-shard' }
 			}));
-			if (putPath === 'store.putMany') store.putMany(records);
-			else if (putPath === 'engine.batch+store.put') store.openDb().batch(() => { for (const r of records) store.put(r); });
-			else for (const r of records) store.put(r);
+			// B"H bulk-write law (2026-11-12): one call, many records, one
+			// batch + one flush (the bulk-write shape), with the fast-write
+			// flags when --assume-new is set (fresh vessel only).
+			const writeOpts = assumeNew ? { assumeNew: true, skipIndexes: true } : {};
+			if (putPath === 'store.putMany') store.putMany(records, writeOpts);
+			else if (putPath === 'engine.batch+store.put') store.openDb().batch(() => { for (const r of records) store.put(r, writeOpts); });
+			else for (const r of records) store.put(r, writeOpts);
 		};
 
 		Object.assign(report, {

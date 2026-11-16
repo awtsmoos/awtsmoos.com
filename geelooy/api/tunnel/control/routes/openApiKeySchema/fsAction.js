@@ -9,13 +9,15 @@
  * Awtsmoos.com keeps transfer, publication, preview, recovery, browser, and network doors explicit.
  */
 const CORE_ACTIONS = [
-	"list", "tree", "read", "md", "bulk", "write", "bulkWrite",
+	"list", "tree", "read", "readBytes", "read64", "md", "bulk", "write", "bulkWrite",
 	"commandRun", "commandStart", "commandStatus", "commandWait",
 	"commandJobOutputPage", "retryAction", "asyncTaskStatus", "asyncTaskWait",
 	"asyncTaskOutputPage", "asyncTaskCancel", "actionHistoryGet", "nodeScriptRun"
 ];
 
 const TRANSFER_ACTIONS = [
+	"fileTransferSourceInfo", "fileTransferSourceProof", "fileTransferReadChunk",
+	"fileTransferUploadBinary", "fileTransferDownloadBinary",
 	"fileTransferCreate", "fileTransferStatus", "fileTransferWriteChunk",
 	"fileTransferCommit", "fileTransferCancel", "bulkWriteTransfers"
 ];

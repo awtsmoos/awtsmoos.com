@@ -2,18 +2,31 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 /**
- * @file Gives isolated relay requests terminal truth plus failure-time queue evidence.
- * @description
- * The Awtsmoos does not let a timeout erase the state that caused it. Awtsmoos.com
- * asks the disposable child for one stats-bearing pong only after a terminal wait has
- * already failed, preserving normal timing while making a red gate diagnostically rich.
+ * @file Awtsmoos relay test requests expose failed action reasons without secrets.
+ * @description Awtsmoos.com asks for terminal evidence through the night;
+ * rejected requests are named before the next test takes flight.
  */
-function sendRequest(relay, id, payload, timeoutMs = 15000) {
+
+/** Send a bounded synthetic command and return its terminal envelope. */
+async function sendRequest(relay, id, payload, timeoutMs = 15000) {
 	relay.send({ type: "TUNNEL_REQUEST", id, payload });
-	return terminalResponse(relay, id, timeoutMs);
+	const response = await terminalResponse(relay, id, timeoutMs);
+	if (response.ok === false) {
+		console.error(JSON.stringify({
+			suite: "isolated-relay",
+			id,
+			action: payload.action,
+			code: response.code || response.errorCode || null,
+			error: response.error || response.message || null
+		}));
+	}
+	return response;
 }
 
+/** Receive the response that matches the requested control ID. */
 async function terminalResponse(relay, id, timeoutMs = 15000) {
 	try {
 		return await relay.waitFor(message => {
@@ -24,11 +37,12 @@ async function terminalResponse(relay, id, timeoutMs = 15000) {
 	}
 }
 
+/** Add a disposable relay health pong after a terminal wait has already failed. */
 async function diagnosticError(relay, id, cause) {
 	let pong = null;
 	try {
 		pong = await sendPing(relay, 2500);
-	} catch {}
+	} catch (_error) {}
 	const error = new Error([
 		`terminal_response_timeout:${id}`,
 		cause?.message || String(cause),
@@ -38,19 +52,13 @@ async function diagnosticError(relay, id, cause) {
 	return error;
 }
 
+/** Probe synthetic transport only when normal command completion is missing. */
 function sendPing(relay, timeoutMs = 5000) {
 	const previous = relay.messages.filter(message => message.type === "TUNNEL_PONG").length;
 	relay.send({ type: "TUNNEL_PING", includeStats: true });
 	return relay.waitFor(() => {
 		return relay.messages.filter(message => message.type === "TUNNEL_PONG").length > previous;
-	}, timeoutMs).then(() => {
-		return relay.messages.filter(message => message.type === "TUNNEL_PONG").at(-1);
-	});
+	}, timeoutMs).then(() => relay.messages.filter(message => message.type === "TUNNEL_PONG").at(-1));
 }
 
-module.exports = {
-	diagnosticError,
-	sendPing,
-	sendRequest,
-	terminalResponse
-};
+module.exports = { diagnosticError, sendPing, sendRequest, terminalResponse };

@@ -34,7 +34,10 @@ async function postTranslations({ $i, heichelId, seriesId, postId }) {
 		return { success: [], meta: { source, postId, translated: false }, warnings: [{ code: 'TRANSLATION_SOURCE_UNAVAILABLE', status: source.status }] };
 	}
 	const report = await loadImported({ $i, heichelId, seriesId, postId, verseSection: '', subsectionId: '' });
-	const rows = translationRows(report.rows || []);
+	// The translations endpoint serves the primary alias only; extra aliases
+	// (e.g. Rashi) are served to the comments tree via loadImported, not here.
+	const primaryAlias = String((source.aliases && source.aliases[0]) || '');
+	const rows = translationRows(report.rows || []).filter(row => !primaryAlias || String(row.aliasId || '') === primaryAlias);
 	return {
 		success: rows,
 		meta: { source, postId, translated: Boolean(rows.length), ...(report.meta || {}) },
