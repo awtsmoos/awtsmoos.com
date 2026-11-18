@@ -10,6 +10,9 @@
  * Grain is smooth value noise (no checkerboard cells), contour variation lives at grass grade
  * (a few world units, never the old twenty-unit blobs), generated textures multiply the base
  * color when a material binds one, and distance fog settles far hills into atmospheric depth.
+ * The skinning vertex shader shares the fragment shader and varyings, and reads
+ * the same 4-wide RGBA float bone texture the rich renderer uploads, so the
+ * first frame already wears the animated pose instead of the bind pose.
  */
 
 export const BOOTSTRAP_VERTEX_SHADER = `
@@ -23,6 +26,42 @@ varying vec3 vWorldPosition;
 varying vec2 vTexCoord;
 void main() {
 	vec4 worldPosition = uModel * vec4(aPosition, 1.0);
+	vColor = aColor;
+	vWorldPosition = worldPosition.xyz;
+	vTexCoord = aTexCoord;
+	gl_Position = uProjectionView * worldPosition;
+}
+`;
+
+export const BOOTSTRAP_SKIN_VERTEX_SHADER = `
+attribute vec3 aPosition;
+attribute vec4 aColor;
+attribute vec2 aTexCoord;
+attribute vec4 aJoints;
+attribute vec4 aWeights;
+uniform mat4 uProjectionView;
+uniform mat4 uModel;
+uniform sampler2D uJointTexture;
+uniform float uJointTextureHeight;
+varying vec4 vColor;
+varying vec3 vWorldPosition;
+varying vec2 vTexCoord;
+mat4 jointAt(float joint) {
+	float y = (joint + 0.5) / uJointTextureHeight;
+	return mat4(
+		texture2D(uJointTexture, vec2(0.125, y)),
+		texture2D(uJointTexture, vec2(0.375, y)),
+		texture2D(uJointTexture, vec2(0.625, y)),
+		texture2D(uJointTexture, vec2(0.875, y))
+	);
+}
+void main() {
+	vec4 weights = normalize(aWeights);
+	mat4 skin = jointAt(aJoints.x) * weights.x
+		+ jointAt(aJoints.y) * weights.y
+		+ jointAt(aJoints.z) * weights.z
+		+ jointAt(aJoints.w) * weights.w;
+	vec4 worldPosition = uModel * skin * vec4(aPosition, 1.0);
 	vColor = aColor;
 	vWorldPosition = worldPosition.xyz;
 	vTexCoord = aTexCoord;

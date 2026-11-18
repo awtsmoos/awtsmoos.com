@@ -1,12 +1,12 @@
 {
 	"artifacts": {
 		"experiments/Awtsmoos/src/mitzvah-world.compact.js": "ca2675c2f4990d5c6de21b846a7516c34c9975f3db3a52cfcdacc140adf33431",
-		"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": "c2297910740b4ecf6982abc8e00fbc2872017b99f9f764fd76d90d09ab66d18c",
+		"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": "2e85c6cc7c044401c61fc94c78654599ab25d84052d84c936a9b2725d6a975a2",
 		"experiments/Awtsmoos/src/mitzvah-world-player.compact.js": "ecd06c4c848418116608fc32e7056f5e8104513cbfe30a9763e948586c0d9fa7",
 		"experiments/Awtsmoos/src/mitzvah-world-core.compact.js": "f3c98a3d6d1404d4cd6ad5411437600e79b7546dd9b2b49f3abd51bd06212c9c",
 		"styles/generated/mitzvah-world.production.css": "834aa3637969963ef44939817f9c606d35e58339800413361992f5a041fe043c",
 		"build/generated/mitzvah-world-essential-assets.json": "48fcc0b0ea5478d6fbbe376b7ff06114dac33d0ce4445323647f16d421d30788",
 		"build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb": "d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48"
 	},
-	"releaseId": "d25f24b8c27f4e946dbba3e3aab4957233f46665ed9b32f464f7e7ff2c94be69"
+	"releaseId": "ea098b77959b8b8aeb4e5c13c734f1cadd5c33765c58b928890dd5d4a4a82f0c"
 }

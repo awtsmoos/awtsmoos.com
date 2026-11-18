@@ -7,6 +7,8 @@
  * @description Uploads immutable position, optional color, optional UV, and truthful index buffers once.
  * The Awtsmoos sustains one numerical vessel through many frames; Awtsmoos.com preserves color
  * anatomy without per-frame buffers and grants uncolored geometry a white multiplier.
+ * Skinning joints and weights upload beside position, color, and uv so the first
+ * frame can wear the animated pose instead of the bind pose.
  */
 
 export class BootstrapMeshBufferCache {
@@ -49,6 +51,34 @@ export class BootstrapMeshBufferCache {
 		gl.enableVertexAttribArray(location);
 		gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
 	}
+
+	/** Binds joint indices; without them the vertex stays in the bind pose. */
+	bindJoints(entry, location) {
+		if (location < 0) return;
+		const gl = this.gl;
+		if (!entry.jointsBuffer) {
+			gl.disableVertexAttribArray?.(location);
+			gl.vertexAttrib4f?.(location, 0, 0, 0, 0);
+			return;
+		}
+		gl.bindBuffer(gl.ARRAY_BUFFER, entry.jointsBuffer);
+		gl.enableVertexAttribArray(location);
+		gl.vertexAttribPointer(location, entry.jointsItemSize, entry.jointsType, false, 0, 0);
+	}
+
+	/** Binds joint weights; without them the first joint carries the vertex. */
+	bindWeights(entry, location) {
+		if (location < 0) return;
+		const gl = this.gl;
+		if (!entry.weightsBuffer) {
+			gl.disableVertexAttribArray?.(location);
+			gl.vertexAttrib4f?.(location, 1, 0, 0, 0);
+			return;
+		}
+		gl.bindBuffer(gl.ARRAY_BUFFER, entry.weightsBuffer);
+		gl.enableVertexAttribArray(location);
+		gl.vertexAttribPointer(location, entry.weightsItemSize, entry.weightsType, false, 0, 0);
+	}
 }
 
 function createEntry(gl, geometry) {
@@ -56,6 +86,8 @@ function createEntry(gl, geometry) {
 	if (!position?.array?.length) return null;
 	const color = geometry.attributes?.color;
 	const uv = geometry.attributes?.uv;
+	const joints = geometry.attributes?.joints;
+	const weights = geometry.attributes?.weights;
 	const entry = {
 		colorBuffer: color?.array?.length ? upload(gl, gl.ARRAY_BUFFER, color.array) : null,
 		colorItemSize: Math.max(1, Math.min(4, color?.itemSize || 4)),
@@ -64,8 +96,14 @@ function createEntry(gl, geometry) {
 		count: position.count || Math.floor(position.array.length / (position.itemSize || 3)),
 		indexBuffer: null,
 		indexType: null,
+		jointsBuffer: joints?.array?.length ? upload(gl, gl.ARRAY_BUFFER, joints.array) : null,
+		jointsItemSize: Math.max(1, Math.min(4, joints?.itemSize || 4)),
+		jointsType: joints ? attributeType(gl, joints.array) : gl.FLOAT,
 		positionBuffer: upload(gl, gl.ARRAY_BUFFER, position.array),
-		uvBuffer: uv?.array?.length ? upload(gl, gl.ARRAY_BUFFER, uv.array) : null
+		uvBuffer: uv?.array?.length ? upload(gl, gl.ARRAY_BUFFER, uv.array) : null,
+		weightsBuffer: weights?.array?.length ? upload(gl, gl.ARRAY_BUFFER, weights.array) : null,
+		weightsItemSize: Math.max(1, Math.min(4, weights?.itemSize || 4)),
+		weightsType: weights ? attributeType(gl, weights.array) : gl.FLOAT
 	};
 	const index = geometry.index;
 	if (!index?.array?.length) return entry;

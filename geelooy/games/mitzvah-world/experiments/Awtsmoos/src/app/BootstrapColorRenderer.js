@@ -9,6 +9,10 @@
  * while refusing to filter the canonical Chossid out merely because he is authored reality rather than bootstrap scenery.
  * The renderer also paints the procedural sky dome first, binds generated ground textures,
  * settles distance fog into the horizon, and breathes fireflies, embers, and seeds through one particle layer.
+ * Skinned meshes draw through the skinning program with the skeleton's bone
+ * texture, so the canonical Chossid wears his animated pose from the first
+ * frame instead of collapsing into the bind pose; any skin failure falls
+ * back to the rigid draw and can never break the frame.
  */
 
 import { lookAt, perspective } from '../../../light-three-gltf/tiny-camera-math.js';
@@ -22,6 +26,7 @@ import { BootstrapMeshBufferCache } from './BootstrapMeshBufferCache.js';
 import { bootstrapSkyPalette, createBootstrapSky } from './BootstrapSkyDome.js';
 import { createMitzvahParticleLayer } from './fx/MitzvahParticleLayer.js';
 import { renderMeadowProceduralLayer } from './BootstrapMeadowProceduralLayer.js';
+import { BootstrapSkinPalette } from './BootstrapSkinPalette.js';
 
 export class BootstrapColorRenderer {
 	constructor(gl, stats) {
@@ -34,6 +39,8 @@ export class BootstrapColorRenderer {
 		this.sky = null;
 		this.particles = null;
 		this.lastParticleSeconds = null;
+		this.skinPalette = null;
+		this.skinFallbacks = 0;
 	}
 
 	render(scene, camera, clearColor) {
@@ -59,15 +66,22 @@ export class BootstrapColorRenderer {
 		);
 		applyAtmosphere(this.gl, locations, camera, skyEnv);
 		this.gl.enableVertexAttribArray(locations.position);
-		for (const mesh of meshes) this.drawMesh(mesh, locations);
+		for (const mesh of meshes) this.drawMesh(mesh, locations, camera, skyEnv, projectionView);
 		this.renderParticles(scene, projectionView, skyEnv);
 		this.renderMeadowVegetation(scene, camera, projectionView, skyEnv);
 	}
 
-	drawMesh(mesh, locations) {
+	/** Skinned meshes try the skin program first; rigid meshes draw directly. */
+	drawMesh(mesh, locations, camera, skyEnv, projectionView) {
 		const entry = this.buffers.resolve(mesh.geometry);
 		if (!entry) return;
+		if (this.drawSkinnedMesh(mesh, entry, camera, skyEnv, projectionView)) return;
+		this.drawRigidMesh(mesh, entry, locations);
+	}
+
+	drawRigidMesh(mesh, entry, locations) {
 		const gl = this.gl;
+		gl.useProgram(this.programState.program);
 		gl.bindBuffer(gl.ARRAY_BUFFER, entry.positionBuffer);
 		gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
 		bindBootstrapMeshColor(this.buffers, gl, entry, locations, mesh.material);
@@ -75,6 +89,57 @@ export class BootstrapColorRenderer {
 		bindBootstrapMaterialTexture(gl, this.textureCache, locations, mesh.material);
 		gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
 		gl.uniform4fv(locations.color, writeBootstrapMaterialColor(mesh.material, this.materialColor));
+		this.drawGeometry(entry);
+	}
+
+	/**
+	 * Draws a skinned mesh through the bone texture. Returns false when
+	 * skinning is unavailable or fails, so the caller falls back to the
+	 * rigid draw and the frame stays alive.
+	 */
+	drawSkinnedMesh(mesh, entry, camera, skyEnv, projectionView) {
+		const skinProgram = this.programState?.skinProgram;
+		const skinLocations = this.programState?.skinLocations;
+		if (!mesh.isSkinnedMesh || !mesh.skeleton || !skinProgram || !skinLocations) return false;
+		if (!entry.jointsBuffer || !entry.weightsBuffer) return false;
+		const gl = this.gl;
+		try {
+			this.skinPalette ||= new BootstrapSkinPalette(gl);
+			gl.useProgram(skinProgram);
+			if (!this.skinPalette.bind(mesh.skeleton, mesh.matrixWorld, this.stats.frames, skinLocations)) {
+				return false;
+			}
+			gl.uniformMatrix4fv(skinLocations.projectionView, false, projectionView);
+			gl.uniformMatrix4fv(skinLocations.model, false, mesh.matrixWorld);
+			applyAtmosphere(gl, skinLocations, camera, skyEnv);
+			gl.enableVertexAttribArray(skinLocations.position);
+			gl.bindBuffer(gl.ARRAY_BUFFER, entry.positionBuffer);
+			gl.vertexAttribPointer(skinLocations.position, 3, gl.FLOAT, false, 0, 0);
+			bindBootstrapMeshColor(this.buffers, gl, entry, skinLocations, mesh.material);
+			this.buffers.bindUv(entry, skinLocations.texCoord);
+			this.buffers.bindJoints(entry, skinLocations.joints);
+			this.buffers.bindWeights(entry, skinLocations.weights);
+			bindBootstrapMaterialTexture(gl, this.textureCache, skinLocations, mesh.material);
+			gl.uniform4fv(skinLocations.color, writeBootstrapMaterialColor(mesh.material, this.materialColor));
+			this.drawGeometry(entry);
+			return true;
+		} catch (error) {
+			this.skinFallbacks += 1;
+			return false;
+		} finally {
+			if (Number.isInteger(skinLocations.joints) && skinLocations.joints >= 0) {
+				gl.disableVertexAttribArray(skinLocations.joints);
+			}
+			if (Number.isInteger(skinLocations.weights) && skinLocations.weights >= 0) {
+				gl.disableVertexAttribArray(skinLocations.weights);
+			}
+			gl.activeTexture(gl.TEXTURE0);
+		}
+	}
+
+	/** Issues the indexed or array draw and records its triangle count. */
+	drawGeometry(entry) {
+		const gl = this.gl;
 		if (entry.indexBuffer) {
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entry.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, entry.count, entry.indexType, 0);
@@ -121,7 +186,10 @@ export class BootstrapColorRenderer {
 
 	dispose() {
 		if (this.programState?.program) this.gl.deleteProgram(this.programState.program);
+		if (this.programState?.skinProgram) this.gl.deleteProgram(this.programState.skinProgram);
 		this.programState = null;
+		this.skinPalette?.dispose?.();
+		this.skinPalette = null;
 		this.sky?.dispose?.();
 		this.sky = null;
 		this.particles?.dispose?.();

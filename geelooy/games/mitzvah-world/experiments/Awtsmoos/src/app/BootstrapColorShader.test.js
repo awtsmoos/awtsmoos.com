@@ -13,6 +13,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	BOOTSTRAP_FRAGMENT_SHADER,
+	BOOTSTRAP_SKIN_VERTEX_SHADER,
 	BOOTSTRAP_VERTEX_SHADER
 } from './BootstrapColorShader.js';
 
@@ -25,4 +26,16 @@ test('bootstrap shader carries world position into procedural surface variation'
 		BOOTSTRAP_FRAGMENT_SHADER,
 		/gl_FragColor\s*=\s*uColor\s*\*\s*vColor\s*;/
 	);
+});
+
+test('bootstrap skin shader fetches joint matrices from the bone texture', () => {
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /aJoints/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /aWeights/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /uJointTexture/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /uJointTextureHeight/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /jointAt\(aJoints\.x\) \* weights\.x/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /uModel \* skin \* vec4\(aPosition, 1\.0\)/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /vWorldPosition/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /vColor/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /vTexCoord/);
 });

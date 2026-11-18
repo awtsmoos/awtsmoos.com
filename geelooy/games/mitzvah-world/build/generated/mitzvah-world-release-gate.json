@@ -4,7 +4,7 @@
 		"artifacts": {
 			"index.html": {
 				"bytes": 7458,
-				"sha256": "59e732462f20c9c75a3ca8de14429f754e433ecb6920672315881ddfc350a1aa"
+				"sha256": "4c953451c0058220f25e9b68f9e4b9a237bbc929053872ac5a36c22d2702b684"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 115241,
@@ -19,8 +19,8 @@
 				"sha256": "ca2675c2f4990d5c6de21b846a7516c34c9975f3db3a52cfcdacc140adf33431"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": {
-				"bytes": 1608457,
-				"sha256": "c2297910740b4ecf6982abc8e00fbc2872017b99f9f764fd76d90d09ab66d18c"
+				"bytes": 1619993,
+				"sha256": "2e85c6cc7c044401c61fc94c78654599ab25d84052d84c936a9b2725d6a975a2"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-player.compact.js": {
 				"bytes": 243976,
@@ -52,7 +52,7 @@
 			},
 			"build/generated/mitzvah-world-foundation.json": {
 				"bytes": 801,
-				"sha256": "da60d650688700f56969bc7a30dd6a59d0a95bf7a38ec5f306f74cbcd41b8e1b"
+				"sha256": "55c4bcd228f379a875ef99193be1e091add7e98cd0daf74d330d066fcb2a5d76"
 			},
 			"build/generated/mitzvah-world-player.json": {
 				"bytes": 798,
@@ -96,61 +96,45 @@
 			}
 		},
 		"certified": false,
-		"commit": "06f0c09d0cade8a39facc2251de7468d818777fb",
+		"commit": "1d4120a29470af1241c20eff03a0d2687bfcab36",
 		"dirtyEntries": [
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-core.json",
 			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-foundation.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-optional.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-player.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-post-control.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-presentation.json",
+			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-release-gate.json",
 			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-release.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-world-a.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-world.json",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzPlayerRuntimeFactories.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-core.compact.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorProgram.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorRenderer.test.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorShader.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapColorShader.test.js",
+			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js",
 			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-player.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js.br",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-world-a.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-world.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-world.compact.js.br",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/world/npc/NpcChossidVisual.js",
 			"M geelooy/games/mitzvah-world/index.html",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalChossidProportions.js",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalChossidProportions.test.js",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowLeafCanopyShape.js",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowLeafCanopyShape.test.js"
+			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapSkinPalette.js",
+			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapSkinPalette.test.js"
 		],
 		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
-		"graphSha256": "2c5a93f0090fe243f65a6e0e2ed079e5a9704ce5b908c3cb6d7b1939806c6b49",
-		"releaseId": "2c5a93f0090fe243f65a6e0e2ed079e5a9704ce5b908c3cb6d7b1939806c6b49",
+		"graphSha256": "86d6481716b2ae67ec9c862582fcf0bfa45359be979e619d7f8a18d989d0c36a",
+		"releaseId": "86d6481716b2ae67ec9c862582fcf0bfa45359be979e619d7f8a18d989d0c36a",
 		"version": 1
 	},
 	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
 	"stages": [
 		{
-			"elapsedMilliseconds": 609,
+			"elapsedMilliseconds": 994,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 87806,
+			"elapsedMilliseconds": 130112,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 4491,
+			"elapsedMilliseconds": 3477,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-18T18:23:49.770Z"
+	"generatedAt": "2026-11-18T22:17:49.761Z"
 }

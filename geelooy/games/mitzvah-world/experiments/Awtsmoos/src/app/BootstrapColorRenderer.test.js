@@ -192,3 +192,102 @@ test('missing scene sky env defaults to day without throwing', () => {
 	assert.equal(stats.frames, 1);
 	renderer.dispose();
 });
+
+function mockSkinGl() {
+	const gl = mockGl();
+	gl.CLAMP_TO_EDGE = 0x812f;
+	gl.FLOAT = 0x1406;
+	gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS = 0x8b4c;
+	gl.NEAREST = 0x2600;
+	gl.TEXTURE1 = 0x84c1;
+	gl.getExtension = extension => (extension === 'OES_texture_float' ? {} : null);
+	gl.getParameter = parameter => (parameter === gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS ? 16 : null);
+	const calls = gl.calls;
+	for (const name of ['texImage2D', 'uniform1i', 'uniform1f', 'activeTexture']) {
+		const original = gl[name];
+		gl[name] = (...args) => {
+			calls.push([name, ...args]);
+			return original(...args);
+		};
+	}
+	return gl;
+}
+
+function mockSkeleton(jointCount = 2) {
+	return {
+		jointCount,
+		jointMatrices: new Float32Array(jointCount * 16).fill(1),
+		paletteRevision: 0,
+		updateCalls: 0,
+		updateCached() {
+			this.updateCalls += 1;
+			if (this.paletteRevision === 0) this.paletteRevision = 1;
+		}
+	};
+}
+
+function mockSkinnedMesh({ withMap = true } = {}) {
+	const mesh = mockMesh({ withMap });
+	const joints = new Uint8Array(36 * 4);
+	const weights = new Float32Array(36 * 4).fill(0.25);
+	mesh.geometry.attributes.joints = { array: joints, count: 36, itemSize: 4 };
+	mesh.geometry.attributes.weights = { array: weights, count: 36, itemSize: 4 };
+	mesh.isSkinnedMesh = true;
+	mesh.skeleton = mockSkeleton(2);
+	return mesh;
+}
+
+function boneUploads(gl) {
+	return gl.calls.filter(call => Array.isArray(call)
+		&& call[0] === 'texImage2D' && call[4] === 4 && call[5] === 2 && call[8] === gl.FLOAT);
+}
+
+test('skinned mesh draws through the skin program with a bone texture', () => {
+	const gl = mockSkinGl();
+	const stats = { draws: 0, frames: 0, meshes: 0, triangles: 0 };
+	const renderer = new BootstrapColorRenderer(gl, stats);
+	const mesh = mockSkinnedMesh();
+	renderer.render(
+		mockScene([mesh], { timeOfDay: 'day' }),
+		mockCamera(),
+		[0.3, 0.5, 0.7, 1]
+	);
+	assert.equal(stats.frames, 1);
+	assert.equal(stats.meshes, 1);
+	assert.equal(stats.triangles, 12);
+	assert.equal(mesh.skeleton.updateCalls, 1, 'skeleton palette refreshed for the frame');
+	assert.equal(boneUploads(gl).length, 1, 'one 4x2 float bone texture uploads');
+	assert.ok(gl.calls.some(call => Array.isArray(call)
+		&& call[0] === 'uniform1i' && call[2] === 1), 'bone texture binds to unit 1');
+	assert.equal(renderer.skinFallbacks, 0);
+	renderer.dispose();
+});
+
+test('second frame reuses the bone texture while the palette is unchanged', () => {
+	const gl = mockSkinGl();
+	const stats = { draws: 0, frames: 0, meshes: 0, triangles: 0 };
+	const renderer = new BootstrapColorRenderer(gl, stats);
+	const scene = mockScene([mockSkinnedMesh()], { timeOfDay: 'day' });
+	const camera = mockCamera();
+	renderer.render(scene, camera, [0.3, 0.5, 0.7, 1]);
+	renderer.render(scene, camera, [0.3, 0.5, 0.7, 1]);
+	assert.equal(stats.frames, 2);
+	assert.equal(boneUploads(gl).length, 1, 'bone texture uploads once, then binds from cache');
+	renderer.dispose();
+});
+
+test('skinned mesh falls back to rigid drawing without float textures', () => {
+	const gl = mockGl();
+	const stats = { draws: 0, frames: 0, meshes: 0, triangles: 0 };
+	const renderer = new BootstrapColorRenderer(gl, stats);
+	renderer.render(
+		mockScene([mockSkinnedMesh({ withMap: false })], { timeOfDay: 'day' }),
+		mockCamera(),
+		[0.3, 0.5, 0.7, 1]
+	);
+	assert.equal(stats.frames, 1);
+	assert.equal(stats.meshes, 1);
+	assert.equal(stats.triangles, 12);
+	assert.ok(!gl.calls.includes('texImage2D'), 'no bone texture without float support');
+	renderer.dispose();
+});
