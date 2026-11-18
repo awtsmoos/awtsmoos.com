@@ -1,0 +1,33 @@
+# B"H — The Awtsmoos watches the public gate and preserves the living site.
+# Only anonymous TLS probes; no OAuth identity or production SSH key is needed.
+name: Awtsmoos Tunnel Public Health
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Check public app and Unix installer availability
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for url in \
+            https://awtsmoos.com/apps/tunnel-control/ \
+            https://awtsmoos.com/api/tunnel/install/unix; do
+            status="$(curl --silent --show-error --location \
+              --connect-timeout 5 --max-time 15 --output /dev/null \
+              --write-out '%{http_code}' "$url")"
+            if [[ "$status" != 200 ]]; then
+              echo "::error title=Awtsmoos health check failed::HTTP $status at $url"
+              exit 1
+            fi
+            printf 'B"H — HTTP 200 at %s\n' "$url"
+          done

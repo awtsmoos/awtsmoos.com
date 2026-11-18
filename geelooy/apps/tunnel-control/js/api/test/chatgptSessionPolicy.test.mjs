@@ -1,19 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 import assert from "node:assert/strict";
 import { missingCredentialResponse, sessionMayCall } from "../sessionActionPolicy.js";
 
 /**
- * @file Proves ChatGPT authentication uses the correct session-versus-browser-scope boundary.
- * @description The Awtsmoos reveals safe status without a secret key, while Awtsmoos.com demands explicit browser authority before Chrome or website agents may move.
+ * @file Distinguish the signed-in owner's session from an external agent key.
+ * @description The Awtsmoos grants the owner's authenticated vessel its deeds;
+ * Awtsmoos.com still describes scoped keys for separate integrations' needs.
  */
-
-assert.equal(sessionMayCall("chatgptStatus"), true);
-assert.equal(sessionMayCall("chatgptLogin"), false);
-assert.equal(missingCredentialResponse("chatgptLogin").neededScope, "tunnel.browser");
-assert.equal(missingCredentialResponse("chatgptOpenLogin").neededScope, "tunnel.browser");
+for (const action of [
+	"chatgptStatus",
+	"chatgptLogin",
+	"chatgptOpenLogin",
+	"chatgptEnsureChrome"
+]) {
+	assert.equal(sessionMayCall(action), true, `${action}: owner session supported`);
+}
+for (const action of ["chatgptLogin", "chatgptOpenLogin", "chatgptEnsureChrome"]) {
+	assert.equal(missingCredentialResponse(action).neededScope, "tunnel.browser");
+}
 assert.equal(missingCredentialResponse("websiteAgentMissionStart").neededScope, "tunnel.browser");
 assert.equal(missingCredentialResponse("websiteAgentMissionStop").neededScope, "tunnel.room");
-console.log(JSON.stringify({ ok: true, test: "chatgptSessionPolicy" }, null, 2));
+assert.equal(missingCredentialResponse("chatgptStatus").ok, false);
+console.log('B"H — Owner session policy and external key scopes verified');

@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/bundle.css"></head><body data-nav="loading"><script type="module">
+// B"H — All workspaces should open, change headings, and return home.
+import { mountFeatureVessels } from "../js/boot/mountFeatureVessels.js";
+import { mountShell } from "../js/shell/mountShell.js";
+import { PAGE_SPECS } from "../js/shell/pageSpecs.js";
+import { activatePane, getActivePane } from "../js/router/paneRouter.js";
+try {
+	mountFeatureVessels();
+	mountShell({session: {},runtime: {},activityRuntime: {},getTunnelName: () => 'smoke',getProjectPath: () => '/tmp'});
+	const failures = [];
+	for (const spec of PAGE_SPECS) {
+		const activated = activatePane(spec.key);
+		const pane = document.querySelector(`[data-pane="${spec.key}"]`);
+		const heading = document.getElementById('awtWorkspaceTitle')?.textContent;
+		if (!activated || getActivePane() !== spec.key || !pane?.classList.contains('active')) {
+			failures.push({page:spec.key, activated, heading});
+		}
+	}
+	const home = document.getElementById('awtBackDashboard');
+	home?.click();
+	if (!document.body.classList.contains('awt-home-mode') || getActivePane()) failures.push({home:false});
+	const rootPicker = document.getElementById('rootPickerModal');
+	if (!rootPicker) failures.push({rootPicker:'missing'});
+	const output = document.createElement('pre');
+	output.id='audit';
+	output.textContent=JSON.stringify({pages:PAGE_SPECS.length,failures,home:!!home,rootPicker:!!rootPicker});
+	document.body.append(output);
+	document.body.dataset.nav = failures.length ? 'fail' : 'pass';
+} catch(error) {
+	document.body.dataset.nav='error';
+	const result=document.createElement('pre');result.id='audit';result.textContent=String(error.stack || error);document.body.append(result);
+}
+</script></body></html>

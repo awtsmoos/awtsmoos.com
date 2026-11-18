@@ -1,13 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import zlib from "node:zlib";
 import { createRequire } from "node:module";
-
 const require = createRequire(import.meta.url);
 const Tar = require("../tools/installerComponentTar.js");
 const downloadsRoot = path.resolve("geelooy/apps/tunnel/downloads");
@@ -51,6 +49,7 @@ function buildHarmlessArchive() {
 		},
 		{ name: "unix-node-runtime.sh", data: Buffer.from(nodeRuntimeStub()) },
 		{ name: "unix-install-custody.cjs", data: Buffer.from(custodyStub()) },
+		{ name: "unix-install-lock-owner.cjs", data: Buffer.from(lockOwnerStub()) },
 		{ name: "unix-entry-quick.cjs", data: Buffer.from("// B\"H\n") },
 		{ name: "unix-install-core.sh", data: Buffer.from("#!/bin/bash\n# B\"H\n:\n") }
 	];
@@ -78,6 +77,21 @@ function nodeRuntimeStub() {
 		"\texport AWTSMOOS_NODE_BIN",
 		"}",
 		"run_node() { \"$AWTSMOOS_NODE_BIN\" \"$@\"; }",
+		""
+	].join("\n");
+}
+
+/** Delegates the verified fixture to the harmless custody stub, never services. */
+function lockOwnerStub() {
+	return [
+		"// B\"H — No device is modified inside the Awtsmoos test vessel.",
+		"const {spawnSync}=require('node:child_process');",
+		"const path=require('node:path');",
+		"if(process.argv[2]!=='guard')process.exit(2);",
+		"const args=[path.join(process.argv[4],'unix-install-custody.cjs'),'delegate',",
+		" process.argv[3],process.argv[4],process.argv[5],process.argv[6]];",
+		"const child=spawnSync(process.execPath,args,{cwd:process.argv[6],env:process.env,stdio:'inherit'});",
+		"process.exit(child.status ?? 1);",
 		""
 	].join("\n");
 }

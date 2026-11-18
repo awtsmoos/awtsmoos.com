@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/bundle.css"></head><body><div id="rootPickerModal" class="modal hidden" hidden><div class="modal-card"><h2>Root picker</h2><button>Choose local root folder</button></div></div><pre id="result">Loading</pre><script>
+// B"H — Mobile controls should be hidden until the human opens them.
+setTimeout(() => {
+	const picker = document.getElementById('rootPickerModal');
+	const before = getComputedStyle(picker).display;
+	const hidden = before === 'none';
+	picker.hidden = false;
+	picker.classList.remove('hidden');
+	const opened = getComputedStyle(picker).display !== 'none';
+	const width = Math.round(document.documentElement.scrollWidth);
+	const viewport = Math.round(document.documentElement.clientWidth);
+	document.body.dataset.mobile = hidden && opened && width <= viewport + 2 ? 'pass' : 'fail';
+	document.getElementById('result').textContent = JSON.stringify({hidden,opened,width,viewport,before});
+}, 10);
+</script></body></html>

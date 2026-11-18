@@ -100,3 +100,4 @@
 @media (max-width: 560px) {
 	.awt-pairing-card .button-link { flex: 1 1 100%; }
 }
+@import url("./mobile-recovery.css");
