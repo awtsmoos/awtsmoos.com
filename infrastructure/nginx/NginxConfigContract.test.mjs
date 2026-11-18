@@ -9,7 +9,7 @@ import { readFile } from "node:fs/promises";
  * @file Tracked nginx contract witness for Awtsmoos.com.
  * @description
  * The Awtsmoos joins every public road in one source of truth;
- * this witness guards redirects, routes, freshness, tunnels, and Torah beneath one roof.
+ * this witness guards redirects, routes, freshness, tunnels, OAuth, and Torah beneath one roof.
  */
 
 const root = new URL("./awtsmoos.com/", import.meta.url);
@@ -73,9 +73,17 @@ for (const target of [
 	assert.ok(files.canonical.includes(target), `Canonical redirect target missing ${target}`);
 }
 
-for (const route of ["/api/", "/api/tunnel/control/mcp", "/.well-known/oauth-protected-resource"]) {
+for (const route of [
+	"/api/",
+	"/api/tunnel/control/mcp",
+	"/.well-known/oauth-protected-resource",
+	"/.well-known/oauth-protected-resource/api/tunnel/control/mcp"
+]) {
 	assert.ok(files.oauth.includes(route), `OAuth/API snippet missing ${route}`);
 }
+assert.match(files.oauth, /proxy_temp_path \/mnt\/HC_Volume_102267213\/nginx-tmp\/proxy/);
+assert.match(files.oauth, /client_body_temp_path \/mnt\/HC_Volume_102267213\/nginx-tmp\/client-body/);
+assert.match(files.oauth, /proxy_read_timeout 300s/);
 
 for (const route of ["/login/", "/register/", "/profile/alias-manage/", "/logout/"]) {
 	assert.ok(files.identity.includes(route), `Identity snippet missing ${route}`);

@@ -1,9 +1,14 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos opens public semantic roads while action APIs remain outside the crawler's thread.
+# The Awtsmoos opens public semantic roads and machine discovery while guarded action APIs stay outside the crawler's thread.
 User-agent: *
 Allow: /
+Allow: /api/tunnel/control/docs
+Allow: /api/tunnel/control/docs.json
+Allow: /api/tunnel/control/openapi
+Allow: /api/tunnel/control/agent-manifest
+Allow: /api/tunnel/control/bootstrap
 Disallow: /api/
 
 Sitemap: https://awtsmoos.com/sitemap.xml

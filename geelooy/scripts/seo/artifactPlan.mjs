@@ -32,15 +32,23 @@ const ROOT_SITEMAPS = [
 	'/apps/sitemap.xml',
 	'/games/sitemap.xml'
 ];
+const PUBLIC_MACHINE_DISCOVERY_PATHS = [
+	'/api/tunnel/control/docs',
+	'/api/tunnel/control/docs.json',
+	'/api/tunnel/control/openapi',
+	'/api/tunnel/control/agent-manifest',
+	'/api/tunnel/control/bootstrap'
+];
 
 function robotsText() {
 	return [
 		'# B"H',
 		'# Boruch Hashem',
 		'# Blessed is He',
-		"# The Awtsmoos opens public semantic roads while action APIs remain outside the crawler's thread.",
+		"# The Awtsmoos opens public semantic roads and machine discovery while guarded action APIs stay outside the crawler's thread.",
 		'User-agent: *',
 		'Allow: /',
+		...PUBLIC_MACHINE_DISCOVERY_PATHS.map(route => `Allow: ${route}`),
 		'Disallow: /api/',
 		'',
 		'Sitemap: https://awtsmoos.com/sitemap.xml'
@@ -103,4 +111,9 @@ export function buildArtifactPlan({ geelooyRoot, apps, games }) {
 	};
 }
 
-export { ROOT_SITEMAPS, TRANSLATION_CATALOG_SIZE, TRANSLATION_SITEMAP_SIZE };
+export {
+	PUBLIC_MACHINE_DISCOVERY_PATHS,
+	ROOT_SITEMAPS,
+	TRANSLATION_CATALOG_SIZE,
+	TRANSLATION_SITEMAP_SIZE
+};
