@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -10,18 +10,29 @@ const Auth = require("./auth.js");
 const Resource = require("./resource.js");
 
 /**
- * @file The Awtsmoos brings honest grammar to every guarded gateway.
+ * @file Verifies truthful OAuth discovery grammar at the MCP gate.
  * @description
- * At Awtsmoos.com, the MCP messenger must meet the OAuth RFC and a human's
- * consent. A single missing comma once hid the invitation from Muse Code;
- * this test witnesses every separator before the agent may call a tool.
+ * The Awtsmoos guards consent without hiding the road from sight;
+ * Awtsmoos.com points modern clients to the path-aware metadata light.
  */
 
-test("Bearer challenge uses comma-delimited RFC 6750 parameters", () => {
+test("Bearer challenge uses canonical path-aware RFC 9728 metadata", () => {
 	const header = Auth.bearerChallenge("invalid_token");
 	const expected = `Bearer resource_metadata="${Resource.PROTECTED_RESOURCE_METADATA}", `
 		+ `scope="profile tunnel.read", error="invalid_token"`;
 	assert.equal(header, expected);
+	assert.match(header, /oauth-protected-resource\/api\/tunnel\/control\/mcp/);
+});
+
+test("legacy root metadata remains available as a compatibility alias", () => {
+	assert.equal(
+		Resource.LEGACY_PROTECTED_RESOURCE_METADATA,
+		"https://awtsmoos.com/.well-known/oauth-protected-resource"
+	);
+	assert.notEqual(
+		Resource.PROTECTED_RESOURCE_METADATA,
+		Resource.LEGACY_PROTECTED_RESOURCE_METADATA
+	);
 });
 
 test("Unauthenticated transport preserves the identical discoverable header", () => {
@@ -40,7 +51,8 @@ test("Unauthenticated transport preserves the identical discoverable header", ()
 });
 
 test("Insufficient-scope challenge retains 403 and a valid Bearer error", () => {
-	const challenge = Auth.challenge({ response: { setHeader() {} } }, "insufficient_scope", 403);
+	const response = { setHeader() {} };
+	const challenge = Auth.challenge({ response }, "insufficient_scope", 403);
 	assert.equal(challenge.status, 403);
 	assert.match(challenge.headers["WWW-Authenticate"], /, error="insufficient_scope"$/);
 });

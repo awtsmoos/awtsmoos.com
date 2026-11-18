@@ -1,123 +1,91 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-const { agentLinks, oauth } = require("../docs/catalog.js");
-const { json } = require("../core/respond.js");
-const { externalAgentFlow, grokFlow } = require("./agentFlow.js");
-const { headlessDeviceFlow } = require("./deviceFlow.js");
-const { missionPlanningBody } = require("./agentMissionPlanning.js");
-const { ROOM_BEHAVIOR, roomProtocol } = require("../core/accountRoom/protocol.js");
-const { routeRecoveryBody } = require("./agentRouteRecovery.js");
+"use strict";
 
 /**
  * @file Provider-neutral Tunnel Control bootstrap for external AI clients.
- * @description The Awtsmoos gives every agent one discovered covenant before action begins:
- * automatic routing, recovery, GET-only control, resumable transfer, visible planning, and reports.
+ * @description
+ * The Awtsmoos creates the map before the messenger moves;
+ * Awtsmoos.com separates legacy GET control from MCP POST so every host proves.
  */
-function installer() {
-	return {
-		windows: "irm https://awtsmoos.com/api/tunnel/install/windows | iex",
-		macLinux: "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
-		restartRule: "Run the same installer again; it preserves saved identity, refreshes the agent, and starts it."
-	};
-}
-function routeInstructions() {
-	return [
-		"Authenticate, then call /api/tunnel/control/my-device.",
-		"Use selectedRoute.routeReference automatically when present; otherwise use routeReference or tunnelId.",
-		"Never ask primary-versus-recovery when humanChoiceRequired=false; follow selectedRoute automatically.",
-		"On retryable tunnel_not_alive, call my-device again and follow retryPolicy/recoveringRoutes instead of declaring death.",
-		"Do not replace or reinstall a tunnel from one transient 409, 502, 503, or 504.",
-		"If Virtual OS is selected while nativeRecoveryPending=true, verify the requested deed is capability-compatible.",
-		"Rediscover root/capabilities before carrying relative paths onto a different route.",
-		"If a mutation was accepted, observe its receipt/status before replay; never blind-replay it."
-	];
-}
-function agentBehavior() {
-	return [
-		"Use client_id=external-agent unless a named compatibility client is specifically required.",
-		"Canonical external-agent OAuth/control uses GET only. Do not switch this flow to POST.",
-		"Prefer automatic PKCE handoff; when delivered=true never ask the human to copy code/state.",
-		"After OAuth call my-device and consume selectedRoute, recoveringRoutes, insuranceRoutes, retryPolicy, and capabilityDowngrade.",
-		"Treat retryable tunnel_not_alive as transient: rediscover and use bounded backoff; preserve immutable native route identity.",
-		"Treat control-plane 502/503/504 separately from native death; back off and rediscover.",
-		"Never reinstall or abandon the mission from one transient liveness sample.",
-		"Before substantial work call missionVisibilityList, register/link the mission, and publish planning passes 1, 2, and 3.",
-		"Use missionVisibilityReport after planning, implementation milestones, verification, blockers/recovery, deployment, and final handoff.",
-		"Mission reports are factual filing artifacts; never publish hidden reasoning, unrestricted command output, or secrets.",
-		"Use canonical mission rooms for live agent presence and missionAgentMessage for direct messages.",
-		...ROOM_BEHAVIOR,
-		"Use action=files operation=list to inspect files; use exact operation for other filesystem and fileTransfer operations.",
-		"For Virtual OS publication use action=web operation=publishWebsite with an owned alias folder path; inspect the returned canonicalVerifiedLive=true evidence before reporting a live URL. Discover exact operation fields at agent-manifest.",
-		"For large files prefer 1–2 MiB WebSocket chunks when supported.",
-		`Without WebSockets use GET ${oauth.getTransferEndpointTemplate}; upload at most ${oauth.limits.getFallbackUploadBytes} raw bytes per request and read ${oauth.limits.getFallbackReadBytes} bytes by default.`,
-		"GET and WebSocket share transferId/manifests, so clients may switch transports mid-transfer.",
-		"After uncertain mutation delivery, observe status/receipt before any resend.",
-		"Never use POST in this connector protocol."
-	];
-}
-/**
- * ChatGPT GPT Actions cannot execute the external-agent PKCE handoff:
- * they cannot generate a verifier, poll a status URL, or hold tokens.
- * Their only credential vessel is OpenAI's own Action OAuth linking,
- * which speaks to the `chatgpt` compatibility client. When the caller
- * identifies as ChatGPT/OpenAI, recommend that flow first and say so
- * plainly, instead of sending the model down the handoff path.
- */
-function chatgptBehavior() {
-	return [
-		"You are a ChatGPT GPT Action. Use client_id=chatgpt, not external-agent.",
-		"Do NOT attempt the agent-handoff/PKCE flow; a GPT Action cannot generate PKCE, poll statusUrl, or store tokens itself.",
-		"Credentials live in OpenAI's Action Authentication (OAuth) panel for this GPT: Authorization URL https://awtsmoos.com/api/oauth/authorize, Token URL https://awtsmoos.com/api/oauth/token, Client ID chatgpt, no client secret required, no PKCE required, scope: profile tunnel.read tunnel.write tunnel.command tunnel.browser tunnel.mission tunnel.room.",
-		"If calls return not_authenticated, the GPT's OAuth is not linked yet; the user links it once from the sign-in prompt OpenAI presents, signing in to awtsmoos.com as the account that owns the tunnel.",
-		"After OAuth, call /api/tunnel/control/my-device. When the account owns more than one live tunnel, select explicitly with the tunnelId or routeReference query parameter instead of relying on automatic selection.",
-		"On retryable tunnel_not_alive, call my-device again and follow retryPolicy/recoveringRoutes instead of declaring death.",
-		"Never ask the human to paste a bearer token or API key into the chat; OpenAI attaches the stored OAuth credential automatically once linked.",
-		...ROOM_BEHAVIOR
-	];
-}
-function chatgptFlow() {
-	return {
-		clientId: oauth.chatgpt.clientId,
-		authorizationUrl: oauth.authorizationEndpoint,
-		tokenUrl: oauth.tokenEndpoint,
-		redirectUri: oauth.chatgpt.redirectUri,
-		requiresClientSecret: oauth.chatgpt.requiresClientSecret,
-		pkceRequired: oauth.chatgpt.pkceRequired,
-		defaultScope: oauth.chatgpt.defaultScope,
-		tokenStorage: "Held by OpenAI after the user links this GPT's Action OAuth once; ChatGPT attaches the bearer credential automatically on every call."
-	};
-}
+
+const { agentLinks, oauth } = require("../docs/catalog.js");
+const { json } = require("../core/respond.js");
+const { roomProtocol } = require("../core/accountRoom/protocol.js");
+const McpDiscovery = require("../mcp/discoveryContract.js");
+const Behavior = require("./bootstrapBehavior.js");
+const Compatibility = require("./bootstrapCompatibility.js");
+const Setup = require("./bootstrapSetup.js");
+const { externalAgentFlow, grokFlow } = require("./agentFlow.js");
+const { headlessDeviceFlow } = require("./deviceFlow.js");
+const { missionPlanningBody } = require("./agentMissionPlanning.js");
+const { routeRecoveryBody } = require("./agentRouteRecovery.js");
+
+/** Returns the complete discovery response for a generic or compatibility host. */
 async function bootstrap($i) {
-	const behavior = agentBehavior();
-	const userAgent = String($i?.request?.headers?.["user-agent"] || "");
-	const isChatgptCaller = /chatgpt|openai/i.test(userAgent);
+	const callerDetected = Compatibility.callerKind($i);
+	const isChatgpt = callerDetected === "chatgpt";
+	const behavior = isChatgpt
+		? Compatibility.chatgptBehavior()
+		: Behavior.genericBehavior();
 	return json($i, {
-		BH: "B\"H", ok: true, name: "Awtsmoos Tunnel Control Bootstrap",
-		callerDetected: isChatgptCaller ? "chatgpt" : "generic-agent",
-		...(isChatgptCaller ? { chatgptFlow: chatgptFlow() } : {}),
-		recommendedClientId: isChatgptCaller ? oauth.chatgpt.clientId : oauth.recommendedClientId,
+		BH: "B\"H",
+		ok: true,
+		name: "Awtsmoos Tunnel Control Bootstrap",
+		callerDetected,
+		recommendedClientId: isChatgpt ? oauth.chatgpt.clientId : oauth.recommendedClientId,
+		...(isChatgpt ? { chatgptFlow: Compatibility.chatgptFlow() } : {}),
+		mcp: McpDiscovery.contract(),
 		setupUrl: agentLinks.tunnelControl,
-		install: installer(), oauthMetadata: agentLinks.oauthMetadata,
-		agentManifest: agentLinks.agentManifest, docsHuman: agentLinks.docs,
-		docsJson: agentLinks.docsJson, openapi: agentLinks.openapi,
-		myDevice: agentLinks.myDevice, deviceLogin: agentLinks.deviceLogin,
+		install: Setup.installer(),
+		oauthMetadata: agentLinks.oauthMetadata,
+		agentManifest: agentLinks.agentManifest,
+		docsHuman: agentLinks.docs,
+		docsJson: agentLinks.docsJson,
+		openapi: agentLinks.openapi,
+		myDevice: agentLinks.myDevice,
+		deviceLogin: agentLinks.deviceLogin,
 		deviceTransfer: oauth.deviceTransferEndpoint,
 		getTransfer: oauth.getTransferEndpointTemplate,
-		codeEditor: agentLinks.codeEditor, virtualOs: agentLinks.virtualOs,
-		externalAgent: externalAgentFlow(), headlessDevice: headlessDeviceFlow(),
-		missionPlanning: missionPlanningBody(), routeRecovery: routeRecoveryBody(),
+		codeEditor: agentLinks.codeEditor,
+		virtualOs: agentLinks.virtualOs,
+		externalAgent: externalAgentFlow(),
+		headlessDevice: headlessDeviceFlow(),
+		missionPlanning: missionPlanningBody(),
+		routeRecovery: routeRecoveryBody(),
 		sharedRoom: roomProtocol(),
 		recommendationPrivacy: "/api/tunnel/control/privacy/recommendations",
 		transportLaw: {
-			httpMethods: ["GET"], dataTransports: oauth.dataTransports,
-			preferred: oauth.preferredDataTransport, fallback: oauth.fallbackDataTransport,
-			postAllowed: false, limits: oauth.limits
+			purpose: "legacy-direct-control",
+			httpMethods: ["GET"],
+			dataTransports: oauth.dataTransports,
+			preferred: oauth.preferredDataTransport,
+			fallback: oauth.fallbackDataTransport,
+			postAllowed: false,
+			limits: oauth.limits,
+			mcpContractField: "mcp"
 		},
-		compatibility: { grok: grokFlow(), chatgpt: oauth.chatgpt },
-		howToGetRouteReference: routeInstructions(),
-		agentBehavior: behavior, gptBehavior: isChatgptCaller ? chatgptBehavior() : behavior
+		compatibility: {
+			grok: grokFlow(),
+			chatgpt: oauth.chatgpt
+		},
+		howToGetRouteReference: Setup.routeInstructions(),
+		agentBehavior: behavior,
+		gptBehavior: behavior
 	});
 }
-module.exports = { agentBehavior, bootstrap, chatgptBehavior, chatgptFlow, externalAgentFlow, grokFlow, headlessDeviceFlow, missionPlanning: missionPlanningBody, routeInstructions, routeRecovery: routeRecoveryBody };
+
+module.exports = {
+	agentBehavior: Behavior.genericBehavior,
+	bootstrap,
+	chatgptBehavior: Compatibility.chatgptBehavior,
+	chatgptFlow: Compatibility.chatgptFlow,
+	externalAgentFlow,
+	grokFlow,
+	headlessDeviceFlow,
+	missionPlanning: missionPlanningBody,
+	routeInstructions: Setup.routeInstructions,
+	routeRecovery: routeRecoveryBody
+};
