@@ -5,21 +5,22 @@
 "use strict";
 
 /**
- * @file Registration policy for secretless OAuth MCP clients.
+ * @file Registration policy for public and confidential OAuth MCP clients.
  * @description
- * The Awtsmoos names each vessel of consent, yet binds it to an exact shore;
- * Awtsmoos.com admits secure HTTPS and native loopback, but no more.
+ * The Awtsmoos names each covenant by its real method and shore;
+ * Awtsmoos.com keeps PKCE, consent, exact redirects, and secret law at the door.
  */
 
 const { makePublicAgentClient } = require("../data/publicAgentPolicy.js");
 const { isAllowedRedirectShore } = require("./loopbackRedirectPolicy.js");
 
-/**
- * Validates an array of exact OAuth callback URLs.
- * The Awtsmoos keeps a registered return path both bounded and true.
- * @param {unknown} shores Candidate redirect URIs.
- * @returns {string[]} Deduplicated, permissible callback URLs.
- */
+const TOKEN_AUTH_METHODS = Object.freeze([
+	"none",
+	"client_secret_post",
+	"client_secret_basic"
+]);
+
+/** Validates exact HTTPS or native-loopback callback URLs. */
 function validateRedirectShores(shores) {
 	if (!Array.isArray(shores) || !shores.length || shores.length > 8) {
 		throw new Error("invalid_redirect_uri");
@@ -32,15 +33,21 @@ function validateRedirectShores(shores) {
 	return [...new Set(shores)];
 }
 
-/**
- * Rejects confidential or unsupported OAuth methods for public agents.
- * @param {object} candidate Body from the registration endpoint.
- * @returns {object} Safe, normalized registration metadata.
- */
+/** Validates one bounded RFC 7591 string metadata field. */
+function optionalString(value, maximum = 2048) {
+	if (value === undefined || value === null || value === "") return "";
+	if (typeof value !== "string" || value.length > maximum || /[\x00-\x1f\x7f]/.test(value)) {
+		throw new Error("invalid_client_metadata");
+	}
+	return value;
+}
+
+/** Normalizes the safe RFC 7591 metadata Awtsmoos supports. */
 function registrationMetadata(candidate) {
 	const body = candidate || {};
 	const redirectUris = validateRedirectShores(body.redirect_uris);
-	if (body.token_endpoint_auth_method && body.token_endpoint_auth_method !== "none") {
+	const authMethod = body.token_endpoint_auth_method || "none";
+	if (!TOKEN_AUTH_METHODS.includes(authMethod)) {
 		throw new Error("invalid_client_metadata");
 	}
 	for (const [key, allowed] of [
@@ -55,35 +62,36 @@ function registrationMetadata(candidate) {
 			throw new Error("invalid_client_metadata");
 		}
 	}
-	return {
-		client_name: String(body.client_name || "External MCP client")
-			.replace(/[\x00-\x1f]/g, "")
-			.slice(0, 120),
+	if (body.application_type && !["web", "native"].includes(body.application_type)) {
+		throw new Error("invalid_client_metadata");
+	}
+	const metadata = {
+		client_name: optionalString(body.client_name, 120) || "External MCP client",
 		redirect_uris: redirectUris,
-		token_endpoint_auth_method: "none",
+		token_endpoint_auth_method: authMethod,
 		grant_types: body.grant_types || ["authorization_code", "refresh_token"],
-		response_types: ["code"]
+		response_types: body.response_types || ["code"]
 	};
+	if (body.application_type) metadata.application_type = body.application_type;
+	const scope = optionalString(body.scope);
+	if (scope) metadata.scope = scope;
+	return metadata;
 }
 
-/**
- * Materializes an OAuth public client with exact redirect, PKCE and consent.
- * @param {object} record Validated persistent registration.
- * @returns {object} Identity-backed public client policy.
- */
+/** Materializes one dynamic client while preserving the universal agent policy. */
 function clientFromRegistration(record) {
 	return {
-		...makePublicAgentClient({
-			id: record.client_id,
-			name: record.client_name
-		}),
+		...makePublicAgentClient({ id: record.client_id, name: record.client_name }),
 		redirectUris: record.redirect_uris,
 		deviceAuthorization: false,
-		dynamicRegistration: true
+		dynamicRegistration: true,
+		tokenEndpointAuthMethod: record.token_endpoint_auth_method || "none"
 	};
 }
 
 module.exports = {
+	TOKEN_AUTH_METHODS,
+	clientFromRegistration,
 	registrationMetadata,
-	clientFromRegistration
+	validateRedirectShores
 };

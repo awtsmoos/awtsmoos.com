@@ -14,13 +14,12 @@ const { getClient } = require("../../core/clients.js");
 const { registrationMetadata } = require("../../core/dynamicClientPolicy.js");
 
 /**
- * @file Safe native-app OAuth callback registration for Awtsmoos.com.
+ * @file Safe native-app and confidential-web OAuth registration for Awtsmoos.com.
  * @description
  * The Awtsmoos makes the native callback shine within the local night;
- * the world outside the loopback may return only by HTTPS right.
+ * HTTPS web clients may bear a secret while every callback remains exact and right.
  */
 
-/** Creates a temporary isolated registration context with no real user token. */
 function registrationContext(uri) {
 	return {
 		request: {
@@ -53,11 +52,8 @@ test("Native loopback IPv4 and IPv6 callbacks register with exact matching", asy
 			assert.equal(client.redirectAllowed(uri + "/wrong"), false);
 		}
 	} finally {
-		if (previous === undefined) {
-			delete process.env.__awtsdir;
-		} else {
-			process.env.__awtsdir = previous;
-		}
+		if (previous === undefined) delete process.env.__awtsdir;
+		else process.env.__awtsdir = previous;
 		fs.rmSync(root, { recursive: true, force: true });
 	}
 });
@@ -83,18 +79,22 @@ test("External HTTP, DNS aliases, and deceptive loopbacks stay forbidden", () =>
 	}
 });
 
-test("Existing HTTPS callbacks and registration metadata stay compatible", () => {
-	const https = "https://chatgpt.com/connector/oauth/return";
-	const metadata = registrationMetadata({
-		redirect_uris: [https, https],
-		grant_types: ["authorization_code", "refresh_token"],
-		token_endpoint_auth_method: "none"
-	});
-	assert.deepEqual(metadata.redirect_uris, [https]);
-	assert.equal(metadata.token_endpoint_auth_method, "none");
-	assert.deepEqual(metadata.response_types, ["code"]);
+test("HTTPS registration supports the three advertised token auth methods", () => {
+	const https = "https://claude.ai/api/mcp/auth_callback";
+	for (const method of ["none", "client_secret_post", "client_secret_basic"]) {
+		const metadata = registrationMetadata({
+			redirect_uris: [https, https],
+			grant_types: ["authorization_code", "refresh_token"],
+			token_endpoint_auth_method: method,
+			application_type: "web"
+		});
+		assert.deepEqual(metadata.redirect_uris, [https]);
+		assert.equal(metadata.token_endpoint_auth_method, method);
+		assert.equal(metadata.application_type, "web");
+		assert.deepEqual(metadata.response_types, ["code"]);
+	}
 	assert.throws(() => registrationMetadata({
 		redirect_uris: [https],
-		token_endpoint_auth_method: "client_secret_basic"
+		token_endpoint_auth_method: "private_key_jwt"
 	}), { message: "invalid_client_metadata" });
 });

@@ -6,8 +6,8 @@
  * @file Resolves OAuth client vessels and their public capabilities.
  * @description
  * The Awtsmoos is beyond every client name, yet Awtsmoos.com reveals each
- * redirect, scope, PKCE, and headless-device boundary truthfully so an agent
- * can discover what is allowed without guessing at hidden provider policy.
+ * redirect, scope, PKCE, and secret boundary truthfully so every covenant
+ * can be verified without leaking the key that guards it.
  */
 
 const { oauthClients } = require("../data/clients.js");
@@ -26,9 +26,7 @@ function wildcardToRegex(rule) {
 
 function uriForms(uri) {
 	const forms = new Set();
-	if (uri) {
-		forms.add(String(uri));
-	}
+	if (uri) forms.add(String(uri));
 	try {
 		const parsed = new URL(uri);
 		forms.add(parsed.toString());
@@ -41,22 +39,26 @@ function uriForms(uri) {
 }
 
 function ruleAllows(uri, rule) {
-	if (!uri || !rule) {
-		return false;
-	}
+	if (!uri || !rule) return false;
 	return uriForms(uri).some(form => {
-		if (form === rule) {
-			return true;
-		}
+		if (form === rule) return true;
 		return String(rule).includes("*") && wildcardToRegex(rule).test(form);
 	});
 }
 
+/** Uses a dynamic digest verifier when one exists, otherwise legacy exact secret law. */
+function secretVerifier(client) {
+	if (typeof client.secretAllowed === "function") {
+		return candidate => client.secretAllowed(candidate);
+	}
+	const expected = client.clientSecret || client.secret || "";
+	return candidate => !expected || String(candidate || "") === expected;
+}
+
 function getClient(id) {
 	const client = oauthClients[id || "chatgpt"] || getDynamicClient(id) || null;
-	if (!client) {
-		return null;
-	}
+	if (!client) return null;
+	const verifySecret = secretVerifier(client);
 	return {
 		...client,
 		clientSecret: client.clientSecret || client.secret || "",
@@ -69,10 +71,7 @@ function getClient(id) {
 				|| [];
 			return rules.some(rule => ruleAllows(uri, rule));
 		},
-		secretAllowed(secret) {
-			const expected = client.clientSecret || client.secret || "";
-			return !expected || String(secret || "") === expected;
-		}
+		secretAllowed: verifySecret
 	};
 }
 
@@ -99,6 +98,7 @@ module.exports = {
 	listClients,
 	publicClient,
 	ruleAllows,
+	secretVerifier,
 	uriForms,
 	wildcardToRegex
 };
