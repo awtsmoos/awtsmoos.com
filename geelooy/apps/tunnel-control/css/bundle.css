@@ -1,4 +1,4 @@
-/* B"H - tunnel-control stylesheet bundle: 89 files folded in cascade order by css/build-bundle.mjs. Do not edit; edit the sources and re-run the builder. */
+/* B"H - tunnel-control stylesheet bundle: 90 files folded in cascade order by css/build-bundle.mjs. Do not edit; edit the sources and re-run the builder. */
 /* B"H */
 /**
  * B"H — One cascade, one visual constitution. The future design system owns
@@ -8475,4 +8475,124 @@ a.button:focus-visible {
 @media (max-width: 560px) {
 	.awt-pairing-card .button-link { flex: 1 1 100%; }
 }
+/* ==== mobile-recovery.css ==== */
+/* B"H — The Awtsmoos makes every screen usable in this instant.
+   The hidden gate precedes any folder disclosure; readable controls precede decoration. */
+#rootPickerModal.modal.hidden,
+#rootPickerModal[hidden] {
+	display: none !important;
+}
 
+@media (max-width: 760px) {
+	body.awt-preboot .awt-login-gate,
+	body.awt-gated .awt-login-gate {
+		height: auto;
+		max-height: none;
+		min-height: 100dvh;
+		overflow: visible;
+		padding: 12px;
+		align-items: stretch;
+	}
+	body.awt-preboot .awt-login-card,
+	body.awt-gated .awt-login-card {
+		width: 100%;
+		margin-block: 0;
+		padding: 20px 16px;
+		gap: 14px;
+		border-radius: 12px;
+		box-shadow: none;
+	}
+	body.awt-preboot .awt-login-card h1,
+	body.awt-gated .awt-login-card h1 {
+		max-width: 100%;
+		font-size: clamp(1.65rem, 7vw, 2.15rem);
+		line-height: 1.12;
+		letter-spacing: -.035em;
+		text-wrap: pretty;
+	}
+	.awt-login-card p {
+		font-size: .97rem;
+		line-height: 1.48;
+	}
+	.awt-login-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 8px;
+	}
+	.awt-login-actions > * {
+		width: 100%;
+		min-height: 46px;
+		padding: 10px 12px;
+		border-radius: 10px;
+		font-size: .94rem;
+	}
+	#rootPickerModal.modal {
+		padding: 8px;
+	}
+	#rootPickerModal .root-dialog {
+		width: 100%;
+		max-height: calc(100dvh - 16px);
+		padding: 16px;
+		gap: 12px;
+		border-radius: 12px;
+		box-shadow: 0 10px 24px rgba(0, 0, 0, .42);
+	}
+	#rootPickerModal .root-head h2 {
+		font-size: 1.3rem;
+		line-height: 1.2;
+	}
+	#rootPickerModal .root-toolbar {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+	#rootPickerModal #rootPickerPath {
+		grid-column: 1 / -1;
+		width: 100%;
+		min-width: 0;
+		padding: 10px 12px;
+		font-size: 16px;
+		border-radius: 8px;
+	}
+	#rootPickerModal .root-toolbar button {
+		min-width: 0;
+		min-height: 44px;
+		padding: 9px 8px;
+		border: 1px solid #38526e;
+		border-radius: 8px;
+		background: #162941;
+		color: #f4f8ff;
+		font-size: .88rem;
+	}
+	#rootPickerModal #rootPickerSelectBtn {
+		grid-column: 1 / -1;
+		background: #176477;
+	}
+	#rootPickerModal .root-list {
+		max-height: 32dvh;
+	}
+	#rootPickerModal .root-row-wrap {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+	#rootPickerModal .root-foot {
+		display: block;
+	}
+	#rootPickerModal .root-foot details {
+		margin-top: 10px;
+	}
+	.awt-login-gate::before,
+	.awt-login-gate::after {
+		display: none;
+	}
+	.modal-backdrop,
+	.root-dialog {
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awt-login-card,
+	.awt-mode-card {
+		animation: none;
+	}
+}

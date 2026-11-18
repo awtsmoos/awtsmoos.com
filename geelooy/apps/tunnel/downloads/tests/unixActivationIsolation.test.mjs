@@ -1,21 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+// B"H — The Awtsmoos protects the incumbent while proving the candidate.
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 
-/** Candidate failure preserves predecessor bytes; success proves before promotion. */
+/**
+ * @file Candidate activation ordering and rollback, using isolated shell roots.
+ * @description Chapter VIII: the old vessel lives until the new is proven;
+ * the healthy credential verdict is explicitly fixture-owned, never guessed.
+ */
 function runScenario(name, script) {
 	const result = spawnSync("bash", ["-c", script], {
-		cwd: process.cwd(),
-		encoding: "utf8"
+		cwd: process.cwd(), encoding: "utf8", timeout: 6000
 	});
-	assert.equal(
-		result.status,
-		0,
-		`${name}\nSTDOUT:\n${result.stdout}\nSTDERR:\n${result.stderr}`
-	);
+	assert.equal(result.status, 0,
+		`${name}\nSTDOUT:\n${result.stdout}\nSTDERR:\n${result.stderr}`);
 	return result.stdout;
 }
 
@@ -35,6 +32,7 @@ install_progress(){ :; }
 install_event(){ :; }
 write_activation_journal(){ :; }
 connection_state_name(){ printf 'isolated'; }
+install_fail(){ printf 'mock failure: %s\n' "$2" >&2; return 71; }
 `;
 
 const failed = runScenario("failed proof preserves predecessor", String.raw`
@@ -58,6 +56,8 @@ prove_candidate_before_promotion(){ printf 'prove\n' >> "$TMP/trace"; }
 promote_candidate_root(){ printf 'promote\n' >> "$TMP/trace"; }
 start_promoted_candidate(){ printf 'start\n' >> "$TMP/trace"; }
 source geelooy/apps/tunnel/downloads/unix-activation.sh
+# The fixture explicitly proves a previously approved identity before update.
+identity_credential_state(){ printf 'paired'; }
 activate_update
 printf 'prove\npromote\nstart\n' > "$TMP/expected"
 cmp "$TMP/trace" "$TMP/expected"

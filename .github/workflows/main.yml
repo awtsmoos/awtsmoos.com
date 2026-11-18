@@ -1,20 +1,43 @@
 # B"H
 # Boruch Hashem
-# Blessed be He
-# The Awtsmoos guides a dedicated key to a forced command; exact SHA and public proof alone may stand.
+# Blessed is He
+# The Awtsmoos proves each gate before the public is asked to trust.
 name: Deploy and Verify Awtsmoos Production
-
 on:
   push:
     branches:
       - main
-
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
 concurrency:
   group: awtsmoos-production-main
   cancel-in-progress: false
-
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Checkout exact proposed commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Select Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verify frontend API contracts
+        run: bash geelooy/apps/tunnel-control/tests/api-smoke.sh
+      - name: Verify backend ownership and installer rollback
+        run: bash geelooy/apps/tunnel-control/tests/backend-certification.sh
+      - name: Verify candidate-source browser controls
+        run: bash scripts/production/tunnel-predeploy-browser.sh
   deploy:
+    needs: quality
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:
@@ -27,7 +50,6 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
-
       - name: Canonical production deploy with bounded retries
         run: |
           set -Eeuo pipefail
@@ -78,36 +100,11 @@ jobs:
           }
           for attempt in 1 2 3; do
             if deploy_once "$attempt"; then
-              echo 'B"H canonical deployment succeeded on attempt $attempt'
+              echo 'B"H canonical deployment succeeded'
               exit 0
             fi
             sleep $((attempt * 8))
           done
           exit 1
-
       - name: Verify public production contract
-        run: |
-          set -Eeuo pipefail
-          for attempt in $(seq 1 30); do
-            tmp="$(mktemp -d)"
-            if curl -fsS --max-time 20 https://awtsmoos.com/api/tunnel/control/bootstrap -o "$tmp/b.json" \
-              && curl -fsS --max-time 20 https://awtsmoos.com/api/tunnel/control/agent-manifest -o "$tmp/m.json" \
-              && node - "$tmp/b.json" "$tmp/m.json" <<'NODE'
-          const fs=require('node:fs');
-          const b=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
-          const m=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
-          const behavior=(b.agentBehavior||[]).join('\n');
-          if(!String(m.version||'').startsWith('1.')||!m.missionPlanning||!b.missionPlanning) process.exit(1);
-          if(!/missionVisibilityList/.test(behavior)||!/planning passes 1, 2, and 3/i.test(behavior)) process.exit(1);
-          if(m.transportLaw?.postAllowed!==false) process.exit(1);
-          NODE
-            then
-              rm -rf "$tmp"
-              node scripts/verifyTunnelPublicRelease.mjs
-              echo "B\"H PRODUCTION_RELEASE_VERIFIED sha=$EXPECTED_SHA"
-              exit 0
-            fi
-            rm -rf "$tmp"
-            sleep 5
-          done
-          exit 1
+        run: bash scripts/production/tunnel-public-verify.sh

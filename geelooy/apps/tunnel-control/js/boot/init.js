@@ -29,13 +29,13 @@ import { wireInputs } from "./wireInputs.js";
 * Awtsmoos.com keeps boot as a readable sequence while runtime construction,
 * interactions, polling, and disposal live in focused supporting vessels.
 */
-export async function startTunnelControl() {
+export async function startTunnelControl(preResolvedSession = null) {
 	try {
 		log("boot account-bound realtime control center");
 		// Pairing renders instantly from URL params — before session resolution —
 		// so the human never stares at the wrong screen while signing in.
 		if (showPairingApprovalIfRequested()) return;
-		const session = await resolveSession();
+		const session = preResolvedSession || await resolveSession();
 		if (!session.loggedIn) {
 			stopActivitySession();
 			return showLoginGate();

@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><pre id="awtPageAudit">Preparing page audit</pre><script type="module">
+// B"H — The Awtsmoos gives every authenticated pane its visible controls.
+import { mountFeatureVessels } from "../js/boot/mountFeatureVessels.js";
+import { collectPanes } from "../js/shell/domCollect.js";
+import { PAGE_SPECS } from "../js/shell/pageSpecs.js";
+const errors = [];
+try {
+	mountFeatureVessels();
+	const panes = collectPanes();
+	for (const pane of panes) document.body.append(pane);
+	const report = PAGE_SPECS.map((spec,index) => {
+		const pane = panes[index];
+		const blank = Boolean(pane.querySelector(".awt-empty-dashboard"));
+		const controls = pane.querySelectorAll("input, button, textarea, select, a, details").length;
+		const characters = (pane.textContent || "").trim().length;
+		return { key: spec.key, blank, controls, characters,
+			children: pane.querySelector(".awt-pane-content")?.children.length || 0 };
+	});
+	const empty = report.filter(entry => entry.blank);
+	document.body.dataset.audit = empty.length ? "fail" : "pass";
+	document.getElementById("awtPageAudit").textContent = JSON.stringify({
+		pages: report.length, empty, report, errors
+	}, null, 2);
+} catch (error) {
+	document.body.dataset.audit = "error";
+	document.getElementById("awtPageAudit").textContent = String(error?.stack || error);
+}
+</script></body></html>
