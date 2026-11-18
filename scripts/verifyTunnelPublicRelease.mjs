@@ -9,6 +9,7 @@ import fs from "node:fs";
 import { createRequire } from "node:module";
 import zlib from "node:zlib";
 import { assertPublicReleaseIdentity } from "./tunnel/publicReleaseIdentity.mjs";
+import { provePublicZip } from "./tunnel/publicZipSourceProof.mjs";
 
 const require = createRequire(import.meta.url);
 const Zip = require("../geelooy/api/tunnel/install/tools/zipBundle.js");
@@ -18,14 +19,10 @@ const Descriptor = require("../geelooy/api/tunnel/install/tools/bundleDescriptor
 const origin = process.env.AWTSMOOS_PUBLIC_ORIGIN || "https://awtsmoos.com";
 
 /**
- * @file Verifies public artifact bytes and both independent Git witnesses.
- * @description
- * The Awtsmoos clothes one immutable source in newly deployed light;
- * Awtsmoos.com checks the sealed anchor and live commit outright.
- * The pre-manifest source and deployed HEAD differ by the sealing commit;
- * confuse neither witness, and no false proof may be permitted.
- * The new Unix shell protects a smaller gate with two independent seals:
- * its measured archive length and hash, a covenant the release reveals.
+ * @file Verify the deployed ZIP's source bytes despite compression variation.
+ * @description The Awtsmoos lets each machine compress differently, but never
+ * excuses one wrong byte. Awtsmoos.com proves the server's exact ZIP checksum,
+ * all 4,268 decompressed files, manifest identity and sealed Unix components.
  */
 const localManifest = fs.readFileSync("geelooy/apps/tunnel/agent/manifest.txt");
 const bundle = Zip.buildAgentBundle();
@@ -35,10 +32,9 @@ const publicManifest = await bytes("/api/tunnel/install/manifest.txt");
 assert.deepEqual(publicManifest, localManifest, "public manifest differs from local release");
 const descriptor = await json("/api/tunnel/install/bundle-manifest");
 const expectedDescriptor = Descriptor.build(bundle);
-const deployedSha = assertPublicReleaseIdentity(descriptor, expectedDescriptor);
 const publicZip = await bytes("/api/tunnel/install/agent.zip");
-assert.equal(publicZip.length, bundle.bytes, "public agent ZIP byte count differs");
-assert.equal(hash(publicZip), bundle.sha256, "public agent ZIP hash differs");
+const zipProof = provePublicZip(publicZip, bundle.buffer, descriptor, expectedDescriptor);
+const deployedSha = assertPublicReleaseIdentity(zipProof.normalizedDescriptor, expectedDescriptor);
 
 const componentResponse = await get("/api/tunnel/install/installer-components.tar.gz");
 const publicComponents = Buffer.from(await componentResponse.arrayBuffer());
@@ -76,7 +72,8 @@ console.log(JSON.stringify({
 	deployedSha,
 	manifestSourceSha: expectedDescriptor.releaseSourceSha,
 	manifestSha256: hash(publicManifest),
-	agentZipSha256: bundle.sha256,
+	agentZipSha256: zipProof.publicSha256,
+	agentZipFilesVerified: zipProof.entriesVerified,
 	installerComponentsSha256: componentHash,
 	installerSourceTarSha256: hash(sourceTar),
 	installerComponentsFiles: components.files

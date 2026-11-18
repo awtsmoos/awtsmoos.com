@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# B"H — The Awtsmoos proves owner boundaries and installer single-flight.
-# Every candidate must guard its prior runtime before the next is admitted.
+# B"H — The Awtsmoos proves owner boundaries, ZIP source and single-flight.
+# Each release must preserve both the incumbent identity and immutable bytes.
 set -Eeuo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd -P)"
 cd "$root"
@@ -16,7 +16,7 @@ run_bounded() {
 	fi
 }
 
-# These separate synthetic identities never impersonate actual account holders.
+# These synthetic identities never impersonate actual account holders.
 run_bounded 60 node --test --test-concurrency=1 \
 	geelooy/api/tunnel/control/core/test/tunnelAuthorizationIsolation.test.cjs \
 	geelooy/api/tunnel/control/core/test/tunnelPairingOwnership.test.cjs \
@@ -31,7 +31,7 @@ run_bounded 90 node --test --test-concurrency=2 \
 	geelooy/api/tunnel/install/test/unixSecureBootstrap.test.mjs \
 	geelooy/api/tunnel/install/test/unixArchiveMemberSecurity.test.mjs
 
-# Restore predecessor runtime and binding in temporary fixture roots only.
+# Preserve predecessor runtime and binding in temporary fixture roots only.
 rollback_test="$root/geelooy/api/tunnel/install/test/unixRollbackIsolation.sh"
 if command -v unshare >/dev/null 2>&1 && unshare -Ur true >/dev/null 2>&1; then
 	run_bounded 45 unshare -Ur bash "$rollback_test"
@@ -39,6 +39,9 @@ else
 	run_bounded 45 bash "$rollback_test"
 fi
 
-# The real guard and custody source now join the mandatory release safety gate.
+# Real guard and custody remain mandatory; no public-service mutations.
 run_bounded 100 bash scripts/production/tunnel-installer-deep-regression.sh
-printf 'B"H — Auth, sealed bootstrap, rollback, guardian custody pass.\n'
+
+# Compressor differences never excuse changed signed ZIP bytes or sources.
+run_bounded 30 node --test scripts/tunnel/publicZipSourceProof.test.mjs
+printf 'B"H — Auth, bootstrap, rollback, custody and ZIP proof pass.\n'
