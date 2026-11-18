@@ -1100,111 +1100,111 @@ const __awtsmoosModule_469 = Object.create(null);
 
 const __awtsmoosModule_467 = Object.create(null);
 
+const __awtsmoosModule_553 = Object.create(null);
+
 const __awtsmoosModule_466 = Object.create(null);
 
 const __awtsmoosModule_465 = Object.create(null);
 
-const __awtsmoosModule_554 = Object.create(null);
-
 const __awtsmoosModule_555 = Object.create(null);
-
-const __awtsmoosModule_553 = Object.create(null);
-
-const __awtsmoosModule_464 = Object.create(null);
 
 const __awtsmoosModule_556 = Object.create(null);
 
-const __awtsmoosModule_558 = Object.create(null);
+const __awtsmoosModule_554 = Object.create(null);
+
+const __awtsmoosModule_464 = Object.create(null);
 
 const __awtsmoosModule_557 = Object.create(null);
+
+const __awtsmoosModule_559 = Object.create(null);
+
+const __awtsmoosModule_558 = Object.create(null);
 
 const __awtsmoosModule_463 = Object.create(null);
 
 const __awtsmoosModule_462 = Object.create(null);
 
-const __awtsmoosModule_559 = Object.create(null);
-
-const __awtsmoosModule_564 = Object.create(null);
+const __awtsmoosModule_560 = Object.create(null);
 
 const __awtsmoosModule_565 = Object.create(null);
 
-const __awtsmoosModule_567 = Object.create(null);
+const __awtsmoosModule_566 = Object.create(null);
 
 const __awtsmoosModule_568 = Object.create(null);
 
-const __awtsmoosModule_573 = Object.create(null);
+const __awtsmoosModule_569 = Object.create(null);
+
+const __awtsmoosModule_574 = Object.create(null);
+
+const __awtsmoosModule_577 = Object.create(null);
 
 const __awtsmoosModule_576 = Object.create(null);
 
 const __awtsmoosModule_575 = Object.create(null);
 
-const __awtsmoosModule_574 = Object.create(null);
-
-const __awtsmoosModule_572 = Object.create(null);
-
-const __awtsmoosModule_578 = Object.create(null);
+const __awtsmoosModule_573 = Object.create(null);
 
 const __awtsmoosModule_579 = Object.create(null);
 
-const __awtsmoosModule_577 = Object.create(null);
+const __awtsmoosModule_580 = Object.create(null);
+
+const __awtsmoosModule_578 = Object.create(null);
+
+const __awtsmoosModule_572 = Object.create(null);
 
 const __awtsmoosModule_571 = Object.create(null);
 
 const __awtsmoosModule_570 = Object.create(null);
 
-const __awtsmoosModule_569 = Object.create(null);
+const __awtsmoosModule_581 = Object.create(null);
 
-const __awtsmoosModule_580 = Object.create(null);
+const __awtsmoosModule_567 = Object.create(null);
 
-const __awtsmoosModule_566 = Object.create(null);
+const __awtsmoosModule_564 = Object.create(null);
 
 const __awtsmoosModule_563 = Object.create(null);
-
-const __awtsmoosModule_562 = Object.create(null);
-
-const __awtsmoosModule_581 = Object.create(null);
 
 const __awtsmoosModule_582 = Object.create(null);
 
 const __awtsmoosModule_583 = Object.create(null);
 
-const __awtsmoosModule_561 = Object.create(null);
+const __awtsmoosModule_584 = Object.create(null);
 
-const __awtsmoosModule_560 = Object.create(null);
+const __awtsmoosModule_562 = Object.create(null);
+
+const __awtsmoosModule_561 = Object.create(null);
 
 const __awtsmoosModule_451 = Object.create(null);
 
-const __awtsmoosModule_584 = Object.create(null);
-
 const __awtsmoosModule_585 = Object.create(null);
+
+const __awtsmoosModule_586 = Object.create(null);
 
 const __awtsmoosModule_450 = Object.create(null);
 
-const __awtsmoosModule_586 = Object.create(null);
+const __awtsmoosModule_587 = Object.create(null);
 
 const __awtsmoosModule_411 = Object.create(null);
 
 const __awtsmoosModule_408 = Object.create(null);
 
-const __awtsmoosModule_587 = Object.create(null);
+const __awtsmoosModule_588 = Object.create(null);
 
 const __awtsmoosModule_407 = Object.create(null);
 
-const __awtsmoosModule_588 = Object.create(null);
-
-const __awtsmoosModule_593 = Object.create(null);
-
-const __awtsmoosModule_595 = Object.create(null);
-
-const __awtsmoosModule_596 = Object.create(null);
+const __awtsmoosModule_589 = Object.create(null);
 
 const __awtsmoosModule_594 = Object.create(null);
 
-const __awtsmoosModule_592 = Object.create(null);
-
-const __awtsmoosModule_591 = Object.create(null);
+const __awtsmoosModule_596 = Object.create(null);
 
 const __awtsmoosModule_597 = Object.create(null);
+
+const __awtsmoosModule_595 = Object.create(null);
+
+const __awtsmoosModule_593 = Object.create(null);
+
+const __awtsmoosModule_592 = Object.create(null);
 
 const __awtsmoosModule_598 = Object.create(null);
 
@@ -1212,15 +1212,17 @@ const __awtsmoosModule_599 = Object.create(null);
 
 const __awtsmoosModule_600 = Object.create(null);
 
-const __awtsmoosModule_590 = Object.create(null);
+const __awtsmoosModule_601 = Object.create(null);
 
-const __awtsmoosModule_589 = Object.create(null);
+const __awtsmoosModule_591 = Object.create(null);
+
+const __awtsmoosModule_590 = Object.create(null);
 
 const __awtsmoosModule_376 = Object.create(null);
 
-const __awtsmoosModule_601 = Object.create(null);
-
 const __awtsmoosModule_602 = Object.create(null);
+
+const __awtsmoosModule_603 = Object.create(null);
 
 const __awtsmoosModule_310 = Object.create(null);
 
@@ -1228,9 +1230,9 @@ const __awtsmoosModule_309 = Object.create(null);
 
 const __awtsmoosModule_186 = Object.create(null);
 
-const __awtsmoosModule_604 = Object.create(null);
+const __awtsmoosModule_605 = Object.create(null);
 
-const __awtsmoosModule_603 = Object.create(null);
+const __awtsmoosModule_604 = Object.create(null);
 
 const __awtsmoosModule_50 = Object.create(null);
 
@@ -4079,7 +4081,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_3zeerd = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4092,7 +4094,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_3zeerd;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -20143,7 +20145,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_53yabj = {
+	const __awtsmoosDefault_18kxrkg = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -20157,7 +20159,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_53yabj;
+	__exports.default = __awtsmoosDefault_18kxrkg;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -33660,12 +33662,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1q5ts2f = {
+	const __awtsmoosDefault_1jvmr54 = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1q5ts2f;
+	__exports.default = __awtsmoosDefault_1jvmr54;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -43735,6 +43737,56 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRiverBankSegments.js ----
+{
+	const __exports = __awtsmoosModule_553;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file CanonicalRiverBankSegments.js
+	 * @description Prepares exact bank segments with conservative boxes for fast influence rejection.
+	 * The Awtsmoos traces one river through the mountain and the field;
+	 * Awtsmoos.com knows each bank's reach, so distant earth need not yield.
+	 */
+
+	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_468.CANONICAL_RIVER_CONTROL_POINTS;
+
+	// 3.1 + 8.4 + 2.8 + 0.28 < 14.58 base half-width; largest reach scale is 1.78.
+	// 14.58 * 1.78 < 26, and the full outer bank margin adds 6.
+	const CANONICAL_BANK_MAXIMUM_REACH = 32;
+
+
+	__exports.CANONICAL_BANK_MAXIMUM_REACH = CANONICAL_BANK_MAXIMUM_REACH;
+	/** Original ordered authored segments with precomputed geometry. */
+	const CANONICAL_BANK_SEGMENTS = Object.freeze(
+		CANONICAL_RIVER_CONTROL_POINTS.slice(1).map((second, index) => {
+			const first = CANONICAL_RIVER_CONTROL_POINTS[index];
+			const firstX = first[0];
+			const firstZ = first[1];
+			const secondX = second[0];
+			const secondZ = second[1];
+			const dx = secondX - firstX;
+			const dz = secondZ - firstZ;
+			return Object.freeze({
+				dx,
+				dz,
+				firstX,
+				firstZ,
+				lengthSquared: dx * dx + dz * dz || 1,
+				maxX: Math.max(firstX, secondX) + CANONICAL_BANK_MAXIMUM_REACH,
+				maxZ: Math.max(firstZ, secondZ) + CANONICAL_BANK_MAXIMUM_REACH,
+				minX: Math.min(firstX, secondX) - CANONICAL_BANK_MAXIMUM_REACH,
+				minZ: Math.min(firstZ, secondZ) - CANONICAL_BANK_MAXIMUM_REACH
+			});
+		})
+	);
+
+	__exports.CANONICAL_BANK_SEGMENTS = CANONICAL_BANK_SEGMENTS;
+
+}
+
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalHydrologyBankField.js ----
 {
 	const __exports = __awtsmoosModule_466;
@@ -43744,29 +43796,30 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file CanonicalHydrologyBankField.js
-	 * @description Raises containment banks against every segment of the canonical river covenant.
-	 * The Awtsmoos carries upper and lower bends in one current; Awtsmoos.com reads the immutable
-	 * village hydrology source directly so terrain boot, banks, water, and bridge never drift apart.
+	 * @description Computes unchanged river freeboard from conservatively indexed authored segments.
+	 * The Awtsmoos keeps every bank and waterline true;
+	 * Awtsmoos.com skips distant segments so each nearby river comes through.
 	 */
 
 	const canonicalRiverElevation = __awtsmoosModule_467.canonicalRiverElevation;
 	const canonicalRiverTerrainSample = __awtsmoosModule_467.canonicalRiverTerrainSample;
-	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_468.CANONICAL_RIVER_CONTROL_POINTS;
+	const CANONICAL_BANK_MAXIMUM_REACH = __awtsmoosModule_553.CANONICAL_BANK_MAXIMUM_REACH;
+	const CANONICAL_BANK_SEGMENTS = __awtsmoosModule_553.CANONICAL_BANK_SEGMENTS;
 
 	const BANK_CLEARANCE = 0.65;
 	const BANK_FULL_MARGIN = 2;
 	const BANK_SOFT_MARGIN = 6;
+	const MAXIMUM_BANK_DISTANCE_SQUARED = CANONICAL_BANK_MAXIMUM_REACH ** 2;
 
+	/** Applies the exact authored raise-only river-bank height, rejecting distant boxes. */
 	function canonicalHydrologyBankHeightAt(x, z, terrainHeight) {
 		let bankedHeight = terrainHeight;
-		for (let index = 1; index < CANONICAL_RIVER_CONTROL_POINTS.length; index += 1) {
-			const sample = segmentBankSample(
-				CANONICAL_RIVER_CONTROL_POINTS[index - 1],
-				CANONICAL_RIVER_CONTROL_POINTS[index],
-				x,
-				z
-			);
-			if (sample.influence <= 0) continue;
+		for (const segment of CANONICAL_BANK_SEGMENTS) {
+			if (x < segment.minX || x > segment.maxX || z < segment.minZ || z > segment.maxZ) {
+				continue;
+			}
+			const sample = segmentBankSample(segment, x, z);
+			if (!sample || sample.influence <= 0) continue;
 			bankedHeight = Math.max(
 				bankedHeight,
 				raiseToAtLeast(terrainHeight, sample.targetHeight, sample.influence)
@@ -43777,62 +43830,72 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.canonicalHydrologyBankHeightAt = canonicalHydrologyBankHeightAt;
+	/** The immutable authored river freeboard. */
 	function canonicalMinimumBankClearance() {
 		return BANK_CLEARANCE;
 	}
 
 
 	__exports.canonicalMinimumBankClearance = canonicalMinimumBankClearance;
-	function segmentBankSample(first, second, x, z) {
-		const projection = segmentProjection(first, second, x, z);
+	/** Samples only the segments inside the conservative full outer-bank radius. */
+	function segmentBankSample(segment, x, z) {
+		const projection = segmentProjection(segment, x, z);
+		if (projection.distanceSquared >= MAXIMUM_BANK_DISTANCE_SQUARED) return null;
 		const center = canonicalRiverTerrainSample(projection.x, projection.z);
+		const distance = Math.hypot(projection.separationX, projection.separationZ);
 		return {
-			influence: bankRingInfluence(projection.distance, center.width),
+			influence: bankRingInfluence(distance, center.width),
 			targetHeight: canonicalRiverElevation(center.t) + BANK_CLEARANCE
 		};
 	}
 
-	function segmentProjection(first, second, x, z) {
-		const firstX = first[0];
-		const firstZ = first[1];
-		const dx = second[0] - firstX;
-		const dz = second[1] - firstZ;
-		const lengthSquared = dx * dx + dz * dz || 1;
-		const amount = clamp(((x - firstX) * dx + (z - firstZ) * dz) / lengthSquared);
-		const projectedX = firstX + dx * amount;
-		const projectedZ = firstZ + dz * amount;
+	/** Finite segment projection with unchanged float math and cached edge length. */
+	function segmentProjection(segment, x, z) {
+		const amount = clamp((
+			(x - segment.firstX) * segment.dx + (z - segment.firstZ) * segment.dz
+		) / segment.lengthSquared);
+		const projectedX = segment.firstX + segment.dx * amount;
+		const projectedZ = segment.firstZ + segment.dz * amount;
+		const separationX = x - projectedX;
+		const separationZ = z - projectedZ;
 		return {
-			distance: Math.hypot(x - projectedX, z - projectedZ),
+			distanceSquared: separationX * separationX + separationZ * separationZ,
+			separationX,
+			separationZ,
 			x: projectedX,
 			z: projectedZ
 		};
 	}
 
+	/** Retains the full original annular bank influence. */
 	function bankRingInfluence(distance, width) {
 		const outsideBed = smooth(width * 0.62, width * 0.96, distance);
 		const outsideBank = 1 - smooth(
 			width + BANK_FULL_MARGIN,
-			width + BANK_SOFT_MARGIN,
-			distance
+			width + BANK_SOFT_MARGIN, distance
 		);
 		return outsideBed * outsideBank;
 	}
 
+	/** Preserves raising-only bank physics. */
 	function raiseToAtLeast(current, target, influence) {
 		return current >= target ? current : mix(current, target, influence);
 	}
 
+	/** Original authored smoothstep. */
 	function smooth(edge0, edge1, value) {
 		const amount = clamp((value - edge0) / (edge1 - edge0 || 1));
 		return amount * amount * (3 - 2 * amount);
 	}
 
+	/** Original authored blend. */
 	function mix(first, second, amount) {
 		return first + (second - first) * clamp(amount);
 	}
 
+	/** Original safe scalar percentage. */
 	function clamp(value) {
-		return Math.max(0, Math.min(1, value));
+		return Math.max(0, Math.min(1, Number(value) || 0));
 	}
 
 }
@@ -43906,7 +43969,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRiverValleyField.js ----
 {
-	const __exports = __awtsmoosModule_554;
+	const __exports = __awtsmoosModule_555;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -43954,7 +44017,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainTerraces.js ----
 {
-	const __exports = __awtsmoosModule_555;
+	const __exports = __awtsmoosModule_556;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44036,7 +44099,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainBase.js ----
 {
-	const __exports = __awtsmoosModule_553;
+	const __exports = __awtsmoosModule_554;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44048,9 +44111,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives roads and exact foundations the structural work, preserving living terrain around each self.
 	 */
 
-	const canonicalRiverValleyHeightAt = __awtsmoosModule_554.canonicalRiverValleyHeightAt;
+	const canonicalRiverValleyHeightAt = __awtsmoosModule_555.canonicalRiverValleyHeightAt;
 	const canonicalRiverTerrainSample = __awtsmoosModule_467.canonicalRiverTerrainSample;
-	const canonicalTerraceSample = __awtsmoosModule_555.canonicalTerraceSample;
+	const canonicalTerraceSample = __awtsmoosModule_556.canonicalTerraceSample;
 
 	const TERRACE_CHARACTER_STRENGTH = 0.2;
 
@@ -44129,7 +44192,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_465.canonicalHydrologyTerrainHeightAt;
-	const canonicalTerrainBaseHeightAt = __awtsmoosModule_553.canonicalTerrainBaseHeightAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_554.canonicalTerrainBaseHeightAt;
 
 	const ROAD_SURFACE_CLEARANCE = 0.18;
 
@@ -44218,7 +44281,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSolver.js ----
 {
-	const __exports = __awtsmoosModule_556;
+	const __exports = __awtsmoosModule_557;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44289,7 +44352,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageStoneBridgeContract.js ----
 {
-	const __exports = __awtsmoosModule_558;
+	const __exports = __awtsmoosModule_559;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44302,7 +44365,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_465.canonicalHydrologyTerrainHeightAt;
-	const canonicalTerrainBaseHeightAt = __awtsmoosModule_553.canonicalTerrainBaseHeightAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_554.canonicalTerrainBaseHeightAt;
 
 	const STONE_BRIDGE_DIMENSIONS = Object.freeze({
 		deckRise: 3.25,
@@ -44356,7 +44419,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageRoads.js ----
 {
-	const __exports = __awtsmoosModule_557;
+	const __exports = __awtsmoosModule_558;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44368,7 +44431,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every cobbled lane its true width and joins both banks to BRIDGE01's walkable deck.
 	 */
 
-	const canonicalStoneBridgeDeckTopY = __awtsmoosModule_558.canonicalStoneBridgeDeckTopY;
+	const canonicalStoneBridgeDeckTopY = __awtsmoosModule_559.canonicalStoneBridgeDeckTopY;
 
 	const BRIDGE_CENTER = Object.freeze({ x: 18, z: 7 });
 	const BRIDGE_WALKABLE_Y = canonicalStoneBridgeDeckTopY(BRIDGE_CENTER);
@@ -44490,10 +44553,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	const registerRoadSurfaceNode = __awtsmoosModule_464.registerRoadSurfaceNode;
 	const ROAD_SURFACE_CLEARANCE = __awtsmoosModule_464.ROAD_SURFACE_CLEARANCE;
 	const ROAD_SURFACE_SAMPLE_SPACING = __awtsmoosModule_464.ROAD_SURFACE_SAMPLE_SPACING;
-	const createRoadSurfaceEdges = __awtsmoosModule_556.createRoadSurfaceEdges;
-	const ROAD_SURFACE_MAXIMUM_GRADE = __awtsmoosModule_556.ROAD_SURFACE_MAXIMUM_GRADE;
-	const solveRoadSurfaceElevations = __awtsmoosModule_556.solveRoadSurfaceElevations;
-	const canonicalVillageRoadRoutes = __awtsmoosModule_557.canonicalVillageRoadRoutes;
+	const createRoadSurfaceEdges = __awtsmoosModule_557.createRoadSurfaceEdges;
+	const ROAD_SURFACE_MAXIMUM_GRADE = __awtsmoosModule_557.ROAD_SURFACE_MAXIMUM_GRADE;
+	const solveRoadSurfaceElevations = __awtsmoosModule_557.solveRoadSurfaceElevations;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_558.canonicalVillageRoadRoutes;
 
 	let cachedNetwork = null;
 
@@ -44667,7 +44730,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldTriangleExclusion.js ----
 {
-	const __exports = __awtsmoosModule_559;
+	const __exports = __awtsmoosModule_560;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44730,7 +44793,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageCameras.js ----
 {
-	const __exports = __awtsmoosModule_564;
+	const __exports = __awtsmoosModule_565;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44786,7 +44849,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageIdentifiers.js ----
 {
-	const __exports = __awtsmoosModule_565;
+	const __exports = __awtsmoosModule_566;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44842,7 +44905,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationAliases.js ----
 {
-	const __exports = __awtsmoosModule_567;
+	const __exports = __awtsmoosModule_568;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44893,7 +44956,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationFacets.js ----
 {
-	const __exports = __awtsmoosModule_568;
+	const __exports = __awtsmoosModule_569;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -44971,16 +45034,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalFoundationPads.js ----
 {
-	const __exports = __awtsmoosModule_573;
+	const __exports = __awtsmoosModule_574;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file CanonicalFoundationPads.js
-	 * @description Flattens exact rotated canonical footprints and blends them into nearby terrain.
-	 * The Awtsmoos rests each finite home upon a truthful vessel; Awtsmoos.com keeps every corner
-	 * supported while broad transition bands reveal retaining earth rather than floating geometry.
+	 * @description Prepares rotated foundation footprints once, then bounds each height sample.
+	 * The Awtsmoos gives the Chossid a home upon a hill of living light;
+	 * Awtsmoos.com preserves each measured grade while skipping distant work outright.
 	 */
 
 	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_454.CANONICAL_VILLAGE_FOOTPRINTS;
@@ -44990,46 +45053,33 @@ const __awtsmoosModule_0 = Object.create(null);
 	let cachedPads = null;
 
 	/**
-	 * Blends terrain toward the strongest exact canonical foundation pad.
-	 *
-	 * @param {number} x World x coordinate.
-	 * @param {number} z World z coordinate.
-	 * @param {number} terrainHeight Road-adjusted terrain height.
-	 * @param {Function} terrainHeightAt Road-adjusted terrain callback without pads.
-	 * @returns {number} Foundation-supported canonical terrain height.
+	 * Returns unchanged road terrain outside every pad, or blends toward the
+	 * strongest exact, rotated foundation support inside its six-meter shoulder.
+	 * @param {number} x World x-coordinate.
+	 * @param {number} z World z-coordinate.
+	 * @param {number} terrainHeight Current road-adjusted height.
+	 * @param {Function} terrainHeightAt Pad-free terrain sampler.
+	 * @returns {number} Canonical supported height, with original numerical order.
 	 */
-	function canonicalFoundationPadHeightAt(
-		x,
-		z,
-		terrainHeight,
-		terrainHeightAt
-	) {
-		let strongest = null;
+	function canonicalFoundationPadHeightAt(x, z, terrainHeight, terrainHeightAt) {
+		let strongestInfluence = 0;
+		let targetHeight = terrainHeight;
 		for (const pad of foundationPads(terrainHeightAt)) {
 			const influence = padInfluence(pad, x, z);
-			if (influence <= 0) {
-				continue;
-			}
-			if (!strongest || influence > strongest.influence) {
-				strongest = {
-					influence,
-					targetHeight: pad.targetHeight
-				};
+			if (influence > strongestInfluence) {
+				strongestInfluence = influence;
+				targetHeight = pad.targetHeight;
 			}
 		}
-		if (!strongest) {
+		if (strongestInfluence === 0) {
 			return terrainHeight;
 		}
-		return mix(terrainHeight, strongest.targetHeight, strongest.influence);
+		return mix(terrainHeight, targetHeight, strongestInfluence);
 	}
 
 
 	__exports.canonicalFoundationPadHeightAt = canonicalFoundationPadHeightAt;
-	/**
-	 * Returns all footprints governed by exact foundation pads.
-	 *
-	 * @returns {object[]} Supported canonical footprints.
-	 */
+	/** Returns the authored village footprints requiring canonical foundations. */
 	function canonicalFoundationFootprints() {
 		return CANONICAL_VILLAGE_FOOTPRINTS.filter((footprint) => {
 			return !SPECIALIZED_SURFACES.has(footprint.id);
@@ -45038,46 +45088,58 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.canonicalFoundationFootprints = canonicalFoundationFootprints;
+	/** Lazily builds a permanent terrain target and conservative influence envelope. */
 	function foundationPads(terrainHeightAt) {
-		if (!cachedPads) {
-			cachedPads = canonicalFoundationFootprints().map((footprint) => {
-				return Object.freeze({
-					...footprint,
-					targetHeight: terrainHeightAt(footprint.x, footprint.z)
-				});
-			});
+		if (cachedPads) {
+			return cachedPads;
 		}
+		cachedPads = canonicalFoundationFootprints().map((footprint) => {
+			const yaw = footprint.yaw || 0;
+			const envelope = Math.hypot(
+				footprint.width / 2 + BLEND_DISTANCE,
+				footprint.depth / 2 + BLEND_DISTANCE
+			);
+			return Object.freeze({
+				...footprint,
+				cosine: Math.cos(yaw),
+				envelopeSquared: envelope * envelope,
+				sine: Math.sin(yaw),
+				targetHeight: terrainHeightAt(footprint.x, footprint.z)
+			});
+		});
 		return cachedPads;
 	}
 
+	/** Rejects distant foundations before rotation or costly Euclidean distance. */
 	function padInfluence(pad, x, z) {
-		const local = localCoordinates(pad, x, z);
-		const outsideX = Math.max(Math.abs(local.x) - pad.width / 2, 0);
-		const outsideZ = Math.max(Math.abs(local.z) - pad.depth / 2, 0);
+		const dx = x - pad.x;
+		const dz = z - pad.z;
+		if (dx * dx + dz * dz > pad.envelopeSquared) {
+			return 0;
+		}
+		const localX = dx * pad.cosine + dz * pad.sine;
+		const localZ = -dx * pad.sine + dz * pad.cosine;
+		const outsideX = Math.max(Math.abs(localX) - pad.width / 2, 0);
+		const outsideZ = Math.max(Math.abs(localZ) - pad.depth / 2, 0);
+		if (outsideX >= BLEND_DISTANCE || outsideZ >= BLEND_DISTANCE) {
+			return 0;
+		}
 		const outsideDistance = Math.hypot(outsideX, outsideZ);
 		return 1 - smooth(0, BLEND_DISTANCE, outsideDistance);
 	}
 
-	function localCoordinates(pad, x, z) {
-		const dx = x - pad.x;
-		const dz = z - pad.z;
-		const cosine = Math.cos(pad.yaw || 0);
-		const sine = Math.sin(pad.yaw || 0);
-		return {
-			x: dx * cosine + dz * sine,
-			z: -dx * sine + dz * cosine
-		};
-	}
-
+	/** Smoothstep with the same float operations as the authored foundation field. */
 	function smooth(edge0, edge1, value) {
 		const amount = clamp((value - edge0) / (edge1 - edge0 || 1));
 		return amount * amount * (3 - 2 * amount);
 	}
 
+	/** Applies the original terrain-to-pad blend without modifying authority. */
 	function mix(first, second, amount) {
 		return first + (second - first) * clamp(amount);
 	}
 
+	/** Keeps smoothing and blending inside the authored unit interval. */
 	function clamp(value) {
 		return Math.max(0, Math.min(1, value));
 	}
@@ -45086,7 +45148,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadGraph.js ----
 {
-	const __exports = __awtsmoosModule_576;
+	const __exports = __awtsmoosModule_577;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45098,7 +45160,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * elevation while neighboring control points relax until no authored segment exceeds safe grade.
 	 */
 
-	const canonicalVillageRoadRoutes = __awtsmoosModule_557.canonicalVillageRoadRoutes;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_558.canonicalVillageRoadRoutes;
 
 	const MAXIMUM_GRAPH_GRADE = 0.16;
 	const RELAXATION_PASSES = 512;
@@ -45206,7 +45268,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadProfiles.js ----
 {
-	const __exports = __awtsmoosModule_575;
+	const __exports = __awtsmoosModule_576;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45218,7 +45280,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * measured radii and graph-solved target heights without allowing adjacent profiles to disagree.
 	 */
 
-	const canonicalRoadGraph = __awtsmoosModule_576.canonicalRoadGraph;
+	const canonicalRoadGraph = __awtsmoosModule_577.canonicalRoadGraph;
 
 	let cachedProfiles = null;
 
@@ -45249,42 +45311,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalRoadCorridor.js ----
 {
-	const __exports = __awtsmoosModule_574;
+	const __exports = __awtsmoosModule_575;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file CanonicalRoadCorridor.js
-	 * @description Grades canonical roads into steep terrain with a slope-limited cut-and-fill shoulder.
-	 * The Awtsmoos lets the road hold its measured grade without becoming a narrow trench or earthen blade;
-	 * Awtsmoos.com gives every cut and fill enough horizontal breath for the surrounding hillside to fade.
+	 * @description Grades exact road corridors using squared-distance ranking.
+	 * The Awtsmoos makes a path through the mountain with measured grace;
+	 * Awtsmoos.com keeps every authored slope and skips needless square roots in place.
 	 */
 
-	const canonicalRoadProfiles = __awtsmoosModule_575.canonicalRoadProfiles;
+	const canonicalRoadProfiles = __awtsmoosModule_576.canonicalRoadProfiles;
 
 	const MAXIMUM_CROSS_SLOPE = 0.32;
 
-	/**
-	 * Returns the nearest road's grade-safe terrain sample.
-	 * The solved road elevation is exact inside the road edge; outside it, terrain returns at bounded cross-slope.
-	 */
+	/** Returns the nearest road's exact grade-safe terrain sample. */
 	function canonicalRoadCorridorSampleAt(x, z, baseHeight, baseHeightAt) {
-		const nearest = nearestRoadSample(
-			canonicalRoadProfiles(baseHeightAt),
-			x,
-			z
-		);
+		const nearest = nearestRoadSample(canonicalRoadProfiles(baseHeightAt), x, z);
 		if (!nearest) return unchangedSample(baseHeight);
-		const shoulderRun = Math.max(
-			0,
-			nearest.distance - nearest.profile.fullRadius
-		);
-		const height = slopeLimitedHeight(
-			baseHeight,
-			nearest.targetHeight,
-			shoulderRun
-		);
+		const shoulderRun = Math.max(0, nearest.distance - nearest.profile.fullRadius);
+		const height = slopeLimitedHeight(baseHeight, nearest.targetHeight, shoulderRun);
 		return Object.freeze({
 			height,
 			influence: correctionInfluence(baseHeight, nearest.targetHeight, height)
@@ -45293,82 +45341,80 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.canonicalRoadCorridorSampleAt = canonicalRoadCorridorSampleAt;
-	/** Returns only the adjusted road-corridor elevation for legacy callers. */
+	/** Returns the exact road-corridor elevation for legacy callers. */
 	function canonicalRoadCorridorHeightAt(x, z, baseHeight, baseHeightAt) {
-		return canonicalRoadCorridorSampleAt(
-			x,
-			z,
-			baseHeight,
-			baseHeightAt
-		).height;
+		return canonicalRoadCorridorSampleAt(x, z, baseHeight, baseHeightAt).height;
 	}
 
 
 	__exports.canonicalRoadCorridorHeightAt = canonicalRoadCorridorHeightAt;
+	/** Reports the fixed cross-slope authority without changing its value. */
 	function canonicalRoadShoulderPolicy() {
 		return Object.freeze({ maximumCrossSlope: MAXIMUM_CROSS_SLOPE });
 	}
 
 
 	__exports.canonicalRoadShoulderPolicy = canonicalRoadShoulderPolicy;
+	/** Preserves the exact original cut-and-fill grade. */
 	function slopeLimitedHeight(baseHeight, targetHeight, shoulderRun) {
 		const allowance = shoulderRun * MAXIMUM_CROSS_SLOPE;
-		if (baseHeight > targetHeight) {
-			return Math.min(baseHeight, targetHeight + allowance);
-		}
-		if (baseHeight < targetHeight) {
-			return Math.max(baseHeight, targetHeight - allowance);
-		}
+		if (baseHeight > targetHeight) return Math.min(baseHeight, targetHeight + allowance);
+		if (baseHeight < targetHeight) return Math.max(baseHeight, targetHeight - allowance);
 		return targetHeight;
 	}
 
+	/** Converts the solved correction to the authored influence. */
 	function correctionInfluence(baseHeight, targetHeight, height) {
 		const fullCorrection = targetHeight - baseHeight;
 		if (Math.abs(fullCorrection) < 0.000001) return 0;
 		return clamp((height - baseHeight) / fullCorrection);
 	}
 
+	/** Returns the original neutral road sample. */
 	function unchangedSample(baseHeight) {
 		return Object.freeze({ height: baseHeight, influence: 0 });
 	}
 
+	/**
+	 * Chooses the nearest line segment using squared distances, preserving the
+	 * first winner on ties. Only its true Euclidean distance and height need
+	 * materialization; every loser leaves no temporary sample object behind.
+	 */
 	function nearestRoadSample(profiles, x, z) {
 		let nearest = null;
+		let minimumSquared = Infinity;
 		for (const profile of profiles) {
 			for (let index = 1; index < profile.points.length; index += 1) {
-				const sample = segmentSample(
-					profile.points[index - 1],
-					profile.points[index],
-					x,
-					z
-				);
-				if (!nearest || sample.distance < nearest.distance) {
-					nearest = { ...sample, profile };
-				}
+				const first = profile.points[index - 1];
+				const second = profile.points[index];
+				const dx = second.x - first.x;
+				const dz = second.z - first.z;
+				const lengthSquared = dx * dx + dz * dz || 1;
+				const amount = clamp(((x - first.x) * dx + (z - first.z) * dz) / lengthSquared);
+				const projectedX = first.x + dx * amount;
+				const projectedZ = first.z + dz * amount;
+				const separationX = x - projectedX;
+				const separationZ = z - projectedZ;
+				const distanceSquared = separationX * separationX + separationZ * separationZ;
+				if (distanceSquared >= minimumSquared) continue;
+				minimumSquared = distanceSquared;
+				nearest = { amount, first, profile, second, separationX, separationZ };
 			}
 		}
-		return nearest;
-	}
-
-	function segmentSample(first, second, x, z) {
-		const dx = second.x - first.x;
-		const dz = second.z - first.z;
-		const lengthSquared = dx * dx + dz * dz || 1;
-		const amount = clamp(
-			((x - first.x) * dx + (z - first.z) * dz) / lengthSquared
-		);
-		const projectedX = first.x + dx * amount;
-		const projectedZ = first.z + dz * amount;
+		if (!nearest) return null;
 		return {
-			distance: Math.hypot(x - projectedX, z - projectedZ),
-			targetHeight: mix(first.targetHeight, second.targetHeight, amount)
+			distance: Math.hypot(nearest.separationX, nearest.separationZ),
+			profile: nearest.profile,
+			targetHeight: mix(nearest.first.targetHeight, nearest.second.targetHeight, nearest.amount)
 		};
 	}
 
+	/** Original scalar interpolation and bounded percentage. */
 	function mix(first, second, amount) {
 		return first + (second - first) * clamp(amount);
 	}
 
+	/** Original clamp semantics, including non-finite values. */
 	function clamp(value) {
 		return Math.max(0, Math.min(1, Number(value) || 0));
 	}
@@ -45377,7 +45423,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/CanonicalTerrainHeight.js ----
 {
-	const __exports = __awtsmoosModule_572;
+	const __exports = __awtsmoosModule_573;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45389,12 +45435,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com reconnects every canonical footprint to the land before the final current carves its finite trace.
 	 */
 
-	const canonicalFoundationPadHeightAt = __awtsmoosModule_573.canonicalFoundationPadHeightAt;
+	const canonicalFoundationPadHeightAt = __awtsmoosModule_574.canonicalFoundationPadHeightAt;
 	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_465.canonicalHydrologyTerrainHeightAt;
-	const canonicalRoadCorridorSampleAt = __awtsmoosModule_574.canonicalRoadCorridorSampleAt;
-	const canonicalTerrainBaseHeightAt = __awtsmoosModule_553.canonicalTerrainBaseHeightAt;
+	const canonicalRoadCorridorSampleAt = __awtsmoosModule_575.canonicalRoadCorridorSampleAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_554.canonicalTerrainBaseHeightAt;
 	const canonicalRiverTerrainSample = __awtsmoosModule_467.canonicalRiverTerrainSample;
-	const canonicalTerraceSample = __awtsmoosModule_555.canonicalTerraceSample;
+	const canonicalTerraceSample = __awtsmoosModule_556.canonicalTerraceSample;
 
 	/** Returns the complete canonical terrain height. */
 	function canonicalTerrainHeightAt(x, z) {
@@ -45443,7 +45489,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/TerrainGeometryIndices.js ----
 {
-	const __exports = __awtsmoosModule_578;
+	const __exports = __awtsmoosModule_579;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45520,7 +45566,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/TerrainGeometryNormals.js ----
 {
-	const __exports = __awtsmoosModule_579;
+	const __exports = __awtsmoosModule_580;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45584,7 +45630,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/TerrainGeometryFinalization.js ----
 {
-	const __exports = __awtsmoosModule_577;
+	const __exports = __awtsmoosModule_578;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45596,13 +45642,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * responsive path for gameplay and the immediate path for deterministic tooling.
 	 */
 
-	const canonicalTerraceDefinitions = __awtsmoosModule_555.canonicalTerraceDefinitions;
-	const buildTerrainColliders = __awtsmoosModule_578.buildTerrainColliders;
-	const buildTerrainCollidersAsync = __awtsmoosModule_578.buildTerrainCollidersAsync;
-	const buildTerrainIndices = __awtsmoosModule_578.buildTerrainIndices;
-	const buildTerrainIndicesAsync = __awtsmoosModule_578.buildTerrainIndicesAsync;
-	const buildTerrainNormals = __awtsmoosModule_579.buildTerrainNormals;
-	const buildTerrainNormalsAsync = __awtsmoosModule_579.buildTerrainNormalsAsync;
+	const canonicalTerraceDefinitions = __awtsmoosModule_556.canonicalTerraceDefinitions;
+	const buildTerrainColliders = __awtsmoosModule_579.buildTerrainColliders;
+	const buildTerrainCollidersAsync = __awtsmoosModule_579.buildTerrainCollidersAsync;
+	const buildTerrainIndices = __awtsmoosModule_579.buildTerrainIndices;
+	const buildTerrainIndicesAsync = __awtsmoosModule_579.buildTerrainIndicesAsync;
+	const buildTerrainNormals = __awtsmoosModule_580.buildTerrainNormals;
+	const buildTerrainNormalsAsync = __awtsmoosModule_580.buildTerrainNormalsAsync;
 
 	function finishTerrainGeometry(state, preparation, coordinateAt) {
 		const indices = buildTerrainIndices(state.steps);
@@ -45683,7 +45729,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/TerrainGeometry.js ----
 {
-	const __exports = __awtsmoosModule_571;
+	const __exports = __awtsmoosModule_572;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45696,10 +45742,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const v = __awtsmoosModule_314.v;
-	const canonicalTerrainHeightAt = __awtsmoosModule_572.canonicalTerrainHeightAt;
-	const canonicalTerrainZoneAt = __awtsmoosModule_572.canonicalTerrainZoneAt;
-	const finishTerrainGeometry = __awtsmoosModule_577.finishTerrainGeometry;
-	const finishTerrainGeometryAsync = __awtsmoosModule_577.finishTerrainGeometryAsync;
+	const canonicalTerrainHeightAt = __awtsmoosModule_573.canonicalTerrainHeightAt;
+	const canonicalTerrainZoneAt = __awtsmoosModule_573.canonicalTerrainZoneAt;
+	const finishTerrainGeometry = __awtsmoosModule_578.finishTerrainGeometry;
+	const finishTerrainGeometryAsync = __awtsmoosModule_578.finishTerrainGeometryAsync;
 
 	const DEFAULT_TERRAIN_SIZE = 540;
 
@@ -45816,7 +45862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageCameraGrounding.js ----
 {
-	const __exports = __awtsmoosModule_570;
+	const __exports = __awtsmoosModule_571;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45828,7 +45874,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so generated films cannot aim the lens into earth merely because the valley elevation changes beneath an otherwise valid X/Z lane.
 	 */
 
-	const terrainHeightAt = __awtsmoosModule_571.terrainHeightAt;
+	const terrainHeightAt = __awtsmoosModule_572.terrainHeightAt;
 
 	function terrainRelativeCameraPoint(x, z, clearance) {
 		return Object.freeze({
@@ -45865,7 +45911,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationShots.js ----
 {
-	const __exports = __awtsmoosModule_569;
+	const __exports = __awtsmoosModule_570;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45877,8 +45923,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com therefore stores X/Z choreography plus explicit clearance, never brittle absolute Y values that can bury a camera in earth.
 	 */
 
-	const terrainRelativeCameraPoint = __awtsmoosModule_570.terrainRelativeCameraPoint;
-	const terrainRelativeCameraTarget = __awtsmoosModule_570.terrainRelativeCameraTarget;
+	const terrainRelativeCameraPoint = __awtsmoosModule_571.terrainRelativeCameraPoint;
+	const terrainRelativeCameraTarget = __awtsmoosModule_571.terrainRelativeCameraTarget;
 
 	const LOWER_RIVER_TARGET = terrainRelativeCameraTarget(7.5, 42.3, 2.6);
 	const FINAL_RIVER_TARGET = terrainRelativeCameraTarget(10, 44, 2.6);
@@ -45916,7 +45962,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationStaging.js ----
 {
-	const __exports = __awtsmoosModule_580;
+	const __exports = __awtsmoosModule_581;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45984,7 +46030,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillageLocations.js ----
 {
-	const __exports = __awtsmoosModule_566;
+	const __exports = __awtsmoosModule_567;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -45996,11 +46042,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while cinema stands downstream where broad living water, garden bank, and Chossid can share one honest frame.
 	 */
 
-	const CANONICAL_CAMERAS_BY_ID = __awtsmoosModule_564.CANONICAL_CAMERAS_BY_ID;
-	const resolveCanonicalVillageLocationId = __awtsmoosModule_567.resolveCanonicalVillageLocationId;
-	const canonicalVillageLocationFacets = __awtsmoosModule_568.canonicalVillageLocationFacets;
-	const canonicalVillageLocationShots = __awtsmoosModule_569.canonicalVillageLocationShots;
-	const canonicalVillageLocationStaging = __awtsmoosModule_580.canonicalVillageLocationStaging;
+	const CANONICAL_CAMERAS_BY_ID = __awtsmoosModule_565.CANONICAL_CAMERAS_BY_ID;
+	const resolveCanonicalVillageLocationId = __awtsmoosModule_568.resolveCanonicalVillageLocationId;
+	const canonicalVillageLocationFacets = __awtsmoosModule_569.canonicalVillageLocationFacets;
+	const canonicalVillageLocationShots = __awtsmoosModule_570.canonicalVillageLocationShots;
+	const canonicalVillageLocationStaging = __awtsmoosModule_581.canonicalVillageLocationStaging;
 
 	const RIVER_SAFE_BOUNDS = bounds(-24, 4, 34, -7, 24, 60);
 
@@ -46100,7 +46146,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/CanonicalVillagePlan.js ----
 {
-	const __exports = __awtsmoosModule_563;
+	const __exports = __awtsmoosModule_564;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46113,17 +46159,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const CANONICAL_VILLAGE_BIOMES = __awtsmoosModule_452.CANONICAL_VILLAGE_BIOMES;
-	const CANONICAL_VILLAGE_CAMERAS = __awtsmoosModule_564.CANONICAL_VILLAGE_CAMERAS;
+	const CANONICAL_VILLAGE_CAMERAS = __awtsmoosModule_565.CANONICAL_VILLAGE_CAMERAS;
 	const CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_460.CANONICAL_VILLAGE_CLEARINGS;
 	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_454.CANONICAL_VILLAGE_FOOTPRINTS;
 	const CANONICAL_VILLAGE_HOUSES = __awtsmoosModule_455.CANONICAL_VILLAGE_HOUSES;
-	const CANONICAL_VILLAGE_IDS = __awtsmoosModule_565.CANONICAL_VILLAGE_IDS;
-	const CANONICAL_VILLAGE_LOCATIONS = __awtsmoosModule_566.CANONICAL_VILLAGE_LOCATIONS;
+	const CANONICAL_VILLAGE_IDS = __awtsmoosModule_566.CANONICAL_VILLAGE_IDS;
+	const CANONICAL_VILLAGE_LOCATIONS = __awtsmoosModule_567.CANONICAL_VILLAGE_LOCATIONS;
 	const CANONICAL_RIVER_CASCADES = __awtsmoosModule_468.CANONICAL_RIVER_CASCADES;
 	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_468.CANONICAL_RIVER_CONTROL_POINTS;
 	const CANONICAL_RIVER_LAKE_INDEX = __awtsmoosModule_468.CANONICAL_RIVER_LAKE_INDEX;
-	const canonicalRoadNetworkEvidence = __awtsmoosModule_557.canonicalRoadNetworkEvidence;
-	const canonicalVillageRoadRoutes = __awtsmoosModule_557.canonicalVillageRoadRoutes;
+	const canonicalRoadNetworkEvidence = __awtsmoosModule_558.canonicalRoadNetworkEvidence;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_558.canonicalVillageRoadRoutes;
 	const VILLAGE_ARRIVAL_ENTRANCE = __awtsmoosModule_461.VILLAGE_ARRIVAL_ENTRANCE;
 
 	__exports.CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_460.CANONICAL_VILLAGE_CLEARINGS;
@@ -46205,7 +46251,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageCurves.js ----
 {
-	const __exports = __awtsmoosModule_562;
+	const __exports = __awtsmoosModule_563;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46217,7 +46263,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * stable as every sign, bridge, lake, plaza, and path agrees with the master plan.
 	 */
 
-	const CANONICAL_VILLAGE_LANDMARKS = __awtsmoosModule_563.CANONICAL_VILLAGE_LANDMARKS;
+	const CANONICAL_VILLAGE_LANDMARKS = __awtsmoosModule_564.CANONICAL_VILLAGE_LANDMARKS;
 	const riverCenterAt = __awtsmoosModule_469.riverCenterAt;
 	const riverWidthAt = __awtsmoosModule_469.riverWidthAt;
 	const sampleRiverPath = __awtsmoosModule_469.sampleRiverPath;
@@ -46259,7 +46305,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverChannelProfile.js ----
 {
-	const __exports = __awtsmoosModule_581;
+	const __exports = __awtsmoosModule_582;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46368,7 +46414,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverHydrologySampling.js ----
 {
-	const __exports = __awtsmoosModule_582;
+	const __exports = __awtsmoosModule_583;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46419,7 +46465,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageGroundSampling.js ----
 {
-	const __exports = __awtsmoosModule_583;
+	const __exports = __awtsmoosModule_584;
 	// B"H
 
 	/**
@@ -46441,7 +46487,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageRiverHydrology.js ----
 {
-	const __exports = __awtsmoosModule_561;
+	const __exports = __awtsmoosModule_562;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46454,13 +46500,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const CANONICAL_RIVER_CASCADES = __awtsmoosModule_468.CANONICAL_RIVER_CASCADES;
-	const normalBetween = __awtsmoosModule_562.normalBetween;
-	const villageLandmarks = __awtsmoosModule_562.villageLandmarks;
-	const riverChannelProfileAt = __awtsmoosModule_581.riverChannelProfileAt;
-	const sampleHydrologyPoint = __awtsmoosModule_582.sampleHydrologyPoint;
+	const normalBetween = __awtsmoosModule_563.normalBetween;
+	const villageLandmarks = __awtsmoosModule_563.villageLandmarks;
+	const riverChannelProfileAt = __awtsmoosModule_582.riverChannelProfileAt;
+	const sampleHydrologyPoint = __awtsmoosModule_583.sampleHydrologyPoint;
 	const RIVER_LAKE_T = __awtsmoosModule_469.RIVER_LAKE_T;
 	const sampleRiverPath = __awtsmoosModule_469.sampleRiverPath;
-	const villageGroundHeight = __awtsmoosModule_583.villageGroundHeight;
+	const villageGroundHeight = __awtsmoosModule_584.villageGroundHeight;
 
 	const RIVER_CASCADES = CANONICAL_RIVER_CASCADES;
 
@@ -46546,7 +46592,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldWaterCorridor.js ----
 {
-	const __exports = __awtsmoosModule_560;
+	const __exports = __awtsmoosModule_561;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46558,7 +46604,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * width, waterline, and signed edge clearance so ecology, staging, gameplay, and cinema cannot invent different water boundaries.
 	 */
 
-	const sampleHydrologyAt = __awtsmoosModule_561.sampleHydrologyAt;
+	const sampleHydrologyAt = __awtsmoosModule_562.sampleHydrologyAt;
 	const sampleRiverPath = __awtsmoosModule_469.sampleRiverPath;
 	const freezePoint = __awtsmoosModule_458.freezePoint;
 	const nearestPointOnPolylineXZ = __awtsmoosModule_458.nearestPointOnPolylineXZ;
@@ -46644,8 +46690,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const clearingExclusionEvidenceAt = __awtsmoosModule_459.clearingExclusionEvidenceAt;
 	const footprintExclusionEvidenceAt = __awtsmoosModule_459.footprintExclusionEvidenceAt;
 	const roadCorridorEvidenceAt = __awtsmoosModule_462.roadCorridorEvidenceAt;
-	const triangleExclusionEvidenceAt = __awtsmoosModule_559.triangleExclusionEvidenceAt;
-	const waterCorridorEvidenceAt = __awtsmoosModule_560.waterCorridorEvidenceAt;
+	const triangleExclusionEvidenceAt = __awtsmoosModule_560.triangleExclusionEvidenceAt;
+	const waterCorridorEvidenceAt = __awtsmoosModule_561.waterCorridorEvidenceAt;
 
 	/**
 	 * Measures one ecological site against every shared physical exclusion.
@@ -46730,7 +46776,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/spatial/WorldEcologySpacing.js ----
 {
-	const __exports = __awtsmoosModule_584;
+	const __exports = __awtsmoosModule_585;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46766,7 +46812,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/RealNatureAssetCatalog.js ----
 {
-	const __exports = __awtsmoosModule_585;
+	const __exports = __awtsmoosModule_586;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46829,8 +46875,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const ecologySiteEvidenceAt = __awtsmoosModule_451.ecologySiteEvidenceAt;
-	const ecologySpacingClearance = __awtsmoosModule_584.ecologySpacingClearance;
-	const realNatureAssetCatalog = __awtsmoosModule_585.realNatureAssetCatalog;
+	const ecologySpacingClearance = __awtsmoosModule_585.ecologySpacingClearance;
+	const realNatureAssetCatalog = __awtsmoosModule_586.realNatureAssetCatalog;
 
 	const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 	const RADII = Object.freeze({
@@ -46912,7 +46958,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/NatureVisibilityField.js ----
 {
-	const __exports = __awtsmoosModule_586;
+	const __exports = __awtsmoosModule_587;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -46988,7 +47034,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadNatureInstances = __awtsmoosModule_446.loadNatureInstances;
 	const createNaturePlacements = __awtsmoosModule_450.createNaturePlacements;
 	const natureQualityBudget = __awtsmoosModule_444.natureQualityBudget;
-	const NatureVisibilityField = __awtsmoosModule_586.NatureVisibilityField;
+	const NatureVisibilityField = __awtsmoosModule_587.NatureVisibilityField;
 	const SharedWindField = __awtsmoosModule_442.SharedWindField;
 
 	async function createRealNatureSystem(options = {}) {
@@ -47182,7 +47228,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveRealNatureReceipt.js ----
 {
-	const __exports = __awtsmoosModule_587;
+	const __exports = __awtsmoosModule_588;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47227,7 +47273,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const createLiveRealNatureBridge = __awtsmoosModule_408.createLiveRealNatureBridge;
-	const exposeLiveNatureReceipt = __awtsmoosModule_587.exposeLiveNatureReceipt;
+	const exposeLiveNatureReceipt = __awtsmoosModule_588.exposeLiveNatureReceipt;
 	const currentLiveRuntime = __awtsmoosModule_409.currentLiveRuntime;
 
 	let singleton = null;
@@ -47285,7 +47331,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveFallbackSurfaceRecipe.js ----
 {
-	const __exports = __awtsmoosModule_588;
+	const __exports = __awtsmoosModule_589;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47414,7 +47460,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureDensityMath.js ----
 {
-	const __exports = __awtsmoosModule_593;
+	const __exports = __awtsmoosModule_594;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47490,7 +47536,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureImageMetrics.js ----
 {
-	const __exports = __awtsmoosModule_595;
+	const __exports = __awtsmoosModule_596;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47523,7 +47569,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureRepeatPolicy.js ----
 {
-	const __exports = __awtsmoosModule_596;
+	const __exports = __awtsmoosModule_597;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47548,7 +47594,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureDensityPlan.js ----
 {
-	const __exports = __awtsmoosModule_594;
+	const __exports = __awtsmoosModule_595;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47559,11 +47605,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos measures source and world while the renderer receives a guarded finite count;
 	 * Awtsmoos.com keeps this generic policy reusable wherever physical texture density must amount.
 	 */
-	const boundedTextureAxisPlan = __awtsmoosModule_593.boundedTextureAxisPlan;
-	const positiveTextureNumber = __awtsmoosModule_593.positiveTextureNumber;
-	const textureQualityScale = __awtsmoosModule_593.textureQualityScale;
-	const textureSize = __awtsmoosModule_595.textureSize;
-	const REPEAT_HOOKS = __awtsmoosModule_596.REPEAT_HOOKS;
+	const boundedTextureAxisPlan = __awtsmoosModule_594.boundedTextureAxisPlan;
+	const positiveTextureNumber = __awtsmoosModule_594.positiveTextureNumber;
+	const textureQualityScale = __awtsmoosModule_594.textureQualityScale;
+	const textureSize = __awtsmoosModule_596.textureSize;
+	const REPEAT_HOOKS = __awtsmoosModule_597.REPEAT_HOOKS;
 
 	function textureDensityPlan(options = {}) {
 		const source = textureSize(options.image);
@@ -47608,7 +47654,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureExactRepeat.js ----
 {
-	const __exports = __awtsmoosModule_592;
+	const __exports = __awtsmoosModule_593;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47619,10 +47665,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond tile and scale while each finite surface receives proportionate light;
 	 * Awtsmoos.com lets exact and bounded density share one truthful calculation across every world in sight.
 	 */
-	const exactPixelRepeat = __awtsmoosModule_593.exactPixelRepeat;
-	const positiveTextureNumber = __awtsmoosModule_593.positiveTextureNumber;
-	const textureDensityPlan = __awtsmoosModule_594.textureDensityPlan;
-	const textureSize = __awtsmoosModule_595.textureSize;
+	const exactPixelRepeat = __awtsmoosModule_594.exactPixelRepeat;
+	const positiveTextureNumber = __awtsmoosModule_594.positiveTextureNumber;
+	const textureDensityPlan = __awtsmoosModule_595.textureDensityPlan;
+	const textureSize = __awtsmoosModule_596.textureSize;
 
 	function exactRepeat(width, depth, tileWorld = 1) {
 		const tile = positiveTextureNumber(tileWorld, 1);
@@ -47664,7 +47710,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureExactRepeat.js ----
 {
-	const __exports = __awtsmoosModule_591;
+	const __exports = __awtsmoosModule_592;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47675,14 +47721,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every tiled garment while remaining beyond tile and floor;
 	 * Awtsmoos.com lets old callers speak the same names as many worlds share one measured core.
 	 */
-	__exports.exactRepeat = __awtsmoosModule_592.exactRepeat;
-	__exports.repeatFromPixels = __awtsmoosModule_592.repeatFromPixels;
+	__exports.exactRepeat = __awtsmoosModule_593.exactRepeat;
+	__exports.repeatFromPixels = __awtsmoosModule_593.repeatFromPixels;
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureImageMetrics.js ----
 {
-	const __exports = __awtsmoosModule_597;
+	const __exports = __awtsmoosModule_598;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47693,14 +47739,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond width and URL while renewing every finite image in light;
 	 * Awtsmoos.com lets old imports remain steady as shared metrics become one reusable sight.
 	 */
-	__exports.publicUrl = __awtsmoosModule_595.publicUrl;
-	__exports.textureSize = __awtsmoosModule_595.textureSize;
+	__exports.publicUrl = __awtsmoosModule_596.publicUrl;
+	__exports.textureSize = __awtsmoosModule_596.textureSize;
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureMaterialFields.js ----
 {
-	const __exports = __awtsmoosModule_598;
+	const __exports = __awtsmoosModule_599;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47712,9 +47758,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps material assembly apart from density mathematics so each vessel stays ardent.
 	 */
 
-	const repeatFromPixels = __awtsmoosModule_591.repeatFromPixels;
-	const publicUrl = __awtsmoosModule_597.publicUrl;
-	const textureSize = __awtsmoosModule_597.textureSize;
+	const repeatFromPixels = __awtsmoosModule_592.repeatFromPixels;
+	const publicUrl = __awtsmoosModule_598.publicUrl;
+	const textureSize = __awtsmoosModule_598.textureSize;
 
 	function materialTexture(
 		color,
@@ -47775,7 +47821,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureDensityPlan.js ----
 {
-	const __exports = __awtsmoosModule_599;
+	const __exports = __awtsmoosModule_600;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47786,13 +47832,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos joins source pixels to world measure beyond every game's finite name;
 	 * Awtsmoos.com lets Mitzvah keep this historic doorway while other worlds receive the same stable flame.
 	 */
-	__exports.textureDensityPlan = __awtsmoosModule_594.textureDensityPlan;
+	__exports.textureDensityPlan = __awtsmoosModule_595.textureDensityPlan;
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js ----
 {
-	const __exports = __awtsmoosModule_600;
+	const __exports = __awtsmoosModule_601;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47803,13 +47849,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews old doorway and deeper spring in one unbroken ray;
 	 * Awtsmoos.com lets every existing Mitzvah caller keep its path while generic texture policy lives where many games may stay.
 	 */
-	__exports.REPEAT_HOOKS = __awtsmoosModule_596.REPEAT_HOOKS;
+	__exports.REPEAT_HOOKS = __awtsmoosModule_597.REPEAT_HOOKS;
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/TextureRepeat.js ----
 {
-	const __exports = __awtsmoosModule_590;
+	const __exports = __awtsmoosModule_591;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47821,25 +47867,25 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps every old import stable as exact coverage and GPU planning answer their call.
 	 */
 
-	__exports.exactRepeat = __awtsmoosModule_591.exactRepeat;
-	__exports.repeatFromPixels = __awtsmoosModule_591.repeatFromPixels;
-	__exports.publicUrl = __awtsmoosModule_597.publicUrl;
-	__exports.textureSize = __awtsmoosModule_597.textureSize;
-	__exports.floorRepeat = __awtsmoosModule_598.floorRepeat;
-	__exports.materialTexture = __awtsmoosModule_598.materialTexture;
-	__exports.mixRepeat = __awtsmoosModule_598.mixRepeat;
-	__exports.roadRepeat = __awtsmoosModule_598.roadRepeat;
-	__exports.roofRepeat = __awtsmoosModule_598.roofRepeat;
-	__exports.terrainRepeat = __awtsmoosModule_598.terrainRepeat;
-	__exports.wallRepeat = __awtsmoosModule_598.wallRepeat;
-	__exports.textureDensityPlan = __awtsmoosModule_599.textureDensityPlan;
-	__exports.REPEAT_HOOKS = __awtsmoosModule_600.REPEAT_HOOKS;
+	__exports.exactRepeat = __awtsmoosModule_592.exactRepeat;
+	__exports.repeatFromPixels = __awtsmoosModule_592.repeatFromPixels;
+	__exports.publicUrl = __awtsmoosModule_598.publicUrl;
+	__exports.textureSize = __awtsmoosModule_598.textureSize;
+	__exports.floorRepeat = __awtsmoosModule_599.floorRepeat;
+	__exports.materialTexture = __awtsmoosModule_599.materialTexture;
+	__exports.mixRepeat = __awtsmoosModule_599.mixRepeat;
+	__exports.roadRepeat = __awtsmoosModule_599.roadRepeat;
+	__exports.roofRepeat = __awtsmoosModule_599.roofRepeat;
+	__exports.terrainRepeat = __awtsmoosModule_599.terrainRepeat;
+	__exports.wallRepeat = __awtsmoosModule_599.wallRepeat;
+	__exports.textureDensityPlan = __awtsmoosModule_600.textureDensityPlan;
+	__exports.REPEAT_HOOKS = __awtsmoosModule_601.REPEAT_HOOKS;
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js ----
 {
-	const __exports = __awtsmoosModule_589;
+	const __exports = __awtsmoosModule_590;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -47851,7 +47897,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole.
 	 */
 
-	const REPEAT_HOOKS = __awtsmoosModule_590.REPEAT_HOOKS;
+	const REPEAT_HOOKS = __awtsmoosModule_591.REPEAT_HOOKS;
 
 	const WHOLE_IMAGE_PATTERN = /(?:sign|scroll|mezuza|label|decal|atlas|leaf|blossom|window-card|interior-card|portrait|icon|sky|cloud)/i;
 
@@ -47911,8 +47957,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const isSameOriginMaterialUrl = __awtsmoosModule_215.isSameOriginMaterialUrl;
 	const isRealMaterialImage = __awtsmoosModule_206.isRealMaterialImage;
 	const scheduleLiveRealNatureBridge = __awtsmoosModule_407.scheduleLiveRealNatureBridge;
-	const withPrimitiveFallbackSurfaceRecipe = __awtsmoosModule_588.withPrimitiveFallbackSurfaceRecipe;
-	const createPrimitiveTexturePolicy = __awtsmoosModule_589.createPrimitiveTexturePolicy;
+	const withPrimitiveFallbackSurfaceRecipe = __awtsmoosModule_589.withPrimitiveFallbackSurfaceRecipe;
+	const createPrimitiveTexturePolicy = __awtsmoosModule_590.createPrimitiveTexturePolicy;
 
 	scheduleImportedNatureBridge();
 
@@ -47998,7 +48044,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js ----
 {
-	const __exports = __awtsmoosModule_601;
+	const __exports = __awtsmoosModule_602;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -48039,7 +48085,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js ----
 {
-	const __exports = __awtsmoosModule_602;
+	const __exports = __awtsmoosModule_603;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -48172,11 +48218,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	const primitiveColorArray = __awtsmoosModule_375.primitiveColorArray;
 	const primitiveIndexArray = __awtsmoosModule_375.primitiveIndexArray;
 	const createPrimitiveMaterial = __awtsmoosModule_376.createPrimitiveMaterial;
-	const primitiveUsesNativeDensity = __awtsmoosModule_589.primitiveUsesNativeDensity;
-	const primitiveZoneWeights = __awtsmoosModule_601.primitiveZoneWeights;
-	const measureUvUnitsPerWorld = __awtsmoosModule_602.measureUvUnitsPerWorld;
-	const normalizePrimitiveUvsToWorld = __awtsmoosModule_602.normalizePrimitiveUvsToWorld;
-	const projectPrimitiveUvs = __awtsmoosModule_602.projectPrimitiveUvs;
+	const primitiveUsesNativeDensity = __awtsmoosModule_590.primitiveUsesNativeDensity;
+	const primitiveZoneWeights = __awtsmoosModule_602.primitiveZoneWeights;
+	const measureUvUnitsPerWorld = __awtsmoosModule_603.measureUvUnitsPerWorld;
+	const normalizePrimitiveUvsToWorld = __awtsmoosModule_603.normalizePrimitiveUvsToWorld;
+	const projectPrimitiveUvs = __awtsmoosModule_603.projectPrimitiveUvs;
 
 	const WORLD_UV_BASIS = Object.freeze([1, 1]);
 
@@ -48455,7 +48501,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/ui/MinimalMeadowGameRailUiRuntime.js ----
 {
-	const __exports = __awtsmoosModule_604;
+	const __exports = __awtsmoosModule_605;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -48524,7 +48570,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowUiLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_603;
+	const __exports = __awtsmoosModule_604;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -48536,9 +48582,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps profile publication, menu refresh, diagnostics, and destruction measurable.
 	 */
 
-	const installGameRailUiEvents = __awtsmoosModule_604.installGameRailUiEvents;
-	const minimalMeadowPlayerProfile = __awtsmoosModule_604.minimalMeadowPlayerProfile;
-	const minimalMeadowUiDiagnostics = __awtsmoosModule_604.minimalMeadowUiDiagnostics;
+	const installGameRailUiEvents = __awtsmoosModule_605.installGameRailUiEvents;
+	const minimalMeadowPlayerProfile = __awtsmoosModule_605.minimalMeadowPlayerProfile;
+	const minimalMeadowUiDiagnostics = __awtsmoosModule_605.minimalMeadowUiDiagnostics;
 
 	function createMinimalMeadowUiLifecycle(
 		runtime,
@@ -48628,7 +48674,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const AwtsmoosEventBus = __awtsmoosModule_73.AwtsmoosEventBus;
 	const createMinimalMeadowUiComponents = __awtsmoosModule_74.createMinimalMeadowUiComponents;
 	const MinimalMeadowEquipmentRuntime = __awtsmoosModule_186.MinimalMeadowEquipmentRuntime;
-	const createMinimalMeadowUiLifecycle = __awtsmoosModule_603.createMinimalMeadowUiLifecycle;
+	const createMinimalMeadowUiLifecycle = __awtsmoosModule_604.createMinimalMeadowUiLifecycle;
 
 	function installMinimalMeadowUi(
 		runtime,

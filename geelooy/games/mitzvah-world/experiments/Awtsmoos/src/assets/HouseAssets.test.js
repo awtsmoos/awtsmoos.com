@@ -1,14 +1,12 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
+// Boruch Hashem — Blessed is He
 
 /**
  * @file HouseAssets.test.js
- * @description Proves strict house textures stay real, trusted, bounded, and recover sequentially after transient contention.
- * The Awtsmoos gathers many walls into one world while Awtsmoos.com keeps every finite request measured;
- * no stale alias, false pixel, or simultaneous remote stampede may exile a texture that succeeds when approached alone.
+ * @description Verifies trusted published texture roots, fallback order, bounded transfers and recovery.
+ * The Awtsmoos renews each house from nothing while its images travel on honest roads;
+ * no outdated root assumption shall exile a real, publicly verified wall.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -18,21 +16,25 @@ import {
 	houseImageEntries,
 	loadHouseAssets
 } from './HouseAssets.js';
-import { REMOTE_TEXTURE_ROOT } from './RemoteTextureTransport.js';
+import {
+	TRUSTED_TEXTURE_ROOTS,
+	isTrustedAwtsmoosMaterialUrl
+} from './RemoteTextureTransport.js';
 
-const BAD_ALIASES = ['red%20brick%20203.png', 'dirt-grass%201.png', 'dirt-grass%202.png'];
-
-test('every house candidate uses the trusted production root and excludes stale URL forms', () => {
+test('every house candidate belongs to a trusted production texture root', () => {
 	const entries = houseImageEntries();
 	assert.equal(entries.length, 13);
 	for (const entry of entries) {
 		assert.ok(entry.urls.length >= 2, `${entry.key} needs a fallback`);
 		assert.equal(entry.url, entry.urls[0]);
+		assert.equal(new Set(entry.urls).size, entry.urls.length);
 		for (const url of entry.urls) {
-			assert.ok(url.startsWith(REMOTE_TEXTURE_ROOT));
-			assert.ok(BAD_ALIASES.every(alias => !url.includes(alias)), url);
+			assert.ok(url.startsWith('https://'));
+			assert.ok(TRUSTED_TEXTURE_ROOTS.some(root => url.startsWith(root)), url);
+			assert.ok(isTrustedAwtsmoosMaterialUrl(url), url);
 		}
 	}
+	assert.equal(isTrustedAwtsmoosMaterialUrl('https://other.example/picture.png'), false);
 });
 
 test('house hydration limits concurrency and grants full first-pass transfer budgets', async () => {

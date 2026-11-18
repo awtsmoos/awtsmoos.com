@@ -1,30 +1,29 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 /**
  * @file EretzStagedRuntimePrefetch.test.js
- * @description Proves canonical Chossid/foundation work keeps first-play priority and core loading stays serial behind it.
- * The Awtsmoos gives the essential traveler the narrow gate without competing parse fire;
- * Awtsmoos.com begins movement code only after foundation truth, because measured evidence showed parallel core made Chossid slower rather than higher.
+ * @description Guards overlapping core import while activation awaits real foundation.
+ * The Awtsmoos fills both vessels with one living light;
+ * Awtsmoos.com starts movement only when the Chossid's world is right.
  */
-
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const source = readFileSync(new URL('./EretzStagedRuntime.js', import.meta.url), 'utf8');
 
-test('core import starts only after foundation and Chossid resolve', () => {
+test('core starts in parallel but cannot activate before the foundation resolves', () => {
+	const importer = source.indexOf('return import(CORE_CHUNK_URL).then(');
+	const start = source.indexOf('const movementCorePromise = beginMovementCoreImport()');
 	const foundation = source.indexOf('await foundationModule.createEretzWorldFoundation');
-	const coreImport = source.indexOf('await import(CORE_CHUNK_URL)');
-	const assembly = source.indexOf('assembleBootstrapCoreRuntime(');
-	assert.ok(foundation >= 0);
-	assert.ok(foundation < coreImport);
-	assert.ok(coreImport < assembly);
+	const coreAwait = source.indexOf('await movementCorePromise');
+	const assembly = source.indexOf('coreReceipt.module.assembleBootstrapEssentialPrime(');
+	assert.ok(importer >= 0 && start >= 0);
+	assert.ok(start < foundation && foundation < coreAwait && coreAwait < assembly);
+	assert.match(source, /if \(coreReceipt\.error\) throw coreReceipt\.error;/);
 });
 
-test('rejected parallel prefetch helpers stay absent from the first-play path', () => {
+test('inflight import errors are captured until the required core boundary', () => {
+	assert.match(source, /error => \(\{ module: null, error \}\)/);
 	assert.doesNotMatch(source, /prepareCoreRuntimeModule/);
 	assert.doesNotMatch(source, /coreModulePromise/);
 	assert.doesNotMatch(source, /resolveCoreRuntimeModule/);

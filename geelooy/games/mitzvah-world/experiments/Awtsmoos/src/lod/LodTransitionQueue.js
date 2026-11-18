@@ -4,12 +4,12 @@
 
 /**
  * @file LodTransitionQueue.js
- * @description Owns stable transition identity, replacement, and failure accounting while a dedicated processor owns frame budgeting.
- * The Awtsmoos binds one identity through every finite change; Awtsmoos.com replaces obsolete garments before they enter the measured gate,
- * keeping the queue small, the ownership clear, and each applied transition honest about its fate.
+ * @description Owns stable transition identity, replacement, failure accounting, and measured GPU-upload execution time.
+ * The Awtsmoos binds one identity through each finite change while clocks count only a passing ray;
+ * Awtsmoos.com times tagged upload work at the execution gate, so a four-millisecond covenant can be proved in day.
  */
 
-import { createLodFrameClock } from './LodFrameBudget.js';
+import { createLodFrameClock, elapsedLodMilliseconds } from './LodFrameBudget.js';
 import { processLodTransitions } from './LodTransitionProcessor.js';
 
 export class LodTransitionQueue {
@@ -18,13 +18,15 @@ export class LodTransitionQueue {
 		this.entries = new Map();
 		this.sequence = 0;
 		this.stats = {
-			enqueued: 0,
-			replaced: 0,
 			applied: 0,
-			failed: 0,
-			suspended: 0,
 			deadlineStops: 0,
-			longTasks: 0
+			enqueued: 0,
+			failed: 0,
+			gpuUploadsMeasured: 0,
+			longTasks: 0,
+			maximumGpuUploadMilliseconds: null,
+			replaced: 0,
+			suspended: 0
 		};
 	}
 
@@ -33,11 +35,11 @@ export class LodTransitionQueue {
 		if (!id || typeof apply !== 'function') return false;
 		const existing = this.entries.get(id);
 		this.entries.set(id, {
-			id,
-			priority: finiteNumber(priority, 0),
-			cost: Math.max(0, finiteNumber(cost, 1)),
 			apply,
+			cost: Math.max(0, finiteNumber(cost, 1)),
+			id,
 			metadata,
+			priority: finiteNumber(priority, 0),
 			sequence: existing?.sequence ?? this.sequence++
 		});
 		if (existing) this.stats.replaced += 1;
@@ -56,22 +58,34 @@ export class LodTransitionQueue {
 	/** Delegates execution while retaining queue identity and diagnostic ownership. */
 	process(options = {}) {
 		return processLodTransitions({
-			entries: this.entries,
+			applyEntry: entry => this.applyEntry(entry),
 			clock: this.clock,
-			stats: this.stats,
-			applyEntry: entry => this.applyEntry(entry)
+			entries: this.entries,
+			stats: this.stats
 		}, options);
 	}
 
 	applyEntry(entry) {
+		const uploadStartedAt = entry.metadata?.gpuUpload === true ? this.clock() : null;
 		try {
 			const value = entry.apply(entry.metadata);
 			this.stats.applied += 1;
-			return { id: entry.id, ok: true, value, cost: entry.cost };
+			return { cost: entry.cost, id: entry.id, ok: true, value };
 		} catch (error) {
 			this.stats.failed += 1;
-			return { id: entry.id, ok: false, error, cost: entry.cost };
+			return { cost: entry.cost, error, id: entry.id, ok: false };
+		} finally {
+			if (uploadStartedAt !== null) this.recordGpuUpload(uploadStartedAt);
 		}
+	}
+
+	recordGpuUpload(startedAt) {
+		const elapsed = elapsedLodMilliseconds(this.clock, startedAt);
+		this.stats.gpuUploadsMeasured += 1;
+		this.stats.maximumGpuUploadMilliseconds = Math.max(
+			this.stats.maximumGpuUploadMilliseconds ?? 0,
+			elapsed
+		);
 	}
 
 	get size() {

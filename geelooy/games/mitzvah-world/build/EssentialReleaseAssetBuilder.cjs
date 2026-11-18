@@ -4,8 +4,9 @@
 
 /**
  * @file EssentialReleaseAssetBuilder.cjs
- * @description Verifies first-play essentials while separating local release custody from immutable Drive custody.
- * The Awtsmoos measures every vessel by bytes and hash; Awtsmoos.com keeps models nearby while image light lives in Drive.
+ * @description Validates immutable first-play essentials and certifies their release custody.
+ * The Awtsmoos renews each Chossid in the very breath of light;
+ * Awtsmoos.com records the delivered vessel, not the distant source of sight.
  */
 
 'use strict';
@@ -38,7 +39,7 @@ const ASSETS = Object.freeze({
 	})
 });
 
-/** Verify every essential and write only those whose release custody is intentionally local. */
+/** Verifies each input and emits only exact local-release assets. */
 async function buildEssentialReleaseAssets(gameRoot) {
 	const generatedRoot = path.join(gameRoot, 'build/generated');
 	const assetRoot = path.join(generatedRoot, 'assets');
@@ -58,7 +59,7 @@ async function buildEssentialReleaseAssets(gameRoot) {
 	return manifest;
 }
 
-/** Verify exact identity, then materialize only local-custody release assets. */
+/** Certifies custody of the RELEASE output, distinct from its verified source. */
 async function verifyEssentialAsset(gameRoot, assetRoot, definition) {
 	const source = await loadEssentialBytes(gameRoot, definition);
 	const sha256 = crypto.createHash('sha256').update(source.bytes).digest('hex');
@@ -70,7 +71,7 @@ async function verifyEssentialAsset(gameRoot, assetRoot, definition) {
 	}
 	return Object.freeze({
 		bytes: source.bytes.length,
-		custody: definition.materialize ? source.custody : 'remote',
+		custody: definition.materialize ? 'local' : 'remote',
 		materialized: definition.materialize === true,
 		publicUrl: definition.publicUrl,
 		sha256,
@@ -78,21 +79,22 @@ async function verifyEssentialAsset(gameRoot, assetRoot, definition) {
 	});
 }
 
+/** Reads the pinned authored model when present, otherwise the immutable source. */
 async function loadEssentialBytes(gameRoot, definition) {
 	if (definition.localFile) {
 		const localPath = path.join(gameRoot, definition.localFile);
 		try {
-			return { bytes: await fs.readFile(localPath), custody: 'local', label: localPath };
+			return { bytes: await fs.readFile(localPath), label: localPath };
 		} catch (error) {
 			if (error?.code !== 'ENOENT') throw error;
 		}
 	}
 	const response = await fetch(definition.sourceUrl, { cache: 'no-store', redirect: 'follow' });
 	if (!response.ok) throw new Error(`ESSENTIAL_ASSET_DOWNLOAD_FAILED:${response.status}:${definition.sourceUrl}`);
-	return { bytes: Buffer.from(await response.arrayBuffer()), custody: 'remote', label: definition.sourceUrl };
+	return { bytes: Buffer.from(await response.arrayBuffer()), label: definition.sourceUrl };
 }
 
-/** Remove image bodies from the generated tree when their authoritative custody is Drive. */
+/** Prevents stale remote-image duplicates in the local model distribution. */
 async function purgeLegacyRemoteFiles(assetRoot) {
 	for (const definition of Object.values(ASSETS)) {
 		if (!definition.legacyFileName) continue;
@@ -100,6 +102,7 @@ async function purgeLegacyRemoteFiles(assetRoot) {
 	}
 }
 
+/** Guards both exact byte count and canonical SHA-256 before publication. */
 function assertEssentialIdentity(bytes, sha256, definition, sourceLabel) {
 	if (bytes.length !== definition.bytes) throw new Error(`ESSENTIAL_ASSET_SIZE_MISMATCH:${bytes.length}:${definition.bytes}:${sourceLabel}`);
 	if (sha256 !== definition.sha256) throw new Error(`ESSENTIAL_ASSET_HASH_MISMATCH:${sha256}:${definition.sha256}:${sourceLabel}`);

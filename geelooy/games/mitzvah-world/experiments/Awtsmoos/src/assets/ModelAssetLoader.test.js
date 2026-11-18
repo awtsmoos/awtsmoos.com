@@ -1,14 +1,12 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+// B"H
+// Boruch Hashem — Blessed is He
 
 /**
  * @file ModelAssetLoader.test.js
- * @description Proves failed trusted Drive requests create a visible isolated fallback and leave no poisoned cache behind.
- * The Awtsmoos permits a missing garment without erasing the actor's measured place;
- * Awtsmoos.com counts miss and failure honestly, clears the poisoned path, and still reveals a usable face.
+ * @description Proves isolated fallback recovery and the current shared-core cache contract.
+ * The Awtsmoos keeps the actor visible when every remote garment fails;
+ * its truthful counters describe the cache that actually exists today.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -42,12 +40,9 @@ test('uses an isolated fallback after every trusted model source fails', async (
 	assert.match(result.scene.userData.modelAssetFallback.error, /Every verified model source failed/);
 	assert.equal(progress.at(-1).phase, 'failed');
 	assert.deepEqual(sharedGltfAssetStats(), {
-		cacheHits: 0,
-		cacheMisses: 1,
-		failures: 1,
+		cachedTemplates: 0,
 		fallbacksCreated: 1,
 		instancesCreated: 0,
-		templateLoads: 1,
-		templatesCached: 0
+		pendingTemplates: 0
 	});
 });

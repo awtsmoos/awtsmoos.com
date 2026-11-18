@@ -4,9 +4,9 @@
 
 /**
  * @file CanonicalFoundationPads.js
- * @description Flattens exact rotated canonical footprints and blends them into nearby terrain.
- * The Awtsmoos rests each finite home upon a truthful vessel; Awtsmoos.com keeps every corner
- * supported while broad transition bands reveal retaining earth rather than floating geometry.
+ * @description Prepares rotated foundation footprints once, then bounds each height sample.
+ * The Awtsmoos gives the Chossid a home upon a hill of living light;
+ * Awtsmoos.com preserves each measured grade while skipping distant work outright.
  */
 
 import { CANONICAL_VILLAGE_FOOTPRINTS } from './village/CanonicalVillageFootprints.js';
@@ -16,90 +16,89 @@ const SPECIALIZED_SURFACES = new Set(['BRIDGE01', 'ENTR01']);
 let cachedPads = null;
 
 /**
- * Blends terrain toward the strongest exact canonical foundation pad.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @param {number} terrainHeight Road-adjusted terrain height.
- * @param {Function} terrainHeightAt Road-adjusted terrain callback without pads.
- * @returns {number} Foundation-supported canonical terrain height.
+ * Returns unchanged road terrain outside every pad, or blends toward the
+ * strongest exact, rotated foundation support inside its six-meter shoulder.
+ * @param {number} x World x-coordinate.
+ * @param {number} z World z-coordinate.
+ * @param {number} terrainHeight Current road-adjusted height.
+ * @param {Function} terrainHeightAt Pad-free terrain sampler.
+ * @returns {number} Canonical supported height, with original numerical order.
  */
-export function canonicalFoundationPadHeightAt(
-	x,
-	z,
-	terrainHeight,
-	terrainHeightAt
-) {
-	let strongest = null;
+export function canonicalFoundationPadHeightAt(x, z, terrainHeight, terrainHeightAt) {
+	let strongestInfluence = 0;
+	let targetHeight = terrainHeight;
 	for (const pad of foundationPads(terrainHeightAt)) {
 		const influence = padInfluence(pad, x, z);
-		if (influence <= 0) {
-			continue;
-		}
-		if (!strongest || influence > strongest.influence) {
-			strongest = {
-				influence,
-				targetHeight: pad.targetHeight
-			};
+		if (influence > strongestInfluence) {
+			strongestInfluence = influence;
+			targetHeight = pad.targetHeight;
 		}
 	}
-	if (!strongest) {
+	if (strongestInfluence === 0) {
 		return terrainHeight;
 	}
-	return mix(terrainHeight, strongest.targetHeight, strongest.influence);
+	return mix(terrainHeight, targetHeight, strongestInfluence);
 }
 
-/**
- * Returns all footprints governed by exact foundation pads.
- *
- * @returns {object[]} Supported canonical footprints.
- */
+/** Returns the authored village footprints requiring canonical foundations. */
 export function canonicalFoundationFootprints() {
 	return CANONICAL_VILLAGE_FOOTPRINTS.filter((footprint) => {
 		return !SPECIALIZED_SURFACES.has(footprint.id);
 	});
 }
 
+/** Lazily builds a permanent terrain target and conservative influence envelope. */
 function foundationPads(terrainHeightAt) {
-	if (!cachedPads) {
-		cachedPads = canonicalFoundationFootprints().map((footprint) => {
-			return Object.freeze({
-				...footprint,
-				targetHeight: terrainHeightAt(footprint.x, footprint.z)
-			});
-		});
+	if (cachedPads) {
+		return cachedPads;
 	}
+	cachedPads = canonicalFoundationFootprints().map((footprint) => {
+		const yaw = footprint.yaw || 0;
+		const envelope = Math.hypot(
+			footprint.width / 2 + BLEND_DISTANCE,
+			footprint.depth / 2 + BLEND_DISTANCE
+		);
+		return Object.freeze({
+			...footprint,
+			cosine: Math.cos(yaw),
+			envelopeSquared: envelope * envelope,
+			sine: Math.sin(yaw),
+			targetHeight: terrainHeightAt(footprint.x, footprint.z)
+		});
+	});
 	return cachedPads;
 }
 
+/** Rejects distant foundations before rotation or costly Euclidean distance. */
 function padInfluence(pad, x, z) {
-	const local = localCoordinates(pad, x, z);
-	const outsideX = Math.max(Math.abs(local.x) - pad.width / 2, 0);
-	const outsideZ = Math.max(Math.abs(local.z) - pad.depth / 2, 0);
+	const dx = x - pad.x;
+	const dz = z - pad.z;
+	if (dx * dx + dz * dz > pad.envelopeSquared) {
+		return 0;
+	}
+	const localX = dx * pad.cosine + dz * pad.sine;
+	const localZ = -dx * pad.sine + dz * pad.cosine;
+	const outsideX = Math.max(Math.abs(localX) - pad.width / 2, 0);
+	const outsideZ = Math.max(Math.abs(localZ) - pad.depth / 2, 0);
+	if (outsideX >= BLEND_DISTANCE || outsideZ >= BLEND_DISTANCE) {
+		return 0;
+	}
 	const outsideDistance = Math.hypot(outsideX, outsideZ);
 	return 1 - smooth(0, BLEND_DISTANCE, outsideDistance);
 }
 
-function localCoordinates(pad, x, z) {
-	const dx = x - pad.x;
-	const dz = z - pad.z;
-	const cosine = Math.cos(pad.yaw || 0);
-	const sine = Math.sin(pad.yaw || 0);
-	return {
-		x: dx * cosine + dz * sine,
-		z: -dx * sine + dz * cosine
-	};
-}
-
+/** Smoothstep with the same float operations as the authored foundation field. */
 function smooth(edge0, edge1, value) {
 	const amount = clamp((value - edge0) / (edge1 - edge0 || 1));
 	return amount * amount * (3 - 2 * amount);
 }
 
+/** Applies the original terrain-to-pad blend without modifying authority. */
 function mix(first, second, amount) {
 	return first + (second - first) * clamp(amount);
 }
 
+/** Keeps smoothing and blending inside the authored unit interval. */
 function clamp(value) {
 	return Math.max(0, Math.min(1, value));
 }

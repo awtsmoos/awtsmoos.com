@@ -164,15 +164,33 @@ const __awtsmoosModule_53 = Object.create(null);
 
 const __awtsmoosModule_69 = Object.create(null);
 
-const __awtsmoosModule_71 = Object.create(null);
-
-const __awtsmoosModule_73 = Object.create(null);
+const __awtsmoosModule_72 = Object.create(null);
 
 const __awtsmoosModule_74 = Object.create(null);
 
-const __awtsmoosModule_72 = Object.create(null);
+const __awtsmoosModule_73 = Object.create(null);
+
+const __awtsmoosModule_76 = Object.create(null);
+
+const __awtsmoosModule_77 = Object.create(null);
 
 const __awtsmoosModule_75 = Object.create(null);
+
+const __awtsmoosModule_71 = Object.create(null);
+
+const __awtsmoosModule_79 = Object.create(null);
+
+const __awtsmoosModule_82 = Object.create(null);
+
+const __awtsmoosModule_83 = Object.create(null);
+
+const __awtsmoosModule_84 = Object.create(null);
+
+const __awtsmoosModule_81 = Object.create(null);
+
+const __awtsmoosModule_80 = Object.create(null);
+
+const __awtsmoosModule_78 = Object.create(null);
 
 const __awtsmoosModule_70 = Object.create(null);
 
@@ -2867,7 +2885,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_3zeerd = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2880,7 +2898,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_3zeerd;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Aabb.js ----
@@ -6026,7 +6044,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/RuntimeAcceptanceScenes.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_72;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6107,9 +6125,184 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = RUNTIME_ACCEPTANCE_SCENES;
 }
 
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldReleaseProbeMetrics.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalBenchmarkQuery.js ----
+{
+	const __exports = __awtsmoosModule_74;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SurvivalBenchmarkQuery.js
+	 * @description Keeps the Chapter 5 benchmark doorway tiny: one query selects the sparse survival vessel and its five-minute recorder.
+	 * The Awtsmoos renews every instant while a URL names only a finite gate;
+	 * Awtsmoos.com lets `benchmark=survival` open that gate without erasing the older `survival60=1` path of fate.
+	 */
+
+	const SURVIVAL_BENCHMARK_NAME = 'survival';
+
+	__exports.SURVIVAL_BENCHMARK_NAME = SURVIVAL_BENCHMARK_NAME;
+	const SURVIVAL_SIXTY_FPS_FLAG = 'survival60';
+
+
+	__exports.SURVIVAL_SIXTY_FPS_FLAG = SURVIVAL_SIXTY_FPS_FLAG;
+	/** Returns true only for the canonical Chapter 5 survival benchmark request. */
+	function survivalBenchmarkRequested(options = {}, environment = globalThis) {
+		if (options?.benchmark === SURVIVAL_BENCHMARK_NAME) return true;
+		return queryValue(options, environment, 'benchmark') === SURVIVAL_BENCHMARK_NAME;
+	}
+
+
+	__exports.survivalBenchmarkRequested = survivalBenchmarkRequested;
+	/** Preserves the old recorder flag while making benchmark=survival its canonical alias. */
+	function survivalRecorderRequested(options = {}, environment = globalThis) {
+		if (options?.survival60 === true) return true;
+		if (survivalBenchmarkRequested(options, environment)) return true;
+		return queryValue(options, environment, SURVIVAL_SIXTY_FPS_FLAG) === '1';
+	}
+
+
+	__exports.survivalRecorderRequested = survivalRecorderRequested;
+	/** Returns the benchmark-implied quality or null when normal gameplay owns quality selection. */
+	function survivalBenchmarkQuality(options = {}, environment = globalThis) {
+		return survivalBenchmarkRequested(options, environment)
+			? 'survival'
+			: null;
+	}
+
+
+	__exports.survivalBenchmarkQuality = survivalBenchmarkQuality;
+	/** Reads a query value without letting malformed or missing browser state break startup. */
+	function queryValue(options, environment, name) {
+		const search = options?.search ?? environment?.location?.search ?? '';
+		if (!search) return null;
+		try {
+			return new URLSearchParams(search).get(name);
+		} catch {
+			return null;
+		}
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/WorldQualityProfile.js ----
 {
 	const __exports = __awtsmoosModule_73;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file WorldQualityProfile.js
+	 * @description Resolves explicit world quality while `benchmark=survival` seals the sparse Chapter 5 measurement vessel.
+	 * The Awtsmoos renews the whole meadow while finite glass carries only what it can bear;
+	 * Awtsmoos.com lets benchmark truth choose survival first, then richer authored garments return elsewhere.
+	 */
+
+	const survivalBenchmarkQuality = __awtsmoosModule_74.survivalBenchmarkQuality;
+	const survivalDeviceDprCap = __awtsmoosModule_52.survivalDeviceDprCap;
+
+	const LIMITED_HARDWARE_DPR = 1.0;
+	const MOBILE_DPR = 1.25;
+	const DESKTOP_DPR = 1.5;
+	const PRESERVED_DISTANCE = 520;
+	const PRESERVED_MODELS = 11;
+	const PROFILES = Object.freeze({
+		survival: profile('survival', 1.0, 220, 1, 'survival-baseline'),
+		low: profile('low', 1.25, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-low'),
+		medium: profile('medium', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-medium'),
+		high: profile('high', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'full-quality-default'),
+		cinematic: profile('cinematic', DESKTOP_DPR, 760, PRESERVED_MODELS, 'cinematic-expanded')
+	});
+	const VALID_QUALITIES = new Set(Object.keys(PROFILES));
+	const QUALITY_SHADOW_TIERS = Object.freeze({
+		survival: 'off',
+		cinematic: 'near',
+		high: 'near',
+		low: 'far',
+		medium: 'mid'
+	});
+
+	/** Resolves authored quality independently from each hardware-aware framebuffer. */
+	function resolveWorldQuality(options = {}, environment = globalThis) {
+		const explicit = explicitQuality(options, environment);
+		const selected = explicit || 'high';
+		const base = PROFILES[selected];
+		const deviceCap = resolveDeviceDprCap(environment);
+		let maxDpr = Math.min(base.maxDpr, deviceCap.maxDpr);
+		let deviceDprCapReason = deviceCap.reason;
+		if (selected === 'survival') {
+			const namedCap = survivalDeviceDprCap(options, environment);
+			if (namedCap) {
+				maxDpr = namedCap.maxDpr;
+				deviceDprCapReason = namedCap.reason;
+			}
+		}
+		return {
+			...base,
+			deviceDprCapReason,
+			explicit: Boolean(explicit),
+			maxDpr,
+			reason: explicit ? 'explicit-override' : PROFILES.high.reason
+		};
+	}
+
+
+	__exports.resolveWorldQuality = resolveWorldQuality;
+	/** Returns one static authored tier before physical display restrictions apply. */
+	function worldQualityProfile(quality) {
+		if (!VALID_QUALITIES.has(quality)) throw new Error(`Unknown world quality: ${quality}`);
+		return { ...PROFILES[quality] };
+	}
+
+
+	__exports.worldQualityProfile = worldQualityProfile;
+	/** Caps framebuffer pixels without silently selecting another authored quality. */
+	function resolveDeviceDprCap(environment = globalThis) {
+		const navigator = environment.navigator || {};
+		const limitedMemory = finitePositive(navigator.deviceMemory) && Number(navigator.deviceMemory) <= 4;
+		const limitedCpu = finitePositive(navigator.hardwareConcurrency) && Number(navigator.hardwareConcurrency) <= 4;
+		if (limitedMemory || limitedCpu) {
+			return Object.freeze({ maxDpr: LIMITED_HARDWARE_DPR, reason: 'limited-hardware' });
+		}
+		const touchDevice = Number(navigator.maxTouchPoints) > 0
+			|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
+		return touchDevice
+			? Object.freeze({ maxDpr: MOBILE_DPR, reason: 'touch-device' })
+			: Object.freeze({ maxDpr: DESKTOP_DPR, reason: 'desktop-cap' });
+	}
+
+
+	__exports.resolveDeviceDprCap = resolveDeviceDprCap;
+	/** Maps quality to the existing shadow covenant; survival remains shadow-map free. */
+	function shadowTierForWorldQuality(quality) {
+		return QUALITY_SHADOW_TIERS[quality] || 'mid';
+	}
+
+
+	__exports.shadowTierForWorldQuality = shadowTierForWorldQuality;
+	function explicitQuality(options, environment) {
+		const benchmarkQuality = survivalBenchmarkQuality(options, environment);
+		if (benchmarkQuality) return benchmarkQuality;
+		if (VALID_QUALITIES.has(options.quality)) return options.quality;
+		const search = options.search ?? environment.location?.search ?? '';
+		const query = new URLSearchParams(search).get('quality');
+		return VALID_QUALITIES.has(query) ? query : null;
+	}
+
+	function finitePositive(value) {
+		return Number.isFinite(Number(value)) && Number(value) > 0;
+	}
+
+	function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
+		return Object.freeze({ maxDpr, modelLimit, quality, reason, renderDistance });
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldReleaseProbeMetrics.js ----
+{
+	const __exports = __awtsmoosModule_76;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6185,7 +6378,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/RuntimeSceneResourceScan.js ----
 {
-	const __exports = __awtsmoosModule_74;
+	const __exports = __awtsmoosModule_77;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6276,7 +6469,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalFrameRecorder.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_75;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6292,9 +6485,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * recorder produces must come from a real MacBook Air or Pixel run (see the runbook).
 	 */
 
-	const evaluateReleasePerformance = __awtsmoosModule_73.evaluateReleasePerformance;
-	const summarizeReleaseFrames = __awtsmoosModule_73.summarizeReleaseFrames;
-	const scanRuntimeSceneResources = __awtsmoosModule_74.scanRuntimeSceneResources;
+	const evaluateReleasePerformance = __awtsmoosModule_76.evaluateReleasePerformance;
+	const summarizeReleaseFrames = __awtsmoosModule_76.summarizeReleaseFrames;
+	const scanRuntimeSceneResources = __awtsmoosModule_77.scanRuntimeSceneResources;
 
 	const SURVIVAL_SIXTY_FPS_DURATION_MS = 300000;
 
@@ -6757,169 +6950,31 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/WorldQualityProfile.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsDefinition.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_71;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file WorldQualityProfile.js
-	 * @description Resolves explicit world quality while a sparse survival vessel protects first-control frame time.
-	 * The Awtsmoos renews the whole meadow while finite glass must carry only what it can bear;
-	 * Awtsmoos.com gives survival one honest vessel, then lets richer garments return when budgets declare.
+	 * @file SurvivalSixtyFpsDefinition.js
+	 * @description Defines the one sparse Chapter 5 survival vessel without owning recording or runtime verification.
+	 * The Awtsmoos gives the meadow one measured garment, spare and bright;
+	 * Awtsmoos.com keeps one Chossid, one chunk, one lamp, and essential motion in sight.
 	 */
 
-	const survivalDeviceDprCap = __awtsmoosModule_52.survivalDeviceDprCap;
-
-	const LIMITED_HARDWARE_DPR = 1.0;
-	const MOBILE_DPR = 1.25;
-	const DESKTOP_DPR = 1.5;
-	const PRESERVED_DISTANCE = 520;
-	const PRESERVED_MODELS = 11;
-	const SURVIVAL_DISTANCE = 220;
-	const SURVIVAL_MODELS = 1;
-	const PROFILES = Object.freeze({
-		survival: profile('survival', 1.0, SURVIVAL_DISTANCE, SURVIVAL_MODELS, 'survival-baseline'),
-		low: profile('low', 1.25, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-low'),
-		medium: profile('medium', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-medium'),
-		high: profile('high', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'full-quality-default'),
-		cinematic: profile('cinematic', DESKTOP_DPR, 760, PRESERVED_MODELS, 'cinematic-expanded')
-	});
-	const VALID_QUALITIES = new Set(Object.keys(PROFILES));
-
-	/** Resolves authored quality independently from each hardware-aware framebuffer. */
-	function resolveWorldQuality(options = {}, environment = globalThis) {
-		const explicit = explicitQuality(options, environment);
-		const selected = explicit || 'high';
-		const base = PROFILES[selected];
-		const deviceCap = resolveDeviceDprCap(environment);
-		let maxDpr = Math.min(base.maxDpr, deviceCap.maxDpr);
-		let deviceDprCapReason = deviceCap.reason;
-		if (selected === 'survival') {
-			// Chapter 4 survival DPR caps: a NAMED device class (options.deviceClass or
-			// ?deviceClass=) is an explicit cap for that hardware — macbook-air-2015 at 1.0,
-			// pixel-6-pro at ~1.25 — and wins over the generic 1.0 survival default.
-			// With no named class, survival keeps its 1.0 default via the min() above.
-			const namedCap = survivalDeviceDprCap(options, environment);
-			if (namedCap) {
-				maxDpr = namedCap.maxDpr;
-				deviceDprCapReason = namedCap.reason;
-			}
-		}
-		return {
-			...base,
-			deviceDprCapReason,
-			explicit: Boolean(explicit),
-			maxDpr,
-			reason: explicit ? 'explicit-override' : PROFILES.high.reason
-		};
-	}
-
-
-	__exports.resolveWorldQuality = resolveWorldQuality;
-	/** Returns one static authored tier before physical display restrictions apply. */
-	function worldQualityProfile(quality) {
-		if (!VALID_QUALITIES.has(quality)) {
-			throw new Error(`Unknown world quality: ${quality}`);
-		}
-		return { ...PROFILES[quality] };
-	}
-
-
-	__exports.worldQualityProfile = worldQualityProfile;
-	/** Caps framebuffer pixels without silently selecting a different world quality. */
-	function resolveDeviceDprCap(environment = globalThis) {
-		const navigator = environment.navigator || {};
-		const limitedMemory = finitePositive(navigator.deviceMemory) && Number(navigator.deviceMemory) <= 4;
-		const limitedCpu = finitePositive(navigator.hardwareConcurrency) && Number(navigator.hardwareConcurrency) <= 4;
-		if (limitedMemory || limitedCpu) {
-			return Object.freeze({ maxDpr: LIMITED_HARDWARE_DPR, reason: 'limited-hardware' });
-		}
-		const touchDevice = Number(navigator.maxTouchPoints) > 0
-			|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
-		if (touchDevice) {
-			return Object.freeze({ maxDpr: MOBILE_DPR, reason: 'touch-device' });
-		}
-		return Object.freeze({ maxDpr: DESKTOP_DPR, reason: 'desktop-cap' });
-	}
-
-
-	__exports.resolveDeviceDprCap = resolveDeviceDprCap;
-	/** Resolves explicit opt-in quality without overriding hardware pixel safety. */
-	function explicitQuality(options, environment) {
-		if (VALID_QUALITIES.has(options.quality)) return options.quality;
-		const search = options.search ?? environment.location?.search ?? '';
-		const query = new URLSearchParams(search).get('quality');
-		return VALID_QUALITIES.has(query) ? query : null;
-	}
-
-	/** Rejects invalid browser hardware hints instead of accidentally downgrading. */
-	function finitePositive(value) {
-		return Number.isFinite(Number(value)) && Number(value) > 0;
-	}
-
-	/** Freezes each policy level so later runtime code cannot mutate the selected covenant. */
-	function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
-		return Object.freeze({ maxDpr, modelLimit, quality, reason, renderDistance });
-	}
-
-	const QUALITY_SHADOW_TIERS = Object.freeze({
-		survival: 'off',
-		cinematic: 'near',
-		high: 'near',
-		low: 'far',
-		medium: 'mid'
-	});
-
-	/** Maps quality to the existing shadow-budget covenant, with survival explicitly dark to shadow maps. */
-	function shadowTierForWorldQuality(quality) {
-		return QUALITY_SHADOW_TIERS[quality] || 'mid';
-	}
-
-	__exports.shadowTierForWorldQuality = shadowTierForWorldQuality;
-
-}
-
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsProfile.js ----
-{
-	const __exports = __awtsmoosModule_70;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file SurvivalSixtyFpsProfile.js
-	 * @description The ONE game-local survival profile for Mitzvah World Chapter 4, Task 1:
-	 * one spawn chunk, the canonical Chossid, camera/movement/collision, one directional
-	 * light, and the essential HUD — nothing else. It resolves the device-class DPR cap,
-	 * verifies every optional system is gated off, and wires the 5-minute frame recorder
-	 * into a survival run. It does not measure anything itself: frame times can only be
-	 * proven on real hardware (MacBook Air or Pixel), never in this VM.
-	 */
-
-	const runtimeAcceptanceScene = __awtsmoosModule_71.runtimeAcceptanceScene;
-	const createSurvivalFrameRecorder = __awtsmoosModule_72.createSurvivalFrameRecorder;
-	const copyableSurvivalSummary = __awtsmoosModule_72.copyableSurvivalSummary;
-	const SURVIVAL_RECORDER_GLOBAL = __awtsmoosModule_72.SURVIVAL_RECORDER_GLOBAL;
-	const SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_72.SURVIVAL_REPORT_GLOBAL;
-	const SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_72.SURVIVAL_SIXTY_FPS_DURATION_MS;
-	const isSurvivalQuality = __awtsmoosModule_52.isSurvivalQuality;
+	const runtimeAcceptanceScene = __awtsmoosModule_72.runtimeAcceptanceScene;
 	const survivalDeviceClass = __awtsmoosModule_52.survivalDeviceClass;
 	const survivalFeatureOverride = __awtsmoosModule_52.survivalFeatureOverride;
 	const survivalOptionalFeatures = __awtsmoosModule_52.survivalOptionalFeatures;
-	const resolveWorldQuality = __awtsmoosModule_75.resolveWorldQuality;
-	const shadowTierForWorldQuality = __awtsmoosModule_75.shadowTierForWorldQuality;
+	const resolveWorldQuality = __awtsmoosModule_73.resolveWorldQuality;
+	const shadowTierForWorldQuality = __awtsmoosModule_73.shadowTierForWorldQuality;
+	const SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_75.SURVIVAL_SIXTY_FPS_DURATION_MS;
 
 	const SURVIVAL_SIXTY_FPS_SCENE_ID = 'survival-spawn';
 
 	__exports.SURVIVAL_SIXTY_FPS_SCENE_ID = SURVIVAL_SIXTY_FPS_SCENE_ID;
-	const SURVIVAL_SIXTY_FPS_FLAG = 'survival60';
-
-
-	__exports.SURVIVAL_SIXTY_FPS_FLAG = SURVIVAL_SIXTY_FPS_FLAG;
-	/** Everything the survival profile contains — and the whole list. One chunk, one Chossid. */
 	const SURVIVAL_PROFILE_CONTENTS = Object.freeze({
 		hud: 'essential-only',
 		lighting: Object.freeze(['one-directional-light']),
@@ -6928,9 +6983,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		systems: Object.freeze(['camera', 'movement', 'collision'])
 	});
 
-
 	__exports.SURVIVAL_PROFILE_CONTENTS = SURVIVAL_PROFILE_CONTENTS;
-	/** The only systems survival keeps awake besides the contents above. */
 	const SURVIVAL_ENABLED_FEATURES = Object.freeze([
 		'performanceMonitor',
 		'camera',
@@ -6942,15 +6995,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.SURVIVAL_ENABLED_FEATURES = SURVIVAL_ENABLED_FEATURES;
-	/**
-	 * Resolves the frozen survival profile for a run. The quality is always survival here;
-	 * the device class (options.deviceClass or ?deviceClass=) selects the DPR cap:
-	 * macbook-air-2015 at 1.0, pixel-6-pro at ~1.25, no class at the 1.0 default.
-	 */
+	/** Resolves the immutable five-minute survival profile and named-device DPR covenant. */
 	function survivalSixtyFpsProfile(options = {}, environment = globalThis) {
 		const deviceClass = survivalDeviceClass(options, environment);
 		const qualityProfile = resolveWorldQuality(
-			{ deviceClass, quality: 'survival', search: options.search },
+			{ ...options, deviceClass, quality: 'survival' },
 			environment
 		);
 		return Object.freeze({
@@ -6972,67 +7021,69 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.survivalSixtyFpsProfile = survivalSixtyFpsProfile;
-	/** Returns the enabled/disabled verdict for every survival-gated feature, plus diagnostics. */
+	/** Returns every optional-system gate for the sparse survival vessel. */
 	function survivalSixtyFpsFeatureGates(options = {}) {
 		const survivalOptions = { qualityProfile: { quality: 'survival' }, ...options };
-		const gates = {};
-		for (const feature of survivalOptionalFeatures()) {
-			gates[feature] = survivalFeatureOverride(survivalOptions, feature);
-		}
+		const gates = Object.fromEntries(
+			survivalOptionalFeatures().map(feature => [
+				feature,
+				survivalFeatureOverride(survivalOptions, feature)
+			])
+		);
 		gates.performanceMonitor = survivalFeatureOverride(survivalOptions, 'performanceMonitor');
 		return Object.freeze(gates);
 	}
 
-
 	__exports.survivalSixtyFpsFeatureGates = survivalSixtyFpsFeatureGates;
-	/** True when the owner asked for a 5-minute survival run (?survival60=1 or survival60: true). */
-	function survivalSixtyFpsRequested(options = {}, environment = globalThis) {
-		if (options?.survival60 === true) return true;
-		const search = options?.search ?? environment?.location?.search ?? '';
-		if (!search) return false;
-		try {
-			return new URLSearchParams(search).get(SURVIVAL_SIXTY_FPS_FLAG) === '1';
-		} catch {
-			return false;
-		}
-	}
 
+}
 
-	__exports.survivalSixtyFpsRequested = survivalSixtyFpsRequested;
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalRuntimeVerification.js ----
+{
+	const __exports = __awtsmoosModule_79;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
 	/**
-	 * Checks what a live runtime can prove about the profile, without blocking the run on
-	 * evidence the runtime object does not carry. Contradictory evidence (wrong quality,
-	 * DPR cap above the profile) fails; missing evidence is reported as unverified, not
-	 * passed, and the final report carries the whole verification section.
+	 * @file SurvivalRuntimeVerification.js
+	 * @description Verifies that a live runtime has not escaped the sparse survival covenant before measurement begins.
+	 * The Awtsmoos fills every world while finite glass must tell the truth of its frame;
+	 * Awtsmoos.com rejects richer accidental garments before a benchmark borrows their name.
 	 */
+
+	const survivalSixtyFpsFeatureGates = __awtsmoosModule_71.survivalSixtyFpsFeatureGates;
+
+	/** Returns contradictory and unavailable survival evidence without inventing missing proof. */
 	function verifySurvivalRuntime(runtime, profile) {
 		const failures = [];
 		const unverified = [];
-		const foundQuality = runtime?.qualityProfile?.quality
-			?? runtime?.options?.qualityProfile?.quality
-			?? runtime?.diagnostics?.qualityProfile?.quality
-			?? null;
+		const foundQuality = firstValue(
+			runtime?.qualityProfile?.quality,
+			runtime?.options?.qualityProfile?.quality,
+			runtime?.diagnostics?.qualityProfile?.quality
+		);
+		const foundMaxDpr = firstValue(
+			runtime?.qualityProfile?.maxDpr,
+			runtime?.options?.qualityProfile?.maxDpr,
+			runtime?.renderer?.qualityProfile?.maxDpr
+		);
 		if (foundQuality !== null && foundQuality !== 'survival') {
 			failures.push(`QUALITY_NOT_SURVIVAL:${foundQuality}`);
 		}
-		if (foundQuality === null) unverified.push('quality: no qualityProfile on the runtime object');
-		const foundMaxDpr = runtime?.qualityProfile?.maxDpr
-			?? runtime?.options?.qualityProfile?.maxDpr
-			?? runtime?.renderer?.qualityProfile?.maxDpr
-			?? null;
+		if (foundQuality === null) unverified.push('quality: no qualityProfile on runtime');
 		if (foundMaxDpr !== null && foundMaxDpr > profile.maxDpr) {
 			failures.push(`MAX_DPR_ABOVE_PROFILE:${foundMaxDpr}>${profile.maxDpr}`);
 		}
-		if (foundMaxDpr === null) unverified.push('maxDpr: no qualityProfile maxDpr on the runtime object');
+		if (foundMaxDpr === null) unverified.push('maxDpr: no runtime qualityProfile maxDpr');
 		const gates = survivalSixtyFpsFeatureGates();
-		const gatesOff = Object.entries(gates)
-			.filter(([, enabled]) => enabled === false)
-			.map(([feature]) => feature);
 		return Object.freeze({
 			failures: Object.freeze(failures),
 			foundMaxDpr,
 			foundQuality,
-			gatesOff: Object.freeze(gatesOff),
+			gatesOff: Object.freeze(Object.entries(gates)
+				.filter(([, enabled]) => enabled === false)
+				.map(([feature]) => feature)),
 			ok: failures.length === 0,
 			performanceMonitorOn: gates.performanceMonitor === true,
 			unverified: Object.freeze(unverified)
@@ -7041,81 +7092,557 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.verifySurvivalRuntime = verifySurvivalRuntime;
+	function firstValue(...values) {
+		return values.find(value => value !== null && value !== undefined) ?? null;
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldBenchmarkHardware.js ----
+{
+	const __exports = __awtsmoosModule_82;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
 	/**
-	 * Starts the 5-minute survival run on a live runtime and returns its handle.
-	 * The recorder samples frames on its own animation-frame chain and publishes the frozen
-	 * report to globalThis.AwtsmoosSurvivalSixtyFpsReport when the run ends.
+	 * @file MitzvahWorldBenchmarkHardware.js
+	 * @description Captures only browser- and renderer-observed hardware facts for one benchmark receipt.
+	 * The Awtsmoos needs no vendor string to know the vessel He renews;
+	 * Awtsmoos.com records only what WebGL and the browser actually reveal, never guessing what no witness shows.
 	 */
+
+	/** Returns one immutable hardware and page snapshot without inventing unavailable fields. */
+	function collectMitzvahWorldBenchmarkHardware(runtime = null, environment = globalThis) {
+		const navigator = environment.navigator || {};
+		const renderer = runtime?.renderer?.delegate || runtime?.renderer || null;
+		const gl = renderer?.gl || renderer?.getContext?.() || null;
+		const gpu = gpuIdentity(gl);
+		return Object.freeze({
+			deviceMemoryGb: finiteOrNull(navigator.deviceMemory),
+			devicePixelRatio: finiteOrNull(environment.devicePixelRatio),
+			gpuRenderer: gpu.renderer,
+			gpuVendor: gpu.vendor,
+			hardwareConcurrency: finiteOrNull(navigator.hardwareConcurrency),
+			origin: environment.location?.origin || null,
+			pathname: environment.location?.pathname || null,
+			platform: navigator.platform || null,
+			userAgent: navigator.userAgent || null,
+			visibilityState: environment.document?.visibilityState || null,
+			webglAvailable: Boolean(gl)
+		});
+	}
+
+
+	__exports.collectMitzvahWorldBenchmarkHardware = collectMitzvahWorldBenchmarkHardware;
+	function gpuIdentity(gl) {
+		if (!gl) return Object.freeze({ renderer: null, vendor: null });
+		try {
+			const debug = gl.getExtension?.('WEBGL_debug_renderer_info');
+			const rendererKey = debug?.UNMASKED_RENDERER_WEBGL ?? gl.RENDERER;
+			const vendorKey = debug?.UNMASKED_VENDOR_WEBGL ?? gl.VENDOR;
+			return Object.freeze({
+				renderer: safeParameter(gl, rendererKey),
+				vendor: safeParameter(gl, vendorKey)
+			});
+		} catch {
+			return Object.freeze({ renderer: null, vendor: null });
+		}
+	}
+
+	function safeParameter(gl, key) {
+		try {
+			return key === undefined ? null : gl.getParameter?.(key) ?? null;
+		} catch {
+			return null;
+		}
+	}
+
+	function finiteOrNull(value) {
+		return Number.isFinite(Number(value)) ? Number(value) : null;
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldBenchmarkResources.js ----
+{
+	const __exports = __awtsmoosModule_83;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldBenchmarkResources.js
+	 * @description Proves that each sealed critical bundle and canonical Chossid crosses the network at most once per launch.
+	 * The Awtsmoos gives one present release one truthful garment and one road;
+	 * Awtsmoos.com counts actual transferred bytes, so cached echoes are not falsely called a second load.
+	 */
+
+	const RELEASE_SCRIPT_ID = 'mitzvah-world-release';
+	const CRITICAL_SUFFIXES = Object.freeze(['.compact.js', '/chossid.glb']);
+
+	/** Reads the content-addressed release manifest already embedded in the production page. */
+	function readMitzvahWorldReleaseManifest(environment = globalThis) {
+		try {
+			const text = environment.document?.getElementById?.(RELEASE_SCRIPT_ID)?.textContent || '';
+			const manifest = JSON.parse(text);
+			return manifest?.releaseId && manifest?.artifacts ? manifest : null;
+		} catch {
+			return null;
+		}
+	}
+
+
+	__exports.readMitzvahWorldReleaseManifest = readMitzvahWorldReleaseManifest;
+	/** Returns only the critical JavaScript bundles plus the canonical Chossid artifact. */
+	function criticalMitzvahWorldArtifactPaths(manifest = {}) {
+		return Object.keys(manifest.artifacts || {})
+			.filter(path => CRITICAL_SUFFIXES.some(suffix => path.endsWith(suffix)))
+			.sort();
+	}
+
+
+	__exports.criticalMitzvahWorldArtifactPaths = criticalMitzvahWorldArtifactPaths;
+	/** Creates one immutable request/transfer witness from PerformanceResourceTiming. */
+	function collectMitzvahWorldCriticalResourceWitness(environment = globalThis, manifest = null) {
+		const release = manifest || readMitzvahWorldReleaseManifest(environment);
+		const criticalPaths = criticalMitzvahWorldArtifactPaths(release || {});
+		const entries = resourceEntries(environment);
+		const resources = criticalPaths.map(path => resourceEvidence(path, entries));
+		const violations = resources
+			.filter(resource => resource.networkTransfers > 1)
+			.map(resource => `DUPLICATE_NETWORK_TRANSFER:${resource.path}`);
+		return Object.freeze({
+			criticalCount: criticalPaths.length,
+			releaseId: release?.releaseId || null,
+			resources: Object.freeze(resources),
+			violations: Object.freeze(violations)
+		});
+	}
+
+
+	__exports.collectMitzvahWorldCriticalResourceWitness = collectMitzvahWorldCriticalResourceWitness;
+	function resourceEvidence(path, entries) {
+		const matches = entries.filter(entry => normalizedPath(entry.name).endsWith(`/${path}`));
+		const transfers = matches.filter(isNetworkTransfer);
+		return Object.freeze({
+			encodedBodyBytes: sum(matches, 'encodedBodySize'),
+			networkTransfers: transfers.length,
+			path,
+			requests: matches.length,
+			transferBytes: sum(matches, 'transferSize')
+		});
+	}
+
+	function resourceEntries(environment) {
+		try {
+			return environment.performance?.getEntriesByType?.('resource') || [];
+		} catch {
+			return [];
+		}
+	}
+
+	function normalizedPath(value) {
+		try {
+			return new URL(value, 'https://awtsmoos.com').pathname;
+		} catch {
+			return String(value || '').split('?')[0];
+		}
+	}
+
+	function isNetworkTransfer(entry) {
+		if (Number.isFinite(entry.transferSize)) return entry.transferSize > 0;
+		return Number.isFinite(entry.encodedBodySize) && entry.encodedBodySize > 0;
+	}
+
+	function sum(entries, field) {
+		return entries.reduce((total, entry) => total + (Number(entry[field]) || 0), 0);
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldStartupAcceptance.js ----
+{
+	const __exports = __awtsmoosModule_84;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldStartupAcceptance.js
+	 * @description Derives release startup gates from the existing five-proof essential ledger instead of inventing a second clock.
+	 * The Awtsmoos renews entry, frame, earth, Chossid, and motion as one chain of truth;
+	 * Awtsmoos.com measures that chain without weakening the watchdog that protects slower real devices in proof.
+	 */
+
+	const WARM_FIRST_FRAME_LIMIT_MS = 1500;
+	const COLD_FIRST_CONTROL_LIMIT_MS = 5000;
+	const CHOSSID_TO_MOVEMENT_LIMIT_MS = 500;
+	const REQUIRED_SERIES_LOADS = 10;
+
+	/** Creates one immutable warm/cold startup acceptance receipt from existing milestone evidence. */
+	function createMitzvahWorldStartupAcceptance(environment = globalThis, options = {}) {
+		const essential = options.essentialSnapshot || environment.AwtsmoosMitzvahWorldEssentialBoot || null;
+		const loadKind = options.loadKind || 'unknown';
+		const origin = finite(environment.AwtsmoosMitzvahWorldScriptStart)
+			?? finite(essential?.startedAtMilliseconds);
+		const firstFrameAt = completedAt(essential, 'rendererFirstFrame');
+		const chossidAt = completedAt(essential, 'canonicalChossidDecoded');
+		const movementAt = completedAt(essential, 'playerMovementEnabled');
+		const firstFrameMilliseconds = delta(origin, firstFrameAt);
+		const firstControlMilliseconds = delta(origin, movementAt);
+		const chossidToMovementMilliseconds = delta(chossidAt, movementAt);
+		const failures = startupFailures({
+			chossidToMovementMilliseconds,
+			essential,
+			firstControlMilliseconds,
+			firstFrameMilliseconds,
+			loadKind
+		});
+		return Object.freeze({
+			certified: failures.length === 0,
+			chossidToMovementMilliseconds,
+			failures: Object.freeze(failures),
+			firstControlMilliseconds,
+			firstFrameMilliseconds,
+			fiveProofsCertified: essential?.certified === true,
+			loadKind
+		});
+	}
+
+
+	__exports.createMitzvahWorldStartupAcceptance = createMitzvahWorldStartupAcceptance;
+	/** Requires ten consecutive fully certified startup receipts. */
+	function evaluateMitzvahWorldStartupSeries(receipts = []) {
+		const considered = receipts.slice(-REQUIRED_SERIES_LOADS);
+		const certified = considered.length === REQUIRED_SERIES_LOADS
+			&& considered.every(receipt => receipt?.certified === true && receipt?.fiveProofsCertified === true);
+		return Object.freeze({ certified, count: considered.length, required: REQUIRED_SERIES_LOADS });
+	}
+
+
+	__exports.evaluateMitzvahWorldStartupSeries = evaluateMitzvahWorldStartupSeries;
+	function startupFailures(metrics) {
+		const failures = [];
+		if (metrics.essential?.certified !== true) failures.push('ESSENTIAL_FIVE_PROOFS_INCOMPLETE');
+		if (!Number.isFinite(metrics.chossidToMovementMilliseconds)) failures.push('CHOSSID_TO_MOVEMENT_UNSUPPORTED');
+		if (metrics.chossidToMovementMilliseconds > CHOSSID_TO_MOVEMENT_LIMIT_MS) failures.push('CHOSSID_TO_MOVEMENT_OVER_500_MS');
+		if (metrics.loadKind === 'warm') {
+			if (!Number.isFinite(metrics.firstFrameMilliseconds)) failures.push('WARM_FIRST_FRAME_UNSUPPORTED');
+			if (metrics.firstFrameMilliseconds > WARM_FIRST_FRAME_LIMIT_MS) failures.push('WARM_FIRST_FRAME_OVER_1500_MS');
+		}
+		if (metrics.loadKind === 'cold') {
+			if (!Number.isFinite(metrics.firstControlMilliseconds)) failures.push('COLD_FIRST_CONTROL_UNSUPPORTED');
+			if (metrics.firstControlMilliseconds > COLD_FIRST_CONTROL_LIMIT_MS) failures.push('COLD_FIRST_CONTROL_OVER_5000_MS');
+		}
+		return failures;
+	}
+
+	function completedAt(essential, name) {
+		return finite(essential?.milestones?.[name]?.completedAtMilliseconds);
+	}
+
+	function delta(start, end) {
+		return Number.isFinite(start) && Number.isFinite(end) ? Math.max(0, end - start) : null;
+	}
+
+	function finite(value) {
+		if (value === null || value === undefined || value === '') return null;
+		const numeric = Number(value);
+		return Number.isFinite(numeric) ? numeric : null;
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalReceipt.js ----
+{
+	const __exports = __awtsmoosModule_81;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldSurvivalReceipt.js
+	 * @description Composes the current-release five-minute survival witness from existing frame, startup, resource, hardware, and streaming evidence.
+	 * The Awtsmoos is beyond every finite ledger, yet each honest number can reveal one measured ray;
+	 * Awtsmoos.com binds the release, frame, network, heap, and chunk witnesses without calling an unknown metric okay.
+	 */
+
+	const collectMitzvahWorldBenchmarkHardware = __awtsmoosModule_82.collectMitzvahWorldBenchmarkHardware;
+	const collectMitzvahWorldCriticalResourceWitness = __awtsmoosModule_83.collectMitzvahWorldCriticalResourceWitness;
+	const createMitzvahWorldStartupAcceptance = __awtsmoosModule_84.createMitzvahWorldStartupAcceptance;
+
+	const RELEASE_ID_PATTERN = /^[a-f0-9]{64}$/i;
+	const TASK_LIMIT_MS = 4;
+
+	/** Creates one immutable Chapter 5 survival receipt; unknown evidence fails closed. */
+	function createMitzvahWorldSurvivalReceipt(options = {}) {
+		const environment = options.environment || globalThis;
+		const runtime = options.runtime || null;
+		const frameReport = options.frameReport || null;
+		const resources = collectMitzvahWorldCriticalResourceWitness(environment);
+		const hardware = collectMitzvahWorldBenchmarkHardware(runtime, environment);
+		const releaseId = resolveReleaseId(environment, resources);
+		const startup = createMitzvahWorldStartupAcceptance(environment, {
+			loadKind: options.loadKind || 'unknown'
+		});
+		const streaming = streamingEvidence(runtime);
+		const failures = receiptFailures({
+			frameReport,
+			hardware,
+			releaseId,
+			resources,
+			streaming
+		});
+		return Object.freeze({
+			benchmark: 'survival',
+			certified: failures.length === 0,
+			failures: Object.freeze(failures),
+			frameReport,
+			hardware,
+			profile: options.profile || null,
+			releaseId,
+			resources,
+			schemaVersion: 1,
+			startup,
+			streaming
+		});
+	}
+
+
+	__exports.createMitzvahWorldSurvivalReceipt = createMitzvahWorldSurvivalReceipt;
+	function resolveReleaseId(environment, resources) {
+		return environment.AwtsmoosMitzvahWorldReleaseId
+			|| environment.AwtsmoosMitzvahWorldReleaseReceipt?.releaseId
+			|| resources.releaseId
+			|| null;
+	}
+
+	function streamingEvidence(runtime) {
+		const diagnostics = runtime?.budgetedGenerationDiagnostics || null;
+		const coordinator = diagnostics?.coordinator || runtime?.streamingCoordinator?.diagnostics?.() || null;
+		const uploadMaximumMilliseconds = finiteOrNull(
+			coordinator?.maximumUploadMilliseconds
+			?? coordinator?.maximumGpuUploadMilliseconds
+		);
+		return Object.freeze({
+			diagnostics,
+			uploadMaximumMilliseconds,
+			uploadSource: uploadMaximumMilliseconds === null
+				? 'unavailable: upload gate exposes count/deferral but no measured duration'
+				: 'streamingCoordinator.diagnostics().maximumUploadMilliseconds'
+		});
+	}
+
+	function receiptFailures(evidence) {
+		const failures = [];
+		if (!RELEASE_ID_PATTERN.test(evidence.releaseId || '')) failures.push('CURRENT_RELEASE_ID_UNPROVEN');
+		if (evidence.frameReport?.certified !== true) failures.push('FRAME_REPORT_NOT_CERTIFIED');
+		if (evidence.hardware.webglAvailable !== true) failures.push('WEBGL_HARDWARE_EVIDENCE_MISSING');
+		failures.push(...evidence.resources.violations);
+		const generationMs = finiteOrNull(evidence.frameReport?.generation?.maximumMilliseconds);
+		if (generationMs === null) failures.push('GENERATION_DURATION_UNMEASURED');
+		else if (generationMs > TASK_LIMIT_MS) failures.push('GENERATION_TASK_OVER_4_MS');
+		const uploadMs = evidence.streaming.uploadMaximumMilliseconds;
+		if (uploadMs === null) failures.push('UPLOAD_DURATION_UNMEASURED');
+		else if (uploadMs > TASK_LIMIT_MS) failures.push('UPLOAD_TASK_OVER_4_MS');
+		return failures;
+	}
+
+	function finiteOrNull(value) {
+		return Number.isFinite(Number(value)) ? Number(value) : null;
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalReceiptPublisher.js ----
+{
+	const __exports = __awtsmoosModule_80;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldSurvivalReceiptPublisher.js
+	 * @description Publishes one copyable JSON witness only when the five-minute survival recorder finishes.
+	 * The Awtsmoos renews the meadow long before our finite ledger closes;
+	 * Awtsmoos.com waits until the run is complete, then reveals one receipt whose evidence openly shows.
+	 */
+
+	const createMitzvahWorldSurvivalReceipt = __awtsmoosModule_81.createMitzvahWorldSurvivalReceipt;
+
+	const SURVIVAL_BENCHMARK_RECEIPT_GLOBAL = 'AwtsmoosMitzvahWorldSurvivalBenchmarkReceipt';
+
+	__exports.SURVIVAL_BENCHMARK_RECEIPT_GLOBAL = SURVIVAL_BENCHMARK_RECEIPT_GLOBAL;
+	const SURVIVAL_BENCHMARK_JSON_GLOBAL = 'AwtsmoosMitzvahWorldSurvivalBenchmarkJson';
+
+
+	__exports.SURVIVAL_BENCHMARK_JSON_GLOBAL = SURVIVAL_BENCHMARK_JSON_GLOBAL;
+	/** Creates, freezes, publishes, and returns one copyable current-release receipt. */
+	function publishMitzvahWorldSurvivalReceipt(
+		frameReport,
+		runtime,
+		profile,
+		environment = globalThis
+	) {
+		const receipt = createMitzvahWorldSurvivalReceipt({
+			environment,
+			frameReport,
+			profile,
+			runtime
+		});
+		const json = JSON.stringify(receipt, null, 2);
+		try {
+			environment[SURVIVAL_BENCHMARK_RECEIPT_GLOBAL] = receipt;
+			environment[SURVIVAL_BENCHMARK_JSON_GLOBAL] = json;
+		} catch {}
+		environment?.console?.info?.(
+			`B"H Survival benchmark complete. Copy globalThis.${SURVIVAL_BENCHMARK_JSON_GLOBAL}`,
+			receipt
+		);
+		return receipt;
+	}
+
+	__exports.publishMitzvahWorldSurvivalReceipt = publishMitzvahWorldSurvivalReceipt;
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsRun.js ----
+{
+	const __exports = __awtsmoosModule_78;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SurvivalSixtyFpsRun.js
+	 * @description Starts one sparse five-minute survival measurement only after the playable runtime exists.
+	 * The Awtsmoos renews each frame without waiting for our finite proof;
+	 * Awtsmoos.com lets the recorder witness the meadow, then publishes one sealed receipt beneath its roof.
+	 */
+
+	const createSurvivalFrameRecorder = __awtsmoosModule_75.createSurvivalFrameRecorder;
+	const SURVIVAL_RECORDER_GLOBAL = __awtsmoosModule_75.SURVIVAL_RECORDER_GLOBAL;
+	const SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_75.SURVIVAL_REPORT_GLOBAL;
+	const isSurvivalQuality = __awtsmoosModule_52.isSurvivalQuality;
+	const resolveWorldQuality = __awtsmoosModule_73.resolveWorldQuality;
+	const survivalRecorderRequested = __awtsmoosModule_74.survivalRecorderRequested;
+	const survivalSixtyFpsProfile = __awtsmoosModule_71.survivalSixtyFpsProfile;
+	const verifySurvivalRuntime = __awtsmoosModule_79.verifySurvivalRuntime;
+	const publishMitzvahWorldSurvivalReceipt = __awtsmoosModule_80.publishMitzvahWorldSurvivalReceipt;
+
+	/** Preserves the public Chapter 4 request helper while accepting benchmark=survival. */
+	function survivalSixtyFpsRequested(options = {}, environment = globalThis) {
+		return survivalRecorderRequested(options, environment);
+	}
+
+
+	__exports.survivalSixtyFpsRequested = survivalSixtyFpsRequested;
+	/** Starts one five-minute run and publishes the enriched Chapter 5 receipt on completion. */
 	function startSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 		const profile = survivalSixtyFpsProfile(options, environment);
 		const verification = verifySurvivalRuntime(runtime, profile);
-		if (!verification.ok) {
-			return Object.freeze({
-				profile,
-				recorder: null,
-				started: false,
-				reason: 'profile-verification-failed',
-				verification
-			});
-		}
+		if (!verification.ok) return failedRun(profile, verification);
 		const recorder = createSurvivalFrameRecorder({
 			deviceClass: profile.deviceClass,
 			environment,
+			onReport: report => publishMitzvahWorldSurvivalReceipt(
+				report,
+				runtime,
+				profile,
+				environment
+			),
 			profile,
 			runtime
 		});
 		const started = recorder.start();
 		try {
 			environment[SURVIVAL_RECORDER_GLOBAL] = recorder;
-		} catch {
-			// A frozen test environment must never break the run itself.
-		}
+		} catch {}
 		return Object.freeze({
 			profile,
 			recorder,
-			started,
 			reason: started ? 'recording' : 'raf-unavailable',
+			started,
 			verification
 		});
 	}
 
 
 	__exports.startSurvivalSixtyFpsRun = startSurvivalSixtyFpsRun;
-	/**
-	 * Boot hook: starts the run only when the owner asked for it AND the world is survival.
-	 * Never throws and never blocks boot; a failed start is a console warning, not a crash.
-	 * Used by the staged and minimal boot paths (EretzStagedRuntime, MinimalMeadowRuntimeCore).
-	 */
+	/** Starts only when requested and when the loaded world is actually survival quality. */
 	async function maybeStartSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 		try {
 			if (!survivalSixtyFpsRequested(options, environment)) {
-				return Object.freeze({ started: false, reason: 'survival60-flag-absent' });
+				return Object.freeze({ started: false, reason: 'survival-benchmark-not-requested' });
 			}
+			const resolved = resolveWorldQuality(options, environment);
 			if (!isSurvivalQuality(options)
 				&& !isSurvivalQuality(runtime?.qualityProfile)
-				&& !isSurvivalQuality(resolveWorldQuality(options, environment))) {
+				&& !isSurvivalQuality(resolved)) {
 				return Object.freeze({ started: false, reason: 'quality-not-survival' });
 			}
 			const run = startSurvivalSixtyFpsRun(runtime, options, environment);
-			if (run.started) {
-				environment?.console?.info?.(
-					`B"H Survival 60 FPS run recording for ${run.profile.durationMs / 1000}s `
-					+ `(device class ${run.profile.deviceClass}, maxDpr ${run.profile.maxDpr}). `
-					+ `Report will appear at globalThis.${SURVIVAL_REPORT_GLOBAL}.`
-				);
-			}
+			if (run.started) announceRun(run, environment);
 			return run;
 		} catch (error) {
-			environment?.console?.warn?.('B"H Survival 60 FPS recorder failed to start; play continues unmeasured.', error);
+			environment?.console?.warn?.('B"H Survival benchmark failed to start; play continues unmeasured.', error);
 			return Object.freeze({ started: false, reason: 'recorder-start-failed' });
 		}
 	}
 
 
 	__exports.maybeStartSurvivalSixtyFpsRun = maybeStartSurvivalSixtyFpsRun;
-	__exports.copyableSurvivalSummary = copyableSurvivalSummary;
-	__exports.SURVIVAL_REPORT_GLOBAL = SURVIVAL_REPORT_GLOBAL;
-	__exports.SURVIVAL_SIXTY_FPS_DURATION_MS = SURVIVAL_SIXTY_FPS_DURATION_MS;
+	function failedRun(profile, verification) {
+		return Object.freeze({
+			profile,
+			recorder: null,
+			reason: 'profile-verification-failed',
+			started: false,
+			verification
+		});
+	}
+
+	function announceRun(run, environment) {
+		environment?.console?.info?.(
+			`B"H Survival benchmark recording ${run.profile.durationMs / 1000}s `
+			+ `(device ${run.profile.deviceClass}, maxDpr ${run.profile.maxDpr}). `
+			+ `Raw report: globalThis.${SURVIVAL_REPORT_GLOBAL}.`
+		);
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsProfile.js ----
+{
+	const __exports = __awtsmoosModule_70;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SurvivalSixtyFpsProfile.js
+	 * @description Preserves the public survival benchmark API while each responsibility lives in a small focused vessel.
+	 * The Awtsmoos is One while many measured vessels reveal one light;
+	 * Awtsmoos.com keeps old imports whole as profile, query, verification, and recording divide their work aright.
+	 */
+
+	const survivalSixtyFpsProfile = __awtsmoosModule_71.survivalSixtyFpsProfile;
+
+	__exports.SURVIVAL_ENABLED_FEATURES = __awtsmoosModule_71.SURVIVAL_ENABLED_FEATURES;
+	__exports.SURVIVAL_PROFILE_CONTENTS = __awtsmoosModule_71.SURVIVAL_PROFILE_CONTENTS;
+	__exports.SURVIVAL_SIXTY_FPS_SCENE_ID = __awtsmoosModule_71.SURVIVAL_SIXTY_FPS_SCENE_ID;
+	__exports.survivalSixtyFpsFeatureGates = __awtsmoosModule_71.survivalSixtyFpsFeatureGates;
+	__exports.survivalSixtyFpsProfile = __awtsmoosModule_71.survivalSixtyFpsProfile;
+	__exports.SURVIVAL_SIXTY_FPS_FLAG = __awtsmoosModule_74.SURVIVAL_SIXTY_FPS_FLAG;
+	__exports.maybeStartSurvivalSixtyFpsRun = __awtsmoosModule_78.maybeStartSurvivalSixtyFpsRun;
+	__exports.startSurvivalSixtyFpsRun = __awtsmoosModule_78.startSurvivalSixtyFpsRun;
+	__exports.survivalSixtyFpsRequested = __awtsmoosModule_78.survivalSixtyFpsRequested;
+	__exports.verifySurvivalRuntime = __awtsmoosModule_79.verifySurvivalRuntime;
+	__exports.copyableSurvivalSummary = __awtsmoosModule_75.copyableSurvivalSummary;
+	__exports.SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_75.SURVIVAL_REPORT_GLOBAL;
+	__exports.SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_75.SURVIVAL_SIXTY_FPS_DURATION_MS;
+
 	__exports.default = survivalSixtyFpsProfile;
 }
 

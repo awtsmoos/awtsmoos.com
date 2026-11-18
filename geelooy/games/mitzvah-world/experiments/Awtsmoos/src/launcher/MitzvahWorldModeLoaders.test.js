@@ -1,14 +1,10 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 /**
  * @file MitzvahWorldModeLoaders.test.js
- * @description Proves the Track C optional imports can never hang boot: each one
- * races a timeout, logs, and continues without the ornament. Also guards the
- * mode-loader surface against regressions.
+ * @description Guards all routes and a genuinely stalled optional ES module.
+ * The Awtsmoos illumines every path at its appointed hour;
+ * Awtsmoos.com never lets an ornament hold the player's power.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
@@ -24,24 +20,30 @@ import {
 function silenceWarnings() {
 	const messages = [];
 	const original = console.warn;
-	console.warn = (...args) => { messages.push(args.map(String).join(' ')); };
+	console.warn = (...args) => {
+		messages.push(args.map(String).join(' '));
+	};
 	return {
 		messages,
-		restore() { console.warn = original; }
+		restore() {
+			console.warn = original;
+		}
 	};
 }
 
 test('mode loaders still expose every route', () => {
 	const loaders = createMitzvahWorldModeLoaders();
-	assert.deepEqual(Object.keys(loaders).sort(), ['materials', 'movie', 'multiplayer', 'platform', 'singlePlayer']);
+	assert.deepEqual(Object.keys(loaders).sort(), [
+		'materials', 'movie', 'multiplayer', 'platform', 'singlePlayer'
+	]);
 });
 
-test('optional import timeout constant is a sane boot bound', () => {
+test('optional import timeout constant remains a sane boot bound', () => {
 	assert.ok(MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS >= 5000);
 	assert.ok(MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS <= 30000);
 });
 
-test('resolves a healthy module namespace on success', async () => {
+test('healthy optional imports resolve their module namespace', async () => {
 	const module = await importOptionalMitzvahWorldModule(
 		new URL('./MitzvahWorldRouteQuery.js', import.meta.url).href,
 		'test-healthy'
@@ -49,7 +51,7 @@ test('resolves a healthy module namespace on success', async () => {
 	assert.ok(module && typeof module.hasMovieRequest === 'function');
 });
 
-test('resolves null (log-and-continue) when the module is missing', async () => {
+test('missing optional modules return null and warn instead of holding boot', async () => {
 	const guard = silenceWarnings();
 	try {
 		const started = Date.now();
@@ -65,10 +67,9 @@ test('resolves null (log-and-continue) when the module is missing', async () => 
 	}
 });
 
-test('a never-settling module import resolves null at the timeout (boot never hangs)', async (t) => {
-	t.timeout = MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS + 30000;
-	const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-hang-'));
-	const hangingFile = path.join(dir, 'hanging.js');
+test('a real never-settling ES module resolves null at timeout', async () => {
+	const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-hang-'));
+	const hangingFile = path.join(directory, 'hanging.mjs');
 	fs.writeFileSync(hangingFile, 'await new Promise(() => {});\nexport const value = 1;\n');
 	const guard = silenceWarnings();
 	try {
@@ -79,17 +80,11 @@ test('a never-settling module import resolves null at the timeout (boot never ha
 		);
 		const elapsed = Date.now() - started;
 		assert.equal(module, null);
-		assert.ok(
-			elapsed >= MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS,
-			`settled too early (${elapsed}ms); the timeout did not bound the hang`
-		);
-		assert.ok(
-			elapsed < MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS + 15000,
-			`took too long (${elapsed}ms); boot would hang`
-		);
+		assert.ok(elapsed >= MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS, `too early: ${elapsed}ms`);
+		assert.ok(elapsed < MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS + 15000, `too late: ${elapsed}ms`);
 		assert.ok(guard.messages.some(message => message.includes('test-hanging')));
 	} finally {
 		guard.restore();
-		fs.rmSync(dir, { recursive: true, force: true });
+		fs.rmSync(directory, { recursive: true, force: true });
 	}
 });

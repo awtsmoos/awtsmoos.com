@@ -1,47 +1,47 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 /**
  * @file BootstrapEssentialPrimeMovementEvidence.test.js
- * @description Locks real prime movement and visible render ahead of authoritative movement-readiness publication.
- * The Awtsmoos lets Awtsmoos.com name control only after the traveler has truly stepped and appeared;
- * no timeout extension, constructor shortcut, or synthetic flag may stand in place of the living transaction.
+ * @description Guards real prime rendering and the actual milestone contract.
+ * The Awtsmoos lends the traveler his authentic first stride;
+ * Awtsmoos.com records control only after render joins his side.
  */
-
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { ESSENTIAL_MILESTONE_DEFINITIONS } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import {
+	ESSENTIAL_MILESTONES,
+	ESSENTIAL_MILESTONE_CATALOG,
+	PLAYER_MOVEMENT_DEADLINE_MS
+} from './MitzvahWorldEssentialMilestoneCatalog.js';
 
-const sourceUrl = new URL('./BootstrapEssentialPrimeAssembly.js', import.meta.url);
+const primeSource = new URL('./BootstrapEssentialPrimeAssembly.js', import.meta.url);
 
-async function source() {
-	return readFile(sourceUrl, 'utf8');
-}
-
-test('essential prime publishes movement evidence only after update and visible render', async () => {
-	const text = await source();
-	const update = text.indexOf('movement.update(0.001)');
-	const render = text.indexOf('renderPrime(runtime, now(environment))');
-	const publish = text.indexOf('publishMovementReady(environment)');
-	const loop = text.indexOf('startLoop(runtime, movement, environment)');
-	assert.ok(update >= 0);
-	assert.ok(render > update);
-	assert.ok(publish > render);
-	assert.ok(loop > publish);
+test('real movement is updated, rendered, and published before the loop', async () => {
+	const source = await readFile(primeSource, 'utf8');
+	const update = source.indexOf('movement.update(0.001)');
+	const render = source.indexOf('renderPrime(runtime, now(environment))');
+	const publish = source.indexOf('publishMovementReady(environment)');
+	const loop = source.indexOf('startLoop(runtime, movement, environment)');
+	assert.ok(update >= 0 && render > update && publish > render && loop > publish);
 });
 
-test('movement publisher uses the authoritative existing milestone vocabulary', async () => {
-	const text = await source();
-	assert.match(text, /ESSENTIAL_MILESTONES\.PLAYER_MOVEMENT_ENABLED/);
-	assert.match(text, /importerStage: 'bootstrap-runtime-prime'/);
-	assert.match(text, /markMitzvahWorldStartupMilestone\(environment, 'playerControllable'\)/);
+test('movement publication uses the authoritative existing vocabulary', async () => {
+	const source = await readFile(primeSource, 'utf8');
+	assert.match(source, /ESSENTIAL_MILESTONES\.PLAYER_MOVEMENT_ENABLED/);
+	assert.match(source, /importerStage: 'bootstrap-runtime-prime'/);
+	assert.match(source, /markMitzvahWorldStartupMilestone\(environment, 'playerControllable'\)/);
 });
 
-test('movement deadline remains the strict ten-second dependency-gated budget', () => {
-	const movement = ESSENTIAL_MILESTONE_DEFINITIONS.find(item => item.id === 'PLAYER_MOVEMENT_ENABLED');
-	assert.ok(movement);
-	assert.equal(movement.timeoutMs, 10000);
-	assert.deepEqual(movement.dependsOn, ['PLAYER_GLTF_DECODED']);
+test('movement deadline and renderer, terrain and player dependencies are strict', () => {
+	const milestone = ESSENTIAL_MILESTONE_CATALOG.find(item =>
+		item.name === ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED
+	);
+	assert.ok(milestone);
+	assert.equal(PLAYER_MOVEMENT_DEADLINE_MS, 10000);
+	assert.equal(milestone.timeoutMilliseconds, PLAYER_MOVEMENT_DEADLINE_MS);
+	assert.deepEqual(milestone.dependencies, [
+		ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
+		ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
+		ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED
+	]);
 });
