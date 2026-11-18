@@ -1,94 +1,65 @@
 #!/usr/bin/env bash
-# B"H
-# Boruch Hashem
-# Blessed is He
-# The Awtsmoos keeps only the truly dynamic public doors flowing through Node;
-# Awtsmoos.com leaves static generations untouched while Heichelos and previews remain alive.
+# B"H — The Awtsmoos protects the whole identity vessel on every release.
+# Change one complete, hash-guarded Nginx file; preserve its exact predecessor.
 set -Eeuo pipefail
 
 config="${AWTSMOOS_NGINX_PLATFORM_PATH:-/etc/nginx/sites-enabled/awtsmoos.com}"
+module_dir="${AWTSMOOS_NGINX_MODULE_DIRECTORY:-/etc/nginx/awtsmoos.d}"
 test_only="${AWTSMOOS_NGINX_TEST_ONLY:-0}"
+nginx_bin="${AWTSMOOS_NGINX_BIN:-nginx}"
+systemctl_bin="${AWTSMOOS_SYSTEMCTL_BIN:-systemctl}"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+repo="$(cd "$script_dir/../.." && pwd -P)"
+inspector="$script_dir/nginxRouteTree.py"
+source_file="$repo/ops/nginx/identity-pages-awtsmoos-release.conf"
+target_file="$module_dir/identity-pages.conf"
+old_hash="606c92ee293aa99af9df20bf8a289985cebf2022ce86bf3e446a88052c570180"
 
 fail() {
-	echo "B\"H DYNAMIC_ROUTE_FAIL reason=$1" >&2
+	printf 'B"H DYNAMIC_ROUTE_FAIL reason=%s\n' "$1" >&2
 	exit 1
 }
 
+# The Awtsmoos witnesses the explicit and recursively included route files.
 [ -f "$config" ] || fail nginx_platform_config_missing
-
-python3 - "$config" <<'PY'
-from pathlib import Path
-import sys
-import re
-
-path = Path(sys.argv[1])
-text = path.read_text()
-required = (
-    ("/heichelos/", "\tlocation ^~ /heichelos/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/view/", "\tlocation ^~ /view/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    # B"H — human-friendly sefer IDs: geelooy/<sefer>/_awtsmoos.derech.js
-    # resolves /tanya, /תניא, ... server-side. Without these, nginx serves
-    # the mount dirs statically and the friendly routes never reach Node.
-    # (Bare /tanya still 301s to /tanya/ via static dir handling, as /heichelos does.)
-    ("/tanya/", "\tlocation ^~ /tanya/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/תניא/", "\tlocation ^~ /תניא/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/likutei-torah/", "\tlocation ^~ /likutei-torah/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/לקוטי-תורה/", "\tlocation ^~ /לקוטי-תורה/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/igeres-hakodesh/", "\tlocation ^~ /igeres-hakodesh/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    ("/אגרות-קודש/", "\tlocation ^~ /אגרות-קודש/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-    # B"H — public alias pages: geelooy/@/_awtsmoos.derech.js resolves
-    # /@/alias, /@/sitemap.xml and /@/alias/comments/:page server-side.
-    # Without this, nginx serves /@/ statically and the alias routes never
-    # reach Node (the derech is deployed and waiting, but /@/ 404s at nginx).
-    # The ^~ /@/ prefix does NOT match the canonical /@alias form (no slash
-    # after @), so the static alias template served by the identity-pages
-    # regex location is untouched.
-    ("/@/", "\tlocation ^~ /@/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
-)
-# B"H — canonical profile redirects. Each entry is (marker, block): the marker
-# is the exact location line to look for in the vhost plus its includes, so an
-# already-installed redirect is never duplicated.
-required_redirects = (
-    # B"H — feed author links point at /profile/<alias>; the canonical public
-    # profile is /@<alias> (see geelooy/@/seo/aliasPage.js). Redirect so every
-    # author link lands on the profile. The negative lookahead keeps
-    # /profile/alias/ (static template) out of the redirect, and
-    # /profile/alias-manage/ is already shielded by its ^~ location, which
-    # outranks this regex. 302, not 301, matching the codebase's canonical
-    # redirect convention (friendly sefer IDs) and staying reversible.
-    ("location ~ ^/profile/(?!alias-manage|alias)([^/]+)/?$",
-     "\tlocation ~ ^/profile/(?!alias-manage|alias)([^/]+)/?$ {\n\t\treturn 302 /@$1;\n\t}\n"),
-)
-# B"H — modular Nginx vhosts place the authoritative location blocks inside
-# explicitly included snippet files. Read and validate those includes before
-# considering any mutation of the root vhost. Never flatten or overwrite a
-# modular configuration owned by another deployment system.
-includes = re.findall(r"(?m)^\s*include\s+([^;\s]+);", text)
-snippets = []
-for include in includes:
-    if "*" in include:
-        continue  # No glob expansion through an untrusted configuration.
-    snippet = Path(include)
-    if snippet.is_file():
-        snippets.append(snippet.read_text())
-combined = text + "\n" + "\n".join(snippets)
-missing = [(route, block) for route, block in required if f"location ^~ {route}" not in combined]
-missing_redirects = [(marker, block) for marker, block in required_redirects if marker not in combined]
-missing_all = missing + missing_redirects
-if not missing_all:
-    raise SystemExit(0)
-marker = "\n\tlocation / {"
-if marker not in text:
-    raise SystemExit("modular_dynamic_routes_missing:" + ",".join(route for route, _ in missing_all))
-insert = "\n" + "\n".join(block.rstrip("\n") for _, block in missing_all) + "\n"
-path.write_text(text.replace(marker, insert + marker, 1))
-PY
-
-if [ "$test_only" = "1" ]; then
-	echo "B\"H DYNAMIC_ROUTES_TESTED config=$config"
+[ -f "$inspector" ] || fail nginx_route_inspector_missing
+[ -f "$source_file" ] || fail nginx_source_template_missing
+[ -f "$target_file" ] || fail nginx_identity_snippet_missing
+missing="$(python3 "$inspector" "$config")" || fail nginx_route_inspection_failed
+if [ -z "$missing" ]; then
+	if [ "$test_only" = "1" ]; then
+		printf 'B"H DYNAMIC_ROUTES_TESTED config=%s\n' "$config"
+	else
+		"$nginx_bin" -t || fail nginx_validation_failed
+		printf 'B"H DYNAMIC_ROUTES_READY config=%s existing=verified\n' "$config"
+	fi
 	exit 0
 fi
 
-nginx -t
-systemctl reload nginx
-printf 'B"H DYNAMIC_ROUTES_READY config=%s\n' "$config"
+# Missing Torah or application routes are not permission to overwrite.
+case "$missing" in
+	"alias_nested|profile_redirect"|"profile_redirect|alias_nested"|"alias_nested"|"profile_redirect") ;;
+	*) fail "unexpected_missing_routes_$missing" ;;
+esac
+[ "$test_only" != "1" ] || fail "missing_routes_$missing"
+grep -Fq "include $target_file;" "$config" || fail identity_snippet_not_included
+current_hash="$(sha256sum "$target_file" | cut -d' ' -f1)"
+[ "$current_hash" = "$old_hash" ] || fail identity_snippet_changed_by_another_owner
+
+# Create and preserve the exact old complete file in a private backup.
+backup="$(mktemp "$module_dir/.identity-pages-before-awtsmoos.XXXXXXXX")"
+cp -p "$target_file" "$backup"
+[ "$(sha256sum "$backup" | cut -d' ' -f1)" = "$old_hash" ] || fail backup_hash_mismatch
+staged="$(mktemp "$module_dir/.identity-pages-next.XXXXXXXX")"
+install -m 0644 "$source_file" "$staged"
+
+# The whole-file replacement is atomic. Restore the whole old file on failure.
+mv -f "$staged" "$target_file"
+after="$(python3 "$inspector" "$config")" || after="inspection_failed"
+if [ -n "$after" ] || ! "$nginx_bin" -t || ! "$systemctl_bin" reload nginx; then
+	cp -p "$backup" "$target_file"
+	"$nginx_bin" -t >/dev/null 2>&1 || true
+	"$systemctl_bin" reload nginx >/dev/null 2>&1 || true
+	fail "route_validation_or_reload_failed_$after"
+fi
+printf 'B"H DYNAMIC_ROUTES_READY config=%s backup=%s\n' "$config" "$backup"
