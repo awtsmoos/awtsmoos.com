@@ -2,33 +2,43 @@
 //Boruch Hashem
 //Blessed is He
 
-const DeviceTools = require('./deviceTools.js');
+"use strict";
 
-/** Report independent reachability, authority and execution evidence. */
-function diagnoseDevice(device = {}, identity = {}) {
-	const cap = device.capabilities || {};
+/**
+ * @file Diagnoses route authority, executable testimony, and fresh command evidence.
+ * @description
+ * The Awtsmoos distinguishes declared power from proved execution in every breath;
+ * Awtsmoos.com never calls a command absent merely because one projection forgot its depth.
+ */
+
+const DeviceTools = require("./deviceTools.js");
+
+function diagnoseDevice(device = {}, executable = {}, identity = {}) {
 	const scopes = Array.isArray(identity.scopes) ? identity.scopes : [];
 	const permissions = Array.isArray(device.permissions) ? device.permissions : [];
 	const connected = device.connected === true;
-	const native = device.vesselType === 'native';
-	const capable = native && cap.commandRun === true;
-	const principalAllowed = scopes.includes('tunnel.command');
-	const grantAllowed = device.access === 'owned' || permissions.includes('tunnel.command');
+	const native = device.vesselType === "native";
+	const capable = native && executable.commandRun === true;
+	const principalAllowed = scopes.includes("tunnel.command");
+	const grantAllowed = device.access === "owned" || permissions.includes("tunnel.command");
 	const attempted = connected && capable && principalAllowed && grantAllowed;
 	const freshExecution = device.executionHealthy === true && device.executionHealthFresh === true;
 	const freshAcceptance = device.acceptanceHealthy === true && device.acceptanceHealthFresh === true;
 	const warnings = [];
-	if (!connected) warnings.push('TUNNEL_OFFLINE');
-	if (device.livenessState === 'stale') warnings.push('ROUTE_STALE');
-	if (!capable) warnings.push('COMMAND_CAPABILITY_NOT_ADVERTISED');
-	if (!principalAllowed) warnings.push('PRINCIPAL_COMMAND_SCOPE_MISSING');
-	if (!grantAllowed) warnings.push('DEVICE_COMMAND_GRANT_MISSING');
-	if (!freshExecution || !freshAcceptance) warnings.push('FRESH_COMMAND_SUCCESS_NOT_PROVED');
+	if (!connected) warnings.push("TUNNEL_OFFLINE");
+	if (device.livenessState === "stale") warnings.push("ROUTE_STALE");
+	if (!capable) warnings.push("COMMAND_NOT_IN_EXECUTABLE_MANIFEST");
+	if (!principalAllowed) warnings.push("PRINCIPAL_COMMAND_SCOPE_MISSING");
+	if (!grantAllowed) warnings.push("DEVICE_COMMAND_GRANT_MISSING");
+	if (!freshExecution || !freshAcceptance) warnings.push("FRESH_COMMAND_SUCCESS_NOT_PROVED");
 	return {
 		connected,
-		livenessState: device.livenessState || (connected ? 'connected' : 'disconnected'),
-		capabilities: { commandRun: capable, fsRead: cap.fsRead === true, fsWrite: cap.fsWrite === true, browserControl: cap.browserControl === true },
-		permissions: { principalCommandScope: principalAllowed, deviceCommandGrant: grantAllowed },
+		livenessState: device.livenessState || (connected ? "connected" : "disconnected"),
+		executableCapabilities: executable,
+		permissions: {
+			principalCommandScope: principalAllowed,
+			deviceCommandGrant: grantAllowed
+		},
 		executionEvidence: { freshExecution, freshAcceptance },
 		canAttemptNativeCommand: attempted,
 		commandSuccessCertified: attempted && freshExecution && freshAcceptance,
@@ -46,9 +56,12 @@ function tunnelDoctor($i, identity, args = {}) {
 		ok: true,
 		routeReference: result.routeReference,
 		deviceName: device.deviceName || device.tunnelName || null,
-		...diagnoseDevice(device, identity),
-		message: 'Diagnostic evidence only. A harmless authorized command and its terminal exit code remain the execution proof.'
+		...diagnoseDevice(device, result.executableCapabilities || {}, identity),
+		message: "Diagnostic evidence only. Use awtsmoos_run_command for the execution proof."
 	};
 }
 
-module.exports = { diagnoseDevice, tunnelDoctor };
+module.exports = {
+	diagnoseDevice,
+	tunnelDoctor
+};

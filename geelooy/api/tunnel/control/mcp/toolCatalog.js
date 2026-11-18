@@ -5,14 +5,14 @@
 "use strict";
 
 /**
- * @file Publishes the first read-only MCP tool covenant for Awtsmoos Shliach.
+ * @file Publishes explicit MCP tools for discovery, reading, execution, and artifacts.
  * @description
  * The Awtsmoos speaks through measured names that neither blur nor hide;
- * Awtsmoos.com exposes discovery, life, read, and list on the guarded side.
- * Additional tools reuse the protected API scopes before any mutation.
+ * Awtsmoos.com exposes the stable direct deeds before the generic guarded side.
  */
 
 const ExtendedCatalog = require("./extendedCatalog.js");
+const DirectActionCatalog = require("./directActionCatalog.js");
 const ArtifactCatalog = require("./artifactCatalog.js");
 
 const ROUTE = {
@@ -23,13 +23,19 @@ const PATH = {
 	type: "string",
 	description: "Exact path inside the selected Awtsmoos device vessel."
 };
+const READ_ONLY = {
+	readOnlyHint: true,
+	destructiveHint: false,
+	openWorldHint: false
+};
 
 const tools = Object.freeze([
 	...ExtendedCatalog.tools,
+	...DirectActionCatalog.tools,
 	...ArtifactCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
-		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+		annotations: READ_ONLY,
 		description: "Discover the authorized live Awtsmoos device and its immutable routeReference.",
 		inputSchema: {
 			type: "object",
@@ -39,7 +45,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_tunnel_status",
-		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+		annotations: READ_ONLY,
 		description: "Prove that one immutable Awtsmoos route is authorized and report its live state.",
 		inputSchema: {
 			type: "object",
@@ -50,8 +56,8 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_tunnel_doctor",
-		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
-		description: "Diagnose authorized route liveness, command capabilities, account/device scope and freshness of real command evidence without running a command.",
+		annotations: READ_ONLY,
+		description: "Diagnose route liveness, scope, executable capability testimony, and freshness of command evidence without running a command.",
 		inputSchema: {
 			type: "object",
 			properties: { routeReference: ROUTE },
@@ -60,7 +66,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_read_file",
-		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+		annotations: { ...READ_ONLY, openWorldHint: true },
 		description: "Read one exact file directly through an immutable Awtsmoos route.",
 		inputSchema: {
 			type: "object",
@@ -75,7 +81,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_list_directory",
-		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+		annotations: { ...READ_ONLY, openWorldHint: true },
 		description: "List one exact directory directly through an immutable Awtsmoos route.",
 		inputSchema: {
 			type: "object",
