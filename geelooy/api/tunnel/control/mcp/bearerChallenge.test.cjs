@@ -10,18 +10,34 @@ const Auth = require("./auth.js");
 const Resource = require("./resource.js");
 
 /**
- * @file Verifies truthful OAuth discovery grammar at the MCP gate.
+ * @file Verifies truthful OAuth discovery grammar and working scope invitation.
  * @description
  * The Awtsmoos guards consent without hiding the road from sight;
- * Awtsmoos.com points modern clients to the path-aware metadata light.
+ * Awtsmoos.com asks once for the ordinary tools the user expects to ignite.
  */
 
-test("Bearer challenge uses canonical path-aware RFC 9728 metadata", () => {
+test("Bearer challenge advertises canonical metadata and full working scopes", () => {
 	const header = Auth.bearerChallenge("invalid_token");
-	const expected = `Bearer resource_metadata="${Resource.PROTECTED_RESOURCE_METADATA}", `
-		+ `scope="profile tunnel.read", error="invalid_token"`;
-	assert.equal(header, expected);
 	assert.match(header, /oauth-protected-resource\/api\/tunnel\/control\/mcp/);
+	for (const scope of [
+		"profile",
+		"tunnel.read",
+		"tunnel.write",
+		"tunnel.command",
+		"tunnel.browser",
+		"tunnel.mission",
+		"tunnel.room",
+		"awtsmoos.api"
+	]) {
+		assert.ok(Resource.CONNECTION_SCOPES.includes(scope));
+		assert.match(header, new RegExp(scope.replace(".", "\\.")));
+	}
+	assert.doesNotMatch(header, /tunnel\.admin/);
+});
+
+test("minimum scopes remain read-only compatible", () => {
+	assert.deepEqual(Resource.MINIMUM_SCOPES, ["profile", "tunnel.read"]);
+	assert.equal(Resource.READ_SCOPES, Resource.MINIMUM_SCOPES);
 });
 
 test("legacy root metadata remains available as a compatibility alias", () => {
@@ -35,7 +51,7 @@ test("legacy root metadata remains available as a compatibility alias", () => {
 	);
 });
 
-test("Unauthenticated transport preserves the identical discoverable header", () => {
+test("Unauthenticated transport preserves the discoverable working challenge", () => {
 	const headers = {};
 	const $i = {
 		response: {
@@ -47,7 +63,9 @@ test("Unauthenticated transport preserves the identical discoverable header", ()
 	const result = Auth.challenge($i);
 	assert.equal(result.status, 401);
 	assert.equal(result.headers["WWW-Authenticate"], headers["WWW-Authenticate"]);
-	assert.match(headers["WWW-Authenticate"], /", scope="profile tunnel\.read", error="invalid_token"$/);
+	assert.match(headers["WWW-Authenticate"], /tunnel\.write/);
+	assert.match(headers["WWW-Authenticate"], /tunnel\.command/);
+	assert.match(headers["WWW-Authenticate"], /tunnel\.browser/);
 });
 
 test("Insufficient-scope challenge retains 403 and a valid Bearer error", () => {

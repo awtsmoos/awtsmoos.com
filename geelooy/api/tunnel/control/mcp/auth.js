@@ -8,9 +8,8 @@
  * @file Authenticates OAuth bearers bound to the Awtsmoos MCP resource.
  * @description
  * The Awtsmoos renews the guarded doorway with each request.
- * Awtsmoos.com must speak the grammar of that doorway correctly:
- * one space after the Bearer scheme, and commas between challenge parameters.
- * No malformed invitation may conceal the consent of the human beyond.
+ * Awtsmoos.com advertises the working scope covenant at connection time,
+ * while still accepting narrower read-only tokens that satisfy the minimum gate.
  */
 
 const { readBearer } = require("../../../oauth/core/tokenReader.js");
@@ -18,17 +17,11 @@ const { identityRecord } = require("../core/auth.js");
 const Respond = require("../core/respond.js");
 const Resource = require("./resource.js");
 
-/**
- * Serializes a fixed, trusted Bearer challenge with RFC 6750 delimiters.
- * Each value is a server-defined string; reject control characters to keep
- * a single HTTP header and never allow an untrusted line into the vessel.
- * @param {string} error Safe OAuth error token.
- * @returns {string} The complete Bearer authentication challenge.
- */
+/** Serializes a fixed trusted Bearer challenge using RFC 6750 delimiters. */
 function bearerChallenge(error) {
 	const parameterValues = [
 		["resource_metadata", Resource.PROTECTED_RESOURCE_METADATA],
-		["scope", Resource.READ_SCOPES.join(" ")],
+		["scope", Resource.CONNECTION_SCOPES.join(" ")],
 		["error", error]
 	];
 	const parameters = parameterValues.map(([name, value]) => {

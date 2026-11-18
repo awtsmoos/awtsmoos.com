@@ -8,6 +8,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const { handleMcp } = require("./handler.js");
+const Resource = require("./resource.js");
 const { isWrappedDynamicResponse } = require("../../../../../ayzarim/awtsmoosDynamicServer/response/dynamicResponseShape.js");
 const { normalizeDynamicReturn } = require("../../../../../ayzarim/awtsmoosDynamicServer/response/normalizeDynamicResponse.js");
 
@@ -15,8 +16,8 @@ const { normalizeDynamicReturn } = require("../../../../../ayzarim/awtsmoosDynam
  * @file Authenticated and unauthenticated MCP transport witnesses.
  * @description
  * The Awtsmoos reveals the way even to the stranger who has not signed in.
- * Awtsmoos.com must speak the OAuth challenge before restricting methods,
- * while never permitting an unauthorized request to reach a tool.
+ * Awtsmoos.com speaks OAuth discovery before method restrictions and now invites
+ * the ordinary working scopes once, without granting them before human consent.
  */
 
 function anonymousContext(method, postBody) {
@@ -37,14 +38,16 @@ function anonymousContext(method, postBody) {
 	};
 }
 
-test("unauthenticated GET offers OAuth discovery instead of premature 405", async () => {
+test("unauthenticated GET offers working OAuth discovery instead of premature 405", async () => {
 	const { headers, context } = anonymousContext("GET");
 	const result = await handleMcp(context);
+	const challenge = headers["WWW-Authenticate"];
 	assert.equal(result.statusCode, 401);
 	assert.equal(isWrappedDynamicResponse(result), true);
-	assert.match(headers["WWW-Authenticate"], /^Bearer resource_metadata=/);
-	assert.match(headers["WWW-Authenticate"], /", scope="profile tunnel\.read", error="invalid_token"$/);
-	assert.equal(normalizeDynamicReturn(result).headers["WWW-Authenticate"], headers["WWW-Authenticate"]);
+	assert.match(challenge, /^Bearer resource_metadata=/);
+	assert.match(challenge, new RegExp(`scope="${Resource.CONNECTION_SCOPES.join(" ")}"`));
+	assert.match(challenge, /error="invalid_token"$/);
+	assert.equal(normalizeDynamicReturn(result).headers["WWW-Authenticate"], challenge);
 	assert.equal(headers.Allow, undefined);
 });
 
@@ -58,6 +61,7 @@ test("unauthenticated POST initialization carries 401 and OAuth challenge", asyn
 	assert.equal(result.statusCode, 401);
 	assert.equal(isWrappedDynamicResponse(result), true);
 	assert.match(headers["WWW-Authenticate"], /oauth-protected-resource/);
+	assert.match(headers["WWW-Authenticate"], /tunnel\.command/);
 	assert.equal(normalizeDynamicReturn(result).headers["WWW-Authenticate"], headers["WWW-Authenticate"]);
 	assert.equal(JSON.parse(result.response).error.code, -32000);
 });
