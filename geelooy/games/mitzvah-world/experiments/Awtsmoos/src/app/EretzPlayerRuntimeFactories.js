@@ -10,7 +10,7 @@
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { stabilizeCanonicalAnimatedMeshVisibility } from './CanonicalAnimatedMeshVisibility.js';
+import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
 import { findMinWorldY } from '../world/GroundRay.js';
@@ -55,7 +55,7 @@ export function createGroundedCanonicalPlayer(scene, state) {
 
 /** Prepares shadow flags without changing GLB outfit or ancestor visibility. */
 export function prepareCanonicalPlayerMeshes(model) {
-	stabilizeCanonicalAnimatedMeshVisibility(model);
+	stabilizeCanonicalChossidModel(model);
 	let visibleMeshes = 0;
 	model.traverse?.(object => {
 		if (!object.isMesh && !object.isSkinnedMesh) return;

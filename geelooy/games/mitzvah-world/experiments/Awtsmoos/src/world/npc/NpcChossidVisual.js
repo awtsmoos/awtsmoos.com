@@ -14,6 +14,7 @@ import { TinyAnimationPlayer } from '../../../../light-three-gltf/tiny-animation
 import { alignModelFeetToGround } from '../GroundRay.js';
 import { createNpcFarProxy } from './NpcFarProxy.js';
 import { createNpcQuestMarker } from './NpcQuestMarker.js';
+import { stabilizeCanonicalChossidModel } from '../../app/CanonicalChossidProportions.js';
 
 export function createNpcChossidVisual(profile, gltf, ground) {
 	const group = createNativeWorldGroup();
@@ -21,6 +22,7 @@ export function createNpcChossidVisual(profile, gltf, ground) {
 	group.userData.family = 'animated-chossid-npc';
 	group.userData.renderDistance = profile.primary ? 170 : 155;
 	const model = gltf.scene;
+	stabilizeCanonicalChossidModel(model);
 	model.scale.set(1.38, 1.38, 1.38);
 	model.position.set(profile.x, 0, profile.z);
 	const aligned = alignModelFeetToGround(model, 0);

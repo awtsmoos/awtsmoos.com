@@ -8,7 +8,7 @@ import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { createPlayerActionSystem } from '../playerActions/PlayerActionSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
-import { stabilizeCanonicalAnimatedMeshVisibility } from './CanonicalAnimatedMeshVisibility.js';
+import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
 import { minimalMeadowClipForState } from './MinimalMeadowAnimationClipPolicy.js';
 import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js';
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
@@ -59,7 +59,7 @@ function prepareFriendlyModel(runtime, model, definition) {
 	model.scale.set(1.52, 1.52, 1.52);
 	model.position.set(definition.position.x, ground, definition.position.z);
 	model.setBaseTransform?.();
-	stabilizeCanonicalAnimatedMeshVisibility(model);
+	stabilizeCanonicalChossidModel(model);
 	runtime.scene.add(model);
 	return model;
 }

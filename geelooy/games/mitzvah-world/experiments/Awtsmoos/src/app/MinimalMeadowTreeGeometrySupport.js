@@ -15,6 +15,7 @@ import {
 import {
 	createPrimitiveMaterial
 } from '../world/primitives/PrimitiveMaterialFactory.js';
+import { fullerMinimalMeadowCanopy } from './MinimalMeadowLeafCanopyShape.js';
 
 const BARK_COLORS = Object.freeze([
 	'#745039',
@@ -41,12 +42,14 @@ const LEAF_COLORS = Object.freeze([
  * @returns {Readonly<object>} Frozen geometry/material template record.
  */
 export function minimalMeadowTreePart(data, definition, partName) {
+	const streams = partName.includes('canopy')
+		? fullerMinimalMeadowCanopy(data) : data;
 	const geometry = createNativeIndexedGeometry({
-		colors: data.colors,
-		indices: data.indices,
-		normals: data.normals,
-		positions: data.positions,
-		uvs: data.uvs
+		colors: streams.colors,
+		indices: streams.indices,
+		normals: streams.normals,
+		positions: streams.positions,
+		uvs: streams.uvs
 	}, {
 		geometryUserData: {
 			botanicalTemplate: true,
