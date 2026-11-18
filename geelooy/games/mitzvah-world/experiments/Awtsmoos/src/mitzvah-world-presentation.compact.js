@@ -4081,7 +4081,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_3zeerd = {
+	const __awtsmoosDefault_9sq3m3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4094,7 +4094,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_3zeerd;
+	__exports.default = __awtsmoosDefault_9sq3m3;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -15563,11 +15563,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalMeadowVerticalSliceHudRender.js
-	 * @description Renders intention, posture, Daas, boss, quest, and textual feedback into accessible cards.
-	 * The Awtsmoos gives public combat truth many channels without making color sovereign;
-	 * Awtsmoos.com keeps meter, text, label, pattern, state, and live speech aligned.
+	 * @description Renders only meaningful combat guidance, never an empty dark HUD panel.
+	 * The Awtsmoos gives speech a vessel when there is truth to say;
+	 * Awtsmoos.com clears the silent pane so the Chossid can see the way.
 	 */
 
+	/** Retains the public unified event-driven HUD update. */
 	function renderMinimalMeadowVerticalSliceHud(cards, state) {
 		renderKavanah(cards.kavanah, state.kavanah);
 		renderPosture(cards.posture, state.posture);
@@ -15579,6 +15580,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.renderMinimalMeadowVerticalSliceHud = renderMinimalMeadowVerticalSliceHud;
+	/** Shows true intention feedback only when a kavanah is active. */
 	function renderKavanah(card, value) {
 		card.root.hidden = !value;
 		if (!value) return;
@@ -15588,6 +15590,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		card.text.textContent = `Stability ${percent(value.stability)}. Release by pressing the same action again.`;
 	}
 
+	/** Preserves composure indicators and bounded status. */
 	function renderPosture(card, value) {
 		card.root.hidden = !value;
 		if (!value) return;
@@ -15597,6 +15600,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		card.text.textContent = `${Math.round(value.value)} of ${Math.round(value.maximum)} composure.`;
 	}
 
+	/** Shows learned encounters without inventing a target. */
 	function renderDaas(card, value) {
 		card.root.hidden = !value;
 		if (!value) return;
@@ -15606,6 +15610,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			|| `${value.actionId || 'Enemy action'} learned through ${value.lastReason || 'observation'}.`;
 	}
 
+	/** Preserves boss evidence while avoiding an empty boss card. */
 	function renderBoss(card, value) {
 		card.root.hidden = !value;
 		if (!value) return;
@@ -15616,6 +15621,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			|| 'Read shape and timing; hidden truth remains earned.';
 	}
 
+	/** Preserves active quest guidance and completion narration. */
 	function renderQuest(card, value) {
 		card.root.hidden = !value;
 		if (!value) return;
@@ -15628,14 +15634,17 @@ const __awtsmoosModule_0 = Object.create(null);
 			: `Next lesson: ${String(value.nextStep || '').replaceAll('-', ' ')}.`;
 	}
 
+	/** Never renders a blank combat bubble; keeps actual feedback and subtitles. */
 	function renderFeedback(card, state) {
-		card.root.hidden = false;
-		card.root.dataset.state = state.feedbackState;
-		card.value.textContent = state.feedbackState;
+		const message = String(state.feedback ?? '').trim();
+		card.root.hidden = message.length === 0;
+		card.root.dataset.state = state.feedbackState || 'ready';
 		card.progress.hidden = true;
-		card.text.textContent = state.feedback;
+		card.value.textContent = message ? (state.feedbackState || 'ready') : '';
+		card.text.textContent = message;
 	}
 
+	/** Keeps existing numeric kavanah percentages stable. */
 	function percent(value) {
 		return `${Math.round(
 			Math.max(0, Math.min(1, Number(value || 0))) * 100
@@ -20145,7 +20154,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_18kxrkg = {
+	const __awtsmoosDefault_1ee9gf6 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -20159,7 +20168,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_18kxrkg;
+	__exports.default = __awtsmoosDefault_1ee9gf6;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -33662,12 +33671,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1jvmr54 = {
+	const __awtsmoosDefault_2aqq2i = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1jvmr54;
+	__exports.default = __awtsmoosDefault_2aqq2i;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----

@@ -3991,7 +3991,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_18kxrkg = {
+	const __awtsmoosDefault_1ee9gf6 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4005,7 +4005,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_18kxrkg;
+	__exports.default = __awtsmoosDefault_1ee9gf6;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -20248,7 +20248,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_3zeerd = {
+	const __awtsmoosDefault_9sq3m3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -20261,7 +20261,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_3zeerd;
+	__exports.default = __awtsmoosDefault_9sq3m3;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Vec3.js ----
@@ -20390,8 +20390,18 @@ const __awtsmoosModule_0 = Object.create(null);
 {
 	const __exports = __awtsmoosModule_224;
 	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file CameraClipSystem.js
+	 * @description Keeps the shoulder camera on the player's side of walls and stairs.
+	 * The Awtsmoos reveals each doorway without placing the witness through a wall;
+	 * Awtsmoos.com respects the closest obstacle, whether great or small.
+	 */
 	const Ray = __awtsmoosModule_225.Ray;
 
+	/** Computes the original unobstructed orbit eye. */
 	function desiredCameraEye(target, yaw, pitch, distanceValue) {
 		const cosine = Math.cos(pitch);
 		return {
@@ -20403,10 +20413,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.desiredCameraEye = desiredCameraEye;
+	/**
+	 * Resolves camera occlusion without crossing the nearest solid obstacle.
+	 * minimumSafe remains a preference, never permission to pass through a wall.
+	 */
 	function clipCameraEye(target, desired, octree, minimumSafe) {
-		if (!octree) {
-			return { eye: desired, hit: null };
-		}
+		if (!octree) return { eye: desired, hit: null };
 		const direction = {
 			x: desired.x - target.x,
 			y: desired.y - target.y,
@@ -20414,10 +20426,12 @@ const __awtsmoosModule_0 = Object.create(null);
 		};
 		const length = Math.hypot(direction.x, direction.y, direction.z) || 1;
 		const hit = octree.raycast(new Ray(target, direction), length);
-		if (!hit) {
-			return { eye: desired, hit: null };
-		}
-		const safe = Math.max(minimumSafe, hit.distance - 0.42);
+		if (!hit) return { eye: desired, hit: null };
+		const hitDistance = Math.max(0, Number(hit.distance) || 0);
+		const clearance = Math.min(0.42, Math.max(0.04, hitDistance * 0.5));
+		const limit = Math.max(0, Math.min(length, hitDistance - clearance));
+		const preferred = Math.max(Number(minimumSafe) || 0, hitDistance - 0.42);
+		const safe = Math.min(limit, preferred);
 		return {
 			eye: {
 				x: target.x + direction.x / length * safe,
@@ -20430,6 +20444,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.clipCameraEye = clipCameraEye;
+	/** Preserves stable camera analytics for house and stair collisions. */
 	function buildCameraStats(context, target, clipped, distanceValue) {
 		return {
 			mode: context.mode,

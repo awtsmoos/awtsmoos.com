@@ -4,11 +4,12 @@
 
 /**
  * @file MinimalMeadowVerticalSliceHudRender.js
- * @description Renders intention, posture, Daas, boss, quest, and textual feedback into accessible cards.
- * The Awtsmoos gives public combat truth many channels without making color sovereign;
- * Awtsmoos.com keeps meter, text, label, pattern, state, and live speech aligned.
+ * @description Renders only meaningful combat guidance, never an empty dark HUD panel.
+ * The Awtsmoos gives speech a vessel when there is truth to say;
+ * Awtsmoos.com clears the silent pane so the Chossid can see the way.
  */
 
+/** Retains the public unified event-driven HUD update. */
 export function renderMinimalMeadowVerticalSliceHud(cards, state) {
 	renderKavanah(cards.kavanah, state.kavanah);
 	renderPosture(cards.posture, state.posture);
@@ -18,6 +19,7 @@ export function renderMinimalMeadowVerticalSliceHud(cards, state) {
 	renderFeedback(cards.feedback, state);
 }
 
+/** Shows true intention feedback only when a kavanah is active. */
 function renderKavanah(card, value) {
 	card.root.hidden = !value;
 	if (!value) return;
@@ -27,6 +29,7 @@ function renderKavanah(card, value) {
 	card.text.textContent = `Stability ${percent(value.stability)}. Release by pressing the same action again.`;
 }
 
+/** Preserves composure indicators and bounded status. */
 function renderPosture(card, value) {
 	card.root.hidden = !value;
 	if (!value) return;
@@ -36,6 +39,7 @@ function renderPosture(card, value) {
 	card.text.textContent = `${Math.round(value.value)} of ${Math.round(value.maximum)} composure.`;
 }
 
+/** Shows learned encounters without inventing a target. */
 function renderDaas(card, value) {
 	card.root.hidden = !value;
 	if (!value) return;
@@ -45,6 +49,7 @@ function renderDaas(card, value) {
 		|| `${value.actionId || 'Enemy action'} learned through ${value.lastReason || 'observation'}.`;
 }
 
+/** Preserves boss evidence while avoiding an empty boss card. */
 function renderBoss(card, value) {
 	card.root.hidden = !value;
 	if (!value) return;
@@ -55,6 +60,7 @@ function renderBoss(card, value) {
 		|| 'Read shape and timing; hidden truth remains earned.';
 }
 
+/** Preserves active quest guidance and completion narration. */
 function renderQuest(card, value) {
 	card.root.hidden = !value;
 	if (!value) return;
@@ -67,14 +73,17 @@ function renderQuest(card, value) {
 		: `Next lesson: ${String(value.nextStep || '').replaceAll('-', ' ')}.`;
 }
 
+/** Never renders a blank combat bubble; keeps actual feedback and subtitles. */
 function renderFeedback(card, state) {
-	card.root.hidden = false;
-	card.root.dataset.state = state.feedbackState;
-	card.value.textContent = state.feedbackState;
+	const message = String(state.feedback ?? '').trim();
+	card.root.hidden = message.length === 0;
+	card.root.dataset.state = state.feedbackState || 'ready';
 	card.progress.hidden = true;
-	card.text.textContent = state.feedback;
+	card.value.textContent = message ? (state.feedbackState || 'ready') : '';
+	card.text.textContent = message;
 }
 
+/** Keeps existing numeric kavanah percentages stable. */
 function percent(value) {
 	return `${Math.round(
 		Math.max(0, Math.min(1, Number(value || 0))) * 100
