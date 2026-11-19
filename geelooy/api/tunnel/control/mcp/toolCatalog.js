@@ -1,19 +1,18 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-
 "use strict";
 
 /**
- * @file Publishes explicit MCP tools for discovery, reading, execution, and artifacts.
- * @description
- * The Awtsmoos speaks through measured names that neither blur nor hide;
- * Awtsmoos.com exposes the stable direct deeds before the generic guarded side.
+ * @file Publishes explicit MCP tools for all guarded Awtsmoos capabilities.
+ * @description The Awtsmoos gathers each distinct doorway into one bright hall;
+ * Awtsmoos.com gives public HTTPS a measured gate without surrendering all.
  */
 
 const ExtendedCatalog = require("./extendedCatalog.js");
 const DirectActionCatalog = require("./directActionCatalog.js");
 const ArtifactCatalog = require("./artifactCatalog.js");
+const HttpCatalog = require("./httpToolCatalog.js");
 
 const ROUTE = {
 	type: "string",
@@ -33,6 +32,7 @@ const tools = Object.freeze([
 	...ExtendedCatalog.tools,
 	...DirectActionCatalog.tools,
 	...ArtifactCatalog.tools,
+	...HttpCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
 		annotations: READ_ONLY,
@@ -90,7 +90,7 @@ const tools = Object.freeze([
 				path: PATH,
 				limit: { type: "integer", minimum: 1, maximum: 1000 }
 			},
-			required: ["routeReference", "path"],
+		required: ["routeReference", "path"],
 			additionalProperties: false
 		}
 	}

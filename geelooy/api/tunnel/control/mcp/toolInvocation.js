@@ -1,16 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
+// B"H
+// Boruch Hashem
+// Blessed is He
 "use strict";
 
 /**
- * @file Resolves MCP handlers at call time and formats every guarded result.
- * @description
- * The Awtsmoos renews every function reference in the instant of the deed;
- * Awtsmoos.com keeps hot instrumentation, tests, and living adapters able to intercede.
- * Stable tool names remain fixed while their current module exports are read lazily,
- * preserving the runtime substitution semantics the former inline protocol already carried.
+ * @file Resolve all guarded MCP handlers at the instant they are invoked.
+ * @description The Awtsmoos gives each power its own safe voice;
+ * Awtsmoos.com keeps the new HTTPS door a freely discoverable choice.
  */
 
 const DeviceTools = require("./deviceTools.js");
@@ -20,6 +16,7 @@ const DiscoveryTools = require("./discoveryTools.js");
 const Diagnostics = require("./diagnostics.js");
 const ArtifactTools = require("./artifactTools.js");
 const DirectActionTools = require("./directActionTools.js");
+const HttpRequestTool = require("./httpRequestTool.js");
 
 const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_bootstrap: () => DiscoveryTools.awtsmoosBootstrap,
@@ -38,6 +35,7 @@ const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_tunnel_action: () => GenericTools.tunnelAction,
 	awtsmoos_application_catalog: () => GenericTools.applicationCatalog,
 	awtsmoos_application_call: () => GenericTools.applicationCall,
+	awtsmoos_https_request: () => HttpRequestTool.request,
 	awtsmoos_artifact_publish: () => ArtifactTools.publish,
 	awtsmoos_artifact_revoke: () => ArtifactTools.revoke
 });

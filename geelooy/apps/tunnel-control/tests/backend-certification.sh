@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# B"H — The Awtsmoos proves owner boundaries, ZIP source and single-flight.
-# Each release must preserve both the incumbent identity and immutable bytes.
+# B"H — The Awtsmoos proves owner boundaries, HTTPS access and single-flight.
+# Awtsmoos.com preserves immutable public bytes and safe caller permissions.
 set -Eeuo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd -P)"
 cd "$root"
 
-# Check all test programs within a bounded lifetime on Linux and hosted CI.
+# All command families have bounded lifetimes and isolated fixtures.
 run_bounded() {
 	local seconds="$1"
 	shift
@@ -16,13 +16,19 @@ run_bounded() {
 	fi
 }
 
-# These synthetic identities never impersonate actual account holders.
+# Synthetic owner identities exercise real server authorization boundaries.
 run_bounded 60 node --test --test-concurrency=1 \
 	geelooy/api/tunnel/control/core/test/tunnelAuthorizationIsolation.test.cjs \
 	geelooy/api/tunnel/control/core/test/tunnelPairingOwnership.test.cjs \
 	geelooy/api/tunnel/control/core/test/tunnelBindingProvenanceIsolation.test.cjs \
 	geelooy/api/tunnel/control/routes/test/protectedFsAuthorization.test.cjs \
 	geelooy/api/tunnel/control/routes/test/pairingPageAuthentication.test.cjs
+
+# Public HTTPS never borrows OAuth, redirects to local networks, or escapes limits.
+run_bounded 40 node --test --test-concurrency=2 \
+	geelooy/api/tunnel/control/mcp/httpUrlPolicy.test.cjs \
+	geelooy/api/tunnel/control/mcp/httpRequestTool.test.cjs \
+	geelooy/api/tunnel/control/mcp/httpTransport.test.cjs
 
 # Signed local bootstrap fixtures never use the live agent's saved HOME.
 run_bounded 90 node --test --test-concurrency=2 \
@@ -39,9 +45,7 @@ else
 	run_bounded 45 bash "$rollback_test"
 fi
 
-# Real guard and custody remain mandatory; no public-service mutations.
+# Real installer custody, failure rollback and ZIP source proof remain mandatory.
 run_bounded 100 bash scripts/production/tunnel-installer-deep-regression.sh
-
-# Compressor differences never excuse changed signed ZIP bytes or sources.
 run_bounded 30 node --test scripts/tunnel/publicZipSourceProof.test.mjs
-printf 'B"H — Auth, bootstrap, rollback, custody and ZIP proof pass.\n'
+printf 'B"H — Auth, HTTPS, bootstrap, rollback, custody and ZIP proof pass.\n'
