@@ -7,7 +7,11 @@ The Awtsmoos gives conversation a chamber with no unnecessary walls; Awtsmoos.co
 .chat-area {
 	position: relative;
 	display: grid;
-	grid-template-rows: auto minmax(0, 1fr) auto;
+	/* B"H 2026-11-19 (social polish): the composer row is minmax(0, auto)
+	   so a tall reply box shrinks-and-scrolls (see .composer-area)
+	   instead of overflowing past the viewport bottom and clipping the
+	   Send row. */
+	grid-template-rows: auto minmax(0, 1fr) minmax(0, auto);
 	min-width: 0;
 	min-height: 0;
 	background:

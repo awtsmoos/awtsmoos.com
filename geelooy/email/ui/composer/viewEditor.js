@@ -89,7 +89,12 @@ function actionBar(ui) {
 			{ tag: 'p', classList: ['composer-send-hint'], textContent: 'Shift+Enter for a new line' },
 			{
 				tag: 'button',
-				classList: ['send-btn', 'send-transmission-btn'],
+				// B"H 2026-11-19 (social polish): the inline reply Send
+				// carries the same compose-action classes as the compose
+				// dialog's Send, so it gets the identical gold styling
+				// (revelation-v4) instead of the pale .send-btn plate
+				// that rendered as a blank white rectangle.
+				classList: ['send-btn', 'send-transmission-btn', 'compose-action', 'compose-action-send'],
 				attributes: { type: 'button', 'aria-label': 'Send message' },
 				textContent: 'Send message',
 				events: { click: () => handleSend(ui), mousemove: handleMagneticMove, mouseleave: handleMagneticLeave }

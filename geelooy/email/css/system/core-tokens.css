@@ -29,7 +29,10 @@ body[data-mail-page] {
 	--mail-radius-sm: 10px;
 	--mail-radius-md: 14px;
 	--mail-radius-lg: 20px;
-	--mail-reading-width: 760px;
+	/* B"H 2026-11-19 (social polish): 760px left an opened message as a
+	   narrow bubble in a large empty dark area on wide screens; 880px
+	   keeps a calm measure while using the chamber. */
+	--mail-reading-width: 880px;
 	--sidebar-w: clamp(300px, 29vw, 410px);
 	--mail-touch-target: 44px;
 	--mail-motion-fast: 120ms;
