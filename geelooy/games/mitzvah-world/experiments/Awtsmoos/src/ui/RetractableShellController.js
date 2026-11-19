@@ -60,8 +60,12 @@ export class RetractableShellController {
 	setState(shell, toggle, minimized, persist = true) {
 		shell.dataset.awtsmoosMinimized = String(minimized);
 		toggle.setAttribute('aria-expanded', String(!minimized));
-		toggle.textContent = minimized ? '+' : '−';
-		toggle.setAttribute('aria-label', minimized ? 'Expand controls' : 'Retract controls');
+		// B"H round 2: the bare -/+ glyph read as a mystery control, and this
+		// controller's boot restore overwrote the visible HUD / Controls label
+		// set by MinimalMeadowRetractable. Name the shell in both places.
+		const label = shellLabel(shell);
+		toggle.textContent = `${label} ${minimized ? '＋' : '−'}`;
+		toggle.setAttribute('aria-label', `${minimized ? 'Expand' : 'Retract'} ${label}`);
 		if (persist) {
 			safeStorageSet(this.storageKey(shell), String(minimized));
 		}
@@ -96,6 +100,13 @@ function safeStorageSet(key, value) {
 	} catch {
 		// Persistence is optional; visible and accessible state remains authoritative.
 	}
+}
+
+/** Names the shell a toggle hides, so the button states its own purpose. */
+function shellLabel(shell) {
+	if (shell.classList?.contains('Awtsmoos-player-hud-shell')) return 'HUD';
+	if (shell.classList?.contains('Awtsmoos-mobile-shell')) return 'Controls';
+	return 'Controls';
 }
 
 revealRetractableShells();
