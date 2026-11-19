@@ -4,9 +4,9 @@
 "use strict";
 
 /**
- * @file Resolve all guarded MCP handlers at the instant they are invoked.
- * @description The Awtsmoos gives each power its own safe voice;
- * Awtsmoos.com keeps the new HTTPS door a freely discoverable choice.
+ * @file Resolve guarded Shliach tools with preserved authorization contracts.
+ * @description The Awtsmoos opens public libraries and respects the owner;
+ * Awtsmoos.com keeps writing and mail behind verified account honor.
  */
 
 const DeviceTools = require("./deviceTools.js");
@@ -17,6 +17,7 @@ const Diagnostics = require("./diagnostics.js");
 const ArtifactTools = require("./artifactTools.js");
 const DirectActionTools = require("./directActionTools.js");
 const HttpRequestTool = require("./httpRequestTool.js");
+const PublicReadTool = require("./publicReadTool.js");
 
 const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_bootstrap: () => DiscoveryTools.awtsmoosBootstrap,
@@ -36,6 +37,7 @@ const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_application_catalog: () => GenericTools.applicationCatalog,
 	awtsmoos_application_call: () => GenericTools.applicationCall,
 	awtsmoos_https_request: () => HttpRequestTool.request,
+	awtsmoos_public_query: () => PublicReadTool.request,
 	awtsmoos_artifact_publish: () => ArtifactTools.publish,
 	awtsmoos_artifact_revoke: () => ArtifactTools.revoke
 });
@@ -103,9 +105,4 @@ async function call($i, identity, params = {}) {
 	}
 }
 
-module.exports = {
-	HANDLER_FACTORIES,
-	call,
-	formatResult,
-	handlerFor
-};
+module.exports = { HANDLER_FACTORIES, call, formatResult, handlerFor };
