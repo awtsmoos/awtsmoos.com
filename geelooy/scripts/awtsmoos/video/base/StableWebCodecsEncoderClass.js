@@ -22,14 +22,56 @@ self.AwtsVideoBase.createStableVideoEncoderClass = function createStableVideoEnc
 
 		/** Validates configuration and prepares the first short-lived native encoder segment. */
 		async init() {
-			const keterSupport = await VideoEncoder.isConfigSupported(this.config);
-			if (!keterSupport.supported) {
-				throw new Error(`Stable AVC encoder configuration is unsupported: ${this.config.codec}.`);
-			}
+			this.config = await this.pickSupportedConfig(this.config);
 			this.gevurahError = null;
 			this.encoder = null;
 			this.yesodSegmentFrameCount = 0;
 			this.createNativeEncoder();
+		}
+
+		/**
+		 * Finds the first encoder configuration this browser truly supports.
+		 * MediaBunny hands over exactly one AVC config (often a High-profile
+		 * string derived from the track), and encoders vary widely in which
+		 * profile/level pairs they accept — so when the given config is
+		 * refused, the same picture is retried under the other AVC profiles
+		 * (and a conservative level) before the export is allowed to fail.
+		 * The original refusal is preserved when nothing is supported.
+		 */
+		async pickSupportedConfig(orConfig) {
+			for (const yesodCandidate of this.configCandidates(orConfig)) {
+				try {
+					const yesodSupport = await VideoEncoder.isConfigSupported(yesodCandidate);
+					if (yesodSupport.supported) {
+						return yesodSupport.config || yesodCandidate;
+					}
+				} catch (error) {
+					// A candidate the browser rejects outright is simply unsupported; keep walking.
+				}
+			}
+			throw new Error(`Stable AVC encoder configuration is unsupported: ${orConfig.codec}.`);
+		}
+
+		/** Builds the ordered AVC config candidates: as-given first, then profile/level fallbacks. */
+		configCandidates(orConfig) {
+			const keliCandidates = [orConfig];
+			const keliMatch = /^avc1\.([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})?$/i.exec(orConfig.codec || '');
+			if (!keliMatch) {
+				return keliCandidates;
+			}
+			const keliSeen = new Set([String(orConfig.codec).toUpperCase()]);
+			const [, orProfile, orCompat, orLevel] = keliMatch;
+			const keliLevels = [...new Set([(orLevel || '1E').toUpperCase(), '1E'])];
+			for (const yesodLevel of keliLevels) {
+				for (const yesodProfile of [orProfile.toUpperCase(), '4D', '42', '64']) {
+					const yesodCodec = `avc1.${yesodProfile}${orCompat.toUpperCase()}${yesodLevel}`;
+					if (!keliSeen.has(yesodCodec)) {
+						keliSeen.add(yesodCodec);
+						keliCandidates.push({ ...orConfig, codec: yesodCodec });
+					}
+				}
+			}
+			return keliCandidates;
 		}
 
 		/** Creates one native encoder that will be flushed at most once before retirement. */
