@@ -2304,7 +2304,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1g8rzp4 = {
+	const __awtsmoosDefault_1tmsweb = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2317,7 +2317,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1g8rzp4;
+	__exports.default = __awtsmoosDefault_1tmsweb;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -4047,12 +4047,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1f8147 = {
+	const __awtsmoosDefault_bbkvqq = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1f8147;
+	__exports.default = __awtsmoosDefault_bbkvqq;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -5110,12 +5110,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
 	// so skinning pokes it through the coat as white triangles. Tucking it
 	// per-axis pulls the sleeves inward while barely moving it vertically,
-	// so the chest V stays and the white dashes leave the arms. V3 (0.85) still
-	// left one dash on the sleeve; V4 pulls to 0.80.
-	const SHIRT_TUCK = Object.freeze({ x: 0.80, y: 0.98, z: 0.80 });
+	// so the chest V stays and the white dashes leave the arms. V4 (0.80) still
+	// left two tiny specks on one sleeve in a 2x close-up; V5 pulls to 0.75.
+	const SHIRT_TUCK = Object.freeze({ x: 0.75, y: 0.98, z: 0.75 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV4';
-	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV3';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV5';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV4';
 
 	// The authored head reads large against the body at gameplay distance; the
 	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
@@ -15704,7 +15704,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_lt7aj3 = {
+	const __awtsmoosDefault_z7878a = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -15718,7 +15718,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_lt7aj3;
+	__exports.default = __awtsmoosDefault_z7878a;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -42204,18 +42204,42 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const installMinimalMeadowFriendlyChossids = __awtsmoosModule_82.installMinimalMeadowFriendlyChossids;
 
-	async function installMinimalMeadowFriendlyNpcs(
+	function installMinimalMeadowFriendlyNpcs(
 		runtime,
 		environment = globalThis,
 		dependencies = {}
 	) {
-		await runtime.questHydrationPromise?.catch(() => null);
 		if (runtime.friendlyNpcs) {
-			return runtime.friendlyNpcs.diagnostics?.() || { ready: true };
+			return Promise.resolve(runtime.friendlyNpcs.diagnostics?.() || { ready: true });
 		}
-		const install = dependencies.installMinimalMeadowFriendlyChossids
-			|| installMinimalMeadowFriendlyChossids;
-		return install(runtime, environment);
+		// B"H: the hydration backstop and the post-playable priority can both
+		// start this install while the other is still loading its GLBs — the
+		// `friendlyNpcs` check above only guards sequential calls, so two
+		// concurrent installs each create a pair and the meadow ends up with
+		// two Mendels standing in one spot. Share one installing promise,
+		// set synchronously before the first await, so every concurrent
+		// caller waits on the same pair. This stays a plain function (not
+		// async) on purpose: an async wrapper would hand each caller a
+		// distinct promise, and the shared promise must be reference-identical.
+		if (runtime.friendlyNpcsPromise) {
+			return runtime.friendlyNpcsPromise;
+		}
+		const promise = (async () => {
+			await runtime.questHydrationPromise?.catch(() => null);
+			if (runtime.friendlyNpcs) {
+				return runtime.friendlyNpcs.diagnostics?.() || { ready: true };
+			}
+			const install = dependencies.installMinimalMeadowFriendlyChossids
+				|| installMinimalMeadowFriendlyChossids;
+			return install(runtime, environment);
+		})();
+		runtime.friendlyNpcsPromise = promise;
+		// B"H: a failed install must not poison later retries — drop the
+		// shared promise when it rejects so the next caller starts fresh.
+		promise.catch(() => {
+			if (runtime.friendlyNpcsPromise === promise) delete runtime.friendlyNpcsPromise;
+		});
+		return promise;
 	}
 
 
