@@ -196,6 +196,15 @@ test('the retry schedules nothing when the trunks are already solid', () => {
 	assert.equal(timer.callbacks.length, 0);
 });
 
+test('the retry window covers five minutes by default', () => {
+	const runtime = fakeRuntime([]);
+	const timer = fakeTimer();
+	const schedule = scheduleBootstrapTreeCollisionRetry(runtime, timer);
+	assert.ok(schedule);
+	assert.equal(schedule.attemptsLeft, 60);
+	assert.equal(timer.callbacks.length, 1);
+});
+
 test('the retry stops after its window closes', () => {
 	const runtime = fakeRuntime([]);
 	const timer = fakeTimer();

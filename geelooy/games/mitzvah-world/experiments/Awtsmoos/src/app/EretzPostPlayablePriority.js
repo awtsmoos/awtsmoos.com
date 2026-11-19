@@ -10,6 +10,7 @@
  */
 
 import { startEretzCanonicalPlayerPromotion } from './EretzCanonicalPlayerPromotion.js';
+import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
 import {
 	destroyedEretzPostPlayableReceipt,
 	eretzDeferredSystemReceipt,
@@ -47,6 +48,16 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 			dependencies,
 			diagnostics
 		);
+		// B"H: the world is fully loaded by now — the terrain group has
+		// landed, so this is the first moment the trunk registration is
+		// certain to find its trees. Retry here as well as at first control
+		// and at install; the registration is idempotent per tree, so an
+		// earlier success adds nothing.
+		try {
+			const registerTreeCollision = dependencies.registerTreeCollision
+				|| registerBootstrapMeadowTreeCollision;
+			registerTreeCollision(runtime);
+		} catch {}
 		return simpleWorldPostPlayableReceipt(
 			policy,
 			immediatePriority('world-profile-simple'),

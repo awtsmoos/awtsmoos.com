@@ -81,6 +81,7 @@ test('priority clock prefers the stable launch promise', async () => {
 test('simple world never starts canonical promotion or rich launchers', async () => {
 	let playerStarts = 0;
 	let launcherLoads = 0;
+	let treeRetries = 0;
 	const worldExperience = {
 		canonicalPromotion: false,
 		cinematicEnvironment: false,
@@ -98,11 +99,13 @@ test('simple world never starts canonical promotion or rich launchers', async ()
 		{
 			startPlayer: () => { playerStarts += 1; },
 			loadLaunchers: async () => { launcherLoads += 1; return richLaunchers({ districts: 0, enrichment: 0 }); },
-			installSimpleWorldFriendlyNpcs: async () => ({ count: 2, status: 'test-stub' })
+			installSimpleWorldFriendlyNpcs: async () => ({ count: 2, status: 'test-stub' }),
+			registerTreeCollision: () => { treeRetries += 1; }
 		}
 	);
 	assert.equal(playerStarts, 0);
 	assert.equal(launcherLoads, 0);
+	assert.equal(treeRetries, 1);
 	assert.equal(receipt.priority.reason, 'world-profile-simple');
 	assert.equal(receipt.status, 'simple-world-ready');
 	assert.deepEqual(await receipt.friendlyActors, { count: 2, status: 'test-stub' });
