@@ -54567,12 +54567,12 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1q5ts2f = {
+	const __awtsmoosDefault_1f8147 = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1q5ts2f;
+	__exports.default = __awtsmoosDefault_1f8147;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -62649,18 +62649,28 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 	const BEARD_FLAG_LEGACY = 'AwtsmoosBeardProportionsV2';
 
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
-	// so skinning pokes it through the coat as white triangles. Tucking it to 0.95
-	// about the model origin pulls it ~4 cm inward, clear of the jacket sides.
-	const SHIRT_TUCK = 0.95;
+	// so skinning pokes it through the coat as white triangles. Tucking it
+	// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
+	// so the chest V stays and the white dashes leave the arms.
+	const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV1';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+
+	// The authored head reads large against the body at gameplay distance; the
+	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
+	// glasses, and eyes keep their relative places while the head shrinks.
+	const HEAD_SCALE = Object.freeze({ x: 0.88, y: 0.88, z: 0.88 });
+	const HEAD_NAMES = new Set(['mixamorig:Head']);
+	const HEAD_FLAG = 'AwtsmoosHeadProportionsV1';
 
 	/** Prepares player or village GLB once, preserving hidden variants and animation. */
 	function stabilizeCanonicalChossidModel(model) {
 		const visibility = stabilizeCanonicalAnimatedMeshVisibility(model);
 		const beardAdjusted = adjustOutermost(model, BEARD_NAMES, BEARD_SCALE, BEARD_FLAG, BEARD_FLAG_LEGACY);
-		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG);
-		return Object.freeze({ ...visibility, beardAdjusted, shirtTucked });
+		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG, SHIRT_FLAG_LEGACY);
+		const headAdjusted = adjustOutermost(model, HEAD_NAMES, HEAD_SCALE, HEAD_FLAG);
+		return Object.freeze({ ...visibility, beardAdjusted, headAdjusted, shirtTucked });
 	}
 
 
@@ -87087,6 +87097,21 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 	const createSky3D = __awtsmoosModule_2732.createSky3D;
 
 	function installMinimalMeadowSky(scene, camera, quality = 'high') {
+		// B"H: idempotent — the rich renderer mounts the sky early on worlds
+		// whose world systems never run (blank meadow), and the world systems
+		// later install the same sky; a second dome would double the draw and
+		// the diagnostics, so return the existing handle instead.
+		const existing = findInstalledSky(scene);
+		if (existing) {
+			const state = { x: NaN, y: NaN, z: NaN };
+			const update = () => centerSky(existing, camera, state);
+			update();
+			return {
+				diagnostics: () => ({ ...existing.userData.AwtsmoosSky }),
+				group: existing,
+				update
+			};
+		}
 		const sky = createSky3D(quality);
 		scene.add(sky);
 		const state = { x: NaN, y: NaN, z: NaN };
@@ -87101,6 +87126,15 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 
 
 	__exports.installMinimalMeadowSky = installMinimalMeadowSky;
+	/** Finds the Core sky already mounted in this scene, if any. */
+	function findInstalledSky(scene) {
+		let found = null;
+		scene?.traverse?.(object => {
+			if (!found && object?.userData?.AwtsmoosSky) found = object;
+		});
+		return found;
+	}
+
 	function centerSky(sky, camera, state) {
 		const position = camera?.position || {};
 		const x = Number(position.x) || 0;
@@ -92494,8 +92528,10 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 			const jitter = createTileableNoiseField(seed + 157, size, 12);
 			const fine = createTileableNoiseField(seed + 163, size, 48);
 			const mortar = [196, 186, 172];
-			const brickBase = [154, 74, 56];
-			const brickDark = [122, 56, 44];
+			// B"H round 4: the old brick ran hot red ([154,74,56]) and read as
+			// saturated orange-red on the village walls. Muted toward brown-gray.
+			const brickBase = [138, 90, 72];
+			const brickDark = [108, 72, 58];
 			const courseH = 32;
 			const brickW = 64;
 			const joint = 4;
@@ -92734,7 +92770,9 @@ const __awtsmoosModule_2892 = __awtsmoosSharedModules[2892];
 	const HOUSE_PHOTO_URL_BY_ROLE = __awtsmoosModule_2803.HOUSE_PHOTO_URL_BY_ROLE;
 
 	const COLORS = Object.freeze({
-		brick: '#9b4b38',
+		// B"H round 4: the old wall brick (#9b4b38) read as saturated red on the
+		// village houses; muted toward brown-gray to match the procedural brick.
+		brick: '#8a5f4c',
 		brickLight: '#d5b797',
 		floor: '#817463',
 		mezuzah: '#d39b2f',
