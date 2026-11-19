@@ -14,7 +14,7 @@ import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { createPlayerActionSystem } from '../playerActions/PlayerActionSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
-import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
+import { shrinkCanonicalHeadAnimation, stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
 import { minimalMeadowClipForState } from './MinimalMeadowAnimationClipPolicy.js';
 import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js';
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
@@ -45,6 +45,7 @@ export async function createFriendlyChossidActor(worldRuntime, definition) {
 	const model = prepareFriendlyModel(worldRuntime, gltf.scene, definition);
 	applyChossidOutfit(model, outfit);
 	bakeChossidSurfaceDetail(model);
+	shrinkCanonicalHeadAnimation(gltf.animations);
 	hydrateReadablePlayerMaterials(model);
 	equipment.bindModel(model);
 	const player = new TinyAnimationPlayer(model, gltf.animations || []);

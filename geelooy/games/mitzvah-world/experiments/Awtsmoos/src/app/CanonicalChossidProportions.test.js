@@ -7,7 +7,10 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
+import {
+	stabilizeCanonicalChossidModel,
+	shrinkCanonicalHeadAnimation
+} from './CanonicalChossidProportions.js';
 
 /** Mimics one GLB node with a mutable scale. */
 function node(name, scale = [20, 22, 12], parent = null) {
@@ -54,9 +57,10 @@ test('the outer shirt tucks inward so it cannot poke through the jacket', () => 
 	const model = { traverse(fn) { fn(shirt); } };
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, true);
 	// B"H round 4: the uniform 0.95 tuck still left white dashes on the
-	// sleeves; the per-axis tuck pulls the arms in 10% while barely moving
-	// the shirt vertically, so the chest V stays.
-	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.90, 0.98, 0.90]);
+	// sleeves; the per-axis tuck pulls the arms in while barely moving
+	// the shirt vertically, so the chest V stays. V3 pulls to 0.85 after
+	// V2 (0.90) still left two dashes on the sleeve.
+	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.85, 0.98, 0.85]);
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, false);
 });
 
@@ -90,4 +94,31 @@ test('unrecognized nodes and absent models are unchanged', () => {
 	assert.equal(stabilizeCanonicalChossidModel(model).beardAdjusted, false);
 	assert.equal(beard.scale.y, 22);
 	assert.equal(stabilizeCanonicalChossidModel(null).stable, false);
+});
+
+test('the head scale tracks shrink so playback cannot restore the big head', () => {
+	const headNode = { name: 'mixamorig:Head' };
+	const otherNode = { name: 'mixamorig:Neck' };
+	const animations = [{
+		name: 'stand_Armature',
+		channels: [
+			{ path: 'scale', node: headNode, output: new Float32Array([1, 1, 1, 1, 1, 1]) },
+			{ path: 'rotation', node: headNode, output: new Float32Array([0, 0, 0, 1]) },
+			{ path: 'scale', node: otherNode, output: new Float32Array([1, 1, 1]) }
+		]
+	}];
+	assert.equal(shrinkCanonicalHeadAnimation(animations), 1);
+	const headTrack = animations[0].channels[0];
+	assert.ok(headTrack.output.every(value => Math.abs(value - 0.88) < 1e-6));
+	assert.deepEqual([...animations[0].channels[1].output], [0, 0, 0, 1]);
+	assert.deepEqual([...animations[0].channels[2].output], [1, 1, 1]);
+	// A second pass on the same clips must not shrink twice.
+	assert.equal(shrinkCanonicalHeadAnimation(animations), 0);
+	assert.ok(headTrack.output.every(value => Math.abs(value - 0.88) < 1e-6));
+});
+
+test('head animation shrink tolerates missing clips and tracks', () => {
+	assert.equal(shrinkCanonicalHeadAnimation(null), 0);
+	assert.equal(shrinkCanonicalHeadAnimation([]), 0);
+	assert.equal(shrinkCanonicalHeadAnimation([{ channels: null }]), 0);
 });

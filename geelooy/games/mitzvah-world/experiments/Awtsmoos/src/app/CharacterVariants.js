@@ -261,6 +261,9 @@ export function applyVariant(model, name) {
 	setHat(model, variant.hat);
 	setTefillin(model, variant.tefillin);
 	setOutfit(model, variant.outfit);
+	// B"H: a bare model object has no userData bag; record the variant
+	// without crashing instead of assuming the caller built one.
+	if (!model.userData) model.userData = {};
 	model.userData.AwtsmoosVariant = name;
 	return variant;
 }

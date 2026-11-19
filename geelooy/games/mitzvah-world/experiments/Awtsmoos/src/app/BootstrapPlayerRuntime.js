@@ -18,6 +18,7 @@ import {
 	createBootstrapPlayerState,
 	createBootstrapPlayerStats
 } from './EretzPlayerStateFactory.js';
+import { shrinkCanonicalHeadAnimation } from './CanonicalChossidProportions.js';
 import { installCanonicalPlayer } from './MinimalMeadowCanonicalPlayerInstall.js';
 
 /**
@@ -34,6 +35,10 @@ export function createBootstrapPlayerRuntime(foundation) {
 	const runtime = createRuntimeVessel(foundation, state, gltf);
 	const prepared = createGroundedCanonicalPlayer(gltf.scene, state);
 	const meshCount = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
+	// B"H: the bone scale alone does not survive playback — every clip
+	// carries Head scale tracks that overwrite it with 1.0. Shrink the
+	// tracks themselves so the smaller head holds through every clip.
+	shrinkCanonicalHeadAnimation(gltf.animations);
 	const animationCount = gltf.animations?.length || 0;
 	if (meshCount < 1) throw new Error('Canonical chossid.glb has no renderable meshes.');
 	if (animationCount < 1) throw new Error('Canonical chossid.glb has no authored animations.');
