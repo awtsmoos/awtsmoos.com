@@ -30,6 +30,7 @@ export function createWorldMinimapRoot(documentValue, mode = 'compact') {
 export function renderWorldMinimapMarkers(documentValue, map, projection) {
 	const records = [
 		projection.player,
+		...(projection.houses || []),
 		...projection.givers,
 		...projection.objectives,
 		...projection.peers
@@ -39,11 +40,13 @@ export function renderWorldMinimapMarkers(documentValue, map, projection) {
 
 function markerElement(documentValue, record) {
 	const element = documentValue.createElement(
-		record.kind === 'player' ? 'span' : 'button'
+		record.kind === 'player' || record.kind === 'house' ? 'span' : 'button'
 	);
 	element.className = record.kind === 'player'
 		? 'Awtsmoos-map-player'
-		: 'Awtsmoos-map-marker';
+		: record.kind === 'house'
+			? 'Awtsmoos-map-house'
+			: 'Awtsmoos-map-marker';
 	element.dataset.kind = record.kind;
 	if (element.tagName === 'BUTTON') element.type = 'button';
 	element.textContent = record.icon;

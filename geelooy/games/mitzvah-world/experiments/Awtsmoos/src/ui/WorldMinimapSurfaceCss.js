@@ -35,10 +35,31 @@ export const WORLD_MINIMAP_SURFACE_CSS = `
 	}
 
 	.Awtsmoos-map-canvas {
+		position: relative;
 		background:
 			radial-gradient(ellipse at 30% 62%, rgba(48, 170, 196, .42), transparent 22%),
 			radial-gradient(circle at 68% 28%, rgba(155, 109, 216, .2), transparent 26%),
 			linear-gradient(135deg, #213f38, #173337 48%, #17253a);
+	}
+
+	/* B"H round 2: markers carried inline left/top percentages but no positioning
+	rule, so they rendered in-flow at the canvas corner instead of their projected
+	spot — the owner's triangle sat at the top-left while the projection said 50%. */
+	.Awtsmoos-map-player,
+	.Awtsmoos-map-marker,
+	.Awtsmoos-map-house {
+		position: absolute;
+		transform: translate(-50%, -50%);
+	}
+
+	.Awtsmoos-map-house {
+		width: 7px;
+		height: 7px;
+		border-radius: 2px;
+		background: #ffd98a;
+		border: 1px solid rgba(20, 12, 4, .65);
+		box-shadow: 0 0 4px rgba(255, 217, 138, .55);
+		font-size: 0;
 	}
 
 	.Awtsmoos-map-player {

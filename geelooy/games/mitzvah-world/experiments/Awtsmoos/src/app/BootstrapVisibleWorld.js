@@ -14,13 +14,14 @@ import {
 	createNativeWorldGroup
 } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { bootstrapCubeGeometry } from './BootstrapCubeGeometry.js';
+import { bootstrapFrustumGeometry } from './BootstrapFrustumGeometry.js';
 import { createBootstrapImmediateMaterial } from './BootstrapImmediateMaterial.js';
 import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
 
 const COLORS = Object.freeze({
 	farHill: [0.21, 0.32, 0.18, 1],
 	grass: [0.14, 0.44, 0.18, 1],
-	hill: [0.18, 0.50, 0.20, 1]
+	hill: [0.16, 0.38, 0.18, 1]
 });
 
 const HILLS = Object.freeze([
@@ -71,8 +72,38 @@ function addHill(group, index, [x, y, z, width, height, depth], grass, stone) {
 	const texture = far
 		? { mapImage: stone, mapRepeat: [10, 10] }
 		: { mapImage: grass, mapRepeat: [8, 8] };
-	addBox(group, `hill-${index}-base`, [x, y * 0.45, z], [width, height * 0.55, depth], color, role, texture);
-	addBox(group, `hill-${index}-crest`, [x, y, z], [width * 0.64, height * 0.55, depth * 0.68], color, role, texture);
+	addFrustum(group, `hill-${index}-base`, [x, y * 0.45, z], [width, height * 0.55, depth], color, role, texture);
+	addFrustum(group, `hill-${index}-crest`, [x, y, z], [width * 0.64, height * 0.55, depth * 0.68], color, role, texture);
+}
+
+/**
+ * Builds one tapered mound tier from the shared frustum, mirroring addBox.
+ * @param {object} group Parent hierarchy.
+ * @param {string} name Stable part name.
+ * @param {number[]} position XYZ.
+ * @param {number[]} scale XYZ.
+ * @param {number[]} color RGBA bootstrap tint.
+ * @param {string} semanticRole Future authored texture role.
+ * @param {object} [texture={}] Optional shared map image and tiling.
+ */
+function addFrustum(group, name, position, scale, color, semanticRole, texture = {}) {
+	const material = createBootstrapImmediateMaterial(`meadow-${name}`, color, {
+		mapImage: texture.mapImage || null,
+		mapRepeat: texture.mapRepeat || [6, 6],
+		semanticRole
+	});
+	const mesh = createNativeMeshFromGeometry(bootstrapFrustumGeometry(), material, {
+		name: `Awtsmoos_${name}`,
+		userData: {
+			awtsmoosFirstPlayFallbackVisible: true,
+			bootstrapVisual: true,
+			semanticMaterialRole: semanticRole
+		}
+	});
+	mesh.position.set(...position);
+	mesh.scale.set(...scale);
+	mesh.visible = true;
+	group.add(mesh);
 }
 
 /**

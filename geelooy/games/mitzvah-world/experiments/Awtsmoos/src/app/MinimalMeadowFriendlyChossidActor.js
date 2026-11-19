@@ -4,6 +4,12 @@
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { bakeChossidSurfaceDetail } from '../assets/ChossidSurfaceDetail.js';
+import {
+	applyChossidOutfit,
+	chossidMaterialResolver,
+	playerChossidOutfit
+} from '../assets/ChossidOutfitPalette.js';
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { createPlayerActionSystem } from '../playerActions/PlayerActionSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
@@ -26,11 +32,19 @@ export async function createFriendlyChossidActor(worldRuntime, definition) {
 		}
 	});
 	const equipment = new MinimalMeadowEquipmentRuntime({ bus, inventory });
+	// B"H: the player load applies the chossid outfit palette (material resolver
+	// + outfit + surface detail) so the player renders as a real character; the
+	// friendly load used to skip all three, leaving authored flat colors that
+	// read as blond hair and orange skin under the meadow light. Mirror it here.
+	const outfit = definition.outfit || playerChossidOutfit();
 	const gltf = await loadIsolatedGltf(
 		FRIENDLY_CHOSSID_MODEL_URL,
-		`minimal-meadow-friendly-${definition.id}`
+		`minimal-meadow-friendly-${definition.id}`,
+		{ materialResolver: chossidMaterialResolver(outfit) }
 	);
 	const model = prepareFriendlyModel(worldRuntime, gltf.scene, definition);
+	applyChossidOutfit(model, outfit);
+	bakeChossidSurfaceDetail(model);
 	hydrateReadablePlayerMaterials(model);
 	equipment.bindModel(model);
 	const player = new TinyAnimationPlayer(model, gltf.animations || []);

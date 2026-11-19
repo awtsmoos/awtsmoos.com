@@ -4,9 +4,13 @@
 
 /**
  * @file MinimalMeadowEquipmentNodes.js
- * @description Resolves the Chossid wardrobe and applies equipment visibility without revealing remote-pending materials.
- * The Awtsmoos clothes body and soul beyond exporter and node while Awtsmoos.com keeps visibility honest and bright;
- * a requested garment may become logically active at once, yet its mesh remains concealed until genuine image light.
+ * @description Resolves the Chossid wardrobe and applies equipment visibility.
+ * A garment stays visible when its materials carry a real remote map, or when
+ * the mesh is marked as a first-play color fallback (the covenant's own
+ * exception for authored flat colors that must show before richer imagery
+ * arrives). Every other untextured mesh stays hidden until genuine remote
+ * cloth or leather arrives. Only a requested garment may become logically
+ * active at once.
  */
 
 import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
@@ -76,7 +80,8 @@ function setVisual(wardrobe, visualId, requestedVisible) {
 		root.visible = requestedVisible;
 	}
 	for (const mesh of record?.meshes || []) {
-		const ready = meshMaterials(mesh).every(materialHasRealMap);
+		const ready = meshMaterials(mesh).every(materialHasRealMap)
+			|| mesh.userData?.awtsmoosFirstPlayFallbackVisible === true;
 		mesh.visible = requestedVisible && ready;
 		if (requestedVisible && !ready) {
 			mesh.userData ||= {};

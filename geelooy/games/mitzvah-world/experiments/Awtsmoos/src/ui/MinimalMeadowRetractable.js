@@ -13,6 +13,9 @@ export class MinimalMeadowRetractable {
 	constructor(shell, options = {}) {
 		this.shell = shell;
 		this.collapsed = Boolean(options.collapsed);
+		// B"H round 2: a bare -/+ glyph reads as a mystery control (the owner
+		// flagged the top "-" as purposeless). The label names the shell it hides.
+		this.label = options.label || '';
 		this.button = shell.querySelector('[data-retract-toggle]');
 		this.onClick = () => this.toggle();
 		this.button?.addEventListener('click', this.onClick);
@@ -27,8 +30,11 @@ export class MinimalMeadowRetractable {
 	render() {
 		this.shell.dataset.collapsed = String(this.collapsed);
 		if (this.button) {
-			this.button.textContent = this.collapsed ? '＋' : '−';
+			const glyph = this.collapsed ? '＋' : '−';
+			this.button.textContent = this.label ? `${this.label} ${glyph}` : glyph;
 			this.button.setAttribute('aria-expanded', String(!this.collapsed));
+			this.button.setAttribute('aria-label',
+				`${this.collapsed ? 'Expand' : 'Collapse'} ${this.label || 'controls'}`);
 		}
 	}
 

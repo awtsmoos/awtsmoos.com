@@ -18,13 +18,15 @@ import { createGrassRandom } from "../../geometry/grass/grassRandom.js";
  * sunlit gold blades, deep green clumps, dry straw accents.
  */
 export const MEADOW_GRASS_TINT_PALETTES = Object.freeze({
+	// B"H round 2: the old tints ran hot (several channels above 1.0, strongly
+	// yellow) and read as harsh bright scribble. Same hues, deeper and <= 1.0.
 	'dream-meadow': Object.freeze([
-		[1.06, 1.02, 0.78],
-		[0.92, 1.05, 0.72],
-		[1.18, 1.0, 0.55],
-		[0.75, 0.95, 0.62],
-		[1.0, 1.12, 0.85],
-		[0.62, 0.82, 0.5]
+		[0.78, 0.88, 0.58],
+		[0.68, 0.85, 0.55],
+		[0.88, 0.82, 0.48],
+		[0.58, 0.78, 0.50],
+		[0.72, 0.90, 0.62],
+		[0.48, 0.68, 0.42]
 	]),
 	'night-meadow': Object.freeze([
 		[0.55, 0.72, 0.62],

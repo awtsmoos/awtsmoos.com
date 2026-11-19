@@ -9,11 +9,19 @@
  * preserves solo truth, and excludes the authoritative local identity from remote-player markers.
  */
 
+import { CANONICAL_VILLAGE_HOUSES } from '../world/village/CanonicalVillageHouses.js';
+
 export const WORLD_MINIMAP_RADIUS = 210;
 
 export function projectWorldMinimap(runtime) {
 	const questSnapshot = runtime.adventures?.snapshot?.() || {};
 	return {
+		houses: CANONICAL_VILLAGE_HOUSES.map(house => markerRecord(
+			'house',
+			{ x: house.x, z: house.z },
+			house.id,
+			'▪'
+		)),
 		givers: (questSnapshot.available || [])
 			.filter(record => record.definition?.giver?.position)
 			.slice(0, 12)

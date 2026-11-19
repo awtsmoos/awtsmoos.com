@@ -73,7 +73,8 @@ export function createMinimalMeadowUiComponents(
 			runtime
 		),
 		mobileRetract: new MinimalMeadowRetractable(
-			hosts.mobileShell
+			hosts.mobileShell,
+			{ label: 'Controls' }
 		),
 		notice: new MinimalMeadowHouseNotice(
 			bus,
@@ -86,7 +87,8 @@ export function createMinimalMeadowUiComponents(
 			bus
 		),
 		playerRetract: new MinimalMeadowRetractable(
-			hosts.playerHudShell
+			hosts.playerHudShell,
+			{ label: 'HUD' }
 		),
 		targetFrame: new MinimalMeadowTargetFrame(
 			hosts.targetHost,

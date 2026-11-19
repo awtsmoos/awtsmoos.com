@@ -125,12 +125,12 @@ const PAINTERS = {
 	grass(data, size, seed) {
 		const patches = createTileableNoiseField(seed + 11, size, 4);
 		const mottle = createTileableNoiseField(seed + 23, size, 16);
-		const blades = createTileableNoiseField(seed + 37, size, 64);
+		const blades = createTileableNoiseField(seed + 37, size, 24);
 		const base = [36, 112, 46];
 		const yellowGreen = [86, 138, 52];
 		const blueGreen = [30, 100, 78];
-		const bladeDark = [22, 72, 30];
-		const bladeLight = [128, 176, 92];
+		const bladeDark = [34, 88, 38];
+		const bladeLight = [108, 148, 82];
 		const bareDirt = [122, 94, 64];
 		for (let y = 0; y < size; y += 1) {
 			for (let x = 0; x < size; x += 1) {
@@ -140,8 +140,8 @@ const PAINTERS = {
 				const shade = 0.86 + mot * 0.28;
 				rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
 				const blade = blades(x, y);
-				if (blade > 0.78) rgb = mix3(rgb, bladeLight, 0.55);
-				else if (blade < 0.22) rgb = mix3(rgb, bladeDark, 0.6);
+				if (blade > 0.78) rgb = mix3(rgb, bladeLight, 0.35);
+				else if (blade < 0.22) rgb = mix3(rgb, bladeDark, 0.4);
 				if (mot > 0.93 && blade < 0.4) rgb = mix3(rgb, bareDirt, 0.5);
 				setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
 			}

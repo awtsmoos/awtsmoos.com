@@ -58,6 +58,10 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 	left: var(--mw-safe-left);
 	top: var(--mw-safe-top);
 	z-index: var(--mw-z-status);
+	/* B"H: without a floor the shell collapses to zero width while #npcTarget
+	is empty, and its absolutely positioned retract toggle hangs off-screen
+	(measured at x=-34 in headless). 56px always fits the 48px toggle. */
+	min-width: 56px;
 }
 
 #mitzvah-world-root .Awtsmoos-player-hud-shell > [data-retract-toggle] {

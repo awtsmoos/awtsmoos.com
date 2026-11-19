@@ -24,6 +24,7 @@ import { createEmberParticleEffect } from '../../../../../../libs/awtsmoos-proce
 import { createMeadowAmbientParticleField } from '../../../../../../libs/awtsmoos-procedural-core/src/core/webgl/particles/MeadowAmbientParticleField.js';
 import { createMeadowParticleGlBinding } from '../../../../../../libs/awtsmoos-procedural-core/src/core/webgl/particles/MeadowParticleGlRenderer.js';
 import { createMeadowTreeGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/adapters/native/meadowTreeFactory.js';
+import { fullerMinimalMeadowCanopy } from './MinimalMeadowLeafCanopyShape.js';
 import { createMeadowTreeWindController } from '../../../../../../libs/awtsmoos-procedural-core/src/core/tzomayach/MeadowTreeWindController.js';
 import { lookAt, perspective } from '../../../light-three-gltf/tiny-camera-math.js';
 
@@ -100,6 +101,7 @@ export function attachMeadowProceduralLayer(scene, options = {}) {
 				});
 				markBootstrapVisible(tree);
 				scene.add(tree);
+				widenMeadowTreeCanopy(tree);
 				windController.registerTree(tree);
 				trees.push(tree);
 			} catch {}
@@ -324,4 +326,28 @@ function emberBoundsNear(source) {
 	const y = Number(source?.y) || 0.5;
 	const z = Number(source?.z) || 0;
 	return { min: [x - 3, y, z - 3], max: [x + 3, y + 7, z + 3] };
+}
+
+/**
+ * Widens one tree's shared leaf quads once per archetype geometry, so the
+ * ring canopies read as coherent crowns instead of shredded leaf shards.
+ * The round-1 widener touched only MinimalMeadow tree geometry; the visible
+ * ring trees come from meadowTreeFactory, which is why they stayed thin.
+ */
+function widenMeadowTreeCanopy(tree) {
+	const widened = new Set();
+	tree?.traverse?.(object => {
+		if (object.name !== 'MeadowTreeLeaves') return;
+		const geometry = object.geometry;
+		const positions = geometry?.attributes?.position?.array;
+		if (!geometry || !positions || positions.length % 12 !== 0) return;
+		if (geometry.userData?.awtsmoosCanopyWidened || widened.has(geometry)) return;
+		widened.add(geometry);
+		const widenedPositions = fullerMinimalMeadowCanopy({ positions: Array.from(positions) }).positions;
+		positions.set(widenedPositions);
+		const attribute = geometry.attributes.position;
+		if (attribute && 'needsUpdate' in attribute) attribute.needsUpdate = true;
+		geometry.userData ||= {};
+		geometry.userData.awtsmoosCanopyWidened = true;
+	});
 }

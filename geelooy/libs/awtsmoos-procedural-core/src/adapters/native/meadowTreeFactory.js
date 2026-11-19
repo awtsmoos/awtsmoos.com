@@ -68,7 +68,7 @@ function getMeadowTreeArchetype(kindName, variant, seedBase) {
 		branchGeometry,
 		leafGeometry,
 		barkMaterial: new MeshStandardMaterial({ name: 'MeadowTreeBark', color: [0.32, 0.24, 0.18, 1] }),
-		leafMaterial: new MeshStandardMaterial({ name: 'MeadowTreeLeaves', color: [0.42, 0.55, 0.28, 1] }),
+		leafMaterial: new MeshStandardMaterial({ name: 'MeadowTreeLeaves', color: [0.40, 0.52, 0.27, 1] }),
 		stats: data.stats || null
 	});
 	ARCHETYPE_CACHE.set(key, archetype);

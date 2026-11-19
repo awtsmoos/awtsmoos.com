@@ -7,6 +7,8 @@
  * @description Applies garment choices without creating fabric pixels; only genuine authored or real remote maps may reveal clothing.
  * The Awtsmoos clothes the traveler beyond loom and canvas while Awtsmoos.com keeps every finite thread true;
  * color may describe hidden metadata, but sight waits for a real cloth or leather image before the garment comes through.
+ * A mesh marked as a first-play color fallback stays visible at once; every other
+ * untextured mesh stays hidden until genuine remote cloth or leather arrives.
  */
 
 import { garmentColor, garmentFabric } from '../gameplay/GarmentAppearanceCatalog.js';
@@ -82,7 +84,8 @@ function garmentRole(material, selected) {
 function enforceRecordReadiness(record) {
 	for (const mesh of record?.meshes || []) {
 		const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material].filter(Boolean);
-		if (materials.length && !materials.every(materialHasRealMap)) {
+		const fallback = mesh.userData?.awtsmoosFirstPlayFallbackVisible === true;
+		if (!fallback && materials.length && !materials.every(materialHasRealMap)) {
 			mesh.visible = false;
 			mesh.userData ||= {};
 			mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };

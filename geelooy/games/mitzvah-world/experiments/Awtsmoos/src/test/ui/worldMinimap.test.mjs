@@ -37,6 +37,15 @@ test('B"H solo projection retains player, giver, and active objective markers', 
 	assert.deepEqual(projection.peers, []);
 });
 
+test('B"H map always carries the canonical village houses as dots', () => {
+	const projection = projectWorldMinimap(runtimeFixture());
+	assert.equal(projection.houses.length, 18);
+	const home = projection.houses.find(record => record.label === 'H11');
+	assert.ok(home);
+	assert.equal(home.left, 62.857142857142854);
+	assert.equal(home.top, 24.76190476190476);
+});
+
 test('B"H multiplayer adds only connected remote peers and excludes local identity', () => {
 	const runtime = runtimeFixture();
 	runtime.state.multiplayerLocalPlayerId = 'local-player';

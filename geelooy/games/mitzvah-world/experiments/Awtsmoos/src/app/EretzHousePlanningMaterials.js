@@ -11,8 +11,8 @@
 
 const THEMES = Object.freeze({
 	'aged-brick-and-cedar': Object.freeze({
-		brick: '#9b4b38',
-		brickLight: '#c99772',
+		brick: '#8a5a4e',
+		brickLight: '#b08a70',
 		chimney: '#754338',
 		floor: '#796958',
 		porch: '#6a4931',
