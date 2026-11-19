@@ -2910,7 +2910,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1g8rzp4 = {
+	const __awtsmoosDefault_1tmsweb = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2923,7 +2923,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1g8rzp4;
+	__exports.default = __awtsmoosDefault_1tmsweb;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalAnimatedMeshVisibility.js ----
@@ -3004,12 +3004,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
 	// so skinning pokes it through the coat as white triangles. Tucking it
 	// per-axis pulls the sleeves inward while barely moving it vertically,
-	// so the chest V stays and the white dashes leave the arms. V3 (0.85) still
-	// left one dash on the sleeve; V4 pulls to 0.80.
-	const SHIRT_TUCK = Object.freeze({ x: 0.80, y: 0.98, z: 0.80 });
+	// so the chest V stays and the white dashes leave the arms. V4 (0.80) still
+	// left two tiny specks on one sleeve in a 2x close-up; V5 pulls to 0.75.
+	const SHIRT_TUCK = Object.freeze({ x: 0.75, y: 0.98, z: 0.75 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV4';
-	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV3';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV5';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV4';
 
 	// The authored head reads large against the body at gameplay distance; the
 	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
