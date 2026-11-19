@@ -162,7 +162,8 @@ body.pdf-glass .btn:hover {
 
 body.pdf-glass .btn:active { transform: translateY(0); }
 
-body.pdf-glass .btn:disabled {
+body.pdf-glass .btn:disabled,
+body.pdf-glass .btn[aria-disabled="true"] {
   opacity: .45;
   cursor: not-allowed;
   transform: none;
