@@ -13875,6 +13875,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	class MinimalMeadowRetractable {
 		constructor(shell, options = {}) {
+			// B"H round 7: one shell, one retractable. The staged UI components
+			// and the direct-play presentation both construct a retractable for
+			// the same shell; without this guard the button gained TWO click
+			// listeners and every click toggled twice — the retract buttons
+			// looked dead in the shipped game (proven by live probe 2026-11-19:
+			// click left dataset.collapsed and the label unchanged). Returning
+			// the live instance makes construction idempotent per shell.
+			if (shell?.__awtsmoosRetractable) return shell.__awtsmoosRetractable;
 			this.shell = shell;
 			this.collapsed = Boolean(options.collapsed);
 			// B"H round 2: a bare -/+ glyph reads as a mystery control (the owner
@@ -13883,6 +13891,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			this.button = shell.querySelector('[data-retract-toggle]');
 			this.onClick = () => this.toggle();
 			this.button?.addEventListener('click', this.onClick);
+			if (shell) shell.__awtsmoosRetractable = this;
 			this.render();
 		}
 
@@ -13904,6 +13913,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 		destroy() {
 			this.button?.removeEventListener('click', this.onClick);
+			if (this.shell?.__awtsmoosRetractable === this) delete this.shell.__awtsmoosRetractable;
 		}
 	}
 
@@ -16208,6 +16218,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	) {
 		const { hosts, bus, inventory } = runtime;
 		const amulets = healingAmuletCommerce(runtime);
+		// B"H round 7: publish the retractables this factory creates back onto
+		// the runtime. Previously they lived only in the returned parts, so the
+		// direct-play presentation built a SECOND retractable per shell and
+		// every retract click toggled twice (dead buttons in the shipped game).
+		runtime.mobileRetract ??= hosts.mobileShell
+			? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' })
+			: null;
+		runtime.playerRetract ??= hosts.playerHudShell
+			? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' })
+			: null;
 		return {
 			combatBar: new MinimalMeadowCombatBar(
 				hosts.actionHost,
@@ -16249,8 +16269,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			),
 			// B"H round 3: reuse the staged runtime's retractables when the direct-play
 			// presentation already wired them, so one shell never gains two listeners.
-			mobileRetract: runtime.mobileRetract
-				?? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' }),
+			mobileRetract: runtime.mobileRetract,
 			notice: new MinimalMeadowHouseNotice(
 				bus,
 				documentValue,
@@ -16261,8 +16280,7 @@ const __awtsmoosModule_0 = Object.create(null);
 				hosts.dialogueHost,
 				bus
 			),
-			playerRetract: runtime.playerRetract
-				?? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' }),
+			playerRetract: runtime.playerRetract,
 			targetFrame: new MinimalMeadowTargetFrame(
 				hosts.targetHost,
 				bus
