@@ -9,7 +9,7 @@
  * the same finite name, so stale code cannot masquerade as the freshly grounded world that eye and foot agree to see.
  */
 
-export const MITZVAH_WORLD_RELEASE_ID = '20260928-playable-meadow-01';
+export const MITZVAH_WORLD_RELEASE_ID = '20261119-mitzvah-world-4g-01';
 export const MITZVAH_WORLD_SOURCE_VERSION = MITZVAH_WORLD_RELEASE_ID;
 export const MITZVAH_WORLD_BUNDLE_VERSION = MITZVAH_WORLD_RELEASE_ID;
 

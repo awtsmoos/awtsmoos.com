@@ -151,7 +151,7 @@ export class ProgressiveWebGLRenderer {
 		this.hydrationState = 'loading';
 		const shadowTier = options.shadowTier || this.pendingShadowTier || null;
 		this.hydrationPromise = import(
-			'./ProgressiveWebGLRendererHydration.js?v=20260928-playable-meadow-01'
+			'./ProgressiveWebGLRendererHydration.js?v=20261119-mitzvah-world-4g-01'
 		).then(module => {
 			return module.hydrateProgressiveWebGLRenderer(this, { ...options, shadowTier });
 		});
