@@ -44,11 +44,14 @@ export function generateGrassBladeAlpha(size = GRASS_BLADE_TEXTURE_SIZE) {
 			const tip = smoothstep(1, 0.9, v);
 			const root = smoothstep(0, 0.05, v);
 			const alpha = clamp01(edge * tip * root);
-			const shade = 0.82 + 0.18 * (1 - v);
+			// B"H round 7: the old blade tone (93,159,66) rendered as bright
+			// lime strokes over the dark ground — the owner's "scribble".
+			// Deeper, calmer green with a narrower shade ramp; same shape.
+			const shade = 0.88 + 0.12 * (1 - v);
 			const index = (y * width + x) * 4;
-			data[index] = Math.round(93 * shade);
-			data[index + 1] = Math.round(159 * shade);
-			data[index + 2] = Math.round(66 * shade);
+			data[index] = Math.round(70 * shade);
+			data[index + 1] = Math.round(124 * shade);
+			data[index + 2] = Math.round(50 * shade);
 			data[index + 3] = Math.round(alpha * 255);
 		}
 	}
