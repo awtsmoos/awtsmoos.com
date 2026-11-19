@@ -154,8 +154,8 @@
     },
     {
       "path": "skills/instructions/references/HTTP_API_ACCESS.md",
-      "bytes": 3057,
-      "hash": "7770bb8bc8ef014104ea84b4feda3d9b9d0877bbe823ee07ec2a9e0d407cf3bd"
+      "bytes": 3865,
+      "hash": "89066e438eb3c7a90aad17e46356ff88c6fdcb250f141b154541d6c5df71f9f1"
     },
     {
       "path": "skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md",
@@ -266,6 +266,11 @@
       "path": "skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md",
       "bytes": 6217,
       "hash": "72fd047320e7796f124e38227d1b4d2cbff2970a98526d6bed65c74cb01cdebc"
+    },
+    {
+      "path": "skills/instructions/references/PUBLIC_ASK_MAIL.md",
+      "bytes": 4345,
+      "hash": "241f5c7b135847f1b4e733b9ae5d4825bbb2e3b933be915c3904d71c69fa64ce"
     },
     {
       "path": "skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md",
