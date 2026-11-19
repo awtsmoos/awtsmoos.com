@@ -6596,8 +6596,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
 	 */
 
-	const ACTIVE_APP_RELEASE_ID = '20260928-playable-meadow-01';
+	const ACTIVE_APP_RELEASE_ID = '20261119-mitzvah-world-4g-01';
 
+
+	__exports.ACTIVE_APP_RELEASE_ID = ACTIVE_APP_RELEASE_ID;
 	/** Resolves one app-relative deferred module with compact processing and the active release identity. */
 	function resolveDeferredAppModuleUrl(
 		moduleSpecifier,
