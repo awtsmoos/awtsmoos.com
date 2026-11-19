@@ -30,7 +30,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=489b5e54a4'],
 ];
 
 function ensureSeferStyle(id, href) {

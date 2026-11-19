@@ -20,7 +20,7 @@ const PAGES_CACHE = CACHE_VERSION + '-pages';
 // critical JS boot chain so repeat visits are instant (app-like).
 const PRECACHE_URLS = [
   '/heichelos/post/styles/post-bundle.css?v=241a193a70',
-  '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581',
+  '/heichelos/post/styles/reader-law8-live.css?v=489b5e54a4',
   '/heichelos/post/styles/reader-tree-live.css?v=c46ffb47da',
   '/heichelos/post/styles/reader-controls/torah-authority/settings-mobile.css',
   '/heichelos/post/postLogic.js?v=4c65b79f44',

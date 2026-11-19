@@ -21,7 +21,7 @@ import {
 import {
 	beginDiscussion,
 	beginTranslation
-} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-018';
+} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-019';
 import {
 	renderPlainBilingualFallback
 } from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-002';
@@ -115,6 +115,22 @@ async function igniteInner() {
 	);
 	const malchusViewport = document.getElementById('realPost');
 	const malchusSidebar = document.querySelector('.sidebar');
+	// B"H 2026-11-19 (social polish): the discussion is scheduled NOW, on
+	// idle, before the manifest is awaited — not after it. It used to be
+	// deferred behind manifestCanonicalReader, so whenever loadInitial
+	// starved on a slow server the post page simply had no comments
+	// section, no empty state, and no error: a silent absence (audited
+	// on the Sukkah series reader and a Chassidus discussion post, while
+	// a luckier Yoma page mounted fine). beginDiscussion now waits
+	// (bounded) for the post context on its own and always lands a
+	// visible section or a visible failure with a retry.
+	const deferExtra = (fn) => {
+		if (typeof requestIdleCallback === 'function') requestIdleCallback(() => { try { fn(); } catch (_) {} }, { timeout: 2000 });
+		else setTimeout(() => { try { fn(); } catch (_) {} }, 0);
+	};
+	deferExtra(() => {
+		beginDiscussion(malchusViewport);
+	});
 	// B"H 2026-11-10 round 5: build the sefer from the embedded phrases NOW
 	// — the text is already in the HTML, no API wait. Runs in parallel with
 	// manifestCanonicalReader; the API awaken below enhances it in place.
@@ -157,14 +173,11 @@ async function igniteInner() {
 		tiferesCanonical.hId
 	);
 	document.body.dataset.socialReaderReady = 'true';
-	// B"H 2026-11-10 round 5: comments + settlement are extra — the text is
-	// already readable. Run them on idle so they never block the read.
-	const deferExtra = (fn) => {
-		if (typeof requestIdleCallback === 'function') requestIdleCallback(() => { try { fn(); } catch (_) {} }, { timeout: 2000 });
-		else setTimeout(() => { try { fn(); } catch (_) {} }, 0);
-	};
+	// B"H 2026-11-10 round 5: settlement is extra — the text is already
+	// readable. Run it on idle so it never blocks the read. (The
+	// discussion moved to the top of this function on 2026-11-19; it no
+	// longer waits for the manifest — see the note there.)
 	deferExtra(() => {
-		beginDiscussion(malchusViewport);
 		settleCoreReader().catch((settleError) => reportBootFailure(settleError, 'settle'));
 	});
 }
