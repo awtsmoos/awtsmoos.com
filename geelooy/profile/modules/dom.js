@@ -21,8 +21,32 @@ export function all(selector, root = document) {
   return Array.from(root.querySelectorAll(selector));
 }
 
+const NAMED_ENTITIES = { amp: "&", lt: "<", gt: ">", quot: "\"", apos: "'" };
+
+function decodeEntitiesOnce(text) {
+  return text.replace(/&(amp|lt|gt|quot|apos);|&#(\d+);|&#x([0-9a-fA-F]+);/g, (match, named, dec, hex) => {
+    if (named) return NAMED_ENTITIES[named];
+    const code = hex ? parseInt(hex, 16) : parseInt(dec, 10);
+    return Number.isFinite(code) && code > 0 && code <= 0x10FFFF ? String.fromCodePoint(code) : match;
+  });
+}
+
+/**
+ * B"H 2026-11-19 (social polish round 2): same law as the server
+ * cleanText and the scripts/ profile twin fixed in round 1 — decode
+ * entities once, strip whole tags, keep the plain text. This
+ * dashboard copy still deleted only "<" and ">", so stored alias
+ * descriptions rendered with tag residue on the Aliases tab:
+ * '<a href="https://awtsmoos.com">Awtsmoos</a>' showed as
+ * 'a href="https://awtsmoos.com"Awtsmoos/a' (@main) and
+ * '<b>Yay</b>!' as 'bYay/b!' (@welcomeToTheCenter). The stored
+ * values are proper HTML; only this render-time cleaner was wrong.
+ */
 export function cleanText(value, fallback = "") {
-  return String(value ?? fallback).replace(/[<>]/g, "").trim();
+  return decodeEntitiesOnce(String(value ?? fallback))
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<\/?[a-zA-Z][^>]*>/g, "")
+    .trim();
 }
 
 export function setStat(name, value) {
