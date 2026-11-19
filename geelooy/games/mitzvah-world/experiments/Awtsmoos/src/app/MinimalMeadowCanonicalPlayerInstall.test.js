@@ -155,6 +155,10 @@ test('the install shrinks the head inside the clips the player animates', () => 
 		feet: 0,
 		model,
 		visiblePlayer: model
+	}, {
+		// B"H: stub the retry timer — there are no trees here, so the real
+		// one would arm a five-minute window and stall the test run.
+		scheduleTreeCollisionRetry() {}
 	});
 	assert.equal(installed.animation.defaultClip, 'stand_Armature');
 	assert.ok(clip.channels[0].output.every(value => Math.abs(value - 0.88) < 1e-6));
@@ -190,12 +194,20 @@ test('the install never breaks the player when there are no trees', () => {
 	const runtime = fakeRuntime({ withTree: false });
 	delete runtime.mainOctree;
 	const model = { name: 'Awtsmoos_grounded_canonical_chossid', userData: {} };
+	let scheduled = 0;
 	const installed = installCanonicalPlayer(runtime, null, { animations: [fakeClip(headNode)], scene: model }, {
 		feet: 0,
 		model,
 		visiblePlayer: model
+	}, {
+		// B"H: stub the retry timer — the real one would arm a five-minute
+		// window in the test runner and stall the run.
+		scheduleTreeCollisionRetry() {
+			scheduled += 1;
+		}
 	});
 	assert.equal(installed.animation.defaultClip, 'stand_Armature');
+	assert.equal(scheduled, 1);
 	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
 });
 

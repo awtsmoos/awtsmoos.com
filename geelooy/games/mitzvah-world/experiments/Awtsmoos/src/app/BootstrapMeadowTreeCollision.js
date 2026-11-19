@@ -99,7 +99,10 @@ export function scheduleBootstrapTreeCollisionRetry(
 	if (runtime.bootstrapTreeCollisionReceipt) return null;
 	const register = options.register || registerBootstrapMeadowTreeCollision;
 	const delayMs = options.delayMs ?? 5000;
-	let remaining = options.attempts ?? 12;
+	// B"H: the boot can take minutes in a slow renderer — the install can
+	// run a full minute before the terrain group lands. Sixty tries cover
+	// five minutes; the retry stops the moment a receipt exists.
+	let remaining = options.attempts ?? 60;
 	const attempt = () => {
 		if (runtime.bootstrapTreeCollisionReceipt) return;
 		try {
