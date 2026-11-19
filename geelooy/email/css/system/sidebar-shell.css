@@ -28,22 +28,41 @@ The Awtsmoos gathers many correspondents into one calm rail; Awtsmoos.com keeps 
 	flex: 0 0 auto;
 }
 
-.sidebar .mail-sender-category-grid,
-.sidebar .mail-folder-list {
+.sidebar .mail-sender-category-grid {
 	flex: 0 1 auto;
 	min-block-size: 0;
-	max-block-size: 24dvh;
+	max-block-size: 15dvh;
 	overflow-y: auto;
 }
 
-.sidebar .thread-list {
-	flex: 1 1 auto;
+.sidebar .mail-folder-list {
+	flex: 0 1 auto;
 	min-block-size: 0;
+	max-block-size: 21dvh;
+	overflow-y: auto;
+}
+
+.geelooy-mail-document .sidebar .thread-list {
+	/* B"H 2026-11-19 (social polish round 2): basis 0 + a real floor.
+	   Round 1's caps alone were not enough: with flex-basis auto the
+	   shrink algorithm divided the rail's deficit across every
+	   shrinkable region, and under the tall identity header and
+	   search panel the conversation list was squeezed to a sliver
+	   (52px measured) — only the first thread's top edge showed.
+	   Now the list grows from 0, the nav lists (tighter caps above)
+	   absorb any deficit, and conversations always keep 10rem.
+	   The .geelooy-mail-document prefix is load-bearing: revelation-
+	   workspace.css sets min-block-size: 0 on .thread-list at the
+	   same specificity sidebar.css used to use, and it loads later,
+	   which silently defeated the first version of this floor
+	   (computed min-block-size measured 0px, list height 12px). */
+	flex: 1 1 0%;
+	min-block-size: 10rem;
 	overflow-y: auto;
 }
 
 .sidebar-header {
-	padding: 22px 18px 8px;
+	padding: 14px 18px 8px;
 }
 
 .mail-sidebar-kicker {
