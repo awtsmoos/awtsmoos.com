@@ -4,14 +4,15 @@
 "use strict";
 
 /**
- * @file Validated allowlist for public search, Ask, Heichelos and post reads.
- * @description The Awtsmoos opens public wisdom to seekers of every kind;
- * Awtsmoos.com gives no hidden indexing or publishing controls to find.
+ * @file Exact public search, Ask and Heichel route allowlist.
+ * @description The Awtsmoos opens verified history without claiming it all;
+ * Awtsmoos.com bars the indexer's lever behind a guarded wall.
  */
 
 const ACTIONS = Object.freeze([
 	"search", "search_exact", "heichel", "heichelos_by_alias",
-	"series", "posts", "post", "ask", "ask_sources"
+	"series", "posts", "post", "ask", "ask_sources",
+	"ask_index_status", "ask_indexed", "ikar_search"
 ]);
 
 /** Guard every path parameter against traversal and control characters. */
@@ -28,7 +29,7 @@ function term(value, label, maximum = 500) {
 	return value.trim();
 }
 
-/** Build only the real public routes; never permit custom administrative actions. */
+/** Build only verified read routes; never enable anonymous indexing or writes. */
 function prepare(input = {}) {
 	if (!input || typeof input !== "object" || Array.isArray(input) ||
 		!ACTIONS.includes(input.action)) throw new Error("unknown_public_action");
@@ -36,7 +37,14 @@ function prepare(input = {}) {
 	let pathname;
 	let body = null;
 	const query = new URLSearchParams();
-	if (action === "ask" || action === "ask_sources") {
+	if (["ask_index_status", "ask_indexed", "ikar_search"].includes(action)) {
+		pathname = "/ask/api";
+		const indexAction = action === "ask_index_status" ? "index-status"
+			: action === "ask_indexed" ? "indexed-search" : "ikar-search";
+		body = action === "ask_index_status" ? JSON.stringify({ action: indexAction })
+			: JSON.stringify({ action: indexAction,
+				query: term(input.query, "query", action === "ask_indexed" ? 150 : 240) });
+	} else if (action === "ask" || action === "ask_sources") {
 		pathname = "/ask/api";
 		if (action === "ask_sources") body = JSON.stringify({ action: "collections" });
 		else {

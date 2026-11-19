@@ -4,25 +4,28 @@
 "use strict";
 
 /**
- * @file Read-only Awtsmoos knowledge tools for authenticated MCP visitors.
- * @description The Awtsmoos opens public books for each searching soul;
- * Awtsmoos.com guards mail and publication behind the owner's control.
+ * @file Read-only Awtsmoos knowledge, limited-index and Heichel navigation.
+ * @description The Awtsmoos opens the real archive without claiming it all;
+ * Awtsmoos.com guards the owner's mailbox beyond the public reading hall.
  */
 
 const actions = Object.freeze([
 	"search", "search_exact", "heichel", "heichelos_by_alias",
-	"series", "posts", "post", "ask", "ask_sources"
+	"series", "posts", "post", "ask", "ask_sources",
+	"ask_index_status", "ask_indexed", "ikar_search"
 ]);
 
 const tools = Object.freeze([{
 	name: "awtsmoos_public_query",
 	description: [
 		"Read public Awtsmoos knowledge without a website login.",
-		"Search the library, inspect Heichelos/series/posts, or ask /ask.",
-		"Use action=search and query, action=heichel and heichel,",
-		"action=posts and heichel+series, action=ask and question.",
-		"The plugin connection itself requires OAuth tunnel.read, not awtsmoos.api.",
-		"No cookies, website login, aliases, administration or indexing are allowed.",
+		"Search current library, browse Heichelos/series/posts, or ask /ask.",
+		"For available partial source discovery, use action=ikar_search with query",
+		"to find verified Ikar series, or action=ask_indexed with query",
+		"to search the explicitly incomplete historical Awtsmoos V2 index.",
+		"Use ask_index_status to check actual indexed/total coverage; never call it full search.",
+		"The plugin connection needs OAuth tunnel.read but not awtsmoos.api.",
+		"No cookies, mail, publication, admin indexing or unapproved writes.",
 		"For posting and mail, use the signed-in application operation catalog."
 	].join(" "),
 	annotations: {
