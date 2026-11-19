@@ -39,6 +39,17 @@ export const MEADOW_GRASS_TINT_PALETTES = Object.freeze({
 		[0.42, 0.68, 0.4],
 		[0.58, 0.85, 0.5],
 		[0.36, 0.6, 0.36]
+	]),
+	// B"H round 4: 'dream-meadow' still reads as harsh bright scribble on the
+	// village lawns — yellow blades up to 0.90 against dark ground. Same
+	// greens, deeper and narrower, so the field reads as grass, not strokes.
+	'meadow-soft': Object.freeze([
+		[0.52, 0.68, 0.42],
+		[0.46, 0.62, 0.40],
+		[0.58, 0.70, 0.46],
+		[0.42, 0.58, 0.38],
+		[0.50, 0.64, 0.44],
+		[0.38, 0.54, 0.36]
 	])
 });
 

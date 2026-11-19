@@ -54,6 +54,8 @@ export class ProgressiveWebGLRenderer {
 		this.hydrationPromise = null;
 		this.hydrationState = 'idle';
 		this.hydrationError = null;
+		this.richSkyState = 'idle';
+		this.richSkyHandle = null;
 		this.errors = [];
 		this.bootstrapStats = createProgressiveStats();
 		this.bootstrapRenderer = new BootstrapColorRenderer(
@@ -107,9 +109,39 @@ export class ProgressiveWebGLRenderer {
 
 	render(scene, camera) {
 		if (this.delegate) {
-			return this.delegate.render(scene, camera);
+			const result = this.delegate.render(scene, camera);
+			this.mountRichSky(scene, camera);
+			return result;
 		}
 		return this.bootstrapRenderer.render(scene, camera, this.clearColor);
+	}
+
+	/**
+	 * Mounts the Core procedural sky the moment the rich renderer owns the
+	 * frame. Worlds whose world systems never run (blank meadow) otherwise
+	 * keep the flat clear color forever; worlds that install their own sky
+	 * keep it, because the installer is idempotent. Fire-and-forget: the
+	 * import never blocks a frame, and a failed mount leaves the clear
+	 * color instead of breaking rendering.
+	 */
+	mountRichSky(scene, camera) {
+		if (this.richSkyState === 'ready' || this.richSkyState === 'loading') {
+			this.richSkyHandle?.update?.();
+			return;
+		}
+		if (this.richSkyState === 'failed' || !scene || !camera) return;
+		this.richSkyState = 'loading';
+		import('./MinimalMeadowSky.js').then(module => {
+			if (this.richSkyState !== 'loading') return;
+			try {
+				this.richSkyHandle = module.installMinimalMeadowSky(scene, camera, 'high');
+				this.richSkyState = 'ready';
+			} catch {
+				this.richSkyState = 'failed';
+			}
+		}).catch(() => {
+			this.richSkyState = 'failed';
+		});
 	}
 
 	hydrate(options = {}) {
@@ -127,6 +159,8 @@ export class ProgressiveWebGLRenderer {
 	}
 
 	dispose() {
+		this.richSkyState = 'failed';
+		this.richSkyHandle = null;
 		this.bootstrapRenderer.dispose();
 		this.delegate?.dispose?.();
 	}

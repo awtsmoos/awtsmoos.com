@@ -41,6 +41,15 @@ varying vec3 vDirection;
 float skyHash(vec3 point) {
 	return fract(sin(dot(point, vec3(12.9898, 78.233, 45.164))) * 43758.5453);
 }
+float cloudNoise(vec2 point) {
+	vec2 cell = floor(point);
+	vec2 fraction = fract(point);
+	vec2 fade = fraction * fraction * (3.0 - 2.0 * fraction);
+	return mix(
+		mix(skyHash(vec3(cell, 1.0)), skyHash(vec3(cell + vec2(1.0, 0.0), 1.0)), fade.x),
+		mix(skyHash(vec3(cell + vec2(0.0, 1.0), 1.0)), skyHash(vec3(cell + vec2(1.0, 1.0), 1.0)), fade.x),
+		fade.y);
+}
 void main() {
 	vec3 dir = normalize(vDirection);
 	float up = clamp(dir.y, 0.0, 1.0);
@@ -48,6 +57,19 @@ void main() {
 	sky = mix(sky, uHorizon * 0.45, clamp(-dir.y * 3.5, 0.0, 1.0));
 	float sunDot = max(dot(dir, uSunDirection), 0.0);
 	sky += uSunColor * uSunAmount * (pow(sunDot, 1200.0) * 1.6 + pow(sunDot, 24.0) * 0.38 + pow(sunDot, 6.0) * 0.12);
+	if (uSunAmount > 0.01) {
+		// Soft procedural clouds: two octaves of value noise on the sky
+		// plane, drifting slowly with the clock, masked above the horizon
+		// haze and below the zenith so the dome stays one cheap draw call.
+		vec2 cloudUv = dir.xz / max(dir.y, 0.12) * 0.55;
+		cloudUv += vec2(uTimeSeconds * 0.004, uTimeSeconds * 0.0016);
+		float cloud = cloudNoise(cloudUv) * 0.65 + cloudNoise(cloudUv * 2.3 + 7.0) * 0.35;
+		float cover = smoothstep(0.52, 0.78, cloud)
+			* smoothstep(0.04, 0.30, dir.y)
+			* (1.0 - smoothstep(0.75, 0.95, dir.y));
+		vec3 cloudColor = mix(vec3(1.0, 0.99, 0.97), uHorizon, 0.25);
+		sky = mix(sky, cloudColor, cover * 0.85);
+	}
 	if (uStarAmount > 0.01) {
 		vec3 cell = floor(dir * 230.0);
 		float sparkle = skyHash(cell);

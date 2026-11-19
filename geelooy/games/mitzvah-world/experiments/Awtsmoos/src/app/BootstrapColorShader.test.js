@@ -28,6 +28,16 @@ test('bootstrap shader carries world position into procedural surface variation'
 	);
 });
 
+test('bootstrap shader shades with a directional sun from vertex normals', () => {
+	assert.match(BOOTSTRAP_VERTEX_SHADER, /attribute vec3 aNormal/);
+	assert.match(BOOTSTRAP_VERTEX_SHADER, /vNormal = normalize\(mat3\(uModel\) \* aNormal\)/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /attribute vec3 aNormal/);
+	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /mat3\(skin\) \* aNormal/);
+	assert.match(BOOTSTRAP_FRAGMENT_SHADER, /uniform vec3 uSunDirection/);
+	assert.match(BOOTSTRAP_FRAGMENT_SHADER, /lambert/);
+	assert.match(BOOTSTRAP_FRAGMENT_SHADER, /0\.72 \+ 0\.28 \* clamp\(dot\(normalize\(vNormal\), normalize\(uSunDirection\)\)/);
+});
+
 test('bootstrap skin shader fetches joint matrices from the bone texture', () => {
 	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /aJoints/);
 	assert.match(BOOTSTRAP_SKIN_VERTEX_SHADER, /aWeights/);

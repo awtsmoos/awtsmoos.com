@@ -53,8 +53,28 @@ test('the outer shirt tucks inward so it cannot poke through the jacket', () => 
 	const shirt = node('Plane.007', [1, 1, 1]);
 	const model = { traverse(fn) { fn(shirt); } };
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, true);
-	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.95, 0.95, 0.95]);
+	// B"H round 4: the uniform 0.95 tuck still left white dashes on the
+	// sleeves; the per-axis tuck pulls the arms in 10% while barely moving
+	// the shirt vertically, so the chest V stays.
+	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.90, 0.98, 0.90]);
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, false);
+});
+
+test('the head bone shrinks so the head reads smaller against the body', () => {
+	const head = node('mixamorig:Head', [1, 1, 1]);
+	const model = { traverse(fn) { fn(head); } };
+	assert.equal(stabilizeCanonicalChossidModel(model).headAdjusted, true);
+	assert.deepEqual([head.scale.x, head.scale.y, head.scale.z], [0.88, 0.88, 0.88]);
+	assert.equal(stabilizeCanonicalChossidModel(model).headAdjusted, false);
+});
+
+test('a head scaled once is not scaled again', () => {
+	const head = node('mixamorig:Head', [1, 1, 1]);
+	const model = { traverse(fn) { fn(head); } };
+	stabilizeCanonicalChossidModel(model);
+	const before = { x: head.scale.x, y: head.scale.y, z: head.scale.z };
+	assert.equal(stabilizeCanonicalChossidModel(model).headAdjusted, false);
+	assert.deepEqual({ x: head.scale.x, y: head.scale.y, z: head.scale.z }, before);
 });
 
 test('repeated loading does not repeatedly shrink the beard', () => {

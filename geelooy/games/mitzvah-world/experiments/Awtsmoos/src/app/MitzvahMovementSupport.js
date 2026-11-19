@@ -9,7 +9,7 @@
  * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
  */
 
-import { desiredCameraEye } from '../camera/CameraClipSystem.js';
+import { clipCameraEye, desiredCameraEye } from '../camera/CameraClipSystem.js';
 
 export function movementAxes(axis = {}) {
 	return {
@@ -58,7 +58,12 @@ export function updateMovementCamera(runtime, state, deltaSeconds) {
 		finite(orbit.pitch, 0.34),
 		finite(orbit.distance, 7)
 	);
-	runtime.camera?.position?.set?.(eye.x, eye.y, eye.z);
+	// B"H: the bootstrap eye used to sit inside whatever wall or tree stood
+	// behind the traveler. The same octree raycast the rich rig uses pulls
+	// the eye to the near side of the closest solid thing; with an empty
+	// octree the clip returns the desired eye unchanged.
+	const clipped = clipCameraEye(target, eye, runtime.mainOctree, 1.2);
+	runtime.camera?.position?.set?.(clipped.eye.x, clipped.eye.y, clipped.eye.z);
 	if (runtime.camera) runtime.camera.target = [target.x, target.y, target.z];
 	return 'bootstrap-rig';
 }

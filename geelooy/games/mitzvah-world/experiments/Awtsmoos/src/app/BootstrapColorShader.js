@@ -17,17 +17,20 @@
 
 export const BOOTSTRAP_VERTEX_SHADER = `
 attribute vec3 aPosition;
+attribute vec3 aNormal;
 attribute vec4 aColor;
 attribute vec2 aTexCoord;
 uniform mat4 uProjectionView;
 uniform mat4 uModel;
 varying vec4 vColor;
 varying vec3 vWorldPosition;
+varying vec3 vNormal;
 varying vec2 vTexCoord;
 void main() {
 	vec4 worldPosition = uModel * vec4(aPosition, 1.0);
 	vColor = aColor;
 	vWorldPosition = worldPosition.xyz;
+	vNormal = normalize(mat3(uModel) * aNormal);
 	vTexCoord = aTexCoord;
 	gl_Position = uProjectionView * worldPosition;
 }
@@ -35,6 +38,7 @@ void main() {
 
 export const BOOTSTRAP_SKIN_VERTEX_SHADER = `
 attribute vec3 aPosition;
+attribute vec3 aNormal;
 attribute vec4 aColor;
 attribute vec2 aTexCoord;
 attribute vec4 aJoints;
@@ -45,6 +49,7 @@ uniform sampler2D uJointTexture;
 uniform float uJointTextureHeight;
 varying vec4 vColor;
 varying vec3 vWorldPosition;
+varying vec3 vNormal;
 varying vec2 vTexCoord;
 mat4 jointAt(float joint) {
 	float y = (joint + 0.5) / uJointTextureHeight;
@@ -64,6 +69,7 @@ void main() {
 	vec4 worldPosition = uModel * skin * vec4(aPosition, 1.0);
 	vColor = aColor;
 	vWorldPosition = worldPosition.xyz;
+	vNormal = normalize(mat3(uModel) * (mat3(skin) * aNormal));
 	vTexCoord = aTexCoord;
 	gl_Position = uProjectionView * worldPosition;
 }
@@ -78,8 +84,10 @@ uniform vec2 uMapRepeat;
 uniform vec3 uCameraPos;
 uniform vec3 uFogColor;
 uniform float uFogDensity;
+uniform vec3 uSunDirection;
 varying vec4 vColor;
 varying vec3 vWorldPosition;
+varying vec3 vNormal;
 varying vec2 vTexCoord;
 float awtsmoosHash(vec2 point) {
 	return fract(sin(dot(point, vec2(12.9898, 78.233))) * 43758.5453);
@@ -104,9 +112,14 @@ void main() {
 		+ 0.07 * sin(vWorldPosition.x * 7.31 + vWorldPosition.z * 6.17);
 	contour = clamp(contour, 0.0, 1.0);
 	float light = 0.82 + grain * 0.10 + contour * 0.10;
+	// Directional sun: faces turned to the day sun read brighter, faces
+	// turned away stay readable at 0.72, so the head gains form instead of
+	// one flat pale sheet. Geometry without normals gets the constant up
+	// vector from the buffer cache, which lands near 0.89 and stays flat.
+	float lambert = 0.72 + 0.28 * clamp(dot(normalize(vNormal), normalize(uSunDirection)), 0.0, 1.0);
 	vec3 cool = base.rgb * vec3(0.90, 0.98, 1.05);
 	vec3 warm = base.rgb * vec3(1.08, 1.01, 0.88);
-	vec3 varied = mix(cool, warm, contour) * light;
+	vec3 varied = mix(cool, warm, contour) * light * lambert;
 	float fogDistance = distance(vWorldPosition, uCameraPos);
 	float fogFactor = 1.0 - exp(-uFogDensity * uFogDensity * fogDistance * fogDistance);
 	vec3 fogged = mix(varied, uFogColor, clamp(fogFactor, 0.0, 1.0));

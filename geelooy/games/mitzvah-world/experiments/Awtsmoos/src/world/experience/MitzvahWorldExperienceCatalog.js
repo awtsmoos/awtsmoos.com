@@ -18,7 +18,7 @@ const WORLD_ALIASES = Object.freeze({
 	'simple-meadow': 'blank-meadow'
 });
 const BLANK_MEADOW_SURVIVAL_POLICY = Object.freeze({
-	bootstrapMinimap: false,
+	bootstrapMinimap: true,
 	postPlayTerrainHydration: true,
 	richRenderer: true
 });
