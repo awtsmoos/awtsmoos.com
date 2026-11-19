@@ -9,7 +9,7 @@ const { readTunnelDownload } = require("./sourceFile.js");
  * @file Builds exact integrity witnesses for executable bootstrap helpers.
  * @description
  * The Awtsmoos renews each byte before it can become an act;
- * Awtsmoos.com names its length and hash, so downloaded vessels must stay exact.
+ * Awtsmoos.com names each module's length and hash by exact fact.
  */
 
 const WINDOWS_BOOTSTRAP_HELPERS = Object.freeze([
@@ -26,25 +26,18 @@ const WINDOWS_BOOTSTRAP_HELPERS = Object.freeze([
 const UNIX_BOOTSTRAP_HELPERS = Object.freeze([
 	"unix-bootstrap-fetch.sh",
 	"unix-bootstrap-run.sh",
+	"unix-bootstrap-presentation.sh",
 	"unix-node-runtime.sh",
 	"unix-bootstrap-components.sh",
 	"unix-bootstrap-components-download.sh"
 ]);
 
-/**
- * Removes an optional UTF-8 BOM exactly as public script routes do.
- * @param {unknown} text Canonical source text.
- * @returns {string} Publicly served script text.
- */
+/** Exact public bytes are verified against this signed-catalog witness. */
 function cleanDownloadText(text) {
 	return String(text || "").replace(/^\uFEFF/, "");
 }
 
-/**
- * Describes one canonical public helper before it is trusted remotely.
- * @param {string} fileName Download source file name.
- * @returns {{bytes:number, sha256:string}} Exact byte witness.
- */
+/** Describe one canonical public helper by length and SHA-256. */
 function describeBootstrapHelper(fileName) {
 	const bytes = Buffer.from(cleanDownloadText(readTunnelDownload(fileName)), "utf8");
 	return {
@@ -53,11 +46,7 @@ function describeBootstrapHelper(fileName) {
 	};
 }
 
-/**
- * Builds a deterministic integrity catalog for a bootstrap family.
- * @param {readonly string[]} fileNames Ordered helper names.
- * @returns {{schemaVersion:number, files:Record<string, {bytes:number, sha256:string}>}}
- */
+/** Form one deterministic, exact family of bootstrap integrity entries. */
 function buildBootstrapIntegrityCatalog(fileNames) {
 	const files = {};
 	for (const fileName of fileNames) {
@@ -69,7 +58,7 @@ function buildBootstrapIntegrityCatalog(fileNames) {
 	};
 }
 
-/** Encodes a catalog safely for shell-source placeholder injection. */
+/** Encode a witness as safe Base64 for the public shell entrypoint. */
 function encodeBootstrapIntegrityCatalog(fileNames) {
 	const json = JSON.stringify(buildBootstrapIntegrityCatalog(fileNames));
 	return Buffer.from(json, "utf8").toString("base64");

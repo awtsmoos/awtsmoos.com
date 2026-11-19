@@ -3,15 +3,15 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos binds every executable helper to one SHA-sealed archive;
-# Awtsmoos.com carries the new recovery-store submodule without removing the old guard.
+# The Awtsmoos seals each complete helper archive against the night;
+# Awtsmoos.com gives every installed feature a verified place in light.
 helpers=(
-	unix-node-runtime.sh unix-entry-request.sh unix-entry-quick.cjs
+	unix-bootstrap-presentation.sh unix-node-runtime.sh unix-entry-request.sh unix-entry-quick.cjs
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
 	unix-install-modes.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-errors.sh unix-install-browser.sh
 	unix-device-login.sh
-	unix-install-lock.sh unix-install-lock-owner.cjs unix-log-retention.sh
+	unix-install-lock.sh unix-install-process-scope.sh unix-install-lock-owner.cjs unix-log-retention.sh
 	unix-device-identity-state.sh unix-state-migration.sh unix-chrome-profile-process.cjs
 	unix-displaced-cleanup.sh unix-other-installs-cleanup.cjs unix-package-io.sh unix-release-metadata.sh
 	unix-package-config.sh unix-legacy-catalog.sh unix-runtime-family.sh unix-process-census.sh

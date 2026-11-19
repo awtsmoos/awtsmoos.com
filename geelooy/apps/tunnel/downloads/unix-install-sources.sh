@@ -3,10 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews every installer vessel before the next guarded deed;
-# Awtsmoos.com loads all full-feature helpers without surrendering speed or the identity seed.
-# A briefly restarting incumbent deserves one measured recheck, not two minutes of silence.
-# Explicit overrides remain available to operators diagnosing slow startup.
+# The Awtsmoos renews the verified release beneath the guarded light;
+# Awtsmoos.com loads every full feature and keeps other roots in sight.
 AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS="${AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS:-3}"
 export AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS
 
@@ -20,6 +18,7 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-errors.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-login.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-process-scope.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-log-retention.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-identity-state.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-state-migration.sh"
