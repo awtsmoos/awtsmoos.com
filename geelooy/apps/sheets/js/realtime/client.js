@@ -42,6 +42,34 @@ export class YesodRealtimeClient extends EventTarget {
 		this.socket.addEventListener("error", () => this.dispatchStatus("error"));
 	}
 
+	/**
+	 * Resolves once the socket is open, waiting for the bounded
+	 * reconnection already scheduled by disconnected() when needed.
+	 * A request retried after a mid-flight close must wait for this —
+	 * resending immediately only earns "connection is not open".
+	 */
+	whenOpen(timeoutMs = 20000) {
+		if (this.socket?.readyState === WebSocket.OPEN) {
+			return Promise.resolve();
+		}
+		this.connect();
+		return new Promise((resolve, reject) => {
+			const timer = setTimeout(() => {
+				this.removeEventListener("status", onStatus);
+				reject(new Error("Realtime connection is not open."));
+			}, timeoutMs);
+			const onStatus = (event) => {
+				if (event.detail?.status !== "online") {
+					return;
+				}
+				clearTimeout(timer);
+				this.removeEventListener("status", onStatus);
+				resolve();
+			};
+			this.addEventListener("status", onStatus);
+		});
+	}
+
 	/** Sends one correlated request after ensuring an open socket exists. */
 	request(type, payload = {}, timeoutMs = 9000) {
 		if (this.socket?.readyState !== WebSocket.OPEN) {
