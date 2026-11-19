@@ -18,6 +18,19 @@ async function resolvePost($i, heichelId, seriesId, postId) {
         if (all && all[postId]) post = all[postId];
       } catch { post = null; }
     }
+    // B"H 2026-11-19 (Tanach swap): Tanach chapter posts live ONLY in the
+    // packed series vessel; the plain-tree posts.awtsmoosJSON flat files are
+    // 1-byte placeholders, so the three flat reads above all miss (Bavli
+    // still has real flat files, which is why it passes). Fall back to the
+    // narrow record reader the post API itself uses (readSeriesPost), whose
+    // $i.db.get(childPath, { max: true }) reads the packed vessel.
+    if (!post || post.error) {
+      try {
+        const { readSeriesPost } = require('../post/seriesRecordReader.js');
+        const rec = await readSeriesPost({ $i, heichelId, seriesId, postId }, postId);
+        if (rec && typeof rec === 'object' && !Buffer.isBuffer(rec) && !rec.error && (rec.dayuh || rec.sections || rec.id)) post = rec;
+      } catch { /* leave post as-is; caller reports MISSING_ACTIVE_POST */ }
+    }
     if (!post || post.error) return null;
     return post;
   } catch { return null; }
