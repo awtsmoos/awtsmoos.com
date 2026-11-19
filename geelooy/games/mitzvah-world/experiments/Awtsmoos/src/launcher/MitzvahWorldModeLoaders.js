@@ -10,9 +10,10 @@
  */
 import { reportDirectWorldProgress } from './MitzvahWorldDirectRuntimeOptions.js';
 import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
-import { importOptionalMitzvahWorldModule } from './MitzvahWorldOptionalImporter.js';
+import { startSinglePlayerOptionalAftercare } from './MitzvahWorldSinglePlayerAftercare.js';
 export { hasMovieRequest } from './MitzvahWorldRouteQuery.js';
 export { importOptionalMitzvahWorldModule, MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS } from './MitzvahWorldOptionalImporter.js';
+export { startSinglePlayerOptionalAftercare } from './MitzvahWorldSinglePlayerAftercare.js';
 
 const CREATIVE_ROUTE_URL = releaseUrl('./MitzvahWorldCreativeRouteLoader.js');
 const aftercareUrl = releaseUrl('./MitzvahWorldModeAftercare.js');
@@ -46,22 +47,15 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions);
 	markSinglePlayerSession(diagnostics);
 	startModeAftercare('singlePlayer', diagnostics, environment, runtimeOptions);
-	try {
-		const particleModule = await import(releaseUrl('./MitzvahWorldParticleAftercare.js'));
-		await particleModule.attachOptimizedMitzvahParticles(diagnostics.runtime);
-	} catch { /* The Chossid can always walk without particles. */ }
-	try {
-		const dialogue = await importOptionalMitzvahWorldModule(
-			releaseUrl('../npc/MitzvahNpcDialogue.js'), 'MitzvahNpcDialogue'
-		);
-		dialogue?.attachNpcDialogue({ runtime: diagnostics.runtime, environment });
-	} catch { /* Dialogue is optional. */ }
-	try {
-		const studio = await importOptionalMitzvahWorldModule(
-			releaseUrl('../studio/MitzvahStudioHandoff.js'), 'MitzvahStudioHandoff'
-		);
-		if (studio) await studio.maybeApplyStudioHandoff({ runtime: diagnostics.runtime, environment });
-	} catch { /* Creative handoff must never stall walking. */ }
+	// B"H: particles, dialogue and studio handoff are optional ornaments —
+	// each says so in its own comment — yet awaiting them here kept the
+	// launch inside the 75s launcher-route deadline's shadow: two 10s
+	// optional-import timeouts plus the particle attach routinely ate the
+	// margin the 5/5 milestones left, so the boot failed with
+	// ESSENTIAL_BOOT_TIMEOUT on slow devices and publish (and the NPC
+	// installer behind it) never ran. Start them behind the launch like
+	// the mode aftercare; the Chossid walks first, ornaments follow.
+	startSinglePlayerOptionalAftercare(diagnostics, environment);
 	return diagnostics;
 }
 
