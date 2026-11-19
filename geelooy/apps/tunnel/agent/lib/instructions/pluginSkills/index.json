@@ -153,6 +153,11 @@
       "hash": "be0273edfff762b083a4c90a9344d57a5f705b81f5b14f9a3b6eb91ecb5aac86"
     },
     {
+      "path": "skills/instructions/references/HTTP_API_ACCESS.md",
+      "bytes": 3057,
+      "hash": "7770bb8bc8ef014104ea84b4feda3d9b9d0877bbe823ee07ec2a9e0d407cf3bd"
+    },
+    {
       "path": "skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md",
       "bytes": 3639,
       "hash": "9d0dcf3c78b95b6a412f85fc5890505d11820be016671d661cd74d700ce27cea"
