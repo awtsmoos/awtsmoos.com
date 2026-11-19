@@ -8,7 +8,7 @@
  */
 
 @import "./tokens.css";
-@import "./atmosphere.css";
+@import "./atmosphere.css?v=cosmic-atmosphere-002";
 @import "./topbar.css";
 @import "./roof-responsive.css";
 @import "./profile.css";
