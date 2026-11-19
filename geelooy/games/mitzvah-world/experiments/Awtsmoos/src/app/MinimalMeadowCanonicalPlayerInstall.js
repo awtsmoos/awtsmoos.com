@@ -10,6 +10,8 @@
  */
 
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
+import { shrinkCanonicalHeadAnimation } from './CanonicalChossidProportions.js';
+import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
 
 /** Installs one canonical grounded player and binds animation to its movable outer root. */
 export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
@@ -24,7 +26,22 @@ export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	for (const vessel of [runtime.collisionMover, runtime.mover, runtime.jumpPhysics]) {
 		if (vessel) vessel.footOffset = 0;
 	}
+	// B"H: the head shrink must happen HERE, on the gltf the player actually
+	// animates. The first-play runtime shrinks the essential gate's clips,
+	// but the live player is hydrated from a FRESH loadIsolatedGltf instance
+	// whose channels are new objects — the earlier shrink edits the wrong
+	// clip set and the Head scale tracks restore 1.0 on the first frame.
+	// Shrinking at this doorway covers every install path.
+	shrinkCanonicalHeadAnimation(gltf.animations);
 	const animation = installCanonicalChossidAnimation(runtime, gltf);
+	// B"H: the first-control tree registration can run before the terrain
+	// group lands in the live scene, leaving an empty octree with no error
+	// and no retry. Retry here, once the player — and the world around it —
+	// is installed; the registration is idempotent per tree, so a first
+	// control that already worked adds nothing.
+	try {
+		registerBootstrapMeadowTreeCollision(runtime);
+	} catch {}
 	runtime.equipment?.bindModel?.(prepared.model);
 	const evidence = canonicalEvidence(animation, gltf);
 	markCanonical(prepared.model, evidence);

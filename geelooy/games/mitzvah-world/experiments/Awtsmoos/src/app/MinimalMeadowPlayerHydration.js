@@ -23,6 +23,7 @@ import {
 	announcePlayerHydration,
 	rejectNoncanonicalPlayerFallback
 } from './MinimalMeadowPlayerHydrationState.js';
+import { resolveEretzPostPlayableWorldPolicy } from './EretzPostPlayableWorldPolicy.js';
 
 export function hydrateMinimalMeadowPlayer(runtime, environment = globalThis, dependencies = {}) {
 	if (runtime.canonicalPlayer?.status === 'ready') {
@@ -58,6 +59,14 @@ async function loadCanonicalPlayer(runtime, environment, dependencies) {
 		}
 		const installed = installCanonicalPlayer(runtime, predecessor, gltf, prepared);
 		runtime.canonicalPlayer = canonicalReceipt(gltf, installed.animation, prepared, materials, meshCount);
+		// B"H: simple worlds never run the rich-feature chain, so the
+		// post-playable priority that installs the meadow's friendly
+		// neighbors may never fire — its activation waits on a visual
+		// promise that can stall past the traveler's arrival. Install
+		// them here too, beside spawn, without blocking the receipt; the
+		// installer is idempotent, so a later post-playable run adds
+		// nothing.
+		startSimpleWorldFriendlyActorsBackstop(runtime, environment, dependencies);
 		announcePlayerHydration(environment, { phase: 'ready', progress: 1 });
 		return runtime.canonicalPlayer;
 	} catch (error) {
@@ -77,6 +86,30 @@ function canonicalReceipt(gltf, animation, prepared, materials, meshCount) {
 		status: 'ready',
 		visualGuard: 'none-glb-only'
 	});
+}
+
+/**
+ * Installs the simple world's own friendly neighbors without blocking the
+ * player receipt. Only simple worlds get the meadow's Chossidim — rich
+ * worlds grow theirs through the post-playable chain. A failure settles
+ * silently; the post-playable branch remains the primary installer.
+ */
+function startSimpleWorldFriendlyActorsBackstop(runtime, environment, dependencies) {
+	try {
+		const policy = resolveEretzPostPlayableWorldPolicy({ worldExperience: runtime.worldExperience });
+		if (policy.canonicalPromotion) return;
+	} catch {
+		return;
+	}
+	const install = dependencies.installSimpleWorldFriendlyNpcs || installSimpleWorldFriendlyNpcs;
+	Promise.resolve()
+		.then(() => install(runtime, environment))
+		.catch(() => null);
+}
+
+async function installSimpleWorldFriendlyNpcs(runtime, environment) {
+	const module = await import('./MinimalMeadowFriendlyNpcs.js');
+	return module.installMinimalMeadowFriendlyNpcs(runtime, environment);
 }
 
 export default hydrateMinimalMeadowPlayer;
