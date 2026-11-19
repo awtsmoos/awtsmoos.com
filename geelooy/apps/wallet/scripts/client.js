@@ -14,6 +14,35 @@
 const WALLET_ACTION_HEADER = "X-Awtsmoos-Wallet-Action";
 
 /**
+ * Upper bound for one Wallet request. The Wallet server can stall under
+ * load; without a bound, fetch never settles, so a refresh spins forever
+ * with no success and no failure message. Thirty seconds matches the
+ * bound the Account Gateway places on its auth fetch.
+ */
+const WALLET_REQUEST_TIMEOUT_MS = 30_000;
+
+/**
+ * Fetches one Wallet URL with authenticated cookies and a hard time bound.
+ *
+ * @param {string} url Wallet API URL.
+ * @param {object} [options] Fetch options beyond credentials and signal.
+ * @returns {Promise<Response>} The settled response.
+ */
+async function fetchWallet(url, options = {}) {
+	const controller = new AbortController();
+	const timer = setTimeout(() => controller.abort(), WALLET_REQUEST_TIMEOUT_MS);
+	try {
+		return await fetch(url, {
+			...options,
+			credentials: "include",
+			signal: controller.signal
+		});
+	} finally {
+		clearTimeout(timer);
+	}
+}
+
+/**
  * Decodes one Wallet response into a stable browser result.
  *
  * @param {Response} response
@@ -50,9 +79,7 @@ async function decodeWalletResponse(response) {
  */
 export async function getWalletJson(url) {
 	try {
-		const response = await fetch(url, {
-			credentials: "include"
-		});
+		const response = await fetchWallet(url);
 		return await decodeWalletResponse(response);
 	} catch (error) {
 		return networkFailure(error);
@@ -72,9 +99,8 @@ export async function getWalletJson(url) {
  */
 export async function postWalletJson(url, body = {}) {
 	try {
-		const response = await fetch(url, {
+		const response = await fetchWallet(url, {
 			method: "POST",
-			credentials: "include",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
 				[WALLET_ACTION_HEADER]: "1"

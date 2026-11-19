@@ -44,6 +44,9 @@ async function refreshWalletData() {
 		refreshWallet(),
 		bootCreditPortfolio()
 	]);
+	if (!wallet?.ok) {
+		setCheckoutStatus('Wallet could not refresh. Try again.', 'error');
+	}
 	return wallet;
 }
 
