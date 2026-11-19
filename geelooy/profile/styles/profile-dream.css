@@ -272,15 +272,30 @@ body.geelooy-app-shell .g-shell {
 }
 
 /* stats */
+/* B"H 2026-11-19 (social polish): the grid declared 3 columns for FOUR
+   stats (Posts / Comments / Series / Followers), so Followers wrapped
+   alone onto a second row. Four across on desktop; a clean 2×2 below
+   480px with the row divider moved to the second row's top edge. */
 .profile-dream .pd-stats {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	max-width: 24rem;
+	grid-template-columns: repeat(4, 1fr);
+	max-width: 30rem;
 	margin: 0 auto 1.1rem;
 	border: 1px solid var(--pd-line-soft);
 	border-radius: var(--pd-radius-sm);
 	background: var(--pd-cream);
 	overflow: hidden;
+}
+@media (max-width: 480px) {
+	.profile-dream .pd-stats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.profile-dream .pd-stat:nth-child(odd) {
+		border-left: none;
+	}
+	.profile-dream .pd-stat:nth-child(n + 3) {
+		border-top: 1px solid var(--pd-line-soft);
+	}
 }
 .profile-dream .pd-stat {
 	display: flex;
