@@ -39,6 +39,10 @@ export function simpleWorldPostPlayableReceipt(policy, priority, terrainHydratio
 		cinematicLandscape: extras.cinematicLandscape || disabledWorldFeatureReceipt(),
 		districts: disabledWorldFeatureReceipt(),
 		enrichment: disabledWorldFeatureReceipt('simple-world-complete'),
+		// B"H round 4: simple worlds install their own friendly neighbors
+		// directly (the rich chain never runs here); the promise settles
+		// with the install diagnostics or a failure receipt, never pending.
+		friendlyActors: extras.friendlyActors || disabledWorldFeatureReceipt(),
 		performanceMonitor: extras.performanceMonitor || disabledWorldFeatureReceipt(),
 		policy,
 		priority,

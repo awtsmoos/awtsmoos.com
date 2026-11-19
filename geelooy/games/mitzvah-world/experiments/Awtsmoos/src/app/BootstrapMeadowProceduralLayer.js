@@ -86,7 +86,7 @@ export function attachMeadowProceduralLayer(scene, options = {}) {
 		const filtered = filterGrassFieldMesh(fieldMesh, (x, z) => !insideClearing(x, z));
 		const tints = createMeadowGrassTints(filtered, {
 			seed: `${seed}-tints`,
-			palette: options.grassPalette || 'dream-meadow'
+			palette: options.grassPalette || 'meadow-soft'
 		});
 
 		const windController = createMeadowTreeWindController();

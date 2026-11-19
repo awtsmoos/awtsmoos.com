@@ -97,11 +97,38 @@ test('simple world never starts canonical promotion or rich launchers', async ()
 		createContext({ destroyed: false }, { worldExperience }),
 		{
 			startPlayer: () => { playerStarts += 1; },
-			loadLaunchers: async () => { launcherLoads += 1; return richLaunchers({ districts: 0, enrichment: 0 }); }
+			loadLaunchers: async () => { launcherLoads += 1; return richLaunchers({ districts: 0, enrichment: 0 }); },
+			installSimpleWorldFriendlyNpcs: async () => ({ count: 2, status: 'test-stub' })
 		}
 	);
 	assert.equal(playerStarts, 0);
 	assert.equal(launcherLoads, 0);
 	assert.equal(receipt.priority.reason, 'world-profile-simple');
 	assert.equal(receipt.status, 'simple-world-ready');
+	assert.deepEqual(await receipt.friendlyActors, { count: 2, status: 'test-stub' });
+});
+
+test('simple world friendly install failure settles instead of breaking the receipt', async () => {
+	const worldExperience = {
+		canonicalPromotion: false,
+		cinematicEnvironment: false,
+		cinematicHero: false,
+		cinematicLandscape: false,
+		deepWorldStreaming: false,
+		districtStreaming: false,
+		id: 'blank-meadow',
+		performanceMonitor: false,
+		postPlayTerrainHydration: false,
+		title: 'Blank Meadow'
+	};
+	const receipt = await startEretzPostPlayablePriority(
+		createContext({ destroyed: false }, { worldExperience }),
+		{
+			installSimpleWorldFriendlyNpcs: async () => {
+				throw new Error('B"H test neighbor failure');
+			}
+		}
+	);
+	assert.equal(receipt.status, 'simple-world-ready');
+	assert.equal((await receipt.friendlyActors).status, 'simple-world-friendly-actors-failed');
 });

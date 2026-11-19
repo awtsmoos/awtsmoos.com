@@ -17,7 +17,9 @@ import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
 import { HOUSE_PHOTO_URL_BY_ROLE } from './MitzvahDriveImageAssets.js';
 
 const COLORS = Object.freeze({
-	brick: '#9b4b38',
+	// B"H round 4: the old wall brick (#9b4b38) read as saturated red on the
+	// village houses; muted toward brown-gray to match the procedural brick.
+	brick: '#8a5f4c',
 	brickLight: '#d5b797',
 	floor: '#817463',
 	mezuzah: '#d39b2f',

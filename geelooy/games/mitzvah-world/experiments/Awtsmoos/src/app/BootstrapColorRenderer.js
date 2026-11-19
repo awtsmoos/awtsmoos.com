@@ -86,6 +86,7 @@ export class BootstrapColorRenderer {
 		gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
 		bindBootstrapMeshColor(this.buffers, gl, entry, locations, mesh.material);
 		this.buffers.bindUv(entry, locations.texCoord);
+		this.buffers.bindNormal(entry, locations.normal);
 		bindBootstrapMaterialTexture(gl, this.textureCache, locations, mesh.material);
 		gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
 		gl.uniform4fv(locations.color, writeBootstrapMaterialColor(mesh.material, this.materialColor));
@@ -117,6 +118,7 @@ export class BootstrapColorRenderer {
 			gl.vertexAttribPointer(skinLocations.position, 3, gl.FLOAT, false, 0, 0);
 			bindBootstrapMeshColor(this.buffers, gl, entry, skinLocations, mesh.material);
 			this.buffers.bindUv(entry, skinLocations.texCoord);
+			this.buffers.bindNormal(entry, skinLocations.normal);
 			this.buffers.bindJoints(entry, skinLocations.joints);
 			this.buffers.bindWeights(entry, skinLocations.weights);
 			bindBootstrapMaterialTexture(gl, this.textureCache, skinLocations, mesh.material);
@@ -220,6 +222,7 @@ function applyAtmosphere(gl, locations, camera, skyEnv) {
 	if (locations.cameraPos) gl.uniform3f(locations.cameraPos, x, y, z);
 	if (locations.fogColor) gl.uniform3f(locations.fogColor, ...palette.fogColor);
 	if (locations.fogDensity) gl.uniform1f(locations.fogDensity, palette.fogDensity);
+	if (locations.sunDirection) gl.uniform3f(locations.sunDirection, ...palette.sunDirection);
 }
 
 /** Binds a material's generated texture field (or disables sampling when absent). */

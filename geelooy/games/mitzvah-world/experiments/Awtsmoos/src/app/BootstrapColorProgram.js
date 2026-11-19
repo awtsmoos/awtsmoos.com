@@ -51,8 +51,10 @@ function programLocations(gl, program) {
 		map: gl.getUniformLocation(program, 'uMap'),
 		mapRepeat: gl.getUniformLocation(program, 'uMapRepeat'),
 		model: gl.getUniformLocation(program, 'uModel'),
+		normal: gl.getAttribLocation(program, 'aNormal'),
 		position: gl.getAttribLocation(program, 'aPosition'),
 		projectionView: gl.getUniformLocation(program, 'uProjectionView'),
+		sunDirection: gl.getUniformLocation(program, 'uSunDirection'),
 		texCoord: gl.getAttribLocation(program, 'aTexCoord'),
 		useMap: gl.getUniformLocation(program, 'uUseMap'),
 		vertexColor: gl.getAttribLocation(program, 'aColor')

@@ -252,8 +252,10 @@ const PAINTERS = {
 		const jitter = createTileableNoiseField(seed + 157, size, 12);
 		const fine = createTileableNoiseField(seed + 163, size, 48);
 		const mortar = [196, 186, 172];
-		const brickBase = [154, 74, 56];
-		const brickDark = [122, 56, 44];
+		// B"H round 4: the old brick ran hot red ([154,74,56]) and read as
+		// saturated orange-red on the village walls. Muted toward brown-gray.
+		const brickBase = [138, 90, 72];
+		const brickDark = [108, 72, 58];
 		const courseH = 32;
 		const brickW = 64;
 		const joint = 4;

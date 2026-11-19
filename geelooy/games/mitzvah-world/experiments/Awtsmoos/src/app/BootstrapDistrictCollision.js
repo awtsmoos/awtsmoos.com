@@ -66,10 +66,11 @@ function createReceipt(authority, definition, colliders) {
 	});
 }
 
-function createPartColliders(districtId, part) {
-	const center = vectorFrom(part.position, 'position');
-	const size = vectorFrom(part.scale, 'scale');
-	const half = { x: size.x / 2, y: size.y / 2, z: size.z / 2 };
+/**
+ * Builds the twelve triangles of one axis-aligned solid box. Shared by
+ * district walls and meadow tree trunks so one box law guards both.
+ */
+export function createBoxTriangleColliders(center, half, kindPrefix) {
 	const vertices = boxVertices(center, half);
 	return BOX_FACES.map((face, index) => new TriangleCollider(
 		vertices[face[0]],
@@ -77,10 +78,17 @@ function createPartColliders(districtId, part) {
 		vertices[face[2]],
 		{
 			floor: false,
-			kind: `bootstrap-district:${districtId}:${part.name}:face-${index}`,
+			kind: `${kindPrefix}:face-${index}`,
 			solid: true
 		}
 	));
+}
+
+function createPartColliders(districtId, part) {
+	const center = vectorFrom(part.position, 'position');
+	const size = vectorFrom(part.scale, 'scale');
+	const half = { x: size.x / 2, y: size.y / 2, z: size.z / 2 };
+	return createBoxTriangleColliders(center, half, `bootstrap-district:${districtId}:${part.name}`);
 }
 
 function boxVertices(center, half) {

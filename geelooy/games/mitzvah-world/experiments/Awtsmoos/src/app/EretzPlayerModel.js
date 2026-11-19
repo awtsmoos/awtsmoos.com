@@ -11,6 +11,8 @@
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../world/GroundRay.js';
+import { applyChossidOutfit, playerChossidOutfit } from '../assets/ChossidOutfitPalette.js';
+import { bakeChossidSurfaceDetail } from '../assets/ChossidSurfaceDetail.js';
 import { applyVariant, enhanceRealism, variantNames, VARIANTS } from './CharacterVariants.js';
 import { canTalk, closeMouth, setMouthOpen, speakText } from './TalkingMouth.js';
 import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
@@ -24,9 +26,14 @@ export function createPlayerModel(playerGltf, scene) {
 	model.scale.set(1.52, 1.52, 1.52);
 	model.position.set(0, 0, 4);
 	model.setBaseTransform();
-	// B"H: one base model, many characters. Realism first, then the default identity.
-	enhanceRealism(model);
-	applyVariant(model, 'classic');
+	// B"H: the swap must wear the SAME identity the first-play load gave the
+	// traveler — palette outfit (yarmulke, glasses, no tefillin) plus the baked
+	// surface detail — never a different variant. The classic variant used to
+	// replace it here, and its material-name toggles silently failed on the
+	// palette-resolved names, so glasses and tefillin stayed stuck on while
+	// the hat changed. Variants remain available through the character API.
+	applyChossidOutfit(model, playerChossidOutfit());
+	bakeChossidSurfaceDetail(model);
 	// B"H: the actor-hydration path swaps the player through this doorway;
 	// without the same proportions pass the beard returns to full authored length.
 	stabilizeCanonicalChossidModel(model);
@@ -68,10 +75,10 @@ export function createEquipment(model) {
 	return { materials: [...materials], meshes, visible };
 }
 
-/** Toggles every authored mesh sharing one material name. */
+/** Toggles every authored mesh sharing one material name (palette-resolved `name@#color` counts as the same base name). */
 export function toggleEquipmentMaterial(model, name, enabled) {
 	model.traverse(object => {
-		if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
+		if ((object.isMesh || object.isSkinnedMesh) && String(object.material?.name || '').split('@')[0] === name) {
 			object.visible = Boolean(enabled);
 		}
 	});

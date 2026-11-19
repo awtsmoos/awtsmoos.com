@@ -16,6 +16,7 @@ import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js'
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-visible-02';
 import { createBootstrapRuntimeDiagnostics } from './BootstrapRuntimeDiagnostics.js?v=20260804-map-01';
+import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
 import { startBootstrapRuntimeLoop } from './BootstrapRuntimeLoop.js?v=20260804-map-01';
 import {
 	attachEretzWorldExperience,
@@ -47,6 +48,7 @@ export function assembleBootstrapCoreRuntime(
 	const installStateSystems = dependencies.installStateSystems || installBootstrapCoreStateSystems;
 	const startLoop = dependencies.startRuntimeLoop || startBootstrapRuntimeLoop;
 	const createMinimap = dependencies.createMinimap || createMinimalMeadowBootstrapMinimap;
+	const registerTreeCollision = dependencies.registerTreeCollision || registerBootstrapMeadowTreeCollision;
 	const Combat = dependencies.Combat || MinimalMeadowBootstrapCombat;
 
 	boot.begin('bootstrap-player-state');
@@ -80,6 +82,17 @@ export function assembleBootstrapCoreRuntime(
 		guardBootstrapMinimapHandoff(runtime);
 	} else {
 		runtime.bootstrapMinimap = null;
+	}
+
+	// B"H: blank meadow shipped with an empty collision octree, so the
+	// traveler walked through every tree. Trunks become solid here, at
+	// first control, while the scene still holds them. A failure can never
+	// break the frame — movement simply stays unblocked.
+	boot.begin('bootstrap-tree-collision');
+	try {
+		runtime.bootstrapTreeCollisionReceipt = registerTreeCollision(runtime) || null;
+	} catch {
+		runtime.bootstrapTreeCollisionReceipt = null;
 	}
 
 	const diagnostics = createDiagnostics(runtime, movement, qualityProfile, boot);

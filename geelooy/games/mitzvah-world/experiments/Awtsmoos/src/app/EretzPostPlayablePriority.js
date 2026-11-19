@@ -36,11 +36,22 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	}
 	if (!policy.canonicalPromotion) {
 		diagnostics.postPlayablePriorityStage = 'simple-world-ready';
+		// B"H: simple worlds never run the rich-feature chain (world systems
+		// + optional hydration), so their neighbors never arrived — the
+		// optional 'friendly' branch waits on a handoff promise that is
+		// never created here. Install the meadow's own friendly Chossidim
+		// directly, beside spawn, without blocking the receipt.
+		const friendlyActors = startSimpleWorldFriendlyActors(
+			runtime,
+			environment,
+			dependencies,
+			diagnostics
+		);
 		return simpleWorldPostPlayableReceipt(
 			policy,
 			immediatePriority('world-profile-simple'),
 			tasks.terrainHydration,
-			tasks.receipts
+			{ ...tasks.receipts, friendlyActors }
 		);
 	}
 
@@ -75,4 +86,34 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 /** Provides a deterministic receipt for intentionally lightweight worlds. */
 function immediatePriority(reason) {
 	return Object.freeze({ reason, waitedMs: 0 });
+}
+
+/**
+ * Installs the simple world's own friendly neighbors without blocking the
+ * receipt. The installer is lazy-imported so the foundation bundle stays
+ * lean; a failure settles as a receipt, never as a broken world.
+ */
+function startSimpleWorldFriendlyActors(runtime, environment, dependencies, diagnostics) {
+	const install = dependencies.installSimpleWorldFriendlyNpcs
+		|| installSimpleWorldFriendlyNpcs;
+	diagnostics.simpleWorldFriendlyActorsStage = 'installing';
+	return Promise.resolve()
+		.then(() => install(runtime, environment))
+		.then(result => {
+			diagnostics.simpleWorldFriendlyActorsStage = 'ready';
+			return result;
+		})
+		.catch(error => {
+			diagnostics.simpleWorldFriendlyActorsStage = 'failed';
+			diagnostics.simpleWorldFriendlyActorsError = error?.message || String(error);
+			return Object.freeze({
+				reason: error?.message || String(error),
+				status: 'simple-world-friendly-actors-failed'
+			});
+		});
+}
+
+async function installSimpleWorldFriendlyNpcs(runtime, environment) {
+	const module = await import('./MinimalMeadowFriendlyNpcs.js');
+	return module.installMinimalMeadowFriendlyNpcs(runtime, environment);
 }

@@ -22,18 +22,28 @@ const BEARD_FLAG = 'AwtsmoosBeardProportionsV3';
 const BEARD_FLAG_LEGACY = 'AwtsmoosBeardProportionsV2';
 
 // The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
-// so skinning pokes it through the coat as white triangles. Tucking it to 0.95
-// about the model origin pulls it ~4 cm inward, clear of the jacket sides.
-const SHIRT_TUCK = 0.95;
+// so skinning pokes it through the coat as white triangles. Tucking it
+// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
+// so the chest V stays and the white dashes leave the arms.
+const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
 const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV1';
+const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
+const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+
+// The authored head reads large against the body at gameplay distance; the
+// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
+// glasses, and eyes keep their relative places while the head shrinks.
+const HEAD_SCALE = Object.freeze({ x: 0.88, y: 0.88, z: 0.88 });
+const HEAD_NAMES = new Set(['mixamorig:Head']);
+const HEAD_FLAG = 'AwtsmoosHeadProportionsV1';
 
 /** Prepares player or village GLB once, preserving hidden variants and animation. */
 export function stabilizeCanonicalChossidModel(model) {
 	const visibility = stabilizeCanonicalAnimatedMeshVisibility(model);
 	const beardAdjusted = adjustOutermost(model, BEARD_NAMES, BEARD_SCALE, BEARD_FLAG, BEARD_FLAG_LEGACY);
-	const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG);
-	return Object.freeze({ ...visibility, beardAdjusted, shirtTucked });
+	const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG, SHIRT_FLAG_LEGACY);
+	const headAdjusted = adjustOutermost(model, HEAD_NAMES, HEAD_SCALE, HEAD_FLAG);
+	return Object.freeze({ ...visibility, beardAdjusted, headAdjusted, shirtTucked });
 }
 
 /**

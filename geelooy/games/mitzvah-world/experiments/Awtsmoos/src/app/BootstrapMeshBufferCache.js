@@ -52,6 +52,20 @@ export class BootstrapMeshBufferCache {
 		gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
 	}
 
+	/** Binds vertex normals; without them the shader shades with a constant up vector. */
+	bindNormal(entry, location) {
+		if (location < 0) return;
+		const gl = this.gl;
+		if (!entry.normalBuffer) {
+			gl.disableVertexAttribArray?.(location);
+			gl.vertexAttrib3f?.(location, 0, 1, 0);
+			return;
+		}
+		gl.bindBuffer(gl.ARRAY_BUFFER, entry.normalBuffer);
+		gl.enableVertexAttribArray(location);
+		gl.vertexAttribPointer(location, 3, entry.normalType, false, 0, 0);
+	}
+
 	/** Binds joint indices; without them the vertex stays in the bind pose. */
 	bindJoints(entry, location) {
 		if (location < 0) return;
@@ -86,6 +100,7 @@ function createEntry(gl, geometry) {
 	if (!position?.array?.length) return null;
 	const color = geometry.attributes?.color;
 	const uv = geometry.attributes?.uv;
+	const normal = geometry.attributes?.normal;
 	const joints = geometry.attributes?.joints;
 	const weights = geometry.attributes?.weights;
 	const entry = {
@@ -99,6 +114,8 @@ function createEntry(gl, geometry) {
 		jointsBuffer: joints?.array?.length ? upload(gl, gl.ARRAY_BUFFER, joints.array) : null,
 		jointsItemSize: Math.max(1, Math.min(4, joints?.itemSize || 4)),
 		jointsType: joints ? attributeType(gl, joints.array) : gl.FLOAT,
+		normalBuffer: normal?.array?.length ? upload(gl, gl.ARRAY_BUFFER, normal.array) : null,
+		normalType: normal ? attributeType(gl, normal.array) : gl.FLOAT,
 		positionBuffer: upload(gl, gl.ARRAY_BUFFER, position.array),
 		uvBuffer: uv?.array?.length ? upload(gl, gl.ARRAY_BUFFER, uv.array) : null,
 		weightsBuffer: weights?.array?.length ? upload(gl, gl.ARRAY_BUFFER, weights.array) : null,

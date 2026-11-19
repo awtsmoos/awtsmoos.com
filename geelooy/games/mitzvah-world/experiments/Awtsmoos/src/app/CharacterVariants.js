@@ -89,10 +89,20 @@ function setNodeVisible(model, name, visible) {
 
 function setMaterialVisible(model, materialName, visible) {
 	eachMesh(model, object => {
-		if (object.material && object.material.name === materialName) {
+		if (object.material && materialBaseName(object.material) === materialName) {
 			object.visible = visible !== false;
 		}
 	});
+}
+
+/**
+ * The outfit palette recolors resolved materials as `name@#color`, so a
+ * variant rule that compares the whole name can never match a resolved
+ * model — glasses and tefillin used to stay stuck on after the swap.
+ * Every material rule matches the authored base name before the `@`.
+ */
+function materialBaseName(material) {
+	return String(material?.name || '').split('@')[0];
 }
 
 /** Beard on/off. The long beard is its own node, so the face stays intact. */
@@ -142,7 +152,7 @@ export function setOutfit(model, outfit = {}) {
 		[MATERIALS.yamulka]: outfit.hat
 	};
 	eachMesh(model, object => {
-		const name = object.material && object.material.name;
+		const name = materialBaseName(object.material);
 		if (name && targets[name] !== undefined) {
 			if (!object.userData.AwtsmoosVariantCloned) {
 				object.material = object.material.clone();
@@ -190,7 +200,7 @@ export function enhanceRealism(model) {
 			object.material = makeTeethMaterial(object);
 			return;
 		}
-		const tweak = tweaks[mat.name];
+		const tweak = tweaks[materialBaseName(mat)];
 		if (!tweak) return;
 		if (tweak.roughness !== undefined && 'roughness' in mat) mat.roughness = tweak.roughness;
 		if (tweak.metalness !== undefined && 'metalness' in mat) mat.metalness = tweak.metalness;
@@ -214,7 +224,7 @@ function makeTeethMaterial(referenceObject) {
 	const root = referenceObject.parent;
 	if (root && root.traverse) {
 		root.traverse(o => {
-			if (!base && o.material && o.material.name === MATERIALS.gums) base = o.material;
+			if (!base && o.material && materialBaseName(o.material) === MATERIALS.gums) base = o.material;
 		});
 	}
 	const mat = base ? base.clone() : newObjectMaterial(referenceObject);

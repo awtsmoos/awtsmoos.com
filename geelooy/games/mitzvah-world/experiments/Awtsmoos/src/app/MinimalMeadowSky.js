@@ -12,6 +12,21 @@
 import { createSky3D } from '../world/Sky3D.js?v=20260723-meadow-11';
 
 export function installMinimalMeadowSky(scene, camera, quality = 'high') {
+	// B"H: idempotent — the rich renderer mounts the sky early on worlds
+	// whose world systems never run (blank meadow), and the world systems
+	// later install the same sky; a second dome would double the draw and
+	// the diagnostics, so return the existing handle instead.
+	const existing = findInstalledSky(scene);
+	if (existing) {
+		const state = { x: NaN, y: NaN, z: NaN };
+		const update = () => centerSky(existing, camera, state);
+		update();
+		return {
+			diagnostics: () => ({ ...existing.userData.AwtsmoosSky }),
+			group: existing,
+			update
+		};
+	}
 	const sky = createSky3D(quality);
 	scene.add(sky);
 	const state = { x: NaN, y: NaN, z: NaN };
@@ -22,6 +37,15 @@ export function installMinimalMeadowSky(scene, camera, quality = 'high') {
 		group: sky,
 		update
 	};
+}
+
+/** Finds the Core sky already mounted in this scene, if any. */
+function findInstalledSky(scene) {
+	let found = null;
+	scene?.traverse?.(object => {
+		if (!found && object?.userData?.AwtsmoosSky) found = object;
+	});
+	return found;
 }
 
 function centerSky(sky, camera, state) {
