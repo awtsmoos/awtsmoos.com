@@ -57,8 +57,8 @@ body[data-mail-page].geelooy-mail-document .mail-primary-command {
 
 .mail-search-panel {
 	display: grid;
-	gap: 8px;
-	padding: 8px 12px 10px;
+	gap: 6px;
+	padding: 6px 12px 8px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -50,14 +50,16 @@ The Awtsmoos gathers many correspondents into one calm rail; Awtsmoos.com keeps 
 	   search panel the conversation list was squeezed to a sliver
 	   (52px measured) — only the first thread's top edge showed.
 	   Now the list grows from 0, the nav lists (tighter caps above)
-	   absorb any deficit, and conversations always keep 10rem.
+	   absorb any deficit, and conversations always keep 20rem
+	   (round 3: two full sender-group thread rows + the summary card
+	   measure ~305-320px; 10rem only ever showed the first row).
 	   The .geelooy-mail-document prefix is load-bearing: revelation-
 	   workspace.css sets min-block-size: 0 on .thread-list at the
 	   same specificity sidebar.css used to use, and it loads later,
 	   which silently defeated the first version of this floor
 	   (computed min-block-size measured 0px, list height 12px). */
 	flex: 1 1 0%;
-	min-block-size: 10rem;
+	min-block-size: 20rem;
 	overflow-y: auto;
 }
 
@@ -88,4 +90,99 @@ The Awtsmoos gathers many correspondents into one calm rail; Awtsmoos.com keeps 
 
 .mail-sidebar-identity-summary {
 	color: var(--mail-text-secondary);
+}
+
+/* B"H 2026-11-19 (social polish round 3) -- DESKTOP RAIL BUDGET.
+   Rounds 1-2 failed the signed-in rendered check at 1919x998: measured
+   with the real assets (headless Chrome, exact signed-in DOM), the rail
+   chrome consumed the whole frame -- sidebar header 213px (the compact
+   identity summary stacks its Profile action on a second 48px row),
+   compose ~78px, search panel ~120px, aside gaps ~66px -- and flex
+   shrink then squeezed the capped nav lists below their caps while the
+   thread list (172px) still clipped its first thread item, whose group
+   head + summary card alone need ~100px before the item starts.
+   This block gives the conversations ownership of the rail on desktop:
+   the identity summary becomes ONE row, the search heading copy is
+   visually hidden (the label stays in the accessibility tree and the
+   input keeps its placeholder + "/" shortcut), sender categories become
+   a compact 2-column grid, folders take a hard 84px cap (px, not dvh),
+   and every rule here outranks the sheets it overrides ((0,3,0)+,
+   because revelation.css and hypermail.css load after sidebar.css).
+   The <=900px mobile shell keeps its own rules untouched: its (0,4,0)
+   thread-list rule and 48px touch rows still win there. */
+@media (min-width: 901px) {
+	body.geelooy-mail-document .mail-civilization-shell {
+		padding-block: .5rem;
+	}
+
+	.geelooy-mail-document .sidebar.mail-sidebar {
+		padding: .55rem;
+		gap: .35rem;
+	}
+
+	.geelooy-mail-document .sidebar .sidebar-header {
+		padding: 10px 14px 6px;
+	}
+
+	.geelooy-mail-document .sidebar .mail-sidebar-kicker {
+		display: none;
+	}
+
+	.geelooy-mail-document .sidebar .mail-sidebar-identity {
+		gap: 6px;
+	}
+
+	.geelooy-mail-document .sidebar [data-mail-identity-summary] {
+		padding: .45rem;
+		gap: .5rem;
+	}
+
+	.geelooy-mail-document .sidebar .mail-identity-summary-symbol {
+		inline-size: 1.9rem;
+		block-size: 1.9rem;
+	}
+
+	.geelooy-mail-document .sidebar .mail-identity-summary-compact {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+	}
+
+	.geelooy-mail-document .sidebar .mail-identity-summary-compact .mail-identity-summary-action {
+		grid-column: auto;
+		min-block-size: 36px;
+		padding-inline: .55rem;
+	}
+
+	/* (0,4,1): the Team C floor in sidebar-controls.css is (0,3,1)
+	   (body + attribute + two classes), so this needs the extra class. */
+	body.geelooy-mail-document .sidebar .mail-primary-command.fab-compose {
+		min-height: 52px;
+		margin: 2px 12px;
+		padding-block: 6px;
+	}
+
+	.geelooy-mail-document .sidebar .mail-search-heading {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.geelooy-mail-document .sidebar .mail-sender-category-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		max-block-size: 118px;
+	}
+
+	.geelooy-mail-document .sidebar .mail-folder-list {
+		max-block-size: 74px;
+	}
+
+	.geelooy-mail-document .sidebar .mail-search-control {
+		min-height: 40px;
+	}
+
+	.geelooy-mail-document .sidebar :is(.mail-folder-tab, .mail-sender-category) {
+		min-block-size: 32px;
+	}
 }

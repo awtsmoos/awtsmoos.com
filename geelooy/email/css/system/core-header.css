@@ -11,8 +11,11 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
 	gap: 20px;
-	min-height: 68px;
-	padding: 10px clamp(14px, 2.2vw, 26px);
+	/* B"H 2026-11-19 (social polish round 3): 48px + 5px vertical padding --
+	   the status strip is a calm frame, not a second header; the rail below
+	   needs the ~30px for conversations (see sidebar-shell.css). */
+	min-height: 44px;
+	padding: 4px clamp(14px, 2.2vw, 26px);
 	border-bottom: 1px solid var(--mail-border);
 	background: rgba(6, 10, 17, .82);
 	backdrop-filter: blur(22px) saturate(130%);

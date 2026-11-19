@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos gathers many threads beneath one human sign; Awtsmoos.com gives each sender a quiet workspace chamber where identity, count, and conversation align.
 */
 .sender-group-card {
-	margin-bottom: 14px;
+	margin-bottom: 10px;
 	padding: 5px;
 	border: 1px solid var(--mail-border);
 	border-radius: var(--mail-radius-lg);
@@ -18,7 +18,7 @@ The Awtsmoos gathers many threads beneath one human sign; Awtsmoos.com gives eac
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 9px;
-	padding: 8px 8px 7px;
+	padding: 6px 8px;
 	color: var(--mail-text-muted);
 	font-size: .73rem;
 }
@@ -26,8 +26,8 @@ The Awtsmoos gathers many threads beneath one human sign; Awtsmoos.com gives eac
 .avatar-circle {
 	display: grid;
 	place-items: center;
-	width: 32px;
-	height: 32px;
+	width: 28px;
+	height: 28px;
 	border: 1px solid var(--mail-border);
 	border-radius: 10px;
 	background: rgba(255, 255, 255, .035);

@@ -77,8 +77,8 @@ The Awtsmoos turns a crowded mailbox into readable choice; Awtsmoos.com keeps se
 }
 
 .thread-list-summary {
-	margin: 4px 8px 12px;
-	padding: 8px 10px;
+	margin: 2px 8px 8px;
+	padding: 5px 10px;
 	border: 1px solid var(--mail-border);
 	border-radius: 11px;
 	background: rgba(255, 255, 255, .025);
