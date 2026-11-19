@@ -4121,6 +4121,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const prepareCanonicalPlayerMeshes = __awtsmoosModule_25.prepareCanonicalPlayerMeshes;
 	const createBootstrapPlayerState = __awtsmoosModule_51.createBootstrapPlayerState;
 	const createBootstrapPlayerStats = __awtsmoosModule_51.createBootstrapPlayerStats;
+	const shrinkCanonicalHeadAnimation = __awtsmoosModule_38.shrinkCanonicalHeadAnimation;
 
 	/** Creates one visible canonical player runtime with real movement vessels but deferred animation authority. */
 	function createBootstrapEssentialPlayerRuntime(foundation) {
@@ -4144,6 +4145,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		};
 		const prepared = createGroundedCanonicalPlayer(gltf.scene, state);
 		const meshes = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
+		// B"H: the visible-unanimated model shows before hydration replaces it;
+		// shrink its tracks too, so the head cannot read large while it stands
+		// there. The install doorway shrinks again for the hydrated instance.
+		shrinkCanonicalHeadAnimation(gltf.animations);
 		const animations = gltf.animations?.length || 0;
 		if (meshes < 1) throw new Error('Canonical chossid.glb has no renderable meshes.');
 		if (animations < 1) throw new Error('Canonical chossid.glb has no authored animations.');
