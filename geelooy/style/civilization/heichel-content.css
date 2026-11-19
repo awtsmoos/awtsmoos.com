@@ -413,12 +413,21 @@ a:focus-visible {
 }
 
 /* BH Yaakov 2026-10-08: Fix gradient-text white-on-white */
-:root:not([data-theme="dark"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
+/* B"H 2026-11-19 (social polish): these dark-ink overrides were scoped to
+   :not([data-theme="dark"]), which also matches the LIGHT theme and —
+   critically — pages whose theme attribute is unset or whose vessel
+   stays dark (the heichel shell/client surfaces), where they painted
+   the hero and section headings ("Explore", "Enter the library") in
+   dark slate on a near-black ground: invisible. The white-on-white
+   case they were written for is the light theme only, so they are
+   scoped to it; every other theme keeps the headings' designed
+   gold/cream ink from the dream-fallback and law8 sheets. */
+:root[data-theme="light"] :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
   background: none;
   -webkit-background-clip: unset;
   background-clip: unset;
   color: #1e293b;
   -webkit-text-fill-color: #1e293b;
 }
-:root:not([data-theme="dark"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-description) { color: #475569; }
-:root:not([data-theme="dark"]) :where(#heichel-discovery-title) { color: #1e293b; }
+:root[data-theme="light"] :where(.heichel-semantic-fallback) :where(#heichel-boot-description) { color: #475569; }
+:root[data-theme="light"] :where(#heichel-discovery-title) { color: #1e293b; }

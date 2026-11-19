@@ -30,7 +30,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=a7c74cc581'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=489b5e54a4'],
 ];
 
 function ensureSeferStyle(id, href) {
@@ -93,7 +93,7 @@ function sectionIdKey(sectionId) {
  * @returns {Array<{sectionId:string, html:string, items:Array<{phraseId:string,he:string,en:string}>}>}
  *   Ordered sections with phrase items (plus the legacy concatenated HTML).
  */
-export function buildHebrewSections(phrases, enByPhraseId) {
+export function buildHebrewSections(phrases, enByPhraseId, explanationByPhraseId) {
 	const groups = new Map();
 	for (const phrase of phrases || []) {
 		const sectionId = phrase.sectionId || 'sec-000';
@@ -108,7 +108,10 @@ export function buildHebrewSections(phrases, enByPhraseId) {
 			const he = typeof p.he === 'string' ? p.he : (p.hebrew || '');
 			let en = '';
 			if (enByPhraseId && enByPhraseId.has(phraseId)) en = enByPhraseId.get(phraseId);
-			return { phraseId, he, en };
+			let explanation = '';
+			if (explanationByPhraseId && explanationByPhraseId.has(phraseId)) explanation = explanationByPhraseId.get(phraseId);
+			else if (typeof p.explanation === 'string') explanation = p.explanation;
+			return { phraseId, he, en, explanation };
 		});
 		// B"H: convert scribe [cup] markers to bold — the enrichment phrases
 		// carry them raw, and without conversion they leak as literal text.
@@ -550,6 +553,26 @@ export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englis
 			// become real <sup> elements; the renderer escapes the rest.
 			enBlock.innerHTML = renderEnglishWithFootnotes(enText);
 			pair.appendChild(enBlock);
+		}
+		// B"H Tanach swap 2026-11-19: per-verse explanation, retractable
+		// (<details>), beneath its verse's English. Only when present —
+		// other corpora carry no explanation, so nothing changes for them.
+		const explanation = item.explanation && String(item.explanation).trim();
+		if (explanation) {
+			const expl = document.createElement('details');
+			expl.className = 'meluket-phrase--explanation';
+			if (item.phraseId) expl.dataset.phraseId = String(item.phraseId);
+			expl.setAttribute('dir', 'ltr');
+			expl.setAttribute('lang', 'en');
+			const summary = document.createElement('summary');
+			summary.className = 'meluket-explanation-summary';
+			summary.textContent = 'Explanation';
+			expl.appendChild(summary);
+			const body = document.createElement('div');
+			body.className = 'meluket-explanation-body';
+			body.textContent = explanation;
+			expl.appendChild(body);
+			pair.appendChild(expl);
 		}
 		section.appendChild(pair);
 		renderedPairs++;
@@ -1722,6 +1745,7 @@ function synthesizeEmbedPhrases(rows) {
 	const sectionIndexByKey = new Map();
 	const perSection = [];
 	const enByPhraseId = new Map();
+	const explanationByPhraseId = new Map();
 	for (const row of rows || []) {
 		const heRaw = row && row.sourceHebrew != null ? String(row.sourceHebrew) : '';
 		if (!heRaw.trim()) continue;
@@ -1747,8 +1771,11 @@ function synthesizeEmbedPhrases(rows) {
 		const sectionId = `sec-${String(sIdx + 1).padStart(3, '0')}`;
 		perSection[sIdx].push({ phraseId, he, sectionId });
 		enByPhraseId.set(phraseId, pg ? `[עמוד ${pg}] ` + enMark.text : enMark.text);
+		// B"H Tanach swap 2026-11-19: per-verse explanations ride the embed
+		// rows (slim pass-through) so the client-built sefer shows them too.
+		if (row.explanation != null && String(row.explanation).trim()) explanationByPhraseId.set(phraseId, String(row.explanation));
 	}
-	return { phrases: perSection.flat(), enByPhraseId };
+	return { phrases: perSection.flat(), enByPhraseId, explanationByPhraseId };
 }
 
 /**
@@ -2022,8 +2049,8 @@ export function awakenMeluketSeferReaderFromEmbed() {
 	const rows = readEmbeddedPhraseRows();
 	if (!rows) return false;
 	if (realPost.querySelector('.meluket-sefer')) return true;
-	const { phrases, enByPhraseId } = synthesizeEmbedPhrases(rows);
-	const hebrewSections = buildHebrewSections(phrases, enByPhraseId);
+	const { phrases, enByPhraseId, explanationByPhraseId } = synthesizeEmbedPhrases(rows);
+	const hebrewSections = buildHebrewSections(phrases, enByPhraseId, explanationByPhraseId);
 	if (!hebrewSections.length) return false;
 	console.log('B"H sefer reader activating from embed:', hebrewSections.length, 'sections');
 	ensureMeluketSeferStyles();
@@ -2326,11 +2353,14 @@ export function groupPhraseTranslations(phrases) {
 		if (!hasVisibleText(heRaw)) continue; // missing Hebrew → skip
 		const enRaw = p.en != null ? p.en : '';
 		const phraseId = p.phraseId != null ? String(p.phraseId) : '';
+		// B"H Tanach swap 2026-11-19: carry the per-verse explanation through
+		// the API path so the client-built sefer shows it (as buildSectionElement does).
+		const explanationRaw = p.explanation != null ? String(p.explanation) : '';
 		if (!bySection.has(sectionId)) {
 			bySection.set(sectionId, []);
 			order.push(sectionId);
 		}
-		bySection.get(sectionId).push({ he: String(heRaw), en: String(enRaw), phraseId });
+		bySection.get(sectionId).push({ he: String(heRaw), en: String(enRaw), phraseId, explanation: explanationRaw });
 	}
 	const grouped = [];
 	for (const sectionId of order) {

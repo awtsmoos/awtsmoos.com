@@ -17,8 +17,27 @@ export function el(tag, options = {}, children = []) {
     return node;
 }
 
+const NAMED_ENTITIES = { amp: "&", lt: "<", gt: ">", quot: "\"", apos: "'" };
+
+function decodeEntitiesOnce(text) {
+    return text.replace(/&(amp|lt|gt|quot|apos);|&#(\d+);|&#x([0-9a-fA-F]+);/g, (match, named, dec, hex) => {
+        if (named) return NAMED_ENTITIES[named];
+        const code = hex ? parseInt(hex, 16) : parseInt(dec, 10);
+        return Number.isFinite(code) && code > 0 && code <= 0x10FFFF ? String.fromCodePoint(code) : match;
+    });
+}
+
+/**
+ * B"H 2026-11-19 (social polish): same law as the server cleanText —
+ * decode entities once, strip whole tags, keep the plain text. The old
+ * version deleted only "<" and ">", so alias descriptions rendered with
+ * tag names and hrefs showing ("a href=…Awtsmoos/a").
+ */
 export function clean(value) {
-    return String(value ?? "").replace(/[<>]/g, "").trim();
+    return decodeEntitiesOnce(String(value ?? ""))
+        .replace(/<!--[\s\S]*?-->/g, " ")
+        .replace(/<\/?[a-zA-Z][^>]*>/g, "")
+        .trim();
 }
 
 export function emptyCard(text) {

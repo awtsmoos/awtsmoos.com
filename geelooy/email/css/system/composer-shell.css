@@ -5,6 +5,12 @@ Blessed is He
 The Awtsmoos turns thought into a sent word; Awtsmoos.com frames composition gently so writing remains the center.
 */
 .composer-area {
+	/* B"H 2026-11-19 (social polish): the inline composer can never push
+	   its Send row past the viewport bottom — the area owns a bounded
+	   height in the chat grid and scrolls internally when a long reply
+	   makes it tall (the same law the fullscreen composer already had). */
+	min-block-size: 0;
+	overflow-y: auto;
 	padding: 10px clamp(12px, 2.5vw, 26px) max(14px, env(safe-area-inset-bottom));
 	border-top: 1px solid var(--mail-border);
 	background: linear-gradient(180deg, rgba(7, 11, 18, .9), rgba(6, 10, 16, .97));

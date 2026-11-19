@@ -22,14 +22,76 @@ self.AwtsVideoBase.createStableVideoEncoderClass = function createStableVideoEnc
 
 		/** Validates configuration and prepares the first short-lived native encoder segment. */
 		async init() {
-			const keterSupport = await VideoEncoder.isConfigSupported(this.config);
-			if (!keterSupport.supported) {
-				throw new Error(`Stable AVC encoder configuration is unsupported: ${this.config.codec}.`);
-			}
+			this.config = await this.pickSupportedConfig(this.config);
 			this.gevurahError = null;
 			this.encoder = null;
 			this.yesodSegmentFrameCount = 0;
 			this.createNativeEncoder();
+		}
+
+		/**
+		 * Finds the first encoder configuration this browser truly supports.
+		 * MediaBunny hands over exactly one AVC config (often a High-profile
+		 * string derived from the track), and encoders vary widely in which
+		 * profile/level pairs they accept — so when the given config is
+		 * refused, the same picture is retried under the other AVC profiles
+		 * (and a conservative level) before the export is allowed to fail.
+		 * When every AVC candidate is refused, this browser has no H.264
+		 * encoder at all (open-source Chromium builds ship without one):
+		 * the error then says exactly that, with the full tried list, and
+		 * the same list is logged so the next diagnosis is instant. A
+		 * non-AVC config is tried as-given only and keeps the plain refusal.
+		 */
+		async pickSupportedConfig(orConfig) {
+			const keliCandidates = this.configCandidates(orConfig);
+			const keliTried = [];
+			for (const yesodCandidate of keliCandidates) {
+				keliTried.push(yesodCandidate.codec || '(no codec)');
+				try {
+					const yesodSupport = await VideoEncoder.isConfigSupported(yesodCandidate);
+					if (yesodSupport.supported) {
+						return yesodSupport.config || yesodCandidate;
+					}
+				} catch (error) {
+					// A candidate the browser rejects outright is simply unsupported; keep walking.
+				}
+			}
+			if (keliCandidates.length > 1) {
+				const keliTriedList = keliTried.join(', ');
+				if (typeof console !== 'undefined' && typeof console.error === 'function') {
+					console.error(
+						`Awtsmoos Stable AVC encoder: no H.264 configuration is supported in this browser. Tried: ${keliTriedList}.`
+					);
+				}
+				throw new Error(
+					'No H.264 (AVC) encoder is available in this browser, so MP4 export cannot run here. ' +
+					`Every AVC configuration was refused (tried: ${keliTriedList}). ` +
+					'Try a browser with H.264 WebCodecs encoding.'
+				);
+			}
+			throw new Error(`Stable AVC encoder configuration is unsupported: ${orConfig.codec}.`);
+		}
+
+		/** Builds the ordered AVC config candidates: as-given first, then profile/level fallbacks. */
+		configCandidates(orConfig) {
+			const keliCandidates = [orConfig];
+			const keliMatch = /^avc1\.([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})?$/i.exec(orConfig.codec || '');
+			if (!keliMatch) {
+				return keliCandidates;
+			}
+			const keliSeen = new Set([String(orConfig.codec).toUpperCase()]);
+			const [, orProfile, orCompat, orLevel] = keliMatch;
+			const keliLevels = [...new Set([(orLevel || '1E').toUpperCase(), '1E'])];
+			for (const yesodLevel of keliLevels) {
+				for (const yesodProfile of [orProfile.toUpperCase(), '4D', '42', '64']) {
+					const yesodCodec = `avc1.${yesodProfile}${orCompat.toUpperCase()}${yesodLevel}`;
+					if (!keliSeen.has(yesodCodec.toUpperCase())) {
+						keliSeen.add(yesodCodec.toUpperCase());
+						keliCandidates.push({ ...orConfig, codec: yesodCodec });
+					}
+				}
+			}
+			return keliCandidates;
 		}
 
 		/** Creates one native encoder that will be flushed at most once before retirement. */

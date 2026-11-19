@@ -8,6 +8,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"build:bundle": "node tools/build-bundle.mjs",
 		"verify:imports": "node tools/verify/importGraph.js",
 		"verify:syntax": "node tools/verify/syntaxAll.js",
 		"verify:fast": "node tools/verify/fastSyntax.js",

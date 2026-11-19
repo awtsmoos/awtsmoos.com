@@ -16,7 +16,24 @@ async function resolvePost($i, heichelId, seriesId, postId) {
         const pm = { title: true, dayuh: true, content: true, author: true, id: true };
         const all = await $i.db.get(path + '/' + postId, { [postId]: pm });
         if (all && all[postId]) post = all[postId];
+        // B"H 2026-11-19 (Tanach swap): $i.db.get on a child path returns
+        // the post doc DIRECTLY, not wrapped in {[postId]: doc} — the map
+        // lookup above discards it. Tanach chapter posts live ONLY in the
+        // packed series vessel (flat posts.awtsmoosJSON files are 1-byte
+        // placeholders), so this is the only read that finds them; accept
+        // the doc itself when the map lookup misses.
+        else if (all && typeof all === 'object' && !Buffer.isBuffer(all) && !all.error && (all.dayuh || all.sections || all.id)) post = all;
       } catch { post = null; }
+    }
+    // B"H 2026-11-19 (Tanach swap): belt and suspenders — the narrow record
+    // reader the post API itself uses (readSeriesPost), whose
+    // $i.db.get(childPath, { max: true }) reads the packed vessel.
+    if (!post || post.error) {
+      try {
+        const { readSeriesPost } = require('../../post/seriesRecordReader.js');
+        const rec = await readSeriesPost({ $i, heichelId, seriesId, postId }, postId);
+        if (rec && typeof rec === 'object' && !Buffer.isBuffer(rec) && !rec.error && (rec.dayuh || rec.sections || rec.id)) post = rec;
+      } catch { /* leave post as-is; caller reports MISSING_ACTIVE_POST */ }
     }
     if (!post || post.error) return null;
     return post;

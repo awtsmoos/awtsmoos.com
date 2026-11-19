@@ -457,7 +457,9 @@
 :where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
 :where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english,
 :where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-phrase--en,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-phrase--en {
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-phrase--en,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-phrase--explanation,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-phrase--explanation {
 	display: none;
 }
 
@@ -486,6 +488,30 @@
 	padding-top: 0;
 	color: var(--sefer-ink);
 	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.6);
+}
+
+/* ---------- Per-verse explanations (Tanach swap 2026-11-19) ---------- */
+/* Retractable <details> beneath its verse's English; hidden in Hebrew-only
+   mode with the English (see Language modes above). Shown only when the
+   post carries an explanation — other corpora have none, so nothing
+   changes for them. */
+:where(.meluket-sefer-active) .meluket-phrase--explanation {
+	margin: 0.35rem 0 0.9rem;
+	padding: 0.55rem 0.8rem;
+	border: 1px solid var(--sefer-rule);
+	border-radius: 8px;
+	background: var(--sefer-paper-deep);
+	color: var(--sefer-ink);
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.95);
+	line-height: 1.5;
+}
+:where(.meluket-sefer-active) .meluket-explanation-summary {
+	cursor: pointer;
+	font-weight: 600;
+	opacity: 0.75;
+}
+:where(.meluket-sefer-active) .meluket-explanation-body {
+	margin-top: 0.4rem;
 }
 
 /* ---------- Summaries ---------- */

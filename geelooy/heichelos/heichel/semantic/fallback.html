@@ -47,6 +47,18 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		<?<script>
 		var bag = typeof discovery === "object" && discovery ? discovery : null;
 		var note = bag && typeof bag.note === "string" ? bag.note : "";
+		// B"H 2026-11-19 (social polish): a community feed with no posts
+		// yet gets a real empty state instead of a bare hero sentence —
+		// the note keeps the discovery section (and its heading) alive,
+		// in the same vessel as the load-failure note.
+		if (!note) {
+			var feedModel = typeof semantic === "object" && semantic ? semantic : null;
+			var feedLinks = bag && Array.isArray(bag.links) ? bag.links : [];
+			var feedPath = feedModel && feedModel.canonicalPath ? String(feedModel.canonicalPath) : "";
+			if (!feedLinks.length && /\/series\/feed\/?$/.test(feedPath)) {
+				note = "No posts yet — when this community shares, new posts will appear here.";
+			}
+		}
 		if (!note) return "";
 		function escNote(value) {
 			return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

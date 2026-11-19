@@ -408,3 +408,22 @@ body.awtsmoos-src-open .awtsmoos-dock {
 	font-size: var(--post-text-size, 48px);
 	font-size-adjust: none;
 }
+/* B"H 2026-11-19 (social polish): first-line clipping guard. A rendered
+   audit found a Chassidus discussion post whose body text (the large
+   by-design reader size, ~100px with a persisted --post-text-size)
+   rendered with its first line cut off at the top of the card, while
+   the Meiri reader was normal. The exact cascade that clipped it was
+   not isolated from source alone (the served sheets set line-height
+   1.6 and overflow visible for these units), so this guard makes the
+   safe geometry explicit and impossible to lose: the vision units
+   always keep the 1.6 line box and visible overflow, and the first
+   unit of the post clears the card's top edge by a fraction of its
+   own line height. The by-design text size itself is untouched. */
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he {
+	line-height: 1.6;
+	overflow: visible;
+}
+:root .post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-unit:first-of-type {
+	padding-block-start: 0.15em;
+}

@@ -71,8 +71,44 @@ export class YesodSheetsSession extends EventTarget {
 
 	/** Returns bounded public workbook metadata for the discovery dialog. */
 	async listPublic() {
-		const response = await this.client.request(Requests.listPublic, { limit: 60 });
-		return response.items || [];
+		// The public index is a cold server scan: it has taken well over
+		// the realtime client's 9s default to answer (the Explore dialog
+		// timed out twice in the 2026-11-13 rendered check), while
+		// comparable cold endpoints on this server answer in 20-30s.
+		// Give this one read a 30s bound and one retry per failure kind:
+		// a timeout earns a plain resend, and a socket that closed
+		// mid-request (the 2026-11-19 rendered check: the server process
+		// restarted under memory pressure and dropped the connection)
+		// earns one resend after the client's bounded reconnection
+		// reopens the socket. Resending without that wait only earns
+		// "connection is not open". A genuine failure still surfaces
+		// to the dialog's error state.
+		let retriedTimeout = false;
+		let retriedClosed = false;
+		for (;;) {
+			try {
+				const response = await this.client.request(
+					Requests.listPublic,
+					{ limit: 60 },
+					30000
+				);
+				return response.items || [];
+			} catch (error) {
+				const timedOut = error?.message === "Realtime request timed out.";
+				const closed = error?.message === "Realtime connection closed."
+					|| error?.message === "Realtime connection is not open.";
+				if (timedOut && !retriedTimeout) {
+					retriedTimeout = true;
+					continue;
+				}
+				if (closed && !retriedClosed) {
+					retriedClosed = true;
+					await this.client.whenOpen();
+					continue;
+				}
+				throw error;
+			}
+		}
 	}
 
 	/** Installs server snapshots and announces their authoritative presence set. */

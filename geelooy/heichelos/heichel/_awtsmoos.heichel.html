@@ -25,11 +25,14 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 	<link rel="icon" href="https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/32d1001068cf8be4b1599a41e065c58552fc950f77f550a0d5c8e22f851c8c56/asset">
 	<?<script> return typeof semanticHead === "string" ? semanticHead : ""; </script>?>
 	<style data-ikar-critical-geometry>
+		/* B"H 2026-11-19 (social polish): .heichel-semantic-fallback no
+		   longer takes a full-viewport min-height — on pages whose cards
+		   end early it stretched the fallback to 100svh and left a large
+		   empty void after the cards. The page vessels keep theirs. */
 		html.heichel-os-document,
 		.heichel-os-document body,
 		.heichel-os-page,
-		.heichel-os-page > .main,
-		.heichel-semantic-fallback { min-height: 100svh; }
+		.heichel-os-page > .main { min-height: 100svh; }
 		.heichel-os-document body { margin: 0; background: #f7f1e3; color: #17253a; }
 		.heichel-semantic-fallback { box-sizing: border-box; margin-inline: auto; max-width: 78rem; padding: clamp(1rem, 3vw, 2.75rem); width: 100%; }
 	</style>
@@ -58,7 +61,7 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 		].concat(core, [
 			'<link rel="stylesheet" href="/style/civilization/core-components.css?v=867fa60298">',
 			'<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=aa8606d94f">',
-			'<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=1219eb2d84">',
+			'<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=add33a05e8">',
 			'<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=f44bfd7909">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=2c6c29fc56">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=a584131a84">'
@@ -86,5 +89,13 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 			<?<script> return typeof semanticFallback === "string" ? semanticFallback : ""; </script>?>
 		</main>
 	</div>
+	<!-- B"H 2026-11-19 (social polish): the standard global shell (nav
+	     header with brand, search, Mail, Signals, and the alias pill)
+	     boots on heichel pages like everywhere else in Geelooy — these
+	     semantic pages never loaded it, so they had no global nav at
+	     all. /heichelos is shell-eligible (routeEligibility.js); the
+	     boot is a deferred module and leaves the semantic content as
+	     the page's own. -->
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 </body>
 </html>

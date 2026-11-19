@@ -18,6 +18,16 @@
  *    collapsed and its own status line can be hidden when a load fails;
  *  - every successful load reports what the Animator projection deferred,
  *    flattened, or rejected, so silent loss is impossible.
+ *
+ * Start-collapsed (2026-11-19, owner's delegated decision — option A): the
+ * first movie a session sees is the auto-load (a stored movie or the starter
+ * template, handed over by installMovieAi before this bridge subscribes).
+ * That load now starts with the stage minimised — only the "Show movie
+ * stage" chip is visible — so the fixed stage panel can never cover the
+ * inspector's layer actions (Visible / Unlocked / Forward / Backward) on
+ * first load. Clicking the chip is the explicit open; from then on loads
+ * behave exactly as before (expand, report, autoplay). Load failures still
+ * un-minimise the stage, per the honesty gap above.
  */
 import { CanvasMovieRenderer } from '../../../shared/movie/runtime/CanvasMovieRenderer.js';
 
@@ -59,6 +69,7 @@ export class AnimatorStageBridge {
 		this.state = state;
 		this.movie = null;
 		this.signature = '';
+		this.awaitingAutoLoad = true;
 		this.time = 0;
 		this.playing = false;
 		this.rafId = 0;
@@ -96,7 +107,10 @@ export class AnimatorStageBridge {
 		this.timeLabel = section.querySelector('[data-stage-time]');
 		this.statusNode = section.querySelector('[data-stage-status]');
 		section.querySelector('[data-stage-hide]').addEventListener('click', () => this.setMinimized(true));
-		chip.addEventListener('click', () => this.setMinimized(false));
+		chip.addEventListener('click', () => {
+			this.awaitingAutoLoad = false;
+			this.setMinimized(false);
+		});
 		this.playButton.addEventListener('click', () => (this.playing ? this.pause() : this.play()));
 		this.slider.addEventListener('input', () => {
 			this.time = Number(this.slider.value) || 0;
@@ -160,7 +174,16 @@ export class AnimatorStageBridge {
 			this.time = 0;
 			this.render();
 			this.reportProjection(snapshot);
-			this.play();
+			if (this.awaitingAutoLoad) {
+				// Option A: the auto-loaded movie starts collapsed (chip
+				// only) and does not autoplay over the inspector. The
+				// first frame is rendered above, ready for the open.
+				this.awaitingAutoLoad = false;
+				this.pause();
+				this.setMinimized(true);
+			} else {
+				this.play();
+			}
 		} else if (!this.playing) {
 			this.render();
 		}

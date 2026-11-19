@@ -23,7 +23,7 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 }
 
 .msg-bubble {
-	max-width: min(var(--mail-reading-width), 86%);
+	max-width: min(var(--mail-reading-width), 92%);
 	padding: 13px 15px;
 	border: 1px solid var(--mail-border);
 	border-radius: 17px 17px 17px 6px;
