@@ -79,6 +79,44 @@ export function registerBootstrapMeadowTreeCollision(runtime, dependencies = {})
 	return receipt;
 }
 
+/**
+ * Retries the trunk registration until the trees stand solid or the window
+ * closes. The first-control attempt can run before the terrain group lands
+ * in the live scene, and the player install can run before it too — both
+ * find nothing and say nothing. A bounded timer covers every attach
+ * timing: one try every few seconds, stopping the moment a receipt exists.
+ * The registration itself is idempotent per tree, so a retry after a
+ * successful first control adds nothing.
+ */
+export function scheduleBootstrapTreeCollisionRetry(
+	runtime,
+	environment = globalThis,
+	options = {}
+) {
+	const timer = environment.setTimeout?.bind(environment)
+		|| (typeof setTimeout === 'function' ? setTimeout : null);
+	if (!timer) return null;
+	if (runtime.bootstrapTreeCollisionReceipt) return null;
+	const register = options.register || registerBootstrapMeadowTreeCollision;
+	const delayMs = options.delayMs ?? 5000;
+	let remaining = options.attempts ?? 12;
+	const attempt = () => {
+		if (runtime.bootstrapTreeCollisionReceipt) return;
+		try {
+			register(runtime);
+		} catch {}
+		if (runtime.bootstrapTreeCollisionReceipt) return;
+		remaining -= 1;
+		if (remaining > 0) timer(attempt, delayMs);
+	};
+	timer(attempt, delayMs);
+	return {
+		get attemptsLeft() {
+			return remaining;
+		}
+	};
+}
+
 /** Builds one trunk box from the tree's bark mesh world bounds. */
 function createTreeTrunkColliders(treeGroup, createBox) {
 	const bark = findBarkMesh(treeGroup);

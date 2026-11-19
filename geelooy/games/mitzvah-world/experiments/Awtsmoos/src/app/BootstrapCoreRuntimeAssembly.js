@@ -16,7 +16,7 @@ import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js'
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-visible-02';
 import { createBootstrapRuntimeDiagnostics } from './BootstrapRuntimeDiagnostics.js?v=20260804-map-01';
-import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
+import { registerBootstrapMeadowTreeCollision, scheduleBootstrapTreeCollisionRetry } from './BootstrapMeadowTreeCollision.js';
 import { startBootstrapRuntimeLoop } from './BootstrapRuntimeLoop.js?v=20260804-map-01';
 import {
 	attachEretzWorldExperience,
@@ -94,6 +94,13 @@ export function assembleBootstrapCoreRuntime(
 	} catch {
 		runtime.bootstrapTreeCollisionReceipt = null;
 	}
+	// B"H: the trees can land in the live scene after first control (the
+	// terrain group arrives with hydration), so a first control that found
+	// nothing must not be the last word — retry every few seconds until
+	// the trunks stand solid or the window closes. The registration is
+	// idempotent per tree, so a retry after a working first control adds
+	// nothing.
+	scheduleBootstrapTreeCollisionRetry(runtime, environment, { register: registerTreeCollision });
 
 	const diagnostics = createDiagnostics(runtime, movement, qualityProfile, boot);
 	diagnostics.worldExperience = runtime.worldExperience;
