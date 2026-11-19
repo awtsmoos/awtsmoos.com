@@ -74,8 +74,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 162669,
-	"outputBytes": 115240,
+	"inputBytes": 162907,
+	"outputBytes": 115255,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -135,8 +135,8 @@
 				"path": "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css"
 			},
 			{
-				"bytes": 2391,
-				"lines": 83,
+				"bytes": 2629,
+				"lines": 87,
 				"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
 			},
 			{
@@ -412,19 +412,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 14502,
+			"bytes": 14516,
 			"encoding": "br",
-			"sha256": "0b194d8a62257accad927cf2884ee3eabe2658b2761fae988cee5d2b5a76311d"
+			"sha256": "ecef1280399ee48f54681e7584ac94230a3b2ced3f4665e846c899287263e098"
 		},
 		"gzip": {
-			"bytes": 17416,
+			"bytes": 17420,
 			"encoding": "gzip",
-			"sha256": "db60002b6ad031fc123a3098d5882a3cfd42c068d9a297b33d12bc730412a4d4"
+			"sha256": "43d017de8012f6ef65d768ffd61116d34d5ba2fb36d0e1d7f6bed84bd4afbcc9"
 		},
 		"identity": {
-			"bytes": 115241,
+			"bytes": 115256,
 			"encoding": "identity",
-			"sha256": "834aa3637969963ef44939817f9c606d35e58339800413361992f5a041fe043c"
+			"sha256": "6cd0f12847ab291313e34fbb7f2cb068ce396e0e1aa6978da481f943e856da19"
 		}
 	}
 }
