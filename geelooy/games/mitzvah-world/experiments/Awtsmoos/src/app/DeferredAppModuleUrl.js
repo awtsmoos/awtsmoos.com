@@ -9,7 +9,7 @@
  * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
  */
 
-const ACTIVE_APP_RELEASE_ID = '20260928-playable-meadow-01';
+export const ACTIVE_APP_RELEASE_ID = '20261119-mitzvah-world-4g-01';
 
 /** Resolves one app-relative deferred module with compact processing and the active release identity. */
 export function resolveDeferredAppModuleUrl(
