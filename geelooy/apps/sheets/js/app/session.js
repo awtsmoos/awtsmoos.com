@@ -71,8 +71,28 @@ export class YesodSheetsSession extends EventTarget {
 
 	/** Returns bounded public workbook metadata for the discovery dialog. */
 	async listPublic() {
-		const response = await this.client.request(Requests.listPublic, { limit: 60 });
-		return response.items || [];
+		// The public index is a cold server scan: it has taken well over
+		// the realtime client's 9s default to answer (the Explore dialog
+		// timed out twice in the 2026-11-13 rendered check), while
+		// comparable cold endpoints on this server answer in 20-30s.
+		// Give this one read a 30s bound and a single retry on timeout;
+		// a genuine failure still surfaces to the dialog's error state.
+		for (let attempt = 0; attempt < 2; attempt += 1) {
+			try {
+				const response = await this.client.request(
+					Requests.listPublic,
+					{ limit: 60 },
+					30000
+				);
+				return response.items || [];
+			} catch (error) {
+				const timedOut = error?.message === "Realtime request timed out.";
+				if (!timedOut || attempt === 1) {
+					throw error;
+				}
+			}
+		}
+		return [];
 	}
 
 	/** Installs server snapshots and announces their authoritative presence set. */
