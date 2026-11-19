@@ -13,7 +13,10 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
+import {
+	registerBootstrapMeadowTreeCollision,
+	scheduleBootstrapTreeCollisionRetry
+} from './BootstrapMeadowTreeCollision.js';
 
 const IDENTITY = new Float32Array([
 	1, 0, 0, 0,
@@ -147,4 +150,61 @@ test('no collision authority or no trees means no receipt and no crash', () => {
 	assert.equal(registerBootstrapMeadowTreeCollision({ scene: { traverse() {} } }), null);
 	const empty = fakeRuntime([]);
 	assert.equal(registerBootstrapMeadowTreeCollision(empty), null);
+});
+
+function fakeTimer() {
+	const callbacks = [];
+	return {
+		callbacks,
+		clearTimeout() {},
+		setTimeout(fn) {
+			callbacks.push(fn);
+			return callbacks.length;
+		}
+	};
+}
+
+test('the retry registers trunks that arrive after first control', () => {
+	const trees = [];
+	const runtime = fakeRuntime(trees);
+	const timer = fakeTimer();
+	const schedule = scheduleBootstrapTreeCollisionRetry(runtime, timer, { attempts: 3, delayMs: 1 });
+	assert.ok(schedule);
+	assert.equal(timer.callbacks.length, 1);
+	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
+	// First tick: no trees yet — the retry re-arms instead of giving up.
+	timer.callbacks[0]();
+	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
+	assert.equal(timer.callbacks.length, 2);
+	// The terrain group lands; the next tick makes the trunk solid.
+	trees.push(fakeTree('MeadowTree_olive', [30, 0, -48]));
+	timer.callbacks[1]();
+	assert.ok(runtime.bootstrapTreeCollisionReceipt);
+	assert.equal(runtime.bootstrapTreeCollisionReceipt.triangles, 12);
+	assert.equal(runtime.mainOctree.items.length, 12);
+	assert.equal(timer.callbacks.length, 2);
+	assert.equal(schedule.attemptsLeft, 2);
+});
+
+test('the retry schedules nothing when the trunks are already solid', () => {
+	const { group } = fakeTree('MeadowTree_olive', [30, 0, -48]);
+	const runtime = fakeRuntime([{ group }]);
+	registerBootstrapMeadowTreeCollision(runtime);
+	assert.ok(runtime.bootstrapTreeCollisionReceipt);
+	const timer = fakeTimer();
+	assert.equal(scheduleBootstrapTreeCollisionRetry(runtime, timer), null);
+	assert.equal(timer.callbacks.length, 0);
+});
+
+test('the retry stops after its window closes', () => {
+	const runtime = fakeRuntime([]);
+	const timer = fakeTimer();
+	const schedule = scheduleBootstrapTreeCollisionRetry(runtime, timer, { attempts: 2, delayMs: 1 });
+	assert.ok(schedule);
+	timer.callbacks[0]();
+	assert.equal(timer.callbacks.length, 2);
+	timer.callbacks[1]();
+	assert.equal(timer.callbacks.length, 2);
+	assert.equal(schedule.attemptsLeft, 0);
+	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
 });

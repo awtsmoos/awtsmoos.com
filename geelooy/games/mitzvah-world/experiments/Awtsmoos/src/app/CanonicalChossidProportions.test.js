@@ -58,9 +58,9 @@ test('the outer shirt tucks inward so it cannot poke through the jacket', () => 
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, true);
 	// B"H round 4: the uniform 0.95 tuck still left white dashes on the
 	// sleeves; the per-axis tuck pulls the arms in while barely moving
-	// the shirt vertically, so the chest V stays. V3 pulls to 0.85 after
-	// V2 (0.90) still left two dashes on the sleeve.
-	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.85, 0.98, 0.85]);
+	// the shirt vertically, so the chest V stays. V3 (0.85) still left one
+	// dash on the sleeve; V4 pulls to 0.80.
+	assert.deepEqual([shirt.scale.x, shirt.scale.y, shirt.scale.z], [0.80, 0.98, 0.80]);
 	assert.equal(stabilizeCanonicalChossidModel(model).shirtTucked, false);
 });
 
