@@ -47,6 +47,20 @@
 	position: relative;
 	z-index: 1;
 }
+/* B"H 2026-11-19 (social polish round 2): the z-index 1 lift above is
+   measured against the atmosphere layers (z-index 0), but the global
+   shell (.g-shell) is itself a stacking context at z-index 0
+   (var(--g-z-base)) — so once the shell boots on Heichel pages, this
+   vessel paints over the ENTIRE shell and the fixed global header's
+   middle (search, presence, alias pill) is covered, with only its
+   end caps peeking past the vessel's edges (measured live:
+   elementsFromPoint at the header's centre returned this vessel,
+   not the header). When the shell is present, raise the shell above
+   the page vessel. The vessel still sits above the atmosphere as
+   designed, and pages that never load this bundle are untouched. */
+body.geelooy-app-shell .g-shell {
+	z-index: 2;
+}
 .heichel-os-document .heichel-page-container, .heichel-os-document .heichel-mobile-navigation {
 	max-width: none;
 	padding: 0;
