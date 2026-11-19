@@ -25,6 +25,7 @@ export class StudioCanvasRuntime {
 		this.nativePreview = null;
 		this.nativeLoading = null;
 		this.nativeFailedCanvas = null;
+		this.nativeFailedAt = 0;
 	}
 
 	/** Bind the latest declaratively-rendered portable canvas after any UI tree refresh. */
@@ -45,6 +46,7 @@ export class StudioCanvasRuntime {
 		this.nativePreview?.dispose?.();
 		this.nativePreview = null;
 		this.nativeFailedCanvas = null;
+		this.nativeFailedAt = 0;
 		this.nativeCanvas = canvas || null;
 		return Boolean(canvas);
 	}
@@ -79,7 +81,16 @@ export class StudioCanvasRuntime {
 	/** Cross the heavy native boundary once, then repaint the latest canonical frame when ready. */
 	ensureNativePreview() {
 		if (!this.nativeCanvas || this.nativePreview || this.nativeLoading) return;
-		if (this.nativeFailedCanvas === this.nativeCanvas) return;
+		if (this.nativeFailedCanvas === this.nativeCanvas) {
+			// A failed load used to latch for the whole session, so one
+			// transient failure (a module fetch during a server restart,
+			// three of which occurred inside the 2026-11-19 check window)
+			// left 3D scenes on the flat 2D gradient until reload. Let a
+			// later frame retry after a short cooldown instead; a module
+			// that truly cannot load still only retries once per window.
+			if (Date.now() - this.nativeFailedAt < 5000) return;
+			this.nativeFailedCanvas = null;
+		}
 		const requestedCanvas = this.nativeCanvas;
 		this.nativeLoading = import(NATIVE_PREVIEW_MODULE)
 			.then(module => this.finishNativeLoad(module, requestedCanvas))
@@ -104,6 +115,7 @@ export class StudioCanvasRuntime {
 	/** Preserve portable rendering and surface a truthful native failure on the rejected canvas. */
 	failNativeLoad(error, requestedCanvas) {
 		this.nativeFailedCanvas = requestedCanvas;
+		this.nativeFailedAt = Date.now();
 		requestedCanvas.dataset.nativeError = error?.message || 'Native preview could not initialize';
 		requestedCanvas.hidden = true;
 	}
