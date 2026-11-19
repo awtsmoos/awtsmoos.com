@@ -77,6 +77,18 @@
 :root:not([data-theme="light"]).heichel-os-document #heichel-discovery-title {
 	color: #faf3e2;
 }
+/* B"H 2026-11-19 (mobile fix M-2): on the Ikar root the semantic
+   fallback sits on the cream sefer paper (the ikar foundation paints
+   the dark --ikar-product-ink on this same fallback), yet the title
+   took the shell's near-white --g-text: white on cream, invisible.
+   Keyed off the surface itself (the ikar-root fallback), not a theme
+   attribute. The token resolves per theme: dark ink on the paper
+   ground, light ink if the page is ever in the dark theme. Other
+   heichel landings (no ikar-root) keep the light ink designed for
+   their dark vessel. */
+:root.heichel-os-document .heichel-semantic-fallback[data-ikar-root="true"] #heichel-discovery-title {
+	color: var(--sefer-title-ink);
+}
 /* Discovery list: real grid, list reset, rendering containment for
    series with hundreds of posts. Intrinsically responsive — one
    column on narrow vessels without a breakpoint. */
