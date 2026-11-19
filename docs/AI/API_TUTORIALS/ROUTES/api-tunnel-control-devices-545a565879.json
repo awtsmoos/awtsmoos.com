@@ -37,9 +37,14 @@
 			"literal": "/api/tunnel/control/devices",
 			"source": "geelooy/os/remote/tunnelControlClient.js",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/tunnel/control/devices",
+			"source": "geelooy/os/tunnel/remoteClient.js",
+			"kind": "runtime"
 		}
 	],
-	"callerCount": 3,
+	"callerCount": 4,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

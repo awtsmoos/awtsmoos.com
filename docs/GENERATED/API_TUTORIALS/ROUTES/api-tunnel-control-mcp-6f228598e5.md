@@ -29,7 +29,11 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/tunnel/control/mcp` | `geelooy/scripts/shliach/externalAiOnboarding.test.mjs` | test |
 
 ## Related tests
 

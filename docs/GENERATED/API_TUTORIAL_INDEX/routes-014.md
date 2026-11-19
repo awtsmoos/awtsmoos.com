@@ -8,6 +8,11 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/tunnel/control/preview/grant` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/preview/list` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-list-fe7b7f34c1.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/preview/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-revoke-57eba464a0.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/preview/settings` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-410566c895.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/preview/settings/set` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-set-7182d3e2e0.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/preview/update` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-update-9eb26c251c.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/provider` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-provider-5f5733e9a9.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/receipt/certificate` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-receipt-certificate-8274fa9ea3.md) | `geelooy/api/tunnel/control/routes/table.js` |
@@ -48,8 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/tunnel/hetzner/exec` | Tunnel Relay | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-hetzner-exec-267e52e243.md) | `geelooy/api/tunnel/hetzner/opsRoutes.js` |
 | `/api/tunnel/hetzner/health` | Tunnel Relay | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-hetzner-health-d92bb398ee.md) | `geelooy/api/tunnel/hetzner/opsRoutes.js` |
 | `/api/tunnel/hetzner/readlog` | Tunnel Relay | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-hetzner-readlog-d12187a4e3.md) | `geelooy/api/tunnel/hetzner/opsRoutes.js` |
-| `/api/tunnel/request/:tunnelName` | Tunnel Relay | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md) | `geelooy/api/tunnel/_awtsmoos.derech.js` |
-| `/api/wallet/balance` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-balance-59097f364b.md) | `geelooy/api/wallet/routes/table.js` |
-| `/api/wallet/buy/mock` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-buy-mock-45ef52f2b5.md) | `geelooy/api/wallet/routes/table.js` |
-| `/api/wallet/commerce/actions` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-actions-8e2f72034a.md) | `geelooy/api/wallet/routes/table.js` |
-| `/api/wallet/commerce/actions/execute` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-actions-execute-1b212726d5.md) | `geelooy/api/wallet/routes/table.js` |

@@ -1,0 +1,48 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-protected-text-2222e7cb5f",
+	"route": "/api/protected-text",
+	"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/protected-text",
+		"title": "/api/protected-text",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/protected-text"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_GET",
+		"$_POST"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-protected-text-2222e7cb5f.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-protected-text-content-a83bd5cd97",
+			"route": "/api/protected-text/content"
+		},
+		{
+			"id": "api-protected-text-exchange-57adca40cf",
+			"route": "/api/protected-text/exchange"
+		},
+		{
+			"id": "api-protected-text-rotate-4a9f1b590d",
+			"route": "/api/protected-text/rotate"
+		}
+	]
+}

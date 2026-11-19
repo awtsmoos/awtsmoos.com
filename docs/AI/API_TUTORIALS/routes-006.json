@@ -2,6 +2,42 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-social-heichelos-heichel-posts-details-95617aca89",
+			"route": "/api/social/heichelos/:heichel/posts/details",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-details-95617aca89.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-details-95617aca89.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84",
+			"route": "/api/social/heichelos/:heichel/questions/:question/comment-tree",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1",
+			"route": "/api/social/heichelos/:heichel/questions/:question/rich-answers",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.richSocial.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-review-12ae90bc11",
+			"route": "/api/social/heichelos/:heichel/review",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.community.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-review-12ae90bc11.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-12ae90bc11.md"
+		},
+		{
 			"id": "api-social-heichelos-heichel-review-review-approve-70e81028e9",
 			"route": "/api/social/heichelos/:heichel/review/:review/approve",
 			"family": "/api/social",
@@ -459,42 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-heichelos-heichel-submittedposts-7bd3b4240d.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submittedposts-7bd3b4240d.md"
-		},
-		{
-			"id": "api-social-heichelos-heichel-submittedposts-approve-ef68dbe09f",
-			"route": "/api/social/heichelos/:heichel/submittedPosts/approve",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.posts.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-heichelos-heichel-submittedposts-approve-ef68dbe09f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submittedposts-approve-ef68dbe09f.md"
-		},
-		{
-			"id": "api-social-heichelos-heichel-submittedposts-approve-86d8ac8ecc",
-			"route": "/api/social/heichelos/:heichel/submittedPosts/approve",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/routes/posts/submissionRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-heichelos-heichel-submittedposts-approve-86d8ac8ecc.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submittedposts-approve-86d8ac8ecc.md"
-		},
-		{
-			"id": "api-social-heichelos-heichel-submittedposts-deny-6bb71d1f2a",
-			"route": "/api/social/heichelos/:heichel/submittedPosts/deny",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.posts.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-heichelos-heichel-submittedposts-deny-6bb71d1f2a.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submittedposts-deny-6bb71d1f2a.md"
-		},
-		{
-			"id": "api-social-heichelos-heichel-submittedposts-deny-3e449e1a71",
-			"route": "/api/social/heichelos/:heichel/submittedPosts/deny",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/routes/posts/submissionRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-heichelos-heichel-submittedposts-deny-3e449e1a71.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submittedposts-deny-3e449e1a71.md"
 		}
 	]
 }

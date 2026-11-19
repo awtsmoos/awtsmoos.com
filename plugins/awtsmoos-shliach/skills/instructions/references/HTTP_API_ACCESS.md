@@ -1,33 +1,78 @@
-# B"H — Awtsmoos Shliach: public, logged-in and external HTTPS APIs
+B"H
+Boruch Hashem
+Blessed is He
 
-The Awtsmoos renews each request; Awtsmoos.com honors the caller's actual permissions.
+# Awtsmoos API Discovery and HTTP Access
 
-## Three simple choices
+> The Awtsmoos renews every derech, while evidence names the road in light;
+> Awtsmoos.com lets the Shliach discover broadly, yet guarded deeds still require their right.
 
-**1. Public Awtsmoos API:** Call `awtsmoos_https_request` with `mode: "awtsmoos-public"` and a public route. No site session or OAuth bearer is forwarded to the target. This endpoint has been verified to return JSON over HTTPS:
+Use the narrowest trustworthy surface for the job. Discovery, public HTTP, signed-in application operations, and external HTTPS are related, but they are not interchangeable authority classes.
 
-```json
-{"mode":"awtsmoos-public","url":"/api/tunnel/install/bundle-manifest","method":"GET"}
+## 1. Systematic Awtsmoos API discovery
+
+Use `awtsmoos_api_map` when you need to discover what API routes exist across Awtsmoos source evidence.
+
+It accepts:
+
+- `q`: case-insensitive text search over generated route evidence.
+- `family`: exact generated family path such as `/api/tunnel`.
+- `limit`: page size from 1 through 100; the default is 40.
+- `offset`: zero-based continuation offset.
+
+The same read-only evidence map is available over public HTTP:
+
+```text
+GET https://awtsmoos.com/api/tunnel/control/app-api/map
+GET https://awtsmoos.com/api/tunnel/control/app-api/map?family=/api/tunnel&limit=40
+GET https://awtsmoos.com/api/tunnel/control/app-api/map?q=mail&limit=20
 ```
 
-**2. Logged-in Awtsmoos application API:** First call `awtsmoos_application_catalog` to discover registered operations and their parameter schemas. Then call `awtsmoos_application_call` with the `operation`, required `params`, and permitted `body`, for example an authorized `posts.create` operation. The server invokes the **real** Awtsmoos application handler under your connected account and enforces alias ownership and application permissions. This is not arbitrary browser-cookie impersonation. Uncataloged private API routes require a reviewed operation addition.
+The map is generated from repository route evidence. A listed route is **not** proof that the route is currently healthy, public, authenticated, callable with a particular method, or eligible for `awtsmoos_application_call`.
 
-**3. External public HTTPS API:** Call `awtsmoos_https_request` with `mode: "external"`, a full HTTPS URL, and optionally an explicit method, headers, query or body. For instance:
+Useful companion discovery surfaces:
+
+- `/api/catalog` — deterministic top-level API family catalog.
+- `/api/portal/api-families` — typed family resources.
+- `/api/tunnel/control/app-api/catalog` — reviewed signed-in application operations that are actually callable through the application gateway.
+
+## 2. Verified-public Awtsmoos HTTPS
+
+After discovery, use `awtsmoos_https_request` only when the target route is known to be public and the tool's guarded Awtsmoos-host policy allows it.
+
+Do not infer public access from the API map alone. The map deliberately separates source evidence from runtime authority.
+
+Example:
 
 ```json
-{"mode":"external","url":"https://api.github.com/repos/awtsmoos/awtsmoos.com","method":"GET","headers":{"accept":"application/json"}}
+{
+	"url": "https://awtsmoos.com/api/catalog",
+	"method": "GET"
+}
 ```
 
-For an external provider requiring its *own* API key, provide an explicitly intended `authorization` or `x-api-key` header. Never copy the Awtsmoos MCP bearer. Cookies, proxy headers, Host overrides, local/private network destinations and redirects are prohibited. All HTTPS connections validate the public DNS address and TLS hostname.
+## 3. Signed-in Awtsmoos application operations
 
-## Permissions, quotas and safety
+For actions that require the current ChatGPT user's Awtsmoos identity, first inspect `awtsmoos_application_catalog`, then call a listed operation with `awtsmoos_application_call`.
 
-Even when the target API route is public and needs no website login, the **plugin MCP connection itself still requires its authenticated OAuth resource**. Generic HTTPS and logged-in application operations require the `awtsmoos.api` scope. The `tunnel.read` connection minimum is not sufficient for those operations.
+This is the reviewed path for operations such as owner-checked Mail or other registered account actions. It preserves the existing `awtsmoos.api` scope and operation-specific ownership checks.
 
-External and public HTTPS calls allow GET, HEAD, POST, PUT, PATCH, and DELETE, with an explicit 64 KiB request-body limit, 256 KiB response limit and 10-second socket timeout. Responses are text or JSON; no automatic redirect, browser cookie, compression or binary download.
+Never pass an arbitrary route from `awtsmoos_api_map` to `awtsmoos_application_call`. The application gateway accepts operation IDs from its own reviewed catalog, not raw route paths.
 
-Quota: **30 requests/account/minute** and **12 requests/account/destination/minute**, returning `rate_limited` and `retryAfterSeconds` on excess. The initial implementation is **process-local**; it is *not* a distributed global rate-limit service. A destination's own rate limit also applies independently.
+## 4. External HTTPS
 
-## Recommended usage
+`awtsmoos_https_request` can also reach reviewed public HTTPS destinations allowed by its SSRF and redirect policy.
 
-Use public mode for routes anyone can open; use the existing catalog and call pair for real signed-in application actions; use external mode for third-party HTTPS. If a user asks for a signed-in Awtsmoos route absent from the catalog, add a reviewed operation mapping rather than forwarding a fake browser cookie or removing its permission checks.
+It does not forward browser cookies, private tunnel credentials, or the MCP OAuth bearer to arbitrary destinations. Treat external HTTP as open-world activity and validate the destination and response.
+
+## Decision sequence
+
+1. Need to discover Awtsmoos API shape? Use `awtsmoos_api_map`.
+2. Need broad family context? Also inspect `/api/catalog` or Portal family discovery.
+3. Found a route and independently know it is public? Use guarded `awtsmoos_https_request`.
+4. Need the signed-in user's account or a protected mutation? Use `awtsmoos_application_catalog`, then `awtsmoos_application_call` only for a listed operation.
+5. Need an unregistered protected operation? Do not improvise around authentication. The server needs a reviewed application-operation definition first.
+
+## Safety invariant
+
+Discovery expands knowledge, not authority. The Awtsmoos can reveal a road in one vessel while permission remains guarded in another; Awtsmoos.com therefore keeps the systematic evidence map broad and the executable application catalog intentionally narrow.

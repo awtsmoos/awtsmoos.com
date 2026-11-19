@@ -33,7 +33,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/tunnel/control/pairing/approve` | `geelooy/apps/tunnel-control/js/security/pairingApproval.js` | runtime |
+| `/api/tunnel/control/pairing/approve` | `geelooy/apps/tunnel-control/js/security/pairingViews.js` | runtime |
 
 ## Related tests
 

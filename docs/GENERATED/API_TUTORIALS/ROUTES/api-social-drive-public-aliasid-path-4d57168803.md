@@ -48,7 +48,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/social/drive/public/awtsmoos-release-assets/models/` | `geelooy/games/seven-mitzvos/js/assets/model-manifest.js` | runtime |
-| `/api/social/drive/public/awtsmoos/` | `geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAwtsmoosDriveTextures.js` | runtime |
+| `/api/social/drive/public/awtsmoos/` | `geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAwtsmoosDriveTextures.js` | runtime |
 | `/api/social/drive/public/awtsmoos/covers/games/` | `geelooy/games/oros-ha-kelim/test/domContract.test.mjs` | test |
 
 ## Related tests

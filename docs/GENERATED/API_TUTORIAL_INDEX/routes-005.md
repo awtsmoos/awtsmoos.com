@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/drive/:aliasId/hosting/infrastructure` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-hosting-infrastructure-7e3a7ac877.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
+| `/api/social/drive/:aliasId/jobs` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-baa6b388b8.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
+| `/api/social/drive/:aliasId/jobs/:jobId` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-jobid-e17bd89947.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
+| `/api/social/drive/:aliasId/jobs/:jobId/cancel` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-jobid-cancel-bc5ce7ace6.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
 | `/api/social/drive/:aliasId/jobs/:jobId/retry` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-jobid-retry-0bf9331d89.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
 | `/api/social/drive/:aliasId/jobs/health` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-health-a8fdc389f5.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
 | `/api/social/drive/:aliasId/project` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-project-9d463f623e.md) | `geelooy/api/social/helper/drive/routes/projectPlanRoutes.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/entities/universe/:type/:id/children` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-children-d49a7c472a.md) | `geelooy/api/social/_awtsmoos.entities.js` |
 | `/api/social/entities/universe/:type/:id/dna` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-dna-313f7df07f.md) | `geelooy/api/social/_awtsmoos.entities.js` |
 | `/api/social/entities/universe/:type/:id/edges` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-edges-90d6a4bf8e.md) | `geelooy/api/social/_awtsmoos.entities.js` |
-| `/api/social/entities/universe/:type/:id/fork` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-fork-b274afe17d.md) | `geelooy/api/social/_awtsmoos.entities.js` |
-| `/api/social/entities/universe/:type/:id/range-reference/attach` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0.md) | `geelooy/api/social/_awtsmoos.entities.js` |
-| `/api/social/entities/universe/:type/:id/range-reference/preview` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c.md) | `geelooy/api/social/_awtsmoos.entities.js` |
-| `/api/social/entities/universe/:type/:id/snapshot` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-snapshot-3ad129827f.md) | `geelooy/api/social/_awtsmoos.entities.js` |

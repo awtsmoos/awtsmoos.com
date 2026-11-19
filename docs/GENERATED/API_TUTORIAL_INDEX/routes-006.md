@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/entities/universe/:type/:id/fork` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-fork-b274afe17d.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/range-reference/attach` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/range-reference/preview` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/snapshot` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-snapshot-3ad129827f.md) | `geelooy/api/social/_awtsmoos.entities.js` |
 | `/api/social/federation/import` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-federation-import-10009e77fe.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
 | `/api/social/feed/discover` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-feed-discover-b150bcef96.md) | `geelooy/api/social/helper/platform/routes/PlatformFeedThreadRoutes.js` |
 | `/api/social/feed/heichel/:heichel` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-feed-heichel-heichel-3b67892e93.md) | `geelooy/api/social/helper/platform/routes/PlatformFeedThreadRoutes.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/heichelos/:heichel/posts/:post/comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-1ea6958117.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
 | `/api/social/heichelos/:heichel/posts/:post/comments/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-2e695d3789.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
 | `/api/social/heichelos/:heichel/posts/:post/comments/:comment/reactions` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-reactio-f73743c7a2.md) | `geelooy/api/social/helper/comments/routes/reactions.js` |
-| `/api/social/heichelos/:heichel/posts/:post/comments/:comment/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
-| `/api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
-| `/api/social/heichelos/:heichel/posts/:post/imported-comment-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
-| `/api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14.md) | `geelooy/api/social/helper/comments/routes/rich.js` |

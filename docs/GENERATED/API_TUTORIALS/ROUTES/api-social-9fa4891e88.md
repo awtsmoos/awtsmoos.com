@@ -33,12 +33,12 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/social` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social-hub/js/api/InteractionApi.js` | runtime |
-| `/api/social` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social-hub/js/api/InteractionApi.js` | runtime |
 | `/api/social` | `geelooy/apps/drive/js/api/KeterDriveTransport.js` | runtime |
 | `/api/social` | `geelooy/apps/drive/js/apiTransport.js` | runtime |
 | `/api/social` | `geelooy/apps/drive/test/driveDownload.test.mjs` | test |
 | `/api/social` | `geelooy/apps/drive/test/simpleDriveBrowserFixture.mjs` | test |
+| `/api/social` | `geelooy/drive/builder/platformApi.js` | runtime |
+| `/api/social` | `geelooy/drive/transport/projectHostingClient.js` | runtime |
 
 ## Related tests
 

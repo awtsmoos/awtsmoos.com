@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/release` | /api/release | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-release-373c461526.md) | `geelooy/api/release/_awtsmoos.derech.js` |
+| `/api/runtime/native/capabilities` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-capabilities-7b0ee881a8.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
+| `/api/runtime/native/launch` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-launch-00685c52f8.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
+| `/api/runtime/native/status` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-status-71d1b10724.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
 | `/api/runtime/native/stop` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-stop-8d06fff18a.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
 | `/api/sefarim` | Sefarim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-sefarim-6e405748c6.md) | `geelooy/api/sefarim/_awtsmoos.derech.js` |
 | `/api/sefarim/:sefer` | Sefarim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-sefarim-sefer-2e1687688f.md) | `geelooy/api/sefarim/_awtsmoos.derech.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/civilization/subscriptions/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-civilization-subscriptions-alias-95df5f6295.md) | `geelooy/api/social/_awtsmoos.civilization.js` |
 | `/api/social/comments/thread/:post/ranked` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-thread-post-ranked-7b3e210126.md) | `geelooy/api/social/helper/platform/routes/PlatformFeedThreadRoutes.js` |
 | `/api/social/comments/thread/append` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-thread-append-6eb33012f0.md) | `geelooy/api/social/helper/platform/routes/PlatformFeedThreadRoutes.js` |
-| `/api/social/comments/url/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-url-comment-ba6354e303.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
-| `/api/social/communications/:alias/inbox` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-dd824e3b89.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationInboxRoutes.js` |
-| `/api/social/communications/:alias/inbox/:item/read` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-item-read-1c8dfc4824.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationInboxRoutes.js` |
-| `/api/social/communications/:alias/inbox/unread` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-unread-4a9428b9d7.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationNotificationRoutes.js` |

@@ -32,9 +32,14 @@
 			"literal": "/api/tunnel/control/bootstrap",
 			"source": "geelooy/apps/tunnel-control/js/api/controlDevices.js",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/tunnel/control/bootstrap",
+			"source": "geelooy/scripts/seo/artifactPlan.mjs",
+			"kind": "runtime"
 		}
 	],
-	"callerCount": 2,
+	"callerCount": 3,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

@@ -36,8 +36,14 @@
 	],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/social/heichelos/ikar/series/simulation/posts?${qs}",
+			"source": "geelooy/feed/js/feed.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test",

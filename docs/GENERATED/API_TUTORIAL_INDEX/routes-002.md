@@ -48,8 +48,8 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/projectHosting/start` | /api/projectHosting | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-projecthosting-start-15affd017d.md) | `geelooy/api/projectHosting/runtimeRoutes.js` |
 | `/api/projectHosting/status` | /api/projectHosting | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-projecthosting-status-e49bd88d04.md) | `geelooy/api/projectHosting/runtimeRoutes.js` |
 | `/api/projectHosting/stop` | /api/projectHosting | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-projecthosting-stop-7e644b25e9.md) | `geelooy/api/projectHosting/runtimeRoutes.js` |
+| `/api/protected-text` | /api/protected-text | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-protected-text-2222e7cb5f.md) | `geelooy/api/protected-text/_awtsmoos.derech.js` |
+| `/api/protected-text/content` | /api/protected-text | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-protected-text-content-a83bd5cd97.md) | `geelooy/api/protected-text/_awtsmoos.derech.js` |
+| `/api/protected-text/exchange` | /api/protected-text | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-protected-text-exchange-57adca40cf.md) | `geelooy/api/protected-text/_awtsmoos.derech.js` |
+| `/api/protected-text/rotate` | /api/protected-text | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-protected-text-rotate-4a9f1b590d.md) | `geelooy/api/protected-text/_awtsmoos.derech.js` |
 | `/api/public` | Public | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-public-97cc9d947c.md) | `geelooy/api/public/_awtsmoos.derech.js` |
-| `/api/release` | /api/release | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-release-373c461526.md) | `geelooy/api/release/_awtsmoos.derech.js` |
-| `/api/runtime/native/capabilities` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-capabilities-7b0ee881a8.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
-| `/api/runtime/native/launch` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-launch-00685c52f8.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |
-| `/api/runtime/native/status` | Native Runtime | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-runtime-native-status-71d1b10724.md) | `geelooy/api/runtime/_awtsmoos.derech.js` |

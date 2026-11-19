@@ -39,8 +39,8 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | `/api/oauth/device` | `geelooy/apps/tunnel-control/index.html` | runtime |
 | `/api/oauth/device` | `geelooy/apps/tunnel-control/js/shell/agentLinks.js` | runtime |
 | `/api/oauth/device-authorization` | `geelooy/apps/tunnel/test/externalAiInstructions.test.cjs` | test |
+| `/api/oauth/device-authorization` | `geelooy/scripts/shliach/externalAiOnboarding.test.mjs` | test |
 | `/api/oauth/metadata` | `geelooy/scripts/shliach/ConnectionMetadata.js` | runtime |
-| `/api/oauth/start?client_id=chatgpt` | `geelooy/apps/tunnel-control/js/api/auth.js` | runtime |
 
 ## Related tests
 

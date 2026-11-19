@@ -8,6 +8,11 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/tunnel/control/api-keys/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-revoke-4d16d58e2e.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/app-api/call` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-call-358e209e7f.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/app-api/catalog` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-catalog-affd6a4d88.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/app-api/map` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-map-cbdefdfb74.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/artifact/:token/:filename` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-token-filename-8e82866842.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/artifact/binary/cancel` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-cancel-9023f646cb.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/artifact/binary/chunk/:id` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-chunk-id-2cff14f5ab.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/artifact/binary/finish` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-binary-finish-b842029a28.md) | `geelooy/api/tunnel/control/routes/table.js` |
@@ -48,8 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/tunnel/control/devices/protocol/invitations/decline` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-invitations-decline-e33e89ba8d.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/devices/protocol/messages` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-4dadf154b9.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/devices/protocol/messages/ack` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-ack-ec00f2962d.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/devices/protocol/messages/send` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-send-b0461b6ac0.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/devices/protocol/presence` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-presence-f8ac3369ad.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/devices/protocol/relationships` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-d640dd1436.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/devices/protocol/relationships/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-revoke-db353cd5ff.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/docs` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-docs-5cd123e44b.md) | `geelooy/api/tunnel/control/routes/table.js` |

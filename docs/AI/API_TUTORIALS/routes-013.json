@@ -2,6 +2,51 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-youtube-a-b-0f1bfdc710",
+			"route": "/api/youtube/:a/:b",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-a-b-0f1bfdc710.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-0f1bfdc710.md"
+		},
+		{
+			"id": "api-youtube-a-b-c-02c6f58285",
+			"route": "/api/youtube/:a/:b/:c",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-a-b-c-02c6f58285.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-c-02c6f58285.md"
+		},
+		{
+			"id": "api-youtube-auth-callback-9c2556106d",
+			"route": "/api/youtube/auth/callback",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/routes/table.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-auth-callback-9c2556106d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-callback-9c2556106d.md"
+		},
+		{
+			"id": "api-youtube-auth-logout-e16d771492",
+			"route": "/api/youtube/auth/logout",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/routes/table.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-auth-logout-e16d771492.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-logout-e16d771492.md"
+		},
+		{
+			"id": "api-youtube-auth-start-c2f5a58fbd",
+			"route": "/api/youtube/auth/start",
+			"family": "/api/youtube",
+			"source": "geelooy/api/youtube/routes/table.js",
+			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+			"record": "ROUTES/api-youtube-auth-start-c2f5a58fbd.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-start-c2f5a58fbd.md"
+		},
+		{
 			"id": "api-youtube-auth-status-10475f963f",
 			"route": "/api/youtube/auth/status",
 			"family": "/api/youtube",

@@ -33,7 +33,6 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/social/migrations/youtube/plan` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/youtube/migrate/js/YouTubeMigrationApi.js` | runtime |
 | `/api/social/migrations/youtube/plan` | `geelooy/youtube/migrate/js/YouTubeMigrationApi.js` | runtime |
 
 ## Related tests

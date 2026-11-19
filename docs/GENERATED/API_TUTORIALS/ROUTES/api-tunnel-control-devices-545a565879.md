@@ -36,6 +36,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | `/api/tunnel/control/devices` | `geelooy/apps/tunnel-control/js/api/controlDevices.js` | runtime |
 | `/api/tunnel/control/devices` | `geelooy/apps/tunnel-control/js/platform/liveTunnelMesh.js` | runtime |
 | `/api/tunnel/control/devices` | `geelooy/os/remote/tunnelControlClient.js` | runtime |
+| `/api/tunnel/control/devices` | `geelooy/os/tunnel/remoteClient.js` | runtime |
 
 ## Related tests
 

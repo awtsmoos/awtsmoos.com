@@ -36,6 +36,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | `/api/tunnel/control/agent-manifest` | `geelooy/apps/tunnel-control/index.html` | runtime |
 | `/api/tunnel/control/agent-manifest` | `geelooy/apps/tunnel-control/js/shell/agentLinks.js` | runtime |
 | `/api/tunnel/control/agent-manifest` | `geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/scripts/connection-doctor.mjs` | runtime |
+| `/api/tunnel/control/agent-manifest` | `geelooy/scripts/seo/artifactPlan.mjs` | runtime |
 
 ## Related tests
 

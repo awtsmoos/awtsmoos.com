@@ -25,11 +25,16 @@
 	"callers": [
 		{
 			"literal": "/api/tunnel/control/preview/create",
+			"source": "geelooy/apps/tunnel-control/js/features/previewGateway.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/tunnel/control/preview/create",
 			"source": "geelooy/os/remote/tunnelPreviewClient.js",
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 1,
+	"callerCount": 2,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/unified-social/governance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-governance-meta-2b95f68032.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
+| `/api/social/unified-social/heichelos` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-cee05f71f2.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
+| `/api/social/unified-social/heichelos/:heichel/access` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-access-5dfe98e529.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
+| `/api/social/unified-social/heichelos/:heichel/governance` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-governance-55f529fd96.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/invitations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-24b6789962.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-invitati-b03dc3e0d8.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
 | `/api/social/unified-social/heichelos/:heichel/members` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-members-814fd2a5d6.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/tunnel/control/agent-room/message` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-agent-room-message-381aea1392.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/api-keys` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-db993bf8af.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/api-keys/create` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-create-91bd090e21.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/api-keys/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-revoke-4d16d58e2e.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/app-api/call` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-call-358e209e7f.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/app-api/catalog` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-app-api-catalog-affd6a4d88.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/artifact/:token/:filename` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-artifact-token-filename-8e82866842.md) | `geelooy/api/tunnel/control/routes/table.js` |

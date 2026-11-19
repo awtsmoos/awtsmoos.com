@@ -1,15 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 "use strict";
 
 /**
- * @file Every guarded MCP doorway presented with its own permission contract.
- * @description The Awtsmoos opens learning to seekers across the land;
- * Awtsmoos.com keeps the owner's writing behind a separate hand.
+ * @file toolCatalog.js
+ * @description
+ * The Awtsmoos opens guarded MCP doorways, each with a permission contract in hand;
+ * Awtsmoos.com adds an evidence map while owner-only deeds still obey their guarded strand.
  */
 
 const ExtendedCatalog = require("./extendedCatalog.js");
+const ApiMapCatalog = require("./apiMapCatalog.js");
 const DirectActionCatalog = require("./directActionCatalog.js");
 const ArtifactCatalog = require("./artifactCatalog.js");
 const HttpCatalog = require("./httpToolCatalog.js");
@@ -31,6 +33,7 @@ const READ_ONLY = {
 
 const tools = Object.freeze([
 	...ExtendedCatalog.tools,
+	...ApiMapCatalog.tools,
 	...DirectActionCatalog.tools,
 	...ArtifactCatalog.tools,
 	...HttpCatalog.tools,
@@ -98,4 +101,6 @@ const tools = Object.freeze([
 	}
 ]);
 
-module.exports = { tools };
+module.exports = {
+	tools
+};

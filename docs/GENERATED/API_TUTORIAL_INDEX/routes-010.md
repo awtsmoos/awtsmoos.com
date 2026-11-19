@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/qa/question/:question/answer` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-answer-cf270f2ab4.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question/answers` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-answers-34ed321507.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/qa/question/:question/best` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-qa-question-question-best-fc11d21477.md) | `geelooy/api/social/helper/platform/routes/PlatformQaRoutes.js` |
+| `/api/social/radiance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-radiance-meta-53e743354a.md) | `geelooy/api/social/_awtsmoos.radiance.js` |
 | `/api/social/radiance/rank` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-radiance-rank-4e4639ca4d.md) | `geelooy/api/social/_awtsmoos.radiance.js` |
 | `/api/social/reactions/:type/:id` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-reactions-type-id-7cd398a451.md) | `geelooy/api/social/_awtsmoos.reactions.js` |
 | `/api/social/relationships/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-relationships-alias-e8532ab015.md) | `geelooy/api/social/helper/platform/routes/PlatformLiveDiscoveryRoutes.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/unified-social/destinations` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-d5b8a9e9bf.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
 | `/api/social/unified-social/destinations/:heichel/:series` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-heichel-series-731e2fa75a.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
 | `/api/social/unified-social/destinations/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-destinations-meta-8ef01e268e.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/governance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-governance-meta-2b95f68032.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |
-| `/api/social/unified-social/heichelos` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-cee05f71f2.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/heichelos/:heichel/access` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-access-5dfe98e529.md) | `geelooy/api/social/_awtsmoos.destinations.js` |
-| `/api/social/unified-social/heichelos/:heichel/governance` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-governance-55f529fd96.md) | `geelooy/api/social/_awtsmoos.memberGovernance.js` |

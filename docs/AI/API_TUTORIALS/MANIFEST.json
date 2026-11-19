@@ -1,10 +1,10 @@
 {
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-api-tutorial-discovery-v1",
-	"routeCount": 687,
+	"routeCount": 692,
 	"familyCount": 21,
 	"dynamicRouteCount": 344,
-	"unknownMethodCount": 518,
+	"unknownMethodCount": 523,
 	"routeIndexChunks": [
 		"routes-001.json",
 		"routes-002.json",

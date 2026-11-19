@@ -37,9 +37,14 @@
 			"literal": "/api/tunnel/control/preview/{tunnelName}",
 			"source": "geelooy/apps/code/js/vibe/agent/testing/verify-tool-parity.js",
 			"kind": "test"
+		},
+		{
+			"literal": "/api/tunnel/control/preview/${route}",
+			"source": "geelooy/apps/tunnel-control/js/features/previewGateway.js",
+			"kind": "runtime"
 		}
 	],
-	"callerCount": 2,
+	"callerCount": 3,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

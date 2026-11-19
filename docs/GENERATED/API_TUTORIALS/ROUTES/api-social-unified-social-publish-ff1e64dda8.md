@@ -33,12 +33,9 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/api/social/helper/migrations/meta/MetaMigrationCapabilities.js` | runtime |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social/migrate/test/server-meta-api.test.cjs` | test |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js` | runtime |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social/migrate/test/server-meta-api.test.cjs` | test |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/youtube/migrate/js/YouTubeMigrationApi.js` | runtime |
-| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js` | runtime |
+| `/api/social/unified-social/publish` | `geelooy/social/migrate/js/publish/MigrationApi.js` | runtime |
+| `/api/social/unified-social/publish` | `geelooy/social/migrate/test/server-meta-api.test.cjs` | test |
+| `/api/social/unified-social/publish` | `geelooy/youtube/migrate/js/YouTubeMigrationApi.js` | runtime |
 
 ## Related tests
 

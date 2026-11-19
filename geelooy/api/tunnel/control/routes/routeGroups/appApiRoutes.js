@@ -1,19 +1,21 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+"use strict";
 
 /**
- * @file Application API gateway routes for Tunnel Control.
+ * @file appApiRoutes.js
  * @description
- * The Awtsmoos gives outsiders application power through two doors: a public
- * catalog for discovery and a scope-gated gateway for calls. No protocol route
- * gains authority merely by joining this visible table.
+ * The Awtsmoos gives seekers three distinct doors whose meanings remain clear;
+ * Awtsmoos.com maps evidence, catalogs guarded deeds, and executes only what permission brings near.
  */
 
 const { appApiCall } = require("../appApiCallRoute.js");
 const { appApiCatalogRoute } = require("../appApiCatalogRoute.js");
+const { appApiMapRoute } = require("../appApiMapRoute.js");
 
 const appApiRoutes = Object.freeze({
+	"app-api/map": appApiMapRoute,
 	"app-api/catalog": appApiCatalogRoute,
 	"app-api/call": appApiCall
 });

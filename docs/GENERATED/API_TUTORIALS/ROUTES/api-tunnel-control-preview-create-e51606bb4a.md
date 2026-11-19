@@ -33,6 +33,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
+| `/api/tunnel/control/preview/create` | `geelooy/apps/tunnel-control/js/features/previewGateway.js` | runtime |
 | `/api/tunnel/control/preview/create` | `geelooy/os/remote/tunnelPreviewClient.js` | runtime |
 
 ## Related tests

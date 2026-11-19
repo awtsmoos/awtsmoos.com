@@ -58,9 +58,24 @@
 			"kind": "test"
 		},
 		{
+			"literal": "/api/oauth/device-authorization",
+			"source": "geelooy/scripts/shliach/externalAiOnboarding.test.mjs",
+			"kind": "test"
+		},
+		{
 			"literal": "/api/oauth/metadata",
 			"source": "geelooy/scripts/shliach/ConnectionMetadata.js",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/oauth/metadata",
+			"source": "geelooy/scripts/shliach/externalAiOnboarding.test.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/oauth/metadata",
+			"source": "geelooy/scripts/shliach/musePromptContract.test.mjs",
+			"kind": "test"
 		},
 		{
 			"literal": "/api/oauth/start?client_id=chatgpt",
@@ -78,7 +93,7 @@
 			"kind": "test"
 		}
 	],
-	"callerCount": 8,
+	"callerCount": 11,
 	"tests": [],
 	"examples": [],
 	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md",

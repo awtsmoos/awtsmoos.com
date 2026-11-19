@@ -50,11 +50,6 @@
 		},
 		{
 			"literal": "/api/tunnel/control/my-device",
-			"source": "geelooy/os/tunnel/remoteClient.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/tunnel/control/my-device",
 			"source": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/MerkavaTunnelClient.js",
 			"kind": "runtime"
 		},
@@ -62,9 +57,19 @@
 			"literal": "/api/tunnel/control/my-device",
 			"source": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/testTunnelClient.mjs",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/tunnel/control/my-device",
+			"source": "geelooy/scripts/shliach/externalAiOnboarding.test.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/tunnel/control/my-device",
+			"source": "geelooy/scripts/shliach/musePromptContract.test.mjs",
+			"kind": "test"
 		}
 	],
-	"callerCount": 8,
+	"callerCount": 9,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

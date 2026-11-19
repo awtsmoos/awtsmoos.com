@@ -38,7 +38,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | `/api/tunnel/control/my-device` | `geelooy/apps/tunnel/agent/lib/instructions/pluginSkills/skills/instructions/scripts/connection-doctor.mjs` | runtime |
 | `/api/tunnel/control/my-device` | `geelooy/apps/tunnel/test/externalAiInstructions.test.cjs` | test |
 | `/api/tunnel/control/my-device` | `geelooy/os/remote/tunnelControlClient.js` | runtime |
-| `/api/tunnel/control/my-device` | `geelooy/os/tunnel/remoteClient.js` | runtime |
+| `/api/tunnel/control/my-device` | `geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/MerkavaTunnelClient.js` | runtime |
 
 ## Related tests
 

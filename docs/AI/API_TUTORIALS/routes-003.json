@@ -2,6 +2,42 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def",
+			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.md"
+		},
+		{
+			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c",
+			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.md"
+		},
+		{
+			"id": "api-social-aliases-alias-commentsmade-heichelos-a87ed61f23",
+			"route": "/api/social/aliases/:alias/commentsMade/heichelos",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.md"
+		},
+		{
+			"id": "api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec",
+			"route": "/api/social/aliases/:alias/fileSystem/copyEntry",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec.md"
+		},
+		{
 			"id": "api-social-aliases-alias-filesystem-delete-614b4f6352",
 			"route": "/api/social/aliases/:alias/fileSystem/delete",
 			"family": "/api/social",
@@ -459,42 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-16d0fa05f6.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-16d0fa05f6.md"
-		},
-		{
-			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68",
-			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68.md"
-		},
-		{
-			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb",
-			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb.md"
-		},
-		{
-			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c",
-			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/cookies",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c.md"
-		},
-		{
-			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461",
-			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/frame",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461.md"
 		}
 	]
 }

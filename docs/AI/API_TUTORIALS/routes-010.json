@@ -2,6 +2,51 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+			"route": "/api/tunnel/control/api-keys/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-api-keys-revoke-4d16d58e2e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-api-keys-revoke-4d16d58e2e.md"
+		},
+		{
+			"id": "api-tunnel-control-app-api-call-358e209e7f",
+			"route": "/api/tunnel/control/app-api/call",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-app-api-call-358e209e7f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-app-api-call-358e209e7f.md"
+		},
+		{
+			"id": "api-tunnel-control-app-api-catalog-affd6a4d88",
+			"route": "/api/tunnel/control/app-api/catalog",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-app-api-catalog-affd6a4d88.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-app-api-catalog-affd6a4d88.md"
+		},
+		{
+			"id": "api-tunnel-control-app-api-map-cbdefdfb74",
+			"route": "/api/tunnel/control/app-api/map",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-app-api-map-cbdefdfb74.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-app-api-map-cbdefdfb74.md"
+		},
+		{
+			"id": "api-tunnel-control-artifact-token-filename-8e82866842",
+			"route": "/api/tunnel/control/artifact/:token/:filename",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-artifact-token-filename-8e82866842.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-artifact-token-filename-8e82866842.md"
+		},
+		{
 			"id": "api-tunnel-control-artifact-binary-cancel-9023f646cb",
 			"route": "/api/tunnel/control/artifact/binary/cancel",
 			"family": "/api/tunnel/control",
@@ -450,51 +495,6 @@
 			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
 			"record": "ROUTES/api-tunnel-control-ephemeral-resultid-search-72bcc91b53.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-search-72bcc91b53.md"
-		},
-		{
-			"id": "api-tunnel-control-ephemeral-list-8498838bee",
-			"route": "/api/tunnel/control/ephemeral/list",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-ephemeral-list-8498838bee.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-list-8498838bee.md"
-		},
-		{
-			"id": "api-tunnel-control-external-agent-invite-create-8941b36a3b",
-			"route": "/api/tunnel/control/external-agent/invite/create",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-external-agent-invite-create-8941b36a3b.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-create-8941b36a3b.md"
-		},
-		{
-			"id": "api-tunnel-control-external-agent-invite-describe-d7e8efae63",
-			"route": "/api/tunnel/control/external-agent/invite/describe",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-external-agent-invite-describe-d7e8efae63.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-describe-d7e8efae63.md"
-		},
-		{
-			"id": "api-tunnel-control-external-agent-invite-redeem-dc0fd00a11",
-			"route": "/api/tunnel/control/external-agent/invite/redeem",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-external-agent-invite-redeem-dc0fd00a11.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-redeem-dc0fd00a11.md"
-		},
-		{
-			"id": "api-tunnel-control-flow-5f776e6679",
-			"route": "/api/tunnel/control/flow",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-flow-5f776e6679.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-flow-5f776e6679.md"
 		}
 	]
 }

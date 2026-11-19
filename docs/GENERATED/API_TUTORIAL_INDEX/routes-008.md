@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/heichelos/:heichel/series/:series/translations/coverage` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-translations-coverage-e103ac4075.md) | `geelooy/api/social/helper/comments/routes/translations.js` |
+| `/api/social/heichelos/:heichel/series/:series/translations/search` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-translations-search-df83509b39.md) | `geelooy/api/social/helper/comments/routes/translations.js` |
+| `/api/social/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-seriesfrom-movesubseriesto-s-75acbfb4cb.md) | `geelooy/api/social/helper/routes/series/mutationRoutes.js` |
+| `/api/social/heichelos/:heichel/settings/community` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-settings-community-bec86e790e.md) | `geelooy/api/social/_awtsmoos.community.js` |
 | `/api/social/heichelos/:heichel/settings/full` | Social | GET, POST, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-settings-full-2b04e8ca68.md) | `geelooy/api/social/_awtsmoos.governance.js` |
 | `/api/social/heichelos/:heichel/settings/submissions` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-settings-submissions-e9b94d10e2.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
 | `/api/social/heichelos/:heichel/submissions/:submission/approve` | Social | GET, POST, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-submissions-submission-approve-e639cbb7bd.md) | `geelooy/api/social/_awtsmoos.governance.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/mail/settings/save` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mail-settings-save-8c053c4b2b.md) | `geelooy/api/social/_awtsmoos.mail.js` |
 | `/api/social/mail/thread/delete/:threadId` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mail-thread-delete-threadid-3d03308ce7.md) | `geelooy/api/social/_awtsmoos.mail.js` |
 | `/api/social/mail/universe/:thread/link` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mail-universe-thread-link-1941e32e43.md) | `geelooy/api/social/_awtsmoos.mail.js` |
-| `/api/social/mail/universe/mirror` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mail-universe-mirror-84c4aa931e.md) | `geelooy/api/social/_awtsmoos.mail.js` |
-| `/api/social/mail/unread/count` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-mail-unread-count-020c504873.md) | `geelooy/api/social/_awtsmoos.mail.js` |
-| `/api/social/media/attach` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-media-attach-3aba7f72f5.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |
-| `/api/social/media/register` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-media-register-d6275125d2.md) | `geelooy/api/social/helper/platform/routes/PlatformOpsRoutes.js` |

@@ -41,14 +41,9 @@
 			"literal": "/api/social/alias/${alias}/heichelos/${heichelID}/ownership",
 			"source": "geelooy/heichelos/heichel/logic/HeichelAPI.js",
 			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/alias/${curAlias}/heichelos/${hId}/ownership",
-			"source": "geelooy/heichelos/post/logic/initialization/boot.js",
-			"kind": "runtime"
 		}
 	],
-	"callerCount": 2,
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test",

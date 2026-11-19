@@ -272,6 +272,42 @@
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-stop-7e644b25e9.md"
 		},
 		{
+			"id": "api-protected-text-2222e7cb5f",
+			"route": "/api/protected-text",
+			"family": "/api/protected-text",
+			"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-protected-text-2222e7cb5f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-protected-text-2222e7cb5f.md"
+		},
+		{
+			"id": "api-protected-text-content-a83bd5cd97",
+			"route": "/api/protected-text/content",
+			"family": "/api/protected-text",
+			"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-protected-text-content-a83bd5cd97.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-protected-text-content-a83bd5cd97.md"
+		},
+		{
+			"id": "api-protected-text-exchange-57adca40cf",
+			"route": "/api/protected-text/exchange",
+			"family": "/api/protected-text",
+			"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-protected-text-exchange-57adca40cf.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-protected-text-exchange-57adca40cf.md"
+		},
+		{
+			"id": "api-protected-text-rotate-4a9f1b590d",
+			"route": "/api/protected-text/rotate",
+			"family": "/api/protected-text",
+			"source": "geelooy/api/protected-text/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-protected-text-rotate-4a9f1b590d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-protected-text-rotate-4a9f1b590d.md"
+		},
+		{
 			"id": "api-public-97cc9d947c",
 			"route": "/api/public",
 			"family": "/api/public",
@@ -459,42 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichelos-a87ed61f23",
-			"route": "/api/social/aliases/:alias/commentsMade/heichelos",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.md"
-		},
-		{
-			"id": "api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec",
-			"route": "/api/social/aliases/:alias/fileSystem/copyEntry",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.fileSystem.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-filesystem-copyentry-d4fa3c35ec.md"
 		}
 	]
 }

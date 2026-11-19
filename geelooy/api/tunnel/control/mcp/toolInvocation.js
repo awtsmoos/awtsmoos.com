@@ -1,12 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 "use strict";
 
 /**
- * @file Resolve guarded Shliach tools with preserved authorization contracts.
- * @description The Awtsmoos opens public libraries and respects the owner;
- * Awtsmoos.com keeps writing and mail behind verified account honor.
+ * @file toolInvocation.js
+ * @description
+ * The Awtsmoos resolves each Shliach doorway without confusing knowledge with command;
+ * Awtsmoos.com keeps invocation small while result keilim preserve each guarded hand.
  */
 
 const DeviceTools = require("./deviceTools.js");
@@ -18,6 +19,7 @@ const ArtifactTools = require("./artifactTools.js");
 const DirectActionTools = require("./directActionTools.js");
 const HttpRequestTool = require("./httpRequestTool.js");
 const PublicReadTool = require("./publicReadTool.js");
+const McpResultKeilim = require("./McpResultKeilim.js");
 
 const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_bootstrap: () => DiscoveryTools.awtsmoosBootstrap,
@@ -34,6 +36,7 @@ const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_delete_file: () => DirectActionTools.deleteFile,
 	awtsmoos_browser_action: () => DirectActionTools.browserAction,
 	awtsmoos_tunnel_action: () => GenericTools.tunnelAction,
+	awtsmoos_api_map: () => GenericTools.applicationMap,
 	awtsmoos_application_catalog: () => GenericTools.applicationCatalog,
 	awtsmoos_application_call: () => GenericTools.applicationCall,
 	awtsmoos_https_request: () => HttpRequestTool.request,
@@ -42,67 +45,39 @@ const HANDLER_FACTORIES = Object.freeze({
 	awtsmoos_artifact_revoke: () => ArtifactTools.revoke
 });
 
+/** Resolve one registered MCP tool handler by name. */
 function handlerFor(name) {
 	const factory = HANDLER_FACTORIES[name];
 	return factory ? factory() : null;
 }
 
-function deniedResult(error) {
-	if (!error?.data || typeof error.data !== "object" || Array.isArray(error.data)) {
-		return null;
-	}
-	if (error.data.ok !== false) return null;
-	return {
-		content: [{ type: "text", text: JSON.stringify(error.data, null, 2) }],
-		structuredContent: error.data,
-		isError: true
-	};
-}
-
-function artifactLink(name, payload) {
-	if (name !== "awtsmoos_artifact_publish" || payload?.ok !== true) return null;
-	const url = String(payload.url || "");
-	if (!/^https:\/\/awtsmoos\.com\/api\/tunnel\/control\/artifact\/[a-f0-9]{64}\//.test(url)) {
-		return null;
-	}
-	if (!Number.isSafeInteger(payload.bytes) || payload.bytes <= 0) return null;
-	const fileName = decodeURIComponent(new URL(url).pathname.split("/").pop());
-	return {
-		type: "resource_link",
-		name: fileName,
-		title: fileName,
-		uri: url,
-		mimeType: payload.mimeType,
-		size: payload.bytes,
-		description: "Time-limited verified artifact. SHA-256: " + payload.sha256
-	};
-}
-
-function formatResult(name, payload) {
-	const content = [{ type: "text", text: JSON.stringify(payload, null, 2) }];
-	const link = artifactLink(name, payload);
-	if (link) content.push(link);
-	return {
-		content,
-		structuredContent: payload,
-		isError: Boolean(payload && typeof payload === "object" &&
-			(payload.ok === false || payload.statusCode >= 400))
-	};
-}
-
+/**
+ * Invoke one registered MCP tool and preserve structured denial semantics.
+ * @param {object} $i Dynamic-server request vessel.
+ * @param {object} identity Authenticated identity context.
+ * @param {object} params MCP call parameters.
+ * @returns {Promise<object>} Canonical MCP result.
+ */
 async function call($i, identity, params = {}) {
 	const handler = handlerFor(params.name);
-	if (!handler) throw new Error(`Unknown MCP tool: ${params.name || ""}`);
+	if (!handler) {
+		throw new Error(`Unknown MCP tool: ${params.name || ""}`);
+	}
 	try {
-		return formatResult(
-			params.name,
-			await handler($i, identity, params.arguments || {})
-		);
+		const payload = await handler($i, identity, params.arguments || {});
+		return McpResultKeilim.formatResult(params.name, payload);
 	} catch (error) {
-		const denied = deniedResult(error);
-		if (denied) return denied;
+		const denied = McpResultKeilim.deniedResult(error);
+		if (denied) {
+			return denied;
+		}
 		throw error;
 	}
 }
 
-module.exports = { HANDLER_FACTORIES, call, formatResult, handlerFor };
+module.exports = {
+	HANDLER_FACTORIES,
+	call,
+	formatResult: McpResultKeilim.formatResult.bind(McpResultKeilim),
+	handlerFor
+};

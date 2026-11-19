@@ -37,7 +37,6 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/social/alias/${alias}/heichelos/${heichelID}/ownership` | `geelooy/heichelos/heichel/logic/HeichelAPI.js` | runtime |
-| `/api/social/alias/${curAlias}/heichelos/${hId}/ownership` | `geelooy/heichelos/post/logic/initialization/boot.js` | runtime |
 
 ## Related tests
 

@@ -2,6 +2,51 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-tunnel-control-treasury-299ed66944",
+			"route": "/api/tunnel/control/treasury",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-299ed66944.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-299ed66944.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-test-80cae2cc47",
+			"route": "/api/tunnel/control/treasury-test",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-test-80cae2cc47.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-test-80cae2cc47.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-advisor-2f230cd486",
+			"route": "/api/tunnel/control/treasury/advisor",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-agents-746ce1cb98",
+			"route": "/api/tunnel/control/treasury/agents",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-budgets-01defa19d4",
+			"route": "/api/tunnel/control/treasury/budgets",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.md"
+		},
+		{
 			"id": "api-tunnel-control-treasury-forecast-22667450d7",
 			"route": "/api/tunnel/control/treasury/forecast",
 			"family": "/api/tunnel/control",
@@ -450,51 +495,6 @@
 			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
 			"record": "ROUTES/api-youtube-a-8c1cdc043d.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-8c1cdc043d.md"
-		},
-		{
-			"id": "api-youtube-a-b-0f1bfdc710",
-			"route": "/api/youtube/:a/:b",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-a-b-0f1bfdc710.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-0f1bfdc710.md"
-		},
-		{
-			"id": "api-youtube-a-b-c-02c6f58285",
-			"route": "/api/youtube/:a/:b/:c",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-a-b-c-02c6f58285.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-c-02c6f58285.md"
-		},
-		{
-			"id": "api-youtube-auth-callback-9c2556106d",
-			"route": "/api/youtube/auth/callback",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-callback-9c2556106d.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-callback-9c2556106d.md"
-		},
-		{
-			"id": "api-youtube-auth-logout-e16d771492",
-			"route": "/api/youtube/auth/logout",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-logout-e16d771492.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-logout-e16d771492.md"
-		},
-		{
-			"id": "api-youtube-auth-start-c2f5a58fbd",
-			"route": "/api/youtube/auth/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-start-c2f5a58fbd.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-start-c2f5a58fbd.md"
 		}
 	]
 }

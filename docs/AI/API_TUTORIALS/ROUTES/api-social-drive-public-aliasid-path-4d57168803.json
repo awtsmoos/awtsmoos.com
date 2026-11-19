@@ -45,7 +45,7 @@
 		},
 		{
 			"literal": "/api/social/drive/public/awtsmoos/",
-			"source": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAwtsmoosDriveTextures.js",
+			"source": "geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowAwtsmoosDriveTextures.js",
 			"kind": "runtime"
 		},
 		{

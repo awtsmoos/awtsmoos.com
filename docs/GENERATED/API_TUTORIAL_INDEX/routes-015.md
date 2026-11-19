@@ -8,6 +8,11 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/tunnel/request/:tunnelName` | Tunnel Relay | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md) | `geelooy/api/tunnel/_awtsmoos.derech.js` |
+| `/api/wallet/balance` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-balance-59097f364b.md) | `geelooy/api/wallet/routes/table.js` |
+| `/api/wallet/buy/mock` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-buy-mock-45ef52f2b5.md) | `geelooy/api/wallet/routes/table.js` |
+| `/api/wallet/commerce/actions` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-actions-8e2f72034a.md) | `geelooy/api/wallet/routes/table.js` |
+| `/api/wallet/commerce/actions/execute` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-actions-execute-1b212726d5.md) | `geelooy/api/wallet/routes/table.js` |
 | `/api/wallet/commerce/catalog` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md) | `geelooy/api/wallet/routes/table.js` |
 | `/api/wallet/commerce/credits/commit` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-credits-commit-514993bf32.md) | `geelooy/api/wallet/routes/table.js` |
 | `/api/wallet/commerce/credits/consume` | Wallet | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-wallet-commerce-credits-consume-6e724abb1d.md) | `geelooy/api/wallet/routes/table.js` |
@@ -48,8 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/youtube/oauth/callback` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md) | `geelooy/api/youtube/routes/table.js` |
 | `/api/youtube/oauth/logout` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md) | `geelooy/api/youtube/routes/table.js` |
 | `/api/youtube/oauth/start` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md) | `geelooy/api/youtube/routes/table.js` |
-| `/api/youtube/oauth/status` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md) | `geelooy/api/youtube/routes/table.js` |
-| `/api/youtube/uploads/start` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md) | `geelooy/api/youtube/routes/table.js` |
-| `/api/youtube/videos` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md) | `geelooy/api/youtube/routes/table.js` |
-| `/api/youtube/videos/list` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md) | `geelooy/api/youtube/routes/table.js` |
-| `/api/youtube/videos/update` | YouTube | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md) | `geelooy/api/youtube/routes/table.js` |

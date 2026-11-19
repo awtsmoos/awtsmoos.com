@@ -27,16 +27,6 @@
 	"callers": [
 		{
 			"literal": "/api/social",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social-hub/js/api/InteractionApi.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social-hub/js/api/InteractionApi.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social",
 			"source": "geelooy/apps/drive/js/api/KeterDriveTransport.js",
 			"kind": "runtime"
 		},
@@ -84,9 +74,19 @@
 			"literal": "/api/social",
 			"source": "geelooy/heichelos/social/test/inMemorySocialRuntime.mjs",
 			"kind": "test"
+		},
+		{
+			"literal": "/api/social",
+			"source": "geelooy/heichelos/social/test/socialApiContract.test.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/social",
+			"source": "geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs",
+			"kind": "test"
 		}
 	],
-	"callerCount": 38,
+	"callerCount": 36,
 	"tests": [
 		{
 			"name": "test",

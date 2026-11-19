@@ -2,6 +2,42 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-social-notifications-alias-poll-3076c0348c",
+			"route": "/api/social/notifications/:alias/poll",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.notifications.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-notifications-alias-poll-3076c0348c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-notifications-alias-poll-3076c0348c.md"
+		},
+		{
+			"id": "api-social-notifications-alias-preferences-69f9f455a3",
+			"route": "/api/social/notifications/:alias/preferences",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.notifications.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-notifications-alias-preferences-69f9f455a3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-notifications-alias-preferences-69f9f455a3.md"
+		},
+		{
+			"id": "api-social-notifications-alias-read-all-1ccdc57b1d",
+			"route": "/api/social/notifications/:alias/read/all",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.notifications.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-notifications-alias-read-all-1ccdc57b1d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-notifications-alias-read-all-1ccdc57b1d.md"
+		},
+		{
+			"id": "api-social-notifications-alias-unread-count-14f606fea5",
+			"route": "/api/social/notifications/:alias/unread/count",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.notifications.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-notifications-alias-unread-count-14f606fea5.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-notifications-alias-unread-count-14f606fea5.md"
+		},
+		{
 			"id": "api-social-notifications-digest-alias-5a4ce9a0f7",
 			"route": "/api/social/notifications/digest/:alias",
 			"family": "/api/social",
@@ -459,42 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-thoughts-thread-thoughtid-e923f31029.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-thoughts-thread-thoughtid-e923f31029.md"
-		},
-		{
-			"id": "api-social-trending-329dbde843",
-			"route": "/api/social/trending",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.publicDiscovery.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-trending-329dbde843.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-trending-329dbde843.md"
-		},
-		{
-			"id": "api-social-unified-social-activity-alias-f74ec84442",
-			"route": "/api/social/unified-social/activity/:alias",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.activityLedger.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-unified-social-activity-alias-f74ec84442.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-f74ec84442.md"
-		},
-		{
-			"id": "api-social-unified-social-activity-alias-events-event-4b32471913",
-			"route": "/api/social/unified-social/activity/:alias/events/:event",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.activityLedger.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-unified-social-activity-alias-events-event-4b32471913.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-events-event-4b32471913.md"
-		},
-		{
-			"id": "api-social-unified-social-activity-alias-export-af45dc4a20",
-			"route": "/api/social/unified-social/activity/:alias/export",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.activityLedger.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-unified-social-activity-alias-export-af45dc4a20.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-export-af45dc4a20.md"
 		}
 	]
 }

@@ -37,6 +37,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | --- | --- | --- |
 | `/api/tunnel/control/preview/{tunnelName}` | `geelooy/apps/code/js/vibe/agent/executors/TestingExecutor.js` | runtime |
 | `/api/tunnel/control/preview/{tunnelName}` | `geelooy/apps/code/js/vibe/agent/testing/verify-tool-parity.js` | test |
+| `/api/tunnel/control/preview/${route}` | `geelooy/apps/tunnel-control/js/features/previewGateway.js` | runtime |
 
 ## Related tests
 

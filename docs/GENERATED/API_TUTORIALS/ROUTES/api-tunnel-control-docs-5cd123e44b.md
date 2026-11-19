@@ -35,6 +35,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | --- | --- | --- |
 | `/api/tunnel/control/docs` | `geelooy/apps/tunnel-control/index.html` | runtime |
 | `/api/tunnel/control/docs` | `geelooy/apps/tunnel-control/js/shell/pageSpecs/systemPages.js` | runtime |
+| `/api/tunnel/control/docs` | `geelooy/scripts/seo/artifactPlan.mjs` | runtime |
 | `/api/tunnel/control/docs/` | `geelooy/Shliach/index.html` | runtime |
 
 ## Related tests

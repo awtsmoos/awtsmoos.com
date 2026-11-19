@@ -23,7 +23,7 @@ Blessed is He
 | `/api/streaming` | Streaming | 4 | 2 | OK | [human tutorial](../TUTORIALS/API/STREAMING.md) |
 | `/api/text` | Text Jobs | 2 | 2 | FAIL | [human tutorial](../TUTORIALS/API/TEXT.md) |
 | `/api/tunnel` | Tunnel Relay | 5 | 2 | OK | [human tutorial](../TUTORIALS/API/TUNNEL.md) |
-| `/api/tunnel/control` | Tunnel Control | 142 | 23 | OK | [human tutorial](../TUTORIALS/API/TUNNEL_CONTROL.md) |
+| `/api/tunnel/control` | Tunnel Control | 143 | 23 | OK | [human tutorial](../TUTORIALS/API/TUNNEL_CONTROL.md) |
 | `/api/tunnel/install` | Tunnel Install | 0 | 0 | no extracted rows | [human tutorial](../TUTORIALS/API/TUNNEL_INSTALL.md) |
 | `/api/wallet` | Wallet | 25 | 0 | OK | [human tutorial](../TUTORIALS/API/WALLET.md) |
 | `/api/youtube` | YouTube | 22 | 3 | OK | [human tutorial](../TUTORIALS/API/YOUTUBE.md) |

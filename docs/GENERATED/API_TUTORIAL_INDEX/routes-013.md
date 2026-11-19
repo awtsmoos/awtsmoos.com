@@ -8,6 +8,11 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/tunnel/control/devices/protocol/messages/send` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-messages-send-b0461b6ac0.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/devices/protocol/presence` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-presence-f8ac3369ad.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/devices/protocol/relationships` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-d640dd1436.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/devices/protocol/relationships/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-devices-protocol-relationships-revoke-db353cd5ff.md) | `geelooy/api/tunnel/control/routes/table.js` |
+| `/api/tunnel/control/docs` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-docs-5cd123e44b.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/docs.json` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-docs-json-81c7bfa91c.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/ephemeral/:resultId` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-e8895373ec.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/ephemeral/:resultId/delete` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-delete-1a4d8dada8.md) | `geelooy/api/tunnel/control/routes/table.js` |
@@ -48,8 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/tunnel/control/preview/:tunnelName` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-tunnelname-d8027eb563.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/preview/access/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-access-revoke-4971246ad8.md) | `geelooy/api/tunnel/control/routes/table.js` |
 | `/api/tunnel/control/preview/create` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-create-e51606bb4a.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/preview/grant` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/preview/list` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-list-fe7b7f34c1.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/preview/revoke` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-revoke-57eba464a0.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/preview/settings` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-410566c895.md) | `geelooy/api/tunnel/control/routes/table.js` |
-| `/api/tunnel/control/preview/settings/set` | Tunnel Control | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-set-7182d3e2e0.md) | `geelooy/api/tunnel/control/routes/table.js` |

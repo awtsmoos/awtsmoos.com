@@ -22,8 +22,14 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/tunnel/control/preview/settings/set",
+			"source": "geelooy/apps/tunnel-control/js/features/previewGateway.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

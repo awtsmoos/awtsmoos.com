@@ -25,46 +25,6 @@
 	"callers": [
 		{
 			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/api/social/helper/migrations/meta/MetaMigrationCapabilities.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/predeploy-backup/social/migrate/test/server-meta-api.test.cjs",
-			"kind": "test"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/social/migrate/test/server-meta-api.test.cjs",
-			"kind": "test"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/archive-org-video-20260821/verified-stage/youtube/migrate/js/YouTubeMigrationApi.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/js/publish/MigrationApi.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
-			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/test/server-meta-api.test.cjs",
-			"kind": "test"
-		},
-		{
-			"literal": "/api/social/unified-social/publish",
 			"source": "geelooy/social/migrate/js/publish/MigrationApi.js",
 			"kind": "runtime"
 		},
@@ -79,7 +39,7 @@
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 11,
+	"callerCount": 3,
 	"tests": [
 		{
 			"name": "test",

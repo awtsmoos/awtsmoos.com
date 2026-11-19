@@ -2,6 +2,51 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-tunnel-control-ephemeral-list-8498838bee",
+			"route": "/api/tunnel/control/ephemeral/list",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-ephemeral-list-8498838bee.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-list-8498838bee.md"
+		},
+		{
+			"id": "api-tunnel-control-external-agent-invite-create-8941b36a3b",
+			"route": "/api/tunnel/control/external-agent/invite/create",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-external-agent-invite-create-8941b36a3b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-create-8941b36a3b.md"
+		},
+		{
+			"id": "api-tunnel-control-external-agent-invite-describe-d7e8efae63",
+			"route": "/api/tunnel/control/external-agent/invite/describe",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-external-agent-invite-describe-d7e8efae63.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-describe-d7e8efae63.md"
+		},
+		{
+			"id": "api-tunnel-control-external-agent-invite-redeem-dc0fd00a11",
+			"route": "/api/tunnel/control/external-agent/invite/redeem",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-external-agent-invite-redeem-dc0fd00a11.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-external-agent-invite-redeem-dc0fd00a11.md"
+		},
+		{
+			"id": "api-tunnel-control-flow-5f776e6679",
+			"route": "/api/tunnel/control/flow",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-flow-5f776e6679.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-flow-5f776e6679.md"
+		},
+		{
 			"id": "api-tunnel-control-fs-tunnelname-9a5ca224f9",
 			"route": "/api/tunnel/control/fs/:tunnelName",
 			"family": "/api/tunnel/control",
@@ -450,51 +495,6 @@
 			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
 			"record": "ROUTES/api-tunnel-control-transfer-get-tunnelname-885bd611c8.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-transfer-get-tunnelname-885bd611c8.md"
-		},
-		{
-			"id": "api-tunnel-control-treasury-299ed66944",
-			"route": "/api/tunnel/control/treasury",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-treasury-299ed66944.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-299ed66944.md"
-		},
-		{
-			"id": "api-tunnel-control-treasury-test-80cae2cc47",
-			"route": "/api/tunnel/control/treasury-test",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-treasury-test-80cae2cc47.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-test-80cae2cc47.md"
-		},
-		{
-			"id": "api-tunnel-control-treasury-advisor-2f230cd486",
-			"route": "/api/tunnel/control/treasury/advisor",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.md"
-		},
-		{
-			"id": "api-tunnel-control-treasury-agents-746ce1cb98",
-			"route": "/api/tunnel/control/treasury/agents",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.md"
-		},
-		{
-			"id": "api-tunnel-control-treasury-budgets-01defa19d4",
-			"route": "/api/tunnel/control/treasury/budgets",
-			"family": "/api/tunnel/control",
-			"source": "geelooy/api/tunnel/control/routes/table.js",
-			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-			"record": "ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.md"
 		}
 	]
 }

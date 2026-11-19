@@ -2,6 +2,42 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68",
+			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-1d1fbbda68.md"
+		},
+		{
+			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb",
+			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-ddfbf19dbb.md"
+		},
+		{
+			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c",
+			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/cookies",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-411b3cfc9c.md"
+		},
+		{
+			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461",
+			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/frame",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-5113f4c461.md"
+		},
+		{
 			"id": "api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-d1c021cf27",
 			"route": "/api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/history",
 			"family": "/api/social",
@@ -459,42 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-entities-heichel-entity-comments-comment-sections-sec-af6b37ccde.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-heichel-entity-comments-comment-sections-sec-af6b37ccde.md"
-		},
-		{
-			"id": "api-social-entities-universe-fd514e373c",
-			"route": "/api/social/entities/universe",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.entities.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-entities-universe-fd514e373c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-fd514e373c.md"
-		},
-		{
-			"id": "api-social-entities-universe-type-id-910dcc0936",
-			"route": "/api/social/entities/universe/:type/:id",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.entities.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-entities-universe-type-id-910dcc0936.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-910dcc0936.md"
-		},
-		{
-			"id": "api-social-entities-universe-type-id-children-d49a7c472a",
-			"route": "/api/social/entities/universe/:type/:id/children",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.entities.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-entities-universe-type-id-children-d49a7c472a.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-children-d49a7c472a.md"
-		},
-		{
-			"id": "api-social-entities-universe-type-id-dna-313f7df07f",
-			"route": "/api/social/entities/universe/:type/:id/dna",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.entities.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-entities-universe-type-id-dna-313f7df07f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-dna-313f7df07f.md"
 		}
 	]
 }

@@ -32,7 +32,7 @@
 	"callers": [
 		{
 			"literal": "/api/tunnel/control/pairing/approve",
-			"source": "geelooy/apps/tunnel-control/js/security/pairingApproval.js",
+			"source": "geelooy/apps/tunnel-control/js/security/pairingViews.js",
 			"kind": "runtime"
 		}
 	],

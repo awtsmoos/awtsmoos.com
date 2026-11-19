@@ -22,8 +22,14 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/tunnel/control/mcp",
+			"source": "geelooy/scripts/shliach/externalAiOnboarding.test.mjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test:mission-continuity-actions",

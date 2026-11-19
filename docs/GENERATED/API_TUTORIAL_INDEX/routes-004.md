@@ -8,6 +8,10 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/comments/url/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-url-comment-ba6354e303.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/communications/:alias/inbox` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-dd824e3b89.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationInboxRoutes.js` |
+| `/api/social/communications/:alias/inbox/:item/read` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-item-read-1c8dfc4824.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationInboxRoutes.js` |
+| `/api/social/communications/:alias/inbox/unread` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-unread-4a9428b9d7.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationNotificationRoutes.js` |
 | `/api/social/communications/:alias/live-map` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-live-map-95a8f5a4c5.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationOverviewRoutes.js` |
 | `/api/social/communications/:alias/notification-digest` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-notification-digest-29321a6e01.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationNotificationRoutes.js` |
 | `/api/social/communications/:alias/overview` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-overview-5066a7929c.md) | `geelooy/api/social/helper/communicationRoutes/CommunicationOverviewRoutes.js` |
@@ -49,7 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/drive/:aliasId/domains/:hostname/deactivate` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-deactivate-32677328c5.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
 | `/api/social/drive/:aliasId/domains/:hostname/hosting-plan` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-hosting-plan-49dd2f9c69.md) | `geelooy/api/social/helper/drive/routes/domainPlanRoutes.js` |
 | `/api/social/drive/:aliasId/domains/:hostname/verify` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-domains-hostname-verify-3927e4a49e.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
-| `/api/social/drive/:aliasId/hosting/infrastructure` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-hosting-infrastructure-7e3a7ac877.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
-| `/api/social/drive/:aliasId/jobs` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-baa6b388b8.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
-| `/api/social/drive/:aliasId/jobs/:jobId` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-jobid-e17bd89947.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
-| `/api/social/drive/:aliasId/jobs/:jobId/cancel` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-jobs-jobid-cancel-bc5ce7ace6.md) | `geelooy/api/social/helper/drive/routes/jobRoutes.js` |
