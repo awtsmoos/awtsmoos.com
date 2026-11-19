@@ -3,7 +3,21 @@ const { overlap } = require('./text.js');
 async function resolvePost($i, heichelId, seriesId, postId) {
   try {
     const path = `/social/heichelos/${heichelId}/series/${seriesId}/posts`;
-    const post = await $i.db.getValue(path, postId, { id: true, title: true, content: true, dayuh: true, sections: true });
+    let post = null;
+    try { post = await $i.db.getValue(path, postId, { id: true, title: true, content: true, dayuh: true, sections: true }); } catch { post = null; }
+    // B"H 2026-11-19: getValue returns null/error (or throws) for some post
+    // shapes (Midrashim units docs) while Bavli docs pass. Fall back exactly
+    // the way getPostFromSeries does: $i.db.get on the post path.
+    if (!post || post.error) {
+      try { post = await $i.db.getValue(path, postId); } catch { post = null; }
+    }
+    if (!post || post.error) {
+      try {
+        const pm = { title: true, dayuh: true, content: true, author: true, id: true };
+        const all = await $i.db.get(path + '/' + postId, { [postId]: pm });
+        if (all && all[postId]) post = all[postId];
+      } catch { post = null; }
+    }
     if (!post || post.error) return null;
     return post;
   } catch { return null; }
