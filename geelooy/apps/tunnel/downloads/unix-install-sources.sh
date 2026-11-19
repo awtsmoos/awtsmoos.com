@@ -3,8 +3,13 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos orders every installer vessel before activation and repair;
-# Awtsmoos.com sources identity, health, authority, archives, and continuity before danger can bare.
+# The Awtsmoos renews every installer vessel before the next guarded deed;
+# Awtsmoos.com loads all full-feature helpers without surrendering speed or the identity seed.
+# A briefly restarting incumbent deserves one measured recheck, not two minutes of silence.
+# Explicit overrides remain available to operators diagnosing slow startup.
+AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS="${AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS:-3}"
+export AWTSMOOS_IDENTITY_HEALTH_WAIT_SECONDS
+
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-modes.sh"
