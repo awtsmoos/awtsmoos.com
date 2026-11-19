@@ -198,3 +198,24 @@ test('the install never breaks the player when there are no trees', () => {
 	assert.equal(installed.animation.defaultClip, 'stand_Armature');
 	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
 });
+
+test('the install schedules tree retries when the trunks have not landed yet', () => {
+	const headNode = fakeHeadNode();
+	const runtime = fakeRuntime({ withTree: false });
+	const model = { name: 'Awtsmoos_grounded_canonical_chossid', userData: {} };
+	let scheduled = 0;
+	let scheduledRuntime = null;
+	installCanonicalPlayer(runtime, null, { animations: [fakeClip(headNode)], scene: model }, {
+		feet: 0,
+		model,
+		visiblePlayer: model
+	}, {
+		scheduleTreeCollisionRetry(scheduledRuntimeValue) {
+			scheduled += 1;
+			scheduledRuntime = scheduledRuntimeValue;
+		}
+	});
+	assert.equal(scheduled, 1);
+	assert.equal(scheduledRuntime, runtime);
+	assert.equal(runtime.bootstrapTreeCollisionReceipt, undefined);
+});
