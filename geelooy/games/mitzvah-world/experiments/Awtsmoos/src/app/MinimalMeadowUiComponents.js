@@ -33,6 +33,16 @@ export function createMinimalMeadowUiComponents(
 ) {
 	const { hosts, bus, inventory } = runtime;
 	const amulets = healingAmuletCommerce(runtime);
+	// B"H round 7: publish the retractables this factory creates back onto
+	// the runtime. Previously they lived only in the returned parts, so the
+	// direct-play presentation built a SECOND retractable per shell and
+	// every retract click toggled twice (dead buttons in the shipped game).
+	runtime.mobileRetract ??= hosts.mobileShell
+		? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' })
+		: null;
+	runtime.playerRetract ??= hosts.playerHudShell
+		? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' })
+		: null;
 	return {
 		combatBar: new MinimalMeadowCombatBar(
 			hosts.actionHost,
@@ -74,8 +84,7 @@ export function createMinimalMeadowUiComponents(
 		),
 		// B"H round 3: reuse the staged runtime's retractables when the direct-play
 		// presentation already wired them, so one shell never gains two listeners.
-		mobileRetract: runtime.mobileRetract
-			?? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' }),
+		mobileRetract: runtime.mobileRetract,
 		notice: new MinimalMeadowHouseNotice(
 			bus,
 			documentValue,
@@ -86,8 +95,7 @@ export function createMinimalMeadowUiComponents(
 			hosts.dialogueHost,
 			bus
 		),
-		playerRetract: runtime.playerRetract
-			?? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' }),
+		playerRetract: runtime.playerRetract,
 		targetFrame: new MinimalMeadowTargetFrame(
 			hosts.targetHost,
 			bus

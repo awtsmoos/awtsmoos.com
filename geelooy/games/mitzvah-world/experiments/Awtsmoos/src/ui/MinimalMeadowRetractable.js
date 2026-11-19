@@ -11,6 +11,14 @@
 
 export class MinimalMeadowRetractable {
 	constructor(shell, options = {}) {
+		// B"H round 7: one shell, one retractable. The staged UI components
+		// and the direct-play presentation both construct a retractable for
+		// the same shell; without this guard the button gained TWO click
+		// listeners and every click toggled twice — the retract buttons
+		// looked dead in the shipped game (proven by live probe 2026-11-19:
+		// click left dataset.collapsed and the label unchanged). Returning
+		// the live instance makes construction idempotent per shell.
+		if (shell?.__awtsmoosRetractable) return shell.__awtsmoosRetractable;
 		this.shell = shell;
 		this.collapsed = Boolean(options.collapsed);
 		// B"H round 2: a bare -/+ glyph reads as a mystery control (the owner
@@ -19,6 +27,7 @@ export class MinimalMeadowRetractable {
 		this.button = shell.querySelector('[data-retract-toggle]');
 		this.onClick = () => this.toggle();
 		this.button?.addEventListener('click', this.onClick);
+		if (shell) shell.__awtsmoosRetractable = this;
 		this.render();
 	}
 
@@ -40,6 +49,7 @@ export class MinimalMeadowRetractable {
 
 	destroy() {
 		this.button?.removeEventListener('click', this.onClick);
+		if (this.shell?.__awtsmoosRetractable === this) delete this.shell.__awtsmoosRetractable;
 	}
 }
 
