@@ -15,15 +15,29 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 .msg-row {
 	display: flex;
 	margin: 0 auto 12px;
-	max-width: calc(var(--mail-reading-width) + 100px);
+	max-width: var(--mail-reading-width);
 }
 
 .msg-row.me {
 	justify-content: flex-end;
 }
 
+/* B"H 2026-11-19 (social polish round 2): the reading view is a
+   column, not a chat stream. Round 1 widened --mail-reading-width,
+   but the bubble never saw it: the row's only flex child is the
+   unstyled .swipe-wrapper, which shrank to the bubble's content, so
+   a short message rendered as a ~300px bubble hugging the right
+   edge (outgoing rows) with a void on its left. The wrapper now
+   stretches across the reading column and the bubble fills it, so
+   every message reads at the full column width, left-aligned. */
+.msg-row > .swipe-wrapper {
+	flex: 1 1 auto;
+	min-inline-size: 0;
+}
+
 .msg-bubble {
-	max-width: min(var(--mail-reading-width), 92%);
+	inline-size: 100%;
+	max-width: none;
 	padding: 13px 15px;
 	border: 1px solid var(--mail-border);
 	border-radius: 17px 17px 17px 6px;
