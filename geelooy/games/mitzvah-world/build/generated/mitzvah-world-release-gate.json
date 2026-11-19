@@ -43,8 +43,8 @@
 				"sha256": "c0a750ef790f3ced687eb00e3dfa696dd07765b1cc5ccf6f5e20e8fcf1fb9009"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-optional.compact.js": {
-				"bytes": 1492923,
-				"sha256": "8d23d49689191481c7cd1df8ef6527d7ea797f39abf26f6b3e9db5fdbf7550a0"
+				"bytes": 1493135,
+				"sha256": "81a6f54567f994845cfbb24d68b0fbc944b555a7d50b6f2f8d139cad85b5323d"
 			},
 			"build/generated/mitzvah-world-js.json": {
 				"bytes": 812,
@@ -76,7 +76,7 @@
 			},
 			"build/generated/mitzvah-world-optional.json": {
 				"bytes": 806,
-				"sha256": "359d51773bb8c88f035d86f0d7eee3fa83761450009106b8bddd11b7bb17b924"
+				"sha256": "5ed810b86fd80f574125c791f85bdb18af26acb46beec596db77591e20974f6d"
 			},
 			"build/generated/mitzvah-world-essential-assets.json": {
 				"bytes": 1057,
@@ -96,7 +96,7 @@
 			}
 		},
 		"certified": false,
-		"commit": "0017e011b722f90f0a2d0d64ba017a8df997b2aa",
+		"commit": "7c366b7b9e1f410fb72bce4269f0aa4f2af5f886",
 		"dirtyEntries": [
 			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-optional.json",
 			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-release-gate.json",
@@ -104,28 +104,28 @@
 			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br"
 		],
 		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
-		"graphSha256": "a58b240c24c9577a2ad3dafa5d9e47827e6612570c40465ab1f885503c9d595b",
-		"releaseId": "a58b240c24c9577a2ad3dafa5d9e47827e6612570c40465ab1f885503c9d595b",
+		"graphSha256": "04702eb1f498dcf0512f44445c0ed24e9b5c8ca3b0cc64c168f296af7b821849",
+		"releaseId": "04702eb1f498dcf0512f44445c0ed24e9b5c8ca3b0cc64c168f296af7b821849",
 		"version": 1
 	},
 	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
 	"stages": [
 		{
-			"elapsedMilliseconds": 606,
+			"elapsedMilliseconds": 581,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 109424,
+			"elapsedMilliseconds": 73781,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 2279,
+			"elapsedMilliseconds": 2379,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-19T12:21:56.715Z"
+	"generatedAt": "2026-11-19T12:51:22.400Z"
 }
