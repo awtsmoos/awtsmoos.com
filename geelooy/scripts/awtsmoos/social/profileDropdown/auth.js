@@ -35,12 +35,24 @@ async function authenticate(elements, form, url, registering, closeMenu) {
 	setProfileFormBusy(form, true);
 	setProfileMessage(elements.authMessage, registering ? 'Creating account…' : 'Signing in…', 'processing');
 	try {
-		const response = await fetch(url, {
-			method: 'POST',
-			body: new URLSearchParams({ username, password: passwordInput.value }),
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			credentials: 'include'
-		});
+		// Bound the wait: an unbounded fetch left "Signing in…" hanging
+		// for over a minute in the 2026-11-19 rendered check when the
+		// server process died mid-request. 30s matches the cold-endpoint
+		// bound used elsewhere on this server.
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), 30000);
+		let response;
+		try {
+			response = await fetch(url, {
+				method: 'POST',
+				body: new URLSearchParams({ username, password: passwordInput.value }),
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				credentials: 'include',
+				signal: controller.signal
+			});
+		} finally {
+			clearTimeout(timeout);
+		}
 		const body = await response.text();
 		if (!responseSucceeded(response, body, registering)) {
 			throw new Error(friendlyAuthMessage(serverMessageFromBody(body), registering));
@@ -56,7 +68,7 @@ async function authenticate(elements, form, url, registering, closeMenu) {
 		requestAnimationFrame(() => elements.dropdownProfile.focus());
 	} catch (error) {
 		passwordInput.value = '';
-		setProfileMessage(elements.authMessage, error.message || 'Sign in failed. Local mode still works.', 'error');
+		setProfileMessage(elements.authMessage, friendlyFailureMessage(error, registering), 'error');
 		passwordInput.focus();
 	} finally {
 		setProfileFormBusy(form, false);
@@ -105,18 +117,40 @@ function serverMessageFromBody(body) {
  */
 function friendlyAuthMessage(serverMessage, registering) {
 	const raw = String(serverMessage || '').trim();
+	// No server message means the server never judged the credentials —
+	// an error page, a dead process, a network failure. Never translate
+	// that silence into a credential verdict: the 2026-11-19 rendered
+	// check was told "That password doesn't match" for a correct
+	// password when the server process had been OOM-killed mid-login.
+	if (!raw) {
+		return registering
+			? "Account creation didn't go through — the server didn't answer properly. Try again."
+			: "Sign in didn't go through — the server didn't answer properly. Try again.";
+	}
 	if (registering) {
 		if (/taken|already (exists|taken|in use)|in use|not available|exists/i.test(raw)) {
 			return 'That name is taken \u2014 pick another.';
 		}
-		if (raw) return raw;
-		return 'That name is taken \u2014 pick another.';
+		return raw;
 	}
 	if (/password|invalid|incorrect|mismatch|does not match|wrong/i.test(raw)) {
 		return "That password doesn't match. Try again.";
 	}
-	if (raw) return raw;
-	return "That password doesn't match. Try again.";
+	return raw;
+}
+
+/** Maps a thrown fetch failure to honest copy: a timeout or a network
+ * failure is reported as exactly that, never as a credential verdict. */
+function friendlyFailureMessage(error, registering) {
+	if (error?.name === 'AbortError') {
+		return registering
+			? 'Creating the account took too long — the server is slow right now. Try again.'
+			: 'Signing in took too long — the server is slow right now. Try again.';
+	}
+	if (error instanceof TypeError) {
+		return "Couldn't reach the server. Check your connection and try again.";
+	}
+	return error?.message || 'Sign in failed. Local mode still works.';
 }
 
 function swapForms(hiddenForm, shownForm) {
