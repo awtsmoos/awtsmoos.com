@@ -309,6 +309,31 @@
 	filter: saturate(1.4);
 }
 
+/* B"H 2026-11-19 (mobile fix M-1): at phone widths the four actions'
+   min-content widths sum to ~357px inside a ~326px card body, so the
+   row overflowed and the card clipped Save to "Sav". Let the actions
+   shrink below min-content, size from their content (flex-basis auto,
+   so the long Comments label keeps the width it needs) and tighten
+   icon/gap/padding/type only in this range; the desktop row is
+   untouched. */
+@media (max-width: 480px) {
+	.feed-card__actions {
+		gap: 0.15rem;
+	}
+	.feed-action {
+		flex: 1 1 auto;
+		min-width: 0;
+		gap: 0.25rem;
+		padding: 0.5rem 0.1rem;
+		font-size: 0.76rem;
+		white-space: nowrap;
+	}
+	.feed-action img {
+		width: 1.05rem;
+		height: 1.05rem;
+	}
+}
+
 /* ---------- Skeleton loaders ---------- */
 .feed-skeleton {
 	border-radius: 1.1rem;
