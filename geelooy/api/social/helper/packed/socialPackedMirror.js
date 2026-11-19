@@ -24,7 +24,19 @@ function appendEvent({ $i, type, actor = '', entity = {}, data = {} }) {
  */
 function excerptOf(post) {
   if (!post || typeof post !== 'object') return '';
-  const clean = (t) => String(t || '')
+  // B"H 2026-11-19 (social polish): decode entities once and strip whole
+  // HTML tags before the markdown pass — the old chain removed markdown
+  // characters but left raw tags in place, so packed excerpts reached the
+  // feed as literal "<b>…</b>" text.
+  const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+  const decodeOnce = (t) => t.replace(/&(amp|lt|gt|quot|apos);|&#(\d+);|&#x([0-9a-fA-F]+);/g, (m, named, dec, hex) => {
+    if (named) return NAMED[named];
+    const code = hex ? parseInt(hex, 16) : parseInt(dec, 10);
+    return Number.isFinite(code) && code > 0 && code <= 0x10FFFF ? String.fromCodePoint(code) : m;
+  });
+  const clean = (t) => decodeOnce(String(t || ''))
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')
     .replace(/[#*`_>\[\](){}|~\\]/g, ' ')
     .replace(/https?:\S+/g, ' ')
     .replace(/\s+/g, ' ')
