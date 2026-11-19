@@ -62,7 +62,9 @@ function fakeTree(id, position = [30, 0, -48]) {
 	const group = {
 		name: id,
 		position: { x: position[0], y: position[1], z: position[2] },
-		userData: { AwtsmoosTree: { groveId: `${id}-grove` } },
+		// B"H: the ring trees come from the Core factory, which marks
+		// `awtsmoosMeadowTree`, not the game factory's `AwtsmoosTree`.
+		userData: { awtsmoosMeadowTree: true, meadowTree: { kind: 'olive' } },
 		traverse(fn) {
 			fn(bark);
 			fn(canopy);
@@ -89,15 +91,15 @@ function fakeRuntime(trees) {
 }
 
 test('one trunk becomes one solid twelve-triangle box', () => {
-	const { group } = fakeTree('tree-1');
+	const { group } = fakeTree('MeadowTree_olive', [30, 0, -48]);
 	const runtime = fakeRuntime([{ group }]);
 	const receipt = registerBootstrapMeadowTreeCollision(runtime);
 	assert.ok(receipt);
 	assert.equal(receipt.triangles, 12);
-	assert.deepEqual([...receipt.trees], ['tree-1']);
+	assert.deepEqual([...receipt.trees], ['MeadowTree_olive@30,-48']);
 	assert.equal(runtime.mainOctree.items.length, 12);
 	assert.ok(runtime.mainOctree.items.every(collider => collider.solid === true));
-	assert.ok(runtime.mainOctree.items.every(collider => collider.kind.startsWith('bootstrap-tree:tree-1:trunk:face-')));
+	assert.ok(runtime.mainOctree.items.every(collider => collider.kind.startsWith('bootstrap-tree:MeadowTree_olive@30,-48:trunk:face-')));
 	const union = runtime.mainOctree.items.reduce((bounds, collider) => ({
 		minX: Math.min(bounds.minX, collider.aabb.min.x),
 		minY: Math.min(bounds.minY, collider.aabb.min.y),
@@ -109,7 +111,7 @@ test('one trunk becomes one solid twelve-triangle box', () => {
 });
 
 test('a second registration adds nothing and returns the same receipt', () => {
-	const { group } = fakeTree('tree-1');
+	const { group } = fakeTree('MeadowTree_olive', [30, 0, -48]);
 	const runtime = fakeRuntime([{ group }]);
 	const first = registerBootstrapMeadowTreeCollision(runtime);
 	const second = registerBootstrapMeadowTreeCollision(runtime);
@@ -117,8 +119,19 @@ test('a second registration adds nothing and returns the same receipt', () => {
 	assert.equal(runtime.mainOctree.items.length, 12);
 });
 
-test('release removes every trunk triangle and frees the tree id', () => {
-	const { group } = fakeTree('tree-1');
+test('two trees sharing one factory name both become solid', () => {
+	const first = fakeTree('MeadowTree_olive', [30, 0, -48]);
+	const second = fakeTree('MeadowTree_olive', [-15, 0, -50]);
+	const runtime = fakeRuntime([{ group: first.group }, { group: second.group }]);
+	const receipt = registerBootstrapMeadowTreeCollision(runtime);
+	assert.ok(receipt);
+	assert.equal(receipt.triangles, 24);
+	assert.deepEqual([...receipt.trees], ['MeadowTree_olive@30,-48', 'MeadowTree_olive@-15,-50']);
+	assert.equal(runtime.mainOctree.items.length, 24);
+});
+
+test('release removes every trunk triangle and frees the tree group', () => {
+	const { group } = fakeTree('MeadowTree_olive', [30, 0, -48]);
 	const runtime = fakeRuntime([{ group }]);
 	const receipt = registerBootstrapMeadowTreeCollision(runtime);
 	assert.equal(receipt.release(), 12);

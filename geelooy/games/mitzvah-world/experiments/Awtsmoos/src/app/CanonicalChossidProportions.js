@@ -23,12 +23,13 @@ const BEARD_FLAG_LEGACY = 'AwtsmoosBeardProportionsV2';
 
 // The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
 // so skinning pokes it through the coat as white triangles. Tucking it
-// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
-// so the chest V stays and the white dashes leave the arms.
-const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
+// per-axis pulls the sleeves ~11 cm inward while barely moving it vertically,
+// so the chest V stays and the white dashes leave the arms. V2 (0.90) still
+// left two dashes on the sleeve; V3 pulls to 0.85.
+const SHIRT_TUCK = Object.freeze({ x: 0.85, y: 0.98, z: 0.85 });
 const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
-const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV3';
+const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV2';
 
 // The authored head reads large against the body at gameplay distance; the
 // whole Head bone (parent of every face part) scales 0.88, so hat, beard,
@@ -44,6 +45,34 @@ export function stabilizeCanonicalChossidModel(model) {
 	const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG, SHIRT_FLAG_LEGACY);
 	const headAdjusted = adjustOutermost(model, HEAD_NAMES, HEAD_SCALE, HEAD_FLAG);
 	return Object.freeze({ ...visibility, beardAdjusted, headAdjusted, shirtTucked });
+}
+
+/**
+ * Shrinks the head inside the authored animation itself. Scaling the Head
+ * bone alone does not survive playback: every clip carries scale tracks for
+ * mixamorig:Head, and the animation player overwrites the bone scale with
+ * the authored 1.0 on the first frame. Multiplying the scale-track values
+ * by the same 0.88 keeps the smaller head through every clip. Each loaded
+ * GLB instance carries its own track copies, so the edit never leaks into
+ * another load; a second call on the same clips is a no-op.
+ */
+const SHRUNK_HEAD_SCALE_CHANNELS = new WeakSet();
+
+export function shrinkCanonicalHeadAnimation(animations, factor = HEAD_SCALE.x) {
+	let edited = 0;
+	for (const animation of animations || []) {
+		for (const channel of animation?.channels || []) {
+			if (channel?.path !== 'scale') continue;
+			if (channel?.node?.name !== 'mixamorig:Head') continue;
+			if (SHRUNK_HEAD_SCALE_CHANNELS.has(channel)) continue;
+			const output = channel.output;
+			if (!output?.length) continue;
+			channel.output = Float32Array.from(output, value => value * factor);
+			SHRUNK_HEAD_SCALE_CHANNELS.add(channel);
+			edited += 1;
+		}
+	}
+	return edited;
 }
 
 /**

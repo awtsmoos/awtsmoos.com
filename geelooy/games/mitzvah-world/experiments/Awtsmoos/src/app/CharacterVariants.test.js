@@ -95,7 +95,7 @@ function resolvedPlayer() {
 		resolvedMesh('skin-mesh', 'skin@#c98f6a')
 	];
 	const byName = Object.fromEntries(meshes.map(mesh => [mesh.name, mesh]));
-	return { byName, meshes, model: { traverse(fn) { for (const mesh of meshes) fn(mesh); } } };
+	return { byName, meshes, model: { userData: {}, traverse(fn) { for (const mesh of meshes) fn(mesh); } } };
 }
 
 describe('palette-resolved materials', () => {
@@ -134,5 +134,6 @@ describe('palette-resolved materials', () => {
 		assert.equal(byName['glasses-left'].visible, false);
 		assert.equal(byName['teffilin-strap'].visible, false);
 		assert.equal(byName['jacket-mesh'].material.color.hex, 0x161616);
+		assert.equal(model.userData.AwtsmoosVariant, 'classic');
 	});
 });

@@ -15,7 +15,7 @@ import { applyChossidOutfit, playerChossidOutfit } from '../assets/ChossidOutfit
 import { bakeChossidSurfaceDetail } from '../assets/ChossidSurfaceDetail.js';
 import { applyVariant, enhanceRealism, variantNames, VARIANTS } from './CharacterVariants.js';
 import { canTalk, closeMouth, setMouthOpen, speakText } from './TalkingMouth.js';
-import { stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
+import { shrinkCanonicalHeadAnimation, stabilizeCanonicalChossidModel } from './CanonicalChossidProportions.js';
 
 /** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
 export function createPlayerModel(playerGltf, scene) {
@@ -37,6 +37,7 @@ export function createPlayerModel(playerGltf, scene) {
 	// B"H: the actor-hydration path swaps the player through this doorway;
 	// without the same proportions pass the beard returns to full authored length.
 	stabilizeCanonicalChossidModel(model);
+	shrinkCanonicalHeadAnimation(playerGltf.animations);
 	scene.add(model);
 	const feet = alignModelFeetToGround(model, 0);
 	const footOffset = model.position.y;

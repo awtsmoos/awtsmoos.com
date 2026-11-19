@@ -28,17 +28,22 @@ export function registerBootstrapMeadowTreeCollision(runtime, dependencies = {})
 		runtime.scene?.updateWorldMatrix?.();
 	} catch {}
 	const createBox = dependencies.createBoxTriangleColliders || createBoxTriangleColliders;
-	const registered = runtime.bootstrapTreeCollisionIds || new Set();
+	// B"H: registered groups are tracked by OBJECT, not by name — the Core
+	// tree factory names every olive `MeadowTree_olive`, so a name key would
+	// register only the first tree of each kind and leave the rest walk-through.
+	const registered = runtime.bootstrapTreeCollisionGroups || new WeakSet();
 	const colliders = [];
 	const trees = [];
+	const groups = [];
 	runtime.scene?.traverse?.(object => {
-		if (!object?.userData?.AwtsmoosTree) return;
-		const id = treeId(object);
-		if (registered.has(id)) return;
+		if (!isMeadowTree(object)) return;
+		if (registered.has(object)) return;
 		const trunk = createTreeTrunkColliders(object, createBox);
 		if (!trunk.length) return;
 		colliders.push(...trunk);
-		trees.push(id);
+		trees.push(treeId(object));
+		groups.push(object);
+		registered.add(object);
 	});
 	if (!colliders.length) return runtime.bootstrapTreeCollisionReceipt || null;
 	const inserted = [];
@@ -51,7 +56,7 @@ export function registerBootstrapMeadowTreeCollision(runtime, dependencies = {})
 		for (const collider of inserted.reverse()) authority.remove(collider);
 		throw error;
 	}
-	runtime.bootstrapTreeCollisionIds = new Set([...registered, ...trees]);
+	runtime.bootstrapTreeCollisionGroups = registered;
 	let released = false;
 	const receipt = Object.freeze({
 		colliders: Object.freeze([...colliders]),
@@ -62,7 +67,7 @@ export function registerBootstrapMeadowTreeCollision(runtime, dependencies = {})
 			released = true;
 			let removed = 0;
 			for (const collider of colliders) removed += authority.remove(collider) ? 1 : 0;
-			for (const id of trees) runtime.bootstrapTreeCollisionIds?.delete(id);
+			for (const group of groups) registered.delete(group);
 			if (runtime.bootstrapTreeCollisionReceipt === receipt) runtime.bootstrapTreeCollisionReceipt = null;
 			return removed;
 		},
@@ -110,7 +115,20 @@ function findBarkMesh(treeGroup) {
 }
 
 function treeId(treeGroup) {
-	return String(treeGroup.name || treeGroup.userData?.AwtsmoosTree?.groveId || 'tree');
+	const position = treeGroup.position || {};
+	const x = Math.round(Number(position.x) || 0);
+	const z = Math.round(Number(position.z) || 0);
+	return `${treeGroup.name || 'tree'}@${x},${z}`;
+}
+
+/**
+ * Both tree factories mark their groups, differently: the Core meadow
+ * factory sets `awtsmoosMeadowTree`, the game factory sets `AwtsmoosTree`.
+ * The ring trees come from the Core factory.
+ */
+function isMeadowTree(object) {
+	const data = object?.userData;
+	return Boolean(data?.awtsmoosMeadowTree || data?.AwtsmoosTree);
 }
 
 /** World-space bounds of one mesh from its positions through its world matrix. */
