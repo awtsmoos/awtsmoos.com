@@ -11,10 +11,13 @@
 
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
 import { shrinkCanonicalHeadAnimation } from './CanonicalChossidProportions.js';
-import { registerBootstrapMeadowTreeCollision } from './BootstrapMeadowTreeCollision.js';
+import {
+	registerBootstrapMeadowTreeCollision,
+	scheduleBootstrapTreeCollisionRetry
+} from './BootstrapMeadowTreeCollision.js';
 
 /** Installs one canonical grounded player and binds animation to its movable outer root. */
-export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
+export function installCanonicalPlayer(runtime, predecessor, gltf, prepared, dependencies = {}) {
 	runtime.scene.add(prepared.model);
 	runtime.model = prepared.model;
 	runtime.visiblePlayer = prepared.visiblePlayer;
@@ -38,9 +41,17 @@ export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	// group lands in the live scene, leaving an empty octree with no error
 	// and no retry. Retry here, once the player — and the world around it —
 	// is installed; the registration is idempotent per tree, so a first
-	// control that already worked adds nothing.
+	// control that already worked adds nothing. And schedule retries after
+	// it: the trees can still arrive after the install (the terrain group
+	// lands with hydration), and the assembly that used to schedule them
+	// does not build this runtime — this doorway is the one that does.
 	try {
 		registerBootstrapMeadowTreeCollision(runtime);
+	} catch {}
+	const scheduleTreeCollisionRetry = dependencies.scheduleTreeCollisionRetry
+		|| scheduleBootstrapTreeCollisionRetry;
+	try {
+		scheduleTreeCollisionRetry(runtime);
 	} catch {}
 	runtime.equipment?.bindModel?.(prepared.model);
 	const evidence = canonicalEvidence(animation, gltf);
