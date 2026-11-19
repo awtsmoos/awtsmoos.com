@@ -154,29 +154,29 @@ const __awtsmoosModule_67 = Object.create(null);
 
 const __awtsmoosModule_68 = Object.create(null);
 
+const __awtsmoosModule_69 = Object.create(null);
+
+const __awtsmoosModule_70 = Object.create(null);
+
 const __awtsmoosModule_66 = Object.create(null);
 
 const __awtsmoosModule_65 = Object.create(null);
 
 const __awtsmoosModule_64 = Object.create(null);
 
-const __awtsmoosModule_70 = Object.create(null);
-
-const __awtsmoosModule_69 = Object.create(null);
+const __awtsmoosModule_72 = Object.create(null);
 
 const __awtsmoosModule_71 = Object.create(null);
 
-const __awtsmoosModule_72 = Object.create(null);
-
-const __awtsmoosModule_1 = Object.create(null);
+const __awtsmoosModule_73 = Object.create(null);
 
 const __awtsmoosModule_74 = Object.create(null);
 
-const __awtsmoosModule_73 = Object.create(null);
+const __awtsmoosModule_1 = Object.create(null);
 
-const __awtsmoosModule_79 = Object.create(null);
+const __awtsmoosModule_76 = Object.create(null);
 
-const __awtsmoosModule_78 = Object.create(null);
+const __awtsmoosModule_75 = Object.create(null);
 
 const __awtsmoosModule_87 = Object.create(null);
 
@@ -1040,7 +1040,7 @@ const __awtsmoosModule_248 = Object.create(null);
 
 const __awtsmoosModule_125 = Object.create(null);
 
-const __awtsmoosModule_77 = Object.create(null);
+const __awtsmoosModule_79 = Object.create(null);
 
 const __awtsmoosModule_514 = Object.create(null);
 
@@ -1058,9 +1058,9 @@ const __awtsmoosModule_517 = Object.create(null);
 
 const __awtsmoosModule_511 = Object.create(null);
 
-const __awtsmoosModule_76 = Object.create(null);
+const __awtsmoosModule_78 = Object.create(null);
 
-const __awtsmoosModule_75 = Object.create(null);
+const __awtsmoosModule_77 = Object.create(null);
 
 const __awtsmoosModule_520 = Object.create(null);
 
@@ -2294,7 +2294,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_1g8rzp4 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2307,7 +2307,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_1g8rzp4;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -4037,12 +4037,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1q5ts2f = {
+	const __awtsmoosDefault_1f8147 = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1q5ts2f;
+	__exports.default = __awtsmoosDefault_1f8147;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -5098,18 +5098,28 @@ const __awtsmoosModule_0 = Object.create(null);
 	const BEARD_FLAG_LEGACY = 'AwtsmoosBeardProportionsV2';
 
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
-	// so skinning pokes it through the coat as white triangles. Tucking it to 0.95
-	// about the model origin pulls it ~4 cm inward, clear of the jacket sides.
-	const SHIRT_TUCK = 0.95;
+	// so skinning pokes it through the coat as white triangles. Tucking it
+	// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
+	// so the chest V stays and the white dashes leave the arms.
+	const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV1';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+
+	// The authored head reads large against the body at gameplay distance; the
+	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
+	// glasses, and eyes keep their relative places while the head shrinks.
+	const HEAD_SCALE = Object.freeze({ x: 0.88, y: 0.88, z: 0.88 });
+	const HEAD_NAMES = new Set(['mixamorig:Head']);
+	const HEAD_FLAG = 'AwtsmoosHeadProportionsV1';
 
 	/** Prepares player or village GLB once, preserving hidden variants and animation. */
 	function stabilizeCanonicalChossidModel(model) {
 		const visibility = stabilizeCanonicalAnimatedMeshVisibility(model);
 		const beardAdjusted = adjustOutermost(model, BEARD_NAMES, BEARD_SCALE, BEARD_FLAG, BEARD_FLAG_LEGACY);
-		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG);
-		return Object.freeze({ ...visibility, beardAdjusted, shirtTucked });
+		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG, SHIRT_FLAG_LEGACY);
+		const headAdjusted = adjustOutermost(model, HEAD_NAMES, HEAD_SCALE, HEAD_FLAG);
+		return Object.freeze({ ...visibility, beardAdjusted, headAdjusted, shirtTucked });
 	}
 
 
@@ -6107,9 +6117,344 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CharacterVariants.js ----
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ChossidOutfitPalette.js ----
 {
 	const __exports = __awtsmoosModule_67;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ChossidOutfitPalette.js
+	 * @description Shares garment materials by role/color and controls real GLB layers.
+	 * The Awtsmoos renews each friendly face beyond cloth; Awtsmoos.com lets many people
+	 * differ through bounded palettes while identical colors inhabit one material vessel.
+	 */
+
+	const variantCache = new WeakMap();
+
+	function chossidMaterialResolver(outfitDefinition) {
+		const definition = normalizeOutfit(outfitDefinition);
+		return material => materialVariant(material, definition);
+	}
+
+
+	__exports.chossidMaterialResolver = chossidMaterialResolver;
+	function applyChossidOutfit(scene, outfitDefinition) {
+		const definition = normalizeOutfit(outfitDefinition);
+		const stats = { hiddenNodes: 0, visibleNodes: 0 };
+		scene.traverse(node => {
+			const visibility = clothingVisibility(node.name, definition);
+			if (visibility === null) return;
+			node.visible = visibility;
+			stats[visibility ? 'visibleNodes' : 'hiddenNodes'] += 1;
+		});
+		scene.userData.chossidOutfit = definition;
+		return stats;
+	}
+
+
+	__exports.applyChossidOutfit = applyChossidOutfit;
+	function chossidPaletteStats() {
+		return { sharedBySourceMaterial: true };
+	}
+
+
+	__exports.chossidPaletteStats = chossidPaletteStats;
+	/**
+	 * Returns the canonical player outfit: yarmulke, jacket, no tefillin, with
+	 * near-black coat/pants kept visibly separated instead of collapsing to pure black.
+	 */
+	function playerChossidOutfit() {
+		return Object.freeze({
+			colors: Object.freeze({
+				coat: '#23252b',
+				eyes: '#4d6b8a',
+				glasses: '#26384a',
+				hair: '#4b2410',
+				pants: '#191a1d',
+				shirt: '#f5f1e8'
+			}),
+			headwear: 'yarmulke',
+			id: 'player-canonical',
+			jacket: true,
+			tefillin: false
+		});
+	}
+
+
+	__exports.playerChossidOutfit = playerChossidOutfit;
+	__exports.chossidMaterialRole = materialRole;
+
+	/**
+	 * Refined base colors for authored materials the outfit palette does not recolor.
+	 * The GLB ships skin as flat orange and several garments as pure black; these keep
+	 * the authored identity while reading as natural skin and separated near-black cloth.
+	 */
+	const REFINED_RAW_COLORS = Object.freeze({
+		skin: '#b08a6e',
+		shoes: '#26211c',
+		tophat: '#121214',
+		yamulka: '#17171a',
+		teffilinstap: '#1d1710',
+		teffilinbayis: '#1d1710',
+		teffilinshin: '#1d1710'
+	});
+
+	function refinedRawColor(role) {
+		return REFINED_RAW_COLORS[role] || null;
+	}
+
+	function materialVariant(material, definition) {
+		if (!material) return material;
+		const role = materialRole(material.name);
+		const color = definition.colors[role] || refinedRawColor(role);
+		if (!color) return material;
+		let variants = variantCache.get(material);
+		if (!variants) {
+			variants = new Map();
+			variantCache.set(material, variants);
+		}
+		const key = `${role}:${color}`;
+		if (variants.has(key)) return variants.get(key);
+		const variant = Object.assign(
+			Object.create(Object.getPrototypeOf(material)),
+			material
+		);
+		variant.color = rgba(color, material.color?.[3] ?? 1);
+		variant.name = `${material.name || role}@${color}`;
+		variant.userData = {
+			...(material.userData || {}),
+			chossidPaletteKey: key
+		};
+		variants.set(key, variant);
+		return variant;
+	}
+
+	function clothingVisibility(nameValue, definition) {
+		const name = String(nameValue || '').toLowerCase();
+		if (name === 'top-hat') return definition.headwear === 'top-hat';
+		if (name === 'yarmalka') return definition.headwear !== 'top-hat';
+		if (name === 'jacket') return definition.jacket && !definition.tefillin;
+		if (name === 'jacket-teffilin') return definition.jacket && definition.tefillin;
+		if (name === 'outer-shirt') return true;
+		if (/teffilin|tefillin|batim|shinleft|shinright|ritzooyoys/.test(name)) {
+			return definition.tefillin;
+		}
+		return null;
+	}
+
+	function materialRole(nameValue) {
+		const name = String(nameValue || '').toLowerCase();
+		if (name.startsWith('jacket')) return 'coat';
+		if (name === 'shirt' || name === 'outer-shirt') return 'shirt';
+		if (name === 'pants') return 'pants';
+		if (name === 'hair') return 'hair';
+		if (name === 'glasses-frame') return 'glasses';
+		if (name === 'eye-color') return 'eyes';
+		return name;
+	}
+
+	function normalizeOutfit(value = {}) {
+		return {
+			colors: {
+				coat: value.colors?.coat || '#202226',
+				eyes: value.colors?.eyes || '#4d6b8a',
+				glasses: value.colors?.glasses || '#26384a',
+				hair: value.colors?.hair || '#4b2410',
+				pants: value.colors?.pants || '#17181a',
+				shirt: value.colors?.shirt || '#f4efe6'
+			},
+			headwear: value.headwear || 'yarmulke',
+			id: value.id || 'default',
+			jacket: value.jacket !== false,
+			tefillin: value.tefillin === true
+		};
+	}
+
+	function rgba(hex, alpha) {
+		const value = Number.parseInt(String(hex).replace('#', ''), 16);
+		return [
+			((value >> 16) & 255) / 255,
+			((value >> 8) & 255) / 255,
+			(value & 255) / 255,
+			alpha
+		];
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ChossidSurfaceDetail.js ----
+{
+	const __exports = __awtsmoosModule_68;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ChossidSurfaceDetail.js
+	 * @description Bakes deterministic per-vertex surface variation into one isolated
+	 * Chossid instance: subtle skin mottling, cloth grain, and crevice darkening from a
+	 * cheap normal-divergence approximation. Runs once at load in the app layer on
+	 * CLONED geometries (instance geometry is shared with the GLB template, so the
+	 * bake must never mutate it); the tiny renderer's shaders already consume a
+	 * `color` vertex attribute as a multiplier, so no shared-core shader or buffer
+	 * changes are needed. Fully procedural, deterministic, zero network.
+	 */
+
+	const chossidMaterialRole = __awtsmoosModule_67.chossidMaterialRole;
+
+	const CREVICE_CELL_SIZE = 0.045;
+	const MIN_SHADE = 0.7;
+	const MAX_SHADE = 1.06;
+
+	const SHADE_PARAMS = Object.freeze({
+		skin: Object.freeze({ crevice: 0.15, grain: 0, mottle: 0.085, warm: 0.035 }),
+		cloth: Object.freeze({ crevice: 0.24, grain: 0.055, mottle: 0, warm: 0 }),
+		hair: Object.freeze({ crevice: 0.17, grain: 0.03, mottle: 0, warm: 0 }),
+		hard: Object.freeze({ crevice: 0.1, grain: 0.015, mottle: 0, warm: 0 })
+	});
+
+	/**
+	 * Bakes surface detail into every mesh of one loaded Chossid scene.
+	 * @param {object} scene Loaded GLTF scene (traversable).
+	 * @param {object} [options] Optional tuning overrides.
+	 * @returns {object} Frozen bake receipt.
+	 */
+	function bakeChossidSurfaceDetail(scene, options = {}) {
+		const receipt = { meshesBaked: 0, meshesSkipped: 0, roles: {}, verticesBaked: 0 };
+		scene?.traverse?.(node => {
+			if (!node.isMesh && !node.isSkinnedMesh) return;
+			const baked = bakeMeshSurfaceDetail(node, options);
+			if (baked > 0) {
+				receipt.meshesBaked += 1;
+				receipt.verticesBaked += baked;
+				const role = shadeClass(chossidMaterialRole(meshMaterialName(node)));
+				receipt.roles[role] = (receipt.roles[role] || 0) + 1;
+			} else {
+				receipt.meshesSkipped += 1;
+			}
+		});
+		return Object.freeze({ ...receipt, roles: Object.freeze({ ...receipt.roles }) });
+	}
+
+
+	__exports.bakeChossidSurfaceDetail = bakeChossidSurfaceDetail;
+	function bakeMeshSurfaceDetail(mesh, options) {
+		const geometry = mesh.geometry;
+		const position = geometry?.attributes?.position;
+		const normal = geometry?.attributes?.normal;
+		if (!position || !normal || position.count < 1) return 0;
+		if (geometry.attributes.color) return 0;
+		const positions = position.array;
+		const normals = normal.array;
+		if (!positions || !normals || positions.length < position.count * 3) return 0;
+		const params = { ...SHADE_PARAMS[shadeClass(chossidMaterialRole(meshMaterialName(mesh)))], ...(options.params || {}) };
+		const cells = accumulateNormalCells(positions, normals, position.count);
+		const colors = new Float32Array(position.count * 4);
+		for (let i = 0; i < position.count; i++) {
+			const px = positions[i * 3];
+			const py = positions[i * 3 + 1];
+			const pz = positions[i * 3 + 2];
+			const nx = normals[i * 3];
+			const ny = normals[i * 3 + 1];
+			const nz = normals[i * 3 + 2];
+			let shade = creviceShade(cells, px, py, pz, nx, ny, nz, params.crevice);
+			shade *= 1 - 0.06 * (0.5 - 0.5 * ny);
+			let warm = 0;
+			if (params.mottle > 0) {
+				const mottle = hash3i(
+					Math.floor(px / 0.09),
+					Math.floor(py / 0.09),
+					Math.floor(pz / 0.09)
+				);
+				shade *= 1 + (mottle - 0.5) * params.mottle * 2;
+				warm = (mottle - 0.5) * params.warm * 2;
+			}
+			if (params.grain > 0) {
+				const grain = hash3i(
+					Math.floor(px / 0.004),
+					Math.floor(py / 0.004),
+					Math.floor(pz / 0.004)
+				);
+				shade *= 1 + (grain - 0.5) * params.grain * 2;
+			}
+			const clamped = Math.min(MAX_SHADE, Math.max(MIN_SHADE, shade));
+			colors[i * 4] = clamped * (1 + warm);
+			colors[i * 4 + 1] = clamped;
+			colors[i * 4 + 2] = clamped * (1 - warm * 0.7);
+			colors[i * 4 + 3] = 1;
+		}
+		mesh.geometry = cloneGeometryWithColor(geometry, colors, position.count);
+		return position.count;
+	}
+
+	function accumulateNormalCells(positions, normals, count) {
+		const cells = new Map();
+		for (let i = 0; i < count; i++) {
+			const key = cellKey(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+			let cell = cells.get(key);
+			if (!cell) {
+				cell = { count: 0, x: 0, y: 0, z: 0 };
+				cells.set(key, cell);
+			}
+			cell.x += normals[i * 3];
+			cell.y += normals[i * 3 + 1];
+			cell.z += normals[i * 3 + 2];
+			cell.count += 1;
+		}
+		return cells;
+	}
+
+	function creviceShade(cells, px, py, pz, nx, ny, nz, strength) {
+		const cell = cells.get(cellKey(px, py, pz));
+		if (!cell || cell.count < 2) return 1;
+		const length = Math.hypot(cell.x, cell.y, cell.z) || 1;
+		const divergence = 1 - (nx * (cell.x / length) + ny * (cell.y / length) + nz * (cell.z / length));
+		const crevice = Math.min(1, Math.max(0, divergence * 3));
+		return 1 - strength * crevice * crevice;
+	}
+
+	function cellKey(x, y, z) {
+		const qx = Math.floor(x / CREVICE_CELL_SIZE);
+		const qy = Math.floor(y / CREVICE_CELL_SIZE);
+		const qz = Math.floor(z / CREVICE_CELL_SIZE);
+		return (Math.imul(qx, 73856093) ^ Math.imul(qy, 19349663) ^ Math.imul(qz, 83492791)) | 0;
+	}
+
+	function hash3i(x, y, z) {
+		let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1440662683);
+		h = Math.imul(h ^ (h >>> 13), 1274126177);
+		h ^= h >>> 16;
+		return (h >>> 0) / 4294967296;
+	}
+
+	function cloneGeometryWithColor(geometry, colors, count) {
+		const clone = Object.assign(Object.create(Object.getPrototypeOf(geometry)), geometry);
+		clone.attributes = {
+			...geometry.attributes,
+			color: { array: colors, count, itemSize: 4, normalized: false }
+		};
+		return clone;
+	}
+
+	function meshMaterialName(mesh) {
+		const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+		return material?.name || '';
+	}
+
+	function shadeClass(role) {
+		if (role === 'skin' || role === 'lips' || role === 'gums') return 'skin';
+		if (role === 'coat' || role === 'shirt' || role === 'pants') return 'cloth';
+		if (role === 'hair') return 'hair';
+		return 'hard';
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CharacterVariants.js ----
+{
+	const __exports = __awtsmoosModule_69;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6207,10 +6552,20 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	function setMaterialVisible(model, materialName, visible) {
 		eachMesh(model, object => {
-			if (object.material && object.material.name === materialName) {
+			if (object.material && materialBaseName(object.material) === materialName) {
 				object.visible = visible !== false;
 			}
 		});
+	}
+
+	/**
+	 * The outfit palette recolors resolved materials as `name@#color`, so a
+	 * variant rule that compares the whole name can never match a resolved
+	 * model — glasses and tefillin used to stay stuck on after the swap.
+	 * Every material rule matches the authored base name before the `@`.
+	 */
+	function materialBaseName(material) {
+		return String(material?.name || '').split('@')[0];
 	}
 
 	/** Beard on/off. The long beard is its own node, so the face stays intact. */
@@ -6270,7 +6625,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			[MATERIALS.yamulka]: outfit.hat
 		};
 		eachMesh(model, object => {
-			const name = object.material && object.material.name;
+			const name = materialBaseName(object.material);
 			if (name && targets[name] !== undefined) {
 				if (!object.userData.AwtsmoosVariantCloned) {
 					object.material = object.material.clone();
@@ -6320,7 +6675,7 @@ const __awtsmoosModule_0 = Object.create(null);
 				object.material = makeTeethMaterial(object);
 				return;
 			}
-			const tweak = tweaks[mat.name];
+			const tweak = tweaks[materialBaseName(mat)];
 			if (!tweak) return;
 			if (tweak.roughness !== undefined && 'roughness' in mat) mat.roughness = tweak.roughness;
 			if (tweak.metalness !== undefined && 'metalness' in mat) mat.metalness = tweak.metalness;
@@ -6346,7 +6701,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		const root = referenceObject.parent;
 		if (root && root.traverse) {
 			root.traverse(o => {
-				if (!base && o.material && o.material.name === MATERIALS.gums) base = o.material;
+				if (!base && o.material && materialBaseName(o.material) === MATERIALS.gums) base = o.material;
 			});
 		}
 		const mat = base ? base.clone() : newObjectMaterial(referenceObject);
@@ -6400,7 +6755,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/TalkingMouth.js ----
 {
-	const __exports = __awtsmoosModule_68;
+	const __exports = __awtsmoosModule_70;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6541,14 +6896,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const TinyAnimationPlayer = __awtsmoosModule_7.TinyAnimationPlayer;
 	const alignModelFeetToGround = __awtsmoosModule_61.alignModelFeetToGround;
-	const applyVariant = __awtsmoosModule_67.applyVariant;
-	const enhanceRealism = __awtsmoosModule_67.enhanceRealism;
-	const variantNames = __awtsmoosModule_67.variantNames;
-	const VARIANTS = __awtsmoosModule_67.VARIANTS;
-	const canTalk = __awtsmoosModule_68.canTalk;
-	const closeMouth = __awtsmoosModule_68.closeMouth;
-	const setMouthOpen = __awtsmoosModule_68.setMouthOpen;
-	const speakText = __awtsmoosModule_68.speakText;
+	const applyChossidOutfit = __awtsmoosModule_67.applyChossidOutfit;
+	const playerChossidOutfit = __awtsmoosModule_67.playerChossidOutfit;
+	const bakeChossidSurfaceDetail = __awtsmoosModule_68.bakeChossidSurfaceDetail;
+	const applyVariant = __awtsmoosModule_69.applyVariant;
+	const enhanceRealism = __awtsmoosModule_69.enhanceRealism;
+	const variantNames = __awtsmoosModule_69.variantNames;
+	const VARIANTS = __awtsmoosModule_69.VARIANTS;
+	const canTalk = __awtsmoosModule_70.canTalk;
+	const closeMouth = __awtsmoosModule_70.closeMouth;
+	const setMouthOpen = __awtsmoosModule_70.setMouthOpen;
+	const speakText = __awtsmoosModule_70.speakText;
 	const stabilizeCanonicalChossidModel = __awtsmoosModule_51.stabilizeCanonicalChossidModel;
 
 	/** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
@@ -6560,9 +6918,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		model.scale.set(1.52, 1.52, 1.52);
 		model.position.set(0, 0, 4);
 		model.setBaseTransform();
-		// B"H: one base model, many characters. Realism first, then the default identity.
-		enhanceRealism(model);
-		applyVariant(model, 'classic');
+		// B"H: the swap must wear the SAME identity the first-play load gave the
+		// traveler — palette outfit (yarmulke, glasses, no tefillin) plus the baked
+		// surface detail — never a different variant. The classic variant used to
+		// replace it here, and its material-name toggles silently failed on the
+		// palette-resolved names, so glasses and tefillin stayed stuck on while
+		// the hat changed. Variants remain available through the character API.
+		applyChossidOutfit(model, playerChossidOutfit());
+		bakeChossidSurfaceDetail(model);
 		// B"H: the actor-hydration path swaps the player through this doorway;
 		// without the same proportions pass the beard returns to full authored length.
 		stabilizeCanonicalChossidModel(model);
@@ -6608,10 +6971,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createEquipment = createEquipment;
-	/** Toggles every authored mesh sharing one material name. */
+	/** Toggles every authored mesh sharing one material name (palette-resolved `name@#color` counts as the same base name). */
 	function toggleEquipmentMaterial(model, name, enabled) {
 		model.traverse(object => {
-			if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
+			if ((object.isMesh || object.isSkinnedMesh) && String(object.material?.name || '').split('@')[0] === name) {
 				object.visible = Boolean(enabled);
 			}
 		});
@@ -6811,7 +7174,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/PostPlayableVisualTiming.js ----
 {
-	const __exports = __awtsmoosModule_70;
+	const __exports = __awtsmoosModule_72;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6848,7 +7211,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowCanonicalVisualGate.js ----
 {
-	const __exports = __awtsmoosModule_69;
+	const __exports = __awtsmoosModule_71;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6860,8 +7223,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com waits for the richer renderer's keli, so canonical humanity enters the screen instead of disappearing from view.
 	 */
 
-	const CANONICAL_RENDERER_POLL_MILLISECONDS = __awtsmoosModule_70.CANONICAL_RENDERER_POLL_MILLISECONDS;
-	const CANONICAL_RENDERER_WAIT_MILLISECONDS = __awtsmoosModule_70.CANONICAL_RENDERER_WAIT_MILLISECONDS;
+	const CANONICAL_RENDERER_POLL_MILLISECONDS = __awtsmoosModule_72.CANONICAL_RENDERER_POLL_MILLISECONDS;
+	const CANONICAL_RENDERER_WAIT_MILLISECONDS = __awtsmoosModule_72.CANONICAL_RENDERER_WAIT_MILLISECONDS;
 
 	async function waitForCanonicalVisualRenderer(
 		runtime,
@@ -6916,7 +7279,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPlayerMaterialHydrator.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_73;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6966,7 +7329,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowPlayerHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_74;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7056,10 +7419,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createGroundedCanonicalPlayer = __awtsmoosModule_50.createGroundedCanonicalPlayer;
 	const prepareCanonicalPlayerMeshes = __awtsmoosModule_50.prepareCanonicalPlayerMeshes;
 	const installCanonicalPlayer = __awtsmoosModule_64.installCanonicalPlayer;
-	const waitForCanonicalVisualRenderer = __awtsmoosModule_69.waitForCanonicalVisualRenderer;
-	const hydrateReadablePlayerMaterials = __awtsmoosModule_71.hydrateReadablePlayerMaterials;
-	const announcePlayerHydration = __awtsmoosModule_72.announcePlayerHydration;
-	const rejectNoncanonicalPlayerFallback = __awtsmoosModule_72.rejectNoncanonicalPlayerFallback;
+	const waitForCanonicalVisualRenderer = __awtsmoosModule_71.waitForCanonicalVisualRenderer;
+	const hydrateReadablePlayerMaterials = __awtsmoosModule_73.hydrateReadablePlayerMaterials;
+	const announcePlayerHydration = __awtsmoosModule_74.announcePlayerHydration;
+	const rejectNoncanonicalPlayerFallback = __awtsmoosModule_74.rejectNoncanonicalPlayerFallback;
 
 	function hydrateMinimalMeadowPlayer(runtime, environment = globalThis, dependencies = {}) {
 		if (runtime.canonicalPlayer?.status === 'ready') {
@@ -7123,7 +7486,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/GameplayQuietWindow.js ----
 {
-	const __exports = __awtsmoosModule_74;
+	const __exports = __awtsmoosModule_76;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7236,7 +7599,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowRendererEnhancement.js ----
 {
-	const __exports = __awtsmoosModule_73;
+	const __exports = __awtsmoosModule_75;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7248,7 +7611,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves one promise, one idle gate, normalized readiness, and exact failure evidence.
 	 */
 
-	const afterGameplayQuietWindow = __awtsmoosModule_74.afterGameplayQuietWindow;
+	const afterGameplayQuietWindow = __awtsmoosModule_76.afterGameplayQuietWindow;
 
 	const OPTIONAL_RENDERER_DELAY_MS = 60000;
 
@@ -7299,341 +7662,6 @@ const __awtsmoosModule_0 = Object.create(null);
 			});
 			throw error;
 		}
-	}
-
-}
-
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ChossidOutfitPalette.js ----
-{
-	const __exports = __awtsmoosModule_79;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ChossidOutfitPalette.js
-	 * @description Shares garment materials by role/color and controls real GLB layers.
-	 * The Awtsmoos renews each friendly face beyond cloth; Awtsmoos.com lets many people
-	 * differ through bounded palettes while identical colors inhabit one material vessel.
-	 */
-
-	const variantCache = new WeakMap();
-
-	function chossidMaterialResolver(outfitDefinition) {
-		const definition = normalizeOutfit(outfitDefinition);
-		return material => materialVariant(material, definition);
-	}
-
-
-	__exports.chossidMaterialResolver = chossidMaterialResolver;
-	function applyChossidOutfit(scene, outfitDefinition) {
-		const definition = normalizeOutfit(outfitDefinition);
-		const stats = { hiddenNodes: 0, visibleNodes: 0 };
-		scene.traverse(node => {
-			const visibility = clothingVisibility(node.name, definition);
-			if (visibility === null) return;
-			node.visible = visibility;
-			stats[visibility ? 'visibleNodes' : 'hiddenNodes'] += 1;
-		});
-		scene.userData.chossidOutfit = definition;
-		return stats;
-	}
-
-
-	__exports.applyChossidOutfit = applyChossidOutfit;
-	function chossidPaletteStats() {
-		return { sharedBySourceMaterial: true };
-	}
-
-
-	__exports.chossidPaletteStats = chossidPaletteStats;
-	/**
-	 * Returns the canonical player outfit: yarmulke, jacket, no tefillin, with
-	 * near-black coat/pants kept visibly separated instead of collapsing to pure black.
-	 */
-	function playerChossidOutfit() {
-		return Object.freeze({
-			colors: Object.freeze({
-				coat: '#23252b',
-				eyes: '#4d6b8a',
-				glasses: '#26384a',
-				hair: '#4b2410',
-				pants: '#191a1d',
-				shirt: '#f5f1e8'
-			}),
-			headwear: 'yarmulke',
-			id: 'player-canonical',
-			jacket: true,
-			tefillin: false
-		});
-	}
-
-
-	__exports.playerChossidOutfit = playerChossidOutfit;
-	__exports.chossidMaterialRole = materialRole;
-
-	/**
-	 * Refined base colors for authored materials the outfit palette does not recolor.
-	 * The GLB ships skin as flat orange and several garments as pure black; these keep
-	 * the authored identity while reading as natural skin and separated near-black cloth.
-	 */
-	const REFINED_RAW_COLORS = Object.freeze({
-		skin: '#b08a6e',
-		shoes: '#26211c',
-		tophat: '#121214',
-		yamulka: '#17171a',
-		teffilinstap: '#1d1710',
-		teffilinbayis: '#1d1710',
-		teffilinshin: '#1d1710'
-	});
-
-	function refinedRawColor(role) {
-		return REFINED_RAW_COLORS[role] || null;
-	}
-
-	function materialVariant(material, definition) {
-		if (!material) return material;
-		const role = materialRole(material.name);
-		const color = definition.colors[role] || refinedRawColor(role);
-		if (!color) return material;
-		let variants = variantCache.get(material);
-		if (!variants) {
-			variants = new Map();
-			variantCache.set(material, variants);
-		}
-		const key = `${role}:${color}`;
-		if (variants.has(key)) return variants.get(key);
-		const variant = Object.assign(
-			Object.create(Object.getPrototypeOf(material)),
-			material
-		);
-		variant.color = rgba(color, material.color?.[3] ?? 1);
-		variant.name = `${material.name || role}@${color}`;
-		variant.userData = {
-			...(material.userData || {}),
-			chossidPaletteKey: key
-		};
-		variants.set(key, variant);
-		return variant;
-	}
-
-	function clothingVisibility(nameValue, definition) {
-		const name = String(nameValue || '').toLowerCase();
-		if (name === 'top-hat') return definition.headwear === 'top-hat';
-		if (name === 'yarmalka') return definition.headwear !== 'top-hat';
-		if (name === 'jacket') return definition.jacket && !definition.tefillin;
-		if (name === 'jacket-teffilin') return definition.jacket && definition.tefillin;
-		if (name === 'outer-shirt') return true;
-		if (/teffilin|tefillin|batim|shinleft|shinright|ritzooyoys/.test(name)) {
-			return definition.tefillin;
-		}
-		return null;
-	}
-
-	function materialRole(nameValue) {
-		const name = String(nameValue || '').toLowerCase();
-		if (name.startsWith('jacket')) return 'coat';
-		if (name === 'shirt' || name === 'outer-shirt') return 'shirt';
-		if (name === 'pants') return 'pants';
-		if (name === 'hair') return 'hair';
-		if (name === 'glasses-frame') return 'glasses';
-		if (name === 'eye-color') return 'eyes';
-		return name;
-	}
-
-	function normalizeOutfit(value = {}) {
-		return {
-			colors: {
-				coat: value.colors?.coat || '#202226',
-				eyes: value.colors?.eyes || '#4d6b8a',
-				glasses: value.colors?.glasses || '#26384a',
-				hair: value.colors?.hair || '#4b2410',
-				pants: value.colors?.pants || '#17181a',
-				shirt: value.colors?.shirt || '#f4efe6'
-			},
-			headwear: value.headwear || 'yarmulke',
-			id: value.id || 'default',
-			jacket: value.jacket !== false,
-			tefillin: value.tefillin === true
-		};
-	}
-
-	function rgba(hex, alpha) {
-		const value = Number.parseInt(String(hex).replace('#', ''), 16);
-		return [
-			((value >> 16) & 255) / 255,
-			((value >> 8) & 255) / 255,
-			(value & 255) / 255,
-			alpha
-		];
-	}
-
-}
-
-// ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ChossidSurfaceDetail.js ----
-{
-	const __exports = __awtsmoosModule_78;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ChossidSurfaceDetail.js
-	 * @description Bakes deterministic per-vertex surface variation into one isolated
-	 * Chossid instance: subtle skin mottling, cloth grain, and crevice darkening from a
-	 * cheap normal-divergence approximation. Runs once at load in the app layer on
-	 * CLONED geometries (instance geometry is shared with the GLB template, so the
-	 * bake must never mutate it); the tiny renderer's shaders already consume a
-	 * `color` vertex attribute as a multiplier, so no shared-core shader or buffer
-	 * changes are needed. Fully procedural, deterministic, zero network.
-	 */
-
-	const chossidMaterialRole = __awtsmoosModule_79.chossidMaterialRole;
-
-	const CREVICE_CELL_SIZE = 0.045;
-	const MIN_SHADE = 0.7;
-	const MAX_SHADE = 1.06;
-
-	const SHADE_PARAMS = Object.freeze({
-		skin: Object.freeze({ crevice: 0.15, grain: 0, mottle: 0.085, warm: 0.035 }),
-		cloth: Object.freeze({ crevice: 0.24, grain: 0.055, mottle: 0, warm: 0 }),
-		hair: Object.freeze({ crevice: 0.17, grain: 0.03, mottle: 0, warm: 0 }),
-		hard: Object.freeze({ crevice: 0.1, grain: 0.015, mottle: 0, warm: 0 })
-	});
-
-	/**
-	 * Bakes surface detail into every mesh of one loaded Chossid scene.
-	 * @param {object} scene Loaded GLTF scene (traversable).
-	 * @param {object} [options] Optional tuning overrides.
-	 * @returns {object} Frozen bake receipt.
-	 */
-	function bakeChossidSurfaceDetail(scene, options = {}) {
-		const receipt = { meshesBaked: 0, meshesSkipped: 0, roles: {}, verticesBaked: 0 };
-		scene?.traverse?.(node => {
-			if (!node.isMesh && !node.isSkinnedMesh) return;
-			const baked = bakeMeshSurfaceDetail(node, options);
-			if (baked > 0) {
-				receipt.meshesBaked += 1;
-				receipt.verticesBaked += baked;
-				const role = shadeClass(chossidMaterialRole(meshMaterialName(node)));
-				receipt.roles[role] = (receipt.roles[role] || 0) + 1;
-			} else {
-				receipt.meshesSkipped += 1;
-			}
-		});
-		return Object.freeze({ ...receipt, roles: Object.freeze({ ...receipt.roles }) });
-	}
-
-
-	__exports.bakeChossidSurfaceDetail = bakeChossidSurfaceDetail;
-	function bakeMeshSurfaceDetail(mesh, options) {
-		const geometry = mesh.geometry;
-		const position = geometry?.attributes?.position;
-		const normal = geometry?.attributes?.normal;
-		if (!position || !normal || position.count < 1) return 0;
-		if (geometry.attributes.color) return 0;
-		const positions = position.array;
-		const normals = normal.array;
-		if (!positions || !normals || positions.length < position.count * 3) return 0;
-		const params = { ...SHADE_PARAMS[shadeClass(chossidMaterialRole(meshMaterialName(mesh)))], ...(options.params || {}) };
-		const cells = accumulateNormalCells(positions, normals, position.count);
-		const colors = new Float32Array(position.count * 4);
-		for (let i = 0; i < position.count; i++) {
-			const px = positions[i * 3];
-			const py = positions[i * 3 + 1];
-			const pz = positions[i * 3 + 2];
-			const nx = normals[i * 3];
-			const ny = normals[i * 3 + 1];
-			const nz = normals[i * 3 + 2];
-			let shade = creviceShade(cells, px, py, pz, nx, ny, nz, params.crevice);
-			shade *= 1 - 0.06 * (0.5 - 0.5 * ny);
-			let warm = 0;
-			if (params.mottle > 0) {
-				const mottle = hash3i(
-					Math.floor(px / 0.09),
-					Math.floor(py / 0.09),
-					Math.floor(pz / 0.09)
-				);
-				shade *= 1 + (mottle - 0.5) * params.mottle * 2;
-				warm = (mottle - 0.5) * params.warm * 2;
-			}
-			if (params.grain > 0) {
-				const grain = hash3i(
-					Math.floor(px / 0.004),
-					Math.floor(py / 0.004),
-					Math.floor(pz / 0.004)
-				);
-				shade *= 1 + (grain - 0.5) * params.grain * 2;
-			}
-			const clamped = Math.min(MAX_SHADE, Math.max(MIN_SHADE, shade));
-			colors[i * 4] = clamped * (1 + warm);
-			colors[i * 4 + 1] = clamped;
-			colors[i * 4 + 2] = clamped * (1 - warm * 0.7);
-			colors[i * 4 + 3] = 1;
-		}
-		mesh.geometry = cloneGeometryWithColor(geometry, colors, position.count);
-		return position.count;
-	}
-
-	function accumulateNormalCells(positions, normals, count) {
-		const cells = new Map();
-		for (let i = 0; i < count; i++) {
-			const key = cellKey(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
-			let cell = cells.get(key);
-			if (!cell) {
-				cell = { count: 0, x: 0, y: 0, z: 0 };
-				cells.set(key, cell);
-			}
-			cell.x += normals[i * 3];
-			cell.y += normals[i * 3 + 1];
-			cell.z += normals[i * 3 + 2];
-			cell.count += 1;
-		}
-		return cells;
-	}
-
-	function creviceShade(cells, px, py, pz, nx, ny, nz, strength) {
-		const cell = cells.get(cellKey(px, py, pz));
-		if (!cell || cell.count < 2) return 1;
-		const length = Math.hypot(cell.x, cell.y, cell.z) || 1;
-		const divergence = 1 - (nx * (cell.x / length) + ny * (cell.y / length) + nz * (cell.z / length));
-		const crevice = Math.min(1, Math.max(0, divergence * 3));
-		return 1 - strength * crevice * crevice;
-	}
-
-	function cellKey(x, y, z) {
-		const qx = Math.floor(x / CREVICE_CELL_SIZE);
-		const qy = Math.floor(y / CREVICE_CELL_SIZE);
-		const qz = Math.floor(z / CREVICE_CELL_SIZE);
-		return (Math.imul(qx, 73856093) ^ Math.imul(qy, 19349663) ^ Math.imul(qz, 83492791)) | 0;
-	}
-
-	function hash3i(x, y, z) {
-		let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1440662683);
-		h = Math.imul(h ^ (h >>> 13), 1274126177);
-		h ^= h >>> 16;
-		return (h >>> 0) / 4294967296;
-	}
-
-	function cloneGeometryWithColor(geometry, colors, count) {
-		const clone = Object.assign(Object.create(Object.getPrototypeOf(geometry)), geometry);
-		clone.attributes = {
-			...geometry.attributes,
-			color: { array: colors, count, itemSize: 4, normalized: false }
-		};
-		return clone;
-	}
-
-	function meshMaterialName(mesh) {
-		const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-		return material?.name || '';
-	}
-
-	function shadeClass(role) {
-		if (role === 'skin' || role === 'lips' || role === 'gums') return 'skin';
-		if (role === 'coat' || role === 'shirt' || role === 'pants') return 'cloth';
-		if (role === 'hair') return 'hair';
-		return 'hard';
 	}
 
 }
@@ -15211,7 +15239,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_53yabj = {
+	const __awtsmoosDefault_lt7aj3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -15225,7 +15253,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_53yabj;
+	__exports.default = __awtsmoosDefault_lt7aj3;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -40931,17 +40959,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js ----
 {
-	const __exports = __awtsmoosModule_77;
+	const __exports = __awtsmoosModule_79;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	const TinyAnimationPlayer = __awtsmoosModule_7.TinyAnimationPlayer;
 	const loadIsolatedGltf = __awtsmoosModule_2.loadIsolatedGltf;
-	const bakeChossidSurfaceDetail = __awtsmoosModule_78.bakeChossidSurfaceDetail;
-	const applyChossidOutfit = __awtsmoosModule_79.applyChossidOutfit;
-	const chossidMaterialResolver = __awtsmoosModule_79.chossidMaterialResolver;
-	const playerChossidOutfit = __awtsmoosModule_79.playerChossidOutfit;
+	const bakeChossidSurfaceDetail = __awtsmoosModule_68.bakeChossidSurfaceDetail;
+	const applyChossidOutfit = __awtsmoosModule_67.applyChossidOutfit;
+	const chossidMaterialResolver = __awtsmoosModule_67.chossidMaterialResolver;
+	const playerChossidOutfit = __awtsmoosModule_67.playerChossidOutfit;
 	const InventoryStore = __awtsmoosModule_80.InventoryStore;
 	const createPlayerActionSystem = __awtsmoosModule_102.createPlayerActionSystem;
 	const AwtsmoosEventBus = __awtsmoosModule_123.AwtsmoosEventBus;
@@ -40949,7 +40977,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const stabilizeCanonicalChossidModel = __awtsmoosModule_51.stabilizeCanonicalChossidModel;
 	const minimalMeadowClipForState = __awtsmoosModule_124.minimalMeadowClipForState;
 	const MinimalMeadowEquipmentRuntime = __awtsmoosModule_125.MinimalMeadowEquipmentRuntime;
-	const hydrateReadablePlayerMaterials = __awtsmoosModule_71.hydrateReadablePlayerMaterials;
+	const hydrateReadablePlayerMaterials = __awtsmoosModule_73.hydrateReadablePlayerMaterials;
 
 	const FRIENDLY_CHOSSID_MODEL_URL = PLAYER_MODEL_URL;
 
@@ -41647,7 +41675,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidSystem.js ----
 {
-	const __exports = __awtsmoosModule_76;
+	const __exports = __awtsmoosModule_78;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -41659,7 +41687,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the bridge's truth in motion, not a painted dream.
 	 */
 
-	const createFriendlyChossidActor = __awtsmoosModule_77.createFriendlyChossidActor;
+	const createFriendlyChossidActor = __awtsmoosModule_79.createFriendlyChossidActor;
 	const MinimalMeadowBridgeNpcCrossing = __awtsmoosModule_511.MinimalMeadowBridgeNpcCrossing;
 
 	const FRIENDLY_DEFINITIONS = Object.freeze([
@@ -41757,7 +41785,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyNpcs.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_77;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -41769,7 +41797,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves full model quality, optional readiness, hydration failure recovery, and ownership.
 	 */
 
-	const installMinimalMeadowFriendlyChossids = __awtsmoosModule_76.installMinimalMeadowFriendlyChossids;
+	const installMinimalMeadowFriendlyChossids = __awtsmoosModule_78.installMinimalMeadowFriendlyChossids;
 
 	async function installMinimalMeadowFriendlyNpcs(
 		runtime,
@@ -41945,8 +41973,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	__exports.hydrateMinimalMeadowPlayer = __awtsmoosModule_1.hydrateMinimalMeadowPlayer;
-	__exports.enhanceMinimalMeadowRenderer = __awtsmoosModule_73.enhanceMinimalMeadowRenderer;
-	__exports.installMinimalMeadowFriendlyNpcs = __awtsmoosModule_75.installMinimalMeadowFriendlyNpcs;
+	__exports.enhanceMinimalMeadowRenderer = __awtsmoosModule_75.enhanceMinimalMeadowRenderer;
+	__exports.installMinimalMeadowFriendlyNpcs = __awtsmoosModule_77.installMinimalMeadowFriendlyNpcs;
 	__exports.awaitMinimalMeadowVisualStability = __awtsmoosModule_519.awaitMinimalMeadowVisualStability;
 
 }

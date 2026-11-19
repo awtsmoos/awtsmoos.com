@@ -1578,6 +1578,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
 	 */
 
+	const clipCameraEye = __awtsmoosModule_21.clipCameraEye;
 	const desiredCameraEye = __awtsmoosModule_21.desiredCameraEye;
 
 	function movementAxes(axis = {}) {
@@ -1631,7 +1632,12 @@ const __awtsmoosModule_0 = Object.create(null);
 			finite(orbit.pitch, 0.34),
 			finite(orbit.distance, 7)
 		);
-		runtime.camera?.position?.set?.(eye.x, eye.y, eye.z);
+		// B"H: the bootstrap eye used to sit inside whatever wall or tree stood
+		// behind the traveler. The same octree raycast the rich rig uses pulls
+		// the eye to the near side of the closest solid thing; with an empty
+		// octree the clip returns the desired eye unchanged.
+		const clipped = clipCameraEye(target, eye, runtime.mainOctree, 1.2);
+		runtime.camera?.position?.set?.(clipped.eye.x, clipped.eye.y, clipped.eye.z);
 		if (runtime.camera) runtime.camera.target = [target.x, target.y, target.z];
 		return 'bootstrap-rig';
 	}
@@ -2904,7 +2910,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_1g8rzp4 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2917,7 +2923,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_1g8rzp4;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalAnimatedMeshVisibility.js ----
@@ -2996,18 +3002,28 @@ const __awtsmoosModule_0 = Object.create(null);
 	const BEARD_FLAG_LEGACY = 'AwtsmoosBeardProportionsV2';
 
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
-	// so skinning pokes it through the coat as white triangles. Tucking it to 0.95
-	// about the model origin pulls it ~4 cm inward, clear of the jacket sides.
-	const SHIRT_TUCK = 0.95;
+	// so skinning pokes it through the coat as white triangles. Tucking it
+	// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
+	// so the chest V stays and the white dashes leave the arms.
+	const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV1';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+
+	// The authored head reads large against the body at gameplay distance; the
+	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
+	// glasses, and eyes keep their relative places while the head shrinks.
+	const HEAD_SCALE = Object.freeze({ x: 0.88, y: 0.88, z: 0.88 });
+	const HEAD_NAMES = new Set(['mixamorig:Head']);
+	const HEAD_FLAG = 'AwtsmoosHeadProportionsV1';
 
 	/** Prepares player or village GLB once, preserving hidden variants and animation. */
 	function stabilizeCanonicalChossidModel(model) {
 		const visibility = stabilizeCanonicalAnimatedMeshVisibility(model);
 		const beardAdjusted = adjustOutermost(model, BEARD_NAMES, BEARD_SCALE, BEARD_FLAG, BEARD_FLAG_LEGACY);
-		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG);
-		return Object.freeze({ ...visibility, beardAdjusted, shirtTucked });
+		const shirtTucked = adjustOutermost(model, SHIRT_NAMES, SHIRT_TUCK, SHIRT_FLAG, SHIRT_FLAG_LEGACY);
+		const headAdjusted = adjustOutermost(model, HEAD_NAMES, HEAD_SCALE, HEAD_FLAG);
+		return Object.freeze({ ...visibility, beardAdjusted, headAdjusted, shirtTucked });
 	}
 
 
