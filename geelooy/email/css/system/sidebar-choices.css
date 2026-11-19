@@ -22,10 +22,11 @@ The Awtsmoos gathers many destinations into one quiet order; Awtsmoos.com lets e
 	gap: 9px;
 	inline-size: 100%;
 	min-inline-size: 0;
-	/* B"H 2026-11-19 (social polish round 2): 38px desktop rows so more
-	   folders fit inside the rail's capped folder block; the ≤900px
-	   touch rule below still raises rows to 48px. */
-	min-block-size: 38px;
+	/* B"H 2026-11-19 (social polish rounds 2-3): 34px desktop rows so the
+	   nav lists stay compact inside the rail hard px caps (round 3:
+	   categories render as a 2-column grid, folders cap at 74px); the
+	   ≤900px touch rule below still raises rows to 48px. */
+	min-block-size: 34px;
 	padding: 7px 10px;
 	border: 1px solid transparent;
 	border-radius: 13px;
