@@ -11,9 +11,10 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { ACTIVE_APP_RELEASE_ID } from '../../app/DeferredAppModuleUrl.js';
 import { resolveDeferredAppModuleUrl } from '../../app/DeferredAppModuleUrl.js';
 
-const RELEASE_ID = '20260928-playable-meadow-01';
+const RELEASE_ID = ACTIVE_APP_RELEASE_ID;
 
 test('resolver installs compact and active release identity on a readable app module', () => {
 	const resolved = new URL(resolveDeferredAppModuleUrl(
