@@ -121,7 +121,10 @@ function mix3(a, b, t) {
 }
 
 const PAINTERS = {
-	/** Meadow grass: blade-level mottling, hue drift, bare-earth flecks. */
+	/** Meadow grass: blade-level mottling, hue drift, bare-earth flecks.
+	 * B"H round 6: the old blade thresholds/mixes read as a harsh repetitive
+	 * scribble at tiling scale; softened contrast and widened the calm band
+	 * so the meadow reads as soft grass while keeping the same palette. */
 	grass(data, size, seed) {
 		const patches = createTileableNoiseField(seed + 11, size, 4);
 		const mottle = createTileableNoiseField(seed + 23, size, 16);
@@ -135,14 +138,14 @@ const PAINTERS = {
 		for (let y = 0; y < size; y += 1) {
 			for (let x = 0; x < size; x += 1) {
 				const patch = patches(x, y);
-				let rgb = mix3(base, patch > 0.55 ? yellowGreen : blueGreen, Math.abs(patch - 0.5) * 1.4);
+				let rgb = mix3(base, patch > 0.55 ? yellowGreen : blueGreen, Math.abs(patch - 0.5) * 1.1);
 				const mot = mottle(x, y);
-				const shade = 0.86 + mot * 0.28;
+				const shade = 0.9 + mot * 0.2;
 				rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
 				const blade = blades(x, y);
-				if (blade > 0.78) rgb = mix3(rgb, bladeLight, 0.35);
-				else if (blade < 0.22) rgb = mix3(rgb, bladeDark, 0.4);
-				if (mot > 0.93 && blade < 0.4) rgb = mix3(rgb, bareDirt, 0.5);
+				if (blade > 0.85) rgb = mix3(rgb, bladeLight, 0.18);
+				else if (blade < 0.15) rgb = mix3(rgb, bladeDark, 0.2);
+				if (mot > 0.93 && blade < 0.4) rgb = mix3(rgb, bareDirt, 0.35);
 				setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
 			}
 		}
