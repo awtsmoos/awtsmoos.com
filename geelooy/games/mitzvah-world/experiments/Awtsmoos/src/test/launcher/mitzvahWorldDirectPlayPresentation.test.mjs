@@ -15,11 +15,13 @@ import { fileURLToPath } from 'node:url';
 
 const adapterPath = fileURLToPath(new URL('../../launcher/MitzvahWorldDirectPlayPresentation.js', import.meta.url));
 const experiencePath = fileURLToPath(new URL('../../launcher/MitzvahWorldDirectExperience.js', import.meta.url));
+const retractablePath = fileURLToPath(new URL('../../ui/MinimalMeadowRetractable.js', import.meta.url));
 
 test('direct play presentation projects staged inventory onto cinematic rail and Bag only', async () => {
-	const [adapter, experience] = await Promise.all([
+	const [adapter, experience, retractable] = await Promise.all([
 		readFile(adapterPath, 'utf8'),
-		readFile(experiencePath, 'utf8')
+		readFile(experiencePath, 'utf8'),
+		readFile(retractablePath, 'utf8')
 	]);
 	assert.match(adapter, /createMitzvahWorldDirectInventoryProjection/);
 	assert.match(adapter, /runtime\.inventoryStore/);
@@ -27,6 +29,11 @@ test('direct play presentation projects staged inventory onto cinematic rail and
 	assert.match(adapter, /createInventoryModalHost\(documentValue\)/);
 	assert.match(adapter, /MinimalMeadowCinematicPresentation/);
 	assert.match(adapter, /MinimalMeadowGameRail/);
+	assert.match(adapter, /installMinimalMeadowShellRetractables/);
+	assert.match(adapter, /installMinimalMeadowShellRetractables\(runtime, documentValue\)/);
+	assert.match(adapter, /from '\.\.\/ui\/MinimalMeadowRetractable\.js'/);
+	assert.match(adapter, /mobileRetract\?\.destroy/);
+	assert.match(adapter, /playerRetract\?\.destroy/);
 	assert.match(adapter, /runtime\.bus/);
 	assert.match(adapter, /canonicalStoreReused/);
 	assert.match(adapter, /inventoryPanelOwned/);
@@ -49,4 +56,8 @@ test('direct play presentation projects staged inventory onto cinematic rail and
 	assert.match(experience, /MitzvahWorldDirectPlayPresentation\.js/);
 	assert.match(experience, /startMitzvahWorldDirectPlayPresentation\(diagnostics, environment\)/);
 	assert.match(experience, /directPlayPresentation/);
+	assert.match(retractable, /export function installMinimalMeadowShellRetractables/);
+	assert.match(retractable, /shellFor\(runtime, documentValue, 'mobileShell', '#mobileControls'\)/);
+	assert.match(retractable, /shellFor\(runtime, documentValue, 'playerHudShell', '#playerHudShell'\)/);
+	assert.match(retractable, /runtime\[key\] \?\? new MinimalMeadowRetractable/);
 });

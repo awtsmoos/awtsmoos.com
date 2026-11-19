@@ -6,6 +6,8 @@ Blessed is He
 
 The Awtsmoos gives optional tools a quiet rail and the player one measured shell; Awtsmoos.com keeps every visible deed at full touchable measure,
 so desktop compactness comes from spacing and garment, never from shrinking the hand that reaches the light or scaling the vessel out of sight.
+Round 3 (2026-11-19): the top-left corner owns ONE column — session badge on the first row, HUD shell on the second — and the rail lives in the
+right column below the minimap and creative dock, so no two controls ever share one corner or float over mid-screen grass.
 */
 
 #mitzvah-world-root .Awtsmoos-game-rail-host {
@@ -49,15 +51,24 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 	font-size: 8px;
 }
 
-#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > :not([data-rail-collapse]) {
+/* B"H round 3: a collapsed rail stays a legible two-button pill (Walk/Run mode +
+collapse). The old rule hid every non-collapse child, so the mode button vanished
+and the rail read as a dark empty panel floating over the grass. */
+#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > [data-rail-secondary] {
 	display: none;
 }
 
 #mitzvah-world-root .Awtsmoos-player-hud-shell {
 	position: fixed;
 	left: var(--mw-safe-left);
-	top: var(--mw-safe-top);
+	/* B"H round 3: the shell owns the SECOND top-left row, below the session badge
+	(safe-top 12px + ~27px badge + 5px gap = 44px), so its toggle never hides behind
+	the pill. The quest card clears this shell too (BootstrapControlsPortraitClearance). */
+	top: calc(var(--mw-safe-top) + 44px);
 	z-index: var(--mw-z-status);
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
 	/* B"H: without a floor the shell collapses to zero width while #npcTarget
 	is empty, and its absolutely positioned retract toggle hangs off-screen
 	(measured at x=-34 in headless). 56px always fits the 48px toggle. */
@@ -65,9 +76,11 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 }
 
 #mitzvah-world-root .Awtsmoos-player-hud-shell > [data-retract-toggle] {
-	position: absolute;
-	right: 4px;
-	top: 4px;
+	/* B"H round 3: in-flow at the shell's left edge. The old absolute right:4px
+	anchor let the toggle drift (and off-screen) as #npcTarget widened the shell,
+	which is how a bare "-" could appear at top-centre when an NPC was targeted. */
+	position: static;
+	flex: 0 0 auto;
 }
 
 #mitzvah-world-root .Awtsmoos-player-hud-shell[data-collapsed="true"] #npcTarget {
@@ -83,4 +96,15 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 	color: var(--mw-text-primary);
 	cursor: pointer;
 	touch-action: manipulation;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+	/* B"H round 3: the right column stacks minimap (~8-132px), creative dock
+	(~148-196px), then the rail (~216px down). The old top:50% left a dark empty
+	panel floating over mid-screen grass; the zone rule in mobile-hud-rail.css
+	carries the same slot for the rich path, so both hydrations agree. */
+	#mitzvah-world-root .Awtsmoos-game-rail-host {
+		top: calc(var(--mw-safe-top) + 204px);
+		transform: none;
+	}
 }

@@ -59,6 +59,14 @@ The Awtsmoos gives every gesture a measured shore while the playable valley rema
 		display: block;
 	}
 
+	/* B"H round 3: the Controls retract is real — collapsed hides the thumb
+	controls but keeps the toggle itself visible, so the shell is always
+	recoverable. (The old code set data-collapsed with no rule behind it, so
+	the button flipped its glyph and hid nothing.) */
+	#mitzvah-world-root #mobileControls[data-collapsed="true"] > :not([data-retract-toggle]) {
+		display: none;
+	}
+
 	#mitzvah-world-root .Awtsmoos-control-receipt {
 		left: calc(var(--mw-safe-left) + 8px);
 		top: calc(var(--mw-safe-top) + 8px);

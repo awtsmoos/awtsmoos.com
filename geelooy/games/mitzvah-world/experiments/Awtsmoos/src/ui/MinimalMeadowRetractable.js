@@ -42,3 +42,30 @@ export class MinimalMeadowRetractable {
 		this.button?.removeEventListener('click', this.onClick);
 	}
 }
+
+/**
+ * Wires the HUD and Controls retract toggles on a staged runtime and publishes
+ * the single live instances for the rich UI to reuse instead of double-listening.
+ * A missing shell simply yields no retractable; the presentation never fails for it.
+ * @param {object} runtime Staged runtime with hosts and retractable slots.
+ * @param {Document} [documentValue=globalThis.document] Owning document for shell lookup.
+ * @returns {{mobileRetract: MinimalMeadowRetractable|null, playerRetract: MinimalMeadowRetractable|null}} Live retractables by shell.
+ */
+export function installMinimalMeadowShellRetractables(runtime, documentValue = globalThis.document) {
+	return {
+		mobileRetract: retractableFor(runtime, 'mobileRetract', shellFor(runtime, documentValue, 'mobileShell', '#mobileControls'), 'Controls'),
+		playerRetract: retractableFor(runtime, 'playerRetract', shellFor(runtime, documentValue, 'playerHudShell', '#playerHudShell'), 'HUD')
+	};
+}
+
+/** Resolves one shell from the runtime hosts first, then from the live document. */
+function shellFor(runtime, documentValue, hostKey, selector) {
+	return runtime.hosts?.[hostKey] || documentValue?.querySelector?.(selector) || null;
+}
+
+function retractableFor(runtime, key, shell, label) {
+	if (!shell) return null;
+	const existing = runtime[key] ?? new MinimalMeadowRetractable(shell, { label });
+	runtime[key] = existing;
+	return existing;
+}

@@ -49,6 +49,7 @@
 		"styles/source/fragments/mitzvah-world-status-002.css",
 		"styles/source/fragments/mitzvah-world-runtime-mounts-002.css",
 		"styles/source/fragments/mitzvah-world-direct-layout-001.css",
+		"styles/source/fragments/mitzvah-world-direct-layout-001-segment-002.css",
 		"styles/source/fragments/mitzvah-world-cinematic-mobile-001.css",
 		"styles/source/fragments/mitzvah-world-cinematic-mobile-001-segment-002.css",
 		"styles/source/fragments/mitzvah-world-future-hud-001.css",
@@ -74,8 +75,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 162907,
-	"outputBytes": 115255,
+	"inputBytes": 166295,
+	"outputBytes": 115960,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -135,8 +136,8 @@
 				"path": "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css"
 			},
 			{
-				"bytes": 2629,
-				"lines": 87,
+				"bytes": 4144,
+				"lines": 111,
 				"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
 			},
 			{
@@ -280,9 +281,14 @@
 				"path": "styles/source/fragments/mitzvah-world-runtime-mounts-002.css"
 			},
 			{
-				"bytes": 3305,
-				"lines": 108,
+				"bytes": 3689,
+				"lines": 116,
 				"path": "styles/source/fragments/mitzvah-world-direct-layout-001.css"
+			},
+			{
+				"bytes": 1002,
+				"lines": 23,
+				"path": "styles/source/fragments/mitzvah-world-direct-layout-001-segment-002.css"
 			},
 			{
 				"bytes": 2578,
@@ -305,13 +311,13 @@
 				"path": "styles/source/fragments/mitzvah-world-future-hud-002.css"
 			},
 			{
-				"bytes": 3372,
-				"lines": 55,
+				"bytes": 3448,
+				"lines": 56,
 				"path": "styles/source/imports-001.css"
 			},
 			{
-				"bytes": 2408,
-				"lines": 75,
+				"bytes": 2893,
+				"lines": 85,
 				"path": "styles/creative-dock/mitzvah-world-creative-dock-layout.css"
 			},
 			{
@@ -412,19 +418,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 14516,
+			"bytes": 14587,
 			"encoding": "br",
-			"sha256": "ecef1280399ee48f54681e7584ac94230a3b2ced3f4665e846c899287263e098"
+			"sha256": "160d81d23c46f385b6cce303cf26481f907538559c5e95a343c8678990e807d4"
 		},
 		"gzip": {
-			"bytes": 17420,
+			"bytes": 17530,
 			"encoding": "gzip",
-			"sha256": "43d017de8012f6ef65d768ffd61116d34d5ba2fb36d0e1d7f6bed84bd4afbcc9"
+			"sha256": "3e3786ffe942c7ed02ba1f0a68fa43763f0ab6f5c371dae752103ccedda56f67"
 		},
 		"identity": {
-			"bytes": 115256,
+			"bytes": 115961,
 			"encoding": "identity",
-			"sha256": "6cd0f12847ab291313e34fbb7f2cb068ce396e0e1aa6978da481f943e856da19"
+			"sha256": "649ea6fa5661e5958382edebbbdb438588f8d783f2f58d4871011eaaf4777dff"
 		}
 	}
 }

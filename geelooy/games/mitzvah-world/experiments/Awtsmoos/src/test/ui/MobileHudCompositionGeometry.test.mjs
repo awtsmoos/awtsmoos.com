@@ -45,6 +45,12 @@ test('cast and action rectangles remain independently readable', () => {
 	}
 });
 
+test('portrait rail sits below the quest row, leaving the top-right corner for the map and dock', () => {
+	const { zones } = mobileHudZoneRectangles(VIEWPORTS[0]);
+	assert.ok(zones.rail.y >= zones.quest.y + zones.quest.height);
+	assert.ok(zones.rail.y >= zones.player.y + zones.player.height);
+});
+
 function assertDisjointPlan(viewport) {
 	const plan = mobileHudZoneRectangles(viewport);
 	assert.equal(plan.mode, viewport.mode);

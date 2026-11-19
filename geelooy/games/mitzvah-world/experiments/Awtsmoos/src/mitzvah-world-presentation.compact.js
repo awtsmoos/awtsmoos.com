@@ -13907,7 +13907,36 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.MinimalMeadowRetractable = MinimalMeadowRetractable;
+	/**
+	 * Wires the HUD and Controls retract toggles on a staged runtime and publishes
+	 * the single live instances for the rich UI to reuse instead of double-listening.
+	 * A missing shell simply yields no retractable; the presentation never fails for it.
+	 * @param {object} runtime Staged runtime with hosts and retractable slots.
+	 * @param {Document} [documentValue=globalThis.document] Owning document for shell lookup.
+	 * @returns {{mobileRetract: MinimalMeadowRetractable|null, playerRetract: MinimalMeadowRetractable|null}} Live retractables by shell.
+	 */
+	function installMinimalMeadowShellRetractables(runtime, documentValue = globalThis.document) {
+		return {
+			mobileRetract: retractableFor(runtime, 'mobileRetract', shellFor(runtime, documentValue, 'mobileShell', '#mobileControls'), 'Controls'),
+			playerRetract: retractableFor(runtime, 'playerRetract', shellFor(runtime, documentValue, 'playerHudShell', '#playerHudShell'), 'HUD')
+		};
+	}
+
+
+	__exports.installMinimalMeadowShellRetractables = installMinimalMeadowShellRetractables;
+	/** Resolves one shell from the runtime hosts first, then from the live document. */
+	function shellFor(runtime, documentValue, hostKey, selector) {
+		return runtime.hosts?.[hostKey] || documentValue?.querySelector?.(selector) || null;
+	}
+
+	function retractableFor(runtime, key, shell, label) {
+		if (!shell) return null;
+		const existing = runtime[key] ?? new MinimalMeadowRetractable(shell, { label });
+		runtime[key] = existing;
+		return existing;
+	}
 
 }
 
@@ -16218,10 +16247,10 @@ const __awtsmoosModule_0 = Object.create(null);
 				bus,
 				runtime
 			),
-			mobileRetract: new MinimalMeadowRetractable(
-				hosts.mobileShell,
-				{ label: 'Controls' }
-			),
+			// B"H round 3: reuse the staged runtime's retractables when the direct-play
+			// presentation already wired them, so one shell never gains two listeners.
+			mobileRetract: runtime.mobileRetract
+				?? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' }),
 			notice: new MinimalMeadowHouseNotice(
 				bus,
 				documentValue,
@@ -16232,10 +16261,8 @@ const __awtsmoosModule_0 = Object.create(null);
 				hosts.dialogueHost,
 				bus
 			),
-			playerRetract: new MinimalMeadowRetractable(
-				hosts.playerHudShell,
-				{ label: 'HUD' }
-			),
+			playerRetract: runtime.playerRetract
+				?? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' }),
 			targetFrame: new MinimalMeadowTargetFrame(
 				hosts.targetHost,
 				bus

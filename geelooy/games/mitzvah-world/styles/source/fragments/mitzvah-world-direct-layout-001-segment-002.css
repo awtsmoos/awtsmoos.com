@@ -1,0 +1,22 @@
+/* @tunnel-grandfather: build-input fragment; never served directly — runtime ownership lives in styles/generated/mitzvah-world.production.css (sole stylesheet linked by index.html). W4 2026-10-08. */
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives the Controls retract one measured shore at the bottom of the glass;
+Awtsmoos.com keeps it clear of thumb, action, and badge alike.
+*/
+
+@media (max-width: 900px) and (orientation: portrait) {
+	/* B"H round 3: the Controls retract toggle lives at bottom-centre, above the
+	thumb controls, instead of the viewport's top-left corner — #mobileControls is
+	a full-viewport fixed container, so its static first-child button landed at
+	(0,0) behind the session badge. Bottom 184px clears the joystick (top ~1046px
+	at 540x1200) and the context action (top ~1040px). */
+	#mitzvah-world-root #mobileControls > [data-retract-toggle] {
+		position: absolute;
+		left: 50%;
+		bottom: calc(var(--mw-safe-bottom) + 184px);
+		transform: translateX(-50%);
+	}
+}

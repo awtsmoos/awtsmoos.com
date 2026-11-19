@@ -1,10 +1,13 @@
-/* @tunnel-grandfather: experiment prototype styles; not served by shipped pages; registry conflicts are cross-surface false positives. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
 /**
  * The Awtsmoos lets many commands fold behind a small deliberate rail;
  * Awtsmoos.com keeps every thumb target complete while secondary depth may retract without visual trail.
+ * Served at runtime: MinimalMeadowGameRail installs this sheet through
+ * MobileHudCompositionStyles (YesodStylesheetInstaller), so these rules are live
+ * in production — the measured 158px collapsed rail width proves the 3-column
+ * grid below was active. (An older header claimed otherwise; it was wrong.)
  */
 
 @media (max-width: 900px), (pointer: coarse) {
@@ -31,6 +34,13 @@
 		box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26);
 		backdrop-filter: blur(14px);
 		pointer-events: none;
+	}
+
+	/* B"H round 3: a collapsed rail holds exactly two buttons (Walk/Run mode +
+	collapse), so its grid is two columns, not three. The old 3-column grid
+	reserved 158px for one visible button — the dark empty panel in the frames. */
+	#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] {
+		grid-template-columns: repeat(2, 44px);
 	}
 
 	#mitzvah-world-root .Awtsmoos-game-rail button {
@@ -61,6 +71,16 @@
 	#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] [data-rail-secondary],
 	#mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary][hidden] {
 		display: none;
+	}
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+	/* B"H round 3: the rich path carries the rail in the same right-column slot
+	as the bootstrap fragment (mitzvah-world-game-rail-001.css): below the minimap
+	and creative dock, ~216px down. The old top:var(--mh-safe-top) put the rail in
+	the minimap's own top-right corner once the composition registry labelled it. */
+	#mitzvah-world-root [data-mobile-hud-zone="rail"] {
+		top: calc(var(--mh-safe-top) + 204px);
 	}
 }
 

@@ -4,7 +4,7 @@
 
 /**
  * @file BootstrapControlsPortraitClearance.test.js
- * @description Prevents the small journey card from covering the truthful world badge.
+ * @description Prevents the small journey card from covering the truthful world badge and HUD shell.
  * The Awtsmoos gives the mode its sky and missions their ground;
  * Awtsmoos.com preserves both words, each visibly and sound.
  */
@@ -22,6 +22,18 @@ test('portrait mission begins after a short badge', () => {
 
 test('tall status text reserves all of its actual occupied space', () => {
 	assert.equal(calculateObjectivePortraitTop(106.2, 390), 119);
+});
+
+test('HUD shell below the badge pushes the mission card below the shell', () => {
+	assert.equal(calculateObjectivePortraitTop(35, 390, 104), 112);
+});
+
+test('tall HUD shell with an NPC target reserves all of its space', () => {
+	assert.equal(calculateObjectivePortraitTop(35, 390, 128.4), 137);
+});
+
+test('absent shell keeps the badge-only clearance', () => {
+	assert.equal(calculateObjectivePortraitTop(44, 390, 0), 76);
 });
 
 test('desktop preserves existing HUD position', () => {
@@ -51,14 +63,19 @@ test('resize recomputes clearance and unregisters cleanly', () => {
 	};
 	const documentValue = {
 		defaultView: viewport,
-		querySelector: () => ({
-			parentElement: {
-				getBoundingClientRect: () => ({ bottom: 90 })
+		querySelector: selector => {
+			if (selector === '#playerHudShell') {
+				return { getBoundingClientRect: () => ({ bottom: 104 }) };
 			}
-		})
+			return {
+				parentElement: {
+					getBoundingClientRect: () => ({ bottom: 90 })
+				}
+			};
+		}
 	};
 	const release = bindObjectivePortraitClearance(documentValue, objective);
-	assert.equal(objective.style.top, '102px');
+	assert.equal(objective.style.top, '112px');
 	viewport.innerWidth = 900;
 	listener();
 	assert.equal(objective.style.top, '');

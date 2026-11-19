@@ -40,7 +40,10 @@ export function rectangleInsideViewport(rectangle, viewport) {
 function portraitPlan(width, height, safeTop, safeBottom) {
 	const gutter = 8;
 	const top = safeTop + gutter;
-	const rail = rect(width - 64, top, 56, Math.min(360, Math.round(height * 0.52)));
+	// B"H round 3: the rail no longer owns the top-right corner — the minimap
+	// (~8-132px) and creative dock (~148-196px) stack there instead. The rail
+	// sits below them (top + 204px) so the three never share one corner.
+	const rail = rect(width - 64, top + 204, 56, Math.min(360, Math.round(height * 0.52)));
 	const contentWidth = rail.x - gutter * 2;
 	const playerWidth = Math.max(128, Math.min(164, contentWidth - 112));
 	const actionY = height - safeBottom - gutter - 70;

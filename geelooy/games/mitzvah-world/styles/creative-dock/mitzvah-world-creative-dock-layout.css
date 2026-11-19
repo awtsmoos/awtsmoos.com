@@ -64,6 +64,16 @@ bounded by safe areas, one shared dialog layer, calm stacking, and uncluttered g
 	}
 }
 
+@media (max-width: 900px) and (orientation: portrait) {
+	/* B"H round 3: the dock trigger sits BELOW the rich minimap (top ~8px, ~124px
+	tall) instead of sharing its top-right corner, where the 48px sparkle circle
+	covered the map. The right column now stacks minimap (~8-132px), dock
+	(~148-196px), then the game rail (~216px down). */
+	#mitzvah-world-root .Awtsmoos-creative-dock {
+		top: calc(var(--mw-dock-top, max(12px, calc(env(safe-area-inset-top, 0px) + 8px))) + 136px);
+	}
+}
+
 @media (max-height: 520px) and (orientation: landscape) {
 	#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
 		top: max(6px, env(safe-area-inset-top, 0px));

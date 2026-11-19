@@ -72,10 +72,10 @@ export function createMinimalMeadowUiComponents(
 			bus,
 			runtime
 		),
-		mobileRetract: new MinimalMeadowRetractable(
-			hosts.mobileShell,
-			{ label: 'Controls' }
-		),
+		// B"H round 3: reuse the staged runtime's retractables when the direct-play
+		// presentation already wired them, so one shell never gains two listeners.
+		mobileRetract: runtime.mobileRetract
+			?? new MinimalMeadowRetractable(hosts.mobileShell, { label: 'Controls' }),
 		notice: new MinimalMeadowHouseNotice(
 			bus,
 			documentValue,
@@ -86,10 +86,8 @@ export function createMinimalMeadowUiComponents(
 			hosts.dialogueHost,
 			bus
 		),
-		playerRetract: new MinimalMeadowRetractable(
-			hosts.playerHudShell,
-			{ label: 'HUD' }
-		),
+		playerRetract: runtime.playerRetract
+			?? new MinimalMeadowRetractable(hosts.playerHudShell, { label: 'HUD' }),
 		targetFrame: new MinimalMeadowTargetFrame(
 			hosts.targetHost,
 			bus
