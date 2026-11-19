@@ -7,13 +7,23 @@
 .geelooy-app-shell .g-header-profile {
 	position: relative;
 	isolation: isolate;
+	/* B"H 2026-11-19 (social polish): the capsule radius lives on the
+	   container too, so the ::after loading shimmer (border-radius:
+	   inherit) takes the pill's shape instead of a square plate. */
+	border-radius: 999px;
 }
 .geelooy-app-shell .g-header-profile::before {
 	position: absolute;
 	inset: 0;
 	z-index: -1;
 	border: 1px solid rgba(80, 215, 255, .3);
-	border-radius: 999px 1.4rem 999px 1.4rem;
+	/* B"H 2026-11-19 (social polish): this plate sits behind the profile
+	   pill, whose own radius is a full 999px capsule. The old asymmetric
+	   999px/1.4rem corners left the plate's dark navy corners sticking
+	   out past the pill's curve — the stray dark-blue blob overlapping
+	   the pill's left edge on every global-nav page. One radius, shared
+	   with the pill, keeps the halo and loses the blob. */
+	border-radius: 999px;
 	background:
 		linear-gradient(115deg, rgba(80, 215, 255, .14), transparent 38%, rgba(218, 97, 194, .12)),
 		rgba(4, 8, 22, .72);
