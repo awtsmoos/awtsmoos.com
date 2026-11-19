@@ -13,8 +13,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { MITZVAH_WORLD_RELEASE_ID } from '../../launcher/MitzvahWorldReleaseIdentity.js';
+
 const APP_URL = new URL('../../app/', import.meta.url);
-const RELEASE_ID = '20260928-playable-meadow-01';
+const RELEASE_ID = MITZVAH_WORLD_RELEASE_ID;
 
 async function source(fileName) {
 	return readFile(new URL(fileName, APP_URL), 'utf8');
