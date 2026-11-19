@@ -225,6 +225,11 @@ function renderSeferInitialHtml(rows, title) {
 			if (row.content && String(row.content).trim()) {
 				parts.push(`<div class="meluket-phrase meluket-phrase--en" data-phrase-id="${phraseId}" dir="ltr" lang="en">${escapeHtml(row.content)}</div>`);
 			}
+			// B"H Tanach swap 2026-11-19: per-verse explanation, retractable
+			// (<details>), beneath its verse's English. Only when present.
+			if (row.explanation && String(row.explanation).trim()) {
+				parts.push(`<details class="meluket-phrase--explanation" data-phrase-id="${phraseId}" dir="ltr" lang="en"><summary class="meluket-explanation-summary">Explanation</summary><div class="meluket-explanation-body">${escapeHtml(row.explanation)}</div></details>`);
+			}
 			parts.push('</div>');
 		});
 		parts.push('</section>');
@@ -278,12 +283,17 @@ function slimPhraseTranslationRows(rows) {
 		const hebrew = page ? `[עמוד ${page}] ` + hebrewMark.text : hebrewMark.text;
 		const content = page ? `[עמוד ${page}] ` + contentMark.text : contentMark.text;
 		if (!hebrew.trim()) continue;
-		out.push({
+		const slimRow = {
 			sourceHebrew: hebrew,
 			content: content,
 			verseSection: row && row.verseSection != null ? String(row.verseSection) : (row && row.sectionId != null ? String(row.sectionId) : ''),
 			subsectionId: row && row.subsectionId != null ? String(row.subsectionId) : (row && row.phraseId != null ? String(row.phraseId) : '')
-		});
+		};
+		// B"H Tanach swap 2026-11-19: per-verse explanations ride the slim
+		// rows so the server sefer + the embed both carry them. Only when
+		// present — other corpora have no explanation field, nothing changes.
+		if (row && row.explanation != null && String(row.explanation).trim()) slimRow.explanation = String(row.explanation);
+		out.push(slimRow);
 	}
 	return out;
 }

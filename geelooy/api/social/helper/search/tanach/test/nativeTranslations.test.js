@@ -32,7 +32,7 @@ test('Genesis 1 returns exact installed English and stays bounded', async () => 
 	assert.equal(report.verses.length, 31);
 	assert.equal(
 		report.verses[0],
-		"In the beginning of God's creation of the heavens and the earth."
+		"In the beginning Elokim created the heavens and the earth."
 	);
 	assert.equal((await nativeChapter({ book: '../escape', chapter: 1 })).available, false);
 });
