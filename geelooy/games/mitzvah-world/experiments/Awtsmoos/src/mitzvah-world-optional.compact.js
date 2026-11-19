@@ -5099,12 +5099,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	// The white outer shirt (X +/-0.76) sits only 0.04 inside the jacket (+/-0.80),
 	// so skinning pokes it through the coat as white triangles. Tucking it
-	// per-axis pulls the sleeves ~8 cm inward while barely moving it vertically,
-	// so the chest V stays and the white dashes leave the arms.
-	const SHIRT_TUCK = Object.freeze({ x: 0.90, y: 0.98, z: 0.90 });
+	// per-axis pulls the sleeves ~11 cm inward while barely moving it vertically,
+	// so the chest V stays and the white dashes leave the arms. V2 (0.90) still
+	// left two dashes on the sleeve; V3 pulls to 0.85.
+	const SHIRT_TUCK = Object.freeze({ x: 0.85, y: 0.98, z: 0.85 });
 	const SHIRT_NAMES = new Set(['outer-shirt', 'Plane007', 'Plane.007']);
-	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV2';
-	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV1';
+	const SHIRT_FLAG = 'AwtsmoosOuterShirtTuckV3';
+	const SHIRT_FLAG_LEGACY = 'AwtsmoosOuterShirtTuckV2';
 
 	// The authored head reads large against the body at gameplay distance; the
 	// whole Head bone (parent of every face part) scales 0.88, so hat, beard,
@@ -5124,6 +5125,36 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.stabilizeCanonicalChossidModel = stabilizeCanonicalChossidModel;
+	/**
+	 * Shrinks the head inside the authored animation itself. Scaling the Head
+	 * bone alone does not survive playback: every clip carries scale tracks for
+	 * mixamorig:Head, and the animation player overwrites the bone scale with
+	 * the authored 1.0 on the first frame. Multiplying the scale-track values
+	 * by the same 0.88 keeps the smaller head through every clip. Each loaded
+	 * GLB instance carries its own track copies, so the edit never leaks into
+	 * another load; a second call on the same clips is a no-op.
+	 */
+	const SHRUNK_HEAD_SCALE_CHANNELS = new WeakSet();
+
+	function shrinkCanonicalHeadAnimation(animations, factor = HEAD_SCALE.x) {
+		let edited = 0;
+		for (const animation of animations || []) {
+			for (const channel of animation?.channels || []) {
+				if (channel?.path !== 'scale') continue;
+				if (channel?.node?.name !== 'mixamorig:Head') continue;
+				if (SHRUNK_HEAD_SCALE_CHANNELS.has(channel)) continue;
+				const output = channel.output;
+				if (!output?.length) continue;
+				channel.output = Float32Array.from(output, value => value * factor);
+				SHRUNK_HEAD_SCALE_CHANNELS.add(channel);
+				edited += 1;
+			}
+		}
+		return edited;
+	}
+
+
+	__exports.shrinkCanonicalHeadAnimation = shrinkCanonicalHeadAnimation;
 	/**
 	 * Scales only the outermost matching nodes; children of a matched node keep
 	 * their authored scale so the factor applies exactly once per subtree.
@@ -6738,6 +6769,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		setHat(model, variant.hat);
 		setTefillin(model, variant.tefillin);
 		setOutfit(model, variant.outfit);
+		// B"H: a bare model object has no userData bag; record the variant
+		// without crashing instead of assuming the caller built one.
+		if (!model.userData) model.userData = {};
 		model.userData.AwtsmoosVariant = name;
 		return variant;
 	}
@@ -6907,6 +6941,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const closeMouth = __awtsmoosModule_70.closeMouth;
 	const setMouthOpen = __awtsmoosModule_70.setMouthOpen;
 	const speakText = __awtsmoosModule_70.speakText;
+	const shrinkCanonicalHeadAnimation = __awtsmoosModule_51.shrinkCanonicalHeadAnimation;
 	const stabilizeCanonicalChossidModel = __awtsmoosModule_51.stabilizeCanonicalChossidModel;
 
 	/** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
@@ -6929,6 +6964,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		// B"H: the actor-hydration path swaps the player through this doorway;
 		// without the same proportions pass the beard returns to full authored length.
 		stabilizeCanonicalChossidModel(model);
+		shrinkCanonicalHeadAnimation(playerGltf.animations);
 		scene.add(model);
 		const feet = alignModelFeetToGround(model, 0);
 		const footOffset = model.position.y;
@@ -40974,6 +41010,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createPlayerActionSystem = __awtsmoosModule_102.createPlayerActionSystem;
 	const AwtsmoosEventBus = __awtsmoosModule_123.AwtsmoosEventBus;
 	const PLAYER_MODEL_URL = __awtsmoosModule_49.PLAYER_MODEL_URL;
+	const shrinkCanonicalHeadAnimation = __awtsmoosModule_51.shrinkCanonicalHeadAnimation;
 	const stabilizeCanonicalChossidModel = __awtsmoosModule_51.stabilizeCanonicalChossidModel;
 	const minimalMeadowClipForState = __awtsmoosModule_124.minimalMeadowClipForState;
 	const MinimalMeadowEquipmentRuntime = __awtsmoosModule_125.MinimalMeadowEquipmentRuntime;
@@ -41007,6 +41044,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		const model = prepareFriendlyModel(worldRuntime, gltf.scene, definition);
 		applyChossidOutfit(model, outfit);
 		bakeChossidSurfaceDetail(model);
+		shrinkCanonicalHeadAnimation(gltf.animations);
 		hydrateReadablePlayerMaterials(model);
 		equipment.bindModel(model);
 		const player = new TinyAnimationPlayer(model, gltf.animations || []);
