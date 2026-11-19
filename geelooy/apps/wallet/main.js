@@ -29,25 +29,53 @@ const refreshButton = document.getElementById('refreshBtn');
 const paypalButton = document.getElementById('paypalBtn');
 const dollarsInput = document.getElementById('dollars');
 
+/**
+ * Shortest time the refreshing state stays visible. A healthy server can
+ * answer in well under a second, and when the balance is unchanged the
+ * result text is identical to what was already on screen — without a
+ * floor, a successful refresh is indistinguishable from a dead button.
+ */
+const REFRESH_FEEDBACK_MIN_MS = 1200;
+
 /** Retrieves authenticated balances and presents a definitive loading result. */
-async function refreshWallet() {
+async function refreshWallet(render = true) {
 	const response = await getWalletJson('/api/wallet/balance');
-	renderWallet(response);
+	if (render) renderWallet(response);
 	return response;
+}
+
+/** Shows or hides the in-progress state on the Refresh button itself. */
+function setRefreshButtonState(refreshing) {
+	if (!refreshButton) return;
+	refreshButton.disabled = refreshing;
+	refreshButton.textContent = refreshing ? 'Refreshing\u2026' : 'Refresh wallet';
 }
 
 /** Refreshes independent account balance and product-credit surfaces. */
 async function refreshWalletData() {
 	const usdValue = document.getElementById('usdValue');
 	if (usdValue) usdValue.textContent = 'Refreshing\u2026';
-	const [wallet] = await Promise.all([
-		refreshWallet(),
-		bootCreditPortfolio()
-	]);
-	if (!wallet?.ok) {
-		setCheckoutStatus('Wallet could not refresh. Try again.', 'error');
+	setRefreshButtonState(true);
+	const startedAt = Date.now();
+	try {
+		const [wallet] = await Promise.all([
+			refreshWallet(false),
+			bootCreditPortfolio()
+		]);
+		const remaining = REFRESH_FEEDBACK_MIN_MS - (Date.now() - startedAt);
+		if (remaining > 0) {
+			await new Promise(resolve => setTimeout(resolve, remaining));
+		}
+		renderWallet(wallet);
+		if (!wallet?.ok) {
+			setCheckoutStatus('Wallet could not refresh. Try again.', 'error');
+		} else {
+			setCheckoutStatus('Wallet refreshed.');
+		}
+		return wallet;
+	} finally {
+		setRefreshButtonState(false);
 	}
-	return wallet;
 }
 
 /** Starts checkout only from the existing verified PayPal flow. */

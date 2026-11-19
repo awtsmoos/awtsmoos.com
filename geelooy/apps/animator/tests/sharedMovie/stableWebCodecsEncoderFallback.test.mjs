@@ -17,13 +17,14 @@ import {
 	source
 } from './support/StableWebCodecsTestSupport.mjs';
 
-async function buildEncoderClass() {
+async function buildEncoderClass(consoleCapture = null) {
 	const base = {};
 	const context = {
 		self: { AwtsVideoBase: base },
 		AwtsVideoBase: base,
 		VideoEncoder: MalchusNativeVideoEncoder,
-		structuredClone
+		structuredClone,
+		console: consoleCapture || console
 	};
 	vm.createContext(context);
 	vm.runInContext(await source('StableWebCodecsEncoderClass.js'), context);
@@ -88,9 +89,45 @@ test('stable encoder completes a truncated avc1.6400 string before probing fallb
 	});
 });
 
-test('stable encoder keeps the original error when no AVC config is supported', async () => {
+test('stable encoder walks the full candidate chain in order for avc1.640028', async () => {
 	MalchusNativeVideoEncoder.reset();
 	const EncoderClass = await buildEncoderClass();
+	const tried = [];
+	await withSupportProbe(async (config) => {
+		tried.push(config.codec);
+		return { supported: config.codec === 'avc1.42001E', config };
+	}, async () => {
+		const encoder = new EncoderClass();
+		encoder.config = {
+			codec: 'avc1.640028',
+			width: 1280,
+			height: 720,
+			bitrate: 2_500_000,
+			framerate: 30
+		};
+		encoder.onPacket = () => {};
+		await encoder.init();
+		assert.deepEqual(tried, [
+			'avc1.640028',
+			'avc1.4D0028',
+			'avc1.420028',
+			'avc1.64001E',
+			'avc1.4D001E',
+			'avc1.42001E'
+		]);
+		assert.equal(encoder.config.codec, 'avc1.42001E');
+		encoder.close();
+	});
+});
+
+test('stable encoder names the missing H.264 encoder honestly when every AVC config is refused', async () => {
+	MalchusNativeVideoEncoder.reset();
+	const logged = [];
+	const EncoderClass = await buildEncoderClass({
+		error: (...args) => logged.push(args.join(' ')),
+		warn: () => {},
+		log: () => {}
+	});
 	await withSupportProbe(async (config) => ({ supported: false, config }), async () => {
 		const encoder = new EncoderClass();
 		encoder.config = {
@@ -102,8 +139,17 @@ test('stable encoder keeps the original error when no AVC config is supported', 
 		};
 		await assert.rejects(
 			encoder.init(),
-			/Stable AVC encoder configuration is unsupported: avc1\.640028\./
+			(error) => {
+				assert.match(error.message, /No H\.264 \(AVC\) encoder is available in this browser/);
+				assert.match(error.message, /avc1\.640028/);
+				assert.match(error.message, /avc1\.4D0028/);
+				assert.match(error.message, /avc1\.420028/);
+				assert.match(error.message, /avc1\.42001E/);
+				return true;
+			}
 		);
 		assert.equal(MalchusNativeVideoEncoder.instances.length, 0);
+		assert.equal(logged.length, 1);
+		assert.match(logged[0], /no H\.264 configuration is supported in this browser\. Tried: avc1\.640028, avc1\.4D0028, avc1\.420028, avc1\.64001E, avc1\.4D001E, avc1\.42001E\./);
 	});
 });
