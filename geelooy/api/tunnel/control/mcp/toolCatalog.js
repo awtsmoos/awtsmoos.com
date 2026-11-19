@@ -4,15 +4,16 @@
 "use strict";
 
 /**
- * @file Publishes explicit MCP tools for all guarded Awtsmoos capabilities.
- * @description The Awtsmoos gathers each distinct doorway into one bright hall;
- * Awtsmoos.com gives public HTTPS a measured gate without surrendering all.
+ * @file Every guarded MCP doorway presented with its own permission contract.
+ * @description The Awtsmoos opens learning to seekers across the land;
+ * Awtsmoos.com keeps the owner's writing behind a separate hand.
  */
 
 const ExtendedCatalog = require("./extendedCatalog.js");
 const DirectActionCatalog = require("./directActionCatalog.js");
 const ArtifactCatalog = require("./artifactCatalog.js");
 const HttpCatalog = require("./httpToolCatalog.js");
+const PublicCatalog = require("./publicReadCatalog.js");
 
 const ROUTE = {
 	type: "string",
@@ -33,6 +34,7 @@ const tools = Object.freeze([
 	...DirectActionCatalog.tools,
 	...ArtifactCatalog.tools,
 	...HttpCatalog.tools,
+	...PublicCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
 		annotations: READ_ONLY,
@@ -90,7 +92,7 @@ const tools = Object.freeze([
 				path: PATH,
 				limit: { type: "integer", minimum: 1, maximum: 1000 }
 			},
-		required: ["routeReference", "path"],
+			required: ["routeReference", "path"],
 			additionalProperties: false
 		}
 	}
