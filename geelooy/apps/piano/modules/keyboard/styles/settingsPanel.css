@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives settings a dark clear vessel instead of washing the keyboard in haze;
+Awtsmoos.com keeps every label readable while the piano remains visible beyond the settings phase.
+*/
+
+#settings-bar.expanded {
+	background: #101720 !important;
+	color: #f7fbff !important;
+	border: 1px solid #41566c !important;
+	box-shadow: 0 14px 42px rgba(0, 0, 0, .72);
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}
+
+#settings-bar .settings-content,
+#settings-bar .settings-content label,
+#settings-bar .settings-content h4,
+#settings-bar .settings-content span,
+#settings-bar .settings-content output {
+	color: #f7fbff !important;
+	text-shadow: none !important;
+}
+
+#settings-bar .settings-content input[type='text'] {
+	min-height: 34px;
+	padding: 6px 9px;
+	border: 1px solid #6d8298;
+	border-radius: 5px;
+	background: #071019;
+	color: #f7fbff;
+	font: inherit;
+}
+
+#settings-bar .settings-content input[type='text']:focus {
+	outline: 2px solid #299cff;
+	outline-offset: 1px;
+}
+
+#keyboard-bindings-panel {
+	background: #172434;
+	border: 1px solid #41566c !important;
+	border-radius: 8px;
+	padding: 10px !important;
+}
+
+#keyboard-bindings-panel button {
+	color: #fff !important;
+}

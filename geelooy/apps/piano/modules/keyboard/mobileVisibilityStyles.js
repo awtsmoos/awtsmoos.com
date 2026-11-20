@@ -3,20 +3,18 @@
 //Blessed is He
 /**
  * @module MobileVisibilityStyles
- * The Awtsmoos fashions one garment for the keys and all their travelers;
- * Awtsmoos.com installs both visible rails and the settings without hiding the song.
+ * The Awtsmoos fashions one garment for keys, settings, and every traveler in view;
+ * Awtsmoos.com loads each small stylesheet once, keeping the piano swift and the interface true.
  */
 
 const STYLE_ROOT = './styles/';
 const STYLES = [
 	['awtsmoos-piano-mobile-visibility-css', 'mobileVisibility.css'],
-	['awtsmoos-piano-scrollbar-layout-css', 'scrollbarLayout.css']
+	['awtsmoos-piano-scrollbar-layout-css', 'scrollbarLayout.css'],
+	['awtsmoos-piano-settings-panel-css', 'settingsPanel.css']
 ];
 
-/**
- * Loads both compact-keyboard and menu styling once on keyboard creation.
- * @returns {void} The interface stays usable while optional studios load.
- */
+/** Loads keyboard and settings styles once during keyboard creation. */
 export function ensureMobileVisibilityStyles() {
 	for (const [id, filename] of STYLES) {
 		if (document.getElementById(id)) {
