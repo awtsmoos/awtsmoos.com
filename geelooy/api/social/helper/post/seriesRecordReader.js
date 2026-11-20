@@ -50,7 +50,40 @@ function project(record, properties) {
 	for (const key of ["id", "postId", "title", "seriesId"]) {
 		if (record[key] !== undefined) output[key] = record[key];
 	}
+	fillImportedFields(record, output, properties);
 	return output;
+}
+
+/**
+ * B"H 2026-11-20 (ikar series load fix): imported corpora (Mittler
+ * Rebbe, Ohr HaTorah, the bulk translations) store their card fields
+ * nested -- title/author under `identity`, the readable text under
+ * `summaries` / `studyGuide` -- with no top-level title/content at
+ * all. The projection above therefore returned cards carrying only
+ * ids, and series lists rendered blank even when the read succeeded.
+ * Fill any REQUESTED card field the record nests, top-level always
+ * wins, nothing is invented: every value comes from the record.
+ */
+function fillImportedFields(record, output, properties) {
+	const wants = key => properties[key];
+	if (wants("title") && output.title === undefined) {
+		const title = record.identity?.title || record.maamar_name_en;
+		if (title !== undefined) output.title = title;
+	}
+	if (wants("author") && output.author === undefined) {
+		const author = record.identity?.author;
+		if (author !== undefined) output.author = author;
+	}
+	if (wants("content") && output.content === undefined) {
+		const text = record.summaries?.summary
+			|| record.summaries?.overview
+			|| record.studyGuide
+			|| undefined;
+		if (text !== undefined) {
+			const limit = typeof properties.content === "number" ? properties.content : 0;
+			output.content = limit > 0 && text.length > limit ? text.slice(0, limit) : text;
+		}
+	}
 }
 
 /**
@@ -101,6 +134,7 @@ async function readRecordsByIds(context, postIds, existing = []) {
 
 module.exports = {
 	MAX_PARALLEL_READS,
+	fillImportedFields,
 	missingPost,
 	postsPath,
 	project,

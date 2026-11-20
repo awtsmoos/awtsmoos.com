@@ -1,8 +1,16 @@
 /* B"H — Series player: a quiet dark bar over the cream heichel pages.
    Palette follows the heichel template itself (deep ink #17253a / theme
-   #071a2b, cream #f7f1e3, gold accent) so it never clashes with the page. */
+   #071a2b, cream #f7f1e3, gold accent) so it never clashes with the page.
+   B"H 2026-11-20 (ikar series load fix): the interactive controls are
+   scoped under body.geelooy-app-shell because the tunnel text-color law
+   (style/geelooy-app/base/elements-content.css + elements-technical.css:
+   `body.geelooy-app-shell :where(button, ...)` at specificity (0,1,1))
+   overrode this sheet's bare class rules (0,1,0) and painted the labels
+   in dark ink (--aw-text) on the dark pill -- measured rgb(43,33,24) on
+   rgb(23,37,58). The scoped selectors resolve to (0,2,1) exactly where
+   that law applies, and nowhere else. */
 
-.awt-series-player-launcher {
+body.geelooy-app-shell .awt-series-player-launcher {
 	position: fixed;
 	inset-inline-end: 1rem;
 	bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
@@ -17,7 +25,7 @@
 	cursor: pointer;
 }
 
-.awt-series-player-launcher:hover {
+body.geelooy-app-shell .awt-series-player-launcher:hover {
 	background: #20324e;
 }
 
@@ -56,7 +64,7 @@
 	color: #cfd8e6;
 }
 
-.awt-sp-close {
+body.geelooy-app-shell .awt-sp-close {
 	margin-inline-start: auto;
 	inline-size: 2rem;
 	block-size: 2rem;
@@ -95,7 +103,7 @@ audio.awt-sp-media {
 	margin-top: .7rem;
 }
 
-.awt-sp-btn {
+body.geelooy-app-shell .awt-sp-btn {
 	flex: 1 1 0;
 	padding: .55rem .8rem;
 	border: 1px solid #8a6d3b;
@@ -106,7 +114,7 @@ audio.awt-sp-media {
 	cursor: pointer;
 }
 
-.awt-sp-btn:hover {
+body.geelooy-app-shell .awt-sp-btn:hover {
 	background: #2a4066;
 }
 
@@ -121,7 +129,7 @@ audio.awt-sp-media {
 		inset-inline: .6rem;
 		bottom: calc(.6rem + env(safe-area-inset-bottom, 0px));
 	}
-	.awt-series-player-launcher {
+	body.geelooy-app-shell .awt-series-player-launcher {
 		inset-inline-end: .6rem;
 		bottom: calc(.6rem + env(safe-area-inset-bottom, 0px));
 	}

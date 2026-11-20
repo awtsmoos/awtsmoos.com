@@ -89,6 +89,15 @@
 :root.heichel-os-document .heichel-semantic-fallback[data-ikar-root="true"] #heichel-discovery-title {
 	color: var(--sefer-title-ink);
 }
+/* B"H 2026-11-20 (ikar series load fix): the discovery section heading
+   ("Choose a section") inherited the shell's --aw-text, which resolves
+   near-white while this surface sits on the cream sefer paper --
+   measured rgb(245,247,249) on cream, ~1.05:1, invisible. Keyed off
+   the surface with the per-theme sefer token, like the M-2 title
+   repair above: dark ink on the paper, light ink on the dark vessel. */
+:root.heichel-os-document .heichel-semantic-discovery h2 {
+	color: var(--sefer-title-ink);
+}
 /* Discovery list: real grid, list reset, rendering containment for
    series with hundreds of posts. Intrinsically responsive — one
    column on narrow vessels without a breakpoint. */
@@ -187,17 +196,22 @@
    banner — with the current crumb inheriting near-white text and words
    wrapping mid-pill ("Hom/e"). Now: one pill, in normal flow above the
    banner, never wraps inside a crumb, scrolls sideways on narrow screens
-   instead of crushing, and the current page reads in full ink. */
+   instead of crushing, and the current page reads in full ink.
+   B"H 2026-11-20 (ikar series load fix): the sideways scroll still left
+   the current crumb chopped mid-word at the pill's edge on phones
+   (measured: pill content 497px in a 329px pill, crumb cut at the
+   screen edge in the owner's screenshots). The pill now stays on-screen
+   and crumbs ellipsize INSIDE it: shrinkable crumbs with min-width 0,
+   the current crumb takes the remaining space and truncates with an
+   ellipsis. */
 :root.heichel-os-document .ikar-first-actions {
 	display: flex;
 	align-items: center;
 	flex-wrap: nowrap;
 	gap: .15rem;
 	max-width: 100%;
-	overflow-x: auto;
-	overscroll-behavior-x: contain;
-	scrollbar-width: none;
-	width: max-content;
+	overflow: hidden;
+	width: auto;
 	margin: 0 0 1.1rem;
 	padding: .35rem;
 	border: 1px solid var(--sefer-rule);
@@ -213,7 +227,10 @@
 :root.heichel-os-document .ikar-first-actions a,
 :root.heichel-os-document .ikar-first-actions span {
 	white-space: nowrap;
-	flex: none;
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 :root.heichel-os-document .ikar-first-actions a {
 	padding: .42rem .8rem;
@@ -234,6 +251,10 @@
 	transform: none;
 }
 :root.heichel-os-document .ikar-first-actions [aria-current="page"] {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	padding: .42rem .8rem;
 	border-radius: 999px;
 	background: var(--sefer-paper-deep);
@@ -245,6 +266,7 @@
 :root.heichel-os-document .ikar-first-separator {
 	color: var(--sefer-accent);
 	padding: 0;
+	flex: none;
 }
 
 /* The series banner image: it previously had no resting style of its own

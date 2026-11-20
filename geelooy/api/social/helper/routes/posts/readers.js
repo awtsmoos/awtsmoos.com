@@ -17,5 +17,7 @@ module.exports = {
 	paginationRequested,
 	readPostRoute,
 	readPostsRoute,
+	seriesPostsCacheKey,
+	peekMemoizedRead,
 	selectedProperties
 };

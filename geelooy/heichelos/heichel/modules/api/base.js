@@ -27,16 +27,36 @@ export class AwtsmoosRequest {
      * @returns {Promise<Object|null>} - The manifest data or null if the void resisted.
      */
     static async fetch(url) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Kav Interrupted: ${response.status} ${response.statusText}`);
+        // B"H 2026-11-20 (ikar series load fix): reads used to be single-shot
+        // with NO timeout -- one shed 503 (or one stalled request on the
+        // saturated box) and the caller got null/never resolved, so series
+        // pages sat on a silent void. Bounded recovery: up to two retries
+        // on transient gateway statuses, and a 60s abort per attempt so a
+        // stall becomes a truthful failure the UI can surface + retry.
+        const RETRY_DELAYS_MS = [1200, 3000];
+        const RETRYABLE_STATUS = new Set([502, 503, 504]);
+        let lastError = null;
+        for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 60000);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                if (response.ok) {
+                    return await response.json();
+                }
+                lastError = new Error(`Kav Interrupted: ${response.status} ${response.statusText}`);
+                if (!RETRYABLE_STATUS.has(response.status)) break;
+            } catch (error) {
+                lastError = error;
+            } finally {
+                clearTimeout(timer);
             }
-            return await response.json();
-        } catch (e) {
-            console.error("B\"H - A rupture occurred in the retrieval of light:", url, e);
-            return null;
+            if (attempt < RETRY_DELAYS_MS.length) {
+                await new Promise(resolve => setTimeout(resolve, RETRY_DELAYS_MS[attempt]));
+            }
         }
+        console.error("B\"H - A rupture occurred in the retrieval of light:", url, lastError);
+        return null;
     }
 
     /**

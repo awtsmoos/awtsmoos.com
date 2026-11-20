@@ -14,6 +14,15 @@ const { normalizeSeriesResult } = require('../../series/seriesPrateemRecovery.js
 const { readMergedSeriesPosts } = require('./seriesPostMerge.js');
 const { badRequest, serverError } = require('../apiHttp.js');
 const { seriesError } = require('./readRoutesError.js');
+const { memoizedRead } = require('../../profile/readCache.js');
+
+/** Carries an error body out of the memo producer uncached. */
+class SeriesDetailsReadError extends Error {
+	constructor(plain) {
+		super('series details read returned an error body');
+		this.plain = plain;
+	}
+}
 
 /**
  * Reads canonical details plus merged posts, returning plain data or a
@@ -23,6 +32,27 @@ async function readSeriesDetailsPlain($i, heichelId, seriesId) {
 	if (!heichelId || !seriesId) {
 		return { BH: 'B"H', error: { code: 'MISSING_PARAMS', details: { heichelId, seriesId } } };
 	}
+	// B"H 2026-11-20 (ikar series load fix): a cold details read walked
+	// storage for 38s in measurement while the DosDB cache below expires
+	// after 30s, and the series page waits on it before painting a single
+	// post. Memoize the finished details (45s house readCache, in-flight
+	// coalesced, error bodies never cached).
+	try {
+		return await memoizedRead(
+			`seriesDetails:${heichelId}:${seriesId}`,
+			async () => {
+				const plain = await computeSeriesDetailsPlain($i, heichelId, seriesId);
+				if (plain && plain.error) throw new SeriesDetailsReadError(plain);
+				return plain;
+			}
+		);
+	} catch (error) {
+		if (error instanceof SeriesDetailsReadError) return error.plain;
+		throw error;
+	}
+}
+
+async function computeSeriesDetailsPlain($i, heichelId, seriesId) {
 	let result;
 	try {
 		result = await getSeries({ $i, heichelId, seriesId, withDetails: true });

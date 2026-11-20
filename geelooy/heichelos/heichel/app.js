@@ -10,7 +10,7 @@
  * to focused vessels so no ornament can erase content that has already arrived.
  */
 
-import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-012';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-013';
 import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-010';
 import {
 	manifestWorld,

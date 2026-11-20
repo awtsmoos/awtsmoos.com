@@ -28,6 +28,18 @@ const TTL_MS = 45000;
 const MAX_ENTRIES = 512;
 const entries = new Map(); // key -> { promise, exp }
 
+/**
+ * Returns the live (unexpired) memoized promise for a key without
+ * starting new work, or undefined when no warm entry exists. Lets
+ * admission gates (e.g. the read shed) serve an already-warm result
+ * instead of refusing a request whose answer costs nothing to give.
+ */
+function peekMemoizedRead(key) {
+	const hit = entries.get(key);
+	if (hit && hit.exp > Date.now()) return hit.promise;
+	return undefined;
+}
+
 function memoizedRead(key, producer) {
 	const now = Date.now();
 	const hit = entries.get(key);
@@ -44,4 +56,4 @@ function memoizedRead(key, producer) {
 	return promise;
 }
 
-module.exports = { memoizedRead, PROFILE_READ_TTL_MS: TTL_MS };
+module.exports = { memoizedRead, peekMemoizedRead, PROFILE_READ_TTL_MS: TTL_MS };

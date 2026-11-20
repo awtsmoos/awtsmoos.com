@@ -66,6 +66,13 @@ async function loadCollections(seriesId) {
 		api.getAlternateGroupDetails(appState.heichelId, seriesId),
 		loadOptionalTranslations(appState.heichelId, seriesId)
 	]);
+	// B"H 2026-11-20 (ikar series load fix): the fetcher returns null on
+	// transport failure (e.g. a shed 503). Treating that as an empty list
+	// painted a silent void under the hero; a failed post list is a load
+	// failure, so the loader's truthful error card + retry takes over.
+	if (postsRaw === null || postsRaw === undefined) {
+		throw new Error('The post list could not be loaded -- the server is busy. Please try again in a moment.');
+	}
 	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
 	const subSeries = augmentSubSeries(normalizeCollection(subSeriesRaw), seriesId);
 	const groupings = injectChitasGrouping(

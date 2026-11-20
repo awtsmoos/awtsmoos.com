@@ -16,7 +16,7 @@ import * as ui from './ui.js?v=heichel-mobile-010';
 import {
 	loadContent,
 	preloadContent
-} from './navigator/loader.js?v=heichel-mobile-013';
+} from './navigator/loader.js?v=heichel-mobile-014';
 import { NavigatorInteractionDelegate } from './navigator/interaction-delegate.js?v=heichel-mobile-010';
 import { beginOwnershipCheck } from './navigator/ownership-loader.js?v=heichel-mobile-010';
 import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-012';
