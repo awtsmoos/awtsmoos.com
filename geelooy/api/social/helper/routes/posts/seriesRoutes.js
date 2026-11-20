@@ -65,7 +65,7 @@ function warmSeriesPosts($i, heichelId, seriesId, withDetails) {
 	}
 }
 const { bulkPublishRoute } = require('./bulkPublish.js');
-const { readShed } = require('../../safeguards/readShed.js');
+const { readShed, tryAdmitColdFill } = require('../../safeguards/readShed.js');
 const { unavailable } = require('../apiHttp.js');
 
 function deletionAlias($i) {
@@ -87,7 +87,19 @@ function createSeriesPostRoutes({ $i, userid }) {
 				if (shed) {
 					const warm = warmSeriesPosts($i, vars.heichel, vars.series, false);
 					if (warm) return warm;
-					return unavailable('READ_SHED_OVERLOAD', shed.message);
+					// B"H 2026-11-20 (shed-warming): the memo can only
+					// warm through this read, and the resting heap sits
+					// above the shed line permanently — refusing every
+					// cold fill starved the cache forever. Admit one
+					// bounded cold fill (see safeguards/readShed.js);
+					// when the budget is spent, the honest 503 stands.
+					const release = tryAdmitColdFill();
+					if (!release) return unavailable('READ_SHED_OVERLOAD', shed.message);
+					try {
+						return await readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series });
+					} finally {
+						release();
+					}
 				}
 				return readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series });
 			}
@@ -101,7 +113,17 @@ function createSeriesPostRoutes({ $i, userid }) {
 			if (shed) {
 				const warm = warmSeriesPosts($i, vars.heichel, vars.series, true);
 				if (warm) return warm;
-				return unavailable('READ_SHED_OVERLOAD', shed.message);
+				// B"H 2026-11-20 (shed-warming): same bounded cold-fill
+				// admission as the ids list above — a cold memo under a
+				// permanent shed must be able to warm, one walk at a
+				// time, or this route answers 503 forever.
+				const release = tryAdmitColdFill();
+				if (!release) return unavailable('READ_SHED_OVERLOAD', shed.message);
+				try {
+					return await readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series, withDetails: true });
+				} finally {
+					release();
+				}
 			}
 			return readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series, withDetails: true });
 		},

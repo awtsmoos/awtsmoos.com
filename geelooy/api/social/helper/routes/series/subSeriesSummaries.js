@@ -15,7 +15,7 @@ const { recoverSeriesPrateem } = require('../../series/seriesPrateemRecovery.js'
 const { allPostsGrouped } = require('../../packed/allPostsIndex.js');
 const { mergePostObjects } = require('./seriesPostMerge.js');
 const { summariesCacheKey, freshData, staleData, runShared } = require('./summariesCache.js');
-const { readShed } = require('../../safeguards/readShed.js');
+const { readShed, tryAdmitColdFill } = require('../../safeguards/readShed.js');
 const { unavailable } = require('../apiHttp.js');
 
 const MAX_PARALLEL_SUMMARIES = 6;
@@ -86,13 +86,7 @@ async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
 	const key = summariesCacheKey(heichelId, parentSeriesId);
 	const fresh = freshData(key);
 	if (fresh) return fresh;
-	const shed = readShed();
-	if (shed) {
-		const stale = staleData(key);
-		if (stale) return stale;
-		return unavailable('READ_SHED_OVERLOAD', shed.message);
-	}
-	return runShared(key, async () => {
+	const fill = async () => {
 		const ids = await getSubSeries({
 			$i,
 			heichelId,
@@ -107,7 +101,26 @@ async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
 			packedPostsBySeries = null;
 		}
 		return await readSummaries({ $i, heichelId, ids, packedPostsBySeries });
-	});
+	};
+	const shed = readShed();
+	if (shed) {
+		const stale = staleData(key);
+		if (stale) return stale;
+		// B"H 2026-11-20 (shed-warming): with no stale entry this gate
+		// could never fill under a permanent shed (the resting heap
+		// lives above the shed line) — a never-filled parent listing
+		// answered 503 forever. Admit one bounded cold fill through
+		// the shared budget (see safeguards/readShed.js); when the
+		// budget is spent, the honest 503 stands.
+		const release = tryAdmitColdFill();
+		if (!release) return unavailable('READ_SHED_OVERLOAD', shed.message);
+		try {
+			return await runShared(key, fill);
+		} finally {
+			release();
+		}
+	}
+	return runShared(key, fill);
 }
 
 module.exports = {
