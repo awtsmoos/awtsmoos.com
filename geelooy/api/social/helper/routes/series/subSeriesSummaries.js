@@ -10,7 +10,8 @@
  * a cold caller gets stale data or a 503 — never a scan stampede.
  */
 
-const { getSeries, getSubSeries } = require('../../index.js');
+const { getSubSeries } = require('../../index.js');
+const { myOpts } = require('../../general.js');
 const { recoverSeriesPrateem } = require('../../series/seriesPrateemRecovery.js');
 const { allPostsGrouped } = require('../../packed/allPostsIndex.js');
 const { mergePostObjects } = require('./seriesPostMerge.js');
@@ -52,6 +53,54 @@ function summarize(detail, requestedId) {
 }
 
 /** Reads child detail vessels with finite parallelism while preserving ID order. */
+/**
+ * B"H 2026-11-20 (series-create-hang fix): light per-child detail for
+ * the summaries fill \u2014 prateem, sub-series ids, post ids, nothing
+ * else. The old fill called getSeries(withDetails) per child, whose
+ * posts enumeration (getObjectKeys over the child's whole posts
+ * collection) costs ~0.5ms of pure CPU per post: the ikar root fill
+ * summed to ~29s of event-loop block across 73 children and kept
+ * shoving the process into the heap-cap GC regime that stalled the
+ * composer. When the packed shard covers a child, its entries are
+ * already the only post rows the summary can show (mergePostObjects
+ * cannot use the string-key array getObjectKeys returns), so the
+ * legacy posts collection is never opened. A child absent from the
+ * shard \u2014 the small user-created trees \u2014 keeps the legacy keys
+ * read, passed through unmerged exactly as getSeries delivered it.
+ * Error semantics mirror getSeries: a missing prateem yields an
+ * error-carrying detail (summarize maps it to the error card) and a
+ * hard read failure throws into the caller's summarize(null, id).
+ */
+async function readSummaryDetail($i, heichelId, seriesId, packed) {
+	const base = `/social/heichelos/${heichelId}/series/${seriesId}`;
+	let prateem;
+	if (seriesId === 'root') {
+		prateem = { id: 'root', name: 'Root', description: 'The starting point', isRoot: true };
+	} else {
+		prateem = await $i.db.get(base + '/prateem', myOpts($i));
+		if (!prateem) return { error: 'SERIES_NOT_FOUND' };
+		if (!prateem.id) prateem.id = seriesId;
+	}
+	let subSeries = [];
+	try {
+		const sub = await $i.db.get(base + '/subSeries');
+		if (Array.isArray(sub)) subSeries = sub;
+	} catch (e) {
+		if (!String(e && e.message).includes('Path does not exist')) throw e;
+	}
+	if (packed && packed.length) {
+		return { prateem, subSeries, posts: mergePostObjects({}, packed) };
+	}
+	let posts = {};
+	try {
+		const keys = await $i.db.getObjectKeys(base + '/posts');
+		if (keys && typeof keys === 'object') posts = keys;
+	} catch (e) {
+		if (!String(e && e.message).includes('Path does not exist')) throw e;
+	}
+	return { prateem, subSeries, posts };
+}
+
 async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 	const results = new Array(ids.length);
 	let cursor = 0;
@@ -60,17 +109,9 @@ async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 			const index = cursor++;
 			const seriesId = ids[index];
 			try {
-				const detail = await getSeries({
-					$i,
-					heichelId,
-					seriesId,
-					withDetails: true
-				});
 				const packed = packedPostsBySeries ? packedPostsBySeries.get(String(seriesId)) : null;
-				const merged = packed && packed.length
-					? { ...detail, posts: mergePostObjects(detail && detail.posts, packed) }
-					: detail;
-				results[index] = summarize(merged, seriesId);
+				const detail = await readSummaryDetail($i, heichelId, seriesId, packed);
+				results[index] = summarize(detail, seriesId);
 			} catch (_error) {
 				results[index] = summarize(null, seriesId);
 			}

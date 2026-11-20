@@ -13,7 +13,7 @@ import { SectionEditor } from './editor/SectionEditor.js';
 import { SubsectionEditor } from './editor/SubsectionEditor.js';
 import { AttachmentStore } from './media/AttachmentStore.js';
 import { MediaPanel } from './media/MediaPanel.js';
-import { MediaUploader } from './media/MediaUploader.js?v=resilience-002';
+import { MediaUploader } from './media/MediaUploader.js?v=local-media-001';
 import { ComposerActions } from './ui/ComposerActions.js';
 
 export function createEditorAssembly(state, status) {

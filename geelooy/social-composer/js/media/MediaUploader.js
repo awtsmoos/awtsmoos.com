@@ -2,28 +2,25 @@
 //Boruch Hashem
 //Blessed is He
 
-import { ensureArchiveOrgCredentials } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialDialog.js';
-import { ArchiveOrgCredentialVault } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialVault.js';
-import { ArchiveOrgUploadService } from '../../../shared/storage/archiveOrg/ArchiveOrgUploadService.js';
 import { API_PREFIX } from '../config.js';
 
 /**
  * @class MediaUploader
  * @description
- * The Awtsmoos lets public Archive evidence answer before the creator is asked to reveal a local key;
- * Awtsmoos.com stores native image and audio, while video reuses fingerprinted public truth or uploads directly across the sea.
+ * Awtsmoos.com stores native image, audio and video on its own disk:
+ * every attachment kind uploads to the local asset endpoints, and no
+ * external account or key is ever required to attach media to a post.
+ * B"H 2026-11-20: video used to route to Archive.org and hard-blocked
+ * without IA-S3 credentials; it now posts to the same local vault as
+ * everything else (POST /assets/:alias/upload-post-media).
  */
 export class MediaUploader {
 	constructor(
 		store,
-		fetcher = globalThis.fetch.bind(globalThis),
-		vault = new ArchiveOrgCredentialVault(),
-		archiveService = new ArchiveOrgUploadService()
+		fetcher = globalThis.fetch.bind(globalThis)
 	) {
 		this.store = store;
 		this.fetcher = fetcher;
-		this.vault = vault;
-		this.archiveService = archiveService;
 	}
 
 	async upload(scope, attachment, identity) {
@@ -53,19 +50,26 @@ export class MediaUploader {
 	}
 
 	async uploadVideo(attachment, identity) {
-		return this.archiveService.uploadVideo({
-			file: attachment.file,
-			mime: attachment.mime,
-			mediaPath: attachment.name,
-			credentialsProvider: () => ensureArchiveOrgCredentials(this.vault),
-			item: {
-				provider: 'awtsmoos-composer',
-				sourceId: `${attachment.name}:${attachment.size}`,
-				title: attachment.caption || attachment.name,
-				text: attachment.caption || '',
-				sourceProfile: { name: identity.aliasId || '' }
-			}
-		});
+		if (!identity.aliasId) throw new Error('Choose an alias before uploading.');
+		const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
+		if (attachment.file.size > MAX_VIDEO_BYTES) {
+			throw new Error(
+				`That video is ${(attachment.file.size / 1048576).toFixed(1)} MB — the limit for a post video is 100 MB.`
+			);
+		}
+		const form = new FormData();
+		form.append('file', attachment.file, attachment.name);
+		form.append('attachKind', 'post-media');
+		form.append('postId', 'draft');
+		const response = await this.fetcher(
+			`${API_PREFIX}/assets/${encodeURIComponent(identity.aliasId)}/upload-post-media`,
+			{ method: 'POST', body: form }
+		);
+		const result = await response.json();
+		if (!response.ok || result.error) {
+			throw new Error(result.error?.message || `Upload failed with ${response.status}.`);
+		}
+		return Array.isArray(result.success) ? result.success[0] : result.success;
 	}
 
 	async uploadNative(scope, attachment, identity) {

@@ -7,8 +7,9 @@ import { ArchiveOrgCredentialVault } from '../../../shared/storage/archiveOrg/Ar
 /**
  * @class ArchiveOrgComposerView
  * @description
- * The Awtsmoos lets the creator hold the Archive key on this device and nowhere above;
- * Awtsmoos.com shows the storage boundary beside video creation, turning privacy into visible love.
+ * Video lives on Awtsmoos storage by default; this panel only keeps the
+ * optional Archive.org key on the creator's own device for those who
+ * choose it. It is never required and never blocks an upload.
  */
 export class ArchiveOrgComposerView {
 	constructor({
@@ -27,13 +28,13 @@ export class ArchiveOrgComposerView {
 		panel.className = 'composerArchiveStorage';
 		panel.innerHTML = `
 			<div>
-				<strong>Video storage · Archive.org</strong>
-				<p>Videos upload directly from this browser to Internet Archive. Awtsmoos never receives your IA-S3 keys or video bytes.</p>
+				<strong>Video storage</strong>
+				<p>Videos upload to Awtsmoos storage on this server (up to 100 MB) — no external account or keys are ever required. The Archive.org keys below are an optional legacy choice and never block an upload.</p>
 				<p id="composerArchiveState" aria-live="polite"></p>
 				<a href="https://archive.org/account/s3.php" target="_blank" rel="noopener noreferrer">Get Archive.org S3 keys</a>
 			</div>
 			<details>
-				<summary>Archive.org credentials</summary>
+				<summary>Archive.org credentials (optional)</summary>
 				<form id="composerArchiveForm" class="composerArchiveForm">
 					<label>Access key<input name="accessKey" autocomplete="off" required></label>
 					<label>Secret key<input name="secretKey" type="password" autocomplete="new-password" required></label>
@@ -72,7 +73,7 @@ export class ArchiveOrgComposerView {
 		if (!node) return;
 		node.textContent = state.hasCredentials
 			? `${state.accessKeyMask} · ${state.persistence === 'device' ? 'remembered on this device' : 'this browser session'}`
-			: 'No local Archive.org credentials. Video upload is blocked; image/audio remain available.';
-		node.dataset.ready = state.hasCredentials ? 'true' : 'false';
+			: 'Video upload is ready — videos are stored on Awtsmoos. Archive.org keys are optional.';
+		node.dataset.ready = 'true';
 	}
 }
