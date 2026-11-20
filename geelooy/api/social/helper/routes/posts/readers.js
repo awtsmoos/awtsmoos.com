@@ -10,7 +10,7 @@
  */
 
 const { selectedProperties, detailsRequested, paginationRequested } = require('./readersQuery.js');
-const { readPostsRoute, readPostRoute } = require('./readersPosts.js');
+const { readPostsRoute, readPostRoute, seriesPostsCacheKey, peekMemoizedRead } = require('./readersPosts.js');
 
 module.exports = {
 	detailsRequested,
