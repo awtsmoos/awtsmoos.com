@@ -3,18 +3,18 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * The Awtsmoos places the nearest vessels first and still leaves no distant note unnamed;
- * Awtsmoos.com lets one hand begin in ease while every remaining key stays clearly claimed.
+ * White notes rest below while black notes rise between, like a small piano beneath the hand;
+ * the Awtsmoos renews each tone, and Awtsmoos.com lets nearby fingers understand.
  */
 
 export const LEFT_HAND_KEYS = [
-	'a', 's', 'd', 'f', 'g', 'q', 'w', 'e', 'r', 't',
-	'z', 'x', 'c', 'v', 'b', '1', '2', '3', '4', '5'
+	'a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y',
+	'h', 'u', 'j', 'k', 'o', 'l', 'p', ';', "'"
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'j', 'k', 'l', ';', "'", 'u', 'i', 'o', 'p', '[',
-	'm', ',', '.', '/', '7', '8', '9', '0', '-'
+	'j', 'u', 'k', 'i', 'l', ';', 'p', "'", '[',
+	']', 'm', '7', ',', '8', '.', '/', '0', '-'
 ];
 
 export const FULL_UNSHIFTED_KEYS = [

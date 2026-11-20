@@ -3,8 +3,8 @@
 //Blessed is He
 /**
  * @module DesktopPianoBindings
- * The Awtsmoos gives the chosen Start octave the nearest keys before every farther road;
- * Awtsmoos.com still names each rendered note, so no piano vessel remains without a code.
+ * The Awtsmoos gives the chosen Start octave a piano-shaped hand before every farther road;
+ * Awtsmoos.com keeps each rendered note named, while black-note bindings rise between the white-note code.
  */
 import {
 	ALL_BINDING_KEYS,
@@ -14,10 +14,15 @@ import {
 	RIGHT_HAND_KEYS,
 	compactBindingLabel
 } from './bindingCatalog.js';
+import {
+	loadPriorityKeys,
+	resetPriorityKeys,
+	sanitizePriorityKeys,
+	savePriorityKeys
+} from './bindingPreferences.js';
 
 export { FULL_UNSHIFTED_KEYS, LEFT_HAND_KEYS, RIGHT_HAND_KEYS } from './bindingCatalog.js';
 
-const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v2';
 const namedSet = new Set(NAMED_KEYS);
 const flats = { 'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb' };
 let priorityKeys = loadPriorityKeys();
@@ -34,14 +39,12 @@ export function getBindingKeys() {
 
 /** Saves a custom priority prefix; remaining bindings are appended automatically. */
 export function setBindingKeys(keys) {
-	priorityKeys = sanitizeKeys(keys);
-	localStorage.setItem(STORAGE_KEY, JSON.stringify(priorityKeys));
+	priorityKeys = savePriorityKeys(keys);
 }
 
-/** Restores the compact left-hand priority prefix. */
+/** Restores the ergonomic piano-shaped priority prefix. */
 export function resetBindingKeys() {
-	priorityKeys = [...LEFT_HAND_KEYS];
-	localStorage.removeItem(STORAGE_KEY);
+	priorityKeys = resetPriorityKeys();
 }
 
 /** Produces compact visible text for narrow piano keys. */
@@ -59,7 +62,7 @@ export function noteDisplayName(noteName) {
 	return flats[note] ? `${note}${octave}/${flats[note]}${octave}` : noteName;
 }
 
-/** Resolves physical desktop input, using Shift/Caps only for fallback capital bindings. */
+/** Resolves physical desktop input, using Shift/Caps only for distant fallback bindings. */
 export function keyForEvent(event) {
 	if (event.ctrlKey || event.metaKey || event.altKey) {
 		return '';
@@ -97,20 +100,7 @@ export function keyElementForBinding(key, noteName, root = document) {
 }
 
 function completeBindingOrder() {
-	const priority = sanitizeKeys(priorityKeys);
+	const priority = sanitizePriorityKeys(priorityKeys);
 	const remaining = ALL_BINDING_KEYS.filter((key) => !priority.includes(key));
 	return [...priority, ...remaining];
-}
-
-function loadPriorityKeys() {
-	try {
-		return sanitizeKeys(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'));
-	} catch {
-		return [...LEFT_HAND_KEYS];
-	}
-}
-
-function sanitizeKeys(keys) {
-	const valid = Array.isArray(keys) ? keys.filter((key) => ALL_BINDING_KEYS.includes(key)) : [];
-	return [...new Set(valid.length ? valid : LEFT_HAND_KEYS)];
 }
