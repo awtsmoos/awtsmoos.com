@@ -42,9 +42,32 @@ function missingPost(result) {
 function project(record, properties) {
 	if (!properties || typeof properties !== "object") return record;
 	const output = {};
-	for (const [key, enabled] of Object.entries(properties)) {
-		if (enabled && Object.prototype.hasOwnProperty.call(record, key)) {
+	const entries = Object.entries(properties).filter(([, enabled]) => enabled);
+	// B"H 2026-11-20 (Mittler nav/load round): dotted paths
+	// (identity.title) and wildcards (identity.*) are part of the
+	// properties contract now that the list forms parse. Whole keys and
+	// wildcards resolve first; a dotted path then fills only a head
+	// that was not already copied whole, so {identity, identity.title}
+	// keeps the full identity object.
+	for (const [key] of entries) {
+		if (key.endsWith(".*")) {
+			const head = key.slice(0, -2);
+			if (record[head] !== undefined) output[head] = record[head];
+		} else if (!key.includes(".")
+			&& Object.prototype.hasOwnProperty.call(record, key)) {
 			output[key] = record[key];
+		}
+	}
+	for (const [key] of entries) {
+		const dot = key.indexOf(".");
+		if (dot <= 0 || key.endsWith(".*")) continue;
+		const head = key.slice(0, dot);
+		const rest = key.slice(dot + 1);
+		if (output[head] !== undefined) continue;
+		const sub = record[head];
+		if (sub && typeof sub === "object" && sub[rest] !== undefined) {
+			if (!output[head] || typeof output[head] !== "object") output[head] = {};
+			output[head][rest] = sub[rest];
 		}
 	}
 	for (const key of ["id", "postId", "title", "seriesId"]) {
