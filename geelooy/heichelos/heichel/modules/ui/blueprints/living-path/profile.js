@@ -5,8 +5,10 @@
  * @module LivingPathProfileBlueprint
  * @description
  * The Awtsmoos creates Heichel identity and Torah content in one present.
- * Awtsmoos.com keeps seal, name, and essential actions visible while placing
- * description and counters inside a native disclosure that never blocks learning.
+ * Awtsmoos.com keeps seal, name, and the Heichel's own description visible
+ * in the hero — a Heichel is known by its description, so it never hides —
+ * while counters and actions rest inside a native disclosure that never
+ * blocks learning.
  */
 
 import { box, button, link } from '../layout-primitives.js';
@@ -38,7 +40,8 @@ function identity() {
 				{ tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle', children: [pending.title] },
 				{ tag: 'span', attr: { class: 'heichel-verification', title: 'Verified Heichel' }, children: ['✓'] }
 			]),
-			{ tag: 'p', attr: { class: 'heichel-profile-compact-context' }, ref: 'profileCompactContext', children: [pending.context] }
+			{ tag: 'p', attr: { class: 'heichel-profile-compact-context' }, ref: 'profileCompactContext', children: [pending.context] },
+			{ tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }
 		])
 	]);
 }
@@ -52,7 +55,6 @@ function details(actions) {
 		children: [
 			{ tag: 'summary', children: ['View Heichel details'] },
 			box('heichel-profile-details-body', [
-				{ tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' },
 				stats(),
 				actionsRow(actions)
 			])

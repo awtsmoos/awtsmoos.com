@@ -73,10 +73,14 @@
 .heichel-profile-details-body {
 	padding-block-end: .45rem;
 }
-.heichel-profile-details .hero-description {
-	margin: 0 0 .55rem;
+/* B"H 2026-11-20 (fancy per-series UI): the description now rides visible
+   in the hero identity (blueprint change), no longer inside the details
+   disclosure — its compact styling follows it there. */
+.living-path-profile .hero-description {
+	margin: .3rem 0 .55rem;
 	color: #b8c7d8;
 	font-size: .82rem;
+	line-height: 1.45;
 }
 .heichel-profile-details .heichel-profile-stats, .heichel-profile-details .heichel-profile-actions {
 	margin-inline: 0;

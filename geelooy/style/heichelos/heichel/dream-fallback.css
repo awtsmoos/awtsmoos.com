@@ -375,6 +375,192 @@
 	margin: 0 auto;
 }
 
+/* ---------- B"H 2026-11-20 (fancy per-series UI): ONE refined base, a
+   family accent per new corpus. The shell stamps data-family on the
+   fragment root from the canonical route identity (semantic/fallback.html):
+   ohr = Ohr HaTorah series inside ikar; novel = the Mittler Rebbe novels;
+   reference = the encyclopedia (dossiers + concepts); yeshiva = the Living
+   Yeshiva heichal_* heichelos. "classic" — every older page — matches
+   nothing in this block, so the classics render exactly as before. This
+   sheet owns the fallback chrome, so the family layer lives here only.
+   Within a family the <li> is the single card: the dream title-link box
+   is neutralized so a card never nests inside a card. --------------- */
+
+/* Shared: a fine gold rule settles under the hero of every new corpus. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-semantic-hero::after,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-semantic-hero::after,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-semantic-hero::after,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-semantic-hero::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 1.05rem;
+	transform: translateX(-50%);
+	width: min(7.5rem, 40%);
+	height: 1px;
+	background: linear-gradient(90deg, transparent, #e8bf68, transparent);
+	pointer-events: none;
+}
+/* The Ohr parsha · volume line under the hero description. */
+:root.heichel-os-document .heichel-semantic-subcontext {
+	font-family: var(--dream-serif-font);
+	font-size: clamp(1rem, 2vw, 1.15rem);
+	letter-spacing: .06em;
+	color: #e8bf68;
+	margin: .95rem 0 0;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
+}
+/* Family lists: the <li> is the one card; the title link rests inside it. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-text > a,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-text > a,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-text > a,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-discovery-text > a {
+	display: inline;
+	min-height: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-text > a:hover,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-text > a:hover,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-text > a:hover,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-discovery-text > a:hover {
+	transform: none;
+	box-shadow: none;
+	color: var(--sefer-accent);
+}
+/* The count line has no color of its own anywhere in the bundle — it used
+   to inherit whatever ambient text color surrounded the list. In these
+   families it takes the sefer soft ink explicitly, in both themes. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-count,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-count,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-count,
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-discovery-count {
+	color: var(--sefer-ink-soft);
+}
+
+/* Ohr HaTorah — a sefer page: deep warm navy, a gold rule above the
+   description, and the volume's teachings as one ruled, numbered index. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-semantic-hero {
+	background: linear-gradient(150deg, #0a1e30, #0e3140 55%, #14424a);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-semantic-description {
+	border-top: 1px solid rgb(231 189 100 / 35%);
+	padding-top: 1rem;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-semantic-discovery ul {
+	grid-template-columns: minmax(0, 1fr);
+	max-width: 54rem;
+	gap: 0;
+	counter-reset: ohr-entry;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-item {
+	counter-increment: ohr-entry;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid var(--sefer-rule);
+	border-radius: 0;
+	box-shadow: none;
+	padding: .9rem .3rem;
+	margin-block-end: 0;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-item::before {
+	content: counter(ohr-entry);
+	font-family: var(--dream-serif-font);
+	font-size: .95rem;
+	color: var(--sefer-accent);
+	min-width: 2.4ch;
+	text-align: center;
+	padding-top: .2rem;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-item:hover {
+	background: var(--sefer-paper-deep);
+	transform: none;
+	box-shadow: none;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="ohr"] .heichel-discovery-text > a {
+	font-family: var(--dream-serif-font);
+	font-size: 1.16rem;
+	font-weight: 600;
+	color: var(--sefer-title-ink);
+}
+
+/* The Novels — a book: a gilt frame inside the hero cover, generous
+   chapter cards, serif titles, italic chapter descriptions. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-semantic-hero {
+	background:
+		radial-gradient(120% 90% at 50% 0%, rgb(232 191 104 / 14%), transparent 55%),
+		linear-gradient(135deg, #071a2b, #0e3140 70%, #153847);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-semantic-hero::after {
+	inset: .55rem;
+	left: .55rem;
+	bottom: .55rem;
+	transform: none;
+	width: auto;
+	height: auto;
+	border: 1px solid rgb(231 189 100 / 40%);
+	border-radius: 1rem;
+	background: none;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-item {
+	padding: 1.3rem 1.4rem;
+	background: linear-gradient(180deg, var(--sefer-card), var(--sefer-paper));
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-text > a {
+	font-family: var(--dream-serif-font);
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: var(--sefer-title-ink);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="novel"] .heichel-discovery-description {
+	font-style: italic;
+}
+
+/* The Encyclopedia — a reference index: a slimmer hero, a denser grid,
+   compact scannable entries that do not lift or tilt. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-semantic-hero {
+	min-height: clamp(9rem, 22vw, 13rem);
+	padding-top: clamp(1.5rem, 4vw, 2.5rem);
+	padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] #heichel-boot-title {
+	font-size: clamp(2rem, 5vw, 3.2rem);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-semantic-discovery ul {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+	gap: .5rem;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-item {
+	padding: .65rem .85rem;
+	border-radius: .6rem;
+	margin-block-end: 0;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-item:hover {
+	transform: none;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-text > a {
+	font-size: .96rem;
+	font-weight: 600;
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="reference"] .heichel-discovery-description {
+	font-size: .86rem;
+	margin-top: .2rem;
+}
+
+/* Living Yeshiva — the study hall: a warm glow over the hero and a gold
+   spine on every study card, one language across all its heichelos. */
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-semantic-hero {
+	background:
+		radial-gradient(90% 120% at 50% 0%, rgb(232 191 104 / 16%), transparent 55%),
+		linear-gradient(135deg, #071a2b, #0e3140 70%, #153847);
+}
+:root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-discovery-item {
+	border-left: 3px solid var(--sefer-accent);
+}
+
 /* A failed section list says so, in the open, where the list belongs. */
 :root.heichel-os-document .heichel-discovery-note {
 	border: 1px solid var(--sefer-rule);

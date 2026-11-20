@@ -4,7 +4,21 @@ Blessed is He
 The Awtsmoos renders a useful Torah library before the browser wakes;
 Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 -->
-<div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true">
+<?<script>
+	// B"H 2026-11-20 (fancy per-series UI): stamp the corpus family on the
+	// fragment root so one shared CSS layer can give each new corpus its own
+	// accent — Ohr HaTorah in ikar, the Mittler Rebbe novels, the encyclopedia
+	// (dossiers + concepts), and the Living Yeshiva heichelos. Derived only
+	// from the canonical route identity the shell already resolved.
+	var famPath = typeof semantic === "object" && semantic ? String(semantic.canonicalPath || "") : "";
+	var famSeg = famPath.split("/").filter(Boolean), famH = famSeg[1] || "", famS = famSeg[3] || "";
+	var family = "classic";
+	if (famH === "ikar" && famS.indexOf("ohr-hatorah-") === 0) family = "ohr";
+	else if (famH === "mittler-rebbe-novels") family = "novel";
+	else if (famH === "mittler-rebbe-encyclopedia") family = "reference";
+	else if (famH.indexOf("heichal_") === 0) family = "yeshiva";
+	return '<div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true" data-family="' + family + '">';
+	</script>?>
 	<?<script>
 	var s = typeof series === "object" && series ? series : null;
 	var cover = s && s.coverImage ? String(s.coverImage) : "";
@@ -21,7 +35,15 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	     a white-on-white current crumb. The client enhancer is the single
 	     owner now: it builds one styled trail on every ikar page. -->
 	<header class="heichel-semantic-hero">
-		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
+		<p class="heichel-semantic-context" id="heichel-boot-context"><?<script>
+		var kickSeg = typeof semantic === "object" && semantic ? String(semantic.canonicalPath || "").split("/").filter(Boolean) : [];
+		var kickH = kickSeg[1] || "", kickS = kickSeg[3] || "";
+		if (kickH === "ikar" && kickS.indexOf("ohr-hatorah-") === 0) return "OHR HATORAH · TORAH COMMENTARY";
+		if (kickH === "mittler-rebbe-novels") return "MITTLER REBBE · THE NOVELS";
+		if (kickH === "mittler-rebbe-encyclopedia") return "MITTLER REBBE · ENCYCLOPEDIA";
+		if (kickH.indexOf("heichal_") === 0) return "LIVING YESHIVA · STUDY HALL";
+		return "TORAH · LIVING LIBRARY";
+		</script>?></p>
 		<h1 id="heichel-boot-title"><?<script>
 		var model = typeof semantic === "object" && semantic ? semantic : null;
 		return model && model.heading ? model.heading : "";
@@ -30,6 +52,19 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		var model = typeof semantic === "object" && semantic ? semantic : null;
 		return model && model.description ? model.description : "";
 		</script>?></p>
+		<?<script>
+		// B"H 2026-11-20 (fancy per-series UI): an Ohr HaTorah series id encodes
+		// its parsha and volume (ohr-hatorah-bereshit-a = Bereishis, volume א) —
+		// state that context in the hero, under the description.
+		var subSeg = typeof semantic === "object" && semantic ? String(semantic.canonicalPath || "").split("/").filter(Boolean) : [];
+		if ((subSeg[1] || "") !== "ikar" || (subSeg[3] || "").indexOf("ohr-hatorah-") !== 0) return "";
+		if (subSeg[3] === "ohr-hatorah-yehal-or-tehillim") return '<p class="heichel-semantic-subcontext">Yehal Ohr · Tehillim</p>';
+		var ohrParts = subSeg[3].slice(12).split("-");
+		var ohrParsha = { bereshit: "Bereishis", shemot: "Shemos", vayikra: "Vayikra", bamidbar: "Bamidbar", devarim: "Devarim" };
+		var ohrVolume = { a: "א", b: "ב", g: "ג", d: "ד", h: "ה", v: "ו", z: "ז", ch: "ח", t: "ט" };
+		if (!ohrParsha[ohrParts[0]] || !ohrVolume[ohrParts[1]]) return "";
+		return '<p class="heichel-semantic-subcontext">' + ohrParsha[ohrParts[0]] + " · Volume " + ohrVolume[ohrParts[1]] + "</p>";
+		</script>?>
 	</header>
 	<?<script>
 	var model = typeof semantic === "object" && semantic ? semantic : null;
@@ -42,7 +77,14 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	<nav class="heichel-semantic-discovery" aria-labelledby="heichel-discovery-title">
 		<h2 id="heichel-discovery-title"><?<script>
 		var model = typeof semantic === "object" && semantic ? semantic : null;
-		return model && model.canonicalPath === "/heichelos/ikar" ? "Enter the library" : "Explore";
+		var headPath = model ? String(model.canonicalPath || "") : "";
+		var headSeg = headPath.split("/").filter(Boolean), headH = headSeg[1] || "", headS = headSeg[3] || "";
+		var headIsSeries = headSeg[2] === "series" && Boolean(headS);
+		if (headH === "ikar" && headS.indexOf("ohr-hatorah-") === 0) return "In This Volume";
+		if (headH === "mittler-rebbe-novels") return headIsSeries ? "Chapters" : "The Novels";
+		if (headH === "mittler-rebbe-encyclopedia") return headIsSeries ? "Entries" : "The Index";
+		if (headH.indexOf("heichal_") === 0) return headIsSeries ? "Study Units" : "Series";
+		return headPath === "/heichelos/ikar" ? "Enter the library" : "Explore";
 		</script>?></h2>
 		<?<script>
 		var bag = typeof discovery === "object" && discovery ? discovery : null;

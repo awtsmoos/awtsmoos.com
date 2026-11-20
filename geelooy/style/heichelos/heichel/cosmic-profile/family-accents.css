@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Family accents for the hydrated Heichel shell (2026-11-20,
+ * fancy per-series UI). The semantic fallback carries its family layer in
+ * dream-fallback.css; this sheet is the same idea inside the cosmic shell,
+ * keyed on the body identity the app itself publishes
+ * (body[data-heichel-id], set by route-context before any network work).
+ * One refined base — the shell as it is — plus a temperature per corpus:
+ * lamp-gold for the Novels and the Living Yeshiva study halls, the native
+ * cyan/indigo for the Encyclopedia's reference cool. Every older Heichel
+ * matches nothing here and renders exactly as before.
+ */
+
+/* ---- The Novels (mittler-rebbe-novels): lamplight over the cover ---- */
+body[data-heichel-id="mittler-rebbe-novels"] .heichel-profile-cover {
+	background:
+		radial-gradient(circle at 50% 110%, rgba(232, 182, 76, .55), transparent 22%),
+		radial-gradient(circle at 21% 45%, rgba(84, 58, 165, .42), transparent 25%),
+		radial-gradient(circle at 79% 35%, rgba(232, 182, 76, .28), transparent 24%),
+		linear-gradient(135deg, #141024, #2C1F0C 46%, #1C1440 72%, #04040C);
+	border-bottom-color: rgba(232, 182, 76, .35);
+}
+body[data-heichel-id="mittler-rebbe-novels"] .heichel-seal {
+	border-color: #e8b64c;
+	box-shadow: 0 0 1.8rem rgba(232, 182, 76, .38);
+}
+body[data-heichel-id="mittler-rebbe-novels"] .series-heading h2 {
+	font-family: "Source Serif 4", "Cardo", Georgia, serif;
+	letter-spacing: -.01em;
+}
+body[data-heichel-id="mittler-rebbe-novels"] .series-label {
+	color: #e8b64c;
+}
+
+/* ---- The Encyclopedia (mittler-rebbe-encyclopedia): the reference cool.
+   A lower cover, a tighter index voice — hierarchy stays scannable. ---- */
+body[data-heichel-id="mittler-rebbe-encyclopedia"] .living-path-profile .heichel-profile-cover {
+	block-size: 2.25rem;
+}
+body[data-heichel-id="mittler-rebbe-encyclopedia"] .series-label {
+	text-transform: uppercase;
+	letter-spacing: .14em;
+	color: var(--heichel-cosmic-cyan-core);
+}
+
+/* ---- Living Yeshiva (heichal_*): one study-hall language everywhere.
+   The seal takes the gold ring; the series label answers in gold. ---- */
+body[data-heichel-id^="heichal_"] .heichel-seal {
+	border-color: #e8b64c;
+	box-shadow: 0 0 1.8rem rgba(232, 182, 76, .32);
+}
+body[data-heichel-id^="heichal_"] .series-label {
+	color: #e8b64c;
+}
+body[data-heichel-id^="heichal_"] .heichel-profile-cover {
+	background:
+		radial-gradient(circle at 50% 110%, rgba(232, 182, 76, .42), transparent 20%),
+		radial-gradient(circle at 21% 45%, rgba(52, 155, 255, .38), transparent 23%),
+		radial-gradient(circle at 79% 35%, rgba(163, 90, 255, .38), transparent 24%),
+		linear-gradient(135deg, #041424, #0C2C5C 46%, #241C5C 72%, #04040C);
+	border-bottom-color: rgba(232, 182, 76, .28);
+}
