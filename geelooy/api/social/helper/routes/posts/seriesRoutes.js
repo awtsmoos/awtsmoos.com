@@ -22,10 +22,18 @@ const {
 } = require('../requestValues.js');
 const {
 	readPostRoute,
-	readPostsRoute,
-	seriesPostsCacheKey,
-	peekMemoizedRead
+	readPostsRoute
 } = require('./readers.js');
+// B"H 2026-11-20 (ikar series round 2): the cache-key builder and the
+// memo peek are imported from their canonical homes, NOT through the
+// readers.js re-export shim. During the round-1 staged upload the
+// running process froze a module graph whose shim exports were
+// undefined while these homes were already current; combined with a
+// permanently-on read shed (heap above the guard line), every posts
+// request died in warmSeriesPosts with "seriesPostsCacheKey is not a
+// function" (HTTP 500) before ever reaching the working read path.
+const { seriesPostsCacheKey } = require('./readersPosts.js');
+const { peekMemoizedRead } = require('../../profile/readCache.js');
 const { selectedProperties, paginationRequested } = require('./readersQuery.js');
 
 /**
@@ -34,16 +42,27 @@ const { selectedProperties, paginationRequested } = require('./readersQuery.js')
  * nothing to serve -- refusing it turned every series page into a
  * silent void whenever the heap ran hot. Returns the warm promise, or
  * null when the shed verdict must stand.
+ *
+ * B"H 2026-11-20 (round 2): an admission gate must never throw. Any
+ * failure inside the peek (missing helper, bad key inputs) degrades
+ * to null, so the route answers with the honest shed verdict (503)
+ * instead of a route-error 500.
  */
 function warmSeriesPosts($i, heichelId, seriesId, withDetails) {
-	const key = seriesPostsCacheKey({
-		heichelId,
-		seriesId,
-		withDetails,
-		properties: selectedProperties($i),
-		pagination: paginationRequested($i)
-	});
-	return peekMemoizedRead(key) || null;
+	try {
+		if (typeof seriesPostsCacheKey !== 'function'
+			|| typeof peekMemoizedRead !== 'function') return null;
+		const key = seriesPostsCacheKey({
+			heichelId,
+			seriesId,
+			withDetails,
+			properties: selectedProperties($i),
+			pagination: paginationRequested($i)
+		});
+		return peekMemoizedRead(key) || null;
+	} catch (_) {
+		return null;
+	}
 }
 const { bulkPublishRoute } = require('./bulkPublish.js');
 const { readShed } = require('../../safeguards/readShed.js');

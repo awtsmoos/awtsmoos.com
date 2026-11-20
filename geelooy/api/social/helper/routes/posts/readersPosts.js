@@ -164,5 +164,16 @@ async function readPostRoute({
 module.exports = {
 	readPostsRoute,
 	readPostRoute,
+	// B"H 2026-11-20 (ikar series round 2): the round-1 load fix defined
+	// seriesPostsCacheKey here and imported peekMemoizedRead here, and
+	// wired readers.js + seriesRoutes.js to consume both -- but never
+	// exported them, so every consumer received undefined and the
+	// shed-gate peek threw "seriesPostsCacheKey is not a function" on
+	// every posts request whenever the read shed was on (in the running
+	// process: effectively always, heap above the guard line). The
+	// non-shed path never noticed because readPostsRoute uses the
+	// module-local binding. Export both names from their home.
+	seriesPostsCacheKey,
+	peekMemoizedRead,
 	stripUnusedPostPayload
 };

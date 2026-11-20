@@ -143,7 +143,14 @@ function createDiscovery($i) {
 		// render as a silently blank section. When the list fetch itself
 		// failed (null), say so on the page; a series that genuinely has no
 		// children and no posts stays a plain empty list.
-		if (!links.length && subSeriesResponse === null) {
+		// B"H 2026-11-20 (ikar series round 2): the batch-29 note watched
+		// only the subSeries fetch. A failed POSTS fetch beside a healthy
+		// (often empty) subSeries list rendered the exact silent void the
+		// rule exists to prevent -- the ikar Mittler Rebbe series page:
+		// hero over blank cream, no list, no note. Watch both fetches: a
+		// null response means the read failed, never that the series is
+		// empty.
+		if (!links.length && (subSeriesResponse === null || postsResponse === null)) {
 			return {
 				links,
 				note: 'This section could not be loaded just now — the library is under heavy load. Please reload the page in a moment.'
