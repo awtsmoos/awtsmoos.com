@@ -26,6 +26,13 @@ function seriesCard(series = {}) {
 	link.append(heading);
 	card.append(link);
 	const bits = [];
+	// B"H 2026-11-20 round 5: the same series legitimately lives in
+	// several heichelos (mirrored imports; every heichel has a "root"
+	// series) — dedupe by URL keeps them all, so the card must say
+	// WHICH heichel each card belongs to or correct data reads as
+	// duplication ("root" x4, one tractate x3 in the round-5 recheck).
+	const heichelLabel = cleanText(series.heichelName || series.heichelId || "");
+	if (heichelLabel) bits.push(heichelLabel);
 	if (series.postCount != null) bits.push(`${series.postCount} posts`);
 	if (series.description) {
 		const desc = document.createElement("p");
@@ -61,7 +68,7 @@ export async function loadSeriesForAlias(alias) {
 		const roots = listFrom(data?.data || data);
 		const out = [];
 		const seen = new Set();
-		const walk = (nodes, heichelId) => {
+		const walk = (nodes, heichelId, heichelName) => {
 			for (const node of nodes || []) {
 				const id = String(node?.id || node?.seriesId || '');
 				if (id) {
@@ -72,15 +79,18 @@ export async function loadSeriesForAlias(alias) {
 							id,
 							title: node.title || node.name || id,
 							url: `/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(id)}`,
+							heichelId,
+							...(heichelName ? { heichelName } : {}),
 							...(node.postCount != null ? { postCount: node.postCount } : {})
 						});
 					}
 				}
-				walk(node?.children, heichelId);
+				walk(node?.children, heichelId, heichelName);
 			}
 		};
 		for (const root of roots) {
-			walk(root?.children, String(root?.heichelId || root?.id || 'ikar'));
+			walk(root?.children, String(root?.heichelId || root?.id || 'ikar'),
+				cleanText(root?.heichelName || root?.name || ''));
 		}
 		return out;
 	} catch {

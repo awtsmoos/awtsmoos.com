@@ -7,6 +7,7 @@
  */
 
 const { paths, read } = require("./paths.js");
+const { memoizedRead } = require("./readCache.js");
 const { cleanText, readArray, parseJsonObject } = require("./sanitize.js");
 const { getTemplate, normalizeTemplateId } = require("./templates.js");
 
@@ -34,10 +35,18 @@ async function readProfile($i, aliasId, alias) {
 }
 
 async function readProfileIdentity({ $i, aliasId }) {
-    const alias = await readAlias($i, aliasId);
-    if (!alias) return null;
-    const profile = await readProfile($i, aliasId, alias);
-    return { alias, profile, activeTemplate: getTemplate(profile.templateId) };
+    // B"H 2026-11-20 (profile round 5): the identity read was the one
+    // aggregate input with NO memo — every profile view re-walked it,
+    // and under load its failure made aggregateProfile fall back to a
+    // SYNTHETIC identity (empty name/description) even for real aliases
+    // (observed live for @abarbanel). Memoize it like every other
+    // section (45s, coalesced, rejections evicted — readCache law).
+    return memoizedRead("identity:" + aliasId, async () => {
+        const alias = await readAlias($i, aliasId);
+        if (!alias) return null;
+        const profile = await readProfile($i, aliasId, alias);
+        return { alias, profile, activeTemplate: getTemplate(profile.templateId) };
+    });
 }
 
 module.exports = { readAlias, readProfile, readProfileIdentity };

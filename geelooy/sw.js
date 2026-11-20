@@ -19,8 +19,8 @@
  * (the app shell SPA) reload gently when a deploy ships new code.
  */
 
-const CACHE_NAME = 'awtsmoos-v4';
-const HTML_CACHE = 'awtsmoos-html-v4';
+const CACHE_NAME = 'awtsmoos-v5';
+const HTML_CACHE = 'awtsmoos-html-v5';
 
 // Install — skip waiting to activate immediately
 self.addEventListener('install', (event) => {
@@ -111,6 +111,19 @@ self.addEventListener('fetch', (event) => {
 	// Let the browser HTTP cache handle them (it respects the version param
 	// once bustDriveCaches.mjs adds it). Network-only, no SW caching.
 	if (isDriveUrl(url.href) && !hasHashVersion(url.href)) {
+		event.respondWith(fetch(request));
+		return;
+	}
+
+	// B"H 2026-11-20 (profile round 5): code assets (scripts/styles) are
+	// NETWORK-ONLY here. The old network-first branch cached every
+	// successful response and served that cache on any fetch failure;
+	// on this saturated box a hiccup mid-graph silently substituted a
+	// stale module into a half-updated module graph (dead toggles,
+	// mixed dashboard versions in returning browsers). A failed code
+	// fetch must fail loudly so the page watchdog/retry can engage.
+	if (request.destination === 'script' || request.destination === 'style' ||
+		/\.(?:m?js|css)$/.test(url.pathname)) {
 		event.respondWith(fetch(request));
 		return;
 	}

@@ -55,6 +55,29 @@ export async function hydrateAliasFieldsFromServer(refs, config, preview) {
 	}
 	hydrateAliasFields(refs, { ...config, details: record });
 	preview?.render();
+	// B"H 2026-11-20 round 5: a synthetic profile payload means the
+	// server's identity read failed under load — the description very
+	// likely exists but could not be fetched. Never leave that as a
+	// silent empty About (round-5 recheck: name filled, About empty,
+	// no message); say plainly that it did not load.
+	if (record.descriptionUnresolved && !refs.description?.value) {
+		setAliasStudioStatus(refs.status, 'error',
+			'Your name loaded, but the current description could not be loaded. Check your connection before saving.');
+	}
+}
+
+/** Reads the public description, retrying transient synthetic payloads. */
+async function fetchPublicDescription(alias) {
+	for (let attempt = 0; attempt < 3; attempt += 1) {
+		if (attempt > 0) await new Promise(resolve => setTimeout(resolve, 1200 * attempt));
+		const profileResponse = await fetch(`/api/social/profile/${encodeURIComponent(alias)}`, { credentials: 'include' }).catch(() => null);
+		const payload = await profileResponse?.json().catch(() => null);
+		const data = payload && payload.ok && 'data' in payload ? payload.data : payload && 'success' in payload ? payload.success : payload;
+		if (data && !data.synthetic) {
+			return { description: data?.alias?.description || data?.profile?.bio || '', unresolved: false };
+		}
+	}
+	return { description: '', unresolved: true };
 }
 
 async function fetchOwnedAliasRecord(alias) {
@@ -71,11 +94,15 @@ async function fetchOwnedAliasRecord(alias) {
 			const record = { name: found.name || found.displayName || '', description: found.description || found.bio || '' };
 			// B"H round 4: this per-user mirror carries name + aliasId only;
 			// About lives in the alias info record the public profile renders.
+			// B"H round 5: the profile endpoint answers with a SYNTHETIC
+			// identity (empty description) whenever its identity read fails
+			// under load — a transient state, verified against the live
+			// endpoint. Retry it like the details leg above; only a
+			// non-synthetic payload proves anything about the description.
 			if (!record.description) {
-				const profileResponse = await fetch(`/api/social/profile/${encodeURIComponent(alias)}`, { credentials: 'include' }).catch(() => null);
-				const payload = await profileResponse?.json().catch(() => null);
-				const data = payload && payload.ok && 'data' in payload ? payload.data : payload && 'success' in payload ? payload.success : payload;
-				if (data && !data.synthetic) record.description = data?.alias?.description || data?.profile?.bio || '';
+				const merged = await fetchPublicDescription(alias);
+				record.description = merged.description;
+				if (merged.unresolved) record.descriptionUnresolved = true;
 			}
 			return record;
 		} catch {
