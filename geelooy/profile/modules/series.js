@@ -88,6 +88,24 @@ export async function loadSeriesForAlias(alias) {
 	}
 }
 
+/**
+ * B"H 2026-11-20 round 4: one series lives in MANY aliases' trees (the
+ * same ikar series appeared under ~43 of this account's 46 aliases), and
+ * the dashboard aggregates across aliases — so the raw sum counted one
+ * series once per alias that lists it (112 shown for ~47 real). Dedupe
+ * by the card URL, which is built from (heichelId, seriesId): first
+ * occurrence wins, so every kept card keeps its own heichel's URL.
+ */
+export function dedupeSeriesItems(items) {
+	const seen = new Set();
+	return (items || []).filter(item => {
+		const key = item?.url || item?.id || '';
+		if (!key || seen.has(key)) return false;
+		seen.add(key);
+		return true;
+	});
+}
+
 /** Builds an error card with a retry button that genuinely re-runs the loader. */
 function seriesErrorCard(message) {
 	const card = emptyCard(message, "error");
@@ -112,10 +130,18 @@ export async function renderProfileSeries() {
 	const aliases = state.aliases || [];
 	let total = 0;
 	let shown = false;
+	const seenAcrossAliases = new Set();
 	for (let start = 0; start < aliases.length; start += 5) {
 		const batch = aliases.slice(start, start + 5);
 		const groups = await Promise.all(batch.map(loadSeriesForAlias));
-		const items = groups.flat();
+		// Round 4: drop series already shown under an earlier alias —
+		// the same (heichel, series) recurs across the account's trees.
+		const items = dedupeSeriesItems(groups.flat()).filter(item => {
+			const key = item.url || item.id;
+			if (seenAcrossAliases.has(key)) return false;
+			seenAcrossAliases.add(key);
+			return true;
+		});
 		total += items.length;
 		if (items.length) {
 			if (!shown) { list.innerHTML = ''; shown = true; }

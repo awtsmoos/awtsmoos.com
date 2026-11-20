@@ -13,7 +13,7 @@ import { listFollowers } from '/scripts/awtsmoos/social/profile/api.js';
 import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
 import { renderProfilePosts } from './posts.js';
-import { renderProfileSeries, loadSeriesForAlias } from './series.js';
+import { renderProfileSeries, loadSeriesForAlias, dedupeSeriesItems } from './series.js';
 import { renderProfileActivity } from './activity.js';
 import { emptyCard } from './cards.js';
 import { renderHeichelos } from './heichelos.js';
@@ -211,13 +211,13 @@ export class ProfileDashboardController {
 		// Heichelos load, which queued past the timeouts. They now run 5 at a
 		// time, and the deadline is 30s so a slow batch still counts.
 		const STAT_TIMEOUT_MS = 30000;
-		const countAll = async (loader) => {
+		const countAll = async (loader, tally = groups => groups.flat().length) => {
 			try {
 				const groups = await Promise.race([
 					mapLimit(aliases, 5, loader),
 					new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), STAT_TIMEOUT_MS))
 				]);
-				return groups.flat().length;
+				return tally(groups);
 			} catch {
 				return null;
 			}
@@ -234,7 +234,11 @@ export class ProfileDashboardController {
 				// from one fetch means the stat is written once, from the
 				// list's own data, and always agrees with the list.
 				countAll(loadCommentsForAlias),
-				countAll(loadSeriesForAlias),
+				// B"H round 4: count UNIQUE (heichel, series) pairs — the
+				// same series recurs across the account's alias trees, and
+				// the raw sum showed 112 for ~47 real series. The Series
+				// tab's render dedupes identically, so stat and tab agree.
+				countAll(loadSeriesForAlias, groups => dedupeSeriesItems(groups.flat()).length),
 				this.countFollowers(aliases)
 			]);
 			if (comments != null) setStat('comments', String(comments));

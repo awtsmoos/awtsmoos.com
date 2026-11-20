@@ -6,16 +6,16 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<title>Profile — Awtsmoos</title>
 	<meta name="description" content="Your Awtsmoos profile — posts, comments, series, aliases and heichelos.">
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=93d98505c8">
-	<link rel="stylesheet" href="/css/awp-polish.css?v=bd847464e4">
-	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">
-	<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=7f5c223d2e">
+	<link rel="stylesheet" href="/css/awp-polish.css?v=8fdb4b915d">
+	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=72b23b4691">
+	<link rel="stylesheet" href="/style/civilization/core-base.css?v=2e7a54f2f2">
 	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=e98a195ffe">
-	<link rel="stylesheet" href="/css/golden-icons.css?v=7c62c1d746">
-	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=5aa05a7268">
-	<link rel="stylesheet" href="/css/video-loader.css?v=7bd2069814">
-	<link rel="stylesheet" href="/profile/styles/reading-stats.css?v=e0c2e6651b">
-	<link rel="stylesheet" href="/profile/styles/profile-activity.css?v=20261013">
+	<link rel="stylesheet" href="/css/golden-icons.css?v=0c129d27e5">
+	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=e114d6e59c">
+	<link rel="stylesheet" href="/css/video-loader.css?v=dce2411c38">
+	<link rel="stylesheet" href="/profile/styles/reading-stats.css?v=b1ded5b43b">
+	<link rel="stylesheet" href="/profile/styles/profile-activity.css?v=30f3221272">
 </head>
 <body data-geelooy-route="profile" class="awtsmoos-bg-profile">
 	<!-- B"H — Video loading screen: warm cream golden light -->
@@ -80,7 +80,7 @@
 					<strong data-profile-stat="comments">0</strong><span>Comments</span>
 				</button>
 				<button type="button" class="pd-stat" role="listitem" data-goto-tab="series">
-					<strong data-profile-stat="series">0</strong><span>Series</span>
+					<strong data-profile-stat="series">—</strong><span>Series</span>
 				</button>
 				<div class="pd-stat" role="listitem">
 					<strong data-profile-stat="followers">0</strong><span>Followers</span>
@@ -215,7 +215,11 @@
 	   settings panel "never opened" in the 2026-11-20 rendered re-check.
 	   Such clicks are queued here instead; modules/inlineActions.js drains
 	   the queue the moment it binds and opens the action. Once the module
-	   is bound this capture stands down and clicks flow normally. */
+	   is bound this capture stands down and clicks flow normally.
+	   B"H 2026-11-20 round 4: the queue ALSO persists to sessionStorage.
+	   A self-reload (service-worker claim, build-freshness replace) used
+	   to wipe the in-memory queue and eat the click after all; the drain
+	   now reads the persisted queue in the new document too. */
 	(function () {
 		window.__profileActionEarlyClicks = window.__profileActionEarlyClicks || [];
 		document.addEventListener('click', function (event) {
@@ -225,6 +229,10 @@
 				: null;
 			if (!button) return;
 			window.__profileActionEarlyClicks.push(button.getAttribute('data-profile-action'));
+			try {
+				sessionStorage.setItem('awtsmoos:profile-early-actions',
+					JSON.stringify(window.__profileActionEarlyClicks));
+			} catch (e) { /* storage is a bonus; the in-memory queue still holds */ }
 			event.preventDefault();
 			event.stopPropagation();
 		}, true);
@@ -253,9 +261,9 @@
 		}
 	});
 	</script>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
-<script src="/scripts/sw-register.js?v=fd64f071cd"></script>
-<script src="/js/awtsmoos-media-kit.js?v=93aa9d8eb6"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=0b2253c7f2"></script>
+<script src="/scripts/sw-register.js?v=3645d135f2"></script>
+<script src="/js/awtsmoos-media-kit.js?v=a9bbbf861a"></script>
 <script>
 /* B"H — Profile cover tap-to-upload via Awtsmoos Media Kit. */
 document.addEventListener('DOMContentLoaded', () => {

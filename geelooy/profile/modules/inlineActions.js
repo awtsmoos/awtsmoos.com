@@ -1,12 +1,8 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @module ProfileInlineActions
- * @description
- * The Awtsmoos raises one Profile action into a visible Awtsmoos.com sheet,
- * keeping Escape, focus return, loading truth, and opener state in one small law.
- */
+/** @module ProfileInlineActions — one Profile action raised into a visible
+ * sheet; Escape, focus return, loading truth, and opener state in one law. */
 import { buildProfileAction } from './profile-actions/content.js';
 import { actionError, actionStatus, actionTitle } from './profile-actions/shared.js';
 
@@ -14,12 +10,9 @@ const drawer = () => document.querySelector('[data-profile-action-drawer]');
 
 export function bindProfileInlineActions() {
 	// B"H 2026-11-20 round 3: ONE delegated listener replaces per-button
-	// binding. The settings panel "never opened" in the rendered re-check:
-	// clicks landing before this deferred module loaded on a saturated
-	// server hit unbound buttons and were lost (the inline capture in
-	// index.html queues such clicks; the queue drains below), and
-	// delegation also survives any later re-render of a button. Toggle
-	// law (round 2): the expanded opener closes its drawer; × likewise.
+	// binding (pre-bind clicks are queued by the inline capture in
+	// index.html and drained below; delegation survives button re-renders).
+	// Toggle law (round 2): the expanded opener closes its drawer; × too.
 	window.__profileActionsBound = true;
 	document.addEventListener('click', event => {
 		const button = event.target.closest?.('[data-profile-action]');
@@ -47,6 +40,13 @@ export function bindProfileInlineActions() {
 /** Opens the last action a visitor clicked before this module loaded. */
 function drainEarlyActionClicks() {
 	const queued = Array.isArray(window.__profileActionEarlyClicks) ? window.__profileActionEarlyClicks.splice(0) : [];
+	// B"H round 4: a pre-bind self-reload wipes the in-memory queue; the
+	// capture persists it to sessionStorage — drain that copy too.
+	try {
+		const stored = JSON.parse(sessionStorage.getItem('awtsmoos:profile-early-actions') || '[]');
+		if (Array.isArray(stored)) queued.push(...stored);
+		sessionStorage.removeItem('awtsmoos:profile-early-actions');
+	} catch { /* storage unavailable — the in-memory queue already drained */ }
 	const kind = queued[queued.length - 1];
 	if (!kind) return;
 	const button = document.querySelector(`[data-profile-action="${kind}"]`);

@@ -66,18 +66,35 @@
 	// instead of navigating. Root cause: controllerchange fired mid-navigation
 	// and location.reload() cancelled the user's tap. Never reload while the
 	// user is navigating away or actively interacting.
+	// B"H 2026-11-20 (profile round 4): two holes in that law ate real clicks.
+	// (1) A FIRST claim (the page loaded uncontrolled, the SW then activated
+	// and claimed it) also fires controllerchange — that is not an update,
+	// the page already fetched everything fresh, and the reload discarded
+	// whatever the user had just clicked (the profile drawer's queued early
+	// clicks, the header alias switcher). (2) "Actively interacting" only
+	// counted link/submit taps, so a user clicking plain buttons (settings,
+	// menus, toggles) still counted as idle and got yanked mid-task. Now:
+	// a first claim never reloads, and ANY pointer/key interaction marks
+	// the user active — an update then simply waits for the next natural
+	// navigation, which picks the new worker up anyway.
+	const hadControllerAtLoad = !!navigator.serviceWorker.controller;
 	let refreshing = false;
 	let userNavigating = false;
+	let userInteracted = false;
 	// Mark navigation intent: any link tap or form submit means "don't reload me"
 	document.addEventListener('click', (event) => {
 		if (event.target && event.target.closest && event.target.closest('a[href], button[type="submit"]')) {
 			userNavigating = true;
 		}
 	}, true);
+	['pointerdown', 'keydown', 'touchstart'].forEach((ev) => {
+		window.addEventListener(ev, () => { userInteracted = true; }, { passive: true, capture: true });
+	});
 	window.addEventListener('beforeunload', () => { userNavigating = true; });
 	navigator.serviceWorker.addEventListener('controllerchange', () => {
-		if (refreshing || userNavigating) return;
-		// Only reload if the page is visible and the user is idle (no recent interaction)
+		if (!hadControllerAtLoad) return;
+		if (refreshing || userNavigating || userInteracted) return;
+		// Only reload if the page is visible and the user is idle (no interaction at all)
 		if (document.visibilityState !== 'visible') return;
 		refreshing = true;
 		window.location.reload();
