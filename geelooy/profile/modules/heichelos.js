@@ -94,6 +94,11 @@ async function loadOverview(aliases) {
       return true;
     } catch (error) {
       lastError = error;
+      // A 404 / "Invalid Route" means the running app process predates
+      // the aggregate route (routes assemble at process start; the new
+      // route serves from the next start). Retrying cannot change
+      // that — fall back to the per-alias path immediately.
+      if (/invalid route|404/i.test(String(error?.message || ""))) break;
       if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
