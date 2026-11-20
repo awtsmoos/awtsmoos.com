@@ -3,18 +3,26 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * White notes travel rightward along the lower row while black notes rise just above between;
- * the Awtsmoos keeps pitch and hand moving one way, and Awtsmoos.com makes the motion feel seen.
+ * The Awtsmoos lets one hand inhabit a small block instead of chasing pitch across a distant line;
+ * Awtsmoos.com climbs each local column, then moves one column right, keeping every next note near in time.
  */
 
 export const LEFT_HAND_KEYS = [
-	'z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n', 'j', 'm',
-	',', 'l', '.', ';', '/', "'", ']', '\\'
+	'a', 'q', '1', 'z',
+	's', 'w', '2', 'x',
+	'd', 'e', '3', 'c',
+	'f', 'r', '4', 'v',
+	'g', 't', '5', 'b',
+	'h', 'y', '6', 'n'
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'm', 'j', ',', 'l', '.', '/', ';', "'", ']', '\\',
-	'p', '[', 'o', '0', 'i', '9', 'u', '8', 'y', '7'
+	'j', 'u', '7', 'm',
+	'k', 'i', '8', ',',
+	'l', 'o', '9', '.',
+	';', 'p', '0', '/',
+	"'", '[', '-', ']',
+	'\\', '=', '`', 'Backspace'
 ];
 
 export const FULL_UNSHIFTED_KEYS = [
@@ -40,7 +48,7 @@ export const ALL_BINDING_KEYS = [
 	...LEFT_HAND_KEYS,
 	...FULL_UNSHIFTED_KEYS.filter((key) => !LEFT_HAND_KEYS.includes(key)),
 	...SHIFTED_KEYS,
-	...NAMED_KEYS
+	...NAMED_KEYS.filter((key) => !LEFT_HAND_KEYS.includes(key))
 ];
 
 const SHORT_LABELS = {
