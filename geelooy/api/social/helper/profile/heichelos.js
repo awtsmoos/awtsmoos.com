@@ -12,6 +12,7 @@
 
 const { paths, read } = require("./paths.js");
 const { cleanText, idList } = require("./sanitize.js");
+const { memoizedRead } = require("./readCache.js");
 
 function mergeIds(...groups) {
     return [...new Set(groups.flat().filter(Boolean).map(String))];
@@ -38,7 +39,7 @@ async function heichelRole($i, aliasId, heichelId, indexedIds) {
     return "observer";
 }
 
-async function relevantHeichelIds($i, aliasId) {
+async function computeRelevantHeichelIds($i, aliasId) {
     const indexed = await aliasIndexedHeichelIds($i, aliasId);
     const global = await globalHeichelIds($i);
     const ownedFromGlobal = [];
@@ -49,11 +50,20 @@ async function relevantHeichelIds($i, aliasId) {
     return mergeIds(indexed, ownedFromGlobal);
 }
 
+// B"H 2026-11-20 (profile data-layer fix): the global ownership scan
+// reads every heichel's info record, and it was re-run independently
+// by the comments, heichelos and tree sections of a single profile
+// request (and again by the posts rescue scan). Memoized for the
+// profile read TTL — see readCache.js.
+async function relevantHeichelIds($i, aliasId) {
+    return memoizedRead("heichelIds:" + aliasId, () => computeRelevantHeichelIds($i, aliasId));
+}
+
 async function ownedHeichelIds($i, aliasId) {
     return await relevantHeichelIds($i, aliasId);
 }
 
-async function profileHeichelos($i, aliasId) {
+async function computeProfileHeichelos($i, aliasId) {
     const indexed = await aliasIndexedHeichelIds($i, aliasId);
     const items = [];
     for (const heichelId of await relevantHeichelIds($i, aliasId)) {
@@ -66,6 +76,13 @@ async function profileHeichelos($i, aliasId) {
         });
     }
     return items;
+}
+
+// B"H 2026-11-20 (profile data-layer fix): memoized per alias — see
+// readCache.js. The per-heichel info/role reads inside are paid once
+// per TTL window instead of once per profile request.
+async function profileHeichelos($i, aliasId) {
+    return memoizedRead("heichelos:" + aliasId, () => computeProfileHeichelos($i, aliasId));
 }
 
 module.exports = { ownedHeichelIds, profileHeichelos, aliasIndexedHeichelIds, relevantHeichelIds };

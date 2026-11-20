@@ -82,6 +82,21 @@ export class ProfileDashboardController {
 		} else {
 			aliases = readCachedAliases();
 		}
+		// B"H 2026-11-20 (profile data-layer fix): a FRESH browser has
+		// no cached alias list, so when the alias API timed out the
+		// throw below killed the whole dashboard — "Loading profile…"
+		// then a failure card for a signed-in user whose data was
+		// merely slow (the 2026-11-19 rendered re-check failure). The
+		// shell session already knows the visitor's own alias: boot
+		// with that single alias so the hero and every tab render and
+		// load their real per-alias data; the full alias list is only
+		// an enhancement here, never a gate. Only a genuinely
+		// session-less visit (no cache AND no shell alias) still fails
+		// boot, with the original API error preserved.
+		if (!aliases || !aliases.length) {
+			const shell = shellSessionAlias();
+			if (shell) aliases = [{ id: shell, name: shell }];
+		}
 		if (!aliases || !aliases.length) {
 			const reason = aliasesResult.status === 'rejected' ? aliasesResult.reason : null;
 			throw new Error((reason && reason.message) || 'No aliases available.');

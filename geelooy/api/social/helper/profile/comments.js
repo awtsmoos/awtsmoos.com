@@ -9,6 +9,7 @@
 const { paths, read } = require("./paths.js");
 const { cleanText, idList } = require("./sanitize.js");
 const { ownedHeichelIds } = require("./heichelos.js");
+const { memoizedRead } = require("./readCache.js");
 
 function publicComment({ aliasId, heichelId, heichelName, seriesId, postId, verseSection, comment }) {
     return {
@@ -33,7 +34,7 @@ async function commentPostIds($i, aliasId, heichelId, seriesId) {
     return idList(await read($i, path, {}));
 }
 
-async function commentsByAlias({ $i, aliasId, limit = 160 }) {
+async function computeCommentsByAlias({ $i, aliasId, limit = 160 }) {
     const comments = [];
     const commentHeichelIds = idList(await read($i, paths.aliasComments(aliasId), {}));
     const allHeichelIds = [...new Set([...commentHeichelIds, ...(await ownedHeichelIds($i, aliasId))])];
@@ -57,6 +58,13 @@ async function addPostComments(args) {
         const list = Array.isArray(file[verseSection]) ? file[verseSection] : [];
         list.forEach(comment => args.comments.push(publicComment({ ...args, verseSection, comment })));
     }
+}
+
+// B"H 2026-11-20 (profile data-layer fix): the comment walk reads one
+// store record per commented post across every heichel the alias
+// touches; memoized per alias+limit — see readCache.js.
+async function commentsByAlias({ $i, aliasId, limit = 160 }) {
+    return memoizedRead(`comments:${aliasId}:${limit}`, () => computeCommentsByAlias({ $i, aliasId, limit }));
 }
 
 module.exports = { commentsByAlias };

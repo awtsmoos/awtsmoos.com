@@ -20,6 +20,7 @@ const {
 	submittedPostCoordinates
 } = require('./PostCoordinates.js');
 const { addPackedPost, addPostIfAuthored } = require('./PostCollector.js');
+const { memoizedRead } = require('../readCache.js');
 
 const BATCH = 96;
 
@@ -107,7 +108,7 @@ async function collectHeichels({ $i, aliasId, limit, posts, seen }) {
 	});
 }
 
-async function postsByAlias({ $i, aliasId, limit = 240 }) {
+async function computePostsByAlias({ $i, aliasId, limit = 240 }) {
 	const posts = [];
 	const seen = new Set();
 	if (await collectPacked({ $i, aliasId, limit, posts, seen })) return sortPosts(posts);
@@ -122,6 +123,15 @@ async function postsByAlias({ $i, aliasId, limit = 240 }) {
 	if (posts.length) return sortPosts(posts);
 	await collectHeichels({ $i, aliasId, limit, posts, seen });
 	return sortPosts(posts);
+}
+
+// B"H 2026-11-20 (profile data-layer fix): for content-heavy aliases
+// this collection costs seconds per call (live probes: 3.0s calm,
+// 5-10s loaded, for ~100-row aliases) and the dashboard asks for it
+// once per alias per tab visit. Memoized per alias+limit — see
+// ../readCache.js.
+async function postsByAlias({ $i, aliasId, limit = 240 }) {
+	return memoizedRead(`posts:${aliasId}:${limit}`, () => computePostsByAlias({ $i, aliasId, limit }));
 }
 
 module.exports = { collectHeichels, collectPacked, collectSubmitted, postsByAlias, sortPosts };

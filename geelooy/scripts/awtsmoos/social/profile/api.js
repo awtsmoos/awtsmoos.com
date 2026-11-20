@@ -12,8 +12,35 @@ function unwrap(body) {
     return body;
 }
 
+// B"H 2026-11-20 (profile data-layer fix): this fetch had NO timeout,
+// so when the profile aggregate was slow (measured 55.6s under load)
+// the alias page sat on "Loading profile light..." until the proxy
+// gave up — an unbounded hang from the visitor's side. GETs now abort
+// at 30s and retry once (a stalled first attempt is the common case
+// when the server is shedding load); the worst case is bounded and
+// lands on hydrate.js's "Profile unavailable" state instead of
+// spinning forever.
+const REQUEST_TIMEOUT_MS = 30000;
+
+async function fetchOnce(url, options) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    try {
+        return await fetch(url, { ...(options || {}), signal: controller.signal });
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
 async function json(url, options) {
-    const response = await fetch(url, options);
+    const isGet = !options || !options.method || String(options.method).toUpperCase() === "GET";
+    let response;
+    try {
+        response = await fetchOnce(url, options);
+    } catch (error) {
+        if (!isGet) throw error;
+        response = await fetchOnce(url, options);
+    }
     const body = await response.json().catch(() => null);
     if (!response.ok || body?.error) {
         throw new Error(body?.error?.message || body?.message || response.statusText);

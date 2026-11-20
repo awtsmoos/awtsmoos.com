@@ -10,6 +10,7 @@ const { paths, read } = require("./paths.js");
 const { cleanText, idList } = require("./sanitize.js");
 const { ownedHeichelIds } = require("./heichelos.js");
 const { postIds } = require("./posts.js");
+const { memoizedRead } = require("./readCache.js");
 
 async function seriesNode($i, heichelId, seriesId, depth = 0) {
     const info = await read($i, paths.seriesInfo(heichelId, seriesId), {});
@@ -26,7 +27,7 @@ async function seriesNode($i, heichelId, seriesId, depth = 0) {
     };
 }
 
-async function treeByAlias({ $i, aliasId }) {
+async function computeTreeByAlias({ $i, aliasId }) {
     return Promise.all((await ownedHeichelIds($i, aliasId)).map(async heichelId => {
         const info = await read($i, paths.heichelInfo(heichelId), {});
         const rootIds = idList(await read($i, paths.seriesRoot(heichelId), {}));
@@ -36,6 +37,15 @@ async function treeByAlias({ $i, aliasId }) {
         ]);
         return { heichelId, heichelName: cleanText(info.name || heichelId, 100), postsCount: allPostIds.length, children };
     }));
+}
+
+// B"H 2026-11-20 (profile data-layer fix): the tree walk is the
+// single most expensive profile section — 3 store reads per series
+// node across every owned heichel (measured 55.6s cold under load,
+// 2.6s on a calm box, for one alias). Memoized per alias — see
+// readCache.js.
+async function treeByAlias({ $i, aliasId }) {
+    return memoizedRead("tree:" + aliasId, () => computeTreeByAlias({ $i, aliasId }));
 }
 
 module.exports = { treeByAlias, seriesNode };

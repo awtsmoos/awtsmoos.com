@@ -35,16 +35,39 @@ async function timedSection(label, timings, thunk) {
     finally { timings[label] = Date.now() - start; }
 }
 
+/**
+ * B"H 2026-11-20 (profile data-layer fix): one slow section must
+ * never hold the whole profile hostage. Each section races a soft
+ * deadline; on deadline the section resolves to its fallback WITHOUT
+ * raising an error, so safeRecordRead's poison quarantine (2 errors
+ * = the path is skipped forever, persisted across restarts) is never
+ * tripped by mere slowness. The underlying read keeps running and,
+ * through the section memos in readCache.js, warms the next request.
+ * Before this, one aggregate measured 55.6s under load — past the
+ * proxy timeout, so the alias page and dashboard died whole instead
+ * of rendering with one section missing.
+ */
+const SECTION_DEADLINE_MS = 20000;
+function withSectionDeadline(thunk, fallback) {
+    let timer;
+    const deadline = new Promise(resolve => {
+        timer = setTimeout(() => resolve(fallback), SECTION_DEADLINE_MS);
+        if (typeof timer.unref === "function") timer.unref();
+    });
+    return Promise.race([Promise.resolve().then(thunk), deadline])
+        .finally(() => clearTimeout(timer));
+}
+
 async function aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLimit }) {
     const profileStart = Date.now();
     const timings = {};
     let identity = await timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
     const [posts, comments, heichelos, tree, history] = await Promise.all([
-        safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => postsByAlias({ $i, aliasId, ...(postsFetchLimit != null ? { limit: postsFetchLimit } : {}) })), { fallback: [] }),
-        safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => commentsByAlias({ $i, aliasId, ...(commentsFetchLimit != null ? { limit: commentsFetchLimit } : {}) })), { fallback: [] }),
-        safeRecordRead("profile:" + aliasId + ":heichelos", () => timedSection("heichelos", timings, () => profileHeichelos($i, aliasId)), { fallback: [] }),
-        safeRecordRead("profile:" + aliasId + ":tree", () => timedSection("tree", timings, () => treeByAlias({ $i, aliasId })), { fallback: [] }),
-        safeRecordRead("profile:" + aliasId + ":history", () => timedSection("history", timings, () => getHistory({ $i, aliasId, limit: 40 })), { fallback: [] })
+        safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => withSectionDeadline(() => postsByAlias({ $i, aliasId, ...(postsFetchLimit != null ? { limit: postsFetchLimit } : {}) }), [])), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => withSectionDeadline(() => commentsByAlias({ $i, aliasId, ...(commentsFetchLimit != null ? { limit: commentsFetchLimit } : {}) }), [])), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":heichelos", () => timedSection("heichelos", timings, () => withSectionDeadline(() => profileHeichelos($i, aliasId), [])), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":tree", () => timedSection("tree", timings, () => withSectionDeadline(() => treeByAlias({ $i, aliasId }), [])), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":history", () => timedSection("history", timings, () => withSectionDeadline(() => getHistory({ $i, aliasId, limit: 40 }), [])), { fallback: [] })
     ]);
     perfLine("profile alias=" + aliasId + " totalMs=" + (Date.now() - profileStart) +
         " identity=" + (timings.identity || 0) + " posts=" + (timings.posts || 0) +

@@ -114,7 +114,14 @@ export async function getDefaultAlias() {
 
 /** Reads and normalizes aliases suitable for Profile cards. */
 export async function getAliasDetails() {
-	return listFrom(await apiJson('/api/social/aliases/details'))
+	// B"H 2026-11-20 (profile data-layer fix): the boot gate gets a
+	// 25s budget instead of the shared 12s — this one call assembles
+	// every alias's detail record server-side, and on a loaded box
+	// 12s was exactly where it died (Fix 17/18 checks). Boot no
+	// longer hard-fails when it still times out (the controller
+	// falls back to cache, then to the shell session alias), so the
+	// longer budget costs nothing in the failure case.
+	return listFrom(await apiJson('/api/social/aliases/details', { timeoutMs: 25000 }))
 		.map(normalizeAlias)
 		.filter(alias => alias.id);
 }
