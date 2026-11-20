@@ -30,12 +30,25 @@ function bodyInput($i, body) {
 	};
 }
 
-async function detailAliases({ $i, aliasIds }) {
+async function detailAliases({ $i, aliasIds, userId }) {
 	const aliases = [];
 	for (const aliasId of aliasIds) {
 		const detail = await nativeAliases.getAlias(aliasId, $i).catch(() => null);
-		if (detail?.error) continue;
-		aliases.push(publicAlias({ ...detail, aliasId }));
+		if (detail && !detail.error) {
+			aliases.push(publicAlias({ ...detail, aliasId }));
+			continue;
+		}
+		// The public info record (`/social/aliases/<id>/info`) exists only for
+		// aliases created through newer flows; most established aliases —
+		// including an account's primary alias — live solely in the per-user
+		// record. Dropping them here silently removed the user's own default
+		// publishing identity from the composer, so fall back to the detailed
+		// per-user record before giving up on an owned alias.
+		const detailed = await nativeAliases
+			.getDetailedAlias({ aliasId, $i, userID: userId })
+			.catch(() => null);
+		if (!detailed || detailed.error) continue;
+		aliases.push(publicAlias({ ...detailed, aliasId }));
 	}
 	return uniqueAliases(aliases);
 }
@@ -55,7 +68,7 @@ async function bootstrap({ $i, userid, preferredAlias = '' }) {
 	}
 	const ids = await nativeAliases.getAliasIDs({ $i, userID: userId });
 	const aliasIds = Array.isArray(ids) ? ids.map(String) : Object.keys(ids || {});
-	const aliases = await detailAliases({ $i, aliasIds });
+	const aliases = await detailAliases({ $i, aliasIds, userId });
 	const defaultResult = await nativeAliases.getDefaultAlias({ $i, userid: userId });
 	const defaultAlias = defaultResult?.success && typeof defaultResult.success === 'string'
 		? defaultResult.success

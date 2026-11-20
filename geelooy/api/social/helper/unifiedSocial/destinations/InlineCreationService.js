@@ -23,6 +23,35 @@ function inputWithBody($i, body) {
 	};
 }
 
+const ERROR_MESSAGES = Object.freeze({
+	NO_AUTH: 'The selected alias does not have permission to manage this Heichel. Choose the alias that owns or edits it.',
+	NO_LOGIN: 'A live Awtsmoos login is required.',
+	MISSING_PARAMS: 'Some required details were missing.',
+	PARENT_SERIES_NOT_FOUND: 'The parent series could not be found.',
+	ROOT_ENSURE_FAILED: 'The Heichel home series could not be prepared.',
+	SERIES_CREATE_FAILED: 'The series could not be created.',
+	HEICHEL_CREATE_FAILED: 'The Heichel could not be created.'
+});
+
+/**
+ * Native creators answer failures as `{ error: { code, details } }` with no
+ * human message; the composer can only render `error.message`, so a bare
+ * code surfaced as the cryptic "Request failed with 200." This adapter is
+ * the layer that translates native results for the composer, so it seals a
+ * readable message onto any error that lacks one while preserving the
+ * original code and details untouched.
+ */
+function withErrorMessage(result) {
+	const error = result?.error;
+	if (!error || typeof error !== 'object') return result;
+	if (typeof error.message === 'string' && error.message.trim()) return result;
+	const detail = typeof error.details === 'string' ? error.details : '';
+	const message = ERROR_MESSAGES[error.code]
+		|| detail
+		|| (error.code ? `Request failed (${error.code}).` : 'Request failed.');
+	return { ...result, error: { ...error, message } };
+}
+
 async function ensureRootSeries({ $i, heichelId, aliasId }) {
 	const base = `${sp}/heichelos/${heichelId}/series/root`;
 	const existing = await $i.db.get(`${base}/prateem`).catch(() => null);
@@ -63,7 +92,7 @@ async function initializeGovernance({ $i, heichelId, aliasId, policy }) {
 
 async function createHeichelInline({ $i, aliasId }) {
 	const result = await nativeHeichel.createHeichel({ $i, aliasId });
-	if (result?.error) return result;
+	if (result?.error) return withErrorMessage(result);
 	const details = result?.success?.details || result?.success || {};
 	const heichelId = details.heichelId || $i.$_POST?.heichelId || $i.$_POST?.inputId;
 	if (!heichelId) {
@@ -84,7 +113,7 @@ async function createSeriesInline({ $i, heichelId, aliasId }) {
 		$i: inputWithBody($i, { aliasId }),
 		heichelId
 	});
-	if (result?.error) return result;
+	if (result?.error) return withErrorMessage(result);
 	const details = result?.success || {};
 	const seriesId = details.id || details.seriesId;
 	if (!seriesId) {
@@ -103,6 +132,7 @@ async function createSeriesInline({ $i, heichelId, aliasId }) {
 
 module.exports = {
 	inputWithBody,
+	withErrorMessage,
 	ensureRootSeries,
 	initializeGovernance,
 	createHeichelInline,

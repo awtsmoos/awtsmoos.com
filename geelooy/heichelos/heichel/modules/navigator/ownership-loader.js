@@ -17,11 +17,31 @@ import { appState } from '../state.js';
  * @param {object} navigator Active Heichel navigator.
  * @returns {Promise<boolean>} Whether ownership became newly active.
  */
+const OWNERSHIP_RETRY_DELAYS_MS = [1500, 4000];
+
+/**
+ * Asks the ownership oracle, retrying only when the request itself failed
+ * (checkOwnership throws on transport rupture). A clean "no" is an answer
+ * and is never retried; without this, one transient failure during a busy
+ * minute silently hid the settings entry and every owner control for the
+ * whole page view.
+ */
+async function checkOwnershipWithRetry(attempt = 0) {
+	try {
+		return await api.checkOwnership(
+			window.curAlias,
+			appState.heichelId
+		);
+	} catch (error) {
+		const delay = OWNERSHIP_RETRY_DELAYS_MS[attempt];
+		if (delay == null) throw error;
+		await new Promise(resolve => setTimeout(resolve, delay));
+		return checkOwnershipWithRetry(attempt + 1);
+	}
+}
+
 export function beginOwnershipCheck(navigator) {
-	return api.checkOwnership(
-		window.curAlias,
-		appState.heichelId
-	)
+	return checkOwnershipWithRetry()
 		.then(async ownsIt => {
 			if (!ownsIt || appState.ownsIt) {
 				return false;

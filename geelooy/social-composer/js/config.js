@@ -60,6 +60,7 @@ export function contextFromLocation(location = window.location) {
 		canonicalSource: canonicalSourceFromQuery(parameters),
 		cloneSource: cloneSourceFromQuery(parameters),
 		share: shareFromQuery(parameters),
+		createIntent: safeQueryValue(parameters.get('create'), 20),
 		returnPath: safeReturnPath(parameters.get('return'))
 	};
 }

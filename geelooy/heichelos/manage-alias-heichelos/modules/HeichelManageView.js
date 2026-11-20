@@ -15,6 +15,7 @@ export class MalchusHeichelManageView {
 	constructor(malchusRoot) {
 		this.root = malchusRoot;
 		this.form = malchusRoot.querySelector("#heichel-form");
+		this.aliasInput = malchusRoot.querySelector("#heichel-alias");
 		this.nameInput = malchusRoot.querySelector("#heichel-name");
 		this.descriptionInput = malchusRoot.querySelector("#heichel-description");
 		this.idInput = malchusRoot.querySelector("#heichel-id");
@@ -35,6 +36,12 @@ export class MalchusHeichelManageView {
 	 * @param {import("./HeichelManageContext.js").YesodHeichelContext} yesodContext Route state.
 	 */
 	configure(yesodContext) {
+		// Carry the route alias inside the form itself, so even a native
+		// (pre-script) GET submission preserves ?alias= instead of dropping
+		// it and stranding the studio on "Choose an alias".
+		if (this.aliasInput) {
+			this.aliasInput.value = yesodContext.aliasId || "";
+		}
 		const tiferesVerb = yesodContext.isUpdate ? "Update" : "Create";
 		this.header.textContent = `${tiferesVerb} a Heichel`;
 		this.submitButton.dataset.restingLabel = yesodContext.isUpdate ? "Save Changes" : "Create Heichel";

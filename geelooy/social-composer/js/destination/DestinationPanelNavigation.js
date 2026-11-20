@@ -27,6 +27,10 @@ export async function revealDestinationCreation(panel, kind, heichelId = '') {
 	panel.reveal();
 	const fieldId = kind === 'series' ? 'newSeriesName' : 'newHeichelName';
 	const field = panel.element(fieldId);
+	// The creation forms live inside closed <details> disclosures; focusing a
+	// hidden field reveals nothing, so open the wrapping disclosure first.
+	const disclosure = field?.closest?.('details');
+	if (disclosure) disclosure.open = true;
 	field?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	field?.focus({ preventScroll: true });
 }

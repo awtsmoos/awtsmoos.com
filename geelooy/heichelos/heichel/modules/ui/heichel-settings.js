@@ -30,6 +30,32 @@ export function mountHeichelSettings() {
 	button.textContent = '⚙ Heichel settings';
 	button.addEventListener('click', openPanel);
 	document.body.appendChild(button);
+	// A clear owner-only creation door on the Heichel page itself: the
+	// composer opens with this Heichel chosen and its series creation
+	// form revealed (the `create=series` deep link).
+	const seriesLink = document.createElement('a');
+	seriesLink.className = 'heichel-new-series-entry';
+	seriesLink.textContent = '＋ New series';
+	seriesLink.href = composerSeriesHref();
+	document.body.appendChild(seriesLink);
+}
+
+/** Opens the settings panel on demand (e.g. from the profile ••• menu),
+ * mounting the owner surface first when ownership is already proven. */
+export function openHeichelSettings() {
+	mountHeichelSettings();
+	if (!appState.ownsIt || !appState.heichelId) return;
+	openPanel();
+}
+
+function composerSeriesHref() {
+	const parameters = new URLSearchParams({
+		heichel: appState.heichelId,
+		series: 'root',
+		create: 'series'
+	});
+	if (window.curAlias) parameters.set('alias', window.curAlias);
+	return `/social-composer/?${parameters}`;
 }
 
 function heichelName() {
@@ -201,6 +227,7 @@ function injectStyle() {
 	style.id = 'heichelSettingsStyle';
 	style.textContent = `
 		.heichel-settings-entry{position:fixed;right:14px;bottom:86px;z-index:900;padding:9px 14px;border-radius:999px;border:1px solid rgba(127,127,127,.45);background:rgba(20,22,34,.92);color:#f2ead8;font-size:14px;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+		.heichel-new-series-entry{position:fixed;right:14px;bottom:134px;z-index:900;padding:9px 14px;border-radius:999px;border:1px solid rgba(127,127,127,.45);background:rgba(20,22,34,.92);color:#f2ead8;font-size:14px;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.35);text-decoration:none;font-family:inherit}
 		.heichel-settings-overlay{position:fixed;inset:0;z-index:1200;background:rgba(4,6,12,.66);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:28px 14px}
 		.heichel-settings-panel{background:#14161f;color:#f2ead8;border:1px solid rgba(255,255,255,.16);border-radius:14px;max-width:560px;width:100%;padding:20px 22px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
 		.heichel-settings-panel h2{margin:0 0 10px;font-size:21px}

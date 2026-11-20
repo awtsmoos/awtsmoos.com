@@ -29,6 +29,8 @@ export class DestinationPanel {
 		Object.assign(this, options);
 		this.destinations = [];
 		this.openHeichel = null;
+		this.loadSequence = 0;
+		this.createIntentConsumed = false;
 		this.playlist.connect(this);
 	}
 	initialize() {
@@ -46,8 +48,16 @@ export class DestinationPanel {
 			renderDestinationUnavailable(this.root, 'Choose an alias to browse destinations.');
 			return;
 		}
+		// Loads race: an alias-change load (full list) and a debounced search
+		// load (filtered) can both be in flight, and whichever answered last
+		// used to win — a search could be overwritten by the unfiltered list
+		// and appear to return unrelated Heichelos. Only the newest load may
+		// render.
+		const sequence = ++this.loadSequence;
 		try {
-			this.destinations = await this.api.listDestinations(aliasId, query);
+			const destinations = await this.api.listDestinations(aliasId, query);
+			if (sequence !== this.loadSequence) return;
+			this.destinations = destinations;
 			this.renderHeichelos();
 			this.playlist.setDestinations(this.destinations);
 			const restored = await restoreDestinationContext({
@@ -56,7 +66,9 @@ export class DestinationPanel {
 				panel: this,
 				snapshot
 			});
+			if (sequence !== this.loadSequence) return;
 			if (!restored && !query) await applyDefaultDestination(this, aliasId);
+			if (!query) await this.consumeCreateIntent();
 		} catch (error) {
 			renderDestinationUnavailable(
 				this.root,
@@ -64,6 +76,22 @@ export class DestinationPanel {
 			);
 			console.warn('Destination search fallback:', error.message);
 		}
+	}
+	/** Honors a one-time `?create=series|heichel` deep link (e.g. the Heichel
+	 * page's owner "New series" action) once destinations are ready. */
+	async consumeCreateIntent() {
+		if (this.createIntentConsumed) return;
+		const intent = this.state.context?.createIntent;
+		if (intent !== 'series' && intent !== 'heichel') return;
+		this.createIntentConsumed = true;
+		if (intent === 'heichel') {
+			await this.revealCreation('heichel');
+			return;
+		}
+		const heichelId = this.state.snapshot().identity.heichelId
+			|| this.state.context?.heichelId
+			|| '';
+		if (heichelId) await this.revealCreation('series', heichelId);
 	}
 	renderHeichelos() {
 		renderDestinationTree({

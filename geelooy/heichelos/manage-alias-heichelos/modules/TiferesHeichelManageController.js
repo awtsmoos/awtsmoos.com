@@ -27,10 +27,15 @@ export class TiferesHeichelManageController {
 	 * @returns {Promise<void>} Resolves when initial state is ready.
 	 */
 	async start() {
+		// Configure and bind BEFORE the alias check: when the check ran
+		// first, its throw skipped binding entirely and the form stayed a
+		// native GET form whose submission dropped ?alias= and stranded
+		// the studio. Bound first, a missing alias is an inline message,
+		// never a navigation.
+		this.malchusView.configure(this.yesodContext);
+		this.netzachBindings.bind(this.actions());
 		try {
 			this.yesodContext.requireAlias();
-			this.malchusView.configure(this.yesodContext);
-			this.netzachBindings.bind(this.actions());
 			if (this.yesodContext.isUpdate) {
 				const binahDetail = await this.chesedApi.revealDetails();
 				this.malchusView.hydrate(binahDetail, this.yesodContext.heichelId);
@@ -72,8 +77,12 @@ export class TiferesHeichelManageController {
 		this.malchusView.setBusy(true, this.yesodContext.isUpdate ? 'Saving…' : 'Creating…');
 		this.malchusView.setFormStatus('Saving Heichel…', 'progress');
 		try {
+			this.yesodContext.requireAlias();
 			await this.chesedApi.preserve(malchusDraft);
 			this.malchusView.setFormStatus(this.yesodContext.isUpdate ? 'Heichel updated.' : 'Heichel created.', 'success');
+			// Let the confirmation actually be seen before leaving;
+			// navigating in the same tick made success a silent redirect.
+			await new Promise(resolve => setTimeout(resolve, 1400));
 			this.navigateBack();
 		} catch (gevurahError) {
 			this.malchusView.setFormStatus(gevurahError.message, 'danger');
@@ -92,6 +101,7 @@ export class TiferesHeichelManageController {
 		try {
 			await this.chesedApi.remove();
 			this.malchusView.setFormStatus('Heichel deleted.', 'success');
+			await new Promise(resolve => setTimeout(resolve, 1400));
 			this.navigateBack();
 		} catch (gevurahError) {
 			this.malchusView.setFormStatus(gevurahError.message, 'danger');
