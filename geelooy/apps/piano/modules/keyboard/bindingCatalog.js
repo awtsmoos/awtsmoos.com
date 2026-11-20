@@ -3,18 +3,18 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * The Awtsmoos winds semitone beside semitone through three neighboring rows without a distant leap;
- * Awtsmoos.com lets one hand glide in a local ribbon, quick to climb and easy to keep.
+ * White notes travel rightward along the lower row while black notes rise just above between;
+ * the Awtsmoos keeps pitch and hand moving one way, and Awtsmoos.com makes the motion feel seen.
  */
 
 export const LEFT_HAND_KEYS = [
-	'z', 'a', 'q', 'w', 's', 'x', 'c', 'd', 'e', 'r', 'f', 'v',
-	'b', 'g', 't', 'y', 'h', 'n', 'm', 'j', 'u', 'i', 'o', 'k'
+	'z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n', 'j', 'm',
+	',', 'l', '.', ';', '/', "'", ']', '\\'
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'/', ';', 'p', 'o', 'l', '.', ',', 'k', 'i', 'u', 'j', 'm',
-	'n', 'h', 'y', 't', 'g', 'b', 'v', 'f', 'r', 'e', 'd', 'c'
+	'm', 'j', ',', 'l', '.', '/', ';', "'", ']', '\\',
+	'p', '[', 'o', '0', 'i', '9', 'u', '8', 'y', '7'
 ];
 
 export const FULL_UNSHIFTED_KEYS = [
@@ -32,12 +32,13 @@ export const SHIFTED_KEYS = [
 ];
 
 export const NAMED_KEYS = [
-	'Backspace', 'Insert', 'Home', 'PageUp', 'Delete', 'End', 'PageDown',
+	'Backspace', 'Enter', 'Insert', 'Home', 'PageUp', 'Delete', 'End', 'PageDown',
 	'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'
 ];
 
 export const ALL_BINDING_KEYS = [
-	...FULL_UNSHIFTED_KEYS,
+	...LEFT_HAND_KEYS,
+	...FULL_UNSHIFTED_KEYS.filter((key) => !LEFT_HAND_KEYS.includes(key)),
 	...SHIFTED_KEYS,
 	...NAMED_KEYS
 ];

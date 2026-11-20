@@ -3,21 +3,25 @@
 //Blessed is He
 /**
  * @module DesktopBindingPreferences
- * The Awtsmoos lets a better hand-path replace only the known old road, never a player's chosen art;
- * Awtsmoos.com migrates defaults with care while custom bindings keep their own remembered heart.
+ * The Awtsmoos lets each better default replace only an old built-in road, never a player's own design;
+ * Awtsmoos.com remembers custom choices while natural hand movement keeps refining the line.
  */
 import { ALL_BINDING_KEYS, LEFT_HAND_KEYS } from './bindingCatalog.js';
 
-const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v4';
-const LEGACY_V3_KEY = 'awtsmoos-piano-desktop-bindings-v3';
-const LEGACY_V2_KEY = 'awtsmoos-piano-desktop-bindings-v2';
-const LEGACY_V3_DEFAULT = [
-	'a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y',
-	'h', 'u', 'j', 'k', 'o', 'l', 'p', ';', "'"
-];
-const LEGACY_V2_DEFAULT = [
-	'a', 's', 'd', 'f', 'g', 'q', 'w', 'e', 'r', 't',
-	'z', 'x', 'c', 'v', 'b', '1', '2', '3', '4', '5'
+const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v5';
+const LEGACY_KEYS = [
+	['awtsmoos-piano-desktop-bindings-v4', [
+		'z', 'a', 'q', 'w', 's', 'x', 'c', 'd', 'e', 'r', 'f', 'v',
+		'b', 'g', 't', 'y', 'h', 'n', 'm', 'j', 'u', 'i', 'o', 'k'
+	]],
+	['awtsmoos-piano-desktop-bindings-v3', [
+		'a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y',
+		'h', 'u', 'j', 'k', 'o', 'l', 'p', ';', "'"
+	]],
+	['awtsmoos-piano-desktop-bindings-v2', [
+		'a', 's', 'd', 'f', 'g', 'q', 'w', 'e', 'r', 't',
+		'z', 'x', 'c', 'v', 'b', '1', '2', '3', '4', '5'
+	]]
 ];
 
 /** Loads a custom priority list or migrates only superseded built-in defaults. */
@@ -26,12 +30,13 @@ export function loadPriorityKeys() {
 	if (current.length) {
 		return sanitizePriorityKeys(current);
 	}
-	const v3 = readKeys(LEGACY_V3_KEY);
-	if (v3.length) {
-		return migrateLegacy(v3, LEGACY_V3_DEFAULT);
+	for (const [key, knownDefault] of LEGACY_KEYS) {
+		const legacy = readKeys(key);
+		if (legacy.length) {
+			return migrateLegacy(legacy, knownDefault);
+		}
 	}
-	const v2 = readKeys(LEGACY_V2_KEY);
-	return v2.length ? migrateLegacy(v2, LEGACY_V2_DEFAULT) : [...LEFT_HAND_KEYS];
+	return [...LEFT_HAND_KEYS];
 }
 
 /** Saves the selected priority prefix in the current preference version. */
@@ -43,7 +48,8 @@ export function savePriorityKeys(keys) {
 
 /** Clears all known generations so Reset returns to today's ergonomic default. */
 export function resetPriorityKeys() {
-	for (const key of [STORAGE_KEY, LEGACY_V3_KEY, LEGACY_V2_KEY]) {
+	localStorage.removeItem(STORAGE_KEY);
+	for (const [key] of LEGACY_KEYS) {
 		localStorage.removeItem(key);
 	}
 	return [...LEFT_HAND_KEYS];
