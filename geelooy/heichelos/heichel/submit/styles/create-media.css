@@ -1,0 +1,63 @@
+/* B"H — Post audio/video attachment card in the submit editor.
+   Uses the create-* tokens so it sits natively beside the composer cards. */
+.post-media-card {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block-start: .6rem;
+	padding: .9rem;
+	border: 1px solid var(--create-line);
+	border-radius: 1rem;
+	background: var(--create-panel);
+	box-shadow: var(--create-shadow);
+}
+
+.post-media-title {
+	margin: 0 0 .3rem;
+	font-size: 1.02rem;
+	color: var(--create-ink);
+}
+
+.post-media-hint {
+	margin: 0 0 .7rem;
+	font-size: .86rem;
+	line-height: 1.45;
+	color: var(--create-muted);
+}
+
+.post-media-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .55rem;
+	padding-block: .45rem;
+	border-block-start: 1px dashed var(--create-line);
+}
+
+.post-media-label {
+	inline-size: 3.2rem;
+	font-weight: 600;
+	color: var(--create-ink);
+}
+
+.post-media-row input[type="file"] {
+	flex: 1 1 12rem;
+	min-inline-size: 0;
+	padding: .45rem .55rem;
+	border: 1px solid var(--create-line);
+	border-radius: .75rem;
+	background: var(--create-field);
+	color: var(--create-ink);
+	font: inherit;
+	font-size: .88rem;
+}
+
+.post-media-status {
+	flex: 1 1 10rem;
+	font-size: .85rem;
+	color: var(--create-muted);
+	overflow-wrap: anywhere;
+}
+
+.post-media-remove {
+	flex: 0 0 auto;
+}

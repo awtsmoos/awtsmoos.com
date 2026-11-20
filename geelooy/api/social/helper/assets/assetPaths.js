@@ -30,7 +30,12 @@ function extensionFor(mime, fallback = '') {
 		'audio/x-wav': '.wav',
 		'audio/ogg': '.ogg',
 		'audio/mp4': '.m4a',
-		'audio/m4a': '.m4a'
+		'audio/m4a': '.m4a',
+		'audio/webm': '.webm',
+		'video/mp4': '.mp4',
+		'video/webm': '.webm',
+		'video/quicktime': '.mov',
+		'video/ogg': '.ogv'
 	};
 	return map[String(mime || '').split(';')[0].toLowerCase()]
 		|| path.extname(fallback || '').slice(0, 8)
@@ -52,7 +57,7 @@ function aliasAssetDir({ $i, aliasId, kind }) {
 		'socialAssets',
 		'aliases',
 		aliasId,
-		kind === 'audio' ? 'audio' : 'images'
+		kind === 'audio' ? 'audio' : kind === 'video' ? 'videos' : 'images'
 	);
 }
 

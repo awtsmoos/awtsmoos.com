@@ -39,6 +39,7 @@ function recordFromEntity(entity) {
         content: entity.rootContent,
         rootContent: entity.rootContent,
         rootAssets: entity.rootAssets,
+        media: entity.media || null,
         aliasId: entity.aliasId,
         author: entity.aliasId,
         heichelId: entity.heichelId,

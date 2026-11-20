@@ -16,6 +16,7 @@ const SSH_BODY_LIMIT_BYTES = 16 * 1024 * 1024;
 const TUNNEL_BODY_LIMIT_BYTES = 32 * 1024 * 1024;
 const LARGE_TUNNEL_WRITE_BODY_LIMIT_BYTES = 96 * 1024 * 1024;
 const ASSET_UPLOAD_BODY_LIMIT_BYTES = 96 * 1024 * 1024;
+const POST_MEDIA_UPLOAD_BODY_LIMIT_BYTES = 128 * 1024 * 1024;
 
 class BodyLimitError extends Error {
 	constructor(limitBytes) {
@@ -49,6 +50,11 @@ function bodyLimitFor(request) {
 	if (/^\/api\/social\/assets\/[^/]+\/upload\/?$/.test(pathname)) {
 		return ASSET_UPLOAD_BODY_LIMIT_BYTES;
 	}
+	if (/^\/api\/social\/assets\/[^/]+\/upload-post-media\/?$/.test(pathname)) {
+		// One post-media request may carry the audio (25 MB) and the video
+		// (100 MB) together, plus multipart framing.
+		return POST_MEDIA_UPLOAD_BODY_LIMIT_BYTES;
+	}
 	return DEFAULT_BODY_LIMIT_BYTES;
 }
 
@@ -70,6 +76,7 @@ function assertDeclaredSize(request, limitBytes) {
 
 module.exports = {
 	ASSET_UPLOAD_BODY_LIMIT_BYTES,
+	POST_MEDIA_UPLOAD_BODY_LIMIT_BYTES,
 	BodyLimitError,
 	DEFAULT_BODY_LIMIT_BYTES,
 	LARGE_TUNNEL_WRITE_BODY_LIMIT_BYTES,

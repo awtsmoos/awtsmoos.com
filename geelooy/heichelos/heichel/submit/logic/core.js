@@ -5,6 +5,7 @@
  */
 import { makePost, AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { getEditorContent } from "./editor.js";
+import { getPostMedia } from "./media.js";
 import { getAllSectionsData } from "./sections.js";
 import { setSubmitStatus } from "./status.js";
 import { explicitHeichelFromUrl, renderTargetSummary, resolveAlias, resolveTarget } from "./target.js";
@@ -47,12 +48,16 @@ function postId(editPostId) { return getValue("postId") || editPostId || `BH_pos
 function buildPayload(target, context) {
   const sections = getAllSectionsData();
   const main = getEditorContent(document.getElementById("mainContentEditor"));
-  return { aliasId: target.aliasId, heichelId: target.heichelId, parentSeriesId: target.seriesId || "root", seriesId: target.seriesId || "root", postId: postId(context.editPostId), title: getValue("title"), contentType: getValue("contentType") || "post", content: main.text, mainContent: { html: main.html, images: main.images }, sections, dayuh: { sections, verseMap: Object.fromEntries(sections.map(s => [s.verseSection, s.id])) } };
+  const postMedia = getPostMedia();
+  return { aliasId: target.aliasId, heichelId: target.heichelId, parentSeriesId: target.seriesId || "root", seriesId: target.seriesId || "root", postId: postId(context.editPostId), title: getValue("title"), contentType: getValue("contentType") || "post", content: main.text, mainContent: { html: main.html, images: main.images }, sections, media: postMedia.media, assets: postMedia.assets, dayuh: { sections, verseMap: Object.fromEntries(sections.map(s => [s.verseSection, s.id])) } };
 }
 
 async function submitThroughContentApi(payload) {
   const kind = payload.contentType === "question" ? "questions" : "posts";
-  const response = await fetch(`/api/social/content/heichelos/${encodeURIComponent(payload.heichelId)}/${kind}`, { method: "POST", body: new URLSearchParams({ aliasId: payload.aliasId, postId: payload.postId, title: payload.title, content: payload.content, seriesId: payload.seriesId, parentSeriesId: payload.parentSeriesId, sections: JSON.stringify(payload.sections) }) });
+  const fields = { aliasId: payload.aliasId, postId: payload.postId, title: payload.title, content: payload.content, seriesId: payload.seriesId, parentSeriesId: payload.parentSeriesId, sections: JSON.stringify(payload.sections) };
+  if (payload.media) fields.media = JSON.stringify(payload.media);
+  if (payload.assets?.length) fields.assets = JSON.stringify(payload.assets);
+  const response = await fetch(`/api/social/content/heichelos/${encodeURIComponent(payload.heichelId)}/${kind}`, { method: "POST", body: new URLSearchParams(fields) });
   const data = await response.json().catch(() => null);
   if (!response.ok || data?.error) throw new Error(data?.error?.message || data?.message || "Content API failed.");
   return data;

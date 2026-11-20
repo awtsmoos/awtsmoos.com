@@ -1,0 +1,128 @@
+/* B"H — Series player: a quiet dark bar over the cream heichel pages.
+   Palette follows the heichel template itself (deep ink #17253a / theme
+   #071a2b, cream #f7f1e3, gold accent) so it never clashes with the page. */
+
+.awt-series-player-launcher {
+	position: fixed;
+	inset-inline-end: 1rem;
+	bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+	z-index: 90;
+	padding: .65rem 1.1rem;
+	border: 1px solid #8a6d3b;
+	border-radius: 999px;
+	background: #17253a;
+	color: #f7f1e3;
+	font: 600 .95rem/1.2 system-ui, sans-serif;
+	box-shadow: 0 .8rem 2rem rgb(7 26 43 / 35%);
+	cursor: pointer;
+}
+
+.awt-series-player-launcher:hover {
+	background: #20324e;
+}
+
+.awt-series-player-panel {
+	position: fixed;
+	inset-inline: 1rem;
+	bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+	z-index: 91;
+	max-inline-size: 44rem;
+	margin-inline: auto;
+	padding: .9rem 1rem 1rem;
+	border: 1px solid #8a6d3b;
+	border-radius: 1.25rem;
+	background: #17253a;
+	color: #f7f1e3;
+	box-shadow: 0 1.4rem 3.5rem rgb(7 26 43 / 45%);
+	font-family: system-ui, sans-serif;
+}
+
+.awt-sp-head {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+}
+
+.awt-sp-kicker {
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: #d9c9a8;
+}
+
+.awt-sp-position {
+	font-size: .8rem;
+	color: #cfd8e6;
+}
+
+.awt-sp-close {
+	margin-inline-start: auto;
+	inline-size: 2rem;
+	block-size: 2rem;
+	border: 1px solid #8a6d3b;
+	border-radius: 999px;
+	background: transparent;
+	color: #f7f1e3;
+	font-size: .9rem;
+	cursor: pointer;
+}
+
+.awt-sp-title {
+	margin: .55rem 0 .6rem;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.awt-sp-media {
+	display: block;
+	inline-size: 100%;
+	max-block-size: 52dvh;
+	border-radius: .8rem;
+	background: #000;
+}
+
+audio.awt-sp-media {
+	max-block-size: none;
+	background: transparent;
+}
+
+.awt-sp-controls {
+	display: flex;
+	gap: .55rem;
+	margin-top: .7rem;
+}
+
+.awt-sp-btn {
+	flex: 1 1 0;
+	padding: .55rem .8rem;
+	border: 1px solid #8a6d3b;
+	border-radius: 999px;
+	background: #20324e;
+	color: #f7f1e3;
+	font: 600 .9rem/1.2 system-ui, sans-serif;
+	cursor: pointer;
+}
+
+.awt-sp-btn:hover {
+	background: #2a4066;
+}
+
+.awt-series-player-current {
+	outline: 3px solid #8a6d3b;
+	outline-offset: 2px;
+	border-radius: .5rem;
+}
+
+@media (max-width: 35rem) {
+	.awt-series-player-panel {
+		inset-inline: .6rem;
+		bottom: calc(.6rem + env(safe-area-inset-bottom, 0px));
+	}
+	.awt-series-player-launcher {
+		inset-inline-end: .6rem;
+		bottom: calc(.6rem + env(safe-area-inset-bottom, 0px));
+	}
+}

@@ -6,7 +6,9 @@
  * @module AssetPolicy
  * @description
  * The Awtsmoos keeps images and voices within the alias vault while creator video takes an external sea;
- * Awtsmoos.com recognizes video truthfully yet refuses its bytes, requiring direct local-key Archive.org custody.
+ * Awtsmoos.com recognizes video truthfully yet refuses its bytes under the default policy, requiring
+ * direct local-key Archive.org custody. Policies that grant maxVideoBytes (POST_MEDIA_POLICY, for
+ * post attachments) may land video bytes in the same alias vault on this server.
  */
 const IMAGE_MIME = new Set([
 	'image/png',
@@ -41,6 +43,20 @@ const DEFAULT_POLICY = Object.freeze({
 	maxUploadsPerMinute: 18
 });
 
+/**
+ * Post-media policy (Hai 2026-11-20): a post may carry ONE audio and ONE video
+ * file, stored on this server. Only flows that opt into this policy may land
+ * video bytes locally; the default policy above still refuses video so older
+ * Archive.org-only surfaces keep their exact behavior.
+ */
+const POST_MEDIA_POLICY = Object.freeze({
+	maxImageBytes: 0,
+	maxAudioBytes: 25 * 1024 * 1024,
+	maxVideoBytes: 100 * 1024 * 1024,
+	maxFilesPerRequest: 2,
+	maxUploadsPerMinute: 18
+});
+
 function normalizedMime(mime) {
 	return String(mime || '').split(';')[0].trim().toLowerCase();
 }
@@ -55,7 +71,7 @@ function assetKind(mime) {
 
 function limitFor(kind, policy = DEFAULT_POLICY) {
 	if (kind === 'audio') return policy.maxAudioBytes;
-	if (kind === 'video') return 0;
+	if (kind === 'video') return policy.maxVideoBytes || 0;
 	return policy.maxImageBytes;
 }
 
@@ -68,7 +84,7 @@ function validateAsset({ mime, size, policy = DEFAULT_POLICY }) {
 			message: `Unsupported MIME: ${mime}`
 		};
 	}
-	if (kind === 'video') {
+	if (kind === 'video' && !(policy.maxVideoBytes > 0)) {
 		return {
 			error: true,
 			code: 'VIDEO_EXTERNAL_STORAGE_REQUIRED',
@@ -96,6 +112,7 @@ module.exports = {
 	AUDIO_MIME,
 	VIDEO_MIME,
 	DEFAULT_POLICY,
+	POST_MEDIA_POLICY,
 	normalizedMime,
 	assetKind,
 	validateAsset,

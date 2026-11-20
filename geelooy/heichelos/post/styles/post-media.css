@@ -1,0 +1,32 @@
+/* B"H — Post media players in the reader.
+ * The bundle (post-bundle.css) already styles the video figure; this sheet
+ * gives the audio figure the same vessel so an attached shiur or song sits
+ * in the reader exactly like a video does. Kept separate because both the
+ * bundle and the law8 sheet are generated files. */
+
+.post-reader-localized-context .awtsmoos-post-audio-asset {
+	margin: 0 auto 1.35rem;
+	padding: .85rem 1rem;
+	border: 1px solid var(--social-line);
+	border-radius: 1.5rem;
+	background: linear-gradient(145deg, rgb(255 255 255 / 92%), rgb(229 235 246 / 88%));
+	box-shadow: 0 1.75rem 4.75rem rgb(0 0 0 / 38%);
+}
+
+.post-reader-localized-context .awtsmoos-post-audio {
+	display: block;
+	inline-size: 100%;
+	border-radius: 1.1rem;
+}
+
+.post-reader-localized-context .awtsmoos-post-audio-asset figcaption {
+	margin-top: .55rem;
+	text-align: center;
+}
+
+@media (max-width: 35rem) {
+	.post-reader-localized-context .awtsmoos-post-audio-asset {
+		padding: .6rem .7rem;
+		border-radius: 1.1rem;
+	}
+}

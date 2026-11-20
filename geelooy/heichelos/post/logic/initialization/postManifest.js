@@ -23,7 +23,7 @@ import {
 	appendTitle,
 	renderMode,
 	viewportHasVisibleText
-} from './PostManifestElements.js?v=post-elements-001';
+} from './PostManifestElements.js?v=post-elements-002';
 
 /** True when the post carries units-shaped content (Torah units or social replies). */
 function hasUnitsContent(post) {

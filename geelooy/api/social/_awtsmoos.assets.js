@@ -4,7 +4,7 @@
 
 const { bindAsset } = require("./helper/assets/assetBindings.js");
 const { copyAsset } = require("./helper/assets/assetCopy.js");
-const { uploadAssets } = require("./helper/assets/assetUpload.js");
+const { uploadAssets, uploadPostMedia } = require("./helper/assets/assetUpload.js");
 const { servePrivateMessageAsset } = require("./helper/assets/privateMessageAssetAccess.js");
 const {
 	getPublicAssetManifest,
@@ -69,6 +69,7 @@ module.exports = ({ $i, userid } = {}) => ({
 		servePrivateMessageAsset({ $i, userid, coordinates: privateCoordinates(variables) })
 	)),
 	"/assets/:alias/upload": guarded($i, "POST", (variables) => uploadAssets({ $i, userid, aliasId: variables.alias })),
+	"/assets/:alias/upload-post-media": guarded($i, "POST", (variables) => uploadPostMedia({ $i, userid, aliasId: variables.alias })),
 	"/assets/:alias/copy": guarded($i, "POST", (variables) => copyAsset(copyInput($i, userid, variables.alias))),
 	"/assets/:alias": guarded($i, "GET", (variables) => listPublicAssets({ $i, aliasId: variables.alias })),
 	"/assets/:alias/:asset/bind": guarded($i, "POST", (variables) => bindAsset({

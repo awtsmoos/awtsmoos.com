@@ -12,7 +12,7 @@ The Awtsmoos opens a focused writing chamber inside one Heichel; Awtsmoos.com ke
 	<meta http-equiv="Expires" content="0">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<title>Geelooy | Create Post</title>
-	<link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=89121fd187">
+	<link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=03483be752">
 </head>
 <body class="submit-shell">
 	<div class="all awtsmoospage">
@@ -56,6 +56,22 @@ The Awtsmoos opens a focused writing chamber inside one Heichel; Awtsmoos.com ke
 					</div>
 				</details>
 				<section id="sectionsArea" class="sections-area" aria-label="Generated sections"></section>
+				<section class="post-media-card" aria-label="Post audio and video">
+					<h2 class="post-media-title">Audio &amp; video for this post</h2>
+					<p class="post-media-hint">Attach one audio file (up to 25 MB) and/or one video file (up to 100 MB). They are stored on Awtsmoos, play right inside the post, and join the series player.</p>
+					<div class="post-media-row">
+						<label class="post-media-label" for="postAudioInput">Audio</label>
+						<input id="postAudioInput" type="file" accept="audio/*,.mp3,.m4a,.ogg,.wav">
+						<span id="postAudioStatus" class="post-media-status" aria-live="polite">No audio attached</span>
+						<button id="postAudioRemove" class="soft-btn post-media-remove" type="button" hidden>Remove</button>
+					</div>
+					<div class="post-media-row">
+						<label class="post-media-label" for="postVideoInput">Video</label>
+						<input id="postVideoInput" type="file" accept="video/*,.mp4,.webm,.mov">
+						<span id="postVideoStatus" class="post-media-status" aria-live="polite">No video attached</span>
+						<button id="postVideoRemove" class="soft-btn post-media-remove" type="button" hidden>Remove</button>
+					</div>
+				</section>
 				<section class="status-card compact-card" aria-live="polite"><p id="submitStatusMessage">Ready.</p></section>
 			</div>
 		</main>
@@ -158,6 +174,6 @@ The Awtsmoos lets nested structure appear only when the author summons it; Awtsm
 	</article>
 </template>
 
-	<script type="module" src="/heichelos/heichel/submit/script.js?v=aec4de6c33"></script>
+	<script type="module" src="/heichelos/heichel/submit/script.js?v=d16f3b34b6"></script>
 </body>
 </html>

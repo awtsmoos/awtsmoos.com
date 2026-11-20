@@ -29,23 +29,49 @@ function safeRemoteUrl(value) {
 	}
 }
 
+function rootAssetKind(asset) {
+	const type = String(asset?.type || asset?.kind || asset?.mime || asset?.contentType || '').toLowerCase();
+	if (type.includes('audio')) return 'audio';
+	if (type.includes('video')) return 'video';
+	const url = String(asset?.publicPath || asset?.url || '');
+	if (/\.(mp3|wav|ogg|m4a|aac|flac)(\?.*)?$/i.test(url)) return 'audio';
+	if (/\.(mp4|webm|mov|m4v|ogv)(\?.*)?$/i.test(url)) return 'video';
+	return '';
+}
+
 export function appendRootAssets(viewport, post) {
+	// B"H — the reader plays the post's media: the first-class `media` field
+	// (one audio + one video) leads, and root assets follow without repeats.
+	// Audio attachments were previously dropped here entirely; only video
+	// root assets rendered.
+	const seen = new Set();
+	const queue = [];
+	const push = asset => {
+		const kind = rootAssetKind(asset);
+		if (kind !== 'audio' && kind !== 'video') return;
+		const source = safeRemoteUrl(asset?.publicPath || asset?.url);
+		if (!source || seen.has(source)) return;
+		seen.add(source);
+		queue.push({ asset, kind, source });
+	};
+	if (post?.media && typeof post.media === 'object') {
+		push(post.media.video);
+		push(post.media.audio);
+	}
 	const assets = Array.isArray(post?.rootAssets) ? post.rootAssets : [];
-	assets.forEach((asset, index) => {
-		if (asset?.type !== 'video') return;
-		const source = safeRemoteUrl(asset.publicPath);
-		if (!source) return;
+	assets.forEach(push);
+	queue.forEach(({ asset, kind, source }, index) => {
 		const figure = document.createElement('figure');
-		figure.className = 'awtsmoos-post-video-asset';
+		figure.className = `awtsmoos-post-${kind}-asset`;
 		figure.dataset.assetIndex = String(index);
-		const video = document.createElement('video');
-		video.className = 'awtsmoos-post-video';
-		video.controls = true;
-		video.preload = 'metadata';
-		video.playsInline = true;
-		video.src = source;
-		video.setAttribute('aria-label', asset.alt || asset.caption || 'Post video');
-		figure.append(video);
+		const player = document.createElement(kind);
+		player.className = `awtsmoos-post-${kind}`;
+		player.controls = true;
+		player.preload = 'metadata';
+		if (kind === 'video') player.playsInline = true;
+		player.src = source;
+		player.setAttribute('aria-label', asset.alt || asset.caption || asset.originalName || `Post ${kind}`);
+		figure.append(player);
 		if (asset.caption) {
 			const caption = document.createElement('figcaption');
 			caption.textContent = asset.caption;

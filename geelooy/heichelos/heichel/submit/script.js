@@ -11,6 +11,7 @@ import { AwtsmoosPrompt } from '/scripts/awtsmoos/api/utils.js';
 import { initializeSubmitCore } from './logic/core.js';
 import { setupEditor } from './logic/editor.js';
 import { setupImageUploader } from './logic/images.js';
+import { setupPostMedia } from './logic/media.js';
 import { setupSectionManager } from './logic/sections.js';
 import { initializeCreateShellContext } from './logic/shellContext.js';
 import { missingSubmitNodes, setSubmitStatus } from './logic/status.js';
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const editor = setupEditor();
 		setupSectionManager(editor);
 		setupImageUploader(editor);
+		setupPostMedia();
 		setSubmitStatus(`Ready for ${core.heichelId || 'destination resolution'}.`, 'success');
 	} catch (error) {
 		setSubmitStatus(error.message || 'Submit console failed to initialize.', 'error');
