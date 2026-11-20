@@ -28,6 +28,19 @@ export function parseReaderPath(pathname = window.location.pathname) {
 	if (heichelIndex < 0) return null;
 	const hId = parts[heichelIndex + 1] || '';
 	const seriesMarker = parts[heichelIndex + 2];
+	// B"H 2026-11-20 (composer publish cluster, defect 3): the root
+	// shorthand /heichelos/<h>/post/<postId> is the canonical link shape
+	// the server itself emits for root-series posts (postSemantic
+	// buildCanonicalPath; constants.js documents shorthand links as
+	// resolvable). This parser used to return null for it, loadInitial
+	// threw READER_CLIENT_ROUTE_INVALID, and the boot fell back to the
+	// plain text renderer — so every root-series post opened from a
+	// canonical link showed title and text with NO audio/video players,
+	// even though the stored record carries media and rootAssets.
+	if (seriesMarker === 'post') {
+		const pCoord = parts[heichelIndex + 3] || '';
+		return pCoord ? { hId, sId: 'root', pCoord, explicitPostMarker: true, shorthand: true } : null;
+	}
 	if (seriesMarker !== 'series') return null;
 	const sId = parts[heichelIndex + 3] || 'root';
 	const explicitPostMarker = parts[heichelIndex + 4] === 'post';
@@ -53,7 +66,7 @@ async function loadSeriesSources(hId, sId, pCoord, explicitPostMarker) {
 export async function loadInitial(pathname = window.location.pathname) {
 	const parsed = parseReaderPath(pathname);
 	if (!parsed) throw new Error('READER_CLIENT_ROUTE_INVALID');
-	const { hId, sId, pCoord, explicitPostMarker } = parsed;
+	const { hId, sId, pCoord, explicitPostMarker, shorthand } = parsed;
 	const { series, canonicalPosts } = await loadSeriesSources(hId, sId, pCoord, explicitPostMarker);
 	const { pId, pIdx } = resolveReaderCoordinate({
 		pCoord,
@@ -62,7 +75,7 @@ export async function loadInitial(pathname = window.location.pathname) {
 		canonicalPosts
 	});
 	if (!pId) throw new Error(`READER_CLIENT_SERIES_INDEX_MISSING_${pCoord}`);
-	if (!explicitPostMarker || pCoord !== pId) {
+	if (!explicitPostMarker || shorthand || pCoord !== pId) {
 		history.replaceState({}, '', `/heichelos/${encodeURIComponent(hId)}/series/${encodeURIComponent(sId)}/post/${encodeURIComponent(pId)}`);
 	}
 	const [postRaw, breadcrumbRaw] = await Promise.all([

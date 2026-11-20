@@ -13,8 +13,21 @@ const { getTemplate, normalizeTemplateId } = require("./templates.js");
 
 async function readAlias($i, aliasId) {
     const info = await read($i, paths.aliasInfo(aliasId), null);
-    if (!info) return null;
-    return { id: aliasId, name: cleanText(info.name || aliasId, 80), description: cleanText(info.description, 300), user: info.user || "" };
+    if (info) return { id: aliasId, name: cleanText(info.name || aliasId, 80), description: cleanText(info.description, 300), user: info.user || "" };
+    // B"H 2026-11-20 (composer publish cluster, defect 5): established
+    // aliases whose records live only in the per-user tree (34 of this
+    // account's 46, including @abarbanel) have NO aliases/<id>/info
+    // record, so this read returned null on every request — memo or no
+    // memo — and aggregateProfile answered a SYNTHETIC identity with an
+    // empty description, leaving the Alias Studio permanently unable to
+    // prefill. When the signed-in session owns the alias, its per-user
+    // record (/users/<userId>/aliases/<aliasId>, the same record
+    // getDetailedAlias trusts) is the real identity: use it.
+    const userId = String($i?.request?.user?.info?.userId || $i?.request?.user?.info?.userid || $i?.request?.user?.userId || $i?.request?.user?.userid || "").trim();
+    if (!userId) return null;
+    const record = await read($i, `/users/${userId}/aliases/${aliasId}`, null);
+    if (!record || typeof record !== "object") return null;
+    return { id: aliasId, name: cleanText(record.name || aliasId, 80), description: cleanText(record.description, 300), user: userId };
 }
 
 async function readProfile($i, aliasId, alias) {

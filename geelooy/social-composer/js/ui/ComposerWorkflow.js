@@ -4,6 +4,7 @@
 
 import { buildPostPayload, payloadIssues } from '../model/PostPayload.js';
 import { buildPublicationPlan, publicationIssues } from '../publishing/PublicationPlan.js';
+import { normalizeComposerValue } from '../state/ComposerValue.js';
 import { requestId } from '../state/PublicationValue.js';
 
 /**
@@ -23,6 +24,22 @@ export class ComposerWorkflow {
 		this.preRestoreSnapshot = this.state.snapshot();
 		this.restoredDraftAliasId = restored?.identity?.aliasId || '';
 		this.draftWasRestored = true;
+		// B"H 2026-11-20 (composer publish cluster, defect 1): a saved
+		// draft may restore content and destination, never authorship.
+		// The durable snapshot carries the identity it was saved under —
+		// including a stale userId-as-alias left by an earlier session —
+		// and the alias panel then treated that value as the preferred
+		// identity, so posts published under it while the composer
+		// showed the account's chosen public alias. The posting alias
+		// belongs to the verified panel alone: keep the session's
+		// starting identity and let the panel confirm or replace it
+		// visibly. restoredDraftAliasId above still records the draft's
+		// own alias so discardForeignDraft can drop another account's
+		// draft exactly as before.
+		if (restored.identity) {
+			restored.identity.aliasId = this.preRestoreSnapshot.identity?.aliasId || '';
+			restored.identity.aliasName = this.preRestoreSnapshot.identity?.aliasName || '';
+		}
 		this.state.replace(restored);
 		this.status.show('Local draft restored.', 'success');
 		return true;
@@ -95,6 +112,21 @@ export class ComposerWorkflow {
 		return 'Published through the unified social graph.';
 	}
 
+	/**
+	 * Replaces the just-published state with a fresh post that keeps only
+	 * the verified identity, destination, and composer mode — no title,
+	 * text, sections, or attachments survive into the next post.
+	 */
+	resetAfterPublish(snapshot) {
+		const fresh = normalizeComposerValue({
+			identity: snapshot.identity,
+			questionId: snapshot.questionId,
+			postKind: snapshot.postKind,
+			presentationKind: snapshot.presentationKind
+		}, {});
+		this.state.replace(fresh);
+	}
+
 	/** Mints a fresh publication key so the next attempt is a new deed, never a replay of this one. */
 	rotatePublicationKey() {
 		this.state.mutate('publication:rotate-key', state => {
@@ -134,7 +166,14 @@ export class ComposerWorkflow {
 			if (result?.error) {
 				throw new Error(result.error.message || 'Publication failed.');
 			}
-			this.rotatePublicationKey();
+			// B"H 2026-11-20 (composer publish cluster, defect 4):
+			// publication consumed this draft. Reset the live state to a
+			// fresh post BEFORE clearing the saved draft — previously the
+			// published title, text, and attachments stayed loaded, and
+			// the next autosave pulse (or the pagehide flush) re-saved
+			// them as a "new" local draft, so the published post's
+			// attachments bled into the next post the composer opened.
+			this.resetAfterPublish(snapshot);
 			this.localDrafts.clear(snapshot);
 			this.draftHistory?.clear(snapshot);
 			this.status.show(this.resultMessage(result), 'success');

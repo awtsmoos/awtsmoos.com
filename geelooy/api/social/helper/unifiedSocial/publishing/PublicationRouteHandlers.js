@@ -15,9 +15,31 @@ const { planPublication } = require('./PublicationPlanner.js');
 const { executePublication } = require('./PublicationExecutor.js');
 const { listDestinationPlacements } = require('./PlacementStore.js');
 const { withVerifiedAlias } = require('../permissions/RouteAuthorization.js');
+const { useridFrom } = require('../permissions/ActorAuthorization.js');
+
+// B"H 2026-11-20 (composer publish cluster, defect 1): a userId must never
+// be accepted as a publishing aliasId. Ownership verification alone cannot
+// catch the collision case (an account whose userId also exists as an
+// alias id passes verifyAliasOwnership), and a stale client identity then
+// published under the userId while the composer showed the chosen public
+// alias. Reject loudly at the authoring door, before planning begins.
+function rejectUserIdAlias({ $i, input }) {
+	const userid = useridFrom($i);
+	if (userid && String(input?.aliasId || '').trim() === userid) {
+		return {
+			error: {
+				code: 'ALIAS_ID_IS_USER_ID',
+				message: 'A user ID cannot publish as an alias. Choose a public alias and publish again.'
+			}
+		};
+	}
+	return null;
+}
 
 async function preview({ $i }) {
 	const input = planFromRequest($i);
+	const rejected = rejectUserIdAlias({ $i, input });
+	if (rejected) return rejected;
 	return withVerifiedAlias({
 		$i,
 		aliasId: input.aliasId,
@@ -27,6 +49,8 @@ async function preview({ $i }) {
 
 async function execute({ $i }) {
 	const input = planFromRequest($i);
+	const rejected = rejectUserIdAlias({ $i, input });
+	if (rejected) return rejected;
 	return withVerifiedAlias({
 		$i,
 		aliasId: input.aliasId,

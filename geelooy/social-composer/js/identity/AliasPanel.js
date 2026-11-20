@@ -18,7 +18,13 @@ export class AliasPanel extends AliasPanelActions {
 	async initialize() {
 		this.bind();
 		const remembered = this.memory.load();
-		const preferred = this.state.snapshot().identity.aliasId || remembered?.aliasId || '';
+		// B"H 2026-11-20 (composer publish cluster, defect 1): the
+		// remembered hint is the last VERIFIED selection this panel
+		// itself applied; state identity at boot can still carry a
+		// deep-link seed, so it is only the fallback hint. (Draft
+		// snapshots no longer contribute identity at all — see
+		// ComposerWorkflow.restoreLocal.)
+		const preferred = remembered?.aliasId || this.state.snapshot().identity.aliasId || '';
 		try {
 			this.renderIdentity(await loadVerifiedIdentity(this.api, preferred));
 		} catch (error) {
