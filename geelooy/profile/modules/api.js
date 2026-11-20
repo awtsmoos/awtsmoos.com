@@ -127,12 +127,33 @@ export async function getAliasDetails() {
 }
 
 /** Reads Heichel details owned by one explicit alias. */
-export async function getHeichelosForAlias(aliasId) {
+export async function getHeichelosForAlias(aliasId, timeoutMs = 9000) {
 	const encoded = encodeURIComponent(aliasId);
+	// B"H 2026-11-20 round 2: the caller (heichelos.js) always passed a
+	// per-attempt timeout (9s first pass, 15s retry) but this function
+	// silently ignored it and used 9s for both. The argument is honored
+	// now; the default preserves the old behavior for other callers.
 	return listFrom(await apiJson(
 		`/api/social/alias/${encoded}/heichelos/details`,
-		{ timeoutMs: 9000 }
+		{ timeoutMs }
 	));
+}
+
+/**
+ * Reads Heichel details for EVERY alias of the signed-in account in ONE
+ * request (B"H 2026-11-20 round 2). The Heichelos tab used to fan out
+ * one /alias/:alias/heichelos/details call per alias (46 for a large
+ * account), each an independent cold server walk, so under load every
+ * leg timed out and the tab rendered 46 error cards. The server
+ * aggregate (GET /api/social/heichelos/mine/details) walks the same
+ * per-alias lists server-side behind the profile read memo and answers
+ * once, with per-alias error entries for any alias that missed the
+ * deadline. Returns [{ aliasId, heichelos }] / [{ aliasId, error }].
+ */
+export async function getHeichelosOverview(timeoutMs = 30000) {
+	const data = await apiJson('/api/social/heichelos/mine/details', { timeoutMs });
+	const groups = data?.groups || data?.success?.groups || data?.data?.groups;
+	return Array.isArray(groups) ? groups : [];
 }
 
 /** Persists the selected default alias and proves server acknowledgement. */

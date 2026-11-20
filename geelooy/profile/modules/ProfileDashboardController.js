@@ -226,6 +226,15 @@ export class ProfileDashboardController {
 				const followers = await listFollowers('alias', alias.id);
 				return Array.isArray(followers) ? followers.length : 0;
 			});
+			// B"H 2026-11-20 round 2: mapLimit records a failed per-alias
+			// read as undefined, and the old reduce summed it straight
+			// into the total — one timed-out followers call turned the
+			// hero stat into the literal text "NaN" (0 on the loads
+			// where every leg answered, NaN on the loads where one did
+			// not). Any failed leg means the true total is unknown:
+			// return null so the stat keeps its previous value, which
+			// is this function's documented contract.
+			if (lists.some(n => typeof n !== 'number' || !Number.isFinite(n))) return null;
 			return lists.reduce((sum, n) => sum + n, 0);
 		} catch {
 			return null;

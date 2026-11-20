@@ -133,19 +133,24 @@ function settingsRow(row, onClose) {
 	} else {
 		el.type = 'button';
 		el.addEventListener('click', () => {
-			onClose();
-			requestAnimationFrame(() => {
-				if (row.click) {
-					const target = document.querySelector(row.click);
-					if (target) target.click();
-				} else if (row.tab) {
-					const tab = document.querySelector(`[data-profile-tab="${row.tab}"]`);
-					if (tab) {
-						tab.click();
-						tab.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-					}
+			// B"H 2026-11-20 round 2: act FIRST, close SECOND. The old
+			// order closed the drawer (returning focus to the settings
+			// button) and switched tabs a frame later behind the
+			// closing drawer, so "Reading privacy" appeared to do
+			// nothing at all in the rendered check. The destination is
+			// now activated while the intent is unmistakable, then the
+			// drawer closes over an already-switched page.
+			if (row.click) {
+				const target = document.querySelector(row.click);
+				if (target) target.click();
+			} else if (row.tab) {
+				const tab = document.querySelector(`[data-profile-tab="${row.tab}"]`);
+				if (tab) {
+					tab.click();
+					tab.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 				}
-			});
+			}
+			onClose();
 		});
 	}
 	const text = document.createElement('span');

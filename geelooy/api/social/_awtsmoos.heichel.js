@@ -14,6 +14,7 @@ var {
 } = require("./helper/heichelRoles.js");
 var { awtsmoosError, methodNotAllowed, requireArray } = require("./helper/response/routeResponses.js");
 var { makeHeichelRouteTools } = require("./helper/heichelRoutes/routeTools.js");
+var { getAliasIDs } = require("./helper/alias.js");
 
 module.exports = ({ $i, userid } = {}) => {
   var tools = makeHeichelRouteTools({
@@ -22,7 +23,57 @@ module.exports = ({ $i, userid } = {}) => {
   });
   var method = () => $i.request.method;
   var unsupported = allowed => methodNotAllowed(method(), allowed);
+  // B"H 2026-11-20 round 2: normalizes getAliasIDs' stored shape (array
+  // of ids, array of records, or an id-keyed map) into a plain id list.
+  function ownAliasIds(value) {
+    if (Array.isArray(value)) {
+      return value
+        .map(item => (item && typeof item === "object") ? (item.id || item.aliasId || "") : item)
+        .map(String)
+        .filter(Boolean);
+    }
+    if (value && typeof value === "object") return Object.keys(value).filter(Boolean);
+    return [];
+  }
   return {
+    "/heichelos/mine/details": async vars => {
+      if (method() != "GET") return unsupported(["GET"]);
+      if (!userid) return er({ code: "NOT_LOGGED_IN", message: "You are not logged in." });
+      // B"H 2026-11-20 round 2: ONE bounded aggregate behind the
+      // profile dashboard's Heichelos tab. The tab used to fan out one
+      // /alias/:alias/heichelos/details request per alias (46 for a
+      // large account), each an independent cold walk, so under load
+      // every leg timed out and the tab rendered 46 error cards. Here
+      // the same per-alias lists are walked server-side, 4 at a time,
+      // behind the profile read memo (routeTools memoizes
+      // detailedHeichelList for 45s with in-flight coalescing), under
+      // a 25s soft deadline: an alias that misses the deadline comes
+      // back as a per-alias error entry — the tab stays honest — and
+      // its walk keeps warming the memo in the background, so the
+      // next view is fast.
+      const aliasIds = ownAliasIds(await getAliasIDs({ $i, userID: userid }));
+      const groups = new Array(aliasIds.length);
+      let next = 0;
+      const workers = Array.from({ length: Math.max(1, Math.min(4, aliasIds.length)) }, async () => {
+        while (next < aliasIds.length) {
+          const index = next++;
+          const aliasId = aliasIds[index];
+          try {
+            groups[index] = { aliasId, heichelos: await tools.detailedHeichelList({ $i, aliasId }) };
+          } catch (e) {
+            groups[index] = { aliasId, error: "Heichelos could not load for this alias." };
+          }
+        }
+      });
+      await Promise.race([
+        Promise.all(workers),
+        new Promise(resolve => setTimeout(resolve, 25000))
+      ]);
+      for (let k = 0; k < aliasIds.length; k++) {
+        if (!groups[k]) groups[k] = { aliasId: aliasIds[k], error: "Heichelos timed out for this alias." };
+      }
+      return { groups };
+    },
     "/heichelos/:heichel/roles/:role": async vars => {
       if (method() == "GET") return await getHeichelRoleList({ $i, heichelId: vars.heichel, role: vars.role });
       if (method() == "POST") return await addHeichelRoleMember({ $i, heichelId: vars.heichel, role: vars.role });

@@ -461,8 +461,19 @@ export async function renderProfilePosts() {
 	// concurrency; the stat is written progressively (above), so the
 	// user sees it grow through the retries instead of sitting at "—".
 	let failed = await loadAliases(aliases, 15000);
-	for (let attempt = 0; attempt < 2 && failed.length; attempt++) {
-		failed = await retryOnce(failed, 20000);
+	// B"H 2026-11-20 round 2: the retry budgets ESCALATE (20s, then 35s)
+	// instead of a flat 20s twice. The failing sub-request is the
+	// per-alias GET /api/social/profile/:alias/posts — a cold walk the
+	// server memoizes for 45s once it completes, but under load the
+	// walk itself was measured at 63s wall (mostly CPU starvation on
+	// the shared box), so both flat-20s retries could expire just
+	// before the answer landed and the tab settled partial with the
+	// Retry button (rendered check 2026-11-20). The longer final pass
+	// gives the walk room to finish; once one pass lands, the server
+	// memo serves every later view.
+	const RETRY_TIMEOUTS_MS = [20000, 35000];
+	for (let attempt = 0; attempt < RETRY_TIMEOUTS_MS.length && failed.length; attempt++) {
+		failed = await retryOnce(failed, RETRY_TIMEOUTS_MS[attempt]);
 	}
 	// The stat is the list's total. It was already written progressively
 	// in appendItems (Fix 15); this final write confirms the same value
@@ -499,7 +510,7 @@ export async function renderProfilePosts() {
 		retry.addEventListener("click", async () => {
 			retry.disabled = true;
 			retry.textContent = "Loading more posts…";
-			failed = await retryOnce(failed, 20000);
+			failed = await retryOnce(failed, 35000);
 			// B"H social fix 17 (defect 3): same complete/partial rule
 			// as the final write above — exact total + save when the
 			// load completes, max(cached, fresh) + high-water-mark save

@@ -62,6 +62,10 @@ function showBootFailure(message) {
 			status.textContent = message;
 			status.dataset.profileStatus = 'error';
 		}
+		// B"H 2026-11-20 round 2: the module's own failure message
+		// supersedes the inline watchdog's retry button, if the
+		// watchdog already painted one during a slow graph fetch.
+		document.getElementById('profile-retry-boot')?.remove();
 	} catch (watchError) {
 		/* The error reporter itself must never throw. */
 	}
@@ -88,6 +92,11 @@ export async function bootProfileSocialOs() {
 	// now pre-loads the Posts CONTENT inside load(), without activating
 	// the tab or clicking it; the click path belongs to the user only.
 	window.__profileBootState = 'ready';
+	// B"H 2026-11-20 round 2: boot succeeded — retire the inline
+	// watchdog's retry button if a slow module-graph fetch let it
+	// paint one, so a recovered page carries no stale failure
+	// affordance next to its "loaded" status.
+	try { document.getElementById('profile-retry-boot')?.remove(); } catch { /* cleanup is best-effort */ }
 	window.addEventListener('awtsmoosAliasChange', () => renderTiferesSocialLaunchpad());
 	return controller;
 }

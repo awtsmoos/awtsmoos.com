@@ -27,10 +27,15 @@ class ProfileReadingStats {
 			// B"H social fix 3 (defect 7): the two fetches had NO timeout —
 			// if the reading API hung, Promise.all never settled and no
 			// message ever rendered (the "could not be loaded" text below
-			// only runs in the catch). Bound to 8s so a hung API renders
+			// only runs in the catch). Bounded so a hung API renders
 			// the honest failure message instead of a blank tab.
+			// B"H 2026-11-20 round 2: the bound was 8s, but this server's
+			// cold reads routinely exceed 8s under load, so the tab
+			// reported "could not be loaded" while the answer was still
+			// on its way (rendered check 2026-11-20). 20s stays bounded
+			// and matches the profile system's other read budgets.
 			const controller = new AbortController();
-			const watchdog = setTimeout(() => controller.abort(), 8000);
+			const watchdog = setTimeout(() => controller.abort(), 20000);
 			let statsRes, recentRes;
 			try {
 				[statsRes, recentRes] = await Promise.all([
@@ -55,7 +60,17 @@ class ProfileReadingStats {
 				return;
 			}
 
-			this.render(statsData, recentData?.recent || []);
+			// B"H 2026-11-20 round 2: the reading API answers in the
+			// canonical envelope ({ ok, data, success }) — verified on
+			// the wire. The old code passed the ENVELOPE itself to
+			// render() as if it were the stats object: stats.empty /
+			// totalPostsRead / totalHours all live under .data, so a
+			// successful load could never show the real numbers or the
+			// "No reading activity yet" empty state, and the recent
+			// list (data.recent, not .recent) never appeared at all.
+			const statsBody = statsData?.data ?? statsData;
+			const recentBody = recentData?.data ?? recentData;
+			this.render(statsBody, recentBody?.recent || []);
 		} catch {
 			// B"H social fix 2: a failed load is still an answer — say so
 			// instead of hiding the container and leaving a blank tab.
@@ -111,7 +126,7 @@ class ProfileReadingStats {
 						<ul>
 							${recent.map(r => `
 								<li>
-									<span class="pd-reading-post">${this.escapeHtml(r.postId.slice(0, 40))}</span>
+									<span class="pd-reading-post">${this.escapeHtml(String(r.postId || 'post').slice(0, 40))}</span>
 									<span class="pd-reading-time">${this.formatTime(r.activeSeconds)}</span>
 								</li>`).join('')}
 						</ul>
@@ -120,6 +135,7 @@ class ProfileReadingStats {
 	}
 
 	formatTime(seconds) {
+		seconds = Number(seconds) || 0;
 		if (seconds < 60) return `${seconds}s`;
 		const mins = Math.round(seconds / 60);
 		if (mins < 60) return `${mins}m`;

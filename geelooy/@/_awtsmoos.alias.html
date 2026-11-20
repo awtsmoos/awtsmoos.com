@@ -26,6 +26,36 @@
 <body>
 <div id="public-profile-root" aria-live="polite"></div>
 <div class="published-creations-root" id="published-creations-root" aria-live="polite"></div>
+<script>
+/* B"H — alias page boot watchdog (plain script; runs even if the module
+   graph below stalls). This page is two empty roots plus ES modules:
+   if any fetch in the ~28-file module graph hangs on a busy server,
+   the graph never executes and the visitor gets a SILENT BLANK page —
+   the app's own loading and error states live inside that same graph
+   (rendered check 2026-11-20: blank dark page after 90s + reload).
+   This watchdog guarantees a visible state instead: a loading note at
+   20s if the app has painted nothing, an error + reload at 90s — and
+   it stands down the moment the app paints anything of its own. */
+(function () {
+	var root = document.getElementById('public-profile-root');
+	if (!root) return;
+	function appHasPainted() {
+		return root.childElementCount > 0 && !root.querySelector('[data-alias-watchdog]');
+	}
+	setTimeout(function () {
+		try {
+			if (appHasPainted() || root.childElementCount > 0) return;
+			root.innerHTML = '<p class="profile-loading" data-alias-watchdog="loading">Loading profile — the server is busy, one moment…</p>';
+		} catch (e) { /* the watchdog itself must never throw */ }
+	}, 20000);
+	setTimeout(function () {
+		try {
+			if (appHasPainted()) return;
+			root.innerHTML = '<div class="profile-not-found" data-alias-watchdog="error"><h1>Profile unavailable</h1><p>The profile did not load in time. The server may be busy — please try again.</p><p class="profile-not-found-links"><a href="">Reload profile</a><a href="/">Back to Awtsmoos home</a></p></div>';
+		} catch (e) { /* the watchdog itself must never throw */ }
+	}, 90000);
+})();
+</script>
 <script type="module" src="/scripts/awtsmoos/social/profile/index.js?v=2e5469f1fe"></script>
 <script type="module" src="/scripts/awtsmoos/social/profile/publicSites.js?v=530c1ac523"></script>
 </body>

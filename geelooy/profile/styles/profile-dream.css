@@ -762,7 +762,11 @@ body.geelooy-app-shell .g-shell {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 40;
+	/* B"H 2026-11-20 round 2: raised from 40 — at 40 the drawer's head
+	   (title + × close) could sit under other fixed page chrome, so
+	   the × was visible but not clickable in the rendered check. The
+	   drawer is this page's modal sheet; it belongs above page chrome. */
+	z-index: 90;
 	max-width: 44rem;
 	margin: 0 auto;
 	max-height: 82vh;

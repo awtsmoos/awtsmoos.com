@@ -51,7 +51,14 @@ export function cleanText(value, fallback = "") {
 
 export function setStat(name, value) {
   const el = one(`[data-profile-stat="${name}"]`);
-  if (el) el.textContent = value;
+  if (!el) return;
+  // B"H 2026-11-20 round 2 (Followers "NaN"): every stat written through
+  // here is a count. A non-numeric value ("NaN" from a summed failed
+  // read, "undefined", "") must never reach the hero — the write is
+  // dropped so the previous real value stays on screen instead.
+  const text = String(value ?? "");
+  if (!/^\d+$/.test(text)) return;
+  el.textContent = text;
 }
 
 export function profileStatus() {

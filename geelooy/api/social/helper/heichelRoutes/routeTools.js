@@ -3,6 +3,7 @@
  * @module HeichelRouteTools
  * @description Chapter 521: route helpers carry palace state without bloating the gate.
  */
+const { memoizedRead } = require("../profile/readCache.js");
 function makeHeichelRouteTools(deps) {
   const { getHeichel, getHeichelos, createHeichel, deleteHeichel, verifyHeichelAuthority, er, requireArray, awtsmoosError } = deps;
   function normalizeHeichelIds(value) {
@@ -18,7 +19,7 @@ function makeHeichelRouteTools(deps) {
     const existing = await getHeichel({ heichelId, $i, er });
     return Boolean(existing && !existing.error && !existing.code && (existing.name || existing.author || existing.description || existing.id));
   }
-  async function detailedHeichelList({ $i, aliasId }) {
+  async function computeDetailedHeichelList({ $i, aliasId }) {
     const heichelos = normalizeHeichelIds(await getHeichelos({ $i, aliasId }));
     const results = [];
     for (const id of heichelos) {
@@ -28,6 +29,18 @@ function makeHeichelRouteTools(deps) {
       if (details.author == aliasId) results.push(details);
     }
     return results;
+  }
+  // B"H 2026-11-20 round 2: memoized per alias behind the profile read
+  // cache (45s + in-flight coalescing — see ../profile/readCache.js).
+  // This walk (one getHeichelos + one getHeichel per owned space) was
+  // paid in full by EVERY caller: the dashboard's Heichelos tab asks
+  // once per alias the account owns (46 requests for a large account),
+  // and a single cold call measured 43s on the loaded box. Repeat and
+  // concurrent callers now share one walk per TTL window. Callers must
+  // treat the returned list as read-only, like every memoized profile
+  // section since the round-1 data-layer fix.
+  async function detailedHeichelList({ $i, aliasId }) {
+    return memoizedRead("heichelDetails:" + aliasId, () => computeDetailedHeichelList({ $i, aliasId }));
   }
   async function heichelDetailsByIds({ $i, heichelIds }) {
     const checked = requireArray(heichelIds, 'heichelIds');

@@ -18,7 +18,29 @@ const drawer = () => document.querySelector('[data-profile-action-drawer]');
 
 export function bindProfileInlineActions() {
 	document.querySelectorAll('[data-profile-action]').forEach(button => {
-		button.addEventListener('click', () => openAction(button));
+		button.addEventListener('click', () => {
+			// B"H 2026-11-20 round 2: the opener is a TOGGLE. A second
+			// click on the open action's button used to just rebuild the
+			// same drawer (openAction never checked), so the settings
+			// panel could not be closed from its own button — the
+			// rendered check found only Escape worked. Now a click on
+			// the expanded opener closes its drawer.
+			const panel = drawer();
+			if (button.getAttribute('aria-expanded') === 'true' && panel && !panel.hidden) {
+				closeAction(button);
+				return;
+			}
+			openAction(button);
+		});
+	});
+	// B"H 2026-11-20 round 2: delegated close for the drawer's × — the
+	// direct listener is attached when the frame is built, and this
+	// document-level twin guarantees the close affordance still works
+	// even if a content rebuild ever drops the frame's own listener.
+	document.addEventListener('click', event => {
+		if (!event.target.closest?.('[data-close-profile-action]')) return;
+		const opener = document.querySelector('[data-profile-action][aria-expanded="true"]');
+		if (opener) closeAction(opener);
 	});
 	document.addEventListener('keydown', event => {
 		if (event.key !== 'Escape') return;

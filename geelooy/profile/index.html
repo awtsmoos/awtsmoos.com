@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/awp-polish.css?v=bd847464e4">
 	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">
 	<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">
-	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=c248ed10fd63">
+	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=e98a195ffe">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=7c62c1d746">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=5aa05a7268">
 	<link rel="stylesheet" href="/css/video-loader.css?v=7bd2069814">
@@ -161,6 +161,30 @@
 	/* B"H - profile boot watchdog (plain script, runs even if the module graph below fails). */
 	(function () {
 		window.__profileBootState = window.__profileBootState || 'pending';
+		// B"H 2026-11-20 round 2: the watchdog is STAGED. Stage 1 (60s)
+		// only ever shows a LOADING state — the failure text must not
+		// appear while boot can still recover. The single-stage version
+		// painted "Profile failed to load" at 60s even though the boot
+		// routinely recovered seconds later (the failure flash in the
+		// 2026-11-20 rendered check: failure text first, loaded page
+		// right behind it). Stage 2 (150s) is the genuine-failure
+		// bound: if the module graph has still not even STARTED by
+		// then (state still 'pending' — once the module runs it owns
+		// the status via 'booting'/'ready'/'failed'), the failure and
+		// its Reload button are honest.
+		// (History: social fix 23 raised the single stage 20s → 60s
+		// because a cold module graph can take longer than 20s to
+		// fetch over a slow server.)
+		setTimeout(function () {
+			try {
+				if (window.__profileBootState !== 'pending') return;
+				var status = document.querySelector('[data-profile-status]');
+				if (status) {
+					status.textContent = 'Still loading — the server is busy. Please keep this tab open.';
+					status.setAttribute('data-profile-status', 'loading');
+				}
+			} catch (e) { /* the watchdog itself must never throw */ }
+		}, 60000);
 		setTimeout(function () {
 			try {
 				if (window.__profileBootState !== 'pending') return;
@@ -180,16 +204,11 @@
 					}
 				}
 			} catch (e) { /* the watchdog itself must never throw */ }
-		// B"H social fix 23 (defect 4): 20s was too short for a first cold
-		// load — the module graph (script.js + its imports) can take longer
-		// than 20s to fetch on a cold cache over a slow server, so the
-		// watchdog fired a false "Profile failed to load" before the module
-		// even ran. 60s still bounds a genuine failure.
-		}, 60000);
+		}, 150000);
 	})();
 	</script>
-	<script type="module" src="./script.js?v=a7bf7c75d6d9"></script>
-	<script type="module" src="./modules/readingStats.js?v=c481023b19"></script>
+	<script type="module" src="./script.js?v=3edb2bd3d3"></script>
+	<script type="module" src="./modules/readingStats.js?v=9d1ccbce67"></script>
 	<script>
 	/* B"H — Initialize reading stats and privacy on profile load. */
 	document.addEventListener('DOMContentLoaded', () => {
