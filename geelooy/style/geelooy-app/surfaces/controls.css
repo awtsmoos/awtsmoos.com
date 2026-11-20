@@ -92,17 +92,9 @@
 		box-shadow: none;
 		color: ButtonText;
 	} }
-:where(.g-page:active) {
-	transform: scale(0.98);
-}
+/* B"H 2026-11-20 profile round 6: the generated :hover/:active filter+transform states for the page containers (.g-page, .awtsmoosDrop, .geelooy-app-shell) were removed here and in the sibling native-* sheets. body carries .geelooy-app-shell, so .geelooy-app-shell:hover { filter: brightness(1.08) } filtered the whole document whenever a pointer was over the page, re-anchoring every fixed element (header, identity card, drawers) to the body and defeating the Fix 22/23 neutralizations on specificity (0,2,0); the :active transforms likewise shifted open menus mid-click. Containers are not buttons; control-level states below are untouched. */
 :where(.g-page:focus-visible) {
 	outline: 2px solid currentColor; outline-offset: 2px;
-}
-.awtsmoosDrop:hover {
-	filter: brightness(1.08);
-}
-.awtsmoosDrop:active {
-	transform: scale(0.98);
 }
 .awtsmoosDrop:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;

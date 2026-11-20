@@ -52,26 +52,12 @@
 		transition: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-:where(.g-page:active) {
-	transform: scale(0.98);
-}
+/* B"H 2026-11-20 profile round 6: container :hover/:active filter+transform states removed (see controls.css note). */
 :where(.g-page:focus-visible) {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.awtsmoosDrop:hover {
-	filter: brightness(1.08);
-}
-.awtsmoosDrop:active {
-	transform: scale(0.98);
-}
 .awtsmoosDrop:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
-}
-.geelooy-app-shell:hover {
-	filter: brightness(1.08);
-}
-.geelooy-app-shell:active {
-	transform: scale(0.98);
 }
 .geelooy-app-shell:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
