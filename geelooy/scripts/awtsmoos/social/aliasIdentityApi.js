@@ -11,15 +11,39 @@
 
 /**
  * Requests JSON and converts transport or API failures into useful errors.
+ * B"H 2026-11-20 round 3: every identity request is BOUNDED. These fetches
+ * used to carry no timeout at all, so on a saturated server a stalled
+ * session/alias read hung forever — the shell never resolved an identity
+ * (the dashboard lost its session-alias fallback) and the alias menu sat
+ * on "Gathering your aliases…" indefinitely. The default budget is 25s;
+ * callers may pass timeoutMs (0 disables the bound for a trusted caller).
  * @param {string} url Request URL.
- * @param {RequestInit} [options] Fetch options.
+ * @param {RequestInit & {timeoutMs?: number}} [options] Fetch options.
  * @returns {Promise<unknown>} Parsed response payload.
  */
 export async function requestAliasJson(url, options = {}) {
-	const response = await fetch(url, {
-		credentials: 'include',
-		...options
-	});
+	const { timeoutMs = 25000, ...fetchOptions } = options;
+	let controller = null;
+	let timer = null;
+	if (timeoutMs > 0 && typeof AbortController === 'function' && !fetchOptions.signal) {
+		controller = new AbortController();
+		fetchOptions.signal = controller.signal;
+		timer = setTimeout(() => controller.abort(), timeoutMs);
+	}
+	let response;
+	try {
+		response = await fetch(url, {
+			credentials: 'include',
+			...fetchOptions
+		});
+	} catch (error) {
+		if (error?.name === 'AbortError') {
+			throw new Error(`Identity request timed out: ${url}`);
+		}
+		throw error;
+	} finally {
+		if (timer) clearTimeout(timer);
+	}
 	const text = await response.text();
 	let payload = {};
 	if (text) {

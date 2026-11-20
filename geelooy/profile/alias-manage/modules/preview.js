@@ -7,6 +7,7 @@
  * The Awtsmoos lets a future identity cast a truthful shadow before it is saved;
  * Awtsmoos.com turns name, address, and description into one living preview.
  */
+import { setAliasStudioStatus } from './actions.js';
 
 /** Connects editable identity fields to the visible alias preview. */
 export function connectAliasPreview(refs, config) {
@@ -41,11 +42,48 @@ export function hydrateAliasFields(refs, config) {
 	}
 }
 
-/** Collapses the secondary preview on narrow screens to reduce vertical travel. */
-export function applyPreviewDisclosure(refs) {
-	if (!refs.previewDetails) {
+/**
+ * B"H 2026-11-20 round 3: the server-rendered bootstrap is the form's only
+ * source of current values, and its detail read can fail (PROBLEM_WITH_ALIAS)
+ * — the edit form then opened blank for an existing identity. When update
+ * mode arrives without bootstrap values, fetch the account's alias details,
+ * hydrate from the matching record, and say plainly if even that fails.
+ */
+export async function hydrateAliasFieldsFromServer(refs, config, preview) {
+	if (!config.isUpdate || !config.alias) return;
+	if (config.details?.name || config.details?.description) return;
+	const record = await fetchOwnedAliasRecord(config.alias);
+	if (!record) {
+		setAliasStudioStatus(refs.status, 'error',
+			'Current values could not be loaded. Check your connection before saving.');
 		return;
 	}
+	hydrateAliasFields(refs, { ...config, details: record });
+	preview?.render();
+}
+
+async function fetchOwnedAliasRecord(alias) {
+	for (let attempt = 0; attempt < 2; attempt += 1) {
+		try {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), 20000);
+			const response = await fetch('/api/social/aliases/details', { credentials: 'include', signal: controller.signal });
+			clearTimeout(timer);
+			const data = await response.json().catch(() => null);
+			const list = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
+			const found = list.find(item => String(item?.id || item?.aliasId || '') === alias);
+			if (!found) return null;
+			return { name: found.name || found.displayName || '', description: found.description || found.bio || '' };
+		} catch {
+			if (attempt === 0) await new Promise(resolve => setTimeout(resolve, 1200));
+		}
+	}
+	return null;
+}
+
+/** Collapses the secondary preview on narrow screens to reduce vertical travel. */
+export function applyPreviewDisclosure(refs) {
+	if (!refs.previewDetails) return;
 	const narrow = window.matchMedia('(max-width: 46rem)').matches;
 	refs.previewDetails.open = !narrow;
 }

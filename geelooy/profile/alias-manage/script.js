@@ -20,7 +20,8 @@ import {
 import {
 	applyPreviewDisclosure,
 	connectAliasPreview,
-	hydrateAliasFields
+	hydrateAliasFields,
+	hydrateAliasFieldsFromServer
 } from './modules/preview.js';
 import {
 	readAliasValues,
@@ -55,6 +56,7 @@ function bootAliasStudio() {
 		? 'Editing an existing identity.'
 		: 'Ready to shape a new identity.';
 	setAliasStudioStatus(refs.status, 'neutral', openingMessage);
+	hydrateAliasFieldsFromServer(refs, config, preview);
 }
 
 async function validateCurrentIdentity(refs, config, preview) {

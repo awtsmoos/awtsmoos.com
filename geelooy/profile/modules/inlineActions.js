@@ -8,36 +8,30 @@
  * keeping Escape, focus return, loading truth, and opener state in one small law.
  */
 import { buildProfileAction } from './profile-actions/content.js';
-import {
-	actionError,
-	actionStatus,
-	actionTitle
-} from './profile-actions/shared.js';
+import { actionError, actionStatus, actionTitle } from './profile-actions/shared.js';
 
 const drawer = () => document.querySelector('[data-profile-action-drawer]');
 
 export function bindProfileInlineActions() {
-	document.querySelectorAll('[data-profile-action]').forEach(button => {
-		button.addEventListener('click', () => {
-			// B"H 2026-11-20 round 2: the opener is a TOGGLE. A second
-			// click on the open action's button used to just rebuild the
-			// same drawer (openAction never checked), so the settings
-			// panel could not be closed from its own button — the
-			// rendered check found only Escape worked. Now a click on
-			// the expanded opener closes its drawer.
+	// B"H 2026-11-20 round 3: ONE delegated listener replaces per-button
+	// binding. The settings panel "never opened" in the rendered re-check:
+	// clicks landing before this deferred module loaded on a saturated
+	// server hit unbound buttons and were lost (the inline capture in
+	// index.html queues such clicks; the queue drains below), and
+	// delegation also survives any later re-render of a button. Toggle
+	// law (round 2): the expanded opener closes its drawer; × likewise.
+	window.__profileActionsBound = true;
+	document.addEventListener('click', event => {
+		const button = event.target.closest?.('[data-profile-action]');
+		if (button) {
 			const panel = drawer();
 			if (button.getAttribute('aria-expanded') === 'true' && panel && !panel.hidden) {
 				closeAction(button);
 				return;
 			}
 			openAction(button);
-		});
-	});
-	// B"H 2026-11-20 round 2: delegated close for the drawer's × — the
-	// direct listener is attached when the frame is built, and this
-	// document-level twin guarantees the close affordance still works
-	// even if a content rebuild ever drops the frame's own listener.
-	document.addEventListener('click', event => {
+			return;
+		}
 		if (!event.target.closest?.('[data-close-profile-action]')) return;
 		const opener = document.querySelector('[data-profile-action][aria-expanded="true"]');
 		if (opener) closeAction(opener);
@@ -47,8 +41,17 @@ export function bindProfileInlineActions() {
 		const opener = document.querySelector('[data-profile-action][aria-expanded="true"]');
 		if (opener) closeAction(opener);
 	});
+	drainEarlyActionClicks();
 }
 
+/** Opens the last action a visitor clicked before this module loaded. */
+function drainEarlyActionClicks() {
+	const queued = Array.isArray(window.__profileActionEarlyClicks) ? window.__profileActionEarlyClicks.splice(0) : [];
+	const kind = queued[queued.length - 1];
+	if (!kind) return;
+	const button = document.querySelector(`[data-profile-action="${kind}"]`);
+	if (button) openAction(button);
+}
 async function openAction(opener) {
 	const panel = drawer();
 	if (!panel) return;
@@ -70,7 +73,6 @@ async function openAction(opener) {
 	}
 	focusDrawer(body, closeButton);
 }
-
 function buildDrawerFrame(panel, title, opener) {
 	panel.replaceChildren();
 	panel.setAttribute('role', 'region');
@@ -91,7 +93,6 @@ function buildDrawerFrame(panel, title, opener) {
 	panel.append(head, body);
 	return { body, closeButton };
 }
-
 function closeAction(opener) {
 	const panel = drawer();
 	if (panel) {

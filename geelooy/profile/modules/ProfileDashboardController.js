@@ -61,6 +61,34 @@ export class ProfileDashboardController {
 		// B"H: tabs bind FIRST — before any network — so they always switch panels
 		// and load content even if later boot steps fail.
 		this.bindContentTabs();
+		// B"H 2026-11-20 round 3: PROGRESSIVE boot. The hero used to wait
+		// for the full alias-details read before painting anything, so
+		// under saturation the page sat on "Loading profile dashboard…"
+		// (or the watchdog's failure text) for a minute or more even
+		// though the browser already knew whose profile this is. Seed
+		// state from the localStorage cache or the shell session alias
+		// and paint the hero IMMEDIATELY; the authoritative read below
+		// replaces the seed when it lands. A cached-list seed is the
+		// full list from the last successful load, so the Posts pre-load
+		// may start from it at once; a shell-only seed paints the hero
+		// but does not start Posts (its single alias is not the
+		// account's list) until the real list arrives — or until every
+		// read has failed and the seed is all there is.
+		const cachedSeed = readCachedAliases();
+		const shellSeed = !cachedSeed ? shellSessionAlias() : '';
+		const seed = cachedSeed || (shellSeed ? [{ id: shellSeed, name: shellSeed }] : null);
+		let postsBoot = null;
+		const startPostsBoot = () => {
+			if (this._tabsLoaded.has('posts') || postsBoot) return;
+			this._tabsLoaded.add('posts');
+			postsBoot = TAB_LOADERS.posts();
+			postsBoot.catch(() => { this._tabsLoaded.delete('posts'); });
+		};
+		if (seed) {
+			setAliases(seed, '');
+			this.personalizeHero();
+			if (cachedSeed) startPostsBoot();
+		}
 		// B"H social fix 18 (defect 2): the old code awaited
 		// Promise.all([loadDefaultAlias(), getAliasDetails()]) — when the
 		// alias-list API timed out (Fix 17 check: "Profile API timed out:
@@ -73,7 +101,7 @@ export class ProfileDashboardController {
 		// fail, with the original API error preserved for renderFailure.
 		const [defaultAliasResult, aliasesResult] = await Promise.allSettled([
 			this.loadDefaultAlias(),
-			getAliasDetails()
+			this.getAliasDetailsRetried()
 		]);
 		const defaultAlias = defaultAliasResult.status === 'fulfilled' ? (defaultAliasResult.value || '') : '';
 		let aliases = null;
@@ -97,6 +125,10 @@ export class ProfileDashboardController {
 			const shell = shellSessionAlias();
 			if (shell) aliases = [{ id: shell, name: shell }];
 		}
+		// B"H round 3: the progressive seed is a lawful last resort —
+		// boot completes with the identity the browser already holds
+		// rather than failing whole when every read timed out.
+		if ((!aliases || !aliases.length) && seed) aliases = seed;
 		if (!aliases || !aliases.length) {
 			const reason = aliasesResult.status === 'rejected' ? aliasesResult.reason : null;
 			throw new Error((reason && reason.message) || 'No aliases available.');
@@ -107,13 +139,9 @@ export class ProfileDashboardController {
 		// the tab or .click() it. The Posts tab is already the active tab
 		// in the HTML; if the user picked another tab during boot, their
 		// choice stands and the Posts content is simply ready when they
-		// return to it.
-		let postsBoot = null;
-		if (!this._tabsLoaded.has('posts')) {
-			this._tabsLoaded.add('posts');
-			postsBoot = TAB_LOADERS.posts();
-			postsBoot.catch(() => { this._tabsLoaded.delete('posts'); });
-		}
+		// return to it. (Round 3: may already be running from the
+		// cached-list seed; startPostsBoot is idempotent.)
+		startPostsBoot();
 		this.personalizeHero();
 		// B"H social fix 14 (defect 1): the stats loaders (comments /
 		// series / followers, 3 loaders x 5-at-a-time = 15 concurrent
@@ -289,6 +317,22 @@ export class ProfileDashboardController {
 		} catch (error) {
 			announceProfile(error.message || 'Default alias could not be loaded.', 'error');
 			return '';
+		}
+	}
+
+	/**
+	 * B"H 2026-11-20 round 3: the boot gate gets ONE retry. The server
+	 * memoizes this read once a walk completes, so when the first
+	 * attempt dies on a cold, CPU-starved walk, a second attempt a
+	 * breath later usually lands on the warm memo instead of the
+	 * whole dashboard failing on a single timed-out read.
+	 */
+	async getAliasDetailsRetried() {
+		try {
+			return await getAliasDetails();
+		} catch (firstError) {
+			await new Promise(resolve => setTimeout(resolve, 1500));
+			return await getAliasDetails();
 		}
 	}
 

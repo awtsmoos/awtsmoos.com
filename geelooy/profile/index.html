@@ -207,6 +207,29 @@
 		}, 150000);
 	})();
 	</script>
+	<script>
+	/* B"H - profile action early-click capture (plain script). A click on a
+	   profile action button (e.g. Profile settings) that lands before the
+	   deferred module graph binds its handlers used to be silently lost —
+	   on a saturated server the graph can take a minute to arrive, so the
+	   settings panel "never opened" in the 2026-11-20 rendered re-check.
+	   Such clicks are queued here instead; modules/inlineActions.js drains
+	   the queue the moment it binds and opens the action. Once the module
+	   is bound this capture stands down and clicks flow normally. */
+	(function () {
+		window.__profileActionEarlyClicks = window.__profileActionEarlyClicks || [];
+		document.addEventListener('click', function (event) {
+			if (window.__profileActionsBound) return;
+			var button = event.target && event.target.closest
+				? event.target.closest('[data-profile-action]')
+				: null;
+			if (!button) return;
+			window.__profileActionEarlyClicks.push(button.getAttribute('data-profile-action'));
+			event.preventDefault();
+			event.stopPropagation();
+		}, true);
+	})();
+	</script>
 	<script type="module" src="./script.js?v=3edb2bd3d3"></script>
 	<script type="module" src="./modules/readingStats.js?v=9d1ccbce67"></script>
 	<script>

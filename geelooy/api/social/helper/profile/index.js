@@ -61,7 +61,16 @@ function withSectionDeadline(thunk, fallback) {
 async function aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLimit }) {
     const profileStart = Date.now();
     const timings = {};
-    let identity = await timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
+    // B"H 2026-11-20 round 3: the identity read used to be awaited
+    // SERIALLY before the sections started, so one cold identity walk
+    // added its full latency on top of the sections' 20s soft
+    // deadlines (identity has no deadline of its own — bounding it
+    // risks a false PROFILE_NOT_FOUND for a real but slow alias).
+    // Identity now starts WITH the sections and is only awaited at
+    // assembly: worst case becomes max(identity, sections) instead
+    // of identity + sections.
+    const identityPromise = timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
+    identityPromise.catch(() => {}); // handled at assembly below; this only marks the early window
     const [posts, comments, heichelos, tree, history] = await Promise.all([
         safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => withSectionDeadline(() => postsByAlias({ $i, aliasId, ...(postsFetchLimit != null ? { limit: postsFetchLimit } : {}) }), [])), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => withSectionDeadline(() => commentsByAlias({ $i, aliasId, ...(commentsFetchLimit != null ? { limit: commentsFetchLimit } : {}) }), [])), { fallback: [] }),
@@ -69,6 +78,7 @@ async function aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLim
         safeRecordRead("profile:" + aliasId + ":tree", () => timedSection("tree", timings, () => withSectionDeadline(() => treeByAlias({ $i, aliasId }), [])), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":history", () => timedSection("history", timings, () => withSectionDeadline(() => getHistory({ $i, aliasId, limit: 40 }), [])), { fallback: [] })
     ]);
+    let identity = await identityPromise;
     perfLine("profile alias=" + aliasId + " totalMs=" + (Date.now() - profileStart) +
         " identity=" + (timings.identity || 0) + " posts=" + (timings.posts || 0) +
         " comments=" + (timings.comments || 0) + " heichelos=" + (timings.heichelos || 0) +

@@ -31,7 +31,22 @@ export async function ensureDefaultAlias() {
 		const mode = remembered ? 'local' : 'logged-out';
 		return identity(remembered, remembered ? 'Local IndexedDB' : '', session, mode);
 	}
-	const aliases = await getAliases();
+	const aliases = await fetchAliases();
+	// B"H 2026-11-20 round 3 (identity integrity): a FAILED alias read
+	// is not an empty account. fetchAliases returns null when the read
+	// itself failed (after one retry), and in that case identity
+	// resolution must be READ-ONLY: fall back to the remembered alias
+	// and write NOTHING — no setDefaultAlias, and above all no
+	// createDefaultAlias. The old code consumed getAliases()'s
+	// failure-swallowing [] as "this account owns no aliases", then
+	// "created" the username alias (for this account @asdf, an old
+	// alias of the same user) and PERSISTED it as the account default,
+	// so a slow load silently switched the signed-in identity. Only a
+	// list that was actually fetched may drive a default change, and
+	// only a fetched EMPTY list may trigger first-run creation.
+	if (aliases === null) {
+		return identity(remembered, username, session, remembered ? 'local' : 'logged-out');
+	}
 	if (remembered && ownsAlias(aliases, remembered) && await setDefaultAlias(remembered)) {
 		return identity(remembered, username, session, 'synced');
 	}
@@ -55,15 +70,33 @@ export async function getSession() {
 		return null;
 	}
 }
-/** Returns owned alias detail records. */
-export async function getAliases() {
-	try {
-		const data = await requestAliasJson('/api/social/aliases/details');
-		const list = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
-		return list.filter(item => aliasId(item));
-	} catch {
-		return [];
+/**
+ * Fetches owned alias detail records, distinguishing a FAILED read
+ * (null) from a successful read of an account with no aliases ([]).
+ * One retry: the server memoizes this read, so a second attempt after
+ * a cold first walk usually lands warm instead of failing twice.
+ */
+async function fetchAliases() {
+	for (let attempt = 0; attempt < 2; attempt += 1) {
+		try {
+			const data = await requestAliasJson('/api/social/aliases/details');
+			const list = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
+			return list.filter(item => aliasId(item));
+		} catch {
+			if (attempt === 0) await new Promise(resolve => setTimeout(resolve, 1200));
+		}
 	}
+	return null;
+}
+
+/** Returns owned alias detail records ([] when the read failed). */
+export async function getAliases() {
+	return (await fetchAliases()) || [];
+}
+
+/** Returns owned alias detail records, or null when the read failed. */
+export async function getAliasesStrict() {
+	return fetchAliases();
 }
 /** Persists and only then remembers the default alias. */
 export async function setDefaultAlias(alias) {
