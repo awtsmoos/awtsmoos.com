@@ -130,26 +130,40 @@
 			return;
 		}
 		/* The ink is absolutely positioned; ensure a positioning context
-		 * without overriding an explicit one the shell may set. */
-		var positioned = false;
-		try {
-			positioned = window.getComputedStyle(dock).position !== 'static';
-		} catch (err) {
-			positioned = false;
+		 * without overriding an explicit one the shell may set.
+		 * B"H 2026-11-20 round 6: the context is RECONCILED with the
+		 * dock stylesheet's own regime (dock.css: fixed bottom bar at
+		 * max-width 900px) — at init and on every later crossing of
+		 * that breakpoint. The previous guard ran once, at init, and
+		 * asked a different question (54rem = 864px): a session that
+		 * booted wide (computed 'static', dock display:none) kept the
+		 * inline 'relative' forever, so narrowing the window later
+		 * (resize, rotation, device toolbar) left the inline style
+		 * defeating the stylesheet's 'fixed' — the dock stranded
+		 * in-flow across the top of the page at z-index 90, covering
+		 * the header's identity trigger; taps there hit dock route
+		 * links and the profile menu could never open until a reload
+		 * at the narrow width. In the fixed regime a fixed dock is
+		 * already a positioning context, so the inline position is
+		 * cleared; in the wide regime a static dock gains 'relative'. */
+		var dockFixedQuery = null;
+		try { dockFixedQuery = window.matchMedia('(max-width: 900px)'); } catch (err) { dockFixedQuery = null; }
+		function syncDockPosition() {
+			try {
+				if (dockFixedQuery && dockFixedQuery.matches) {
+					if (dock.style.position) dock.style.removeProperty('position');
+					return;
+				}
+				if (window.getComputedStyle(dock).position === 'static') {
+					dock.style.position = 'relative';
+				}
+			} catch (err) { /* positioning help is best-effort */ }
 		}
-		if (!positioned) {
-			/* B"H: guard against a stylesheet race. dock.css positions
-			 * .g-dock fixed on narrow viewports; if this runs before that
-			 * rule applies, computed position reads 'static' and an inline
-			 * 'relative' would permanently override the fixed rule (inline
-			 * beats stylesheet), stranding the dock in-flow at the top of
-			 * the page. 'fixed' already contains absolutely-positioned
-			 * descendants, so only add a positioning context where the dock
-			 * is not meant to be fixed. */
-			var narrow = false;
-			try { narrow = window.matchMedia('(max-width: 54rem)').matches; } catch (err) { narrow = false; }
-			if (!narrow) {
-				dock.style.position = 'relative';
+		syncDockPosition();
+		if (dockFixedQuery) {
+			try { dockFixedQuery.addEventListener('change', syncDockPosition); }
+			catch (err) {
+				try { dockFixedQuery.addListener(syncDockPosition); } catch (ignored) { /* legacy engines */ }
 			}
 		}
 
@@ -162,6 +176,9 @@
 		var scheduled = false;
 
 		function render(target) {
+			/* A resize is exactly when the dock regime can flip;
+			 * reconcile the positioning context before placing ink. */
+			syncDockPosition();
 			if (scheduled) {
 				return;
 			}
