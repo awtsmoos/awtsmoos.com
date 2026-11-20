@@ -40,6 +40,24 @@ function collectTextParts(value, out = []) {
         collectTextParts(value.paragraph, out);
         collectTextParts(value.body, out);
         collectTextParts(value.value, out);
+        collectTextParts(value.hebrew, out);
+        collectTextParts(value.english, out);
+        // B"H — reader-fixes round (2026-11-20): the imported
+        // corpora store note text under their own keys (Mittler Rebbe:
+        // cited_text + note_en; Ohr HaTorah: citedPhrase / hebrewNote +
+        // englishNote + exactReference; Alter Rebbe: hebrewPhrases +
+        // englishPhrases). Walk them too — reference first, Hebrew
+        // before English — so these notes normalize with real text
+        // instead of being skipped as empty.
+        if (typeof value.source_ref === 'string' && !/unidentified/i.test(value.source_ref)) collectTextParts(value.source_ref, out);
+        if (typeof value.exactReference === 'string' && !/unidentified/i.test(value.exactReference)) collectTextParts(value.exactReference, out);
+        collectTextParts(value.hebrewNote, out);
+        collectTextParts(value.cited_text, out);
+        collectTextParts(value.citedPhrase, out);
+        collectTextParts(value.hebrewPhrases, out);
+        collectTextParts(value.englishNote, out);
+        collectTextParts(value.note_en, out);
+        collectTextParts(value.englishPhrases, out);
     }
     return out;
 }

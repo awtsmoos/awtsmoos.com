@@ -99,6 +99,52 @@ async function manifestPrimaryContent(viewport, post) {
  * @param {number|string} postIndex Ordered series position.
  * @returns {Promise<string>} Render-mode label for reader diagnostics.
  */
+
+/**
+ * B"H — reader-fixes round (2026-11-20): appends the prev/next
+ * teaching nav. Series whose details carry a posts array use it directly.
+ * The imported corpora live in the flat maps — their series details
+ * return posts:{} — so for them the light post-id list (the served
+ * order the series page lists) is fetched and the nav is built from it.
+ * A nav already on the page (the sefer reader mounts its own) is never
+ * doubled: the check runs at append time, after the fetch.
+ */
+async function appendSeriesNav(viewport, post, series, postIndex) {
+	if (Array.isArray(series?.posts) && series.posts.length) {
+		viewport.append(makeNavBars(post, series, postIndex));
+		return;
+	}
+	try {
+		const parts = location.pathname.split('/').filter(Boolean)
+			.map(s => { try { return decodeURIComponent(s); } catch (_) { return s; } });
+		const seriesMarker = parts.indexOf('series');
+		const heichelMarker = parts.indexOf('heichelos');
+		const seriesId = series?.id || post?.parentSeriesId || (seriesMarker >= 0 ? parts[seriesMarker + 1] : '');
+		const heichelId = window.heichelId || (heichelMarker >= 0 ? parts[heichelMarker + 1] : '');
+		if (!seriesId || !heichelId) {
+			viewport.append(makeNavBars(post, series, postIndex));
+			return;
+		}
+		const res = await fetch(`/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/posts/details?properties=id,postId`, { credentials: 'include' });
+		const data = (res && res.ok) ? await res.json() : null;
+		const rows = Array.isArray(data) ? data
+			: (data && Array.isArray(data.posts)) ? data.posts
+			: (data && data.posts && typeof data.posts === 'object') ? Object.values(data.posts)
+			: [];
+		const ids = rows.map(r => (r && (r.postId || r.id)) || '').filter(Boolean).map(String);
+		if (ids.length < 2) return;
+		if (document.querySelector('.awtsmoos-chapter-nav')) return;
+		let found = post && post.id ? ids.indexOf(String(post.id)) : -1;
+		if (found < 0) {
+			const postMarker = parts.indexOf('post');
+			if (postMarker >= 0 && parts[postMarker + 1]) found = ids.indexOf(parts[postMarker + 1]);
+		}
+		viewport.append(makeNavBars(post, { ...(series || {}), id: seriesId, posts: ids }, found >= 0 ? found : postIndex));
+	} catch (_) {
+		try { viewport.append(makeNavBars(post, series, postIndex)); } catch (__) { /* navigation is optional */ }
+	}
+}
+
 export async function manifestPost(viewport, post, series, postIndex) {
 	if (!viewport) return 'missing-viewport';
 	// B"H 2026-11-10 round 5: the embed sefer may already be mounted (built
@@ -106,7 +152,7 @@ export async function manifestPost(viewport, post, series, postIndex) {
 	// only the chrome around it (assets, nav) still belongs here.
 	if (viewport.querySelector('.meluket-sefer')) {
 		appendRootAssets(viewport, post);
-		viewport.append(makeNavBars(post, series, postIndex));
+		await appendSeriesNav(viewport, post, series, postIndex);
 		return 'embed-sefer';
 	}
 	viewport.innerHTML = '';
@@ -115,6 +161,6 @@ export async function manifestPost(viewport, post, series, postIndex) {
 	appendRootAssets(viewport, post);
 	const mode = await manifestPrimaryContent(viewport, post);
 	if (!viewportHasVisibleText(viewport)) appendHebrewTextFallback(viewport, post);
-	viewport.append(makeNavBars(post, series, postIndex));
+	await appendSeriesNav(viewport, post, series, postIndex);
 	return renderMode(mode);
 }

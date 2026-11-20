@@ -125,8 +125,19 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 			// the count belongs; other pages simply have no count to show.
 			var count = item.count ? '<p class="heichel-discovery-count">' + esc(item.count) + "</p>" : "";
 			var cover = "";
-			if (item.coverImage && item.kind === "series") {
-				cover = '<span class="heichel-discovery-cover"><img src="' + esc(item.coverImage) + '" alt="' + esc(label) + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></span>';
+			if (item.kind === "series") {
+				// B"H \u2014 reader-fixes round (2026-11-20): every series card
+				// carries a typographic fallback (the Hebrew title in serif
+				// over the themed deep-tan ground) beneath its cover image.
+				// While the image loads \u2014 or if it fails \u2014 the card
+				// shows the title, never a blank navy block. A series with
+				// no stored cover gets the typographic cover on its own.
+				var heTitle = String(label).split(/\s*[\u00b7\u2022|]\s*/)[0].trim() || label;
+				cover = '<span class="heichel-discovery-cover"><span class="heichel-discovery-cover-fallback" aria-hidden="true">' + esc(heTitle) + '</span>';
+				if (item.coverImage) {
+					cover += '<img src="' + esc(item.coverImage) + '" alt="' + esc(label) + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');">';
+				}
+				cover += '</span>';
 			}
 			return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + esc(item.path) + '">' + esc(label) + "</a>" + description + count + "</span></li>";
 		}).join("");

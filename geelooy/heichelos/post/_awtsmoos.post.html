@@ -206,7 +206,7 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 	     loaded by ReaderFeatureStyles on intent/fallback; only the law8
 	     sheet links here so first paint keeps it. MeluketSeferReader.js
 	     finds it by id and does not inject a duplicate. -->
-	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/reader-law8-live.css?v=489b5e54a4">
+	<link id="awtsmoos-sefer-style-law8" rel="stylesheet" href="/heichelos/post/styles/reader-law8-live.css?v=eecc4a1f86">
 <link rel="stylesheet" href="/heichelos/post/styles/post-media.css?v=b4b34e7dd7">
 	<script>
 		try {
@@ -1059,14 +1059,14 @@ Awtsmoos.com guards the native scroll while the menu unfolds in grace.
 				import('/heichelos/post/logic/initialization/ReaderUniqueFootnotes.js?v=reader-fnids-20261028-1').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderServiceWorkerBoot.js?v=0f4238a130').catch(() => {});
 				import('/heichelos/post/logic/initialization/ReaderSectionHighlight.js?v=0c9c299e14').catch(() => {});
-				import('/heichelos/post/postLogic.js?v=382f39fef4');
+				import('/heichelos/post/postLogic.js?v=c1a288bd51');
 				// B"H batch 28 (2026-11-11): mount the server-rendered sefer NOW,
 				// from the HTML already on the page — do not hold the text hostage
 				// to the full canonical boot (postLogic module graph + API fetches),
 				// which under load left the body unmounted for minutes on plain
 				// loads. The bootstrap calls the same function later; hydration is
 				// stamped, so the second call is a no-op.
-				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=7f0c1ea2f0').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
+				import('/heichelos/post/logic/scribe/MeluketSeferReader.js?v=fb59474fdf').then((m) => { try { m.awakenMeluketSeferReaderFromEmbed(); } catch (_) {} }).catch(() => {});
 				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(() => {});
 			});
 		});

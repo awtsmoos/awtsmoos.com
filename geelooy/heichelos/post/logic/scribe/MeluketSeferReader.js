@@ -30,7 +30,7 @@ import { loadFontSize } from '../../functions/ui/Dimensionality.js';
  * stable element ids, dataset load state, existing element on repeat calls.
  */
 const SEFER_STYLE_TRIO = [
-	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=489b5e54a4'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/reader-law8-live.css?v=eecc4a1f86'],
 ];
 
 function ensureSeferStyle(id, href) {
@@ -521,6 +521,7 @@ export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englis
 	// separate section-level block.
 	const items = Array.isArray(hebrewItems) ? hebrewItems : [];
 	let renderedPairs = 0;
+	let stubRun = sectionIndex === 0;
 	for (const item of items) {
 		const heText = item.he;
 		const enText = item.en;
@@ -531,6 +532,13 @@ export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englis
 		const pair = document.createElement('div');
 		pair.className = 'meluket-phrase-pair';
 		if (item.phraseId) pair.dataset.phraseId = String(item.phraseId);
+		// B"H — reader-fixes round: leading stub pairs of the first
+		// section render compact (see .meluket-phrase-pair--stub) so a lone
+		// opening letter never eats the first screen at the enlarged scale.
+		if (stubRun) {
+			if (isStubOpeningPair(heText, enText)) pair.classList.add('meluket-phrase-pair--stub');
+			else stubRun = false;
+		}
 		if (hasHe) {
 			const heBlock = document.createElement('div');
 			heBlock.className = 'meluket-phrase meluket-phrase--he';
@@ -882,7 +890,9 @@ function openFootnotePopup(fnNum, marker, sefer) {
 			(window.post && Array.isArray(window.post.footnotes) && window.post.footnotes) ||
 			(srcCachedData && srcCachedData.post && Array.isArray(srcCachedData.post.footnotes) && srcCachedData.post.footnotes) ||
 			[];
-		apiFn = apiFootnotes.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === String(fnNum)) || null;
+		for (let i = 0; i < apiFootnotes.length; i++) {
+			if (apiFootnotes[i] && resolveFootnote(apiFootnotes[i], i).num === String(fnNum)) { apiFn = apiFootnotes[i]; break; }
+		}
 	}
 	let note = null;
 	if (!apiFn) {
@@ -903,14 +913,20 @@ function openFootnotePopup(fnNum, marker, sefer) {
 		const content = (typeof window !== 'undefined' && window.post && window.post.content)
 			|| (srcCachedData && srcCachedData.post && srcCachedData.post.content) || '';
 		const parsed = parseContentFootnotes(content);
-		apiFn = parsed.find(fn => String(fn.n) === String(fnNum)) || null;
+		apiFn = parsed.find(fn => resolveFootnote(fn, 0).num === String(fnNum)) || null;
 	}
 	ensureFootnoteModal();
 	fnNumEl.textContent = fnNum;
 	fnBodyEl.innerHTML = '';
 	if (apiFn) {
-		const heBody = apiFn.hebrew || apiFn.body || '';
-		const enBody = apiFn.english || apiFn.body_en || '';
+		const resolved = resolveFootnote(apiFn, 0);
+		const heBody = resolved.he;
+		const enBody = resolved.en;
+		if (resolved.ref) {
+			const r = el('div', 'awtsmoos-fn-ref', resolved.ref);
+			r.setAttribute('dir', 'auto');
+			fnBodyEl.appendChild(r);
+		}
 		if (heBody) {
 			const h = el('div', 'awtsmoos-fn-he');
 			h.setAttribute('dir', 'rtl');
@@ -925,7 +941,7 @@ function openFootnotePopup(fnNum, marker, sefer) {
 			e.textContent = enBody;
 			fnBodyEl.appendChild(e);
 		}
-		if (!heBody && !enBody) {
+		if (!resolved.ref && !heBody && !enBody) {
 			const f = el('div', 'awtsmoos-fn-en');
 			f.setAttribute('dir', 'auto');
 			f.textContent = `Footnote ${fnNum}`;
@@ -1360,9 +1376,8 @@ function sourcesFootnoteText(fn) {
 		// API object: {n, hebrew, english, ...} — Hebrew first, then English.
 		// Marker fallback: {_marker, _context} — the phrase the marker sits in.
 		if (fn._context) return fn._context;
-		const he = String(fn.hebrew || '').replace(/\s+/g, ' ').trim();
-		const en = String(fn.english || fn.text || '').replace(/\s+/g, ' ').trim();
-		raw = he && en ? he + ' — ' + en : (he || en);
+		const resolved = resolveFootnote(fn, 0);
+		raw = [resolved.ref, resolved.he, resolved.en].filter(Boolean).join(' — ');
 	} else {
 		raw = String(fn.textContent || '').replace(/\s+/g, ' ').trim();
 	}
@@ -1372,7 +1387,7 @@ function sourcesFootnoteText(fn) {
 function sourcesFootnoteNum(fn, index) {
 	// B"H — Yaakov 2026-10-15: Handle both DOM elements and API data objects.
 	if (fn && typeof fn === 'object' && !(fn instanceof Element)) {
-		return String(fn.n || fn.num || fn.number || (index + 1));
+		return resolveFootnote(fn, index).num;
 	}
 	return fn.dataset.fnNum || fn.getAttribute('data-footnote') || String(index + 1);
 }
@@ -1394,11 +1409,13 @@ function renderSourcesFootnotes(footnotes, sefer) {
 		btn.append(el('span', 'awtsmoos-src-fn-num', String(num)));
 		const txt = el('span', 'awtsmoos-src-fn-text');
 		if (fn && typeof fn === 'object' && !(fn instanceof Element) && !fn._context) {
-			const he = String(fn.hebrew || '').replace(/\s+/g, ' ').trim();
-			const en = String(fn.english || fn.text || '').replace(/\s+/g, ' ').trim();
+			const resolved = resolveFootnote(fn, index);
+			const he = resolved.he.replace(/\s+/g, ' ').trim();
+			const en = resolved.en.replace(/\s+/g, ' ').trim();
+			if (resolved.ref) { const r = el('span', 'awtsmoos-src-fn-ref', resolved.ref); r.dir = 'auto'; txt.append(r); }
 			if (he) { const h = el('span', 'awtsmoos-src-fn-he', he); h.dir = 'rtl'; txt.append(h); }
 			if (en) { const e = el('span', 'awtsmoos-src-fn-en', en); e.dir = 'ltr'; txt.append(e); }
-			if (!he && !en) txt.textContent = sourcesFootnoteText(fn);
+			if (!resolved.ref && !he && !en) txt.textContent = sourcesFootnoteText(fn);
 		} else {
 			txt.textContent = sourcesFootnoteText(fn);
 			txt.dir = 'auto';
@@ -1869,6 +1886,81 @@ function buildQaSection(enrichment) {
 	return qa;
 }
 
+
+/**
+ * B"H — reader-fixes round (2026-11-20): ONE footnote resolver for every
+ * consumer (shelf, popup, Sources dialog). The imported corpora each store
+ * notes in their own shape — the dayuh posts use {n, hebrew, english};
+ * the Mittler Rebbe notes use {id:"F21", cited_text, source_ref, note_en};
+ * Ohr HaTorah uses {number, citedPhrase, exactReference, englishNote,
+ * hebrewNote}; the Alter Rebbe uses {label, englishPhrases[],
+ * hebrewPhrases[]}. The old consumers read only the dayuh fields and fell
+ * back to printing the raw object as JSON. This resolver extracts the
+ * number, the Hebrew text, the English text and the source reference from
+ * whichever shape the note carries, so every corpus renders readably.
+ */
+function resolveFootnote(fn, index) {
+	const out = { num: String(index + 1), he: '', en: '', ref: '' };
+	if (typeof fn === 'string') {
+		out.en = fn.trim();
+		return out;
+	}
+	if (!fn || typeof fn !== 'object') return out;
+	const pick = (...vals) => {
+		for (const v of vals) {
+			if (typeof v === 'string' && v.trim()) return v.trim();
+		}
+		return '';
+	};
+	const joinPhrases = (arr) => Array.isArray(arr)
+		? arr.map(p => (typeof p === 'string' ? p : '')).join(' ').replace(/\s+/g, ' ').trim()
+		: '';
+	let num = fn.n ?? fn.num ?? fn.number;
+	if (num === undefined || num === null || String(num).trim() === '') {
+		const fromId = typeof fn.id === 'string' ? fn.id.match(/(\d+)/) : null;
+		const fromLabel = typeof fn.label === 'string' ? fn.label.match(/(\d+)/) : null;
+		num = fromId ? fromId[1] : (fromLabel ? fromLabel[1] : String(index + 1));
+	}
+	out.num = String(num);
+	out.he = pick(fn.body, fn.hebrew, fn.hebrewNote, fn.cited_text, fn.citedPhrase)
+		|| joinPhrases(fn.hebrewPhrases);
+	out.en = pick(fn.body_en, fn.english, fn.englishNote, fn.note_en, fn.text)
+		|| joinPhrases(fn.englishPhrases);
+	const ref = pick(fn.source_ref, fn.exactReference, fn.sourceRef, fn.reference);
+	out.ref = /unidentified/i.test(ref) ? '' : ref;
+	if (out.he && out.en && out.he === out.en) out.he = '';
+	return out;
+}
+
+/**
+ * B"H — reader-fixes round: true when a phrase pair is a mere stub —
+ * at most two visible Hebrew letters (niqqud and punctuation stripped) and
+ * at most eight English characters, e.g. the lone ו and its bracketed
+ * echo [ו] that the phrase splitter leaves at the head of a maamar.
+ */
+function isStubOpeningPair(heText, enText) {
+	const he = String(heText || '')
+		.replace(/<[^>]*>/g, '')
+		.replace(/[\u0591-\u05C7]/g, '')
+		.replace(/[\s\p{P}]/gu, '');
+	const en = String(enText || '').replace(/<[^>]*>/g, '').trim();
+	return he.length >= 1 && he.length <= 2 && en.length <= 8;
+}
+
+/** Marks the leading stub pairs of a mounted sefer's first section. */
+function markStubOpeningPairs(sefer) {
+	if (!sefer || !sefer.querySelector) return;
+	const firstSection = sefer.querySelector('.meluket-sefer-section');
+	if (!firstSection) return;
+	for (const pair of firstSection.querySelectorAll('.meluket-phrase-pair')) {
+		const he = pair.querySelector('.meluket-phrase--he');
+		const en = pair.querySelector('.meluket-phrase--en');
+		if (isStubOpeningPair(he ? he.textContent : '', en ? en.textContent : '')) {
+			pair.classList.add('meluket-phrase-pair--stub');
+		} else break;
+	}
+}
+
 /** Footnotes shelf — null when there are no footnotes. */
 function buildFootnotesShelf(post) {
 	// B"H 2026-11-10 — the post API returns no footnotes field for these
@@ -1893,7 +1985,8 @@ function buildFootnotesShelf(post) {
 	const list = document.createElement('ol');
 	list.className = 'meluket-footnotes-list';
 	footnotes.forEach((fn, idx) => {
-		const fnNum = String((fn && (fn.n ?? fn.num ?? fn.number)) ?? (idx + 1));
+		const resolved = resolveFootnote(fn, idx);
+		const fnNum = resolved.num;
 		const li = document.createElement('li');
 		li.className = 'meluket-footnote';
 		li.id = `meluket-fn-${fnNum}`;
@@ -1905,8 +1998,15 @@ function buildFootnotesShelf(post) {
 		const body = document.createElement('span');
 		body.className = 'meluket-footnote-body';
 		body.setAttribute('dir', 'auto');
-		const heBody = fn.body || fn.hebrew || '';
-		const enBody = fn.body_en || fn.english || '';
+		const heBody = resolved.he;
+		const enBody = resolved.en;
+		if (resolved.ref) {
+			const refSpan = document.createElement('span');
+			refSpan.className = 'meluket-footnote-ref';
+			refSpan.setAttribute('dir', 'auto');
+			refSpan.textContent = resolved.ref;
+			body.appendChild(refSpan);
+		}
 		if (heBody) {
 			const heSpan = document.createElement('span');
 			heSpan.className = 'meluket-footnote-he';
@@ -1921,8 +2021,9 @@ function buildFootnotesShelf(post) {
 			enSpan.textContent = enBody;
 			body.appendChild(enSpan);
 		}
-		if (!heBody && !enBody) {
-			body.textContent = typeof fn === 'string' ? fn : JSON.stringify(fn).slice(0, 200);
+		if (!resolved.ref && !heBody && !enBody) {
+			// B"H — never print the raw note object: an honest label only.
+			body.textContent = `Footnote ${fnNum}`;
 		}
 		li.appendChild(body);
 		list.appendChild(li);
@@ -1931,21 +2032,78 @@ function buildFootnotesShelf(post) {
 	return shelf;
 }
 
-/** Re-mounts the chapter nav after the sefer (same as finalizeSeferMount). */
+/** Fetches a series' light post-id list (served order) for the nav fallback. */
+const seferNavListCache = {};
+function fetchSeriesPostIds(heichelId, seriesId) {
+	const key = `${heichelId}/${seriesId}`;
+	if (seferNavListCache[key]) return seferNavListCache[key];
+	const url = `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/posts/details?properties=id,postId`;
+	seferNavListCache[key] = fetch(url, { credentials: 'include' })
+		.then(res => (res && res.ok) ? res.json() : null)
+		.then(data => {
+			const rows = Array.isArray(data) ? data
+				: (data && Array.isArray(data.posts)) ? data.posts
+				: (data && data.posts && typeof data.posts === 'object') ? Object.values(data.posts)
+				: [];
+			return rows.map(r => (r && (r.postId || r.id)) || '').filter(Boolean).map(String);
+		})
+		.catch(() => []);
+	return seferNavListCache[key];
+}
+
+function mountSeferNavWith(post, seriesObj, pIdx) {
+	const realPost = document.getElementById('realPost');
+	if (!realPost || realPost.querySelector('.awtsmoos-chapter-nav')) return;
+	import('../../functions/ui/nav.js?v=5da53e96f2').then(({ makeNavBars }) => {
+		try {
+			if (document.querySelector('.awtsmoos-chapter-nav')) return;
+			const nav = makeNavBars(post, seriesObj, pIdx);
+			if (nav && nav.nodeType === 1) realPost.appendChild(nav);
+		} catch (_) { /* navigation is optional */ }
+	}).catch(() => { /* navigation is optional */ });
+}
+
+/**
+ * Re-mounts the chapter nav after the sefer (same as finalizeSeferMount).
+ * B"H — reader-fixes round (2026-11-20): a series whose details
+ * carry a posts array uses it directly. The imported corpora (Mittler
+ * Rebbe, Ohr HaTorah, the novels) live in the flat maps — their series
+ * details return posts:{} so window.series.posts is never an array and
+ * the nav never mounted. For those, fetch the light post-id list (the
+ * same served order the series page lists) and build the nav from it.
+ */
 function ensureSeferNav(post) {
 	const realPost = document.getElementById('realPost');
 	if (!realPost || realPost.querySelector('.awtsmoos-chapter-nav')) return;
-	if (typeof window === 'undefined' || !window.series || !Array.isArray(window.series.posts)) return;
-	let pIdx = window.currentIndexInSeries;
-	if ((pIdx === undefined || pIdx === null) && post && post.id) {
-		const found = window.series.posts.indexOf(post.id);
-		pIdx = found >= 0 ? found : 0;
+	if (typeof window === 'undefined') return;
+	if (window.series && Array.isArray(window.series.posts) && window.series.posts.length) {
+		let pIdx = window.currentIndexInSeries;
+		if ((pIdx === undefined || pIdx === null) && post && post.id) {
+			const found = window.series.posts.indexOf(post.id);
+			pIdx = found >= 0 ? found : 0;
+		}
+		mountSeferNavWith(post, window.series, pIdx);
+		return;
 	}
-	import('../../functions/ui/nav.js?v=5da53e96f2').then(({ makeNavBars }) => {
-		try {
-			const nav = makeNavBars(post, window.series, pIdx);
-			if (nav && nav.nodeType === 1) realPost.appendChild(nav);
-		} catch (_) { /* navigation is optional */ }
+	const parts = String((typeof location !== 'undefined' && location.pathname) || '')
+		.split('/').filter(Boolean)
+		.map(s => { try { return decodeURIComponent(s); } catch (_) { return s; } });
+	const seriesMarker = parts.indexOf('series');
+	const heichelMarker = parts.indexOf('heichelos');
+	const seriesId = (post && post.parentSeriesId) || (seriesMarker >= 0 ? parts[seriesMarker + 1] : '');
+	const heichelId = window.heichelId || (heichelMarker >= 0 ? parts[heichelMarker + 1] : '');
+	if (!seriesId || !heichelId) return;
+	fetchSeriesPostIds(heichelId, seriesId).then(ids => {
+		if (!ids || ids.length < 2) return;
+		// B"H — the embed awaken can carry a stub post (id ''), so when
+		// post.id is not in the list, trust the URL's /post/<id> segment:
+		// it is the ground truth for the teaching on screen.
+		let found = post && post.id ? ids.indexOf(String(post.id)) : -1;
+		if (found < 0) {
+			const postMarker = parts.indexOf('post');
+			if (postMarker >= 0 && parts[postMarker + 1]) found = ids.indexOf(parts[postMarker + 1]);
+		}
+		mountSeferNavWith(post, { id: seriesId, posts: ids }, found >= 0 ? found : 0);
 	}).catch(() => { /* navigation is optional */ });
 }
 
@@ -1988,6 +2146,7 @@ function enhanceEmbedSefer(post) {
 		const shelf = buildFootnotesShelf(post);
 		if (shelf) sefer.appendChild(shelf);
 	}
+	markStubOpeningPairs(sefer);
 	ensureSeferNav(post);
 	return true;
 }
@@ -2207,6 +2366,7 @@ function finalizeSeferMount(sefer, post) {
 	realPost.innerHTML = '';
 	if (existingTitle) realPost.appendChild(existingTitle);
 	realPost.appendChild(sefer);
+	markStubOpeningPairs(sefer);
 	// B"H — diagnostic: log what actually mounted, so invisible-Hebrew
 	// reports can be traced to the exact render outcome.
 	try {
@@ -2220,19 +2380,7 @@ function finalizeSeferMount(sefer, post) {
 	// B"H: re-mount prev/next chapter navigation. The viewport wipe above
 	// removed the chapter nav that manifestPost appended — restore it after
 	// the sefer so readers can move between teachings.
-	if (typeof window !== 'undefined' && window.series && Array.isArray(window.series.posts)) {
-		let pIdx = window.currentIndexInSeries;
-		if ((pIdx === undefined || pIdx === null) && post.id) {
-			const found = window.series.posts.indexOf(post.id);
-			pIdx = found >= 0 ? found : 0;
-		}
-		import('../../functions/ui/nav.js?v=5da53e96f2').then(({ makeNavBars }) => {
-			try {
-				const nav = makeNavBars(post, window.series, pIdx);
-				if (nav && nav.nodeType === 1) realPost.appendChild(nav);
-			} catch (_) { /* navigation is optional */ }
-		}).catch(() => { /* navigation is optional */ });
-	}
+	ensureSeferNav(post);
 
 	// Mark the reader root so sefer styles apply.
 	const root = document.querySelector('.post-reader-localized-context');
