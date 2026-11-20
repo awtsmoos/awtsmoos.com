@@ -1,25 +1,94 @@
 /* B"H — Boruch Hashem, Blessed is He.
- * The Awtsmoos reveals the measure of each rising sound;
- * Awtsmoos.com makes progress clear before the keys are found.
+ * The Awtsmoos gathers the first sound into a quiet center before the keyboard is revealed;
+ * Awtsmoos.com turns waiting from a wide dark strip into one luminous, deliberate field.
  */
+
+#start-screen[data-piano-loading='true'] {
+	background:
+		radial-gradient(circle at 50% 44%, rgba(231, 197, 128, .09), transparent 30rem),
+		linear-gradient(180deg, #171717 0%, #101112 100%);
+}
+
 [data-piano-startup-progress] {
 	box-sizing: border-box;
-	width: min(22rem, calc(100% - 2rem));
-	margin: 1rem auto;
-	color: #f6ead2;
-	font: 600 .9rem/1.4 system-ui, sans-serif;
+	width: min(21rem, calc(100vw - 2rem));
+	padding: 1.6rem 1.7rem 1.45rem;
+	border: 1px solid rgba(231, 197, 128, .22);
+	border-radius: 18px;
+	background: rgba(20, 21, 23, .94);
+	box-shadow: 0 20px 70px rgba(0, 0, 0, .48), inset 0 1px rgba(255, 255, 255, .035);
+	color: #f5ead5;
+	font: 600 .9rem/1.4 system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 	text-align: center;
 }
+
+[data-piano-startup-mark] {
+	position: relative;
+	width: 44px;
+	height: 44px;
+	margin: 0 auto .9rem;
+	border: 1px solid rgba(231, 197, 128, .3);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(231, 197, 128, .16), rgba(231, 197, 128, .025) 66%);
+	box-shadow: 0 0 34px rgba(231, 197, 128, .08);
+}
+
+[data-piano-startup-mark]::before {
+	content: '♪';
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	color: #e7c580;
+	font: 700 1.25rem/1 Georgia, serif;
+	animation: piano-loader-pulse 1.7s ease-in-out infinite;
+}
+
 [data-piano-startup-progress] span {
 	display: block;
-	margin-bottom: .45rem;
+	min-height: 1.3em;
+	margin-bottom: .85rem;
+	letter-spacing: .01em;
 }
+
 [data-piano-startup-progress] progress {
 	display: block;
 	width: 100%;
-	height: 12px;
-	accent-color: #e7c580;
+	height: 5px;
+	border: 0;
+	border-radius: 999px;
+	overflow: hidden;
+	appearance: none;
+	-webkit-appearance: none;
+	background: #34383c;
 }
+
+[data-piano-startup-progress] progress::-webkit-progress-bar {
+	background: #34383c;
+	border-radius: 999px;
+}
+
+[data-piano-startup-progress] progress::-webkit-progress-value {
+	border-radius: 999px;
+	background: linear-gradient(90deg, #b89352, #f1d99f 72%, #fff2c9);
+	box-shadow: 0 0 16px rgba(231, 197, 128, .3);
+	transition: width .24s ease;
+}
+
+[data-piano-startup-progress] progress::-moz-progress-bar {
+	border-radius: 999px;
+	background: linear-gradient(90deg, #b89352, #f1d99f 72%, #fff2c9);
+}
+
 [data-piano-startup-progress][hidden] {
 	display: none;
+}
+
+@keyframes piano-loader-pulse {
+	0%, 100% { opacity: .55; transform: scale(.94); }
+	50% { opacity: 1; transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-piano-startup-mark]::before { animation: none; }
 }
