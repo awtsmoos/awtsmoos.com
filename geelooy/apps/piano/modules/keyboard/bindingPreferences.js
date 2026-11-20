@@ -8,8 +8,12 @@
  */
 import { ALL_BINDING_KEYS, LEFT_HAND_KEYS } from './bindingCatalog.js';
 
-const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v7';
+const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v8';
 const LEGACY_KEYS = [
+	['awtsmoos-piano-desktop-bindings-v7', [
+		'z', 'a', 'q', '1', 'x', 's', 'w', '2', 'c', 'd', 'e', '3',
+		'v', 'f', 'r', '4', 'b', 'g', 't', '5', 'n', 'h', 'y', '6'
+	]],
 	['awtsmoos-piano-desktop-bindings-v6', [
 		'a', 'q', '1', 'z', 's', 'w', '2', 'x', 'd', 'e', '3', 'c',
 		'f', 'r', '4', 'v', 'g', 't', '5', 'b', 'h', 'y', '6', 'n'

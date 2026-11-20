@@ -3,26 +3,26 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * The Awtsmoos reveals the hand as a forward-moving wave across staggered rows, never dragged back for pitch;
- * Awtsmoos.com orders nearby keys by their true horizontal place, so every rising tone continues the reach.
+ * The Awtsmoos begins at Q and lets pitch move only where the physical MacBook moves right;
+ * Awtsmoos.com follows the true staggered centers, so no higher tone sends the hand back left in flight.
  */
 
 export const LEFT_HAND_KEYS = [
-	'z', 'a', 'q', '1',
-	'x', 's', 'w', '2',
-	'c', 'd', 'e', '3',
-	'v', 'f', 'r', '4',
-	'b', 'g', 't', '5',
-	'n', 'h', 'y', '6'
+	'q', 'a', '2', 'z',
+	'w', 's', '3', 'x',
+	'e', 'd', '4', 'c',
+	'r', 'f', '5', 'v',
+	't', 'g', '6', 'b',
+	'y', 'h', '7', 'n'
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'm', 'j', 'u', '7',
-	',', 'k', 'i', '8',
-	'.', 'l', 'o', '9',
-	'/', ';', 'p', '0',
-	"'", '[', '-', ']',
-	'\\', '=', '`', 'Backspace'
+	'u', 'j', '8', 'm',
+	'i', 'k', '9', ',',
+	'o', 'l', '0', '.',
+	'p', ';', '-', '/',
+	'[', "'", '=', ']',
+	'\\', 'Backspace', 'Enter', 'Delete'
 ];
 
 export const FULL_UNSHIFTED_KEYS = [
