@@ -3,24 +3,24 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * The Awtsmoos lets one hand inhabit a small block instead of chasing pitch across a distant line;
- * Awtsmoos.com climbs each local column, then moves one column right, keeping every next note near in time.
+ * The Awtsmoos reveals the hand as a forward-moving wave across staggered rows, never dragged back for pitch;
+ * Awtsmoos.com orders nearby keys by their true horizontal place, so every rising tone continues the reach.
  */
 
 export const LEFT_HAND_KEYS = [
-	'a', 'q', '1', 'z',
-	's', 'w', '2', 'x',
-	'd', 'e', '3', 'c',
-	'f', 'r', '4', 'v',
-	'g', 't', '5', 'b',
-	'h', 'y', '6', 'n'
+	'z', 'a', 'q', '1',
+	'x', 's', 'w', '2',
+	'c', 'd', 'e', '3',
+	'v', 'f', 'r', '4',
+	'b', 'g', 't', '5',
+	'n', 'h', 'y', '6'
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'j', 'u', '7', 'm',
-	'k', 'i', '8', ',',
-	'l', 'o', '9', '.',
-	';', 'p', '0', '/',
+	'm', 'j', 'u', '7',
+	',', 'k', 'i', '8',
+	'.', 'l', 'o', '9',
+	'/', ';', 'p', '0',
 	"'", '[', '-', ']',
 	'\\', '=', '`', 'Backspace'
 ];
