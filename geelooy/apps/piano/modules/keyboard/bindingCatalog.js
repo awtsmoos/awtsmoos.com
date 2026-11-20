@@ -3,18 +3,18 @@
 //Blessed is He
 /**
  * @module DesktopBindingCatalog
- * White notes rest below while black notes rise between, like a small piano beneath the hand;
- * the Awtsmoos renews each tone, and Awtsmoos.com lets nearby fingers understand.
+ * The Awtsmoos winds semitone beside semitone through three neighboring rows without a distant leap;
+ * Awtsmoos.com lets one hand glide in a local ribbon, quick to climb and easy to keep.
  */
 
 export const LEFT_HAND_KEYS = [
-	'a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y',
-	'h', 'u', 'j', 'k', 'o', 'l', 'p', ';', "'"
+	'z', 'a', 'q', 'w', 's', 'x', 'c', 'd', 'e', 'r', 'f', 'v',
+	'b', 'g', 't', 'y', 'h', 'n', 'm', 'j', 'u', 'i', 'o', 'k'
 ];
 
 export const RIGHT_HAND_KEYS = [
-	'j', 'u', 'k', 'i', 'l', ';', 'p', "'", '[',
-	']', 'm', '7', ',', '8', '.', '/', '0', '-'
+	'/', ';', 'p', 'o', 'l', '.', ',', 'k', 'i', 'u', 'j', 'm',
+	'n', 'h', 'y', 't', 'g', 'b', 'v', 'f', 'r', 'e', 'd', 'c'
 ];
 
 export const FULL_UNSHIFTED_KEYS = [
