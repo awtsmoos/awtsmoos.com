@@ -7,6 +7,7 @@
  * Awtsmoos.com keeps the first tap light, while the deeper controls follow along.
  */
 import { bindChromeToggles, bindRecordingButtons } from './chromeControls.js';
+import { bindKeyboardBindingsPanel } from './keyboardBindingsPanel.js';
 import { toggleMic } from './microphone.js';
 import { bindPresetEvents, refreshActiveSound } from './presetEvents.js';
 import { restoreDefaults, saveSettings } from './settings.js';
@@ -17,10 +18,7 @@ import { cacheElements, elements } from '../ui.js';
 
 let initialized = false;
 
-/**
- * Connects the existing settings, recording, and synth controls after core load.
- * @returns {Object} Shared cached DOM controls.
- */
+/** Connects settings, recording, keyboard bindings, and synth controls after core load. */
 export function initializePianoShell() {
 	if (initialized) {
 		return elements;
@@ -30,6 +28,7 @@ export function initializePianoShell() {
 	bindRecordingButtons(elements);
 	bindPresetEvents(elements, saveSettings);
 	bindSynthControls(elements, noteNames, saveSettings, refreshActiveSound);
+	bindKeyboardBindingsPanel(elements);
 	elements.micButton?.addEventListener('click', () => {
 		void toggleMic(elements);
 	});
@@ -38,12 +37,7 @@ export function initializePianoShell() {
 	return elements;
 }
 
-/**
- * Starts the core piano using the audio promise opened by the user's tap.
- * @param {Object} controls - Existing UI controls.
- * @param {Object} options - Audio and progress handles.
- * @returns {Promise<boolean>} Real keyboard readiness.
- */
+/** Starts the core piano using the audio promise opened by the user's tap. */
 export function startPlayablePiano(controls, options) {
 	return startPianoApp(controls, options);
 }

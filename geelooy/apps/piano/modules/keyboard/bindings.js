@@ -2,37 +2,56 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * Desktop glyphs become a ladder of notes while the Awtsmoos gives each rung its sound.
- * Awtsmoos.com lets one physical key illuminate every mirrored vessel where that note is found.
+ * @module DesktopPianoBindings
+ * One hand stays near while nearby notes appear, with no Shift tax standing in the way;
+ * the Awtsmoos renews each tone, and Awtsmoos.com lets the player's fingers simply play.
  */
 
-const printable = Array.from('`1234567890-=qwertyuiop[]\\asdfghjkl;\'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?');
-const named = [
-	'Backspace', 'Insert', 'Home', 'PageUp', 'Delete', 'End', 'PageDown',
-	'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'
+const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v2';
+export const LEFT_HAND_KEYS = ['a', 's', 'd', 'f', 'g', 'q', 'w', 'e', 'r', 't', 'z', 'x', 'c', 'v', 'b', '1', '2', '3', '4', '5'];
+export const RIGHT_HAND_KEYS = ['j', 'k', 'l', ';', "'", 'u', 'i', 'o', 'p', '[', 'm', ',', '.', '/', '7', '8', '9', '0', '-'];
+export const FULL_UNSHIFTED_KEYS = [
+	'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'",
+	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\',
+	'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '`'
 ];
-const namedSet = new Set(named);
-const flats = {
-	'C#': 'Db',
-	'D#': 'Eb',
-	'F#': 'Gb',
-	'G#': 'Ab',
-	'A#': 'Bb'
-};
+const CODE_TO_KEY = Object.freeze({
+	KeyA: 'a', KeyB: 'b', KeyC: 'c', KeyD: 'd', KeyE: 'e', KeyF: 'f', KeyG: 'g',
+	KeyH: 'h', KeyI: 'i', KeyJ: 'j', KeyK: 'k', KeyL: 'l', KeyM: 'm', KeyN: 'n',
+	KeyO: 'o', KeyP: 'p', KeyQ: 'q', KeyR: 'r', KeyS: 's', KeyT: 't', KeyU: 'u',
+	KeyV: 'v', KeyW: 'w', KeyX: 'x', KeyY: 'y', KeyZ: 'z',
+	Digit1: '1', Digit2: '2', Digit3: '3', Digit4: '4', Digit5: '5',
+	Digit6: '6', Digit7: '7', Digit8: '8', Digit9: '9', Digit0: '0',
+	Semicolon: ';', Quote: "'", BracketLeft: '[', BracketRight: ']', Backslash: '\\',
+	Comma: ',', Period: '.', Slash: '/', Minus: '-', Equal: '=', Backquote: '`'
+});
+const flats = { 'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb' };
+let bindingKeys = loadBindingKeys();
 
-export const DESKTOP_BINDING_KEYS = [...printable, ...named];
-
-/** Returns the physical binding assigned to a rendered keyboard index. */
 export function bindingAt(index) {
-	return DESKTOP_BINDING_KEYS[index] || '';
+	const octave = Number.parseInt(document.getElementById('octave-select')?.value || '0', 10);
+	return bindingKeys[index - (octave * 12)] || '';
 }
 
-/** Produces a compact keycap label while preserving the physical binding itself. */
+export function getBindingKeys() {
+	return [...bindingKeys];
+}
+
+export function setBindingKeys(keys) {
+	bindingKeys = sanitizeKeys(keys);
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(bindingKeys));
+}
+
+export function resetBindingKeys() {
+	bindingKeys = [...LEFT_HAND_KEYS];
+	localStorage.removeItem(STORAGE_KEY);
+}
+
 export function bindingLabel(key) {
-	return key === 'Backspace' ? 'Bksp' : key;
+	return key;
 }
 
-/** Adds flat enharmonic spelling to sharp notes for the visible keyboard label. */
 export function noteDisplayName(noteName) {
 	const match = String(noteName).match(/^([A-G]#?)(\d+)$/);
 	if (!match) {
@@ -42,39 +61,43 @@ export function noteDisplayName(noteName) {
 	return flats[note] ? `${note}${octave}/${flats[note]}${octave}` : noteName;
 }
 
-/** Resolves a browser KeyboardEvent into a supported piano binding. */
 export function keyForEvent(event) {
 	if (event.ctrlKey || event.metaKey || event.altKey) {
 		return '';
 	}
-	return event.key.length === 1 || namedSet.has(event.key) ? event.key : '';
+	return CODE_TO_KEY[event.code] || event.key;
 }
 
-/** Generates one stable active-note ID from a physical desktop key. */
 export function keyboardInputId(event) {
 	return `kb-${event.code || event.key}`;
 }
 
-/** Finds the note name assigned to a physical desktop binding. */
 export function boundNoteForKey(key, root = document) {
 	const element = Array.from(root.querySelectorAll('.key[data-keyboard-binding]'))
 		.find((candidate) => candidate.dataset.keyboardBinding === key);
 	return element?.dataset.note || '';
 }
 
-/**
- * Finds every rendered key that corresponds to one desktop binding and note.
- * Mirrored dual keyboards can therefore illuminate together without making extra audio voices.
- */
 export function keyElementsForBinding(key, noteName, root = document) {
 	const keys = Array.from(root.querySelectorAll('.key[data-note]'));
-	const exact = keys.filter((element) => {
-		return element.dataset.note === noteName && element.dataset.keyboardBinding === key;
-	});
+	const exact = keys.filter((element) => element.dataset.note === noteName
+		&& element.dataset.keyboardBinding === key);
 	return exact.length ? exact : keys.filter((element) => element.dataset.note === noteName);
 }
 
-/** Preserves the legacy single-element lookup for coordinates and compatibility. */
 export function keyElementForBinding(key, noteName, root = document) {
 	return keyElementsForBinding(key, noteName, root)[0] || null;
+}
+
+function loadBindingKeys() {
+	try {
+		return sanitizeKeys(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'));
+	} catch {
+		return [...LEFT_HAND_KEYS];
+	}
+}
+
+function sanitizeKeys(keys) {
+	const valid = Array.isArray(keys) ? keys.filter((key) => FULL_UNSHIFTED_KEYS.includes(key)) : [];
+	return [...new Set(valid.length ? valid : LEFT_HAND_KEYS)];
 }
