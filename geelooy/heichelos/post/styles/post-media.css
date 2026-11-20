@@ -4,6 +4,20 @@
  * in the reader exactly like a video does. Kept separate because both the
  * bundle and the law8 sheet are generated files. */
 
+/* B"H 2026-11-20 (round 2, defect B): once the scroll-root bundle lands,
+ * #realPost is a flex column with align-items: center, so a media figure
+ * without a definite inline size shrink-wraps to its content. A video
+ * survives on its intrinsic dimensions; an audio element has none in
+ * that context and collapsed live to a 32px-wide figure with the player
+ * itself at 0px wide — the "small white pill" with no usable controls.
+ * Both figures therefore carry a definite full-column inline size, the
+ * same protection .meluket-sefer gets from the template's width: 100%. */
+.post-reader-localized-context .awtsmoos-post-audio-asset,
+.post-reader-localized-context .awtsmoos-post-video-asset {
+	inline-size: 100%;
+	box-sizing: border-box;
+}
+
 .post-reader-localized-context .awtsmoos-post-audio-asset {
 	margin: 0 auto 1.35rem;
 	padding: .85rem 1rem;

@@ -15,7 +15,11 @@ function segment(value) {
 }
 
 export async function getPostDetails(heichelId, seriesId) {
-	if (!seriesId || seriesId === 'root') return [];
+	// B"H 2026-11-20 (round 2, defect A): root posts are real posts; the
+	// root refusal here and in modules/api/posts.js left the Heichel
+	// home's Posts view and teachings count permanently empty. The
+	// projected root endpoint serves the list (verified live).
+	if (!seriesId) return [];
 	const properties = JSON.stringify({
 		content: 256,
 		title: true,

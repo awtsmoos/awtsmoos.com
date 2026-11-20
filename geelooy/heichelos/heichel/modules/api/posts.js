@@ -17,7 +17,13 @@ function seg(value) {
 }
 
 export async function getPostDetails(heichelId, seriesId) {
-    if (!seriesId || seriesId === 'root') return [];
+    // B"H 2026-11-20 (round 2, defect A): root posts are real posts. This
+    // early return made the Heichel home's Posts view and its teachings
+    // count read permanently empty even when the root series held posts,
+    // because the navigator's only post read refused to ask for them. The
+    // projected root endpoint serves the list (verified live: bhMediaT
+    // root returns its posts in ~0.07s; ikar root returns []).
+    if (!seriesId) return [];
     const properties = JSON.stringify({
         content: 256,
         title: true,
