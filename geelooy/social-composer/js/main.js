@@ -13,7 +13,7 @@ import { YesodCloneAssetApi } from './clone/CloneAssetApi.js';
 import { GevurahCloneAssetHydrator } from './clone/CloneAssetHydrator.js';
 import { BinahCloneSourceLoader } from './clone/CloneSourceLoader.js';
 import { YesodCloneSourceApi } from './clone/CloneSourceApi.js';
-import { createComposer } from './ComposerAssembly.js?v=future-ui-005';
+import { createComposer } from './ComposerAssembly.js?v=future-ui-006';
 import { contextFromLocation } from './config.js';
 import { ArchiveOrgComposerView } from './media/ArchiveOrgComposerView.js';
 import { buildPostPayload } from './model/PostPayload.js';

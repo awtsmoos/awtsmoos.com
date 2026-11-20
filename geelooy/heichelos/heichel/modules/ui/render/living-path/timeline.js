@@ -11,7 +11,7 @@
 
 import { ScribeOfManifestation } from '../../../engine/scribe-of-manifestation.js';
 import { bucketTimeline } from '../../../living-path/timeline-policy.js';
-import { normalizeCardData } from '../cardData.js?v=heichel-mobile-011';
+import { normalizeCardData } from '../cardData.js?v=heichel-mobile-012';
 import { cardBlueprint } from './cards.js';
 import { renderChitasWeek } from './chitas-week.js?v=native-chitas-004';
 import { emptyStateBlueprint } from './empty-state.js';

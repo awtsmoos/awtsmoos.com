@@ -16,7 +16,7 @@ import {
 	progressTitlePair
 } from '../../../living-path/progress-identity.js?v=heichel-mobile-011';
 import { ScribeOfManifestation } from '../../../engine/scribe-of-manifestation.js';
-import { normalizeCardData } from '../cardData.js?v=heichel-mobile-011';
+import { normalizeCardData } from '../cardData.js?v=heichel-mobile-012';
 
 export function renderContinue(entry) {
 	const card = DOMElements.continueCard;
@@ -66,6 +66,22 @@ function continueMeta(entry) {
 	return `${progressParentPair(entry).display} · opened recently`;
 }
 
+/** B"H 2026-11-20 (residuals round): only counts a layer actually
+ * counted may print. Unknown counts (null — the light projection does
+ * not count) and zeros stay silent, the same convention as the card
+ * unit() helper; the old line printed the light projection's empty
+ * arrays as a false "0 sub-series · 0 posts" on every Explore card. */
+function relatedCountLine(data) {
+	const parts = [];
+	if (Number.isFinite(data.subSeriesCount) && data.subSeriesCount > 0) {
+		parts.push(`${data.subSeriesCount} sub-series`);
+	}
+	if (Number.isFinite(data.postCount) && data.postCount > 0) {
+		parts.push(`${data.postCount} post${data.postCount === 1 ? '' : 's'}`);
+	}
+	return parts.join(' · ');
+}
+
 function relatedCard(data, navigator) {
 	return {
 		tag: 'button',
@@ -77,7 +93,7 @@ function relatedCard(data, navigator) {
 		children: [
 			{ tag: 'span', attr: { class: 'living-related-mark', 'aria-hidden': 'true' }, children: ['⌁'] },
 			{ tag: 'strong', children: [data.title] },
-			{ tag: 'small', children: [`${data.subSeriesCount} sub-series · ${data.postCount} posts`] },
+			{ tag: 'small', children: [relatedCountLine(data)] },
 			{ tag: 'span', attr: { 'aria-hidden': 'true' }, children: ['›'] }
 		],
 		events: {

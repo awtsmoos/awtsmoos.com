@@ -68,6 +68,7 @@ export class DestinationPanel {
 			});
 			if (sequence !== this.loadSequence) return;
 			if (!restored && !query) await applyDefaultDestination(this, aliasId);
+			this.noteHeichelOwner();
 			if (!query) await this.consumeCreateIntent();
 		} catch (error) {
 			renderDestinationUnavailable(
@@ -76,6 +77,28 @@ export class DestinationPanel {
 			);
 			console.warn('Destination search fallback:', error.message);
 		}
+	}
+	/** B"H 2026-11-20 (residuals round): when the composer was deep-linked
+	 * into one Heichel (?heichel=…, e.g. from that Heichel's own page) and
+	 * the restored destination is that Heichel, its owner is the natural
+	 * posting identity — a remembered non-owner alias made Create-series
+	 * fail server-side with no visible cause. Offer the owner through
+	 * the assembly hook; AliasPanel.choose only applies aliases the
+	 * server verified for this account, so a foreign owner is a no-op. */
+	noteHeichelOwner() {
+		if (this.ownerNoteDone) return;
+		const contextHeichel = this.state.context?.heichelId || '';
+		const detail = this.openHeichel;
+		if (!contextHeichel || !detail?.heichel) return;
+		const openedId = detail.heichel.heichelId || detail.heichel.id || '';
+		if (openedId && openedId !== contextHeichel) return;
+		const ownerAlias = detail.heichel.ownerAlias || detail.access?.ownerAlias || '';
+		if (!ownerAlias) return;
+		if (ownerAlias === this.state.snapshot().identity.aliasId) return;
+		// Once per composer session: the boot correction must not fight
+		// a deliberate later switch to a contributing alias.
+		this.ownerNoteDone = true;
+		this.onHeichelOwnerFound?.(ownerAlias);
 	}
 	/** Honors a one-time `?create=series|heichel` deep link (e.g. the Heichel
 	 * page's owner "New series" action) once destinations are ready. */

@@ -10,7 +10,7 @@
  */
 
 import { ScribeOfManifestation } from '../../../engine/scribe-of-manifestation.js';
-import { normalizeCardData } from '../cardData.js?v=heichel-mobile-010';
+import { normalizeCardData } from '../cardData.js?v=heichel-mobile-012';
 import { loadTreeChildren } from './tree-branch-loader.js?v=heichel-mobile-010';
 
 /** Opens or closes one persisted Tree branch and lazily manifests its children. */

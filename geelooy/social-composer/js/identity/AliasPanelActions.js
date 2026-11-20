@@ -27,6 +27,15 @@ export class AliasPanelActions {
 	applyAlias(alias, memory) {
 		this.state.selectAlias(alias);
 		this.element('aliasId').value = alias.aliasId;
+		// B"H 2026-11-20 (residuals round): keep the visible "Post as"
+		// select in step with programmatic choices (owner auto-switch,
+		// boot identity). Without this the select kept showing the
+		// previous alias while state had already moved — the mismatch
+		// behind the E2E's "select rejected my change" confusion.
+		const select = this.element('aliasSelect');
+		if (select && [...select.options].some(option => option.value === alias.aliasId)) {
+			select.value = alias.aliasId;
+		}
 		this.memory.save(memory || {
 			aliasId: alias.aliasId,
 			aliasName: alias.name,

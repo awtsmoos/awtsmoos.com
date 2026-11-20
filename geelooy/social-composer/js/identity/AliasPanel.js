@@ -24,7 +24,18 @@ export class AliasPanel extends AliasPanelActions {
 		// deep-link seed, so it is only the fallback hint. (Draft
 		// snapshots no longer contribute identity at all — see
 		// ComposerWorkflow.restoreLocal.)
-		const preferred = remembered?.aliasId || this.state.snapshot().identity.aliasId || '';
+		// B"H 2026-11-20 (residuals round): a deep link INTO one Heichel
+		// (?heichel=…, e.g. its "New series" pill, which also passes
+		// ?alias=) reverses the order — the context seed names the
+		// identity this Heichel was opened with and outranks a stale
+		// remembered selection from another session. The seed is still
+		// only a hint: loadVerifiedIdentity verifies it server-side, and
+		// DestinationPanel additionally offers the Heichel's owner once
+		// the destination detail lands.
+		const contextSeed = this.state.context?.heichelId
+			? (this.state.context.aliasId || this.state.snapshot().identity.aliasId || '')
+			: '';
+		const preferred = contextSeed || remembered?.aliasId || this.state.snapshot().identity.aliasId || '';
 		try {
 			this.renderIdentity(await loadVerifiedIdentity(this.api, preferred));
 		} catch (error) {

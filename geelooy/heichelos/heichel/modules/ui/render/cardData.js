@@ -67,8 +67,14 @@ export function normalizeCardData(item = {}, type = 'post') {
 		language: detectLanguage(text),
 		direction: detectDirection(text),
 		thumbnail: firstCardValue(raw.thumbnail, raw.cover, raw.image) || '',
-		postCount: countCardValue(firstCardValue(raw.postsCount, item.postsCount, raw.posts, raw.postIds, item.posts)),
-		subSeriesCount: countCardValue(firstCardValue(raw.subSeriesCount, item.subSeriesCount, raw.subSeries, raw.subSeriesIds, item.subSeries)),
+		postCount: knownCount(
+			[raw.postsCount, item.postsCount],
+			[raw.posts, raw.postIds, item.posts]
+		),
+		subSeriesCount: knownCount(
+			[raw.subSeriesCount, item.subSeriesCount],
+			[raw.subSeries, raw.subSeriesIds, item.subSeries]
+		),
 		followersCount: countCardValue(firstCardValue(raw.followers, raw.members, raw.views, item.followersCount)),
 		sectionsCount: countCardValue(firstCardValue(raw.sections, raw.sectionIds, item.sectionsCount)),
 		commentsCount: countCardValue(firstCardValue(raw.comments, raw.commentIds, item.commentsCount)),
@@ -79,6 +85,29 @@ export function normalizeCardData(item = {}, type = 'post') {
 		translationSourceStatus: String(firstCardValue(item.translationSourceStatus, raw.translationSourceStatus) || ''),
 		raw
 	};
+}
+
+/**
+ * B"H 2026-11-20 (residuals round): a count is only a count when some
+ * layer actually counted. An explicit count field wins; a non-empty
+ * id collection proves its length; an EMPTY array proves nothing —
+ * the light navigation projection ships empty posts/subSeries arrays
+ * for every child by design (it never opens a child's posts index),
+ * and rendering that as "0 posts" stated a falsehood on every Explore
+ * card. Unknown counts come back null and card renderers omit them,
+ * matching the card unit() convention that already hides unknowns.
+ */
+function knownCount(countFields, collectionFields) {
+	const explicit = firstCardValue(...countFields);
+	if (explicit !== undefined) return countCardValue(explicit);
+	for (const value of collectionFields) {
+		if (Array.isArray(value) && value.length) return value.length;
+		if (value && typeof value === 'object' && !Array.isArray(value)) {
+			const keys = Object.keys(value).length;
+			if (keys) return keys;
+		}
+	}
+	return null;
 }
 
 export function matchesQuery(card, query) {

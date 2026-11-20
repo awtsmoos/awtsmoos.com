@@ -54,7 +54,14 @@ Awtsmoos.com promotes the same identity, destination, canvas, publication, and p
 	}
 
 	.previewColumn {
-		grid-column: 3;
+		/* B"H 2026-11-20 (residuals round): was grid-column 3, but the
+		   live layout (revelation-v4) defines exactly two columns —
+		   editor 1fr + preview 280-360px. Column 3 invented an implicit
+		   469px track and stranded the preview there, squeezing the
+		   editor column (200px at a 1150px viewport, worse under the
+		   shell's own chrome) and overflowing its panels. Column 2 is
+		   the preview track the layout actually defines. */
+		grid-column: 2;
 		grid-row: 1 / span 5;
 		min-width: 0;
 	}

@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps recursion declarative while the separate toggle gate performs transport beneath this visible degree.
  */
 
-import { normalizeCardData } from '../cardData.js?v=heichel-mobile-010';
+import { normalizeCardData } from '../cardData.js?v=heichel-mobile-012';
 import { cardBlueprint } from './cards.js';
 import { toggleTreeBranch } from './tree-toggle.js?v=heichel-mobile-010';
 

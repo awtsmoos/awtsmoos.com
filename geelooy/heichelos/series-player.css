@@ -119,9 +119,17 @@ body.geelooy-app-shell .awt-sp-btn:hover {
 }
 
 .awt-series-player-current {
+	/* B"H 2026-11-20 (residuals round): the mechanism was verified
+	   working with trusted clicks (class applied during play and kept
+	   after finish; Previous after Finished restarts the queue), but
+	   a lone 3px outline was easy to miss on the cream list — the E2E
+	   reported "no highlight". A soft gold wash joins the outline so
+	   the now-playing row is unmistakable. */
 	outline: 3px solid #8a6d3b;
 	outline-offset: 2px;
 	border-radius: .5rem;
+	background: rgba(199, 164, 90, .18);
+	box-shadow: 0 0 0 5px rgba(199, 164, 90, .18);
 }
 
 @media (max-width: 35rem) {

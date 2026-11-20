@@ -10,7 +10,7 @@
  */
 
 import { ScribeOfManifestation } from '../../../engine/scribe-of-manifestation.js';
-import { normalizeCardData } from '../cardData.js?v=heichel-mobile-010';
+import { normalizeCardData } from '../cardData.js?v=heichel-mobile-012';
 import { cardBlueprint } from './cards.js';
 import { emptyStateBlueprint } from './empty-state.js';
 

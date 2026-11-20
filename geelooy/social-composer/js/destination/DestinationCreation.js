@@ -45,6 +45,9 @@ export class DestinationCreation {
 	async createSeries() {
 		const snapshot = this.state.snapshot();
 		const seriesName = this.element('newSeriesName').value.trim();
+		// B"H 2026-11-20 (residuals round): parity with createHeichel —
+		// without an alias the create could only fail downstream.
+		if (!snapshot.identity.aliasId) return this.status.show('Choose an alias first.', 'error');
 		if (!snapshot.identity.heichelId) return this.status.show('Choose a Heichel first.', 'error');
 		if (!seriesName) return this.status.show('Add a series name.', 'error');
 		this.status.show('Creating the nested series…', 'working');

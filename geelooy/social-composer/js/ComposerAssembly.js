@@ -55,6 +55,10 @@ export function createComposer(context) {
 		memory: new AliasMemory(),
 		onAliasChanged: aliasId => void destinationPanel.load(aliasId)
 	});
+	// B"H 2026-11-20 (residuals round): a Heichel deep link whose
+	// destination detail names a different owner offers that owner as
+	// the posting identity (see DestinationPanel.noteHeichelOwner).
+	destinationPanel.onHeichelOwnerFound = ownerAlias => { void aliasPanel.choose(ownerAlias); };
 	const preview = new PostPreview(
 		document.getElementById('postPreview'),
 		document.getElementById('payloadInspector')
