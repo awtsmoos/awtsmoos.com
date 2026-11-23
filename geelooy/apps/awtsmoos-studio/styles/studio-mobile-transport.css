@@ -7,7 +7,21 @@ The Awtsmoos renews created time beat by beat while Awtsmoos.com gives play and 
 
 /* B"H - desktop gap: the play button was styled only inside the <=900px
  * query, so at desktop width it rendered as an unstyled 21px button. */
-.studio-play-button { min-height: 24px; }
+.studio-play-button {
+	min-height: 44px;
+	padding: 0 18px;
+	border: 1px solid rgb(131 255 231 / 32%);
+	border-radius: 12px;
+	background: rgb(131 255 231 / 12%);
+	color: #e6fff9;
+	font: 750 11px/1 system-ui, sans-serif;
+	cursor: pointer;
+}
+
+.studio-play-button:focus-visible {
+	outline: 2px solid #83ffe7;
+	outline-offset: 2px;
+}
 
 @media (max-width: 900px) {
 	.studio-transport {
