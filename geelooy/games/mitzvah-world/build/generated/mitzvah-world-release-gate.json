@@ -3,8 +3,8 @@
 	"custody": {
 		"artifacts": {
 			"index.html": {
-				"bytes": 8664,
-				"sha256": "416131d750925ab3e5432fc6382a4696be93d08778df08c461894ee982cdabe5"
+				"bytes": 8657,
+				"sha256": "ec22953c0fb4a4c21998a3053c07884f718eb935303e690a6253fb75648d789c"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 119283,
@@ -43,8 +43,8 @@
 				"sha256": "efef901771005038eb1061cc0ba8d2e0e305e985a7ddd66acbb90eb252ccc973"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-optional.compact.js": {
-				"bytes": 1494345,
-				"sha256": "57d05b5eb1c38678704cd35b52bf81a333f3593d6666447d2b3bbe3f0a808600"
+				"bytes": 1497622,
+				"sha256": "d44beefd709ed674e5d4402d89c2b3888cb989f787b6119e30d9d723e8122384"
 			},
 			"build/generated/mitzvah-world-js.json": {
 				"bytes": 812,
@@ -76,7 +76,7 @@
 			},
 			"build/generated/mitzvah-world-optional.json": {
 				"bytes": 806,
-				"sha256": "1ca821b089c489782fe400f918c60054660e74a6f107838162c88c1b1973892f"
+				"sha256": "f657a3ec611435dcb79824b5a90293e55e524ceb1c3a4ea68716a5aa89b44ae5"
 			},
 			"build/generated/mitzvah-world-essential-assets.json": {
 				"bytes": 1057,
@@ -96,31 +96,31 @@
 			}
 		},
 		"certified": true,
-		"commit": "d6384bbcfa0bce61c6cd851e8edcb3e89017786a",
+		"commit": "add7a8a9b0a78678b19ba737fc458c5e651b42f6",
 		"dirtyEntries": [],
 		"failureCode": null,
-		"graphSha256": "dbcbbb625c3834a1aa12a84b7d69ad4c6b7062459881e0bdb752881c257ade52",
-		"releaseId": "dbcbbb625c3834a1aa12a84b7d69ad4c6b7062459881e0bdb752881c257ade52",
+		"graphSha256": "0181eb6bda8d2473a649eac4dd4efc793d5a3fcca949e9c96bd13adcbfd624fd",
+		"releaseId": "0181eb6bda8d2473a649eac4dd4efc793d5a3fcca949e9c96bd13adcbfd624fd",
 		"version": 1
 	},
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 1237,
+			"elapsedMilliseconds": 670,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 331601,
+			"elapsedMilliseconds": 107444,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 2640,
+			"elapsedMilliseconds": 2445,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-23T15:35:09.769Z"
+	"generatedAt": "2026-11-23T17:51:57.911Z"
 }
