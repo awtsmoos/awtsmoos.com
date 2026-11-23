@@ -95,3 +95,18 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 .space-meta-line > span {
 	min-inline-size: 0;
 }
+
+/* B"H visual audit 2026-11-23: the ikar card's parsha doorway link has no
+   rule in this cascade and fell to the universal classless-anchor teal
+   (#315f72, ~2.1:1 on the dark card). Give it this theme's bright gold. */
+.social-space-card .torah-library-parsha a {
+	color: var(--g-gold-2, #e6b34a);
+	font-weight: 700;
+	border-bottom: 1px solid var(--g-gold, #c68a1b);
+	padding-bottom: .12rem;
+}
+
+.social-space-card .torah-library-parsha a:hover {
+	color: var(--g-gold, #c68a1b);
+}
+
