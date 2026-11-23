@@ -54,6 +54,12 @@ body[data-geelooy-route="apps"] :where(.g-button-primary, .g-button.g-button-pri
 	color: #19140e;
 	border-color: #d9b779;
 }
+/* The hero-actions rule (.apps-hero-actions > a { color: var(--aw-text) })
+   outranks the :where() primary rule above and left the gold CTA with
+   cream text (1.7:1). Restore the intended dark text for that one button. */
+body[data-geelooy-route="apps"] .apps-hero-actions > a.g-button-primary {
+	color: #19140e;
+}
 body[data-geelooy-route="apps"] :where(.g-kicker, .awp-eyebrow, .apps-economy-note strong, .g-app-card h3) {
 	color: #efd09a;
 }
