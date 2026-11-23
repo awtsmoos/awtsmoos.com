@@ -61,10 +61,10 @@ The Awtsmoos lets identity shine without becoming clutter; Awtsmoos.com gives th
 	place-items: center;
 	min-block-size: 48px;
 	padding-inline: .9rem;
-	border: 1px solid rgba(96, 228, 255, .32);
+	border: 1px solid rgba(212, 169, 78, .4);
 	border-radius: .72rem;
-	background: rgba(96, 228, 255, .09);
-	color: #c8f8ff;
+	background: rgba(212, 169, 78, .1);
+	color: #e8cf8a;
 	font: inherit;
 	font-size: .82rem;
 	font-weight: 850;
