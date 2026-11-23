@@ -20,11 +20,11 @@
 .heichel-profile-cover {
 	height: clamp(7.5rem, 18vw, 12.5rem);
 	background:
-		radial-gradient(circle at 50% 110%, rgba(80, 215, 255, .72), transparent 19%),
-		radial-gradient(circle at 21% 45%, rgba(52, 155, 255, .42), transparent 23%),
-		radial-gradient(circle at 79% 35%, rgba(163, 90, 255, .45), transparent 24%),
-		linear-gradient(135deg, #041424, #0C2C5C 46%, #241C5C 72%, #04040C);
-	border-bottom: 1px solid rgba(80, 215, 255, .2);
+		radial-gradient(circle at 50% 110%, rgba(212, 169, 78, .55), transparent 19%),
+		radial-gradient(circle at 21% 45%, rgba(201, 162, 39, .35), transparent 23%),
+		radial-gradient(circle at 79% 35%, rgba(179, 84, 30, .32), transparent 24%),
+		linear-gradient(135deg, #041424, #16233d 46%, #1c1508 72%, #04040C);
+	border-bottom: 1px solid rgba(212, 169, 78, .25);
 }
 .heichel-profile-identity {
 	display: grid;

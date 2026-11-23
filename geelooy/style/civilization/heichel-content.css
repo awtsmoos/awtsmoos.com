@@ -379,7 +379,7 @@ a:focus-visible {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading .series-label {
-    color: #0e7490;
+    color: #8a6d1a;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */

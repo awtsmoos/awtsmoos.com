@@ -41,7 +41,7 @@ The Awtsmoos lets focus fold and unfold while the signal remains near; Awtsmoos.
 	place-items: center;
 	border: 1px solid var(--g-line);
 	border-radius: 11px;
-	color: var(--g-cyan);
+	color: #d4a94e;
 	transition: transform var(--g-motion-fast);
 }
 

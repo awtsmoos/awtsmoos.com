@@ -245,3 +245,15 @@ html[data-theme="light"] .heichel-os-document .series-search-row input {
 html[data-theme="light"] .living-path-empty-action {
   color: #f3ead3;
 }
+
+/* B"H — sweep 2026-11-24 (round 2): the series search input turns white in
+   light theme but its placeholder kept the dark-design grey (invisible);
+   the living mobile dock stays a dark bar in light theme, so its labels
+   take the light family (the generic slate recolor measured 1.21:1). */
+html[data-theme="light"] .heichel-os-document .series-search-row input::placeholder {
+  color: #6b5d43;
+  opacity: 1;
+}
+html[data-theme="light"] body[data-heichel-id^="heichal_"] .geelooy-social-shell .geelooy-bottom-nav :where(a, button) {
+  color: #e9e2cf;
+}

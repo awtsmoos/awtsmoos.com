@@ -6,6 +6,6 @@
  * Awtsmoos.com imports workspace, item, and revelation layers without turning the signal system into one monolith.
  */
 
-@import "./styles/workspace.css?v=signals-revelation-003";
+@import "./styles/workspace.css?v=signals-revelation-004";
 @import "./styles/items.css?v=signals-revelation-003";
 @import "./styles/revelation.css?v=signals-revelation-006";

@@ -51,10 +51,10 @@
 .heichel-sefirah-node--gevurah { top: 40%; right: 12%; border-color: rgba(218, 97, 194, .55); }
 .heichel-sefirah-node--tiferet { top: 43%; left: calc(50% - 1rem); }
 .heichel-sefirah-node--netzach { top: 65%; left: 20%; }
-.heichel-sefirah-node--hod { top: 65%; right: 20%; border-color: rgba(163, 90, 255, .58); }
+.heichel-sefirah-node--hod { top: 65%; right: 20%; border-color: rgba(179, 84, 30, .58); }
 .heichel-sefirah-node--yesod { top: 71%; left: calc(50% - 1rem); }
 .heichel-sefirah-node--malchut { bottom: 0; left: calc(50% - 1rem); border-color: rgba(246, 248, 255, .58); }
 
 .cosmic-heichel-profile[data-olam="atzilus"] .heichel-sefirah-node {
-	box-shadow: 0 0 1.45rem rgba(80, 215, 255, .72), 0 0 2.4rem rgba(163, 90, 255, .24);
+	box-shadow: 0 0 1.45rem rgba(212, 169, 78, .72), 0 0 2.4rem rgba(179, 84, 30, .24);
 }
