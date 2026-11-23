@@ -21,6 +21,14 @@
 	box-shadow: 0 34px 100px rgba(0, 0, 0, .72), 0 0 40px rgba(80, 180, 255, .12);
 	color: var(--light-text-f8fbff, #f8fbff);
 }
+/* B"H 2026-11-23 (email UI repair): the closed-state guard lives in this
+   sheet too, beside the display:grid it must defeat. A partially stale
+   cascade (this sheet fresh, base.css stale) once let the closed panel —
+   identity card and all — paint inside the global nav bar as a fractured
+   "Current vessel" pill. A closed panel must be unpaintable, full stop. */
+.awtsmoosDrop .dropdown-content[hidden] {
+	display: none;
+}
 .awtsmoosDrop .profile-panel-heading {
 	display: flex;
 	align-items: center;

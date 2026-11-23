@@ -56,6 +56,14 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		flex: 0 0 auto;
 		flex-wrap: wrap;
 		gap: 8px;
+		/* B"H 2026-11-23 (email UI repair): the desktop-era max-block-size caps
+		   (15dvh / 21dvh in sidebar-shell.css) survived this flex conversion
+		   while overflow became visible, so rows 3-4 spilled out of their
+		   capped boxes and painted over the next section — two count badges
+		   in one cell, and the Requests row printed over the thread-list
+		   summary. On mobile the aside scrolls as one column, so the grids
+		   take their natural height and nothing overlaps. */
+		max-block-size: none;
 		overflow-x: visible;
 		overflow-y: visible;
 		padding: 0 0 9px;

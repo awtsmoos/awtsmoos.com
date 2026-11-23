@@ -50,3 +50,14 @@ body[data-geelooy-route="home"] .world-empty {
 		min-width: 0;
 		padding-inline: .2rem;
 	} }
+/* B"H 2026-11-23 (email UI repair): keyboard furniture means nothing on a
+   touch device — the filter's "G" chip clipped at the input's edge and the
+   arrow-key "move" hint rendered on phones. Desktop keeps both hints.
+   (hover: none) is included because some touch browsers report a fine
+   primary pointer while having no hover-capable pointer at all. */
+@media (pointer: coarse), (hover: none) {
+	:where(body[data-geelooy-route="home"]) .launcher-search kbd,
+	:where(body[data-geelooy-route="home"]) .launcher-meta > span:last-child {
+		display: none;
+	}
+}

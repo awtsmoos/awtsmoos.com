@@ -13,10 +13,15 @@
 	scrollbar-width: thin;
 }
 .constellation-section {
-	border: 1px solid rgba(137, 193, 236, .1);
+	/* B"H 2026-11-23 (email UI repair): the sections were painted in a dark
+	   slate-navy cosmic palette inside the home's cream paper panel, so the
+	   light-themed tiles composited to washed grey and read as disabled.
+	   The section now wears the panel's own warm paper tokens (which carry
+	   the dark theme too), and the tiles read as living doors again. */
+	border: 1px solid var(--home-line-soft);
 	border-radius: 1rem;
-	background: linear-gradient(155deg, rgba(14, 28, 47, .74), rgba(7, 16, 29, .55));
-	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	background: linear-gradient(155deg, var(--panel-background), var(--panel-raised));
+	box-shadow: inset 0 1px var(--home-inset-hi);
 	overflow: clip;
 }
 .constellation-section[hidden] {
@@ -42,26 +47,26 @@
 	place-items: center;
 	width: 1.7rem;
 	height: 1.7rem;
-	border: 1px solid rgba(126, 198, 255, .17);
+	border: 1px solid var(--home-line-soft);
 	border-radius: 50%;
-	color: #8fcfff;
+	color: var(--home-accent);
 	font-size: 1rem;
 	transition: transform .16s ease, background .16s ease;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.constellation-section[open]) .constellation-summary::after {
 	transform: rotate(45deg);
-	background: rgba(100, 192, 255, .08);
+	background: color-mix(in srgb, var(--home-accent) 10%, transparent);
 }
 .constellation-summary:focus-visible {
-	outline: 2px solid rgba(127, 216, 255, .7);
+	outline: 2px solid var(--home-accent);
 	outline-offset: -2px;
 }
 @media (hover: hover) and (pointer: fine) { .constellation-summary:hover {
-		background: rgba(103, 193, 255, .06);
+		background: color-mix(in srgb, var(--home-accent) 6%, transparent);
 	} }
 .constellation-summary:active {
-	background: rgba(103, 193, 255, .1);
+	background: color-mix(in srgb, var(--home-accent) 10%, transparent);
 }
 @media (prefers-reduced-motion: reduce) { .constellation-summary::after {
 		transition: none;
@@ -78,21 +83,23 @@
 	width: 1.8rem;
 	height: 1.8rem;
 	border-radius: .58rem;
-	background: rgba(103, 193, 255, .08);
-	color: #8fd6ff;
+	background: color-mix(in srgb, var(--home-accent) 10%, transparent);
+	color: var(--home-accent);
 	font-style: normal;
 }
 .constellation-identity b {
 	/* B"H 2026-11-09 — the group name had no colour, so it inherited the light
 	   theme's dark ink (#2b2118) onto this dark-navy section and read as dark
 	   on dark. Pin it to a light value that reads on the section. */
-	color: #dbe7f5;
+	/* B"H 2026-11-23 — the section is paper-toned now (see above), so the
+	   name follows the theme ink token, which is correct on both themes. */
+	color: var(--aw-text);
 	font-size: .79rem;
 	letter-spacing: .02em;
 }
 .constellation-count {
 	margin-left: auto;
-	color: #7288a2;
+	color: var(--text-muted);
 	font-size: .64rem;
 	font-weight: 800;
 }

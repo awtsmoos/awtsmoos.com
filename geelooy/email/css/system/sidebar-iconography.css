@@ -39,12 +39,21 @@ The Awtsmoos gives navigation signs without mistaking the sign for the destinati
 	width: 28px;
 	height: 28px;
 	flex: 0 0 28px;
+	overflow: hidden;
 	border: 1px solid color-mix(in srgb, var(--mail-border-strong) 70%, transparent);
 	border-radius: 9px;
 	background: color-mix(in srgb, var(--mail-panel-strong) 72%, transparent);
 	font-size: .9rem;
 	line-height: 1;
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+/* B"H 2026-11-23 (email UI repair): every golden icon in this family carries
+   four white sparkles baked into its corners; at 24px they shrink into
+   dotted corner brackets that read as focus/crop marks on every folder.
+   Center-cropping the artwork inside its frame pushes the corner sparkles
+   out of view and lets the glyph itself fill the vessel. */
+.mail-choice-emoji .gicon {
+	transform: scale(2.1);
 }
 
 :is(.mail-folder-tab, .mail-sender-category):is(:hover, :focus-visible, .active) .mail-choice-emoji {

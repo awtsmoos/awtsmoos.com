@@ -49,8 +49,10 @@
 		place-items: center;
 		border: 2px solid rgba(255, 255, 255, 0.38);
 		border-radius: 0.9rem;
-		background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
+		/* B"H 2026-11-23 (email UI repair): gold in the site's design
+		   language — the cyan-to-violet-to-pink gradient is retired. */
+		background: linear-gradient(135deg, #e8cf8a, #c9a227 52%, #9a7b1e);
 		font-size: 1.45rem;
-		box-shadow: 0 8px 18px rgba(99, 76, 255, 0.32);
+		box-shadow: 0 8px 18px rgba(212, 175, 55, 0.32);
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

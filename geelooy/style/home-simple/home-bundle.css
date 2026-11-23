@@ -1794,6 +1794,24 @@ body[data-geelooy-route="home"] .world-launcher {
 }
 
 
+@media (max-width: 560px) {
+	body[data-geelooy-route="home"] .header-rail .brand {
+		width: auto;
+		gap: .45rem;
+	}
+	body[data-geelooy-route="home"] .header-rail .brand-copy strong {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	body[data-geelooy-route="home"] .header-rail .launcher-button {
+		gap: .4rem;
+		padding: .55rem .5rem;
+	}
+}
+
+
 /* === inlined: ./navigation-brand.css === */
 
 body[data-geelooy-route="home"] .brand {
@@ -2288,12 +2306,13 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 @media (max-width: 760px) { body[data-geelooy-route="home"] .profile-mount, :where(body[data-geelooy-route="home"]) .profile-mount .awtsmoosDrop, :where(body[data-geelooy-route="home"]) .profile-mount .loggedIn, :where(body[data-geelooy-route="home"]) .profile-mount .notLoggedIn {
 		width: auto;
 		min-width: 48px;
-		max-width: 150px;
+		
+		max-width: 138px;
 	} }
 @media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-trigger {
 		width: auto;
 		min-width: 48px;
-		max-width: 150px;
+		max-width: 138px;
 		height: 48px;
 		min-height: 48px;
 		padding: 4px 10px 4px 6px;
@@ -2499,6 +2518,13 @@ body[data-geelooy-route="home"] .world-empty {
 		min-width: 0;
 		padding-inline: .2rem;
 	} }
+
+@media (pointer: coarse), (hover: none) {
+	:where(body[data-geelooy-route="home"]) .launcher-search kbd,
+	:where(body[data-geelooy-route="home"]) .launcher-meta > span:last-child {
+		display: none;
+	}
+}
 
 
 /* === inlined: ./hero-layout.css === */
@@ -4060,7 +4086,7 @@ html[data-geelooy-route="home"] {
 	--law8-nebula-violet: rgba(139, 109, 226, 0.20);
 	--law8-nebula-gold: rgba(202, 161, 74, 0.20);
 	--law8-gold-hi: #f2d98c;
-	--law8-gold-soft: #856a33; /* B"H visual audit 2026-11-23: see law8-cosmic.css note */
+	--law8-gold-soft: #856a33; 
 	--law8-gold-glow: rgba(138, 109, 59, 0.16);
 	--law8-title-glow: rgba(138, 109, 59, 0.28);
 	--law8-title-shadow: rgba(0, 0, 0, 0.7);

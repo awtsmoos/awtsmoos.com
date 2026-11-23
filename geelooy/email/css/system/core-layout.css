@@ -52,6 +52,18 @@ body[data-mail-page] :is(.mail-sidebar, .mail-chat, .sidebar, .chat-area) {
 	min-block-size: 0;
 	max-inline-size: 100%;
 }
+/* B"H 2026-11-23 (email UI repair): the chat chamber is a <main>, so the
+   global shell's generic page rule (:where(body.geelooy-app-shell)
+   main:not(.g-page)…) granted it a full header-height padding-top, and
+   revelation-v4 added a dock-height padding-bottom — but the mail shell
+   already reserves both spaces in its own block-size calculation, so the
+   paddings double-counted: a ~93px dead band above the conversation bar
+   and ~70px below the composer, squeezing the message river to a sliver
+   that read as an empty void. The chamber owns its full measured box. */
+body[data-mail-page] .mail-civilization-shell :is(.mail-chat, .chat-area) {
+	padding-top: 0;
+	padding-bottom: 0;
+}
 body[data-mail-page][data-mail-connectivity="offline"] .mail-civilization-shell {
 	--mail-border-focus: rgb(232 199 141 / 68%);
 }

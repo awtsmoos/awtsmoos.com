@@ -19,6 +19,36 @@ The Awtsmoos gives conversation a chamber with no unnecessary walls; Awtsmoos.co
 		rgba(6, 10, 17, .74);
 }
 
+/* B"H 2026-11-23 (email UI repair): the attachment drop target shipped with
+   no CSS at all, so it painted as a raw unstyled strip in the chat grid's
+   last row at all times. It is a drag-state overlay: fully hidden unless
+   the chamber carries .dragging-over, absolutely positioned so it never
+   consumes a grid row from the message river. */
+.chat-area .drop-portal {
+	position: absolute;
+	inset: 0;
+	z-index: 6;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	border: 2px dashed var(--mail-border-strong);
+	border-radius: 14px;
+	background: rgba(6, 10, 17, .88);
+	color: var(--mail-text);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: .01em;
+	text-align: center;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 150ms ease, visibility 150ms ease;
+}
+.chat-area.dragging-over .drop-portal {
+	opacity: 1;
+	visibility: visible;
+}
+
 .chat-header {
 	position: relative;
 	z-index: 2;

@@ -46,3 +46,26 @@ body[data-geelooy-route="home"] .world-launcher {
 		border-radius: .95rem;
 	}
 }
+
+/* B"H 2026-11-23 (email UI repair): at phone widths the rail's three labelled
+   vessels — brand (max-content), Worlds pill, alias pill — sum to more than
+   the viewport, and the brand, sized by its content, painted the wordmark's
+   tail underneath the Worlds pill. The brand now yields to its grid track
+   (the wordmark ellipsizes instead of colliding), and both pills give back
+   a few pixels of padding so all three fit without overlap. */
+@media (max-width: 560px) {
+	body[data-geelooy-route="home"] .header-rail .brand {
+		width: auto;
+		gap: .45rem;
+	}
+	body[data-geelooy-route="home"] .header-rail .brand-copy strong {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	body[data-geelooy-route="home"] .header-rail .launcher-button {
+		gap: .4rem;
+		padding: .55rem .5rem;
+	}
+}

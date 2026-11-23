@@ -14,6 +14,15 @@
 .awtsmoosDrop.awtsmoos-profile-dropdown .hidden {
 	display: none;
 }
+/* B"H 2026-11-23 (email UI repair): geometry insurance in the bundle's first
+   sheet — even if menu.css (which normally positions the panel) is stale
+   or missing, an opened panel is absolutely positioned below its trigger
+   and can never render in-flow inside the header bar. */
+.awtsmoosDrop .dropdown-content {
+	position: absolute;
+	top: calc(100% + .62rem);
+	right: 0;
+}
 .awtsmoosDrop .profile-trigger, .awtsmoosDrop .menu-wide, .awtsmoosDrop .aliasId {
 	position: relative;
 	display: flex;

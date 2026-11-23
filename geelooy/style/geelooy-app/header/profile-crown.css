@@ -16,7 +16,7 @@
 	position: absolute;
 	inset: 0;
 	z-index: -1;
-	border: 1px solid rgba(80, 215, 255, .3);
+	border: 1px solid rgba(212, 175, 55, .3);
 	/* B"H 2026-11-19 (social polish): this plate sits behind the profile
 	   pill, whose own radius is a full 999px capsule. The old asymmetric
 	   999px/1.4rem corners left the plate's dark navy corners sticking
@@ -24,18 +24,20 @@
 	   the pill's left edge on every global-nav page. One radius, shared
 	   with the pill, keeps the halo and loses the blob. */
 	border-radius: 999px;
+	/* B"H 2026-11-23 (email UI repair): gold halo in the site's design
+	   language — the cyan-to-pink wash is retired with the rainbow theme. */
 	background:
-		linear-gradient(115deg, rgba(80, 215, 255, .14), transparent 38%, rgba(218, 97, 194, .12)),
+		linear-gradient(115deg, rgba(212, 175, 55, .13), transparent 38%, rgba(212, 175, 55, .08)),
 		rgba(4, 8, 22, .72);
-	box-shadow: 0 0 1.15rem rgba(52, 155, 255, .12);
+	box-shadow: 0 0 1.15rem rgba(212, 175, 55, .12);
 	content: "";
 	pointer-events: none;
 	transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) .g-header-profile:focus-within::before, :where(.geelooy-app-shell) .g-header-profile:hover::before {
-	border-color: rgba(80, 215, 255, .72);
-	box-shadow: 0 0 1.45rem rgba(52, 155, 255, .22), 0 0 2rem rgba(218, 97, 194, .1);
+	border-color: rgba(212, 175, 55, .66);
+	box-shadow: 0 0 1.45rem rgba(212, 175, 55, .22), 0 0 2rem rgba(212, 175, 55, .1);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) .g-constellation-route[data-games-route="true"], :where(.geelooy-app-shell) .g-dock-route[data-games-route="true"] {

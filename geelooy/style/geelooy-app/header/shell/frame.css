@@ -18,7 +18,7 @@
 	gap: .75rem;
 	padding: .55rem .65rem;
 	overflow: visible;
-	border: 1px solid color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
+	border: 1px solid color-mix(in srgb, var(--g-gold, #c9a227) 42%, var(--g-line));
 	border-radius: 1.35rem .8rem 1.35rem .8rem;
 	/* Solid fallback first: if color-mix or --g-bg-2 is unavailable, the bar
 	   stays opaque instead of turning transparent (which looked "blurry"). */
@@ -27,7 +27,7 @@
 	/* Frosted glass: blur content scrolling behind the bar for a premium feel. */
 	backdrop-filter: blur(14px) saturate(1.2);
 	-webkit-backdrop-filter: blur(14px) saturate(1.2);
-	box-shadow: var(--g-shadow-float, 0 .75rem 2rem rgba(0, 0, 0, .32)), inset 0 0 0 1px rgba(139, 92, 255, .16);
+	box-shadow: var(--g-shadow-float, 0 .75rem 2rem rgba(0, 0, 0, .32)), inset 0 0 0 1px rgba(212, 175, 55, .14);
 	transform: translateX(-50%);
 	/* isolation:isolate removed — the bar keeps its z-index:80 stacking context
 	   (position:fixed + z-index), so the constellation menu (z 3190), search
@@ -41,7 +41,9 @@
 	inset: -1px;
 	padding: 1px;
 	border-radius: inherit;
-	background: linear-gradient(110deg, var(--g-cyan), transparent 25%, var(--g-violet) 55%, var(--g-pink) 78%, transparent 96%);
+	/* B"H 2026-11-23 (email UI repair): one gold sweep in the site's design
+	   language — the cyan-to-violet-to-pink rainbow border is retired. */
+	background: linear-gradient(110deg, var(--g-gold, #c9a227), transparent 25%, #e8cf8a 55%, var(--g-gold, #c9a227) 78%, transparent 96%);
 	content: "";
 	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
 	mask-composite: exclude;
@@ -52,8 +54,8 @@
 	position: absolute;
 	inset: auto 12% -1px;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, var(--g-cyan), var(--g-pink), transparent);
-	box-shadow: 0 0 18px color-mix(in srgb, var(--g-cyan) 46%, transparent);
+	background: linear-gradient(90deg, transparent, var(--g-gold, #c9a227), #e8cf8a, transparent);
+	box-shadow: 0 0 18px color-mix(in srgb, var(--g-gold, #c9a227) 46%, transparent);
 	content: "";
 	pointer-events: none;
 }

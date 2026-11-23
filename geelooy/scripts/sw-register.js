@@ -105,7 +105,10 @@
 		const toast = document.createElement('div');
 		toast.setAttribute('role', 'status');
 		toast.style.cssText = [
-			'position:fixed', 'bottom:1rem', 'left:50%', 'transform:translateX(-50%)',
+			// B"H 2026-11-23 (email UI repair): float ABOVE the global dock
+			// (--g-dock-h), never over it — bottom:1rem buried the toast in
+			// the dock and hid its Home/Search edges.
+			'position:fixed', 'bottom:calc(var(--g-dock-h, 5.25rem) + 1rem)', 'left:50%', 'transform:translateX(-50%)',
 			'background:#1a1a2e', 'color:#ffd700', 'padding:0.75rem 1.25rem',
 			'border-radius:2rem', 'font-size:0.875rem', 'z-index:999999',
 			'box-shadow:0 4px 20px rgba(0,0,0,0.3)', 'cursor:pointer',
@@ -213,14 +216,32 @@
 		const toast = document.createElement('div');
 		toast.setAttribute('role', 'status');
 		toast.style.cssText = [
-			'position:fixed', 'bottom:1rem', 'left:50%', 'transform:translateX(-50%)',
-			'background:#1a1a2e', 'color:#ffd700', 'padding:0.75rem 1.25rem',
+			// B"H 2026-11-23 (email UI repair): float ABOVE the global dock
+			// (--g-dock-h), never over it, and carry an explicit dismiss so
+			// the banner can always be cleared without reloading.
+			'position:fixed', 'bottom:calc(var(--g-dock-h, 5.25rem) + 1rem)', 'left:50%', 'transform:translateX(-50%)',
+			'background:#1a1a2e', 'color:#ffd700', 'padding:0.75rem 2.4rem 0.75rem 1.25rem',
 			'border-radius:2rem', 'font-size:0.875rem', 'z-index:999999',
 			'box-shadow:0 4px 20px rgba(0,0,0,0.3)', 'cursor:pointer',
 			'border:1px solid rgba(255,215,0,0.3)', 'font-family:system-ui',
 			'max-width:92vw', 'text-align:center'
 		].join(';');
 		toast.textContent = '✨ New version ready — tap to update now';
+		const dismiss = document.createElement('button');
+		dismiss.type = 'button';
+		dismiss.setAttribute('aria-label', 'Dismiss update notice');
+		dismiss.textContent = '✕';
+		dismiss.style.cssText = [
+			'position:absolute', 'top:50%', 'right:0.45rem', 'transform:translateY(-50%)',
+			'width:1.7rem', 'height:1.7rem', 'border-radius:50%', 'border:1px solid rgba(255,215,0,0.35)',
+			'background:transparent', 'color:#ffd700', 'font-size:0.8rem', 'cursor:pointer', 'line-height:1'
+		].join(';');
+		dismiss.addEventListener('click', (event) => {
+			event.stopPropagation();
+			toast.remove();
+			if (versionToastEl === toast) versionToastEl = null;
+		});
+		toast.appendChild(dismiss);
 		toast.addEventListener('click', () => {
 			if (pendingBuild) doVersionReload(pendingBuild);
 		});
