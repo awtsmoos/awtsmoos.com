@@ -55,11 +55,11 @@
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .living-related-card small {
-	color: #8195ab;
+	color: #b3a888;
 	font-size: .62rem;
 }
 
 .living-related-mark {
 	grid-row: 1 / span 2;
-	color: #5fe7ff;
+	color: #e6be73;
 }

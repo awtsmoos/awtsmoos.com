@@ -8,8 +8,8 @@
 	min-height: 100%;
 	color: var(--heichel-cosmic-text);
 	background:
-		radial-gradient(circle at 3% 28%, rgba(1, 161, 230, .2), transparent 24rem),
-		radial-gradient(circle at 97% 70%, rgba(163, 90, 255, .22), transparent 27rem),
+		radial-gradient(circle at 3% 28%, rgba(212, 169, 78, .16), transparent 24rem),
+		radial-gradient(circle at 97% 70%, rgba(179, 84, 30, .14), transparent 27rem),
 		linear-gradient(180deg, var(--heichel-cosmic-void), var(--heichel-cosmic-page) 54%, var(--heichel-cosmic-void));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -27,8 +27,8 @@
 :where(.heichel-os-document) :where(body)::before {
 	left: 0;
 	background:
-		radial-gradient(ellipse at left 18%, rgba(80, 215, 255, .22), transparent 56%),
-		radial-gradient(ellipse at 18% 72%, rgba(52, 155, 255, .18), transparent 58%);
+		radial-gradient(ellipse at left 18%, rgba(212, 169, 78, .18), transparent 56%),
+		radial-gradient(ellipse at 18% 72%, rgba(184, 134, 46, .13), transparent 58%);
 }
 .heichel-os-document .awtsmoos-cosmic-canvas {
 	position: fixed;

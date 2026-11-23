@@ -193,7 +193,7 @@ html[data-theme="light"] .nav-card-translation-badge {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   html[data-theme="light"] :where(.heichel-os-document) .series-heading .series-label {
-    color: #0e7490;
+    color: #8a6d1a;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
@@ -224,4 +224,24 @@ html[data-theme="light"] .nav-card-translation-badge {
     color: #1e293b;
   }
 
+}
+
+/* B"H — sweep 2026-11-24: living-path pages keep their dark cosmic grounds
+   in light theme, so the systematic slate recolors above strand text on
+   dark grounds (hero description measured 1.54:1). Restore the light
+   family on the living grounds, and ink where the ground is truly light. */
+html[data-theme="light"] .living-path-profile .hero-description {
+  color: #e9e2cf;
+}
+html[data-theme="light"] .heichel-profile-details > summary {
+  color: #6d5316;
+}
+html[data-theme="light"] .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
+  color: #e9e2cf;
+}
+html[data-theme="light"] .heichel-os-document .series-search-row input {
+  color: #1e293b;
+}
+html[data-theme="light"] .living-path-empty-action {
+  color: #f3ead3;
 }
