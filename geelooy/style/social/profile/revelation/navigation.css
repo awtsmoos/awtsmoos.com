@@ -83,6 +83,14 @@
    cascade and fell to a generic :where(small) rule painting it with
    the dark theme's muted tone (#bac4d3, 1.75:1 on this cream page).
    Pin it to the profile muted token like the rest of the copy. */
+/* B"H visual audit 2026-11-23: the topbar brand subtitle and the
+   hero-action subtitles are bare smalls that fell to the same generic
+   :where(small) dark-theme muted (#bac4d3, ~1.75:1 on the light
+   topbar and cards). Pin them to the profile muted token as well. */
+.profile-app .profile-brand small,
+.profile-app .profile-hero-action small {
+	color: var(--profile-muted);
+}
 .profile-app .profile-destination-copy small {
 	color: var(--profile-muted);
 }
