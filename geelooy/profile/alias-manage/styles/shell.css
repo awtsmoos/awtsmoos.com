@@ -60,8 +60,7 @@
 	font-size: clamp(1.75rem, 4vw, 2.8rem);
 	line-height: 1.05;
 	letter-spacing: -.04em;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	color: var(--g-text, #f4f7fb); /* sweep 2026-11-24: hero band is a dark zone; --aw-text is the light-zone ink and rendered the title invisible on navy */}
 
 .alias-heading-copy p {
 	max-width: 48rem;
@@ -71,7 +70,7 @@
 }
 
 .alias-kicker {
-	color: var(--g-cyan, #61cbd9);
+	color: #d4a94e;
 	font-size: .69rem;
 	font-weight: 850;
 	letter-spacing: .1em;
