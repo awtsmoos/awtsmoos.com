@@ -16,7 +16,7 @@ html[data-geelooy-route="home"] {
 	--law8-nebula-violet: rgba(139, 109, 226, 0.20);
 	--law8-nebula-gold: rgba(202, 161, 74, 0.20);
 	--law8-gold-hi: #f2d98c;
-	--law8-gold-soft: #a5854a;
+	--law8-gold-soft: #856a33; /* B"H visual audit 2026-11-23: was #a5854a, eyebrow text 3.08:1 on cream; deepened passes 4.5 (4.54); dark-card icon stays above the 3.0 non-text floor */
 	--law8-gold-glow: rgba(138, 109, 59, 0.16);
 	--law8-title-glow: rgba(138, 109, 59, 0.28);
 	--law8-title-shadow: rgba(0, 0, 0, 0.7);

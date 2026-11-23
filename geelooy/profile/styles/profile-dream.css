@@ -13,8 +13,8 @@
 	--pd-card: #fffdf7;
 	--pd-ink: #2b2110;
 	--pd-ink-soft: #6b5d43;
-	--pd-ink-faint: #9a8c6e;
-	--pd-gold: #b8862e;
+	--pd-ink-faint: #7d6f4e; /* B"H visual audit 2026-11-23: was #9a8c6e, 3.25:1 on cream; deepened passes 4.5 (4.85) */
+	--pd-gold: #96690f; /* B"H visual audit 2026-11-23: was #b8862e, 3.18:1 on cream; deepened passes 4.5 (4.77) */
 	--pd-gold-bright: #d9a94e;
 	--pd-gold-deep: #8a641f;
 	--pd-gold-ink: #241a06;

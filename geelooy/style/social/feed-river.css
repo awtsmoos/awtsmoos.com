@@ -121,7 +121,7 @@
 	font-weight: 800;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	color: #a67c0a;
+	color: #96690f; /* B"H visual audit 2026-11-23: was #a67c0a, 3.75:1 on the card; deepened gold passes 4.5 (4.78) */
 	margin: 0 0 0.3rem;
 }
 
@@ -138,7 +138,7 @@
 }
 
 .feed-ask-btn {
-	background: #a67c1a;
+	background: #ad7f1c; /* B"H visual audit 2026-11-23: was #a67c1a, ink on it read 4.36:1; lightened gold passes 4.5 (4.60) */
 	/* B"H css-loop 2026-11-11 cycle 2 (F1): --feed-river-on-dark is a light
 	   on-dark variable; on the gold #a67c1a it read ~1.9:1 white-on-gold.
 	   Same dark ink #2a1c04 as the selected feed toggle (fixes 3/7). */
@@ -204,7 +204,7 @@
 
 .feed-card__why {
 	font-size: 0.72rem;
-	color: #a68b4f;
+	color: #7d6530; /* B"H visual audit 2026-11-23: was #a68b4f, 3.01:1 on its pill; deepened passes 4.5 (5.05) */
 	background: rgba(184, 134, 11, 0.08);
 	border-radius: 0.5rem;
 	padding: 0.3rem 0.55rem;
