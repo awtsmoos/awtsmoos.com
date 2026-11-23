@@ -39,6 +39,7 @@ const mainMenuStyles = `
 #main-menu .main-menu-buttons .btn {
 	width: 100%;
 	margin-top: 0;
+	flex-shrink: 0;
 }
 
 .main-menu-more {
