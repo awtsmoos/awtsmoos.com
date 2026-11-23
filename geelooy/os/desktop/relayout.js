@@ -1,8 +1,10 @@
 // B"H
 import { applyPosition, mergePositions, sizeSurfaceForItems } from './layout.js';
+import { mobileClass } from './mobile.js';
 
 export function bindRelayout({ desktop, surface, items, positions }) {
   const run = () => {
+    mobileClass(surface);
     Object.assign(positions, mergePositions(items, positions, surface));
     placeIcons(surface, positions);
     sizeSurfaceForItems(surface, items, positions);
