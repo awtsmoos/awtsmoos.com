@@ -79,6 +79,13 @@
 	display: grid;
 	min-width: 0;
 }
+/* B"H visual audit 2026-11-23: the copy small had no color in this
+   cascade and fell to a generic :where(small) rule painting it with
+   the dark theme's muted tone (#bac4d3, 1.75:1 on this cream page).
+   Pin it to the profile muted token like the rest of the copy. */
+.profile-app .profile-destination-copy small {
+	color: var(--profile-muted);
+}
 .profile-app .profile-destination-copy strong {
 	color: inherit;
 }
