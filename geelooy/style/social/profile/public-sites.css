@@ -11,6 +11,19 @@
  * states on the card actions. Zero, tokens only.
  */
 
+/* B"H visual audit 2026-11-23: this sheet loads only on the alias page.
+   The themed ground (--pp-bg) was painted only by the app-rendered shell,
+   so every early or partial state — the loading note, the watchdog error,
+   and this creations section when its module wins the race — sat directly
+   on the app-shells dark navy body with the light themes dark ink:
+   dark-on-dark, near-invisible (measured 1.23-2.35:1). Paint the theme
+   ground on the page itself; the app shell covers it identically once
+   rendered, in both themes. */
+body {
+	background: var(--pp-bg);
+	color: var(--pp-text);
+}
+
 .published-creations-root {
 	width: min(1120px, calc(100% - 32px));
 	margin: 28px auto 56px;
