@@ -13,6 +13,15 @@ const { orderTorahPosts } = require('./torahSemanticPolicy.js');
 const { prepareTorahSeriesItems } = require('./torahSemanticPresentation.js');
 const { getSeriesCover } = require('./seriesCovers.js');
 const { allHeichelDiscoveryIds } = require('../../../api/social/helper/profile/heichelDiscoveryIds.js');
+const { memoizedRead } = require('../../../api/social/helper/profile/readCache.js');
+
+// B"H 2026-11-24 (heichel page perf): window-post probes run in bounded
+// parallel batches. The winner is still the lowest-index candidate whose
+// probe succeeds — batches are checked in candidate order and the scan
+// stops at the first batch containing a success — so the resolved window
+// (and therefore the rendered links) is exactly the one the old
+// one-by-one scan produced, only sooner.
+const WINDOW_PROBE_BATCH = 12;
 
 function encodeSegment(value) {
 	return encodeURIComponent(String(value ?? ''));
@@ -65,23 +74,24 @@ function createDiscovery($i) {
 	 * so the window lists real titles with links that open. Normal
 	 * series never reach this path — their details are non-empty.
 	 */
-	async function resolveWindowPosts(heichelId, activeSeries, base, properties) {
-		const indexResponse = await safeFetch(base + '/posts');
-		const ids = normalizeList(indexResponse, ['posts'])
-			.map(item => typeof item === 'string' ? item : item?.id || item?.postId)
-			.filter(Boolean);
-		if (!ids.length) return null;
+	async function scanWindowPosts(heichelId, activeSeries, ids, properties) {
 		let candidates = [];
 		try {
 			candidates = await allHeichelDiscoveryIds($i);
 		} catch {
 			candidates = [];
 		}
-		for (const candidate of candidates) {
-			if (!candidate || candidate === heichelId) continue;
+		const probeable = candidates.filter(candidate => candidate && candidate !== heichelId);
+		for (let start = 0; start < probeable.length; start += WINDOW_PROBE_BATCH) {
+			const batch = probeable.slice(start, start + WINDOW_PROBE_BATCH);
+			const probes = await Promise.all(batch.map(candidate => {
+				const canonBase = '/api/social/heichelos/' + encodeSegment(candidate) + '/series/' + encodeSegment(activeSeries);
+				return safeFetch(canonBase + '/post/' + encodeSegment(ids[0]));
+			}));
+			const winnerIndex = probes.findIndex(probe => Boolean(probe));
+			if (winnerIndex === -1) continue;
+			const candidate = batch[winnerIndex];
 			const canonBase = '/api/social/heichelos/' + encodeSegment(candidate) + '/series/' + encodeSegment(activeSeries);
-			const probe = await safeFetch(canonBase + '/post/' + encodeSegment(ids[0]));
-			if (!probe) continue;
 			const details = normalizeList(await safeFetch(canonBase + '/posts/details?properties=' + properties), ['posts']);
 			if (details.length) {
 				return { heichelId: candidate, posts: orderTorahPosts(candidate, details) };
@@ -92,6 +102,29 @@ function createDiscovery($i) {
 			};
 		}
 		return null;
+	}
+
+	async function resolveWindowPosts(heichelId, activeSeries, base, properties) {
+		const indexResponse = await safeFetch(base + '/posts');
+		const ids = normalizeList(indexResponse, ['posts'])
+			.map(item => typeof item === 'string' ? item : item?.id || item?.postId)
+			.filter(Boolean);
+		if (!ids.length) return null;
+		// B"H 2026-11-24 (heichel page perf): the scan below probes every
+		// other heichel for the window's first post. For series no other
+		// heichel serves under this series id (measured: the root series
+		// of the imported heichelos, whose post index lists ids their own
+		// details leg answers empty) every probe fails — and because a
+		// failed probe reads as null, the reader cache never stored the
+		// outcome, so all ~205 probes re-ran sequentially on EVERY page
+		// render (~5s warm, the bulk of the page's server time, while the
+		// page's own data legs answer in ~0.1–1s). Memoize the resolved
+		// outcome — including the null outcome — for 45s with in-flight
+		// coalescing (the profile readCache pattern), so repeat renders
+		// share one scan and a genuine window still resolves identically
+		// within the same freshness window the reader cache already uses.
+		const memoKey = `windowPosts:${heichelId}:${activeSeries}:${ids[0]}:${ids.length}`;
+		return memoizedRead(memoKey, () => scanWindowPosts(heichelId, activeSeries, ids, properties));
 	}
 
 	async function getDiscovery(heichelId, seriesId = '') {
