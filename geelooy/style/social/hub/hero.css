@@ -143,6 +143,10 @@
 .hub-hero button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+/* B"H visual audit 2026-11-23: the disabled rule above carries an injected color: var(--aw-text) at specificity (0,2,1), tying the primary rule and winning by order — while the hub is busy the cyan primary button flipped to near-white on cyan (1.77:1). The primary keeps its dark ink when disabled. */
+.hub-hero button[data-primary="true"]:disabled {
+	color: #061116;
+}
 .hub-live-actions button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }

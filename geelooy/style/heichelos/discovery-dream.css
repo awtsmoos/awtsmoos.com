@@ -123,7 +123,7 @@
 	transform: scale(1.06);
 }
 .heichelos-discovery-page .space-card-arrow {
-	color: var(--discover-accent);
+	color: var(--discover-accent, #d4a94e); /* B"H visual audit 2026-11-23: --discover-accent is defined only in discovery-torah.css, which the spaces shell does not load; undefined var invalidated the color and a universal teal (#315f72, 2.14:1 on the dark card) won instead. Fallback = the dark-theme gold. */
 }
 
 /* ---------- Ikar portal: the radiant doorway ---------- */
@@ -159,18 +159,18 @@
 	display: inline-flex;
 	align-items: center;
 	gap: .35rem;
-	color: var(--discover-accent);
+	color: var(--discover-accent, #d4a94e); /* B"H visual audit 2026-11-23: see .space-card-arrow note — fallback dark-theme gold, 6.8:1 on the card */
 	font-weight: 800;
 	font-size: .88rem;
 	text-decoration: none;
-	border-bottom: 1px solid var(--discover-rule);
+	border-bottom: 1px solid var(--discover-rule, #4a3a22); /* B"H visual audit 2026-11-23: same undefined-var fallback, dark-theme rule color */
 	padding-bottom: 2px;
 	border-radius: .25rem;
 	transition: color 160ms ease, border-color 160ms ease, gap 160ms ease;
 }
 .heichelos-discovery-page .torah-library-parsha a:hover {
-	color: var(--discover-focus);
-	border-color: var(--discover-focus);
+	color: var(--discover-focus, #e8a34d); /* B"H visual audit 2026-11-23: fallback = dark-theme focus gold */
+	border-color: var(--discover-focus, #e8a34d);
 	gap: .55rem;
 }
 .heichelos-discovery-page .torah-library-parsha a:active {
