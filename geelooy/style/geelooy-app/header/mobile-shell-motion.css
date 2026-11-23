@@ -39,6 +39,12 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
  * The header fades and settles 12px over .28s ease-out; brand, search,
  * and actions follow in 60ms steps. The `translate` property is used
  * (never `transform`) so the desktop translateX(-50%) centering survives.
+ * B"H 2026-11-23 (identity-menu fix): the settled .is-ready value is
+ * `translate: none`, never `0 0` -- a non-none translate makes the element
+ * a containing block for fixed-position descendants, which trapped the
+ * identity panel's mobile sheet (and its full-screen backdrop) inside
+ * the header actions box, 232x44. `none` interpolates as zero, so the
+ * entrance lands in the same place; it just leaves no trap behind.
  * ------------------------------------------------------------------ */
 :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header {
 	opacity: 0;
@@ -47,7 +53,7 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-shell.is-ready) .g-unusual-header {
 	opacity: 1;
-	translate: 0 0;
+	translate: none;
 	transition:
 		opacity .28s ease-out,
 		translate .28s ease-out,
@@ -63,7 +69,7 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-shell.is-ready) .g-unusual-header :is(.g-header-brand, .g-header-search, .g-header-actions) {
 	opacity: 1;
-	translate: 0 0;
+	translate: none;
 	transition:
 		opacity .28s ease-out,
 		translate .28s ease-out;

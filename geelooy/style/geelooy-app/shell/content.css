@@ -12,7 +12,17 @@
 }
 .g-shell {
 	position: relative;
-	z-index: var(--g-z-base);
+	/* B"H 2026-11-23 (identity-menu fix): the shell rides at z-index 2, not
+	   var(--g-z-base) (0). The shell is an isolated stacking context, so at 0
+	   every positioned, isolation-isolated app frame inside the sibling
+	   main element (mail's civilization frame, the heichel vessel, ...)
+	   paints in a later root layer and covers whatever the shell lets hang
+	   below the header: the open identity panel was fully laid out yet
+	   invisible under the mail app, its backdrop left blurring the bar
+	   alone. The heichel bundle has carried this same lift locally since
+	   2026-11-19 (cosmic-profile/atmosphere.css); it belongs to the shell
+	   itself. */
+	z-index: 2;
 }
 @media (max-width: 900px) { .geelooy-content-region, .g-page {
 		width: 100%;
