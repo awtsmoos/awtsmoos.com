@@ -21,3 +21,4 @@ body.submit-shell .submit-hero .text-link { color: var(--create-accent-strong); 
 body.submit-shell .submit-page :where(.kind-pill:not(.active), .soft-btn, .btn:not(.primary), .editor-toolbar button) { color: var(--create-ink); }
 body.submit-shell .submit-page :where(input, select, textarea) { color: var(--create-ink); }
 body.submit-shell .submit-page summary { color: var(--create-ink); }
+body.submit-shell .status-card p { color: var(--create-muted); }
