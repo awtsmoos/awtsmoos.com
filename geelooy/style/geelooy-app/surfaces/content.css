@@ -65,7 +65,7 @@
 .geelooy-app-shell .spaces-kicker,
 .geelooy-app-shell .notifications-kicker {
 	margin: 0 0 .5rem;
-	background: linear-gradient(90deg, var(--g-route-accent, var(--g-cyan)), #c7b6ff, var(--g-route-accent-2, var(--g-magenta)));
+	background: linear-gradient(90deg, var(--g-route-accent, var(--g-cyan)), #ecd28a, var(--g-route-accent-2, var(--g-magenta)));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;

@@ -41,12 +41,12 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) .g-constellation-route[data-games-route="true"], :where(.geelooy-app-shell) .g-dock-route[data-games-route="true"] {
-	--g-route-accent: #da61c2;
+	--g-route-accent: #d4a94e;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) .g-constellation-route[data-games-route="true"] {
-	border-color: rgba(218, 97, 194, .44);
-	background: linear-gradient(135deg, rgba(84, 58, 165, .32), rgba(4, 12, 28, .94));
+	border-color: rgba(212, 169, 78, .44);
+	background: linear-gradient(135deg, rgba(138, 109, 59, .32), rgba(4, 12, 28, .94));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-constellation-route[data-games-route="true"]) .g-constellation-icon {

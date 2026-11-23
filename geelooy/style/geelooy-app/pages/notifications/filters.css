@@ -47,7 +47,7 @@
 }
 .notifications-console :is(input, select, textarea):focus-visible, .g-search-form :is(input, select, textarea):focus-visible {
 	border-color: #58c7d8;
-	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
+	box-shadow: 0 0 0 3px rgba(184, 134, 46, .25);
 }
 .notifications-console button, .g-search-form button {
 	align-self: end;
@@ -55,9 +55,9 @@
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .notifications-console .g-button-primary, .g-search-form .g-button-primary {
-	border-color: #58c7d8;
-	background: #58c7d8;
-	color: #061018;
+	border-color: #b8862e;
+	background: #d4a94e;
+	color: #241a06;
 }
 @media (max-width: 760px) { .notifications-console, .g-search-form, .g-app-filter {
 		grid-template-columns: 1fr;
