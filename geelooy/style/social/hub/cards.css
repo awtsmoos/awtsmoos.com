@@ -49,7 +49,7 @@
 	margin: 0;
 	padding: .82rem;
 	overflow: auto;
-	border: 1px solid rgba(97, 203, 217, .16);
+	border: 1px solid rgba(212, 169, 78, .16);
 	border-radius: .75rem;
 	background: #09111b;
 	color: #c9d7e7;
@@ -72,10 +72,10 @@
 	color: #a9edcd;
 }
 .hub-card[data-state="confirmed"] {
-	border-color: rgba(97, 203, 217, .35);
+	border-color: rgba(212, 169, 78, .35);
 }
 .hub-card[data-state="confirmed"] small {
-	border-color: rgba(97, 203, 217, .3);
+	border-color: rgba(212, 169, 78, .3);
 	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: #a8e2ee;
 }

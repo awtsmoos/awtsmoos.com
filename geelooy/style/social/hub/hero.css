@@ -80,7 +80,7 @@
 	position: absolute;
 	inset: 0;
 	border-radius: inherit;
-	background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(97, 203, 217, .08) 42deg, transparent 84deg, transparent 180deg, rgba(211, 110, 170, .06) 222deg, transparent 264deg);
+	background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(212, 169, 78, .08) 42deg, transparent 84deg, transparent 180deg, rgba(205, 127, 62, .06) 222deg, transparent 264deg);
 	animation: hub-aurora 16s linear infinite;
 	pointer-events: none;
 }

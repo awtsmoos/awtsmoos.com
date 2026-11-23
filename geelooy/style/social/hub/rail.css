@@ -34,7 +34,7 @@
 	inline-size: 3rem;
 	block-size: 3rem;
 	place-items: center;
-	border: 1px solid rgba(97, 203, 217, .4);
+	border: 1px solid rgba(212, 169, 78, .4);
 	border-radius: .9rem;
 	background: #172536;
 	color: var(--hub-cyan);
@@ -92,19 +92,19 @@
 	transform: translateY(1px) scale(.985);
 }
 .hub-rail button:is(:hover, :focus-visible), .hub-mail-tag:is(:hover, :focus-visible) {
-	border-color: rgba(97, 203, 217, .3);
+	border-color: rgba(212, 169, 78, .3);
 	background: #172333;
 	color: var(--hub-text);
 }
 .hub-rail button.active, .hub-rail button[aria-pressed="true"] {
-	border-color: rgba(97, 203, 217, .5);
+	border-color: rgba(212, 169, 78, .5);
 	background: #1c2f3b; /* opaque: gate bg probe ignores alpha */
 	color: #a7edf4;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-rail) :where(button.active)::before, :where(.hub-rail) :where(button[aria-pressed="true"])::before {
 	background: var(--hub-cyan);
-	box-shadow: 0 0 0 4px rgba(97, 203, 217, .12);
+	box-shadow: 0 0 0 4px rgba(212, 169, 78, .12);
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-mail-tag {

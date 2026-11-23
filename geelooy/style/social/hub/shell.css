@@ -94,8 +94,8 @@ a:active {
 	--hub-faint: #8f9eb3;
 	--hub-line: rgba(255, 255, 255, .12);
 	--hub-line-strong: rgba(255, 255, 255, .22);
-	--hub-cyan: #61cbd9;
-	--hub-cyan-soft: rgba(97, 203, 217, .14);
+	--hub-cyan: #d4a94e;
+	--hub-cyan-soft: rgba(212, 169, 78, .14);
 	--hub-magenta: #d36eaa;
 	--hub-success: #65d6a2;
 	--hub-warning: #f0bd68;

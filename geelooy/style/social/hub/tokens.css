@@ -20,13 +20,13 @@
 	--hub-faint: #8f9eb3;
 	--hub-line: rgba(255, 255, 255, .12);
 	--hub-line-strong: rgba(255, 255, 255, .22);
-	--hub-cyan: #61cbd9;
-	--hub-cyan-soft: rgba(97, 203, 217, .14);
-	--hub-magenta: #d36eaa;
+	--hub-cyan: #d4a94e;
+	--hub-cyan-soft: rgba(212, 169, 78, .14);
+	--hub-magenta: #cd7f3e;
 	--hub-success: #65d6a2;
 	--hub-warning: #f0bd68;
 	--hub-danger: #ff7f9c;
-	--hub-focus: #82e2ed;
+	--hub-focus: #e8cf8a;
 	--hub-radius-s: .68rem;
 	--hub-radius-m: .88rem;
 	--hub-radius-l: 1.15rem;

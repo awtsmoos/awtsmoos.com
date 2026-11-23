@@ -33,7 +33,7 @@
 	text-transform: uppercase;
 }
 .hub-mode-badge[data-mode="read"] {
-	border-color: rgba(97, 203, 217, .36);
+	border-color: rgba(212, 169, 78, .36);
 	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-focus);
 }

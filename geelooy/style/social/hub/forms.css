@@ -88,7 +88,7 @@
 .hub-field :is(input, textarea, select):focus-visible {
 	border-color: var(--hub-cyan);
 	background: #1a293a;
-	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
+	box-shadow: 0 0 0 3px rgba(212, 169, 78, .16);
 }
 .hub-field :is(input, textarea, select):disabled {
 	cursor: not-allowed;
