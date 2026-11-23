@@ -7,3 +7,17 @@
 		inset-block-end:calc(var(--g-dock-h) + max(.85rem,env(safe-area-inset-bottom)) + 1rem);
 	}
 }
+
+/* B"H — sweep 2026-11-24: the app shell generic element colors
+   (body.geelooy-app-shell :where(h1|p|button|input...) at (0,1,1), served after
+   this page bundle) painted the create page headings, prose, pills and fields
+   with the dark shell near-white text on the dream theme cream cards — the
+   page headline was invisible (measured 1.06:1). Restore the dream tokens
+   inside the create page only. */
+body.submit-shell .submit-hero h1 { color: var(--create-ink); }
+body.submit-shell .submit-hero p { color: var(--create-muted); }
+body.submit-shell .submit-hero .eyebrow { background: none; color: var(--create-accent-strong); -webkit-text-fill-color: var(--create-accent-strong); }
+body.submit-shell .submit-hero .text-link { color: var(--create-accent-strong); }
+body.submit-shell .submit-page :where(.kind-pill:not(.active), .soft-btn, .btn:not(.primary), .editor-toolbar button) { color: var(--create-ink); }
+body.submit-shell .submit-page :where(input, select, textarea) { color: var(--create-ink); }
+body.submit-shell .submit-page summary { color: var(--create-ink); }
