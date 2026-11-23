@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos shows the traveler each step beneath the sky;
+Awtsmoos.com lets the loading gate teach without making frames go by.
+@file mitzvah-world-boot-help-001.css
+@description Native, accessible and inexpensive controls and recovery help for the essential boot card.
+*/
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help {
+	grid-column: 1 / -1;
+	min-width: 0;
+	border: 1px solid rgba(177, 242, 208, .24);
+	border-radius: 16px;
+	background: rgba(13, 43, 32, .58);
+	color: #edfdf3;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help summary {
+	cursor: pointer;
+	padding: 12px 16px;
+	font: 750 .88rem/1.5 system-ui, sans-serif;
+	color: #e4ffe9;
+	list-style-position: inside;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help summary:hover {
+	background: rgba(143, 235, 179, .08);
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help summary:focus-visible,
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help a:focus-visible {
+	outline: 3px solid #f7d774;
+	outline-offset: 3px;
+	border-radius: 5px;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-content {
+	padding: 0 16px 16px;
+	font: 500 .84rem/1.6 system-ui, sans-serif;
+	color: #e1f4e9;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-content p {
+	margin: 6px 0;
+	color: inherit;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-content strong {
+	color: #fff6c3;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-links a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 42px;
+	padding: 7px 13px;
+	border: 1px solid rgba(200, 255, 226, .32);
+	border-radius: 10px;
+	color: #effff4;
+	background: rgba(52, 122, 81, .3);
+	text-decoration: none;
+	font-weight: 720;
+}
+
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-links a:hover {
+	background: rgba(79, 156, 105, .42);
+}
+
+@media (max-width: 480px) {
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help summary {
+		padding: 12px;
+	}
+
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-help-content {
+		padding: 0 12px 12px;
+	}
+}

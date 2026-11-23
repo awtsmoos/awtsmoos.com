@@ -4,28 +4,17 @@
 
 /**
  * @file MitzvahWorldBudgetedGenerationWiring.js
- * @description Wires the Chapter 4 budgeted generation-and-simulation loop into the
- * live Eretz runtime frame step (Chapter 4 Task 3).
- *
- * The loop is the ONE streaming coordinator: it is created lazily around the
- * live chunk runtime, its internal coordinator becomes `runtime.streamingCoordinator`,
- * and no second coordinator is ever created. `update(frame)` runs every frame
- * from the runtime frame step (not only on the chunks cadence), so the 2 ms CPU
- * generation budget, row-sliced neighbor generation, reversal cancellation, and
- * one bounded GPU upload per frame all run in the shipped game.
- *
- * Control: the Eretz rich runtime only runs after the lean bootstrap has already
- * given the player first control, so control is granted after the first loop
- * update — the first frame generates only the deterministic spawn chunk, and
- * neighbor generation starts from the second frame.
- *
- * Neighbors: after control, the 3x3 ring around the player's current chunk is
- * requested (idempotently, only when the player's chunk changes). Chunks farther
- * than two chunks away are pruned so heap and render-object counts stabilize
- * after travelling away and returning.
+ * @description Wires the one budgeted generation-and-simulation loop into the live game.
+ * The Awtsmoos renews every meadow cell as the Chossid walks in light;
+ * Awtsmoos.com keeps spawn, neighbor budget, upload timing and cancellation right.
+ * One shared coordinator executes jobs after first control, once per frame.
+ * The 2 ms row-sliced CPU budget, one GPU upload gate, 5 Hz simulation,
+ * reversal cancellation and fixed-radius pruning remain the original owners.
+ * Upload timing observes synchronous submission, not GPU fence completion.
  */
 
 import { createMitzvahWorldBudgetedGenerationLoop } from '../world/streaming/MitzvahWorldBudgetedGenerationLoop.js';
+import { instrumentMitzvahWorldGpuUploads } from '../world/streaming/MitzvahWorldGpuUploadWitness.js';
 import { MITZVAH_WORLD_SPAWN_CHUNK_SIZE } from '../world/streaming/MitzvahWorldSpawnChunkGate.js';
 
 /** Neighbor ring radius (chunks) requested around the player. */
@@ -34,11 +23,10 @@ export const MITZVAH_WORLD_NEIGHBOR_RING_RADIUS = 1;
 export const MITZVAH_WORLD_LIVE_WINDOW_RADIUS = 2;
 
 /**
- * Runs one budgeted generation frame for the live runtime. Creates the loop
- * once around the live chunk runtime; later calls reuse it.
- * @param {object} runtime Live Eretz runtime (owns chunkRuntime).
- * @param {object} frame Frame evidence: at, playerPosition, playerVelocity, cameraDirection, frameTimeMilliseconds.
- * @returns {object|null} The loop receipt, or null when there is no chunk runtime.
+ * Runs a budgeted generation frame, reusing the same live coordinator each time.
+ * @param {object} runtime Real Eretz runtime owning chunkRuntime and diagnostics.
+ * @param {object} frame Player position, velocity, direction, time and frame cost.
+ * @returns {object|null} Loop receipt or null if no runtime exists.
  */
 export function updateMitzvahWorldBudgetedGeneration(runtime, frame = {}) {
 	if (!runtime?.chunkRuntime) return null;
@@ -48,12 +36,11 @@ export function updateMitzvahWorldBudgetedGeneration(runtime, frame = {}) {
 			chunkRuntime: runtime.chunkRuntime
 		});
 		runtime.budgetedGenerationLoop = loop;
-		// Single coordinator: the loop's internal coordinator IS the live one.
-		runtime.streamingCoordinator = loop.coordinator;
+		// The instrumented object IS the loop's coordinator, not a second queue.
+		runtime.streamingCoordinator = instrumentMitzvahWorldGpuUploads(loop.coordinator);
 	}
 	const receipt = loop.update(frame);
-	// First frame is spawn-only; grant control after it so neighbor
-	// generation starts from the second frame.
+	// Spawn is the only synchronous chunk before control; neighbors follow.
 	if (!loop.diagnostics().controlGranted) {
 		loop.grantControl();
 	}
@@ -65,12 +52,12 @@ export function updateMitzvahWorldBudgetedGeneration(runtime, frame = {}) {
 		runtime.budgetedGenerationNeighborCenter = { ...playerChunk };
 	}
 	loop.pruneFarNeighbors(playerChunk.x, playerChunk.z, MITZVAH_WORLD_LIVE_WINDOW_RADIUS);
-	// Live source for the 4 ms generation/upload slice check.
+	// The receipt reads the same coordinator snapshot, including measured uploads.
 	runtime.budgetedGenerationDiagnostics = loop.diagnostics();
 	return receipt;
 }
 
-/** Requests the 3x3 neighbor ring around the player's chunk (idempotent). */
+/** Requests the idempotent 3x3 neighbor ring without including the center. */
 function requestNeighborRing(loop, playerChunk) {
 	for (let dx = -MITZVAH_WORLD_NEIGHBOR_RING_RADIUS; dx <= MITZVAH_WORLD_NEIGHBOR_RING_RADIUS; dx += 1) {
 		for (let dz = -MITZVAH_WORLD_NEIGHBOR_RING_RADIUS; dz <= MITZVAH_WORLD_NEIGHBOR_RING_RADIUS; dz += 1) {
@@ -80,7 +67,7 @@ function requestNeighborRing(loop, playerChunk) {
 	}
 }
 
-/** Derives the chunk coordinates containing a world position. */
+/** Derives deterministic chunk coordinates from the player world position. */
 function chunkOf(position) {
 	const size = MITZVAH_WORLD_SPAWN_CHUNK_SIZE;
 	return {

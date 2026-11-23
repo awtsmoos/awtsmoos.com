@@ -50,13 +50,17 @@ const __awtsmoosModule_14 = Object.create(null);
 
 const __awtsmoosModule_13 = Object.create(null);
 
-const __awtsmoosModule_16 = Object.create(null);
+const __awtsmoosModule_15 = Object.create(null);
 
 const __awtsmoosModule_17 = Object.create(null);
 
+const __awtsmoosModule_18 = Object.create(null);
+
+const __awtsmoosModule_20 = Object.create(null);
+
 const __awtsmoosModule_19 = Object.create(null);
 
-const __awtsmoosModule_18 = Object.create(null);
+const __awtsmoosModule_24 = Object.create(null);
 
 const __awtsmoosModule_23 = Object.create(null);
 
@@ -64,15 +68,11 @@ const __awtsmoosModule_22 = Object.create(null);
 
 const __awtsmoosModule_21 = Object.create(null);
 
-const __awtsmoosModule_20 = Object.create(null);
-
-const __awtsmoosModule_15 = Object.create(null);
+const __awtsmoosModule_16 = Object.create(null);
 
 const __awtsmoosModule_6 = Object.create(null);
 
 const __awtsmoosModule_2 = Object.create(null);
-
-const __awtsmoosModule_29 = Object.create(null);
 
 const __awtsmoosModule_30 = Object.create(null);
 
@@ -80,77 +80,77 @@ const __awtsmoosModule_31 = Object.create(null);
 
 const __awtsmoosModule_32 = Object.create(null);
 
-const __awtsmoosModule_28 = Object.create(null);
-
 const __awtsmoosModule_33 = Object.create(null);
+
+const __awtsmoosModule_29 = Object.create(null);
 
 const __awtsmoosModule_34 = Object.create(null);
 
-const __awtsmoosModule_27 = Object.create(null);
-
 const __awtsmoosModule_35 = Object.create(null);
+
+const __awtsmoosModule_28 = Object.create(null);
 
 const __awtsmoosModule_36 = Object.create(null);
 
 const __awtsmoosModule_37 = Object.create(null);
 
-const __awtsmoosModule_26 = Object.create(null);
-
-const __awtsmoosModule_39 = Object.create(null);
-
 const __awtsmoosModule_38 = Object.create(null);
 
-const __awtsmoosModule_42 = Object.create(null);
-
-const __awtsmoosModule_44 = Object.create(null);
-
-const __awtsmoosModule_43 = Object.create(null);
-
-const __awtsmoosModule_41 = Object.create(null);
-
-const __awtsmoosModule_45 = Object.create(null);
+const __awtsmoosModule_27 = Object.create(null);
 
 const __awtsmoosModule_40 = Object.create(null);
 
+const __awtsmoosModule_39 = Object.create(null);
+
+const __awtsmoosModule_43 = Object.create(null);
+
+const __awtsmoosModule_45 = Object.create(null);
+
+const __awtsmoosModule_44 = Object.create(null);
+
+const __awtsmoosModule_42 = Object.create(null);
+
 const __awtsmoosModule_46 = Object.create(null);
 
+const __awtsmoosModule_41 = Object.create(null);
+
 const __awtsmoosModule_47 = Object.create(null);
+
+const __awtsmoosModule_48 = Object.create(null);
+
+const __awtsmoosModule_51 = Object.create(null);
 
 const __awtsmoosModule_50 = Object.create(null);
 
 const __awtsmoosModule_49 = Object.create(null);
 
-const __awtsmoosModule_48 = Object.create(null);
+const __awtsmoosModule_53 = Object.create(null);
 
 const __awtsmoosModule_52 = Object.create(null);
 
-const __awtsmoosModule_51 = Object.create(null);
+const __awtsmoosModule_26 = Object.create(null);
 
 const __awtsmoosModule_25 = Object.create(null);
 
-const __awtsmoosModule_24 = Object.create(null);
+const __awtsmoosModule_55 = Object.create(null);
 
 const __awtsmoosModule_54 = Object.create(null);
 
-const __awtsmoosModule_53 = Object.create(null);
+const __awtsmoosModule_59 = Object.create(null);
 
 const __awtsmoosModule_58 = Object.create(null);
 
-const __awtsmoosModule_57 = Object.create(null);
+const __awtsmoosModule_62 = Object.create(null);
 
 const __awtsmoosModule_61 = Object.create(null);
 
 const __awtsmoosModule_60 = Object.create(null);
 
-const __awtsmoosModule_59 = Object.create(null);
+const __awtsmoosModule_65 = Object.create(null);
 
 const __awtsmoosModule_64 = Object.create(null);
 
 const __awtsmoosModule_63 = Object.create(null);
-
-const __awtsmoosModule_62 = Object.create(null);
-
-const __awtsmoosModule_65 = Object.create(null);
 
 const __awtsmoosModule_66 = Object.create(null);
 
@@ -158,45 +158,55 @@ const __awtsmoosModule_67 = Object.create(null);
 
 const __awtsmoosModule_68 = Object.create(null);
 
-const __awtsmoosModule_56 = Object.create(null);
-
 const __awtsmoosModule_69 = Object.create(null);
+
+const __awtsmoosModule_57 = Object.create(null);
 
 const __awtsmoosModule_70 = Object.create(null);
 
-const __awtsmoosModule_55 = Object.create(null);
-
 const __awtsmoosModule_71 = Object.create(null);
 
-const __awtsmoosModule_74 = Object.create(null);
+const __awtsmoosModule_56 = Object.create(null);
 
-const __awtsmoosModule_76 = Object.create(null);
+const __awtsmoosModule_72 = Object.create(null);
 
 const __awtsmoosModule_75 = Object.create(null);
 
-const __awtsmoosModule_78 = Object.create(null);
+const __awtsmoosModule_77 = Object.create(null);
+
+const __awtsmoosModule_76 = Object.create(null);
 
 const __awtsmoosModule_79 = Object.create(null);
 
-const __awtsmoosModule_77 = Object.create(null);
+const __awtsmoosModule_80 = Object.create(null);
 
-const __awtsmoosModule_73 = Object.create(null);
+const __awtsmoosModule_78 = Object.create(null);
 
-const __awtsmoosModule_81 = Object.create(null);
+const __awtsmoosModule_74 = Object.create(null);
 
-const __awtsmoosModule_84 = Object.create(null);
+const __awtsmoosModule_82 = Object.create(null);
 
 const __awtsmoosModule_85 = Object.create(null);
 
 const __awtsmoosModule_86 = Object.create(null);
 
+const __awtsmoosModule_87 = Object.create(null);
+
+const __awtsmoosModule_88 = Object.create(null);
+
+const __awtsmoosModule_89 = Object.create(null);
+
+const __awtsmoosModule_90 = Object.create(null);
+
+const __awtsmoosModule_84 = Object.create(null);
+
 const __awtsmoosModule_83 = Object.create(null);
 
-const __awtsmoosModule_82 = Object.create(null);
+const __awtsmoosModule_91 = Object.create(null);
 
-const __awtsmoosModule_80 = Object.create(null);
+const __awtsmoosModule_81 = Object.create(null);
 
-const __awtsmoosModule_72 = Object.create(null);
+const __awtsmoosModule_73 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -1017,9 +1027,69 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldAcceptedMovementWitness.js ----
+{
+	const __exports = __awtsmoosModule_15;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldAcceptedMovementWitness.js
+	 * @description Marks the first intentional player translation accepted after collision resolution.
+	 * The Awtsmoos gives the Chossid movement beneath the morning light;
+	 * Awtsmoos.com records a real first step, not merely that controls are bright.
+	 */
+
+	const FIRST_ACCEPTED_MOVEMENT_GLOBAL = 'AwtsmoosMitzvahWorldFirstAcceptedMovementAt';
+
+	__exports.FIRST_ACCEPTED_MOVEMENT_GLOBAL = FIRST_ACCEPTED_MOVEMENT_GLOBAL;
+	const MINIMUM_TRANSLATION = 0.000001;
+
+	/**
+	 * Captures a single monotonic timestamp after a player's requested step changes coordinates.
+	 * @param {object} runtime Active Mitzvah World runtime.
+	 * @param {object} before Position immediately before collision.
+	 * @param {object} desiredVelocity Player's intentional horizontal velocity.
+	 * @param {object} environment Window-like monotonic clock and optional global receipt.
+	 * @returns {boolean} Whether this call recorded a new accepted movement.
+	 */
+	function recordMitzvahWorldFirstAcceptedMovement(
+		runtime,
+		before,
+		desiredVelocity,
+		environment = globalThis
+	) {
+		if (!runtime?.state || runtime.firstAcceptedMovementAtMilliseconds !== undefined) {
+			return false;
+		}
+		const intent = Math.hypot(
+			Number(desiredVelocity?.x) || 0,
+			Number(desiredVelocity?.z) || 0
+		);
+		const travelled = Math.hypot(
+			(Number(runtime.state.x) || 0) - (Number(before?.x) || 0),
+			(Number(runtime.state.z) || 0) - (Number(before?.z) || 0)
+		);
+		if (intent <= MINIMUM_TRANSLATION || travelled <= MINIMUM_TRANSLATION) return false;
+		const at = environment.performance?.now?.();
+		if (!Number.isFinite(at) || at < 0) return false;
+		runtime.firstAcceptedMovementAtMilliseconds = at;
+		try {
+			environment[FIRST_ACCEPTED_MOVEMENT_GLOBAL] = at;
+		} catch {
+			// A restricted browser harness can omit global diagnostics.
+		}
+		return true;
+	}
+
+	__exports.recordMitzvahWorldFirstAcceptedMovement = recordMitzvahWorldFirstAcceptedMovement;
+
+}
+
 // ---- libs/awtsmoos-procedural-core/src/core/movement/VerticalKinematics.js ----
 {
-	const __exports = __awtsmoosModule_16;
+	const __exports = __awtsmoosModule_17;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1121,7 +1191,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MinimalMeadowGroundSupport.js ----
 {
-	const __exports = __awtsmoosModule_17;
+	const __exports = __awtsmoosModule_18;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1185,7 +1255,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/JumpWindowState.js ----
 {
-	const __exports = __awtsmoosModule_19;
+	const __exports = __awtsmoosModule_20;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1276,7 +1346,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahJumpPolicy.js ----
 {
-	const __exports = __awtsmoosModule_18;
+	const __exports = __awtsmoosModule_19;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1288,16 +1358,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps double-jump meaning in the game while narrow canonical kinematics carry universal names.
 	 */
 
-	const advanceJumpWindowState = __awtsmoosModule_19.advanceJumpWindowState;
-	const consumeBufferedJump = __awtsmoosModule_19.consumeBufferedJump;
-	const hasBufferedJump = __awtsmoosModule_19.hasBufferedJump;
-	const hasCoyoteGrace = __awtsmoosModule_19.hasCoyoteGrace;
-	const captureVerticalPosition = __awtsmoosModule_16.captureVerticalPosition;
-	const integrateVerticalMotion = __awtsmoosModule_16.integrateVerticalMotion;
-	const isBodyAboveGround = __awtsmoosModule_16.isBodyAboveGround;
-	const landVerticalMotion = __awtsmoosModule_16.landVerticalMotion;
-	const launchVerticalMotion = __awtsmoosModule_16.launchVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_17.minimalMeadowGroundHeight;
+	const advanceJumpWindowState = __awtsmoosModule_20.advanceJumpWindowState;
+	const consumeBufferedJump = __awtsmoosModule_20.consumeBufferedJump;
+	const hasBufferedJump = __awtsmoosModule_20.hasBufferedJump;
+	const hasCoyoteGrace = __awtsmoosModule_20.hasCoyoteGrace;
+	const captureVerticalPosition = __awtsmoosModule_17.captureVerticalPosition;
+	const integrateVerticalMotion = __awtsmoosModule_17.integrateVerticalMotion;
+	const isBodyAboveGround = __awtsmoosModule_17.isBodyAboveGround;
+	const landVerticalMotion = __awtsmoosModule_17.landVerticalMotion;
+	const launchVerticalMotion = __awtsmoosModule_17.launchVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_18.minimalMeadowGroundHeight;
 	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_14.MITZVAH_MOVEMENT_PROFILE;
 
 	function prepareMitzvahVertical(runtime, state, deltaSeconds) {
@@ -1366,7 +1436,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Vec3.js ----
 {
-	const __exports = __awtsmoosModule_23;
+	const __exports = __awtsmoosModule_24;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -1454,7 +1524,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Ray.js ----
 {
-	const __exports = __awtsmoosModule_22;
+	const __exports = __awtsmoosModule_23;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -1463,7 +1533,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos sends a line from origin toward revelation; Awtsmoos.com lets
 	 * distance become a clear point without borrowing an outside geometry engine.
 	 */
-	const Vec3 = __awtsmoosModule_23.Vec3;
+	const Vec3 = __awtsmoosModule_24.Vec3;
 
 	class Ray {
 		constructor(
@@ -1488,7 +1558,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
 {
-	const __exports = __awtsmoosModule_21;
+	const __exports = __awtsmoosModule_22;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1499,7 +1569,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos reveals each doorway without placing the witness through a wall;
 	 * Awtsmoos.com respects the closest obstacle, whether great or small.
 	 */
-	const Ray = __awtsmoosModule_22.Ray;
+	const Ray = __awtsmoosModule_23.Ray;
 
 	/** Computes the original unobstructed orbit eye. */
 	function desiredCameraEye(target, yaw, pitch, distanceValue) {
@@ -1566,7 +1636,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahMovementSupport.js ----
 {
-	const __exports = __awtsmoosModule_20;
+	const __exports = __awtsmoosModule_21;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1578,8 +1648,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
 	 */
 
-	const clipCameraEye = __awtsmoosModule_21.clipCameraEye;
-	const desiredCameraEye = __awtsmoosModule_21.desiredCameraEye;
+	const clipCameraEye = __awtsmoosModule_22.clipCameraEye;
+	const desiredCameraEye = __awtsmoosModule_22.desiredCameraEye;
 
 	function movementAxes(axis = {}) {
 		return {
@@ -1660,7 +1730,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahMovementRuntime.js ----
 {
-	const __exports = __awtsmoosModule_15;
+	const __exports = __awtsmoosModule_16;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1672,14 +1742,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this adapter small so collision truth stays local and first play awakens only the motion law it has picked.
 	 */
 
-	const landVerticalMotion = __awtsmoosModule_16.landVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_17.minimalMeadowGroundHeight;
-	const finishMitzvahVertical = __awtsmoosModule_18.finishMitzvahVertical;
-	const prepareMitzvahVertical = __awtsmoosModule_18.prepareMitzvahVertical;
+	const landVerticalMotion = __awtsmoosModule_17.landVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_18.minimalMeadowGroundHeight;
+	const finishMitzvahVertical = __awtsmoosModule_19.finishMitzvahVertical;
+	const prepareMitzvahVertical = __awtsmoosModule_19.prepareMitzvahVertical;
 
-	__exports.movementAxes = __awtsmoosModule_20.movementAxes;
-	__exports.movementModeFor = __awtsmoosModule_20.movementModeFor;
-	__exports.updateMovementCamera = __awtsmoosModule_20.updateMovementCamera;
+	__exports.movementAxes = __awtsmoosModule_21.movementAxes;
+	__exports.movementModeFor = __awtsmoosModule_21.movementModeFor;
+	__exports.updateMovementCamera = __awtsmoosModule_21.updateMovementCamera;
 
 	function prepareMovementVertical(runtime, state, deltaSeconds) {
 		runtime.movementRecovery?.beforeStep(state);
@@ -1752,9 +1822,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapMovementFrame.js
-	 * @description Coordinates one responsive player frame while preserving one canonical visible facing across movement and animation presentation.
-	 * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in one measured light;
-	 * the Awtsmoos renews traveler and direction each instant, and Awtsmoos.com keeps later presentation from undoing the path made right.
+	 * @description Coordinates one responsive player frame and proves the first post-collision accepted step.
+	 * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in measured light;
+	 * the Awtsmoos renews direction each instant, and Awtsmoos.com records the first real step made right.
 	 */
 
 	const normalizeMovementIntent = __awtsmoosModule_7.normalizeMovementIntent;
@@ -1766,16 +1836,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	const setBootstrapMovementYaw = __awtsmoosModule_5.setBootstrapMovementYaw;
 	const bootstrapDesiredVelocity = __awtsmoosModule_13.bootstrapDesiredVelocity;
 	const bootstrapVelocityOptions = __awtsmoosModule_13.bootstrapVelocityOptions;
+	const recordMitzvahWorldFirstAcceptedMovement = __awtsmoosModule_15.recordMitzvahWorldFirstAcceptedMovement;
 	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_14.MITZVAH_MOVEMENT_PROFILE;
-	const applyMovementCollision = __awtsmoosModule_15.applyMovementCollision;
-	const finishMovementVertical = __awtsmoosModule_15.finishMovementVertical;
-	const movementAxes = __awtsmoosModule_15.movementAxes;
-	const movementModeFor = __awtsmoosModule_15.movementModeFor;
-	const prepareMovementVertical = __awtsmoosModule_15.prepareMovementVertical;
-	const updateMovementCamera = __awtsmoosModule_15.updateMovementCamera;
+	const applyMovementCollision = __awtsmoosModule_16.applyMovementCollision;
+	const finishMovementVertical = __awtsmoosModule_16.finishMovementVertical;
+	const movementAxes = __awtsmoosModule_16.movementAxes;
+	const movementModeFor = __awtsmoosModule_16.movementModeFor;
+	const prepareMovementVertical = __awtsmoosModule_16.prepareMovementVertical;
+	const updateMovementCamera = __awtsmoosModule_16.updateMovementCamera;
 
 	/**
-	 * Advances one complete player-control frame from fresh input through settled camera presentation.
+	 * Advances one player-control frame from input through actual collision, camera, and presentation.
 	 * @param {BootstrapMovementController} controller Active movement controller.
 	 * @param {number} deltaSeconds Frame delta in seconds.
 	 * @returns {object} Canonical player state.
@@ -1783,8 +1854,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	function advanceBootstrapMovement(controller, deltaSeconds) {
 		const runtime = controller.runtime;
 		const state = runtime.state;
-		// Obstacle courses (Stream 3): advance movers and carry the rider before
-		// the movement frame reads the ground. No-op without a mounted course.
+		// Optional courses advance their movers before the rider samples collision.
 		runtime.courseEngine?.beforePlayerFrame?.(state, deltaSeconds);
 		runtime.cameraRig?.synchronizeFacing?.(state);
 		const axis = bootstrapInputAxis(runtime);
@@ -1819,14 +1889,14 @@ const __awtsmoosModule_0 = Object.create(null);
 			controller.horizontalVelocity,
 			deltaSeconds
 		);
+		const beforeCollision = { x: state.x, z: state.z };
 		applyMovementCollision(runtime, state, step);
+		recordMitzvahWorldFirstAcceptedMovement(runtime, beforeCollision, targetVelocity);
 		finishMovementVertical(runtime, state, richVertical);
 		settleBootstrapMovementFacing(runtime, state, keyboard, step);
 		settlePresentation(runtime, state);
 		const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
-		// Obstacle courses (Stream 3): checkpoints, timer, hazards, coins, and
-		// respawns settle here — before the bridge replicates, so a respawned
-		// position is what other players see. No-op without a mounted course.
+		// Course checkpoints, hazards and respawns settle before replication.
 		runtime.courseEngine?.afterPlayerFrame?.(state, deltaSeconds);
 		runtime.multiplayerBridge?.update?.(deltaSeconds, state);
 		controller.distance += Math.hypot(step.x, step.z);
@@ -1844,7 +1914,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.advanceBootstrapMovement = advanceBootstrapMovement;
-	/** Applies the same canonical facing that animation presentation will use moments later. */
+	/** Applies the same canonical facing that animation presentation uses moments later. */
 	function settlePresentation(runtime, state) {
 		runtime.model.position.set(state.x, state.renderY, state.z);
 		setBootstrapMovementYaw(
@@ -1901,7 +1971,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-matrix-core.js ----
 {
-	const __exports = __awtsmoosModule_29;
+	const __exports = __awtsmoosModule_30;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2022,7 +2092,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-transform-math.js ----
 {
-	const __exports = __awtsmoosModule_30;
+	const __exports = __awtsmoosModule_31;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2034,7 +2104,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * complete local vessel in one pass so no temporary translation or scale matrix is born.
 	 */
 
-	const identity = __awtsmoosModule_29.identity;
+	const identity = __awtsmoosModule_30.identity;
 
 	function quatNormalize(quaternion) {
 		const x = quaternion?.[0] || 0;
@@ -2106,7 +2176,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-camera-math.js ----
 {
-	const __exports = __awtsmoosModule_31;
+	const __exports = __awtsmoosModule_32;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2118,7 +2188,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessel directly so each ridge, flower, and Chossid reaches the screen without waste.
 	 */
 
-	const identity = __awtsmoosModule_29.identity;
+	const identity = __awtsmoosModule_30.identity;
 
 	function perspective(fovDegrees, aspect, near, far) {
 		const factor = 1 / Math.tan(fovDegrees * Math.PI / 360);
@@ -2191,7 +2261,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-interpolation-math.js ----
 {
-	const __exports = __awtsmoosModule_32;
+	const __exports = __awtsmoosModule_33;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2203,7 +2273,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * visible traveler a measured path between samples without changing either endpoint.
 	 */
 
-	const quatNormalize = __awtsmoosModule_30.quatNormalize;
+	const quatNormalize = __awtsmoosModule_31.quatNormalize;
 
 	function quatSlerp(left, right, amount) {
 		const [ax, ay, az, aw] = left;
@@ -2248,7 +2318,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-math.js ----
 {
-	const __exports = __awtsmoosModule_28;
+	const __exports = __awtsmoosModule_29;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2260,28 +2330,28 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * matrix, transform, camera, and interpolation responsibilities in their proper rooms.
 	 */
 
-	__exports.copyMat4 = __awtsmoosModule_29.copyMat4;
-	__exports.EPSILON = __awtsmoosModule_29.EPSILON;
-	__exports.identity = __awtsmoosModule_29.identity;
-	__exports.inverse = __awtsmoosModule_29.inverse;
-	__exports.mat4FromArray = __awtsmoosModule_29.mat4FromArray;
-	__exports.multiply = __awtsmoosModule_29.multiply;
-	__exports.scale = __awtsmoosModule_29.scale;
-	__exports.translate = __awtsmoosModule_29.translate;
-	__exports.composeTRS = __awtsmoosModule_30.composeTRS;
-	__exports.quatMatrix = __awtsmoosModule_30.quatMatrix;
-	__exports.quatNormalize = __awtsmoosModule_30.quatNormalize;
-	__exports.lookAt = __awtsmoosModule_31.lookAt;
-	__exports.perspective = __awtsmoosModule_31.perspective;
-	__exports.transformPoint = __awtsmoosModule_31.transformPoint;
-	__exports.lerpArray = __awtsmoosModule_32.lerpArray;
-	__exports.quatSlerp = __awtsmoosModule_32.quatSlerp;
+	__exports.copyMat4 = __awtsmoosModule_30.copyMat4;
+	__exports.EPSILON = __awtsmoosModule_30.EPSILON;
+	__exports.identity = __awtsmoosModule_30.identity;
+	__exports.inverse = __awtsmoosModule_30.inverse;
+	__exports.mat4FromArray = __awtsmoosModule_30.mat4FromArray;
+	__exports.multiply = __awtsmoosModule_30.multiply;
+	__exports.scale = __awtsmoosModule_30.scale;
+	__exports.translate = __awtsmoosModule_30.translate;
+	__exports.composeTRS = __awtsmoosModule_31.composeTRS;
+	__exports.quatMatrix = __awtsmoosModule_31.quatMatrix;
+	__exports.quatNormalize = __awtsmoosModule_31.quatNormalize;
+	__exports.lookAt = __awtsmoosModule_32.lookAt;
+	__exports.perspective = __awtsmoosModule_32.perspective;
+	__exports.transformPoint = __awtsmoosModule_32.transformPoint;
+	__exports.lerpArray = __awtsmoosModule_33.lerpArray;
+	__exports.quatSlerp = __awtsmoosModule_33.quatSlerp;
 
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-transform-cache.js ----
 {
-	const __exports = __awtsmoosModule_33;
+	const __exports = __awtsmoosModule_34;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2293,7 +2363,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessels for moving hierarchy nodes while mesh matrix identity still invalidates batches.
 	 */
 
-	const identity = __awtsmoosModule_28.identity;
+	const identity = __awtsmoosModule_29.identity;
 
 	const MATRIX_SNAPSHOT = 1;
 	const TRS_SNAPSHOT = 2;
@@ -2479,7 +2549,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-vector.js ----
 {
-	const __exports = __awtsmoosModule_34;
+	const __exports = __awtsmoosModule_35;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2563,7 +2633,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-object3d.js ----
 {
-	const __exports = __awtsmoosModule_27;
+	const __exports = __awtsmoosModule_28;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2575,14 +2645,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * changes so settled material and renderer systems stop rediscovering an unchanged village tree.
 	 */
 
-	const copyMat4 = __awtsmoosModule_28.copyMat4;
-	const identity = __awtsmoosModule_28.identity;
-	const cachedLocalMatrix = __awtsmoosModule_33.cachedLocalMatrix;
-	const invalidateTransformCache = __awtsmoosModule_33.invalidateTransformCache;
-	const ROOT_WORLD_MATRIX = __awtsmoosModule_33.ROOT_WORLD_MATRIX;
-	const updateCachedWorldMatrix = __awtsmoosModule_33.updateCachedWorldMatrix;
-	const Quaternion = __awtsmoosModule_34.Quaternion;
-	const Vector3 = __awtsmoosModule_34.Vector3;
+	const copyMat4 = __awtsmoosModule_29.copyMat4;
+	const identity = __awtsmoosModule_29.identity;
+	const cachedLocalMatrix = __awtsmoosModule_34.cachedLocalMatrix;
+	const invalidateTransformCache = __awtsmoosModule_34.invalidateTransformCache;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_34.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_34.updateCachedWorldMatrix;
+	const Quaternion = __awtsmoosModule_35.Quaternion;
+	const Vector3 = __awtsmoosModule_35.Vector3;
 
 	class Object3D {
 		constructor() {
@@ -2705,7 +2775,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-mesh-object.js ----
 {
-	const __exports = __awtsmoosModule_35;
+	const __exports = __awtsmoosModule_36;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2717,7 +2787,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contract focused so rigid stone and animated Chossid may share one clear doorway.
 	 */
 
-	const Object3D = __awtsmoosModule_27.Object3D;
+	const Object3D = __awtsmoosModule_28.Object3D;
 
 	class Mesh extends Object3D {
 		constructor(geometry = null, material = null) {
@@ -2739,7 +2809,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-geometry.js ----
 {
-	const __exports = __awtsmoosModule_36;
+	const __exports = __awtsmoosModule_37;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2838,7 +2908,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-camera.js ----
 {
-	const __exports = __awtsmoosModule_37;
+	const __exports = __awtsmoosModule_38;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2850,7 +2920,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rooted in the same cached scene graph as every visible flower and traveler.
 	 */
 
-	const Object3D = __awtsmoosModule_27.Object3D;
+	const Object3D = __awtsmoosModule_28.Object3D;
 
 	class PerspectiveCamera extends Object3D {
 		constructor(fov = 45, aspect = 1, near = 0.1, far = 1000) {
@@ -2868,7 +2938,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-runtime.js ----
 {
-	const __exports = __awtsmoosModule_26;
+	const __exports = __awtsmoosModule_27;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2880,17 +2950,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel.
 	 */
 
-	const Bone = __awtsmoosModule_27.Bone;
-	const Group = __awtsmoosModule_27.Group;
-	const Object3D = __awtsmoosModule_27.Object3D;
-	const Scene = __awtsmoosModule_27.Scene;
-	const Mesh = __awtsmoosModule_35.Mesh;
-	const BufferAttribute = __awtsmoosModule_36.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_36.BufferGeometry;
-	const MeshStandardMaterial = __awtsmoosModule_36.MeshStandardMaterial;
-	const PerspectiveCamera = __awtsmoosModule_37.PerspectiveCamera;
-	const Quaternion = __awtsmoosModule_34.Quaternion;
-	const Vector3 = __awtsmoosModule_34.Vector3;
+	const Bone = __awtsmoosModule_28.Bone;
+	const Group = __awtsmoosModule_28.Group;
+	const Object3D = __awtsmoosModule_28.Object3D;
+	const Scene = __awtsmoosModule_28.Scene;
+	const Mesh = __awtsmoosModule_36.Mesh;
+	const BufferAttribute = __awtsmoosModule_37.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_37.BufferGeometry;
+	const MeshStandardMaterial = __awtsmoosModule_37.MeshStandardMaterial;
+	const PerspectiveCamera = __awtsmoosModule_38.PerspectiveCamera;
+	const Quaternion = __awtsmoosModule_35.Quaternion;
+	const Vector3 = __awtsmoosModule_35.Vector3;
 
 	__exports.Bone = Bone;
 	__exports.BufferAttribute = BufferAttribute;
@@ -2910,7 +2980,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1tmsweb = {
+	const __awtsmoosDefault_zjizhk = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2923,12 +2993,12 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1tmsweb;
+	__exports.default = __awtsmoosDefault_zjizhk;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalAnimatedMeshVisibility.js ----
 {
-	const __exports = __awtsmoosModule_39;
+	const __exports = __awtsmoosModule_40;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2977,7 +3047,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalChossidProportions.js ----
 {
-	const __exports = __awtsmoosModule_38;
+	const __exports = __awtsmoosModule_39;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2994,7 +3064,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// [0.72, 0.64, 0.78] factors still left a 0.6 m mid-torso cone. V3 scales the
 	// OUTERMOST beard node only, to an effective ~[9.4, 3.5, 6.0]: a short beard
 	// from chin to upper chest, about 0.25 m long. Measured live 2026-11-19.
-	const stabilizeCanonicalAnimatedMeshVisibility = __awtsmoosModule_39.stabilizeCanonicalAnimatedMeshVisibility;
+	const stabilizeCanonicalAnimatedMeshVisibility = __awtsmoosModule_40.stabilizeCanonicalAnimatedMeshVisibility;
 
 	const BEARD_SCALE = Object.freeze({ x: 0.46, y: 0.17, z: 0.52 });
 	const BEARD_NAMES = new Set(['beard', 'Cube005', 'Cube.005']);
@@ -3109,7 +3179,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Aabb.js ----
 {
-	const __exports = __awtsmoosModule_42;
+	const __exports = __awtsmoosModule_43;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -3118,7 +3188,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos surrounds every finite form without being bounded by it;
 	 * Awtsmoos.com reveals exact containment and contact through readable planes.
 	 */
-	const Vec3 = __awtsmoosModule_23.Vec3;
+	const Vec3 = __awtsmoosModule_24.Vec3;
 
 	class Aabb {
 		constructor(min = new Vec3(), max = new Vec3()) {
@@ -3192,7 +3262,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Geometry3D.js ----
 {
-	const __exports = __awtsmoosModule_44;
+	const __exports = __awtsmoosModule_45;
 	// B"H
 	/** Geometry helpers: normals, barycentric tests, and raw capsule math vessels. */
 	function v(x = 0, y = 0, z = 0) { return { x, y, z }; }
@@ -3289,19 +3359,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/collision/CapsuleTriangle.js ----
 {
-	const __exports = __awtsmoosModule_43;
+	const __exports = __awtsmoosModule_44;
 	// B"H
-	const add = __awtsmoosModule_44.add;
-	const closestPointsSegmentSegment = __awtsmoosModule_44.closestPointsSegmentSegment;
-	const dot = __awtsmoosModule_44.dot;
-	const length = __awtsmoosModule_44.length;
-	const negate = __awtsmoosModule_44.negate;
-	const normalize = __awtsmoosModule_44.normalize;
-	const planeDistance = __awtsmoosModule_44.planeDistance;
-	const projectToPlane = __awtsmoosModule_44.projectToPlane;
-	const scale = __awtsmoosModule_44.scale;
-	const sub = __awtsmoosModule_44.sub;
-	const triangleContainsPoint = __awtsmoosModule_44.triangleContainsPoint;
+	const add = __awtsmoosModule_45.add;
+	const closestPointsSegmentSegment = __awtsmoosModule_45.closestPointsSegmentSegment;
+	const dot = __awtsmoosModule_45.dot;
+	const length = __awtsmoosModule_45.length;
+	const negate = __awtsmoosModule_45.negate;
+	const normalize = __awtsmoosModule_45.normalize;
+	const planeDistance = __awtsmoosModule_45.planeDistance;
+	const projectToPlane = __awtsmoosModule_45.projectToPlane;
+	const scale = __awtsmoosModule_45.scale;
+	const sub = __awtsmoosModule_45.sub;
+	const triangleContainsPoint = __awtsmoosModule_45.triangleContainsPoint;
 
 	/** Capsule-triangle contact: copied as an idea from Octree.js, reborn raw. */
 	function capsuleTriangleContact(capsule, tri) {
@@ -3340,10 +3410,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/collision/CapsuleCollisionQuery.js ----
 {
-	const __exports = __awtsmoosModule_41;
+	const __exports = __awtsmoosModule_42;
 	// B"H
-	const Aabb = __awtsmoosModule_42.Aabb;
-	const capsuleTriangleContact = __awtsmoosModule_43.capsuleTriangleContact;
+	const Aabb = __awtsmoosModule_43.Aabb;
+	const capsuleTriangleContact = __awtsmoosModule_44.capsuleTriangleContact;
 
 	function capsuleFor(position, radius, height, footOffset) {
 		const base = position.y - footOffset;
@@ -3396,7 +3466,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/collision/CollisionMovePlan.js ----
 {
-	const __exports = __awtsmoosModule_45;
+	const __exports = __awtsmoosModule_46;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3456,7 +3526,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/collision/AwtsmoosCollisionMover.js ----
 {
-	const __exports = __awtsmoosModule_40;
+	const __exports = __awtsmoosModule_41;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3468,10 +3538,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rejects impossible numbers, honors visible risers, and records the contact truth that remains.
 	 */
 
-	const capsuleFor = __awtsmoosModule_41.capsuleFor;
-	const deepestContact = __awtsmoosModule_41.deepestContact;
-	const collisionMoveReceipt = __awtsmoosModule_45.collisionMoveReceipt;
-	const createCollisionMovePlan = __awtsmoosModule_45.createCollisionMovePlan;
+	const capsuleFor = __awtsmoosModule_42.capsuleFor;
+	const deepestContact = __awtsmoosModule_42.deepestContact;
+	const collisionMoveReceipt = __awtsmoosModule_46.collisionMoveReceipt;
+	const createCollisionMovePlan = __awtsmoosModule_46.createCollisionMovePlan;
 
 	class AwtsmoosCollisionMover {
 		constructor({ octree, radius = 0.38, height = 1.72, footOffset = 0 }) {
@@ -3579,7 +3649,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/motion/JumpPhysics.js ----
 {
-	const __exports = __awtsmoosModule_46;
+	const __exports = __awtsmoosModule_47;
 	// B"H
 	/** Jump physics samples only floors reachable from the current feet height. */
 	class JumpPhysics{
@@ -3617,7 +3687,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/GroundRay.js ----
 {
-	const __exports = __awtsmoosModule_47;
+	const __exports = __awtsmoosModule_48;
 	// B"H
 	/** GroundRay: one beginning ray, so the soles kiss Eretz and do not float. */
 	function alignModelFeetToGround(model, groundY = 0) {
@@ -3653,7 +3723,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
 {
-	const __exports = __awtsmoosModule_50;
+	const __exports = __awtsmoosModule_51;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3679,7 +3749,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
 {
-	const __exports = __awtsmoosModule_49;
+	const __exports = __awtsmoosModule_50;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3691,7 +3761,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the release-owned road run locally only when semantic model, SHA-256 folder, and filename all perfectly match.
 	 */
 
-	const REMOTE_MODEL_RECORDS = __awtsmoosModule_50.REMOTE_MODEL_RECORDS;
+	const REMOTE_MODEL_RECORDS = __awtsmoosModule_51.REMOTE_MODEL_RECORDS;
 
 	const PLAYER_IDENTITY = 'player/chossid.glb';
 
@@ -3739,7 +3809,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_48;
+	const __exports = __awtsmoosModule_49;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3751,7 +3821,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps fast first play beneath the same immutable identity rather than copying a mutable path into another range.
 	 */
 
-	const canonicalChossidReleaseUrl = __awtsmoosModule_49.canonicalChossidReleaseUrl;
+	const canonicalChossidReleaseUrl = __awtsmoosModule_50.canonicalChossidReleaseUrl;
 
 	const PLAYER_MODEL_URL = canonicalChossidReleaseUrl();
 
@@ -3791,7 +3861,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
 {
-	const __exports = __awtsmoosModule_52;
+	const __exports = __awtsmoosModule_53;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3869,7 +3939,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzPlayerStateFactory.js ----
 {
-	const __exports = __awtsmoosModule_51;
+	const __exports = __awtsmoosModule_52;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3881,8 +3951,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * spawn truth arrives without distant forests entering the gate, then richer worlds may bloom after the traveler takes flight.
 	 */
 
-	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_52.VILLAGE_ARRIVAL_PLAYER;
-	const FACE_HEIGHT = __awtsmoosModule_48.FACE_HEIGHT;
+	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_53.VILLAGE_ARRIVAL_PLAYER;
+	const FACE_HEIGHT = __awtsmoosModule_49.FACE_HEIGHT;
 
 	const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
 
@@ -3977,7 +4047,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzPlayerRuntimeFactories.js ----
 {
-	const __exports = __awtsmoosModule_25;
+	const __exports = __awtsmoosModule_26;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3989,16 +4059,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps an unchosen hat outside the traveler's sight.
 	 */
 
-	const Group = __awtsmoosModule_26.Group;
-	const stabilizeCanonicalChossidModel = __awtsmoosModule_38.stabilizeCanonicalChossidModel;
-	const AwtsmoosCollisionMover = __awtsmoosModule_40.AwtsmoosCollisionMover;
-	const JumpPhysics = __awtsmoosModule_46.JumpPhysics;
-	const findMinWorldY = __awtsmoosModule_47.findMinWorldY;
-	const MAX_SLOPE_NORMAL = __awtsmoosModule_48.MAX_SLOPE_NORMAL;
-	const PLAYER_HEIGHT = __awtsmoosModule_48.PLAYER_HEIGHT;
-	const PLAYER_RADIUS = __awtsmoosModule_48.PLAYER_RADIUS;
-	const createEretzPlayerState = __awtsmoosModule_51.createEretzPlayerState;
-	const createEretzPlayerStats = __awtsmoosModule_51.createEretzPlayerStats;
+	const Group = __awtsmoosModule_27.Group;
+	const stabilizeCanonicalChossidModel = __awtsmoosModule_39.stabilizeCanonicalChossidModel;
+	const AwtsmoosCollisionMover = __awtsmoosModule_41.AwtsmoosCollisionMover;
+	const JumpPhysics = __awtsmoosModule_47.JumpPhysics;
+	const findMinWorldY = __awtsmoosModule_48.findMinWorldY;
+	const MAX_SLOPE_NORMAL = __awtsmoosModule_49.MAX_SLOPE_NORMAL;
+	const PLAYER_HEIGHT = __awtsmoosModule_49.PLAYER_HEIGHT;
+	const PLAYER_RADIUS = __awtsmoosModule_49.PLAYER_RADIUS;
+	const createEretzPlayerState = __awtsmoosModule_52.createEretzPlayerState;
+	const createEretzPlayerStats = __awtsmoosModule_52.createEretzPlayerStats;
 
 	__exports.createEretzPlayerState = createEretzPlayerState;
 	__exports.createEretzPlayerStats = createEretzPlayerStats;
@@ -4104,7 +4174,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/BootstrapEssentialPlayerRuntime.js ----
 {
-	const __exports = __awtsmoosModule_24;
+	const __exports = __awtsmoosModule_25;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4116,12 +4186,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives first control only authored mesh, collision vessels, state, and visible form so no optional abundance delays the first chance.
 	 */
 
-	const createBootstrapPlayerVessels = __awtsmoosModule_25.createBootstrapPlayerVessels;
-	const createGroundedCanonicalPlayer = __awtsmoosModule_25.createGroundedCanonicalPlayer;
-	const prepareCanonicalPlayerMeshes = __awtsmoosModule_25.prepareCanonicalPlayerMeshes;
-	const createBootstrapPlayerState = __awtsmoosModule_51.createBootstrapPlayerState;
-	const createBootstrapPlayerStats = __awtsmoosModule_51.createBootstrapPlayerStats;
-	const shrinkCanonicalHeadAnimation = __awtsmoosModule_38.shrinkCanonicalHeadAnimation;
+	const createBootstrapPlayerVessels = __awtsmoosModule_26.createBootstrapPlayerVessels;
+	const createGroundedCanonicalPlayer = __awtsmoosModule_26.createGroundedCanonicalPlayer;
+	const prepareCanonicalPlayerMeshes = __awtsmoosModule_26.prepareCanonicalPlayerMeshes;
+	const createBootstrapPlayerState = __awtsmoosModule_52.createBootstrapPlayerState;
+	const createBootstrapPlayerStats = __awtsmoosModule_52.createBootstrapPlayerStats;
+	const shrinkCanonicalHeadAnimation = __awtsmoosModule_39.shrinkCanonicalHeadAnimation;
 
 	/** Creates one visible canonical player runtime with real movement vessels but deferred animation authority. */
 	function createBootstrapEssentialPlayerRuntime(foundation) {
@@ -4193,7 +4263,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalQualityPolicy.js ----
 {
-	const __exports = __awtsmoosModule_54;
+	const __exports = __awtsmoosModule_55;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4322,7 +4392,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/EretzWorldFeaturePolicy.js ----
 {
-	const __exports = __awtsmoosModule_53;
+	const __exports = __awtsmoosModule_54;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4334,7 +4404,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps diagnostics lit and lets optional richness sleep until survival is forsaken.
 	 */
 
-	const survivalFeatureOverride = __awtsmoosModule_54.survivalFeatureOverride;
+	const survivalFeatureOverride = __awtsmoosModule_55.survivalFeatureOverride;
 
 	/**
 	 * Resolves whether a named feature is enabled for the selected world and quality.
@@ -4367,7 +4437,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4458,7 +4528,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
 {
-	const __exports = __awtsmoosModule_57;
+	const __exports = __awtsmoosModule_58;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4470,7 +4540,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * never confusing one fixed wall-clock guess with the living progress of a slower browser.
 	 */
 
-	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_58.ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_59.ESSENTIAL_BOOT_TIMEOUT_MS;
 
 	function scheduleMitzvahWorldEssentialTimeout(environment, callback, delayMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
 		const schedule = environment?.setTimeout?.bind(environment) || setTimeout;
@@ -4498,7 +4568,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_62;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4562,7 +4632,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_61;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4574,7 +4644,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com therefore measures each active fact from its latest witnessed progress, never from stale wall-clock memory.
 	 */
 
-	const essentialDependenciesComplete = __awtsmoosModule_61.essentialDependenciesComplete;
+	const essentialDependenciesComplete = __awtsmoosModule_62.essentialDependenciesComplete;
 
 	function activateReadyEssentialRecords(records, currentTime) {
 		const activated = [];
@@ -4649,7 +4719,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4661,8 +4731,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * from the outer hard horizon so diagnostics never confuse local stillness with total first-play exhaustion.
 	 */
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_58.ESSENTIAL_HARD_TIMEOUT_MS;
-	const essentialRecordTimedOut = __awtsmoosModule_60.essentialRecordTimedOut;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_59.ESSENTIAL_HARD_TIMEOUT_MS;
+	const essentialRecordTimedOut = __awtsmoosModule_61.essentialRecordTimedOut;
 
 	const ESSENTIAL_HARD_TIMEOUT_CODE = 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT';
 
@@ -4713,16 +4783,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
 {
-	const __exports = __awtsmoosModule_64;
+	const __exports = __awtsmoosModule_65;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_58.ESSENTIAL_HARD_TIMEOUT_MS;
-	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_57.cancelMitzvahWorldEssentialTimeout;
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_57.readMitzvahWorldEssentialTime;
-	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_57.scheduleMitzvahWorldEssentialTimeout;
-	const essentialEffectiveLastProgress = __awtsmoosModule_60.essentialEffectiveLastProgress;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_59.ESSENTIAL_HARD_TIMEOUT_MS;
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_58.cancelMitzvahWorldEssentialTimeout;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_58.readMitzvahWorldEssentialTime;
+	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_58.scheduleMitzvahWorldEssentialTimeout;
+	const essentialEffectiveLastProgress = __awtsmoosModule_61.essentialEffectiveLastProgress;
 
 	/**
 	 * @file MitzvahWorldEssentialWatchdog.js
@@ -4778,7 +4848,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLaunchProof.js ----
 {
-	const __exports = __awtsmoosModule_63;
+	const __exports = __awtsmoosModule_64;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4795,9 +4865,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * in-flight testimony: no crossing, however lively, testifies past it.
 	 */
 
-	const applyEssentialDetails = __awtsmoosModule_61.applyEssentialDetails;
-	const touchEssentialRecord = __awtsmoosModule_60.touchEssentialRecord;
-	const essentialHardTimeoutReached = __awtsmoosModule_64.essentialHardTimeoutReached;
+	const applyEssentialDetails = __awtsmoosModule_62.applyEssentialDetails;
+	const touchEssentialRecord = __awtsmoosModule_61.touchEssentialRecord;
+	const essentialHardTimeoutReached = __awtsmoosModule_65.essentialHardTimeoutReached;
 
 	/**
 	 * Asks the registered launch witness whether a governed world crossing is still in flight.
@@ -4876,7 +4946,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFrameProof.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_63;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4891,14 +4961,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * that produces nothing still fails by name, and the whole first-play hard horizon seals the rest.
 	 */
 
-	const ESSENTIAL_HARD_TIMEOUT_CODE = __awtsmoosModule_59.ESSENTIAL_HARD_TIMEOUT_CODE;
-	const timeoutDetails = __awtsmoosModule_59.timeoutDetails;
-	const attemptEssentialLaunchProof = __awtsmoosModule_63.attemptEssentialLaunchProof;
-	const attemptEssentialMenuProof = __awtsmoosModule_63.attemptEssentialMenuProof;
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_58.ESSENTIAL_MILESTONES;
-	const firstTimedOutEssentialRecord = __awtsmoosModule_60.firstTimedOutEssentialRecord;
-	const touchEssentialRecord = __awtsmoosModule_60.touchEssentialRecord;
-	const essentialHardTimeoutReached = __awtsmoosModule_64.essentialHardTimeoutReached;
+	const ESSENTIAL_HARD_TIMEOUT_CODE = __awtsmoosModule_60.ESSENTIAL_HARD_TIMEOUT_CODE;
+	const timeoutDetails = __awtsmoosModule_60.timeoutDetails;
+	const attemptEssentialLaunchProof = __awtsmoosModule_64.attemptEssentialLaunchProof;
+	const attemptEssentialMenuProof = __awtsmoosModule_64.attemptEssentialMenuProof;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_59.ESSENTIAL_MILESTONES;
+	const firstTimedOutEssentialRecord = __awtsmoosModule_61.firstTimedOutEssentialRecord;
+	const touchEssentialRecord = __awtsmoosModule_61.touchEssentialRecord;
+	const essentialHardTimeoutReached = __awtsmoosModule_65.essentialHardTimeoutReached;
 
 	/**
 	 * Settles one watchdog firing for the ledger: an overdue fact first receives its active proof
@@ -4979,7 +5049,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
 {
-	const __exports = __awtsmoosModule_65;
+	const __exports = __awtsmoosModule_66;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5074,7 +5144,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
 {
-	const __exports = __awtsmoosModule_66;
+	const __exports = __awtsmoosModule_67;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5086,8 +5156,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com shows queued facts at zero, active facts aging, and terminal facts sealed where their evidence has been.
 	 */
 
-	const essentialElapsedMilliseconds = __awtsmoosModule_60.essentialElapsedMilliseconds;
-	const firstActiveEssentialRecord = __awtsmoosModule_60.firstActiveEssentialRecord;
+	const essentialElapsedMilliseconds = __awtsmoosModule_61.essentialElapsedMilliseconds;
+	const firstActiveEssentialRecord = __awtsmoosModule_61.firstActiveEssentialRecord;
 
 	/** Builds one immutable public receipt from the internal milestone map. */
 	function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment, graphicsEvidence = {}) {
@@ -5135,7 +5205,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSlowGraphicsNotice.js ----
 {
-	const __exports = __awtsmoosModule_67;
+	const __exports = __awtsmoosModule_68;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5150,7 +5220,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * or movie launch has begun the gate, and never beside the red failure panel.
 	 */
 
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_58.ESSENTIAL_MILESTONES;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_59.ESSENTIAL_MILESTONES;
 
 	const NOTICE_ID = 'mitzvah-world-essential-slow-graphics';
 
@@ -5209,7 +5279,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
 {
-	const __exports = __awtsmoosModule_68;
+	const __exports = __awtsmoosModule_69;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5394,7 +5464,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
 {
-	const __exports = __awtsmoosModule_56;
+	const __exports = __awtsmoosModule_57;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5407,26 +5477,26 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * evidence, never a broken vessel: the real proof may still arrive late, and witnesses may testify at a deadline.
 	 */
 
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_57.readMitzvahWorldEssentialTime;
-	const ESSENTIAL_HARD_TIMEOUT_CODE = __awtsmoosModule_59.ESSENTIAL_HARD_TIMEOUT_CODE;
-	const essentialDeadlineFailure = __awtsmoosModule_59.essentialDeadlineFailure;
-	const essentialDependencyFailure = __awtsmoosModule_59.essentialDependencyFailure;
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_58.ESSENTIAL_MILESTONES;
-	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_58.ESSENTIAL_MILESTONE_CATALOG;
-	const SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS = __awtsmoosModule_58.SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS;
-	const resolveEssentialWatchdogTimeout = __awtsmoosModule_62.resolveEssentialWatchdogTimeout;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_65.dismissMitzvahWorldEssentialFailure;
-	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_65.presentMitzvahWorldEssentialFailure;
-	const applyEssentialDetails = __awtsmoosModule_61.applyEssentialDetails;
-	const clearEssentialFailure = __awtsmoosModule_61.clearEssentialFailure;
-	const createEssentialRecord = __awtsmoosModule_61.createEssentialRecord;
-	const isEssentialTerminal = __awtsmoosModule_61.isEssentialTerminal;
-	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_66.createMitzvahWorldEssentialSnapshot;
-	const syncMitzvahWorldEssentialSlowGraphicsNotice = __awtsmoosModule_67.syncMitzvahWorldEssentialSlowGraphicsNotice;
-	const readMitzvahWorldWebGlCapability = __awtsmoosModule_68.readMitzvahWorldWebGlCapability;
-	const activateReadyEssentialRecords = __awtsmoosModule_60.activateReadyEssentialRecords;
-	const touchEssentialRecord = __awtsmoosModule_60.touchEssentialRecord;
-	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_64.MitzvahWorldEssentialWatchdog;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_58.readMitzvahWorldEssentialTime;
+	const ESSENTIAL_HARD_TIMEOUT_CODE = __awtsmoosModule_60.ESSENTIAL_HARD_TIMEOUT_CODE;
+	const essentialDeadlineFailure = __awtsmoosModule_60.essentialDeadlineFailure;
+	const essentialDependencyFailure = __awtsmoosModule_60.essentialDependencyFailure;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_59.ESSENTIAL_MILESTONES;
+	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_59.ESSENTIAL_MILESTONE_CATALOG;
+	const SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS = __awtsmoosModule_59.SOFTWARE_RENDERER_FIRST_FRAME_DEADLINE_MS;
+	const resolveEssentialWatchdogTimeout = __awtsmoosModule_63.resolveEssentialWatchdogTimeout;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_66.dismissMitzvahWorldEssentialFailure;
+	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_66.presentMitzvahWorldEssentialFailure;
+	const applyEssentialDetails = __awtsmoosModule_62.applyEssentialDetails;
+	const clearEssentialFailure = __awtsmoosModule_62.clearEssentialFailure;
+	const createEssentialRecord = __awtsmoosModule_62.createEssentialRecord;
+	const isEssentialTerminal = __awtsmoosModule_62.isEssentialTerminal;
+	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_67.createMitzvahWorldEssentialSnapshot;
+	const syncMitzvahWorldEssentialSlowGraphicsNotice = __awtsmoosModule_68.syncMitzvahWorldEssentialSlowGraphicsNotice;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_69.readMitzvahWorldWebGlCapability;
+	const activateReadyEssentialRecords = __awtsmoosModule_61.activateReadyEssentialRecords;
+	const touchEssentialRecord = __awtsmoosModule_61.touchEssentialRecord;
+	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_65.MitzvahWorldEssentialWatchdog;
 
 	class MitzvahWorldEssentialLedger {
 		constructor(environment) {
@@ -5575,7 +5645,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootMilestones.js ----
 {
-	const __exports = __awtsmoosModule_69;
+	const __exports = __awtsmoosModule_70;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5751,7 +5821,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
 {
-	const __exports = __awtsmoosModule_70;
+	const __exports = __awtsmoosModule_71;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5950,7 +6020,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
 {
-	const __exports = __awtsmoosModule_55;
+	const __exports = __awtsmoosModule_56;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5961,16 +6031,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets the five facts testify into one shared Malchus whose silence clocks renew with real progress, whose witnesses testify at deadlines, and whose outer first-play horizon stays finite.
 	 */
 
-	const MitzvahWorldEssentialLedger = __awtsmoosModule_56.MitzvahWorldEssentialLedger;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_65.dismissMitzvahWorldEssentialFailure;
-	const CATALOG_MILESTONES = __awtsmoosModule_58.ESSENTIAL_MILESTONES;
-	const recordEssentialBootMilestone = __awtsmoosModule_69.recordEssentialBootMilestone;
-	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_68.probeMitzvahWorldWebGlCapability;
-	const readMitzvahWorldWebGlCapability = __awtsmoosModule_68.readMitzvahWorldWebGlCapability;
-	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_68.rememberMitzvahWorldWebGlCapability;
-	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_68.WEBGL_UNAVAILABLE_CODE;
-	const transitionMitzvahWorldBootState = __awtsmoosModule_70.transitionMitzvahWorldBootState;
-	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_58.ESSENTIAL_MILESTONES;
+	const MitzvahWorldEssentialLedger = __awtsmoosModule_57.MitzvahWorldEssentialLedger;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_66.dismissMitzvahWorldEssentialFailure;
+	const CATALOG_MILESTONES = __awtsmoosModule_59.ESSENTIAL_MILESTONES;
+	const recordEssentialBootMilestone = __awtsmoosModule_70.recordEssentialBootMilestone;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_69.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_69.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_69.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_69.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_71.transitionMitzvahWorldBootState;
+	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_59.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 	const RESTART_ENTRY_STAGE = 'world-launch-restart';
@@ -6131,7 +6201,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_72;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6257,7 +6327,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/RuntimeAcceptanceScenes.js ----
 {
-	const __exports = __awtsmoosModule_74;
+	const __exports = __awtsmoosModule_75;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6340,7 +6410,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalBenchmarkQuery.js ----
 {
-	const __exports = __awtsmoosModule_76;
+	const __exports = __awtsmoosModule_77;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6400,7 +6470,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/WorldQualityProfile.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_76;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6412,8 +6482,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets benchmark truth choose survival first, then richer authored garments return elsewhere.
 	 */
 
-	const survivalBenchmarkQuality = __awtsmoosModule_76.survivalBenchmarkQuality;
-	const survivalDeviceDprCap = __awtsmoosModule_54.survivalDeviceDprCap;
+	const survivalBenchmarkQuality = __awtsmoosModule_77.survivalBenchmarkQuality;
+	const survivalDeviceDprCap = __awtsmoosModule_55.survivalDeviceDprCap;
 
 	const LIMITED_HARDWARE_DPR = 1.0;
 	const MOBILE_DPR = 1.25;
@@ -6515,7 +6585,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldReleaseProbeMetrics.js ----
 {
-	const __exports = __awtsmoosModule_78;
+	const __exports = __awtsmoosModule_79;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6591,7 +6661,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/RuntimeSceneResourceScan.js ----
 {
-	const __exports = __awtsmoosModule_79;
+	const __exports = __awtsmoosModule_80;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6682,7 +6752,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalFrameRecorder.js ----
 {
-	const __exports = __awtsmoosModule_77;
+	const __exports = __awtsmoosModule_78;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6698,9 +6768,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * recorder produces must come from a real MacBook Air or Pixel run (see the runbook).
 	 */
 
-	const evaluateReleasePerformance = __awtsmoosModule_78.evaluateReleasePerformance;
-	const summarizeReleaseFrames = __awtsmoosModule_78.summarizeReleaseFrames;
-	const scanRuntimeSceneResources = __awtsmoosModule_79.scanRuntimeSceneResources;
+	const evaluateReleasePerformance = __awtsmoosModule_79.evaluateReleasePerformance;
+	const summarizeReleaseFrames = __awtsmoosModule_79.summarizeReleaseFrames;
+	const scanRuntimeSceneResources = __awtsmoosModule_80.scanRuntimeSceneResources;
 
 	const SURVIVAL_SIXTY_FPS_DURATION_MS = 300000;
 
@@ -7165,7 +7235,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsDefinition.js ----
 {
-	const __exports = __awtsmoosModule_73;
+	const __exports = __awtsmoosModule_74;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7177,13 +7247,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps one Chossid, one chunk, one lamp, and essential motion in sight.
 	 */
 
-	const runtimeAcceptanceScene = __awtsmoosModule_74.runtimeAcceptanceScene;
-	const survivalDeviceClass = __awtsmoosModule_54.survivalDeviceClass;
-	const survivalFeatureOverride = __awtsmoosModule_54.survivalFeatureOverride;
-	const survivalOptionalFeatures = __awtsmoosModule_54.survivalOptionalFeatures;
-	const resolveWorldQuality = __awtsmoosModule_75.resolveWorldQuality;
-	const shadowTierForWorldQuality = __awtsmoosModule_75.shadowTierForWorldQuality;
-	const SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_77.SURVIVAL_SIXTY_FPS_DURATION_MS;
+	const runtimeAcceptanceScene = __awtsmoosModule_75.runtimeAcceptanceScene;
+	const survivalDeviceClass = __awtsmoosModule_55.survivalDeviceClass;
+	const survivalFeatureOverride = __awtsmoosModule_55.survivalFeatureOverride;
+	const survivalOptionalFeatures = __awtsmoosModule_55.survivalOptionalFeatures;
+	const resolveWorldQuality = __awtsmoosModule_76.resolveWorldQuality;
+	const shadowTierForWorldQuality = __awtsmoosModule_76.shadowTierForWorldQuality;
+	const SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_78.SURVIVAL_SIXTY_FPS_DURATION_MS;
 
 	const SURVIVAL_SIXTY_FPS_SCENE_ID = 'survival-spawn';
 
@@ -7253,7 +7323,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalRuntimeVerification.js ----
 {
-	const __exports = __awtsmoosModule_81;
+	const __exports = __awtsmoosModule_82;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7265,7 +7335,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com rejects richer accidental garments before a benchmark borrows their name.
 	 */
 
-	const survivalSixtyFpsFeatureGates = __awtsmoosModule_73.survivalSixtyFpsFeatureGates;
+	const survivalSixtyFpsFeatureGates = __awtsmoosModule_74.survivalSixtyFpsFeatureGates;
 
 	/** Returns contradictory and unavailable survival evidence without inventing missing proof. */
 	function verifySurvivalRuntime(runtime, profile) {
@@ -7313,30 +7383,35 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldBenchmarkHardware.js ----
 {
-	const __exports = __awtsmoosModule_84;
+	const __exports = __awtsmoosModule_85;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file MitzvahWorldBenchmarkHardware.js
-	 * @description Captures only browser- and renderer-observed hardware facts for one benchmark receipt.
+	 * @description Captures browser- and renderer-observed hardware facts without fabricating defaults.
 	 * The Awtsmoos needs no vendor string to know the vessel He renews;
-	 * Awtsmoos.com records only what WebGL and the browser actually reveal, never guessing what no witness shows.
+	 * Awtsmoos.com records only what WebGL and the browser reveal, not false zeros as news.
 	 */
 
-	/** Returns one immutable hardware and page snapshot without inventing unavailable fields. */
+	/**
+	 * Captures one immutable real-browser hardware witness for the survival receipt.
+	 * @param {object|null} runtime Current renderer-owning playable world.
+	 * @param {object} environment Live window-like browser object.
+	 * @returns {object} Grounded GPU, DPR, memory and browser details.
+	 */
 	function collectMitzvahWorldBenchmarkHardware(runtime = null, environment = globalThis) {
 		const navigator = environment.navigator || {};
 		const renderer = runtime?.renderer?.delegate || runtime?.renderer || null;
 		const gl = renderer?.gl || renderer?.getContext?.() || null;
 		const gpu = gpuIdentity(gl);
 		return Object.freeze({
-			deviceMemoryGb: finiteOrNull(navigator.deviceMemory),
-			devicePixelRatio: finiteOrNull(environment.devicePixelRatio),
+			deviceMemoryGb: finiteHardwareNumber(navigator.deviceMemory),
+			devicePixelRatio: finiteHardwareNumber(environment.devicePixelRatio),
 			gpuRenderer: gpu.renderer,
 			gpuVendor: gpu.vendor,
-			hardwareConcurrency: finiteOrNull(navigator.hardwareConcurrency),
+			hardwareConcurrency: finiteHardwareNumber(navigator.hardwareConcurrency),
 			origin: environment.location?.origin || null,
 			pathname: environment.location?.pathname || null,
 			platform: navigator.platform || null,
@@ -7348,6 +7423,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.collectMitzvahWorldBenchmarkHardware = collectMitzvahWorldBenchmarkHardware;
+	/** Reads extensions when permitted; an unavailable GPU name stays null. */
 	function gpuIdentity(gl) {
 		if (!gl) return Object.freeze({ renderer: null, vendor: null });
 		try {
@@ -7363,6 +7439,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+	/** Does not promote WebGL exceptions into a guessed GPU vendor. */
 	function safeParameter(gl, key) {
 		try {
 			return key === undefined ? null : gl.getParameter?.(key) ?? null;
@@ -7371,15 +7448,19 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
-	function finiteOrNull(value) {
-		return Number.isFinite(Number(value)) ? Number(value) : null;
+	/** Distinguishes missing, blank, invalid and negative readings from measured zero. */
+	function finiteHardwareNumber(value) {
+		if (value === null || value === undefined || typeof value === 'boolean') return null;
+		if (typeof value === 'string' && !value.trim()) return null;
+		const number = Number(value);
+		return Number.isFinite(number) && number >= 0 ? number : null;
 	}
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldBenchmarkResources.js ----
 {
-	const __exports = __awtsmoosModule_85;
+	const __exports = __awtsmoosModule_86;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7476,7 +7557,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldStartupAcceptance.js ----
 {
-	const __exports = __awtsmoosModule_86;
+	const __exports = __awtsmoosModule_87;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7567,56 +7648,273 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldAcceptedMovementAcceptance.js ----
+{
+	const __exports = __awtsmoosModule_88;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldAcceptedMovementAcceptance.js
+	 * @description Distinguishes real post-collision movement from the earlier control-ready milestone.
+	 * The Awtsmoos grants the traveler feet as well as will;
+	 * Awtsmoos.com records a real step before it certifies the hill.
+	 */
+
+	const FIRST_MOVEMENT_GLOBAL = 'AwtsmoosMitzvahWorldFirstAcceptedMovementAt';
+	const FIRST_MOVEMENT_LIMIT_MS = 5000;
+
+	/**
+	 * Measures the first successful translation in navigation-relative browser time.
+	 * @param {object} environment Real browser window-like evidence.
+	 * @returns {object} Fail-closed accepted movement proof and reason labels.
+	 */
+	function collectMitzvahWorldAcceptedMovementAcceptance(environment = globalThis) {
+		const observedAt = environment[FIRST_MOVEMENT_GLOBAL];
+		const firstAcceptedMovementMilliseconds = typeof observedAt === 'number'
+			&& Number.isFinite(observedAt) && observedAt >= 0
+			? observedAt
+			: null;
+		const failures = [];
+		if (firstAcceptedMovementMilliseconds === null) {
+			failures.push('FIRST_ACCEPTED_MOVEMENT_UNMEASURED');
+		} else if (firstAcceptedMovementMilliseconds > FIRST_MOVEMENT_LIMIT_MS) {
+			failures.push('FIRST_ACCEPTED_MOVEMENT_OVER_5000_MS');
+		}
+		return Object.freeze({
+			certified: failures.length === 0,
+			failures: Object.freeze(failures),
+			firstAcceptedMovementMilliseconds,
+			timeOrigin: 'performance.now-navigation-relative'
+		});
+	}
+
+	__exports.collectMitzvahWorldAcceptedMovementAcceptance = collectMitzvahWorldAcceptedMovementAcceptance;
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalElapsed.js ----
+{
+	const __exports = __awtsmoosModule_89;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldSurvivalElapsed.js
+	 * @description Separates a configured survival duration from browser-observed time.
+	 * The Awtsmoos gives each moment birth beyond our clock's command;
+	 * Awtsmoos.com requires two measured timestamps before it calls five minutes planned.
+	 */
+
+	const FIVE_MINUTES_MS = 300000;
+	const SNAPSHOT_START_SKEW_MS = 1000;
+
+	/**
+	 * Verifies elapsed time observed by the recorder's monotonic browser clock.
+	 * The spawn snapshot is taken just after start, so allow at most one second of skew.
+	 * @param {object} report Real recorder report containing spawn snapshot and stop time.
+	 * @returns {{elapsedMilliseconds:number|null, failures:string[]}} Fail-closed evidence.
+	 */
+	function evaluateMitzvahWorldSurvivalElapsed(report = {}) {
+		const startedAt = measuredTimestamp(report.render?.first?.atMs);
+		const stoppedAt = measuredTimestamp(report.stoppedAtMs);
+		const elapsedMilliseconds = startedAt === null || stoppedAt === null
+			? null
+			: stoppedAt - startedAt;
+		const failures = [];
+
+		if (report.reason !== 'duration-complete'
+			|| !Number.isFinite(report.durationMs)
+			|| report.durationMs < FIVE_MINUTES_MS) {
+			failures.push('FIVE_MINUTE_RUN_INCOMPLETE');
+		}
+		if (elapsedMilliseconds === null || elapsedMilliseconds < 0) {
+			failures.push('OBSERVED_RUN_ELAPSED_UNMEASURED');
+		} else if (elapsedMilliseconds < FIVE_MINUTES_MS - SNAPSHOT_START_SKEW_MS) {
+			failures.push('OBSERVED_RUN_TOO_SHORT');
+		}
+		return Object.freeze({
+			elapsedMilliseconds: elapsedMilliseconds !== null && elapsedMilliseconds >= 0
+				? elapsedMilliseconds
+				: null,
+			failures: Object.freeze(failures)
+		});
+	}
+
+
+	__exports.evaluateMitzvahWorldSurvivalElapsed = evaluateMitzvahWorldSurvivalElapsed;
+	/** Rejects absent and invalid timestamps rather than coercing them to zero. */
+	function measuredTimestamp(value) {
+		return typeof value === 'number' && Number.isFinite(value) && value >= 0
+			? value
+			: null;
+	}
+
+}
+
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalCustody.js ----
+{
+	const __exports = __awtsmoosModule_90;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldSurvivalCustody.js
+	 * @description Judges real-hardware evidence without promoting absent measurements to a pass.
+	 * The Awtsmoos renews a frame by His unbounded will;
+	 * Awtsmoos.com joins each browser witness with the measured five-minute hill.
+	 */
+
+	const evaluateMitzvahWorldSurvivalElapsed = __awtsmoosModule_89.evaluateMitzvahWorldSurvivalElapsed;
+
+	const RELEASE_PATTERN = /^[a-f\d]{64}$/i;
+	const MAXIMUM_WORK_SLICE_MS = 4;
+	const MAXIMUM_FIRST_CONTROL_MS = 5000;
+	const REQUIRED_ARTIFACTS = Object.freeze([
+		'mitzvah-world.compact.js',
+		'mitzvah-world-foundation.compact.js',
+		'mitzvah-world-player.compact.js',
+		'mitzvah-world-core.compact.js',
+		'chossid.glb'
+	]);
+
+	/**
+	 * Names every unproven condition before a richer profile can be certified.
+	 * @param {object} evidence Current browser, runtime, startup, and frame witnesses.
+	 * @returns {string[]} Explicit fail-closed reasons, empty only for measured proof.
+	 */
+	function evaluateMitzvahWorldSurvivalCustody(evidence = {}) {
+		const failures = [];
+		const releaseId = evidence.releaseId || null;
+		const environment = evidence.environment || {};
+		const manifestId = evidence.resources?.releaseId || null;
+		const htmlId = environment.document?.querySelector?.('meta[name="mitzvah-world-release"]')?.content || null;
+		const bootId = environment.AwtsmoosMitzvahWorldReleaseId || null;
+		const observedPaths = evidence.resources?.resources?.map(item => item.path) || [];
+
+		if (!RELEASE_PATTERN.test(releaseId || '')) failures.push('CURRENT_RELEASE_ID_UNPROVEN');
+		if (releaseId !== manifestId) failures.push('RELEASE_MANIFEST_MISMATCH');
+		if (releaseId !== htmlId) failures.push('RELEASE_HTML_META_MISMATCH');
+		if (releaseId !== bootId) failures.push('RELEASE_BOOT_SEAL_MISMATCH');
+		for (const name of REQUIRED_ARTIFACTS) {
+			if (!observedPaths.some(path => path.endsWith(name))) {
+				failures.push(`CRITICAL_ARTIFACT_MISSING:${name}`);
+			}
+		}
+		for (const resource of evidence.resources?.resources || []) {
+			if (!Number.isFinite(resource.requests) || resource.requests < 1) {
+				failures.push(`CRITICAL_RESOURCE_UNOBSERVED:${resource.path}`);
+			}
+		}
+		failures.push(...(evidence.resources?.violations || []));
+
+		const frameReport = evidence.frameReport || {};
+		failures.push(...evaluateMitzvahWorldSurvivalElapsed(frameReport).failures);
+		if (frameReport.certified !== true) failures.push('FRAME_REPORT_NOT_CERTIFIED');
+		if (!Number.isFinite(frameReport.frames?.count) || frameReport.frames.count < 1) {
+			failures.push('FRAME_SAMPLES_MISSING');
+		}
+		if (evidence.hardware?.webglAvailable !== true) failures.push('WEBGL_HARDWARE_EVIDENCE_MISSING');
+		if (!evidence.hardware?.gpuRenderer) failures.push('GPU_RENDERER_UNMEASURED');
+
+		const startup = evidence.startup || {};
+		if (startup.certified !== true) failures.push('STARTUP_MILESTONES_NOT_CERTIFIED');
+		if (!Number.isFinite(startup.firstControlMilliseconds)) {
+			failures.push('FIRST_CONTROL_DURATION_UNMEASURED');
+		} else if (startup.firstControlMilliseconds > MAXIMUM_FIRST_CONTROL_MS) {
+			failures.push('FIRST_CONTROL_OVER_5_SECONDS');
+		}
+
+		const generation = finiteOrNull(frameReport.generation?.maximumMilliseconds);
+		const upload = finiteOrNull(evidence.streaming?.uploadMaximumMilliseconds);
+		if (generation === null) failures.push('GENERATION_DURATION_UNMEASURED');
+		else if (generation > MAXIMUM_WORK_SLICE_MS) failures.push('GENERATION_TASK_OVER_4_MS');
+		if (upload === null) failures.push('UPLOAD_DURATION_UNMEASURED');
+		else if (upload > MAXIMUM_WORK_SLICE_MS) failures.push('UPLOAD_TASK_OVER_4_MS');
+		return failures;
+	}
+
+
+	__exports.evaluateMitzvahWorldSurvivalCustody = evaluateMitzvahWorldSurvivalCustody;
+	/** Zero means measured zero only when the caller supplied a numeric witness. */
+	function finiteOrNull(value) {
+		if (value === null || value === undefined || value === '') return null;
+		const numeric = Number(value);
+		return Number.isFinite(numeric) && numeric >= 0 ? numeric : null;
+	}
+
+	__exports.finiteOrNull = finiteOrNull;
+
+}
+
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalReceipt.js ----
 {
-	const __exports = __awtsmoosModule_83;
+	const __exports = __awtsmoosModule_84;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file MitzvahWorldSurvivalReceipt.js
-	 * @description Composes the current-release five-minute survival witness from existing frame, startup, resource, hardware, and streaming evidence.
-	 * The Awtsmoos is beyond every finite ledger, yet each honest number can reveal one measured ray;
-	 * Awtsmoos.com binds the release, frame, network, heap, and chunk witnesses without calling an unknown metric okay.
+	 * @description Composes actual elapsed time, accepted movement, streaming work and current release custody.
+	 * The Awtsmoos restores each frame anew without a finite clock;
+	 * Awtsmoos.com joins the browser's seal to a measured temporal rock.
 	 */
 
-	const collectMitzvahWorldBenchmarkHardware = __awtsmoosModule_84.collectMitzvahWorldBenchmarkHardware;
-	const collectMitzvahWorldCriticalResourceWitness = __awtsmoosModule_85.collectMitzvahWorldCriticalResourceWitness;
-	const createMitzvahWorldStartupAcceptance = __awtsmoosModule_86.createMitzvahWorldStartupAcceptance;
+	const collectMitzvahWorldBenchmarkHardware = __awtsmoosModule_85.collectMitzvahWorldBenchmarkHardware;
+	const collectMitzvahWorldCriticalResourceWitness = __awtsmoosModule_86.collectMitzvahWorldCriticalResourceWitness;
+	const createMitzvahWorldStartupAcceptance = __awtsmoosModule_87.createMitzvahWorldStartupAcceptance;
+	const collectMitzvahWorldAcceptedMovementAcceptance = __awtsmoosModule_88.collectMitzvahWorldAcceptedMovementAcceptance;
+	const evaluateMitzvahWorldSurvivalElapsed = __awtsmoosModule_89.evaluateMitzvahWorldSurvivalElapsed;
+	const evaluateMitzvahWorldSurvivalCustody = __awtsmoosModule_90.evaluateMitzvahWorldSurvivalCustody;
+	const finiteOrNull = __awtsmoosModule_90.finiteOrNull;
 
-	const RELEASE_ID_PATTERN = /^[a-f0-9]{64}$/i;
-	const TASK_LIMIT_MS = 4;
-
-	/** Creates one immutable Chapter 5 survival receipt; unknown evidence fails closed. */
+	/**
+	 * Keeps current loaded release, frame measurements and movement proof together.
+	 * @param {object} options Recorder, runtime and live browser context.
+	 * @returns {object} Immutable copyable fail-closed JSON receipt.
+	 */
 	function createMitzvahWorldSurvivalReceipt(options = {}) {
 		const environment = options.environment || globalThis;
 		const runtime = options.runtime || null;
 		const frameReport = options.frameReport || null;
 		const resources = collectMitzvahWorldCriticalResourceWitness(environment);
 		const hardware = collectMitzvahWorldBenchmarkHardware(runtime, environment);
-		const releaseId = resolveReleaseId(environment, resources);
+		const releaseId = resources.releaseId;
 		const startup = createMitzvahWorldStartupAcceptance(environment, {
 			loadKind: options.loadKind || 'unknown'
 		});
-		const streaming = streamingEvidence(runtime);
-		const failures = receiptFailures({
-			frameReport,
-			hardware,
-			releaseId,
-			resources,
-			streaming
-		});
+		const acceptedMovement = collectMitzvahWorldAcceptedMovementAcceptance(environment);
+		const streaming = collectSurvivalStreamingEvidence(runtime);
+		const elapsedEvidence = evaluateMitzvahWorldSurvivalElapsed(frameReport || {});
+		const failures = [
+			...evaluateMitzvahWorldSurvivalCustody({
+				environment,
+				frameReport,
+				hardware,
+				releaseId,
+				resources,
+				startup,
+				streaming
+			}),
+			...acceptedMovement.failures
+		];
 		return Object.freeze({
+			acceptedMovement,
 			benchmark: 'survival',
 			certified: failures.length === 0,
 			failures: Object.freeze(failures),
 			frameReport,
 			hardware,
+			observedElapsedMilliseconds: elapsedEvidence.elapsedMilliseconds,
 			profile: options.profile || null,
 			releaseId,
+			releaseIdSource: 'document-manifest',
 			resources,
-			schemaVersion: 1,
+			schemaVersion: 3,
 			startup,
 			streaming
 		});
@@ -7624,16 +7922,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createMitzvahWorldSurvivalReceipt = createMitzvahWorldSurvivalReceipt;
-	function resolveReleaseId(environment, resources) {
-		return environment.AwtsmoosMitzvahWorldReleaseId
-			|| environment.AwtsmoosMitzvahWorldReleaseReceipt?.releaseId
-			|| resources.releaseId
-			|| null;
-	}
-
-	function streamingEvidence(runtime) {
+	/** Records synchronous upload submission duration, not asynchronous GPU completion. */
+	function collectSurvivalStreamingEvidence(runtime) {
 		const diagnostics = runtime?.budgetedGenerationDiagnostics || null;
-		const coordinator = diagnostics?.coordinator || runtime?.streamingCoordinator?.diagnostics?.() || null;
+		const coordinator = diagnostics?.coordinator
+			|| runtime?.streamingCoordinator?.diagnostics?.()
+			|| null;
 		const uploadMaximumMilliseconds = finiteOrNull(
 			coordinator?.maximumUploadMilliseconds
 			?? coordinator?.maximumGpuUploadMilliseconds
@@ -7642,35 +7936,16 @@ const __awtsmoosModule_0 = Object.create(null);
 			diagnostics,
 			uploadMaximumMilliseconds,
 			uploadSource: uploadMaximumMilliseconds === null
-				? 'unavailable: upload gate exposes count/deferral but no measured duration'
+				? 'unavailable: no measured upload submission duration'
 				: 'streamingCoordinator.diagnostics().maximumUploadMilliseconds'
 		});
-	}
-
-	function receiptFailures(evidence) {
-		const failures = [];
-		if (!RELEASE_ID_PATTERN.test(evidence.releaseId || '')) failures.push('CURRENT_RELEASE_ID_UNPROVEN');
-		if (evidence.frameReport?.certified !== true) failures.push('FRAME_REPORT_NOT_CERTIFIED');
-		if (evidence.hardware.webglAvailable !== true) failures.push('WEBGL_HARDWARE_EVIDENCE_MISSING');
-		failures.push(...evidence.resources.violations);
-		const generationMs = finiteOrNull(evidence.frameReport?.generation?.maximumMilliseconds);
-		if (generationMs === null) failures.push('GENERATION_DURATION_UNMEASURED');
-		else if (generationMs > TASK_LIMIT_MS) failures.push('GENERATION_TASK_OVER_4_MS');
-		const uploadMs = evidence.streaming.uploadMaximumMilliseconds;
-		if (uploadMs === null) failures.push('UPLOAD_DURATION_UNMEASURED');
-		else if (uploadMs > TASK_LIMIT_MS) failures.push('UPLOAD_TASK_OVER_4_MS');
-		return failures;
-	}
-
-	function finiteOrNull(value) {
-		return Number.isFinite(Number(value)) ? Number(value) : null;
 	}
 
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalReceiptPublisher.js ----
 {
-	const __exports = __awtsmoosModule_82;
+	const __exports = __awtsmoosModule_83;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7682,7 +7957,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com waits until the run is complete, then reveals one receipt whose evidence openly shows.
 	 */
 
-	const createMitzvahWorldSurvivalReceipt = __awtsmoosModule_83.createMitzvahWorldSurvivalReceipt;
+	const createMitzvahWorldSurvivalReceipt = __awtsmoosModule_84.createMitzvahWorldSurvivalReceipt;
 
 	const SURVIVAL_BENCHMARK_RECEIPT_GLOBAL = 'AwtsmoosMitzvahWorldSurvivalBenchmarkReceipt';
 
@@ -7720,58 +7995,170 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/MitzvahWorldSurvivalOverlay.js ----
+{
+	const __exports = __awtsmoosModule_91;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldSurvivalOverlay.js
+	 * @description Shows one real-device survival clock and a copyable evidence receipt, without touching ordinary play.
+	 * The Awtsmoos renews each heartbeat beneath the sky;
+	 * Awtsmoos.com counts five minutes before a finite claim may fly.
+	 */
+
+	const OVERLAY_ID = 'awtsmoos-survival-benchmark-receipt';
+	const PANEL_STYLE = 'position:fixed;right:12px;bottom:12px;z-index:2147483000;'
+		+ 'width:min(390px,calc(100vw - 24px));max-height:45vh;overflow:auto;'
+		+ 'box-sizing:border-box;padding:12px;border:1px solid #91b69a;border-radius:9px;'
+		+ 'background:#10231df2;color:#f1f9f0;font:13px/1.5 system-ui,sans-serif;'
+		+ 'box-shadow:0 6px 24px #0008;';
+
+	/**
+	 * Opens a small benchmark-only witness and returns its completion controls.
+	 * @param {object} environment Browser document and timer APIs.
+	 * @param {number} durationMs Expected measurement duration.
+	 * @returns {{complete:Function,fail:Function}} Finite recorder UI controls.
+	 */
+	function beginMitzvahWorldSurvivalOverlay(environment = globalThis, durationMs = 300000) {
+		const document = environment.document;
+		if (!document?.createElement || !document.body?.appendChild) return silentOverlay();
+		const previous = document.getElementById?.(OVERLAY_ID);
+		previous?.remove?.();
+		const panel = document.createElement('section');
+		panel.id = OVERLAY_ID;
+		panel.style.cssText = PANEL_STYLE;
+		panel.setAttribute('aria-label', 'Mitzvah World survival benchmark');
+		const heading = document.createElement('strong');
+		heading.textContent = 'Mitzvah World · Survival benchmark';
+		const status = document.createElement('div');
+		status.setAttribute('role', 'status');
+		const output = document.createElement('textarea');
+		output.readOnly = true;
+		output.setAttribute('aria-label', 'Benchmark JSON receipt');
+		output.style.cssText = 'display:none;width:100%;height:140px;box-sizing:border-box;'
+			+ 'background:#fff;color:#15231c;font:11px monospace;';
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.textContent = 'Copy JSON receipt';
+		button.style.cssText = 'display:none;margin-top:7px;padding:7px 10px;cursor:pointer;';
+		panel.append(heading, status, output, button);
+		document.body.appendChild(panel);
+
+		const started = environment.performance?.now?.() ?? Date.now();
+		let finished = false;
+		const clock = () => environment.performance?.now?.() ?? Date.now();
+		const update = () => {
+			if (finished) return;
+			const seconds = Math.max(0, Math.ceil((durationMs - (clock() - started)) / 1000));
+			status.textContent = `Recording real-device frames · ${seconds}s remaining`;
+		};
+		update();
+		const timer = environment.setInterval?.(update, 1000) ?? null;
+		const stop = () => {
+			finished = true;
+			if (timer !== null) environment.clearInterval?.(timer);
+		};
+		button.addEventListener('click', async () => {
+			try {
+				if (!environment.navigator?.clipboard?.writeText) throw new Error('Clipboard unavailable');
+				await environment.navigator.clipboard.writeText(output.value);
+				status.textContent = 'JSON receipt copied. Preserve it with device and release ID.';
+			} catch {
+				output.focus();
+				output.select();
+				status.textContent = 'Select and copy the JSON receipt manually.';
+			}
+		});
+		return Object.freeze({
+			complete(receipt) {
+				stop();
+				output.value = JSON.stringify(receipt, null, 2);
+				output.style.display = 'block';
+				button.style.display = 'inline-block';
+				status.textContent = receipt?.certified
+					? 'Measured benchmark passed local checks; verify both devices separately.'
+					: `Not certified · ${(receipt?.failures || []).join(', ')}`;
+			},
+			fail(reason) {
+				stop();
+				status.textContent = `Benchmark could not start: ${reason}`;
+			}
+		});
+	}
+
+
+	__exports.beginMitzvahWorldSurvivalOverlay = beginMitzvahWorldSurvivalOverlay;
+	/** Does not interfere with headless tests or a page lacking DOM APIs. */
+	function silentOverlay() {
+		return Object.freeze({ complete() {}, fail() {} });
+	}
+
+}
+
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsRun.js ----
 {
-	const __exports = __awtsmoosModule_80;
+	const __exports = __awtsmoosModule_81;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file SurvivalSixtyFpsRun.js
-	 * @description Starts one sparse five-minute survival measurement only after the playable runtime exists.
-	 * The Awtsmoos renews each frame without waiting for our finite proof;
-	 * Awtsmoos.com lets the recorder witness the meadow, then publishes one sealed receipt beneath its roof.
+	 * @description Starts a five-minute survival witness only in a verified playable runtime.
+	 * The Awtsmoos renews each blade before the eyes can see;
+	 * Awtsmoos.com asks real devices what their frame times prove to be.
 	 */
 
-	const createSurvivalFrameRecorder = __awtsmoosModule_77.createSurvivalFrameRecorder;
-	const SURVIVAL_RECORDER_GLOBAL = __awtsmoosModule_77.SURVIVAL_RECORDER_GLOBAL;
-	const SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_77.SURVIVAL_REPORT_GLOBAL;
-	const isSurvivalQuality = __awtsmoosModule_54.isSurvivalQuality;
-	const resolveWorldQuality = __awtsmoosModule_75.resolveWorldQuality;
-	const survivalRecorderRequested = __awtsmoosModule_76.survivalRecorderRequested;
-	const survivalSixtyFpsProfile = __awtsmoosModule_73.survivalSixtyFpsProfile;
-	const verifySurvivalRuntime = __awtsmoosModule_81.verifySurvivalRuntime;
-	const publishMitzvahWorldSurvivalReceipt = __awtsmoosModule_82.publishMitzvahWorldSurvivalReceipt;
+	const createSurvivalFrameRecorder = __awtsmoosModule_78.createSurvivalFrameRecorder;
+	const SURVIVAL_RECORDER_GLOBAL = __awtsmoosModule_78.SURVIVAL_RECORDER_GLOBAL;
+	const SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_78.SURVIVAL_REPORT_GLOBAL;
+	const isSurvivalQuality = __awtsmoosModule_55.isSurvivalQuality;
+	const resolveWorldQuality = __awtsmoosModule_76.resolveWorldQuality;
+	const survivalRecorderRequested = __awtsmoosModule_77.survivalRecorderRequested;
+	const survivalSixtyFpsProfile = __awtsmoosModule_74.survivalSixtyFpsProfile;
+	const verifySurvivalRuntime = __awtsmoosModule_82.verifySurvivalRuntime;
+	const publishMitzvahWorldSurvivalReceipt = __awtsmoosModule_83.publishMitzvahWorldSurvivalReceipt;
 
-	/** Preserves the public Chapter 4 request helper while accepting benchmark=survival. */
+	/** Preserves legacy query selection and accepts benchmark=survival. */
 	function survivalSixtyFpsRequested(options = {}, environment = globalThis) {
 		return survivalRecorderRequested(options, environment);
 	}
 
 
 	__exports.survivalSixtyFpsRequested = survivalSixtyFpsRequested;
-	/** Starts one five-minute run and publishes the enriched Chapter 5 receipt on completion. */
+	/**
+	 * Starts actual measured frames, with a UI only when supplied by the benchmark path.
+	 * @param {object} runtime Playable Chossid runtime with renderer, camera, and collision.
+	 * @param {object} options Quality options and the optional benchmark overlay.
+	 * @param {object} environment Current device's browser context.
+	 */
 	function startSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 		const profile = survivalSixtyFpsProfile(options, environment);
 		const verification = verifySurvivalRuntime(runtime, profile);
-		if (!verification.ok) return failedRun(profile, verification);
+		if (!verification.ok) {
+			options.benchmarkOverlay?.fail?.('runtime profile verification failed');
+			return failedRun(profile, verification);
+		}
 		const recorder = createSurvivalFrameRecorder({
 			deviceClass: profile.deviceClass,
 			environment,
-			onReport: report => publishMitzvahWorldSurvivalReceipt(
-				report,
-				runtime,
-				profile,
-				environment
-			),
+			onReport(report) {
+				const receipt = publishMitzvahWorldSurvivalReceipt(report, runtime, profile, environment);
+				options.benchmarkOverlay?.complete?.(receipt);
+			},
 			profile,
 			runtime
 		});
 		const started = recorder.start();
+		if (!started) options.benchmarkOverlay?.fail?.('requestAnimationFrame unavailable');
 		try {
 			environment[SURVIVAL_RECORDER_GLOBAL] = recorder;
-		} catch {}
+		} catch {
+			// Frozen browser harnesses may omit diagnostic globals.
+		}
 		return Object.freeze({
 			profile,
 			recorder,
@@ -7783,7 +8170,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.startSurvivalSixtyFpsRun = startSurvivalSixtyFpsRun;
-	/** Starts only when requested and when the loaded world is actually survival quality. */
+	/** Imports the visible receipt only when the survival benchmark was explicitly requested. */
 	async function maybeStartSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 		try {
 			if (!survivalSixtyFpsRequested(options, environment)) {
@@ -7795,17 +8182,30 @@ const __awtsmoosModule_0 = Object.create(null);
 				&& !isSurvivalQuality(resolved)) {
 				return Object.freeze({ started: false, reason: 'quality-not-survival' });
 			}
-			const run = startSurvivalSixtyFpsRun(runtime, options, environment);
+			const active = environment[SURVIVAL_RECORDER_GLOBAL];
+			if (active?.started && !active.finished) {
+				return Object.freeze({ started: false, reason: 'recording-already-active' });
+			}
+			const benchmarkOverlay = await loadBenchmarkOverlay(environment);
+			const run = startSurvivalSixtyFpsRun(runtime, { ...options, benchmarkOverlay }, environment);
 			if (run.started) announceRun(run, environment);
 			return run;
 		} catch (error) {
-			environment?.console?.warn?.('B"H Survival benchmark failed to start; play continues unmeasured.', error);
+			environment?.console?.warn?.('B"H Survival benchmark could not start.', error);
 			return Object.freeze({ started: false, reason: 'recorder-start-failed' });
 		}
 	}
 
 
 	__exports.maybeStartSurvivalSixtyFpsRun = maybeStartSurvivalSixtyFpsRun;
+	/** Prevents the benchmark panel from entering the normal first-control import graph. */
+	async function loadBenchmarkOverlay(environment) {
+		if (!environment.document?.createElement) return null;
+		const module = await Promise.resolve(__awtsmoosModule_91);
+		return module.beginMitzvahWorldSurvivalOverlay(environment);
+	}
+
+	/** Preserves the public verification failure shape for callers. */
 	function failedRun(profile, verification) {
 		return Object.freeze({
 			profile,
@@ -7816,6 +8216,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
+	/** Reveals the console report global without treating it as a device certification. */
 	function announceRun(run, environment) {
 		environment?.console?.info?.(
 			`B"H Survival benchmark recording ${run.profile.durationMs / 1000}s `
@@ -7828,7 +8229,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/performance/SurvivalSixtyFpsProfile.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_73;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7840,21 +8241,21 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps old imports whole as profile, query, verification, and recording divide their work aright.
 	 */
 
-	const survivalSixtyFpsProfile = __awtsmoosModule_73.survivalSixtyFpsProfile;
+	const survivalSixtyFpsProfile = __awtsmoosModule_74.survivalSixtyFpsProfile;
 
-	__exports.SURVIVAL_ENABLED_FEATURES = __awtsmoosModule_73.SURVIVAL_ENABLED_FEATURES;
-	__exports.SURVIVAL_PROFILE_CONTENTS = __awtsmoosModule_73.SURVIVAL_PROFILE_CONTENTS;
-	__exports.SURVIVAL_SIXTY_FPS_SCENE_ID = __awtsmoosModule_73.SURVIVAL_SIXTY_FPS_SCENE_ID;
-	__exports.survivalSixtyFpsFeatureGates = __awtsmoosModule_73.survivalSixtyFpsFeatureGates;
-	__exports.survivalSixtyFpsProfile = __awtsmoosModule_73.survivalSixtyFpsProfile;
-	__exports.SURVIVAL_SIXTY_FPS_FLAG = __awtsmoosModule_76.SURVIVAL_SIXTY_FPS_FLAG;
-	__exports.maybeStartSurvivalSixtyFpsRun = __awtsmoosModule_80.maybeStartSurvivalSixtyFpsRun;
-	__exports.startSurvivalSixtyFpsRun = __awtsmoosModule_80.startSurvivalSixtyFpsRun;
-	__exports.survivalSixtyFpsRequested = __awtsmoosModule_80.survivalSixtyFpsRequested;
-	__exports.verifySurvivalRuntime = __awtsmoosModule_81.verifySurvivalRuntime;
-	__exports.copyableSurvivalSummary = __awtsmoosModule_77.copyableSurvivalSummary;
-	__exports.SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_77.SURVIVAL_REPORT_GLOBAL;
-	__exports.SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_77.SURVIVAL_SIXTY_FPS_DURATION_MS;
+	__exports.SURVIVAL_ENABLED_FEATURES = __awtsmoosModule_74.SURVIVAL_ENABLED_FEATURES;
+	__exports.SURVIVAL_PROFILE_CONTENTS = __awtsmoosModule_74.SURVIVAL_PROFILE_CONTENTS;
+	__exports.SURVIVAL_SIXTY_FPS_SCENE_ID = __awtsmoosModule_74.SURVIVAL_SIXTY_FPS_SCENE_ID;
+	__exports.survivalSixtyFpsFeatureGates = __awtsmoosModule_74.survivalSixtyFpsFeatureGates;
+	__exports.survivalSixtyFpsProfile = __awtsmoosModule_74.survivalSixtyFpsProfile;
+	__exports.SURVIVAL_SIXTY_FPS_FLAG = __awtsmoosModule_77.SURVIVAL_SIXTY_FPS_FLAG;
+	__exports.maybeStartSurvivalSixtyFpsRun = __awtsmoosModule_81.maybeStartSurvivalSixtyFpsRun;
+	__exports.startSurvivalSixtyFpsRun = __awtsmoosModule_81.startSurvivalSixtyFpsRun;
+	__exports.survivalSixtyFpsRequested = __awtsmoosModule_81.survivalSixtyFpsRequested;
+	__exports.verifySurvivalRuntime = __awtsmoosModule_82.verifySurvivalRuntime;
+	__exports.copyableSurvivalSummary = __awtsmoosModule_78.copyableSurvivalSummary;
+	__exports.SURVIVAL_REPORT_GLOBAL = __awtsmoosModule_78.SURVIVAL_REPORT_GLOBAL;
+	__exports.SURVIVAL_SIXTY_FPS_DURATION_MS = __awtsmoosModule_78.SURVIVAL_SIXTY_FPS_DURATION_MS;
 
 	__exports.default = survivalSixtyFpsProfile;
 }
@@ -7875,12 +8276,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const startBootstrapEssentialMovementLoop = __awtsmoosModule_1.startBootstrapEssentialMovementLoop;
 	const BootstrapMovementController = __awtsmoosModule_2.BootstrapMovementController;
-	const createBootstrapEssentialPlayerRuntime = __awtsmoosModule_24.createBootstrapEssentialPlayerRuntime;
-	const attachEretzWorldExperience = __awtsmoosModule_53.attachEretzWorldExperience;
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_55.ESSENTIAL_MILESTONES;
-	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_55.completeMitzvahWorldEssentialMilestone;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_71.markMitzvahWorldStartupMilestone;
-	const maybeStartSurvivalSixtyFpsRun = __awtsmoosModule_72.maybeStartSurvivalSixtyFpsRun;
+	const createBootstrapEssentialPlayerRuntime = __awtsmoosModule_25.createBootstrapEssentialPlayerRuntime;
+	const attachEretzWorldExperience = __awtsmoosModule_54.attachEretzWorldExperience;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_56.ESSENTIAL_MILESTONES;
+	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_56.completeMitzvahWorldEssentialMilestone;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_72.markMitzvahWorldStartupMilestone;
+	const maybeStartSurvivalSixtyFpsRun = __awtsmoosModule_73.maybeStartSurvivalSixtyFpsRun;
 
 	/** Builds, visibly primes, and certifies the real player movement runtime before post-control systems. */
 	function assembleBootstrapEssentialPrime(

@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+@file mitzvah-world-playable-help-001.css
+@description Zero-script keyboard and touch controls reference that survives the hidden loading veil.
+The Awtsmoos renews each step of the Chossid beneath the sky;
+Awtsmoos.com gives the player a guide when the loading veil goes by.
+*/
+
+#mitzvah-world-root > .Awtsmoos-play-help {
+	display: none;
+	position: fixed;
+	top: calc(env(safe-area-inset-top, 0px) + 12px);
+	right: calc(env(safe-area-inset-right, 0px) + 12px);
+	z-index: var(--mw-z-floating);
+	width: max-content;
+	max-width: min(340px, calc(100vw - 24px));
+	max-height: min(65vh, 460px);
+	overflow: auto;
+	box-sizing: border-box;
+	border: 1px solid rgba(192, 250, 211, .45);
+	border-radius: 14px;
+	background: #0d231c;
+	color: #f3fff6;
+	font: 600 .85rem/1.5 system-ui, sans-serif;
+}
+
+#mitzvah-world-root[data-awtsmoos-runtime="playable"] > .Awtsmoos-play-help {
+	display: block;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help summary {
+	display: list-item;
+	min-height: 44px;
+	padding: 11px 17px;
+	box-sizing: border-box;
+	cursor: pointer;
+	font-weight: 750;
+	color: #ecfff0;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help summary:focus-visible,
+#mitzvah-world-root > .Awtsmoos-play-help a:focus-visible {
+	outline: 3px solid #ffdd79;
+	outline-offset: -3px;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help .Awtsmoos-play-help-content {
+	padding: 0 16px 14px;
+	max-width: 310px;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help .Awtsmoos-play-help-content p {
+	margin: 9px 0;
+	color: #edf9f1;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help .Awtsmoos-play-help-content strong {
+	color: #ffe6a2;
+}
+
+#mitzvah-world-root > .Awtsmoos-play-help .Awtsmoos-play-help-content a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	color: #c7f7db;
+	text-underline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+	#mitzvah-world-root > .Awtsmoos-play-help {
+		top: calc(env(safe-area-inset-top, 0px) + 8px);
+		right: calc(env(safe-area-inset-right, 0px) + 8px);
+		max-width: calc(100vw - 16px);
+	}
+}

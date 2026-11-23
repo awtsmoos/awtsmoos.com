@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapMovementFrame.js
- * @description Coordinates one responsive player frame while preserving one canonical visible facing across movement and animation presentation.
- * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in one measured light;
- * the Awtsmoos renews traveler and direction each instant, and Awtsmoos.com keeps later presentation from undoing the path made right.
+ * @description Coordinates one responsive player frame and proves the first post-collision accepted step.
+ * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in measured light;
+ * the Awtsmoos renews direction each instant, and Awtsmoos.com records the first real step made right.
  */
 
 import { normalizeMovementIntent } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementIntent.js';
@@ -17,6 +17,7 @@ import { settleBootstrapMovementFacing } from './BootstrapMovementFacing.js';
 import { bootstrapMovementSpeed } from './BootstrapMovementPace.js';
 import { setBootstrapMovementYaw } from './BootstrapMovementControllerSupport.js';
 import { bootstrapDesiredVelocity, bootstrapVelocityOptions } from './BootstrapMovementVelocity.js';
+import { recordMitzvahWorldFirstAcceptedMovement } from './MitzvahWorldAcceptedMovementWitness.js';
 import { MITZVAH_MOVEMENT_PROFILE } from './MitzvahMovementProfile.js';
 import {
 	applyMovementCollision,
@@ -28,7 +29,7 @@ import {
 } from './MitzvahMovementRuntime.js';
 
 /**
- * Advances one complete player-control frame from fresh input through settled camera presentation.
+ * Advances one player-control frame from input through actual collision, camera, and presentation.
  * @param {BootstrapMovementController} controller Active movement controller.
  * @param {number} deltaSeconds Frame delta in seconds.
  * @returns {object} Canonical player state.
@@ -36,8 +37,7 @@ import {
 export function advanceBootstrapMovement(controller, deltaSeconds) {
 	const runtime = controller.runtime;
 	const state = runtime.state;
-	// Obstacle courses (Stream 3): advance movers and carry the rider before
-	// the movement frame reads the ground. No-op without a mounted course.
+	// Optional courses advance their movers before the rider samples collision.
 	runtime.courseEngine?.beforePlayerFrame?.(state, deltaSeconds);
 	runtime.cameraRig?.synchronizeFacing?.(state);
 	const axis = bootstrapInputAxis(runtime);
@@ -72,14 +72,14 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 		controller.horizontalVelocity,
 		deltaSeconds
 	);
+	const beforeCollision = { x: state.x, z: state.z };
 	applyMovementCollision(runtime, state, step);
+	recordMitzvahWorldFirstAcceptedMovement(runtime, beforeCollision, targetVelocity);
 	finishMovementVertical(runtime, state, richVertical);
 	settleBootstrapMovementFacing(runtime, state, keyboard, step);
 	settlePresentation(runtime, state);
 	const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
-	// Obstacle courses (Stream 3): checkpoints, timer, hazards, coins, and
-	// respawns settle here — before the bridge replicates, so a respawned
-	// position is what other players see. No-op without a mounted course.
+	// Course checkpoints, hazards and respawns settle before replication.
 	runtime.courseEngine?.afterPlayerFrame?.(state, deltaSeconds);
 	runtime.multiplayerBridge?.update?.(deltaSeconds, state);
 	controller.distance += Math.hypot(step.x, step.z);
@@ -95,7 +95,7 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 	return state;
 }
 
-/** Applies the same canonical facing that animation presentation will use moments later. */
+/** Applies the same canonical facing that animation presentation uses moments later. */
 function settlePresentation(runtime, state) {
 	runtime.model.position.set(state.x, state.renderY, state.z);
 	setBootstrapMovementYaw(

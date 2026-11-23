@@ -30,6 +30,8 @@
 		"styles/source/fragments/mitzvah-world-loading-002.css",
 		"styles/source/fragments/mitzvah-world-boot-future-001.css",
 		"styles/source/fragments/mitzvah-world-boot-future-002.css",
+		"styles/source/fragments/mitzvah-world-boot-help-001.css",
+		"styles/source/fragments/mitzvah-world-playable-help-001.css",
 		"styles/source/fragments/mitzvah-world-meadow-hud-001.css",
 		"styles/source/fragments/mitzvah-world-direct-action-001.css",
 		"styles/source/fragments/mitzvah-world-meadow-menu-001.css",
@@ -75,8 +77,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 166295,
-	"outputBytes": 115960,
+	"inputBytes": 170593,
+	"outputBytes": 119282,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -189,6 +191,16 @@
 				"bytes": 6485,
 				"lines": 106,
 				"path": "styles/source/fragments/mitzvah-world-boot-future-002.css"
+			},
+			{
+				"bytes": 2272,
+				"lines": 87,
+				"path": "styles/source/fragments/mitzvah-world-boot-help-001.css"
+			},
+			{
+				"bytes": 2022,
+				"lines": 78,
+				"path": "styles/source/fragments/mitzvah-world-playable-help-001.css"
 			},
 			{
 				"bytes": 2768,
@@ -311,8 +323,8 @@
 				"path": "styles/source/fragments/mitzvah-world-future-hud-002.css"
 			},
 			{
-				"bytes": 3448,
-				"lines": 56,
+				"bytes": 3572,
+				"lines": 58,
 				"path": "styles/source/imports-001.css"
 			},
 			{
@@ -418,19 +430,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 14587,
+			"bytes": 15048,
 			"encoding": "br",
-			"sha256": "160d81d23c46f385b6cce303cf26481f907538559c5e95a343c8678990e807d4"
+			"sha256": "77bd663214705600327fb2b1328f5a781c2f5f55a5cd5b8a5f5010b89c368cea"
 		},
 		"gzip": {
-			"bytes": 17530,
+			"bytes": 18142,
 			"encoding": "gzip",
-			"sha256": "3e3786ffe942c7ed02ba1f0a68fa43763f0ab6f5c371dae752103ccedda56f67"
+			"sha256": "6c81b36d7736a2c48b4dd1672756ece8541bc79df1c42608b8b2faf760a5ac81"
 		},
 		"identity": {
-			"bytes": 115961,
+			"bytes": 119283,
 			"encoding": "identity",
-			"sha256": "649ea6fa5661e5958382edebbbdb438588f8d783f2f58d4871011eaaf4777dff"
+			"sha256": "58bc19a4db2dcab0bcc1d1a3ba3a4f9d77a9ff6f8b7b72dd3e9fd667d6fa3f38"
 		}
 	}
 }

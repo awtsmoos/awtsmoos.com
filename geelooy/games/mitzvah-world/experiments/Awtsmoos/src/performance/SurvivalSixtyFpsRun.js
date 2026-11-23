@@ -4,16 +4,12 @@
 
 /**
  * @file SurvivalSixtyFpsRun.js
- * @description Starts one sparse five-minute survival measurement only after the playable runtime exists.
- * The Awtsmoos renews each frame without waiting for our finite proof;
- * Awtsmoos.com lets the recorder witness the meadow, then publishes one sealed receipt beneath its roof.
+ * @description Starts a five-minute survival witness only in a verified playable runtime.
+ * The Awtsmoos renews each blade before the eyes can see;
+ * Awtsmoos.com asks real devices what their frame times prove to be.
  */
 
-import {
-	createSurvivalFrameRecorder,
-	SURVIVAL_RECORDER_GLOBAL,
-	SURVIVAL_REPORT_GLOBAL
-} from './SurvivalFrameRecorder.js';
+import { createSurvivalFrameRecorder, SURVIVAL_RECORDER_GLOBAL, SURVIVAL_REPORT_GLOBAL } from './SurvivalFrameRecorder.js';
 import { isSurvivalQuality } from './SurvivalQualityPolicy.js';
 import { resolveWorldQuality } from './WorldQualityProfile.js';
 import { survivalRecorderRequested } from './SurvivalBenchmarkQuery.js';
@@ -21,32 +17,41 @@ import { survivalSixtyFpsProfile } from './SurvivalSixtyFpsDefinition.js';
 import { verifySurvivalRuntime } from './SurvivalRuntimeVerification.js';
 import { publishMitzvahWorldSurvivalReceipt } from './MitzvahWorldSurvivalReceiptPublisher.js';
 
-/** Preserves the public Chapter 4 request helper while accepting benchmark=survival. */
+/** Preserves legacy query selection and accepts benchmark=survival. */
 export function survivalSixtyFpsRequested(options = {}, environment = globalThis) {
 	return survivalRecorderRequested(options, environment);
 }
 
-/** Starts one five-minute run and publishes the enriched Chapter 5 receipt on completion. */
+/**
+ * Starts actual measured frames, with a UI only when supplied by the benchmark path.
+ * @param {object} runtime Playable Chossid runtime with renderer, camera, and collision.
+ * @param {object} options Quality options and the optional benchmark overlay.
+ * @param {object} environment Current device's browser context.
+ */
 export function startSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 	const profile = survivalSixtyFpsProfile(options, environment);
 	const verification = verifySurvivalRuntime(runtime, profile);
-	if (!verification.ok) return failedRun(profile, verification);
+	if (!verification.ok) {
+		options.benchmarkOverlay?.fail?.('runtime profile verification failed');
+		return failedRun(profile, verification);
+	}
 	const recorder = createSurvivalFrameRecorder({
 		deviceClass: profile.deviceClass,
 		environment,
-		onReport: report => publishMitzvahWorldSurvivalReceipt(
-			report,
-			runtime,
-			profile,
-			environment
-		),
+		onReport(report) {
+			const receipt = publishMitzvahWorldSurvivalReceipt(report, runtime, profile, environment);
+			options.benchmarkOverlay?.complete?.(receipt);
+		},
 		profile,
 		runtime
 	});
 	const started = recorder.start();
+	if (!started) options.benchmarkOverlay?.fail?.('requestAnimationFrame unavailable');
 	try {
 		environment[SURVIVAL_RECORDER_GLOBAL] = recorder;
-	} catch {}
+	} catch {
+		// Frozen browser harnesses may omit diagnostic globals.
+	}
 	return Object.freeze({
 		profile,
 		recorder,
@@ -56,7 +61,7 @@ export function startSurvivalSixtyFpsRun(runtime, options = {}, environment = gl
 	});
 }
 
-/** Starts only when requested and when the loaded world is actually survival quality. */
+/** Imports the visible receipt only when the survival benchmark was explicitly requested. */
 export async function maybeStartSurvivalSixtyFpsRun(runtime, options = {}, environment = globalThis) {
 	try {
 		if (!survivalSixtyFpsRequested(options, environment)) {
@@ -68,15 +73,28 @@ export async function maybeStartSurvivalSixtyFpsRun(runtime, options = {}, envir
 			&& !isSurvivalQuality(resolved)) {
 			return Object.freeze({ started: false, reason: 'quality-not-survival' });
 		}
-		const run = startSurvivalSixtyFpsRun(runtime, options, environment);
+		const active = environment[SURVIVAL_RECORDER_GLOBAL];
+		if (active?.started && !active.finished) {
+			return Object.freeze({ started: false, reason: 'recording-already-active' });
+		}
+		const benchmarkOverlay = await loadBenchmarkOverlay(environment);
+		const run = startSurvivalSixtyFpsRun(runtime, { ...options, benchmarkOverlay }, environment);
 		if (run.started) announceRun(run, environment);
 		return run;
 	} catch (error) {
-		environment?.console?.warn?.('B"H Survival benchmark failed to start; play continues unmeasured.', error);
+		environment?.console?.warn?.('B"H Survival benchmark could not start.', error);
 		return Object.freeze({ started: false, reason: 'recorder-start-failed' });
 	}
 }
 
+/** Prevents the benchmark panel from entering the normal first-control import graph. */
+async function loadBenchmarkOverlay(environment) {
+	if (!environment.document?.createElement) return null;
+	const module = await import('./MitzvahWorldSurvivalOverlay.js');
+	return module.beginMitzvahWorldSurvivalOverlay(environment);
+}
+
+/** Preserves the public verification failure shape for callers. */
 function failedRun(profile, verification) {
 	return Object.freeze({
 		profile,
@@ -87,6 +105,7 @@ function failedRun(profile, verification) {
 	});
 }
 
+/** Reveals the console report global without treating it as a device certification. */
 function announceRun(run, environment) {
 	environment?.console?.info?.(
 		`B"H Survival benchmark recording ${run.profile.durationMs / 1000}s `
