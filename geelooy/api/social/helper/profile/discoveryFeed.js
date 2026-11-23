@@ -12,7 +12,7 @@ const { postsByAlias } = require('./posts.js');
 const { commentsByAlias } = require('./comments.js');
 const { recentActivity } = require('./activity.js');
 const { safeRecordRead } = require('../safeguards/safeRecordRead.js');
-const { readPacked, writePacked } = require('../packed/socialPacked.js');
+const { readPackedLatest, writePacked } = require('../packed/socialPacked.js');
 const { logicalKey } = require('../packed/shardPaths.js');
 const { createHash } = require('crypto');
 
@@ -101,7 +101,14 @@ function riverSnapshotKey(cacheKey) {
 
 function readRiverSnapshot($i, cacheKey) {
 	try {
-		const envelope = readPacked({ $i, shard: 'feed', key: riverSnapshotKey(cacheKey) });
+		// B"H 2026-11-23 (speed pass): readPackedLatest, not readPacked —
+		// readPacked full-scans the whole feed shard on EVERY call
+		// (journaled read-scan shard=feed at 3.9–11.5s a piece, two per
+		// cold feed request), while readPackedLatest rides the
+		// stat-validated latest-per-key cache: one amortized build per
+		// process, then a stat + Map lookup, tail-merged on appends.
+		// Same envelope contract, tombstones included.
+		const envelope = readPackedLatest({ $i, shard: 'feed', key: riverSnapshotKey(cacheKey) });
 		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
 		if (value && Array.isArray(value.items) && value.items.length) return value;
 	} catch (_) { /* snapshot absent or unreadable: the inline build below still answers */ }
@@ -133,7 +140,8 @@ function noteLastGoodRiver($i, items) {
 
 function readLastGoodRiver($i) {
 	try {
-		const envelope = readPacked({ $i, shard: 'feed', key: LAST_GOOD_KEY });
+		// B"H 2026-11-23 (speed pass): readPackedLatest — see readRiverSnapshot.
+		const envelope = readPackedLatest({ $i, shard: 'feed', key: LAST_GOOD_KEY });
 		const value = envelope && envelope.op !== 'del' ? envelope.value : null;
 		if (value && Array.isArray(value.items) && value.items.length) return value;
 	} catch (_) { /* absent: no fallback available */ }

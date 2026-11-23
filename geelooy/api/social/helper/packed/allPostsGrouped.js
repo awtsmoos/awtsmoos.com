@@ -15,6 +15,26 @@
 	const { deriveAll, normalizeEntry, rebuildByAlias, rebuildByKey } = require('./allPostsViews.js');
 	const { buildAllPostsGrouped } = require('./allPostsBuild.js');
 
+// B"H 2026-11-23 (speed pass): disk-derived grouped entries are GLOBAL —
+// loadGroupedFromDisk / loadGroupedSnapshot ignore heichelId and return
+// the full grouping for the one allPosts shard file. Before this change
+// every distinct heichel cache key re-read and re-parsed the ~100MB
+// snapshot and re-ran rebuildByKey/rebuildByAlias on a cold process
+// (journaled grouped-snapload 2.4–21.7s + grouped-reindex 1.9–4.8s PER
+// KEY; with OOM restarts as frequent as they are, cold processes are the
+// norm, so a busy hour paid the parse once per heichel touched). The
+// first disk-derived entry is now shared by reference under every
+// heichel key: one parse, one reindex, one watermark. Tail merges stay
+// consistent across keys because they run through this same entry object
+// and mergeTailRecords is byKey remove-then-unshift. Build-path entries
+// are NOT shared — those are heichel-filtered by construction.
+let sharedDiskEntry = null; // { file, entry }
+function sharedDiskHit(file, st) {
+  if (!sharedDiskEntry || sharedDiskEntry.file !== file) return null;
+  const e = sharedDiskEntry.entry;
+  return (e.mtimeMs === st.mtimeMs && e.size === st.size) ? e : null;
+}
+
 function getGroupedEntry($i, heichelId) {
   const cacheKey = 'allPosts|' + heichelId;
   const file = allPostsShardFile($i);
@@ -52,6 +72,8 @@ function getGroupedEntry($i, heichelId) {
       scheduleGroupedSave(file, st, hit);
       return normalizeEntry(hit);
     }
+    const shared = sharedDiskHit(file, st);
+    if (shared) { groupedCache.set(cacheKey, shared); return normalizeEntry(shared); }
     const disk = loadGroupedFromDisk(file, st);
     if (disk) {
       const reindexStart = Date.now();
@@ -59,6 +81,7 @@ function getGroupedEntry($i, heichelId) {
       entry.byAlias = rebuildByAlias(entry.all);
       perfEvent('grouped-reindex', Date.now() - reindexStart, {});
       groupedCache.set(cacheKey, entry);
+      sharedDiskEntry = { file, entry };
       return entry;
     }
     // B"H 2026-10-20 (flap-fix): a STALE snapshot still beats a full
@@ -80,6 +103,7 @@ function getGroupedEntry($i, heichelId) {
         entry.mtimeMs = st.mtimeMs;
         entry.size = st.size;
         groupedCache.set(cacheKey, entry);
+        sharedDiskEntry = { file, entry };
         scheduleGroupedSave(file, st, entry);
         return entry;
       } catch { /* snapshot merge failed: fall through to the full build */ }
