@@ -6945,7 +6945,7 @@ a:focus-visible {
 
 /* heichel/cosmic-profile/mobile-series/living-path/cards-content.css:31 — was #f8fbff */
 :root:not([data-theme="dark"]) .nav-card-body h3 {
-  color: #1e293b;
+  color: #f8fbff;
 }
 
 /* heichel/cosmic-profile/mobile-series/living-path/filter-sheet-controls.css:40 — was #d6e1ee */
@@ -7017,12 +7017,12 @@ a:focus-visible {
 
 /* heichel/future/series-heading.css:5 — was #fff */
 :root:not([data-theme="dark"]) .series-heading h2 {
-  color: #1e293b;
+  color: #fff;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
 :root:not([data-theme="dark"]) .series-heading p:not(.series-label) {
-  color: #334155;
+  color: #b9c6dc;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -7113,12 +7113,12 @@ a:focus-visible {
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .series-heading h2 {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #334155;
+    color: #aebed3;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
@@ -10781,7 +10781,7 @@ html[data-theme="light"] .card-menu-action:is(:hover, :focus-visible), :where(.c
 
 /* heichel/cosmic-profile/mobile-series/living-path/cards-content.css:31 — was #f8fbff */
 html[data-theme="light"] .nav-card-body h3 {
-  color: #1e293b;
+  color: #f8fbff;
 }
 
 /* heichel/cosmic-profile/mobile-series/living-path/filter-sheet-controls.css:40 — was #d6e1ee */
@@ -10853,12 +10853,12 @@ html[data-theme="light"] :where(.heichel-mobile-navigation) :where(.mini-mail-pa
 
 /* heichel/future/series-heading.css:5 — was #fff */
 html[data-theme="light"] .series-heading h2 {
-  color: #1e293b;
+  color: #fff;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
 html[data-theme="light"] .series-heading p:not(.series-label) {
-  color: #334155;
+  color: #b9c6dc;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -10944,12 +10944,12 @@ html[data-theme="light"] .nav-card-translation-badge {
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   html[data-theme="light"] .heichel-os-document .series-heading h2 {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   html[data-theme="light"] :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #334155;
+    color: #aebed3;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
