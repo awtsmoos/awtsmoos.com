@@ -30,7 +30,14 @@ export async function bootNotifications(root = document) {
 	form.setAttribute('aria-busy', 'true');
 	if (markAll) markAll.disabled = true;
 	const controller = new AbortController();
-	const deadline = setTimeout(() => controller.abort(), 12000);
+	// B"H 2026-11-25 (Project Perfection Phase 6): the default-alias
+	// read shares the cold-walk latency of the identity reads; the
+	// old 12s budget aborted it under load and the page settled on
+	// "Choose an alias" for signed-in users whose header already
+	// showed their active alias. 30s follows the profile boot gate
+	// precedent for identity reads (its heavier alias-details call
+	// gets 25s), and hydrateDefaultAlias retries once inside it.
+	const deadline = setTimeout(() => controller.abort(), 30000);
 	let aliasResult;
 	try {
 		aliasResult = await hydrateDefaultAlias(form, controller.signal);

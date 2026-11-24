@@ -22,16 +22,27 @@ export async function hydrateDefaultAlias(form, signal) {
 	const field = form?.elements?.aliasId;
 	const currentAlias = String(field?.value || '').trim();
 	if (currentAlias) return { aliasId: currentAlias, error: null };
-	try {
-		const aliasId = String(await getDefaultAliasId({ signal }) || '').trim();
-		if (field) field.value = aliasId;
-		return { aliasId, error: null };
-	} catch (error) {
-		return {
-			aliasId: '',
-			error: error instanceof Error ? error : new Error(String(error))
-		};
+	// B"H 2026-11-25 (Project Perfection Phase 6): one retry -- the same
+	// medicine aliasIdentity.fetchAliases already uses. The server
+	// memoizes this read, so a second attempt after a cold first walk
+	// usually lands warm instead of failing twice; a failed first read
+	// is not proof that the account has no default alias.
+	for (let attempt = 0; attempt < 2; attempt += 1) {
+		try {
+			const aliasId = String(await getDefaultAliasId({ signal }) || '').trim();
+			if (field) field.value = aliasId;
+			return { aliasId, error: null };
+		} catch (error) {
+			if (attempt === 1 || signal?.aborted) {
+				return {
+					aliasId: '',
+					error: error instanceof Error ? error : new Error(String(error))
+				};
+			}
+			await new Promise(resolve => setTimeout(resolve, 1200));
+		}
 	}
+	return { aliasId: '', error: null };
 }
 
 /** Serializes current search, pagination and category state for the API. */
