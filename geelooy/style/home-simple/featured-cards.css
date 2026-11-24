@@ -6,7 +6,7 @@ Each featured card is a small keli: distinct light, shared structure, and one ho
 path deeper into Awtsmoos.com. Hover may invite, while a press returns the vessel to earth.
 */
 body[data-geelooy-route="home"] .featured-card {
-	--featured-accent: 112, 190, 255;
+	--featured-accent: 213, 154, 53;
 	position: relative;
 	isolation: isolate;
 	display: grid;
@@ -39,7 +39,7 @@ body[data-geelooy-route="home"] .featured-card > * {
 	width: 46%;
 	height: 38%;
 	border-radius: 100% 0 0 0;
-	background: rgba(var(--featured-accent), .08);
+	background: rgba(var(--featured-accent), .13);
 	content: "";
 	pointer-events: none;
 }
@@ -82,7 +82,7 @@ body[data-geelooy-route="home"] .featured-symbol {
 @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .featured-card:hover {
 		border-color: rgba(var(--featured-accent), .76);
 		background: var(--panel-raised);
-		box-shadow: var(--home-card-shadow);
+		box-shadow: var(--home-card-shadow), 0 18px 44px rgba(var(--featured-accent), .20);
 		transform: translateY(-4px);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

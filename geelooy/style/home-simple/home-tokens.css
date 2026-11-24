@@ -74,6 +74,7 @@ html[data-geelooy-route="home"] {
 	--g4-text-muted: #8a795f;
 	--g4-accent: var(--sefer-accent);
 	--g4-accent-strong: #6f5527;
+	--g4-accent: #b8862e; /* B"H beauty round 2026-11-25: home scope re-bases the v4 blue accent to gold */
 	--g4-cyan: var(--sefer-focus);
 	--g4-gold: var(--sefer-accent);
 	--g4-success: #4e7c43;
@@ -165,6 +166,7 @@ html[data-geelooy-route="home"][data-theme="dark"] {
 	--g4-text-muted: #9c8c6d;
 	--g4-accent: var(--sefer-accent);
 	--g4-accent-strong: #e8bd68;
+	--g4-accent: #e8bd68; /* B"H beauty round 2026-11-25: home scope re-bases the v4 blue accent to gold */
 	--g4-cyan: var(--sefer-focus);
 	--g4-gold: var(--sefer-accent);
 	--g4-success: #7fb873;

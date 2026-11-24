@@ -59,16 +59,16 @@ body[data-geelooy-route="home"] .featured-grid {
 	gap: .7rem;
 }
 body[data-geelooy-route="home"] .featured-card--torah {
-	--featured-accent: 99, 178, 255;
+	--featured-accent: 232, 189, 104;
 }
 body[data-geelooy-route="home"] .featured-card--apps {
-	--featured-accent: 104, 220, 160;
+	--featured-accent: 186, 158, 64;
 }
 body[data-geelooy-route="home"] .featured-card--games {
-	--featured-accent: 245, 121, 164;
+	--featured-accent: 222, 138, 84;
 }
 body[data-geelooy-route="home"] .featured-card--os {
-	--featured-accent: 148, 126, 255;
+	--featured-accent: 205, 127, 50;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .featured-heading a:hover, :where(body[data-geelooy-route="home"]) .featured-heading a:active, :where(body[data-geelooy-route="home"]) .featured-heading a:focus-visible {
