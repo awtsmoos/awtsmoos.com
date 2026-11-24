@@ -84,16 +84,46 @@ async function globalSearch({ $i, query }) {
 	return [...aliases, ...content];
 }
 
+const MAX_PAGE_LIMIT = 100;
+const DEFAULT_PAGE_LIMIT = 25;
+
+/**
+ * Slices a finished result list only when the caller explicitly pages.
+ * The Awtsmoos reveals the whole bounded harvest to callers that never
+ * asked for pages, exactly as before; callers that pass limit, offset or
+ * page receive one bounded window (limit capped at MAX_PAGE_LIMIT) so a
+ * search response can never grow without limit.
+ */
+function paginateResults(items, query = {}) {
+	const list = Array.isArray(items) ? items : [];
+	const paging = ['limit', 'offset', 'page'].some(key => query[key] !== undefined && query[key] !== '');
+	if (!paging) return list;
+	let limit = parseInt(query.limit, 10);
+	if (!Number.isFinite(limit) || limit < 1) limit = DEFAULT_PAGE_LIMIT;
+	limit = Math.min(limit, MAX_PAGE_LIMIT);
+	let offset = parseInt(query.offset, 10);
+	if (!Number.isFinite(offset) || offset < 0) {
+		const page = parseInt(query.page, 10);
+		offset = Number.isFinite(page) && page > 1 ? (page - 1) * limit : 0;
+	}
+	return list.slice(offset, offset + limit);
+}
+
 async function search({ $i, query = {} }) {
 	const q = cleanText(query.q || query.query || '', 120).toLowerCase();
 	const aliases = csv(query.aliases);
-	if (aliases.length) return scopedSearch({ $i, aliases, query: q });
-	return globalSearch({ $i, query: q });
+	const results = aliases.length
+		? await scopedSearch({ $i, aliases, query: q })
+		: await globalSearch({ $i, query: q });
+	return paginateResults(results, query);
 }
 
 module.exports = {
 	GLOBAL_ALIAS_RESULTS,
 	GLOBAL_PROFILE_EXPANSION,
+	MAX_PAGE_LIMIT,
+	DEFAULT_PAGE_LIMIT,
+	paginateResults,
 	aliasResultFromCard,
 	matchesQuery,
 	scopedResults,
