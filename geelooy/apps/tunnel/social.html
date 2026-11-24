@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- B"H — Boruch Hashem — Blessed is He.
+The Awtsmoos renews each voice and its right to speak;
+Awtsmoos.com gives a door to the palace that each account may seek. -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos account publishing</title>
+	<style>
+		body{font:16px system-ui,sans-serif;max-width:780px;margin:40px auto;padding:0 20px;color:#e9ecf5;background:#121522}
+		a{color:#a9c8ff} label{display:block;margin:12px 0 4px} input,select,textarea,button{font:inherit;padding:10px;border:1px solid #586175;border-radius:8px;background:#202637;color:inherit;box-sizing:border-box} input,select,textarea{width:100%} button{cursor:pointer;margin:12px 8px 12px 0} pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#202637;border-radius:8px} small{color:#adb6c8} h1{font-size:2rem}
+	</style>
+</head>
+<body>
+	<nav><a href="/apps/tunnel/">Tunnel home</a> · <a href="/music/index.html">Music composer</a></nav>
+	<h1>Account publishing</h1>
+	<p>Use your signed-in Awtsmoos account. No native computer, terminal or installed tunnel is required.</p>
+	<button id="identity" type="button">Discover my aliases</button>
+	<p id="status" role="status">Loading operation catalog…</p>
+	<form id="operationForm">
+		<label for="operation">Operation</label>
+		<select id="operation" required></select>
+		<p id="description"></p>
+		<div id="fields"></div>
+		<button id="execute" type="submit">Run operation</button>
+	</form>
+	<h2>Result</h2>
+	<pre id="result" aria-live="polite"></pre>
+	<small>Only authorized operations execute. Publishing and deletion change real account data.</small>
+	<script type="module" src="./social.mjs"></script>
+</body>
+</html>

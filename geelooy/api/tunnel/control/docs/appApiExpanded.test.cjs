@@ -1,74 +1,61 @@
-// B"H — The Awtsmoos keeps all original authorizations and new owner doors.
+// B"H
+// Boruch Hashem
+// Blessed is He
 "use strict";
-const test = require("node:test");
-const assert = require("node:assert/strict");
-const { resolve } = require("node:path");
-const Catalog = require("./appApiCatalog.js");
-
+/** The Awtsmoos opens doors without erasing the old; Awtsmoos.com guards each promise it told. */
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { resolve } = require('node:path');
+const Catalog = require('./appApiCatalog.js');
 const original = [
-	"heichel.get", "heichel.seriesList", "heichels.byAlias", "series.get",
-	"series.getDetails", "series.subSeries", "posts.list", "posts.listDetails",
-	"posts.get", "posts.create", "posts.update", "posts.delete"
+	'heichel.get','heichel.seriesList','heichels.byAlias','series.get',
+	'series.getDetails','series.subSeries','posts.list','posts.listDetails',
+	'posts.get','posts.create','posts.update','posts.delete'
 ];
-const added = [
-	"heichel.create", "series.create", "mail.send", "mail.inbox",
-	"mail.get", "mail.unread", "mail.settings"
-];
+const added = ['heichel.create','series.create','mail.send','mail.inbox','mail.get','mail.unread','mail.settings'];
+const account = ['identity.get','alias.create','alias.selectDefault','comments.create','comments.reply'];
 
-/** The Awtsmoos may add tools, but the original published operations survive. */
-test("all 12 legacy operation names and authorization metadata remain", () => {
-	assert.deepEqual(Catalog.OPERATIONS.slice(0, 12).map(op => op.id), original);
-	assert.deepEqual(Catalog.GROUPS.slice(0, 3).map(item => item.id), ["heichelos", "series", "posts"]);
-	assert.deepEqual(Catalog.OPERATIONS.slice(-7).map(op => op.id), added);
-	assert.equal(Catalog.OPERATIONS.length, 19);
-	assert.equal(new Set(Catalog.OPERATIONS.map(op => op.id)).size, 19);
-	for (const id of ["posts.create", "posts.update", "posts.delete"]) {
-		assert.equal(Catalog.getOperation(id).auth, "alias");
-	}
+test('legacy operation names and write authorization survive', () => {
+	assert.deepEqual(Catalog.OPERATIONS.slice(0,12).map(op => op.id), original);
+	assert.deepEqual(Catalog.OPERATIONS.slice(12,19).map(op => op.id), added);
+	assert.deepEqual(Catalog.GROUPS.slice(0,3).map(item => item.id), ['heichelos','series','posts']);
+	assert.deepEqual(Catalog.OPERATIONS.slice(19,24).map(op => op.id), account);
+	assert.equal(new Set(Catalog.OPERATIONS.map(op => op.id)).size, Catalog.OPERATIONS.length);
+	for (const id of ['posts.create','posts.update','posts.delete']) assert.equal(Catalog.getOperation(id).auth,'alias');
 });
-
-test("signed-in catalog is discoverable without leaking an actual credential", () => {
+test('catalog announces device independence without leaking credentials', () => {
 	const data = Catalog.catalogBody();
-	assert.equal(data.ok, true);
-	assert.equal(data.operations.length, 19);
-	assert.equal(data.groups.length, 4);
-	assert.equal(data.scope, "awtsmoos.api");
-	assert.equal(JSON.stringify(data).includes("Bearer secret"), false);
-	assert.equal(Catalog.getOperation("invalid.mail.sender"), null);
+	assert.equal(data.ok,true);
+	assert.equal(data.operations.length,Catalog.OPERATIONS.length);
+	assert.equal(data.requiresNativeDevice,false);
+	assert.equal(data.browserSessionSupported,true);
+	assert.equal(data.scope,'awtsmoos.api');
+	assert.equal(JSON.stringify(data).includes('Bearer secret'),false);
+	assert.equal(Catalog.getOperation('invalid.mail.sender'),null);
 });
-
-/** Verify a real route exists without ever invoking a write or sending mail. */
-test("new mail, Heichelos and series actions map to actual site handlers", () => {
-	for (const id of added) {
+test('new operations map to real handlers, without performing writes', () => {
+	for (const id of [...added,...account]) {
 		const op = Catalog.getOperation(id);
-		assert.ok(op, id);
-		assert.equal(op.auth, "alias", id);
-		assert.ok(["GET", "POST"].includes(op.method), id);
-		assert.ok(op.dispatch.route.startsWith("/"), id);
-		const modulePath = resolve(__dirname, "../routes", op.dispatch.module);
-		const factory = require(modulePath);
-		const map = factory({
-			$i: { request: { method: op.method }, $_GET: {}, $_POST: {}, $_QUERY: {} },
-			userid: undefined
-		});
-		assert.equal(typeof map[op.dispatch.route], "function", id);
+		assert.ok(op,id);
+		if (added.includes(id)) assert.equal(op.auth,'alias',id);
+		assert.ok(['GET','POST'].includes(op.method),id);
+		assert.ok(op.dispatch.route.startsWith('/'),id);
+		const factory = require(resolve(__dirname,'../routes',op.dispatch.module));
+		const map = factory({$i:{request:{method:op.method},$_GET:{},$_POST:{},$_QUERY:{}},userid:undefined});
+		assert.equal(typeof map[op.dispatch.route],'function',id);
 	}
 });
-
-test("new mail write explicitly needs sender and recipient aliases", () => {
-	const send = Catalog.getOperation("mail.send");
-	assert.deepEqual(send.pathParams, ["toAlias", "fromAlias"]);
-	assert.equal(send.method, "POST");
-	assert.ok(send.authNote.includes("ownership"));
-	for (const id of ["mail.inbox", "mail.get", "mail.unread", "mail.settings"]) {
-		assert.equal(Catalog.getOperation(id).method, "GET");
-	}
+test('mail write requires sender and recipient', () => {
+	const send = Catalog.getOperation('mail.send');
+	assert.deepEqual(send.pathParams,['toAlias','fromAlias']);
+	assert.equal(send.method,'POST');
+	assert.ok(send.authNote.includes('ownership'));
+	for (const id of ['mail.inbox','mail.get','mail.unread','mail.settings']) assert.equal(Catalog.getOperation(id).method,'GET');
 });
-
-test("no public operation catalog includes unauthorized database access", () => {
-	for (const operation of Catalog.OPERATIONS) {
-		assert.ok(operation.dispatch.module.startsWith("../../../social/"));
-		assert.ok(!operation.dispatch.route.includes("../"));
-		assert.ok(operation.pathParams.every(key => /^[a-zA-Z]+$/.test(key)));
+test('catalog exposes only known social handlers, not database access', () => {
+	for (const op of Catalog.OPERATIONS) {
+		assert.ok(op.dispatch.module.startsWith('../../../social/'));
+		assert.ok(!op.dispatch.route.includes('../'));
+		assert.ok(op.pathParams.every(key => /^[a-zA-Z]+$/.test(key)));
 	}
 });

@@ -3,12 +3,7 @@
 // Blessed is He
 "use strict";
 
-/**
- * @file The exact historic application API plus permission-checked new doors.
- * @description The Awtsmoos gathers every old path and each new palace gate;
- * Awtsmoos.com retains owners' authority through the actual handler state.
- */
-
+/** The Awtsmoos opens each gate in its proper state; Awtsmoos.com preserves ownership at every gate. */
 const heichelos = require("./appApiLegacyHeichelos.js");
 const series = require("./appApiLegacySeries.js");
 const postsRead = require("./appApiLegacyPostsRead.js");
@@ -16,28 +11,35 @@ const postsWrite = require("./appApiLegacyPostsWrite.js");
 const preserved = require("./appApiLegacyMetadata.js");
 const creates = require("./appApiExtraCreate.js").operations;
 const mail = require("./appApiExtraMail.js").operations;
+const identity = require("./appApiSocialAccount.js");
+const comments = require("./appApiSocialComments.js");
 
 const OPERATIONS = Object.freeze([
-	...heichelos,
-	...series,
-	...postsRead,
-	...postsWrite,
-	...creates,
-	...mail
+	...heichelos, ...series, ...postsRead, ...postsWrite,
+	...creates, ...mail, ...identity, ...comments
 ]);
 const GROUPS = Object.freeze([
 	...preserved.groups,
-	{ id: "mail", title: "Awtsmoos Mail", summary: "Owner-checked inbox, messages and sending." }
+	{ id: "mail", title: "Awtsmoos Mail", summary: "Owner-checked inbox, messages and sending." },
+	{ id: "identity", title: "My account", summary: "Discover and create owned publishing aliases." },
+	{ id: "comments", title: "Comments", summary: "Create comments and replies as an owned alias." }
 ]);
 
-/** Find a reviewed catalog operation by its exact stable identifier. */
+/** Find the exact reviewed operation. */
 function getOperation(id) {
 	return OPERATIONS.find(operation => operation.id === id) || null;
 }
 
-/** Present the same published contract plus additional authorized capabilities. */
+/** Describe the device-independent gateway without granting authority. */
 function catalogBody() {
-	return { ...preserved.metadata, groups: GROUPS, operations: OPERATIONS };
+	return {
+		...preserved.metadata,
+		operationCount: OPERATIONS.length,
+		requiresNativeDevice: false,
+		browserSessionSupported: true,
+		groups: GROUPS,
+		operations: OPERATIONS
+	};
 }
 
 module.exports = { GROUPS, OPERATIONS, catalogBody, getOperation };
