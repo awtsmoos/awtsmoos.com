@@ -148,6 +148,12 @@ function render(state) {
  * Identical failed dispatches (same agent + same content) now fold into one
  * counted row at their first position; single failures stay untouched and
  * nothing is hidden — the count and time span stay on the row.
+ *
+ * B"H — Run 08: the sweep also re-prints identical NON-failed entries
+ * (e.g. websiteAgentMissionList status polls) as single rows forever.
+ * Folding now covers every identical repeat — same agent, kind, content
+ * and outcome — while genuinely distinct entries and true singles stay
+ * exactly as they were.
  */
 export function groupRepeatedFailures(visible, outcomes) {
 	const rows = [];
@@ -155,8 +161,7 @@ export function groupRepeatedFailures(visible, outcomes) {
 	for (const message of visible) {
 		const outcome = message.detail?.pending ? outcomes.get(message.clientMessageId) : null;
 		const failed = outcome ? outcome.detail?.ok === false : message.detail?.ok === false;
-		if (!failed) { rows.push({ message, count: 1, lastAt: message.at }); continue; }
-		const key = `${message.agentId}|${String(message.content || "").replace(/ — pending$/, "")}`;
+		const key = `${message.agentId}|${message.kind || ""}|${failed ? "failed" : "ok"}|${String(message.content || "").replace(/ — pending$/, "")}`;
 		const existing = byKey.get(key);
 		if (existing) { existing.count++; existing.lastAt = message.at; continue; }
 		const row = { message, count: 1, lastAt: message.at };

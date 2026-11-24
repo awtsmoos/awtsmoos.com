@@ -59,7 +59,7 @@ assert.match(targetSummary.textContent, /Awtsmoos Shliach/);
 assert.equal(targetInput.value, AWTSMOOS_SHLIACH_URL);
 
 for (const id of [
-	"websiteMissionPrompt",
+	"aiWebsiteMissionPrompt",
 	"websiteMissionAgentCount",
 	"websiteMissionTargetSummary",
 	"websiteMissionCustomGptName",
@@ -71,13 +71,13 @@ for (const id of [
 	"websiteMissionAllowRecursive",
 	"startWebsiteMissionBtn",
 	"listWebsiteMissionsBtn",
-	"websiteMissionId",
+	"aiWebsiteMissionId",
 	"statusWebsiteMissionBtn",
 	"resumeWebsiteMissionBtn",
 	"websiteMissionAuth",
 	"websiteMissionRoster",
 	"websiteMissionProgress",
-	"websiteMissionMessage",
+	"aiWebsiteMissionMessage",
 	"messageWebsiteMissionBtn",
 	"stopWebsiteMissionBtn",
 	"forgetWebsiteMissionBtn",

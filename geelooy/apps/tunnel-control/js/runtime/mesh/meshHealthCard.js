@@ -3,6 +3,7 @@
 import { h } from "../../ui/core/html.js";
 import { compactValue, formatCapabilityLabel, formatModeLabel } from "./meshLabels.js";
 import { createJsonReveal } from "./meshJsonToggle.js";
+import { runtimeStatus } from "./runtimeStatus.js";
 
 /**
  * B"H
@@ -32,13 +33,20 @@ export function createRuntimeHealthCard(runtimes, health) {
  * @returns {HTMLElement} Row node.
  */
 function runtimeHealthRow(runtime, health = {}) {
-  const status = health.connected ? "Connected" : "Offline";
+  // B"H — Run 08: same honest status treatment as the mesh tiles
+  // (runtimeStatus: virtual-os online, native follows its tunnel, else
+  // unknown — never invented), and no lone "." subtitle when the
+  // runtime's root is the current directory.
+  const status = health.connected === true || runtimeStatus(runtime) === "online"
+    ? "Connected"
+    : runtimeStatus(runtime) === "offline" ? "Offline" : "Unknown";
+  const root = runtime.activeRoot && runtime.activeRoot !== "." ? runtime.activeRoot : "";
   return h("article", { classes: ["awt-runtime-health-row"], children: [
     h("div", { classes: ["awt-runtime-health-top"], children: [
       h("strong", { text: health.label || runtime.label || runtime.tunnel?.name || "Runtime" }),
       h("span", { classes: ["awt-status-pill", status.toLowerCase()], text: status })
     ] }),
-    h("p", { classes: ["awt-runtime-subtitle"], text: compactValue(runtime.activeRoot || runtime.id || "") }),
+    ...(root ? [h("p", { classes: ["awt-runtime-subtitle"], text: compactValue(root) })] : []),
     h("div", { classes: ["awt-runtime-facts"], children: [
       fact("Mode", formatModeLabel(health.mode || runtime.mode)),
       fact("Score", `${health.capabilityScore ?? 0}%`)

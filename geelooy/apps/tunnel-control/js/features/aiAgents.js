@@ -30,6 +30,11 @@ let websiteMissionPollBusy = false;
 let websiteMissionPaneListenerBound = false;
 let websiteMissionPaneActive = false;
 
+/** B"H — Run 08: this pane's mission fields use ai-prefixed ids (they used
+ * to collide with the Tool codex fields of the same name). Resolve this
+ * pane's own copies. */
+const ownField = id => document.querySelector(`[data-pane="aiAgents"] #${id}`) || document.getElementById(id);
+
 /** Creates the complete AI control surface, including authenticated website missions. */
 export function aiAgents() {
 	return h("section", {
@@ -139,7 +144,7 @@ function websiteMissionPanel() {
 			"geelooy/apps/tunnel\ngeelooy/apps/tunnel-control"
 		),
 		area(
-			"websiteMissionPrompt",
+			"aiWebsiteMissionPrompt",
 			"Master mission prompt",
 			"Inspect first, divide the repository into non-overlapping scopes, coordinate in the shared room, implement fully, and verify every claimed result."
 		),
@@ -148,7 +153,7 @@ function websiteMissionPanel() {
 			button("listWebsiteMissionsBtn", "Refresh missions")
 		]),
 		h("div", { className: "form-grid" }, [
-			field("websiteMissionId", "Website mission id", {
+			field("aiWebsiteMissionId", "Website mission id", {
 				placeholder: "webmission_..."
 			}),
 			field("websiteMissionToAgent", "Message target", { value: "all" })
@@ -177,7 +182,7 @@ function websiteMissionPanel() {
 			className: "awt-room-list awt-room-card-grid"
 		}),
 		area(
-			"websiteMissionMessage",
+			"aiWebsiteMissionMessage",
 			"Shared-room message",
 			"Publish your current progress, coordinate with the other agents, and finish any remaining work."
 		),
@@ -417,9 +422,9 @@ function bindWebsiteMissionControls(getTunnelName) {
 	bindWebsiteButton("logoutChatgptWebsiteBtn", () =>
 		logoutWebsiteSession(getTunnelName));
 	$("openWebsiteMissionRoomBtn").onclick = openWebsiteMissionRoom;
-	$("websiteMissionId").onchange = () => {
+	ownField("aiWebsiteMissionId").onchange = () => {
 		const cached = websiteMissions.find(record =>
-			(record.id || record.websiteMissionId) === $("websiteMissionId").value
+			(record.id || record.websiteMissionId) === ownField("aiWebsiteMissionId").value
 		);
 		if (cached) renderWebsiteMissionSummary(cached);
 	};
@@ -534,7 +539,7 @@ async function refreshCouncil(getTunnelName, message) {
 
 async function startWebsiteMission(getTunnelName) {
 	const payload = websiteMissionStartPayload({
-		prompt: $("websiteMissionPrompt").value,
+		prompt: ownField("aiWebsiteMissionPrompt").value,
 		projectRoot: $("websiteMissionProjectRoot").value,
 		agentCount: $("websiteMissionAgentCount").value,
 		scopes: $("websiteMissionScopes").value,
@@ -550,7 +555,7 @@ async function startWebsiteMission(getTunnelName) {
 	});
 	const got = await callWebsite(getTunnelName, payload);
 	if (got?.ok !== false && got?.mission?.id) {
-		$("websiteMissionId").value = got.mission.id;
+		ownField("aiWebsiteMissionId").value = got.mission.id;
 	}
 	acceptWebsiteResponse(got);
 	return got;
@@ -583,9 +588,9 @@ async function messageWebsiteMission(getTunnelName) {
 	const got = await callWebsite(getTunnelName, websiteMissionMessagePayload({
 		websiteMissionId: requireWebsiteMissionId(),
 		toAgent: $("websiteMissionToAgent").value,
-		body: $("websiteMissionMessage").value
+		body: ownField("aiWebsiteMissionMessage").value
 	}));
-	if (got?.ok !== false) $("websiteMissionMessage").value = "";
+	if (got?.ok !== false) ownField("aiWebsiteMissionMessage").value = "";
 	acceptWebsiteResponse(got, { preserveCurrent: true });
 	await refreshWebsiteMissionStatus(getTunnelName, false);
 	return got;
@@ -613,7 +618,7 @@ async function forgetWebsiteMission(getTunnelName) {
 	if (got?.ok !== false) {
 		forgetRememberedWebsiteMission(id);
 		websiteMissions = websiteMissions.filter(record => record.id !== id);
-		$("websiteMissionId").value = "";
+		ownField("aiWebsiteMissionId").value = "";
 		renderWebsiteMissionList();
 		renderWebsiteMissionSummary(null);
 	}
@@ -659,7 +664,7 @@ function acceptWebsiteResponse(got, options = {}) {
 			selectedWebsiteMissionId()
 		);
 		if (selected) {
-			$("websiteMissionId").value = selected.id || selected.websiteMissionId || "";
+			ownField("aiWebsiteMissionId").value = selected.id || selected.websiteMissionId || "";
 			renderWebsiteMissionSummary(selected);
 		}
 	}
@@ -668,7 +673,7 @@ function acceptWebsiteResponse(got, options = {}) {
 		if (index >= 0) websiteMissions[index] = got.mission;
 		else websiteMissions.unshift(got.mission);
 		if (!options.preserveCurrent || !selectedWebsiteMissionId()) {
-			$("websiteMissionId").value = got.mission.id;
+			ownField("aiWebsiteMissionId").value = got.mission.id;
 		}
 		renderWebsiteMissionSummary(got.mission);
 	}
@@ -706,7 +711,7 @@ function renderWebsiteMissionList() {
 
 function selectWebsiteMission(record) {
 	const id = record.id || record.websiteMissionId || "";
-	$("websiteMissionId").value = id;
+	ownField("aiWebsiteMissionId").value = id;
 	renderWebsiteMissionSummary(record);
 	renderWebsiteMissionList();
 }
@@ -839,7 +844,7 @@ function openWebsiteMissionRoom() {
 }
 
 function selectedWebsiteMissionId() {
-	return String($("websiteMissionId")?.value || "").trim();
+	return String(ownField("aiWebsiteMissionId")?.value || "").trim();
 }
 
 function requireWebsiteMissionId() {

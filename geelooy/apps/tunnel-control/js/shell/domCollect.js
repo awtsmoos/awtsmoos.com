@@ -25,6 +25,14 @@ function blockFor(node) {
 /** Never move a control twice. */
 function moveUnique(destination, node, moved) {
 	if (unsafe(node) || moved.has(node)) return false;
+	// Run 08: never tear a block out of a panel that was already adopted as a
+	// unit, and never swallow an adopted block into a later container. The
+	// codex field labels live inside #actionDetail; listing their ids in the
+	// pane spec used to rip them out of the detail card (and swap the codex
+	// copies with the AI-agents copies, which share the same ids).
+	for (const prior of moved) {
+		if (prior.contains(node) || node.contains(prior)) return false;
+	}
 	moved.add(node);
 	destination.append(node);
 	return true;

@@ -1,0 +1,237 @@
+/* B"H — Run 08: the bounded shell lives again, and the shell chrome burns gold.
+ *
+ * Root cause (rendered, live-context CDP proof): two shell systems fought.
+ * The viewport contract (css/viewport/shell.css, layer awt.reset) promises a
+ * bounded 100dvh app — height:100%, overflow:hidden, pane content scrolling
+ * inside .awt-pane-content. But css/future/views/workspace.css (layer
+ * awt.views, LATER in layer order) re-declared the stage, pane stack and
+ * panes height:auto / max-height:none / overflow:visible, killing the
+ * contract. The app rendered as a ~12,000px document; the nav grid's 1fr
+ * rows redistributed on every height change, so controls moved ~100px
+ * inside a single real press — mousedown and mouseup landed on different
+ * elements, the click retargeted to the common ancestor, and sidebar,
+ * codex cards, disclosures and Load usage all appeared dead while
+ * synthetic .click() fixtures passed. This unlayered sheet is imported
+ * last in app.css, so it settles the war in the contract's favor.
+ */
+
+/* ---- 1. Bounded shell contract ---- */
+:root:root body {
+	height: 100%;
+	max-height: 100%;
+	overflow: hidden;
+}
+.awt-control-shell.awt-control-shell {
+	height: 100dvh;
+	max-height: 100dvh;
+	overflow: hidden;
+}
+.awt-control-main.awt-control-main {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+.awt-dashboard {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+body.awt-home-mode .awt-dashboard {
+	overflow-y: auto;
+}
+body.awt-workspace-mode .awt-dashboard {
+	grid-template-rows: minmax(0, 1fr);
+}
+body.awt-workspace-mode .awt-room-home {
+	display: none;
+}
+.awt-workspace-stage.awt-workspace-stage {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+body.awt-workspace-mode .awt-workspace-stage {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+}
+.awt-workspace-body.awt-workspace-body,
+.awt-pane-stack {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+.awt-pane-stack > [data-pane] {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+.awt-pane-stack > [data-pane].active {
+	display: flex;
+	flex-direction: column;
+}
+.awt-pane-stack > [data-pane] > .awt-pane-heading {
+	flex: 0 0 auto;
+}
+.awt-pane-stack > [data-pane] > .awt-pane-content {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+/* The nav rail: buttons keep one stable height and the GRID scrolls —
+   rows must never redistribute under a press again. */
+.awt-app-navigation {
+	height: 100%;
+	max-height: 100%;
+	min-height: 0;
+}
+.awt-app-navigation .awt-navigation-grid {
+	overflow-y: auto;
+	grid-template-rows: none;
+	grid-auto-rows: minmax(42px, auto);
+	align-content: start;
+}
+/* Smooth gliding is what carried releases off their targets. */
+html,
+.awt-pane-content,
+.awt-navigation-grid,
+.awt-room-feed {
+	scroll-behavior: auto;
+}
+
+/* ---- 2. Shell chrome: one gold family, no blue/violet/green ---- */
+body {
+	background-color: #0a0502;
+	background-image:
+		radial-gradient(circle at 12% -8%, rgba(255, 182, 74, .20), transparent 34rem),
+		radial-gradient(circle at 88% 0%, rgba(255, 211, 94, .13), transparent 30rem),
+		linear-gradient(180deg, #140a02 0%, #0a0502 55%, #070402 100%);
+}
+.awt-app-navigation {
+	background: rgba(20, 11, 2, .94);
+	border-color: rgba(255, 182, 74, .28);
+}
+.awt-app-navigation .awt-navigation-button:hover,
+.awt-app-navigation .awt-navigation-button:focus-visible,
+.awt-app-navigation .awt-navigation-button.active {
+	border-color: rgba(255, 182, 74, .55);
+	color: #ffeeb0;
+	background: rgba(255, 182, 74, .16);
+}
+.awt-app-navigation .awt-navigation-button:focus-visible,
+.awt-app-navigation .awt-navigation-toggle:focus-visible {
+	outline: 3px solid rgba(255, 182, 74, .75);
+}
+.awt-launcher-tile {
+	border-color: rgba(255, 182, 74, .22);
+	background: linear-gradient(150deg, rgba(66, 42, 8, .85), rgba(24, 14, 3, .94));
+}
+.awt-launcher-tile:hover,
+.awt-launcher-tile:focus-visible {
+	border-color: rgba(255, 182, 74, .60);
+	background: linear-gradient(150deg, rgba(92, 58, 10, .92), rgba(32, 19, 4, .96));
+}
+.awt-launcher-tile:focus-visible {
+	outline: 3px solid rgba(255, 182, 74, .70);
+}
+.awt-launcher-tile .awt-launcher-icon,
+.awt-launcher-tile.is-ai .awt-launcher-icon {
+	color: #ffe29a;
+	background: rgba(255, 182, 74, .14);
+}
+.awt-launcher-tile.is-automation .awt-launcher-icon {
+	color: #ffb64a;
+	background: rgba(255, 182, 74, .16);
+}
+.awt-launcher-tile.is-files .awt-launcher-icon {
+	color: #ffd182;
+	background: rgba(255, 184, 77, .14);
+}
+.awt-launcher-tile.is-system .awt-launcher-icon {
+	color: #e8b34b;
+	background: rgba(232, 179, 75, .14);
+}
+.awt-navigation-glyph,
+.awt-pane-icon {
+	color: #ffcf5e;
+}
+.awt-room-home a {
+	color: #ffcf5e;
+}
+/* The dashboard itself painted navy with green/blue glows
+   (viewport/home.css + the --awt-main-bg token). Espresso + gold instead. */
+:root {
+	background: #070402;
+}
+.awt-dashboard {
+	background:
+		radial-gradient(circle at 12% 0, rgba(255, 182, 74, .12), transparent 30%),
+		radial-gradient(circle at 88% 4%, rgba(255, 211, 94, .08), transparent 32%),
+		linear-gradient(150deg, rgba(26, 15, 3, .92), rgba(9, 5, 2, .94));
+}
+
+/* The workspace stage and its toolbar also painted navy (stage gradient
+   with a blue radial; toolbar a navy 90deg gradient). Espresso + gold. */
+.awt-workspace-stage {
+	background:
+		radial-gradient(circle at 100% 0, rgba(255, 182, 74, .08), transparent 34%),
+		linear-gradient(160deg, rgba(24, 14, 3, .88), rgba(8, 4, 1, .92));
+}
+.awt-workspace-toolbar {
+	background: linear-gradient(90deg, rgba(43, 26, 5, .96), rgba(20, 11, 2, .96));
+}
+
+/* Restoring / sign-in gate: espresso + gold, never white-to-violet. */
+.awt-login-gate {
+	background:
+		radial-gradient(circle at 18% 0%, rgba(255, 182, 74, .22), transparent 30rem),
+		radial-gradient(circle at 85% 10%, rgba(255, 211, 94, .12), transparent 26rem),
+		linear-gradient(180deg, #170c02, #070402);
+}
+.awt-login-card {
+	background: rgba(22, 12, 2, .93);
+	border-color: rgba(255, 182, 74, .35);
+}
+.awt-login-card h1 {
+	background: linear-gradient(92deg, #ffeeb0 0%, #ffd35e 45%, #ffb64a 75%, #b96f06 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+.awt-preboot-status {
+	color: #ffe9b8;
+}
+
+/* ---- 3. Textareas: deep wells with champagne ink, sane height ---- */
+.awt-control-shell textarea {
+	min-height: 88px;
+	max-height: 260px;
+	background: rgba(16, 9, 1, .88);
+	color: #fff6d8;
+	border-color: rgba(255, 182, 74, .35);
+}
+
+/* ---- 4. Room feed: first characters stay on the page ---- */
+.awt-room-feed {
+	padding-inline: .3rem;
+}
+.awt-room-feed article {
+	padding-inline-start: .35rem;
+}
+
+/* ---- 5. Diagnostics drawer: long JSON wraps, never clips ---- */
+.awt-diagnostics-drawer .awt-diagnostic-item pre,
+.awt-diagnostics-drawer .awt-diagnostic-item code,
+.awt-diagnostics-drawer pre {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+.awt-diagnostics-drawer .awt-diagnostic-item {
+	overflow-x: auto;
+}

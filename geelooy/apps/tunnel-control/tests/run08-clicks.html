@@ -1,0 +1,123 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/bundle.css"></head><body data-run08="loading"><script type="module">
+// B"H — Run 08: LIVE-CONTEXT reproduction. Same boot order as js/boot/init.js:
+// legacy features -> shell -> authenticated interactions (delegated nav +
+// MutationObserver repair stack), realistic runtimes, async settle time.
+import { mountLegacyFeatures } from "../js/boot/mountLegacyFeatures.js";
+import { mountShell } from "../js/shell/mountShell.js";
+import { mountAuthenticatedInteractions } from "../js/boot/authenticatedRuntime.js";
+import { PAGE_SPECS } from "../js/shell/pageSpecs.js";
+import { getActivePane } from "../js/router/paneRouter.js";
+import { registerRuntime, setActiveRuntime } from "../js/runtime/runtimeRegistry.js";
+import { ACTION_CATALOG } from "../js/features/actionCatalogData.js";
+import { visibleFieldsFor } from "../js/features/actionSelection.js";
+import { groupRepeatedFailures } from "../js/features/liveRoom.js";
+import { createRuntimeHealthCard } from "../js/runtime/mesh/meshHealthCard.js";
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const R = { errors: [] };
+const vis = el => !!el && getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden";
+const effVisible = el => { if (!el) return false; const w = el.closest("label") || el; const s = getComputedStyle(w); return s.display !== "none" && Number(s.opacity) > 0.9; };
+window.addEventListener("error", e => R.errors.push(String(e.message || e.error)));
+try {
+	registerRuntime({ id: "rt-dot", mode: "native", activeRoot: ".", tunnel: { name: "tun_QAoRtest", connected: true }, mountedCapabilities: {} });
+	registerRuntime({ id: "rt-mac", mode: "native", activeRoot: "/Users/test/proj", tunnel: { name: "awt-awtsmoos-2184", connected: false }, mountedCapabilities: {} });
+	registerRuntime({ id: "rt-vos", mode: "virtual-os", activeRoot: "", tunnel: null, mountedCapabilities: {} });
+	setActiveRuntime("rt-dot");
+	await mountLegacyFeatures(() => "smoke");
+	mountShell({ session: {}, runtime: {}, activityRuntime: {}, getTunnelName: () => "smoke", getProjectPath: () => "/tmp" });
+	mountAuthenticatedInteractions(() => "smoke");
+	await sleep(1500); // repair observer + room poll cycles fire, as live
+	// STRUCTURE AUDIT
+	const OPTIONAL = ["actionPath","maxChars","writeContent","bulkPaths","bulkWriteJson","missionGoal","missionId","missionRounds","selfEmail","missionAnswer","websiteMissionId","websiteAgentCount","websiteStartSpacing","websiteMaxSubagentDepth","websiteMaxSubagents","websiteMaxTotalAgents","websiteSubagentSpacing","websiteRecursiveSpawn","websiteMessageTarget","websiteMissionPrompt","websiteMissionMessage"];
+	R.structure = { dup: {}, outsideDetail: [], detailPane: null, catalogPane: null, detailInDom: !!document.getElementById("actionDetail") };
+	for (const id of ["actionDetail","actionCatalogGrid","usageBox","loadUsageBtn","runActionBtn", ...OPTIONAL]) {
+		const n = document.querySelectorAll(`[id="${id}"]`).length;
+		if (n !== 1) R.structure.dup[id] = n;
+	}
+	for (const id of OPTIONAL) {
+		const el = document.getElementById(id);
+		const label = el?.closest("label");
+		if (el && !(label && document.getElementById("actionDetail")?.contains(label))) R.structure.outsideDetail.push(id);
+	}
+	R.structure.detailPane = document.getElementById("actionDetail")?.closest("[data-pane]")?.dataset.pane || null;
+	R.structure.catalogPane = document.getElementById("actionCatalogGrid")?.closest("[data-pane]")?.dataset.pane || null;
+	// NAV: sidebar clicks, settle past the repair debounce
+	R.nav = {}; R.navDisplay = {};
+	for (const key of ["usage","mesh","account","apiKeys","docs"]) {
+		const btn = document.querySelector(`.awt-app-navigation [data-awt-navigate="${key}"]`);
+		if (!btn) { R.nav[key] = "no-button"; continue; }
+		btn.click();
+		await sleep(350);
+		R.nav[key] = getActivePane();
+		const pane = document.querySelector(`section.awt-made-pane[data-pane="${key}"]`);
+		R.navDisplay[key] = pane ? getComputedStyle(pane).display : "no-made-pane";
+	}
+	// CODEX
+	document.querySelector(`.awt-app-navigation [data-awt-navigate="usage"]`)?.click();
+	await sleep(350);
+	const search = document.getElementById("actionCatalogSearch");
+	const cards = [...document.querySelectorAll(".awt-action-option")];
+	R.search = { total: cards.length };
+	search.value = "doctor"; search.dispatchEvent(new InputEvent("input", { bubbles: true }));
+	R.search.visible = cards.filter(c => vis(c)).length;
+	search.value = ""; search.dispatchEvent(new InputEvent("input", { bubbles: true }));
+	R.search.restored = cards.filter(c => vis(c)).length;
+	const pick = async name => {
+		const card = document.querySelector(`.awt-action-option[data-action="${name}"]`);
+		card?.click();
+		await sleep(120);
+		const item = ACTION_CATALOG.find(e => e.name === name);
+		const expect = visibleFieldsFor(item);
+		const fields = {};
+		const mismatches = [];
+		for (const id of OPTIONAL) {
+			const v = effVisible(document.getElementById(id));
+			fields[id] = v;
+			const should = expect.has(id);
+			if (v !== should) mismatches.push(`${id}:got=${v},want=${should}`);
+		}
+		return { detailVisible: vis(document.getElementById("actionDetail")), actionName: document.getElementById("actionName")?.value, runVisible: vis(document.getElementById("runActionBtn")), mismatches };
+	};
+	R.select = {};
+	R.select.list = await pick("list");
+	R.select.read = await pick("read");
+	R.select.browserDoctor = await pick("browserDoctor");
+	R.select.write = await pick("write");
+	const webAction = ACTION_CATALOG.find(e => e.defaults?.needsWebsiteMissionPrompt)?.name;
+	R.webActionName = webAction;
+	if (webAction) R.select.website = await pick(webAction);
+	// TEXTAREA computed (write selected last relevant state) — re-pick write
+	await pick("write");
+	const ta = document.getElementById("writeContent");
+	if (ta) { const s = getComputedStyle(ta); R.textarea = { color: s.color, background: s.backgroundColor, height: ta.clientHeight, minHeight: s.minHeight }; }
+	// DISCLOSURES
+	R.details = [...document.querySelectorAll(".awt-output-details")].map(d => {
+		const sum = d.querySelector("summary"); const label = sum?.textContent?.trim();
+		sum?.click(); const opened = d.open; sum?.click();
+		return { label, opened, closedAgain: !d.open };
+	});
+	const before = document.getElementById("usageBox")?.textContent;
+	document.getElementById("loadUsageBtn")?.click();
+	await sleep(600);
+	R.usageLoad = { changed: document.getElementById("usageBox")?.textContent !== before, open: document.getElementById("usageBox")?.closest("details")?.open };
+	// BEAUTY AUDIT (shell chrome)
+	const shellBg = getComputedStyle(document.querySelector(".awt-control-shell") || document.body).backgroundColor;
+	const bodyBg = getComputedStyle(document.body).backgroundColor;
+	const bodyBgImage = getComputedStyle(document.body).backgroundImage;
+	const activeNav = document.querySelector(".awt-app-navigation [data-awt-navigate].active");
+	R.beauty = { shellBg, bodyBg, bodyBgImage: bodyBgImage.slice(0, 120), activeNavBg: activeNav ? getComputedStyle(activeNav).backgroundColor : null, activeNavColor: activeNav ? getComputedStyle(activeNav).color : null };
+	// FEED grouping (pure): identical NON-failed repeats
+	const okMsg = i => ({ agentId: "agent:asdf", kind: "action", content: "websiteAgentMissionList", at: 1000 + i * 60000, clientMessageId: `ok${i}`, detail: {} });
+	const single = { agentId: "agent:asdf", kind: "chat", content: "unique hello", at: 9000, detail: {} };
+	const rows = groupRepeatedFailures([okMsg(0), single, okMsg(1), okMsg(2)], new Map());
+	R.feed = { rows: rows.length, counts: rows.map(r => r.count) };
+	// MESH HEALTH lone dot
+	const card = createRuntimeHealthCard(
+		[{ id: "rt-dot", mode: "native", activeRoot: ".", tunnel: { name: "tun_QAoRtest", connected: true }, mountedCapabilities: {} }],
+		[{ runtimeId: "rt-dot", connected: true, mode: "native", capabilityScore: 42, label: "tun_QAoRtest" }]);
+	document.body.append(card);
+	R.meshHealthText = card.textContent.replace(/\s+/g, " ").trim();
+} catch (error) { R.error = String(error.stack || error); }
+const out = document.createElement("pre"); out.id = "audit"; out.textContent = JSON.stringify(R, null, 1);
+document.body.append(out);
+document.body.dataset.run08 = R.error ? "error" : "done";
+</script></body></html>

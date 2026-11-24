@@ -11,7 +11,19 @@ import { ACTION_CATALOG } from "./actionCatalogData.js";
  * The Awtsmoos may summon a hundred agents, but Awtsmoos.com queues every request
  * behind one verified-close gate and eighteen seconds of quiet before the next tab.
  */
+/**
+ * B"H — Run 08: the codex shares websiteMissionId/Prompt/Message ids with
+ * the AI-agents pane. Run options are read from THIS pane's own fields —
+ * the ones the operator actually sees and edits — never from whichever
+ * duplicate a global getElementById happens to reach first.
+ */
+function paneField() {
+	const pane = document.querySelector('section.awt-made-pane[data-pane="usage"]');
+	return id => (pane && pane.querySelector(`#${id}`)) || document.getElementById(id);
+}
+
 export function buildOptions() {
+	const $ = paneField();
 	const action = $("actionName").value;
 	const item = ACTION_CATALOG.find(entry => entry.name === action);
 	const options = {
@@ -19,31 +31,31 @@ export function buildOptions() {
 		path: $("actionPath").value,
 		maxChars: $("maxChars").value
 	};
-	copyIf(options, "conversationId");
-	copyIf(options, "conversationName");
-	if (item?.defaults?.needsMissionGoal) Object.assign(options, missionStartOptions());
+	copyIf(options, "conversationId", $);
+	copyIf(options, "conversationName", $);
+	if (item?.defaults?.needsMissionGoal) Object.assign(options, missionStartOptions($));
 	if (item?.defaults?.needsMissionId) options.missionId = $("missionId")?.value || options.missionId;
-	if (item?.defaults?.needsMissionAutopilot) Object.assign(options, missionAutopilotOptions(action));
-	if (item?.defaults?.needsMissionNote) Object.assign(options, missionNoteOptions());
-	if (item?.defaults?.needsMissionMail) Object.assign(options, missionMailOptions());
-	if (item?.defaults?.needsWebsiteMissionPrompt) Object.assign(options, websiteMissionStartOptions());
+	if (item?.defaults?.needsMissionAutopilot) Object.assign(options, missionAutopilotOptions(action, $));
+	if (item?.defaults?.needsMissionNote) Object.assign(options, missionNoteOptions($));
+	if (item?.defaults?.needsMissionMail) Object.assign(options, missionMailOptions($));
+	if (item?.defaults?.needsWebsiteMissionPrompt) Object.assign(options, websiteMissionStartOptions($));
 	if (item?.defaults?.needsWebsiteMissionId) options.websiteMissionId = $("websiteMissionId")?.value || "";
-	if (item?.defaults?.needsWebsiteMissionMessage) Object.assign(options, websiteMissionMessageOptions());
+	if (item?.defaults?.needsWebsiteMissionMessage) Object.assign(options, websiteMissionMessageOptions($));
 	if (action === "tree") Object.assign(options, {
 		depth: $("treeDepth")?.value || 2,
 		limit: $("treeLimit")?.value || 120
 	});
 	if (action === "write") options.content = $("writeContent").value;
 	if (action === "bulk") options.paths = splitLines($("bulkPaths").value);
-	if (action === "bulkWrite") options.files = parseBulkWrite();
+	if (action === "bulkWrite") options.files = parseBulkWrite($);
 	return options;
 }
 
-function copyIf(options, id) {
+function copyIf(options, id, $) {
 	if ($(id)?.value) options[id] = $(id).value;
 }
 
-function missionStartOptions() {
+function missionStartOptions($) {
 	const rounds = $("missionRounds")?.value || 8;
 	return {
 		goal: $("missionGoal")?.value || "Autonomous tunnel mission",
@@ -55,7 +67,7 @@ function missionStartOptions() {
 	};
 }
 
-function missionAutopilotOptions(action) {
+function missionAutopilotOptions(action, $) {
 	const answer = $("missionAnswer")?.value || "";
 	const options = {
 		rounds: $("missionRounds")?.value || 8,
@@ -66,7 +78,7 @@ function missionAutopilotOptions(action) {
 	return options;
 }
 
-function missionMailOptions() {
+function missionMailOptions($) {
 	const note = $("missionAnswer")?.value || "";
 	return {
 		to: $("selfEmail")?.value || "",
@@ -77,12 +89,12 @@ function missionMailOptions() {
 	};
 }
 
-function missionNoteOptions() {
+function missionNoteOptions($) {
 	const note = $("missionAnswer")?.value || "";
 	return { note, answer: note, summary: note };
 }
 
-function websiteMissionStartOptions() {
+function websiteMissionStartOptions($) {
 	return {
 		mode: "website-mission",
 		prompt: $("websiteMissionPrompt")?.value || "",
@@ -96,14 +108,14 @@ function websiteMissionStartOptions() {
 	};
 }
 
-function websiteMissionMessageOptions() {
+function websiteMissionMessageOptions($) {
 	return {
 		toAgent: $("websiteMessageTarget")?.value || "all",
 		body: $("websiteMissionMessage")?.value || ""
 	};
 }
 
-function parseBulkWrite() {
+function parseBulkWrite($) {
 	try { return JSON.parse($("bulkWriteJson").value); }
 	catch (error) { throw new Error(`Invalid bulk write JSON: ${error.message}`); }
 }
