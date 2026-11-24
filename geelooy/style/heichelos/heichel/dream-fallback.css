@@ -103,6 +103,21 @@
 :root.heichel-os-document .heichel-semantic-discovery h2 {
 	color: var(--sefer-title-ink);
 }
+/* B"H 2026-11-25 (Project Perfection Phase 6): on the Ikar root the
+   vessel itself is DARK by default (dream-heichel.css paints the
+   near-black sanctuary ground; only [data-theme="light"] lifts it to
+   cream), while --sefer-title-ink flips light only under
+   [data-theme="dark"] and otherwise keeps its dark default #1f1712.
+   In every non-light state without an explicit dark attribute the
+   M-2 ikar-root rule above (specificity 1,4,0) therefore painted
+   "Enter the library" dark-on-near-black -- verified signed-in.
+   Keyed to the same condition as the css-loop repair at the top of
+   this block (:not([data-theme="light"])) at higher specificity
+   (1,5,0): the cream ink designed for the dark vessel wins on the
+   Ikar root; the light theme keeps its sefer ink on cream paper. */
+:root:not([data-theme="light"]).heichel-os-document .heichel-semantic-fallback[data-ikar-root="true"] #heichel-discovery-title {
+	color: #faf3e2;
+}
 /* Discovery list: real grid, list reset, rendering containment for
    series with hundreds of posts. Intrinsically responsive — one
    column on narrow vessels without a breakpoint. */
