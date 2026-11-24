@@ -1,0 +1,136 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Piano voice+piano mix fixture</title></head>
+<body><div id="result">RUNNING</div>
+<button id="record-audio-button">Record Audio</button>
+<button id="mic-button">Enable Mic</button>
+<input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
+<label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+<script type="module">
+const result = document.querySelector('#result');
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const captured = [];
+const realCreate = URL.createObjectURL.bind(URL);
+URL.createObjectURL = blob => { if (blob instanceof Blob) captured.push(blob); return realCreate(blob); };
+function goertzel(data, sampleRate, freq) {
+	const n = data.length;
+	const k = Math.round(n * freq / sampleRate);
+	const w = 2 * Math.PI * k / n;
+	const coeff = 2 * Math.cos(w);
+	let s0 = 0, s1 = 0, s2 = 0;
+	for (let i = 0; i < n; i++) { s0 = data[i] + coeff * s1 - s2; s2 = s1; s1 = s0; }
+	return Math.sqrt(Math.max(0, s1 * s1 + s2 * s2 - coeff * s1 * s2)) / n;
+}
+async function decode(blob) {
+	const { AudioState } = await import('../modules/audio.js');
+	return AudioState.context.decodeAudioData(await blob.arrayBuffer());
+}
+function energies(buffer, micFreq, pianoFreq) {
+	const data = buffer.getChannelData(0);
+	let sum = 0; for (const v of data) sum += v * v;
+	return { rms: Math.sqrt(sum / data.length), mic: goertzel(data, buffer.sampleRate, micFreq), piano: goertzel(data, buffer.sampleRate, pianoFreq) };
+}
+try {
+	const { AudioState, initAudio } = await import('../modules/audio.js');
+	await initAudio();
+	const { cacheElements, elements } = await import('../modules/ui.js');
+	try { cacheElements(); } catch (_) {}
+	const { toggleMic } = await import('../modules/app/microphone.js');
+	const { ensureVoiceTakeControl } = await import('../modules/app/voiceTakeControl.js');
+	ensureVoiceTakeControl();
+	await wait(150);
+	// 1) Detect the fake mic's tone frequency with its own stream.
+	const probeStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+	const probeSrc = AudioState.context.createMediaStreamSource(probeStream);
+	const analyser = AudioState.context.createAnalyser();
+	analyser.fftSize = 8192;
+	probeSrc.connect(analyser);
+	const freqData = new Float32Array(analyser.frequencyBinCount);
+	let micFreq = 440, best = -Infinity;
+	for (let trial = 0; trial < 6; trial++) {
+		await wait(200);
+		analyser.getFloatFrequencyData(freqData);
+		for (let bin = 4; bin < freqData.length; bin++) {
+			const f = bin * AudioState.context.sampleRate / analyser.fftSize;
+			if (f < 100 || f > 2000) continue;
+			if (freqData[bin] > best) { best = freqData[bin]; micFreq = f; }
+		}
+	}
+	probeStream.getTracks().forEach(t => t.stop());
+	probeSrc.disconnect();
+	// Piano note far from the mic tone.
+	const candidates = [['A3', 220], ['C5', 523.25], ['E6', 1318.5], ['A2', 110]];
+	const [pianoName, pianoFreq] = candidates.reduce((a, b) => Math.abs(Math.log2(b[1] / micFreq)) > Math.abs(Math.log2(a[1] / micFreq)) ? b : a);
+	const { startExecutedNote, stopExecutedNote } = await import('../modules/performance/noteExecution.js');
+	// 2) FLOW A: Enable Mic + Record Audio (the familiar final-audio path).
+	await toggleMic(elements);
+	await wait(300);
+	if (!AudioState.microphoneSource) throw Error('Mic did not enable');
+	const { startMediaRecorder, stopMediaRecorder } = await import('../modules/recording/media.js');
+	if (!startMediaRecorder('audio')) throw Error('Record Audio did not start');
+	await wait(250);
+	const noteA = startExecutedNote(pianoName, 'probe-a', {}, { triggerChord: false });
+	await wait(1500);
+	stopExecutedNote('probe-a', { ignoreSustain: true });
+	stopMediaRecorder();
+	await wait(900);
+	const saveBtn = document.querySelector('.awtsmoos-save-confirm');
+	if (saveBtn) { saveBtn.click(); await wait(400); }
+	const blobA = captured[captured.length - 1];
+	if (!blobA) throw Error('Flow A produced no downloadable artifact');
+	const bufferA = await decode(blobA);
+	const flowA = energies(bufferA, micFreq, pianoFreq);
+	// 3) FLOW B: Record Voice take while playing.
+	captured.length = 0;
+	document.querySelector('.voice-take-record').click();
+	await wait(600);
+	if (!document.querySelector('.voice-take-record').textContent.includes('Stop')) throw Error('Voice take did not start: ' + document.querySelector('.voice-take-status').textContent);
+	const noteB = startExecutedNote(pianoName, 'probe-b', {}, { triggerChord: false });
+	await wait(1300);
+	stopExecutedNote('probe-b', { ignoreSustain: true });
+	document.querySelector('.voice-take-record').click();
+	await wait(500);
+	const statusB = document.querySelector('.voice-take-status').textContent;
+	document.querySelector('.voice-take-save').click();
+	await wait(600);
+	const saveBtn2 = document.querySelector('.awtsmoos-save-confirm');
+	if (saveBtn2) { saveBtn2.click(); await wait(400); }
+	const blobB = captured[captured.length - 1];
+	let flowB = null;
+	if (blobB) { const bufferB = await decode(blobB); flowB = energies(bufferB, micFreq, pianoFreq); }
+	// 4) FLOW C: Record Voice AND Record Audio together — final Record Audio must contain the voice too.
+	await toggleMic(elements).catch(() => {}); // ensure Enable-Mic path off; voice take is the mic source here
+	captured.length = 0;
+	if (!startMediaRecorder('audio')) throw Error('Flow C Record Audio did not start');
+	document.querySelector('.voice-take-record').click();
+	await wait(700);
+	if (!document.querySelector('.voice-take-record').textContent.includes('Stop')) throw Error('Flow C voice take did not start');
+	const noteC = startExecutedNote(pianoName, 'probe-c', {}, { triggerChord: false });
+	await wait(1300);
+	stopExecutedNote('probe-c', { ignoreSustain: true });
+	document.querySelector('.voice-take-record').click();
+	await wait(400);
+	stopMediaRecorder();
+	await wait(900);
+	const saveBtn3 = document.querySelector('.awtsmoos-save-confirm');
+	if (saveBtn3) { saveBtn3.click(); await wait(400); }
+	const blobC = captured[captured.length - 1];
+	let flowC = null;
+	if (blobC) { const bufferC = await decode(blobC); flowC = energies(bufferC, micFreq, pianoFreq); }
+	const meterSeen = Boolean(document.querySelector('.voice-take-meter'));
+	if (!meterSeen) throw Error('Mic level meter missing');
+	if (!flowB) throw Error('Voice take produced no artifact');
+	if (flowB.mic < 0.002) throw Error(`Voice missing from take (micE ${flowB.mic})`);
+	if (flowB.piano < 0.004) throw Error(`Piano missing from take (pianoE ${flowB.piano})`);
+	if (!statusB.includes('voice and piano together')) throw Error('Take status does not promise the mix: ' + statusB);
+	if (!flowC) throw Error('Combined Record Audio produced no artifact');
+	if (flowC.mic < 0.0015) throw Error(`Voice missing from Record Audio during a voice take (micE ${flowC.mic})`);
+	if (flowC.piano < 0.003) throw Error(`Piano missing from combined Record Audio (pianoE ${flowC.piano})`);
+	result.textContent = `PASS voice-piano-mix micFreq=${micFreq.toFixed(0)} piano=${pianoName}(${pianoFreq}) meter=${meterSeen} `
+		+ `flowC-bothRecord ${flowC ? `rms=${flowC.rms.toFixed(4)} micE=${flowC.mic.toFixed(4)} pianoE=${flowC.piano.toFixed(4)}` : 'no-artifact'} `
+		+ `flowA-recordAudio rms=${flowA.rms.toFixed(4)} micE=${flowA.mic.toFixed(4)} pianoE=${flowA.piano.toFixed(4)} `
+		+ `flowB-voiceTake ${flowB ? `rms=${flowB.rms.toFixed(4)} micE=${flowB.mic.toFixed(4)} pianoE=${flowB.piano.toFixed(4)}` : 'no-artifact'} statusB="${statusB.slice(0, 70)}"`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

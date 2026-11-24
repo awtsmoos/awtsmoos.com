@@ -23,14 +23,16 @@ test('one shared gate serves both surfaces: speakers make monitoring impossible'
 	assert.equal(normalizeOutputMode('headphones'), 'headphones');
 });
 
-test('mic constraints always carry echo cancellation and noise suppression', () => {
+test('mic constraints: echo cancellation always, noise suppression singing-safe off by default', () => {
 	for (const mode of ['speakers', 'headphones']) {
 		const constraints = buildMicConstraints(mode);
 		assert.equal(constraints.audio.echoCancellation, true);
-		assert.equal(constraints.audio.noiseSuppression, true);
+		// Browser noise suppression can gate sustained sung notes to silence.
+		assert.equal(constraints.audio.noiseSuppression, false);
 		assert.equal(constraints.audio.autoGainControl, true);
 	}
 	assert.equal(buildMicConstraints('speakers', { autoGainControl: false }).audio.autoGainControl, false);
+	assert.equal(buildMicConstraints('speakers', { noiseSuppression: true }).audio.noiseSuppression, true);
 });
 
 test('latency compensation adds output and input paths', () => {

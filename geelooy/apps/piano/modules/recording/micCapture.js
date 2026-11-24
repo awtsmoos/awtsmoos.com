@@ -69,6 +69,16 @@ export class MicCaptureSession {
 		this.processor.connect(this.silence);
 		this.silence.connect(context.destination); // Processor runs; its passthrough is silenced.
 		this.source.connect(this.processor);
+		if (input.recordDestination) {
+			// Recording tap: the live voice also feeds the app's main
+			// recording stream, so a Record Audio/Video capture made
+			// alongside this take contains the singing too. This is a
+			// recording destination, never a speaker — no feedback path.
+			this.recordTap = context.createGain();
+			this.recordTap.gain.value = 1;
+			this.source.connect(this.recordTap);
+			this.recordTap.connect(input.recordDestination);
+		}
 		this.monitorGain = context.createGain();
 		this.monitorGain.gain.value = 0;
 		this.monitorDestination = input.monitorDestination || null;
@@ -162,7 +172,7 @@ export class MicCaptureSession {
 		if (this.processor) this.processor.onaudioprocess = null;
 		if (this.duckNode && this.context)
 			this.duckNode.gain.setTargetAtTime(this.duckPrior, this.context.currentTime, 0.05);
-		for (const node of [this.processor, this.silence, this.monitorGain, this.analyser, this.source]) {
+		for (const node of [this.processor, this.silence, this.monitorGain, this.recordTap, this.analyser, this.source]) {
 			try { node?.disconnect(); } catch (_) { /* Already detached. */ }
 		}
 		this.stream?.getTracks().forEach(track => track.stop());
@@ -191,5 +201,69 @@ export class MicCaptureSession {
 			monitoring: this.monitoring,
 			stream: releasedStream
 		};
+	}
+}
+
+/**
+ * Captures any media stream (typically the app's record stream, which
+ * carries the piano master) to raw PCM on the shared audio clock, so a
+ * simultaneous performance can be mixed with a mic take sample-honestly.
+ */
+export class StreamPcmTap {
+	constructor(context, stream) {
+		this.context = context;
+		this.stream = stream;
+		this.chunks = [];
+		this.channels = 2;
+		this.active = false;
+	}
+
+	/** Starts pulling PCM from the stream. */
+	start() {
+		if (this.active) return;
+		const context = this.context;
+		this.source = context.createMediaStreamSource(this.stream);
+		this.processor = context.createScriptProcessor(BLOCK_SIZE, 2, 2);
+		this.silence = context.createGain();
+		this.silence.gain.value = 0;
+		this.processor.connect(this.silence);
+		this.silence.connect(context.destination); // Processor runs; passthrough silenced.
+		this.source.connect(this.processor);
+		this.startContextTime = context.currentTime;
+		this.processor.onaudioprocess = event => {
+			const input = event.inputBuffer;
+			const block = [];
+			for (let channel = 0; channel < input.numberOfChannels; channel++) {
+				const data = new Float32Array(input.length);
+				input.copyFromChannel(data, channel);
+				block.push(data);
+			}
+			this.chunks.push(block);
+		};
+		this.active = true;
+	}
+
+	/** Stops and returns {buffer, startContextTime, duration}. */
+	async stop() {
+		if (!this.active) return null;
+		this.active = false;
+		if (this.processor) this.processor.onaudioprocess = null;
+		for (const node of [this.processor, this.silence, this.source]) {
+			try { node?.disconnect(); } catch (_) { /* Already detached. */ }
+		}
+		const sampleRate = this.context.sampleRate;
+		const frames = this.chunks.reduce((total, block) => total + block[0].length, 0);
+		const buffer = this.context.createBuffer(Math.max(1, this.channels), Math.max(1, frames), sampleRate);
+		for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+			const data = buffer.getChannelData(channel);
+			let offset = 0;
+			for (const block of this.chunks) {
+				const source = block[Math.min(channel, block.length - 1)];
+				data.set(source, offset);
+				offset += source.length;
+			}
+		}
+		this.chunks = [];
+		return { buffer, startContextTime: this.startContextTime, duration: frames / sampleRate };
 	}
 }

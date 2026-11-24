@@ -48,18 +48,22 @@ export function resolveMonitorEnabled(requested, mode) {
 }
 
 /**
- * Builds getUserMedia constraints for a mode. Echo cancellation and
- * noise suppression are always on — on speakers they are the first
- * line of defence against the room feeding back into the take.
+ * Builds getUserMedia constraints for a mode. Echo cancellation is
+ * always on — on speakers it is the first line of defence against the
+ * room feeding back into the take. Noise suppression is OFF by
+ * default: browser noise suppression is built for speech in noise and
+ * can gate sustained sung notes to silence (a singer is not noise);
+ * callers may opt in explicitly for spoken-word capture.
  * @param {*} mode - Output mode.
- * @param {Object} [options] - autoGainControl defaults to true.
+ * @param {Object} [options] - autoGainControl defaults to true;
+ * noiseSuppression defaults to false.
  * @returns {Object} MediaStreamConstraints for audio capture.
  */
 export function buildMicConstraints(mode, options = {}) {
 	return {
 		audio: {
 			echoCancellation: true,
-			noiseSuppression: true,
+			noiseSuppression: options.noiseSuppression === true,
 			autoGainControl: options.autoGainControl !== false
 		}
 	};
