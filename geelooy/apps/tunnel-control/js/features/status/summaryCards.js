@@ -19,6 +19,7 @@ export {
 export {
 	connectedDeviceCard,
 	deviceListCard,
+	deviceState,
 	offlineDeviceCard,
 	renderIdentityNice
 } from "./deviceCards.js";

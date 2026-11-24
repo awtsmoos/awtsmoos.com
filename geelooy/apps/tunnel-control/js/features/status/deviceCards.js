@@ -38,6 +38,20 @@ export function renderIdentityNice(response) {
 	]);
 }
 
+/**
+ * Honest device state: the server presence field wins (connected /
+ * degraded / offline). Without it, a device is connected only on explicit
+ * positive proof; an unproven record is "unknown", never "connected".
+ */
+export function deviceState(device = {}) {
+	if (["connected", "degraded", "offline"].includes(device.presence)) {
+		return device.presence;
+	}
+	if (device.connected === false || device.isAlive === false) return "offline";
+	if (device.connected === true || device.isAlive === true) return "connected";
+	return "unknown";
+}
+
 export function offlineDeviceCard() {
 	return miniCard("warning", "No verified native or browser tunnel", [
 		"Unproven records are blocked instead of being shown.",
@@ -51,7 +65,7 @@ export function connectedDeviceCard(device = {}) {
 		`Recommended: ${safe(device.tunnelName, "Verified vessel")}`,
 		[
 			`Vessel: ${safe(device.vesselType || device.kind, "vessel")}`,
-			`State: ${device.connected === false ? "offline" : "connected"}`,
+			`State: ${deviceState(device)}`,
 			`Platform: ${safe(device.platform, "not disclosed")}`,
 			`Version: ${safe(device.agentVersion, "not reported")}`
 		],
@@ -68,7 +82,7 @@ export function deviceListCard(title, devices = [], emptyLine = "None connected"
 		title,
 		devices.slice(0, 8).map((device) => {
 			const access = device.access === "shared" ? "shared" : "owned";
-			const state = device.connected === false ? "offline" : "connected";
+			const state = deviceState(device);
 			return `${device.tunnelName} · ${access} · verified · ${state}`;
 		})
 	);

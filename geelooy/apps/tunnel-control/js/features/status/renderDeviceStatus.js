@@ -63,7 +63,7 @@ function renderAvailable(discovery, selected) {
 	const native = discovery.nativeDevices || [];
 	const browsers = discovery.browserDevices || [];
 	const accountConnected = [...native, ...browsers].some(device => {
-		return device.connected !== false && device.isAlive !== false;
+		return device.presence ? device.presence === "connected" : device.connected === true && device.isAlive === true;
 	});
 	setPill(
 		"connectionPill",
