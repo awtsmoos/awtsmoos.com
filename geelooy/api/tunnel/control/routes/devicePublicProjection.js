@@ -2,6 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
+const Reconnect = require("../core/revelation/reconnect.js");
+
+const DEGRADED_WINDOW_MS = 60 * 60 * 1000;
+
 /**
  * @file Compresses public device discovery while sealing the complete internal manifest.
  * @description
@@ -26,7 +30,20 @@ function device(source = {}) {
 	if (Number.isInteger(source.publicActionCount)) {
 		projected.publicActionCount = source.publicActionCount;
 	}
+	projected.presence = presenceOf(source);
 	return projected;
+}
+
+/** Revelation presence: a live socket is "connected"; otherwise heartbeat age
+ * decides degraded (within the recovery window) versus offline — stale
+ * devices are never presented as confidently online. */
+function presenceOf(source = {}) {
+	if (source.isAlive === true && source.connected !== false) return "connected";
+	const stamps = [source.lastSeenAt, source.heartbeatAt, source.newestEvidenceAt, source.registeredAt]
+		.map(value => (typeof value === "number" ? value : Date.parse(value || "")))
+		.filter(Number.isFinite);
+	const lastHeartbeatAt = stamps.length ? Math.max(...stamps) : 0;
+	return Reconnect.classifyPresence({ lastHeartbeatAt, staleMs: 5000, deadMs: DEGRADED_WINDOW_MS });
 }
 
 /**

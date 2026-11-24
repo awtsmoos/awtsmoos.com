@@ -4,7 +4,7 @@
 :where(.profile-hero-card) { padding: clamp(1.15rem, 3vw, 1.8rem); }
 :where(.profile-identity-row) { align-items: center; display: grid; gap: 1rem; grid-template-columns: auto minmax(0, 1fr) auto; }
 :where(.profile-avatar-orb) {
-  background: linear-gradient(135deg, var(--g-cyan), var(--g-violet));
+  background: linear-gradient(135deg, var(--g-gold), var(--g-blue));
   border-radius: 22px;
   color: #06101d;
   display: grid;

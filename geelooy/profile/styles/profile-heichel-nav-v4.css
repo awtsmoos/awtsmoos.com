@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos opens the chambers of a Heichel one deliberate step at a time;
+ * Awtsmoos.com styles the in-card series browser here and nowhere else, so
+ * HeichelNavigation.js carries classes only and no inline style can leak
+ * into the Profile cascade. Touch targets stay at least 44px.
+ */
+.geelooy-profile-shell :where(.heichel-nav__summary) {
+	padding: 12px 0;
+	cursor: pointer;
+	font-weight: 650;
+}
+.geelooy-profile-shell :where(.heichel-nav__search) {
+	width: 100%;
+	min-height: 44px;
+	border: 1px solid currentColor;
+	border-radius: 10px;
+	padding: 8px 12px;
+	margin-bottom: 8px;
+}
+.geelooy-profile-shell :where(.heichel-nav__row) {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 5px 0;
+}
+.geelooy-profile-shell :where(.heichel-nav__row--depth-1) { padding-inline-start: 8px; }
+.geelooy-profile-shell :where(.heichel-nav__row--depth-2) { padding-inline-start: 16px; }
+.geelooy-profile-shell :where(.heichel-nav__row--depth-3) { padding-inline-start: 24px; }
+.geelooy-profile-shell :where(.heichel-nav__row--depth-4) { padding-inline-start: 32px; }
+.geelooy-profile-shell :where(.heichel-nav__row--depth-5) { padding-inline-start: 40px; }
+.geelooy-profile-shell :where(.heichel-nav__link) {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 8px 12px;
+	border: 1px solid currentColor;
+	border-radius: 10px;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}

@@ -7,6 +7,7 @@ const path = require("node:path");
 const { migrateStore } = require("./storeMigrations.js");
 const { withStoreLock } = require("./storeLock.js");
 const Paths = require("./storePaths.js");
+const { atomicWrite } = require("./revelation/safeWrite.js");
 
 /**
  * @file Reads and atomically mutates the durable Tunnel Control store.
@@ -32,25 +33,13 @@ function readStore() {
 	}
 }
 
-/** Atomically writes one complete migrated store. */
+/** Atomically writes one complete migrated store via revelation safeWrite. */
 function writeStore(store) {
 	const target = Paths.storePath();
-	const directory = path.dirname(target);
 	const migrated = migrateStore(store || {});
-	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
-	fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
-	try {
-		fs.writeFileSync(
-			temporary,
-			JSON.stringify(migrated, null, 2),
-			{ encoding: "utf8", mode: 0o600 }
-		);
-		fs.renameSync(temporary, target);
-	} finally {
-		try {
-			fs.unlinkSync(temporary);
-		} catch {}
-	}
+	fs.mkdirSync(path.dirname(target), { recursive: true, mode: 0o700 });
+	const result = atomicWrite(target, JSON.stringify(migrated, null, 2), { mode: 0o600 });
+	if (!result.ok) throw new Error(result.reason || "store_write_failed");
 	return migrated;
 }
 

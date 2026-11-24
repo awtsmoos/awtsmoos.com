@@ -1,61 +1,65 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-/**
- * @module MultitrackProject
- * @description
- * Binah gives every finite layer a truthful boundary while the Awtsmoos is beyond track, clip, source, and time.
- * Awtsmoos.com keeps fades, gain, pan, trims, and positions inside one canonical project vessel so playback and export may read the same light.
- */
-
+/** The Awtsmoos gives each source and curve a truthful canonical vessel. */
 import { normalizeMultitrackClipFades } from './multitrackClipEnvelope.js';
 import { readMultitrackClipEnvelopeOffsets } from './multitrackClipEnvelopeSegments.js';
 import { createMultitrackId } from './multitrackIds.js';
+import { normalizeAutomation } from './multitrackAutomation.js';
+import { normalizeTrackEffects } from './multitrackEffects.js';
+import { normalizeMidiRegions } from './multitrackMidiRegion.js';
+import { normalizeMarkers, normalizeSections } from './multitrackMarkers.js';
+import { normalizeBuses, normalizeSends } from './multitrackBus.js';
+import { normalizeFreeze } from './multitrackFreeze.js';
 
-/** @param {Object} input - Project values. @returns {Object} Project snapshot. */
+/** Project model v2: v1 projects migrate by gaining empty MIDI/marker vessels. */
+export const MULTITRACK_PROJECT_VERSION = 2;
+
 export function createMultitrackProject(input = {}) {
 	return {
+		version: MULTITRACK_PROJECT_VERSION,
 		id: input.id || createMultitrackId('project'),
 		title: String(input.title || 'Awtsmoos Mix'),
-		tempo: positive(input.tempo, 120),
-		gridBeats: nonnegative(input.gridBeats, 0.25),
+		tempo: positive(input.tempo,120),
+		gridBeats: nonnegative(input.gridBeats,.25),
+		markers: normalizeMarkers(input.markers),
+		buses: normalizeBuses(input.buses),
+		sections: normalizeSections(input.sections),
 		tracks: (input.tracks || []).map(createMultitrackTrack)
 	};
 }
 
-/** @param {Object} input - Track data. @returns {Object} Audio track metadata. */
+/** A track owns its absolute timeline automation, effects and non-destructive clip regions. */
 export function createMultitrackTrack(input = {}) {
 	return {
 		id: input.id || createMultitrackId('track'),
 		name: String(input.name || 'Audio Track'),
-		gain: clamp(input.gain ?? 1, 0, 2),
-		pan: clamp(input.pan ?? 0, -1, 1),
+		gain: clamp(input.gain ?? 1,0,2),
+		pan: clamp(input.pan ?? 0,-1,1),
 		muted: Boolean(input.muted),
 		solo: Boolean(input.solo),
 		instrumentColor: String(input.instrumentColor || 'original'),
-		clips: (input.clips || []).map(createMultitrackClip)
+		effects: normalizeTrackEffects(input.effects),
+		automation: { gain: normalizeAutomation(input.automation?.gain,'gain'), pan: normalizeAutomation(input.automation?.pan,'pan') },
+		kind: input.kind === 'midi' ? 'midi' : 'audio',
+		midiInstrument: String(input.midiInstrument || 'triangle'),
+		clips: (input.clips || []).map(createMultitrackClip),
+		midiRegions: normalizeMidiRegions(input.midiRegions),
+		sends: normalizeSends(input.sends),
+		frozen: normalizeFreeze(input.frozen)
 	};
 }
 
-/** @param {Object} input - Clip region. @returns {Object} Non-destructive clip. */
 export function createMultitrackClip(input = {}) {
-	const duration = positive(input.duration, 0.001);
+	const duration = positive(input.duration,.001);
 	const offsets = readMultitrackClipEnvelopeOffsets(input);
-	const fades = normalizeMultitrackClipFades(
-		input.fadeIn,
-		input.fadeOut,
-		duration,
-		offsets.fadeInOffset,
-		offsets.fadeOutOffset
-	);
+	const fades = normalizeMultitrackClipFades(input.fadeIn,input.fadeOut,duration,offsets.fadeInOffset,offsets.fadeOutOffset);
 	return {
 		id: input.id || createMultitrackId('clip'),
 		name: String(input.name || 'Audio Clip'),
 		bufferId: String(input.bufferId || ''),
-		timelineStart: nonnegative(input.timelineStart, 0),
-		sourceOffset: nonnegative(input.sourceOffset, 0),
+		timelineStart: nonnegative(input.timelineStart,0),
+		sourceOffset: nonnegative(input.sourceOffset,0),
 		duration,
-		gain: clamp(input.gain ?? 1, 0, 2),
+		gain: clamp(input.gain ?? 1,0,2),
 		fadeIn: fades.fadeIn,
 		fadeOut: fades.fadeOut,
 		fadeInOffset: offsets.fadeInOffset,
@@ -64,49 +68,55 @@ export function createMultitrackClip(input = {}) {
 	};
 }
 
-/** @param {Object} project - Existing project. @param {Object} track - Replacement. @returns {Object} New snapshot. */
-export function replaceMultitrackTrack(project, track) {
-	return {
-		...project,
-		tracks: project.tracks.map((candidate) => candidate.id === track.id ? track : candidate)
-	};
+export function replaceMultitrackTrack(project,track) {
+	return {...project,tracks:project.tracks.map(candidate=>candidate.id===track.id?track:candidate)};
 }
 
-/** @param {Object} project - Project. @param {string} trackId - Track identity. @returns {Object|null} Track. */
-export function findMultitrackTrack(project, trackId) {
-	return project.tracks.find((track) => track.id === trackId) || null;
+export function findMultitrackTrack(project,trackId) {
+	return project.tracks.find(track=>track.id===trackId)||null;
 }
 
-/** @param {Object} project - Project. @param {string} clipId - Clip identity. @returns {Object|null} Owning track and clip. */
-export function findMultitrackClip(project, clipId) {
-	for (const track of project.tracks) {
-		const clip = track.clips.find((candidate) => candidate.id === clipId);
-		if (clip) {
-			return { track, clip };
-		}
+export function findMultitrackClip(project,clipId) {
+	for(const track of project.tracks) {
+		const clip=track.clips.find(candidate=>candidate.id===clipId);
+		if(clip)return {track,clip};
 	}
 	return null;
 }
 
-/** @param {Object} project - Project. @returns {number} Last clip ending time. */
+/** Avoids argument-count limits on very large projects. */
 export function multitrackProjectDuration(project) {
-	return Math.max(
-		0,
-		...project.tracks.flatMap((track) => track.clips.map((clip) => clip.timelineStart + clip.duration))
-	);
+	let end=0;
+	for(const track of project.tracks) {
+		for(const clip of track.clips)end=Math.max(end,clip.timelineStart+clip.duration);
+		for(const region of track.midiRegions||[])end=Math.max(end,region.timelineStart+region.duration);
+	}
+	return end;
 }
 
-function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
+export function findMultitrackMidiRegion(project,regionId) {
+	for(const track of project.tracks) {
+		const region=(track.midiRegions||[]).find(candidate=>candidate.id===regionId);
+		if(region)return {track,region};
+	}
+	return null;
 }
 
-function nonnegative(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number >= 0 ? number : fallback;
+export function replaceMultitrackMidiRegion(project,region) {
+	return {...project,tracks:project.tracks.map(track=>({
+		...track,midiRegions:(track.midiRegions||[]).map(candidate=>candidate.id===region.id?region:candidate)
+	}))};
 }
 
-function clamp(value, minimum, maximum) {
-	const number = Number(value);
-	return Math.max(minimum, Math.min(maximum, Number.isFinite(number) ? number : minimum));
+function positive(value,fallback) {
+	const number=Number(value);
+	return Number.isFinite(number)&&number>0?number:fallback;
+}
+function nonnegative(value,fallback) {
+	const number=Number(value);
+	return Number.isFinite(number)&&number>=0?number:fallback;
+}
+function clamp(value,min,max) {
+	const number=Number(value);
+	return Math.max(min,Math.min(max,Number.isFinite(number)?number:min));
 }

@@ -30,7 +30,7 @@ The Awtsmoos gives every social vessel one semantic palette; Awtsmoos.com keeps 
 	--g-shadow: 0 8px 26px rgba(15, 23, 42, .10);
 	--g-gold: #c68a1b;
 	--g-gold-2: #e6b34a;
-	--g-cyan: #0f766e;
+	/* --g-cyan removed Phase 2: sole shell definition lives in geelooy-app/tokens.css (gold). Internal usages migrated to --g-gold above. */
 	--g-dark-line: #dfe6ee;
 	--g-safe-bottom: env(safe-area-inset-bottom, 0px);
 }

@@ -18,7 +18,7 @@
   touch-action: manipulation;
 }
 :where(.home-action-primary, .profile-primary-action, .spaces-create, .space-actions a:first-child, .awtsmoos-btn:not(.danger)) {
-  background: linear-gradient(135deg, var(--g-cyan), var(--g-blue));
+  background: linear-gradient(135deg, var(--g-gold), var(--g-blue));
   border-color: rgba(255, 255, 255, .22);
   color: #06101d;
 }

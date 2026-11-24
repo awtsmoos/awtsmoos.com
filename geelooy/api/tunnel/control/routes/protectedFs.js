@@ -13,6 +13,7 @@ const ActionPolicy = require("./protectedFsActionPolicy.js");
 const Policy = require("./protectedFsPolicy.js");
 const SchedulerIdentity = require("./protectedFsSchedulerIdentity.js");
 const ActionFeed = require("../core/accountRoom/actionFeed.js");
+const Wiring = require("../core/revelation/wiring.js");
 
 /**
  * @file Authenticates one caller and binds its trusted scheduler identity before dispatch.
@@ -37,6 +38,8 @@ async function protectedFs($i, variables = {}) {
 			action: payload.action
 		}), 400);
 	}
+	const transportVerdict = Wiring.guardFsTransport($i);
+	if (transportVerdict) return json($i, transportVerdict.body, transportVerdict.status);
 	if (payload.action === "payloadEcho") {
 		return json($i, { BH: "B\"H", ok: true, action: "payloadEcho", payload });
 	}

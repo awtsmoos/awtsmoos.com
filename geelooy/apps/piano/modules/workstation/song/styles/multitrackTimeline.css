@@ -100,3 +100,21 @@ The Awtsmoos is beyond time and lane; Awtsmoos.com gives ruler, scrolling tracks
 	background-size: 72px 100%;
 	touch-action: pan-y;
 }
+/* B"H — Piano roll, MIDI regions, markers and sections. */
+.multitrack-marker-lane { position: relative; height: 18px; overflow: hidden; }
+.multitrack-section-band { position: absolute; top: 1px; height: 16px; padding: 0 6px; font-size: 10px; line-height: 16px; background: color-mix(in srgb, var(--studio-accent, #c9a227) 28%, transparent); border: 1px solid var(--studio-accent, #c9a227); border-radius: 4px; white-space: nowrap; overflow: hidden; }
+.multitrack-marker-flag { position: absolute; top: 1px; font-size: 10px; line-height: 16px; white-space: nowrap; pointer-events: none; }
+.multitrack-markers { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 0; }
+.multitrack-marker-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.multitrack-piano-roll-body { display: block; }
+.multitrack-piano-roll-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 0; }
+.multitrack-piano-roll-scroll { overflow: auto; max-height: 320px; border: 1px solid var(--studio-border, #444); border-radius: 6px; }
+.multitrack-piano-roll-grid { position: relative; min-width: 100%; background: repeating-linear-gradient(to bottom, transparent 0 11px, rgba(128,128,128,.25) 11px 12px), repeating-linear-gradient(to right, transparent 0 59px, rgba(128,128,128,.25) 59px 60px); }
+.multitrack-piano-roll-note { position: absolute; background: var(--studio-accent, #c9a227); border-radius: 3px; cursor: grab; touch-action: none; }
+.multitrack-piano-roll-note.is-selected { outline: 2px solid #fff; z-index: 2; }
+.multitrack-piano-roll-sustain { position: absolute; bottom: 0; height: 5px; background: rgba(90,160,255,.7); }
+
+.multitrack-piano-roll-marquee { position: absolute; border: 1px solid #ffd76a; background: rgba(255,215,106,.15); pointer-events: none; z-index: 3; }
+.multitrack-piano-roll-lane { position: relative; height: 28px; margin-top: 4px; background: rgba(255,255,255,.05); border-top: 1px solid rgba(255,255,255,.15); cursor: crosshair; }
+.multitrack-piano-roll-lane-sustain { position: absolute; bottom: 0; height: 6px; background: #7ac7ff; opacity: .7; }
+.multitrack-piano-roll-lane-point { position: absolute; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #ffd76a; }

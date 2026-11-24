@@ -74,6 +74,8 @@ export function snapMultitrackEdgeTime(options) {
 /** Collects stable timeline landmarks while excluding the actively edited clip. */
 export function collectMagneticTargets(project, clipId, playheadSeconds = 0) {
 	const targets = [0, Math.max(0, Number(playheadSeconds) || 0)];
+	for (const marker of project?.markers || []) targets.push(marker.time);
+	for (const section of project?.sections || []) targets.push(section.start, section.end);
 	project?.tracks?.forEach((track) => {
 		track.clips.forEach((clip) => {
 			if (clip.id === clipId) {
