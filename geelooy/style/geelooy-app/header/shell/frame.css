@@ -9,7 +9,9 @@
 	position: fixed;
 	z-index: var(--g-z-header);
 	top: max(.7rem, env(safe-area-inset-top));
-	left: 50%;
+	left: 0;
+	right: 0;
+	margin-inline: auto;
 	display: grid;
 	width: min(calc(100% - 1.4rem), 82rem);
 	min-height: var(--g-header-h);
@@ -24,11 +26,16 @@
 	   stays opaque instead of turning transparent (which looked "blurry"). */
 	background-color: #131820;
 	background: color-mix(in srgb, var(--g-bg-2) 94%, transparent);
-	/* Frosted glass: blur content scrolling behind the bar for a premium feel. */
-	backdrop-filter: blur(14px) saturate(1.2);
-	-webkit-backdrop-filter: blur(14px) saturate(1.2);
+	/* B"H Phase 4 (Project Perfection): backdrop-filter REMOVED from the header.
+	   Like transform, it made the header the containing block for fixed
+	   descendants, trapping the identity panel's inset:0 backdrop inside the
+	   header box (desktop dark-strip bug). The blur cannot be kept safely on
+	   any ancestor layer, so the bar uses its plain translucent background
+	   (color-mix 94% --g-bg-2, above) instead. */
 	box-shadow: var(--g-shadow-float, 0 .75rem 2rem rgba(0, 0, 0, .32)), inset 0 0 0 1px rgba(212, 175, 55, .14);
-	transform: translateX(-50%);
+	/* B"H Phase 4: no transform centering (see backdrop note above) — the bar
+	   is centered by left:0 + right:0 + margin-inline:auto with the same
+	   min() width, so fixed descendants use the viewport as containing block. */
 	/* isolation:isolate removed — the bar keeps its z-index:80 stacking context
 	   (position:fixed + z-index), so the constellation menu (z 3190), search
 	   suggestions (z 3200), and profile dropdown (z 3110) are no longer
