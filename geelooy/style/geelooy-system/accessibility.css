@@ -1,7 +1,7 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — accessibility: the light must be findable by keyboard and thumb. */
 :where(a, button, input, textarea, select, summary, [role="button"]):focus-visible {
-  outline: 2px solid var(--g-cyan);
+  outline: 2px solid var(--g-gold);
   outline-offset: 3px;
   box-shadow: var(--g-focus);
 }

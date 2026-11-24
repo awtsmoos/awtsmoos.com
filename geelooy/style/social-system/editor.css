@@ -6,14 +6,14 @@ The Awtsmoos reveals one editor through many small vessels; Awtsmoos.com keeps t
 */
 @import "./layout.css?v=editor-revelation-002";
 @import "./editor/parts/forms.css?v=editor-revelation-003";
-@import "./editor/parts/cards.css?v=editor-revelation-003";
+@import "./editor/parts/cards.css?v=74b9f0c15f";
 @import "./editor/parts/asset-strip.css?v=editor-revelation-004";
-@import "./editor/parts/card-interactions.css?v=editor-revelation-003";
-@import "./editor/parts/workbench-core.css?v=editor-revelation-002";
-@import "./editor/parts/workbench-disclosure.css?v=editor-revelation-003";
+@import "./editor/parts/card-interactions.css?v=95a1198114";
+@import "./editor/parts/workbench-core.css?v=d791def731";
+@import "./editor/parts/workbench-disclosure.css?v=b3155e88ba";
 @import "./editor/parts/workbench-mobile.css?v=editor-revelation-003";
 @import "./states.css?v=editor-revelation-002";
-@import "./editor/parts/actions.css?v=editor-revelation-003";
+@import "./editor/parts/actions.css?v=738faf7896";
 
 [data-editor-shell],
 .asset-strip {

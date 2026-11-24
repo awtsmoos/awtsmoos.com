@@ -1,6 +1,6 @@
 /* B"H — typography: the palace speaks with one measured breath. */
 :where(.g-kicker, .home-kicker) {
-  color: var(--g-cyan);
+  color: var(--g-gold);
   font-size: .78rem;
   font-weight: 800;
   letter-spacing: .16em;

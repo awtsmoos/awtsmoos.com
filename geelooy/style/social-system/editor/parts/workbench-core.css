@@ -13,7 +13,7 @@
 .editor-workbench-section {
 	position: relative;
 	overflow: clip;
-	border: 1px solid color-mix(in srgb, var(--g-cyan, #67e8f9) 24%, var(--g-line));
+	border: 1px solid color-mix(in srgb, var(--g-gold, #c68a1b) 24%, var(--g-line));
 	border-radius: 1.1rem;
 	background:
 		linear-gradient(145deg, rgba(14, 26, 50, .88), rgba(7, 10, 25, .94)),
@@ -22,7 +22,7 @@
 }
 
 .editor-workbench-section[open] {
-	border-color: color-mix(in srgb, var(--g-cyan, #67e8f9) 58%, var(--g-line));
+	border-color: color-mix(in srgb, var(--g-gold, #c68a1b) 58%, var(--g-line));
 	box-shadow: 0 1.1rem 3rem rgba(0, 0, 0, .32), 0 0 2.2rem rgba(103, 232, 249, .09);
 }
 

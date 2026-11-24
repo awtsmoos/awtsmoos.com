@@ -13,9 +13,9 @@
   --g-line: rgba(113, 143, 177, .25);
   --g-line-strong: rgba(113, 143, 177, .42);
   --g-gold: #d59a35;
-  --g-cyan: #40d8ef;
+  /* --g-cyan removed Phase 2: sole shell definition lives in geelooy-app/tokens.css (gold). Internal usages migrated to --g-gold above. */
   --g-blue: #5b8cff;
-  --g-violet: #9d7cff;
+  --g-violet: #5b8cff;
   --g-success: #33c587;
   --g-danger: #d94f5c;
   --g-radius-xs: 10px;
@@ -33,5 +33,5 @@
   --g-dock-h: 76px;
   --g-shadow: 0 20px 60px rgba(4, 10, 20, .18);
   --g-shadow-dark: 0 24px 70px rgba(0, 0, 0, .42);
-  --g-focus: 0 0 0 4px rgba(64, 216, 239, .24);
+  --g-focus: 0 0 0 4px rgba(213, 154, 53, .24);
 }

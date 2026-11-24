@@ -8,7 +8,7 @@
  */
 .editor-workbench-chevron, .editor-advanced-glyph {
 	margin-inline-start: auto;
-	color: var(--g-cyan, #67e8f9);
+	color: var(--g-gold, #c68a1b);
 	font-weight: 900;
 	transition: transform .22s ease;
 }
@@ -33,7 +33,7 @@
 	transform: scale(.99);
 }
 .editor-workbench-summary:focus-visible, .editor-advanced-summary:focus-visible {
-	outline: 2px solid var(--g-cyan, #67e8f9);
+	outline: 2px solid var(--g-gold, #c68a1b);
 	outline-offset: -2px;
 }
 .editor-workbench-body {

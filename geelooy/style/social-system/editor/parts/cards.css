@@ -18,7 +18,7 @@
 	color: inherit;
 }
 .verse-card[open], .subsection-card[open] {
-	border-color: color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
+	border-color: color-mix(in srgb, var(--g-gold) 48%, var(--g-line));
 }
 .editor-card-summary {
 	display: flex;
@@ -38,7 +38,7 @@
 .editor-card-summary::after {
 	content: "＋";
 	flex: 0 0 auto;
-	color: var(--g-cyan);
+	color: var(--g-gold);
 	font-size: 1rem;
 	font-weight: 900;
 }
