@@ -14,9 +14,9 @@
 	border: 1px solid var(--games-line);
 	border-radius: var(--games-radius-xl);
 	background:
-		radial-gradient(circle at 82% 12%, rgba(64, 225, 255, 0.14), transparent 26%),
+		radial-gradient(circle at 82% 12%, rgba(255, 201, 92, 0.14), transparent 26%),
 		radial-gradient(circle at 10% 10%, rgba(246, 202, 104, 0.16), transparent 30%),
-		linear-gradient(145deg, rgba(17, 13, 32, 0.97), rgba(7, 8, 18, 0.96));
+		linear-gradient(145deg, rgba(26, 19, 8, 0.97), rgba(10, 8, 5, 0.96));
 	box-shadow: var(--games-shadow-lg);
 }
 
@@ -82,7 +82,7 @@
 
 .primaryCta:focus-visible,
 .secondaryCta:focus-visible {
-	box-shadow: 0 0 0 4px rgba(140, 247, 255, 0.09);
+	box-shadow: 0 0 0 4px rgba(240, 208, 130, 0.10);
 }
 
 .primaryCta:active,
