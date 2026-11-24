@@ -12,7 +12,7 @@
 body.heichel-os-document[data-heichel-id="ikar"] {
 	--ikar-authority-surface: rgba(6, 16, 28, .97);
 	--ikar-authority-soft: rgba(9, 23, 39, .82);
-	--ikar-authority-line: rgba(91, 215, 255, .17);
+	--ikar-authority-line: rgba(212, 169, 78, .17);
 	--ikar-authority-gap: .65rem;
 	background: #030912;
 }
@@ -48,7 +48,7 @@ body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
 	gap: .7rem;
 	border-radius: 1.3rem;
 	background:
-		radial-gradient(circle at 88% 0%, rgba(91, 215, 255, .14), transparent 34%),
+		radial-gradient(circle at 88% 0%, rgba(212, 169, 78, .14), transparent 34%),
 		linear-gradient(140deg, rgba(9, 26, 44, .98), rgba(5, 12, 23, .96));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

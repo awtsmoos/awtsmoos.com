@@ -407,7 +407,7 @@ a:focus-visible {
 
 /* heichel/cosmic-profile/mobile-series/states.css:55 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .empty-glow-msg strong {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 }

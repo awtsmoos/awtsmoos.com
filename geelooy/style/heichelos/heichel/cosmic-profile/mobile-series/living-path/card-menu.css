@@ -18,7 +18,7 @@
 	display: none;
 	min-inline-size: 12rem;
 	padding: .35rem;
-	border: 1px solid rgba(91, 215, 255, .24);
+	border: 1px solid rgba(212, 169, 78, .24);
 	border-radius: .68rem;
 	background: #071326;
 	box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, .48);
@@ -46,6 +46,6 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 .card-menu-action:is(:hover, :focus-visible), :where(.card-menu-panel) .post-social-action:is(:hover, :focus-visible) {
-	background: rgba(91, 215, 255, .1);
+	background: rgba(212, 169, 78, .1);
 	color: var(--light-text-fff, #fff);
 }

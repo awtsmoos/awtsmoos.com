@@ -71,19 +71,19 @@ void main() {
 	float gutter = smoothstep(0.08, 0.52, abs(uv.x - 0.5));
 	float contentProtection = 1.0 - insideFeed(uv) * 0.82;
 	float density = smoothstep(0.48, 0.88, ribbon) * gutter * contentProtection;
-	vec3 cyan = vec3(0.09, 0.72, 0.92);
-	vec3 violet = vec3(0.34, 0.20, 0.82);
-	vec3 magenta = vec3(0.82, 0.14, 0.65);
+	vec3 cyan = vec3(0.788, 0.635, 0.153);
+	vec3 violet = vec3(0.627, 0.369, 0.141);
+	vec3 magenta = vec3(0.682, 0.392, 0.125);
 	vec3 nebula = mix(violet, cyan, smoothstep(0.2, 0.8, warp.x));
 	nebula = mix(nebula, magenta, smoothstep(0.62, 0.92, ribbon));
 	float stars = step(0.9968, hash21(floor(uv * u_resolution / 2.0)));
 	float resonance = exp(-distance(uv, u_anchor) * 10.0) * u_strength * contentProtection;
 	vec3 color = vec3(0.003, 0.009, 0.035);
 	color += nebula * density * 0.56;
-	color += vec3(0.5, 0.78, 1.0) * stars * (0.12 + gutter * 0.42);
+	color += vec3(1.0, 0.87, 0.55) * stars * (0.12 + gutter * 0.42);
 	color += u_interactionColor * resonance * 0.18;
 	float pointerGlow = exp(-distance(uv, u_pointer) * 8.0) * gutter * 0.025 * u_motion;
-	color += vec3(0.12, 0.38, 0.52) * pointerGlow;
+	color += vec3(0.45, 0.32, 0.10) * pointerGlow;
 	outColor = vec4(color, 1.0);
 }
 `;

@@ -12,7 +12,7 @@
 .living-path-empty-action {
 	min-block-size: 44px;
 	padding: .58rem .8rem;
-	border: 1px solid rgba(91, 215, 255, .42);
+	border: 1px solid rgba(212, 169, 78, .42);
 	border-radius: .62rem;
 	background: rgba(18, 48, 77, .8);
 	color: #edfaff;
@@ -34,7 +34,7 @@
 	min-block-size: 6rem;
 	align-items: center;
 	padding: .75rem;
-	border: 1px solid rgba(91, 215, 255, .12);
+	border: 1px solid rgba(212, 169, 78, .12);
 	border-radius: .8rem;
 	background: rgba(255, 255, 255, .025);
 }
@@ -42,7 +42,7 @@
 	inline-size: 3rem;
 	block-size: 3rem;
 	border-radius: .7rem;
-	background: rgba(91, 215, 255, .1);
+	background: rgba(212, 169, 78, .1);
 }
 .skeleton-lines {
 	display: grid;

@@ -32,7 +32,7 @@
 	padding: 1rem;
 	padding-block-end: max(1rem, env(safe-area-inset-bottom));
 	overflow-y: auto;
-	border: 1px solid rgba(91, 215, 255, .28);
+	border: 1px solid rgba(212, 169, 78, .28);
 	border-radius: 1.1rem 1.1rem 0 0;
 	background: #071225;
 	box-shadow: 0 -1.2rem 3rem rgba(0, 0, 0, .5);
@@ -61,7 +61,7 @@
 .filter-sheet-close {
 	inline-size: 44px;
 	block-size: 44px;
-	border: 1px solid rgba(91, 215, 255, .22);
+	border: 1px solid rgba(212, 169, 78, .22);
 	border-radius: .65rem;
 	background: rgba(255, 255, 255, .04);
 	color: var(--light-text-fff, #fff);

@@ -28,9 +28,9 @@
 		align-content: center;
 		gap: .4rem;
 		padding: 1.25rem;
-		border: 1px dashed rgba(80, 215, 255, .24);
+		border: 1px dashed rgba(239, 210, 126, .24);
 		border-radius: .85rem;
-		background: radial-gradient(circle at 50% 0, rgba(80, 215, 255, .09), transparent 9rem), rgba(4, 11, 26, .74);
+		background: radial-gradient(circle at 50% 0, rgba(239, 210, 126, .09), transparent 9rem), rgba(4, 11, 26, .74);
 		box-shadow: none;
 		color: #adbed3;
 		font-size: .86rem;
@@ -44,10 +44,10 @@
 		inline-size: 3rem;
 		block-size: 3rem;
 		place-items: center;
-		border: 1px solid rgba(80, 215, 255, .45);
+		border: 1px solid rgba(239, 210, 126, .45);
 		border-radius: 50%;
-		background: linear-gradient(145deg, rgba(80, 215, 255, .22), rgba(133, 117, 255, .28));
-		box-shadow: 0 0 1.1rem rgba(80, 215, 255, .12);
+		background: linear-gradient(145deg, rgba(239, 210, 126, .22), rgba(133, 117, 255, .28));
+		box-shadow: 0 0 1.1rem rgba(239, 210, 126, .12);
 		color: #eafcff;
 		font-size: 1.15rem;
 	} }
@@ -64,9 +64,9 @@
 @media (max-width: 900px) { .heichel-os-document .sacred-loading {
 		min-block-size: 8rem;
 		overflow: hidden;
-		border: 1px solid rgba(80, 215, 255, .16);
+		border: 1px solid rgba(239, 210, 126, .16);
 		border-radius: .85rem;
-		background: linear-gradient(90deg, rgba(255, 255, 255, .025), rgba(80, 215, 255, .08), rgba(255, 255, 255, .025));
+		background: linear-gradient(90deg, rgba(255, 255, 255, .025), rgba(239, 210, 126, .08), rgba(255, 255, 255, .025));
 		background-size: 220% 100%;
 	} }
 @media (max-width: 900px) { .heichel-os-document .sacred-loading::before {

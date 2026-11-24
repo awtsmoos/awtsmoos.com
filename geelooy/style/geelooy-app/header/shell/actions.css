@@ -136,10 +136,10 @@
 }
 .universal-chat-header-launcher::before {
 	content: "●";
-	color: var(--g-green);
+	color: var(--g-gold);
 	font-size: .8rem;
 	line-height: 1;
-	text-shadow: 0 0 .7rem color-mix(in srgb, var(--g-green) 42%, transparent);
+	text-shadow: 0 0 .7rem color-mix(in srgb, var(--g-gold) 42%, transparent);
 }
 .universal-chat-header-launcher.is-offline::before {
 	color: var(--g-dim);

@@ -74,8 +74,8 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.awtsmoosDrop) .profile-route-dish[href="/games"] {
-	border-color: rgba(218, 97, 194, .28);
-	background: linear-gradient(135deg, rgba(84, 58, 165, .18), rgba(203, 82, 177, .08));
+	border-color: rgba(227, 172, 85, .28);
+	background: linear-gradient(135deg, rgba(150, 97, 42, .18), rgba(174, 100, 32, .08));
 }
 @media (max-width: 390px) { .awtsmoosDrop .profile-route-dishes {
 		grid-template-columns: 1fr;

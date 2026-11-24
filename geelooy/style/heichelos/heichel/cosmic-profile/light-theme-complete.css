@@ -221,7 +221,7 @@ html[data-theme="light"] .nav-card-translation-badge {
 
 /* heichel/cosmic-profile/mobile-series/states.css:55 — was #f6f8ff */
   html[data-theme="light"] .heichel-os-document .empty-glow-msg strong {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 }

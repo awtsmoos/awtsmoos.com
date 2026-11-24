@@ -102,7 +102,7 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card):is(:hover, :focus-within) {
 	transform: none;
-	border-color: rgba(91, 215, 255, .38);
+	border-color: rgba(212, 169, 78, .38);
 	background: rgba(9, 24, 40, .94);
-	box-shadow: 0 .45rem 1.15rem rgba(0, 0, 0, .24), 0 0 0 2px rgba(91, 215, 255, .055);
+	box-shadow: 0 .45rem 1.15rem rgba(0, 0, 0, .24), 0 0 0 2px rgba(212, 169, 78, .055);
 }

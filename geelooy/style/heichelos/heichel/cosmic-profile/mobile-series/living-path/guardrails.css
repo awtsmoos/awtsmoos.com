@@ -20,7 +20,7 @@
 }
 
 .living-path-browser :where(button, a, input, select, summary):focus-visible {
-	outline: 3px solid rgba(91, 215, 255, .72);
+	outline: 3px solid rgba(212, 169, 78, .72);
 	outline-offset: 2px;
 }
 

@@ -12,7 +12,7 @@
 	gap: .45rem;
 }
 .living-path-full-path {
-	border: 1px solid rgba(91, 215, 255, .14);
+	border: 1px solid rgba(212, 169, 78, .14);
 	border-radius: .7rem;
 	background: rgba(4, 11, 26, .72);
 }
@@ -59,7 +59,7 @@
 	inset-block: 0;
 	inset-inline-start: .25rem;
 	inline-size: 1px;
-	background: rgba(91, 215, 255, .16);
+	background: rgba(212, 169, 78, .16);
 	content: "";
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

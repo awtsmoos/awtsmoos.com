@@ -11,7 +11,7 @@
 	gap: 0.65rem;
 	margin-top: 0.72rem;
 	padding: 0.8rem;
-	border: 1px solid rgb(80 215 255 / 32%);
+	border: 1px solid rgb(239 210 126 / 32%);
 	border-radius: var(--heichel-cosmic-radius);
 	background: rgb(4 12 28 / 86%);
 	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgb(255 255 255 / 5%);
@@ -44,11 +44,11 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-os-document) .series-search-row input:focus-visible {
 	border-color: var(--heichel-cosmic-cyan-core);
-	box-shadow: 0 0 0 2px rgb(80 215 255 / 12%);
+	box-shadow: 0 0 0 2px rgb(239 210 126 / 12%);
 }
 .heichel-os-document .filter-chip {
 	min-width: 5.25rem;
-	border: 1px solid rgb(80 215 255 / 30%);
+	border: 1px solid rgb(239 210 126 / 30%);
 	background: rgb(12 20 36 / 84%);
 	color: var(--heichel-cosmic-text);
 }
@@ -57,7 +57,7 @@
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 0.25rem;
 	padding: 0.24rem;
-	border: 1px solid rgb(80 215 255 / 20%);
+	border: 1px solid rgb(239 210 126 / 20%);
 	border-radius: 0.65rem;
 	background: rgb(4 4 12 / 58%);
 }
@@ -86,7 +86,7 @@
 	padding: 0;
 }
 .heichel-os-document :is(.empty-glow-msg, .sacred-loading) {
-	border-color: rgb(80 215 255 / 20%);
+	border-color: rgb(239 210 126 / 20%);
 	background: rgb(4 12 28 / 72%);
 	color: var(--heichel-cosmic-secondary);
 }

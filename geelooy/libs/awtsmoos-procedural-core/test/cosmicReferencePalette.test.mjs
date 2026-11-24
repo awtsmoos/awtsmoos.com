@@ -20,11 +20,11 @@ import { particleFamilyColor } from "../src/core/webgl/cosmicFeed/particleFamili
 
 const EXPECTED = Object.freeze({
 	void: "#04040C", page: "#040C1C", deep: "#040C24", panel: "#041424",
-	raised: "#0C1424", elevated: "#0C1C2C", cyanDust: "#0C2C5C",
-	violetDust: "#241C5C", cyan: "#01A1E6", cyanCore: "#50D7FF",
-	blue: "#2466BA", blueCore: "#349BFF", indigo: "#543AA5",
-	indigoCore: "#8575FF", violet: "#9643C3", violetCore: "#A35AFF",
-	magenta: "#CB52B1", magentaCore: "#DA61C2", aqua: "#2AA29E",
+	raised: "#0C1424", elevated: "#0C1C2C", cyanDust: "#2E2008",
+	violetDust: "#2A1608", cyan: "#C9A227", cyanCore: "#EFD27E",
+	blue: "#A87F27", blueCore: "#D9A83F", indigo: "#96612A",
+	indigoCore: "#C98F3D", violet: "#A05E24", violetCore: "#D89A4E",
+	magenta: "#AE6420", magentaCore: "#E3AC55", aqua: "#8C7422",
 	text: "#F6F8FF", secondary: "#949CA4"
 });
 
@@ -39,8 +39,8 @@ test("GLSL palette exposes exact normalized constants", () => {
 	for (const name of ["VOID", "CYAN", "CYAN_CORE", "BLUE_CORE", "INDIGO_CORE", "VIOLET_CORE", "MAGENTA_CORE", "AQUA"]) {
 		assert.match(GLSL_REFERENCE_PALETTE, new RegExp(`COSMIC_${name} = vec3\\(`));
 	}
-	assert.match(GLSL_REFERENCE_PALETTE, /0\.313725, 0\.843137, 1\.000000/);
-	assert.match(GLSL_REFERENCE_PALETTE, /0\.854902, 0\.380392, 0\.760784/);
+	assert.match(GLSL_REFERENCE_PALETTE, /0\.937255, 0\.823529, 0\.494118/);
+	assert.match(GLSL_REFERENCE_PALETTE, /0\.890196, 0\.674510, 0\.333333/);
 });
 
 test("particle families use exact side-specific reference colors", () => {

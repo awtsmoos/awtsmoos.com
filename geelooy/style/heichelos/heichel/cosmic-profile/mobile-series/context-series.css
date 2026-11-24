@@ -16,7 +16,7 @@
 		margin: 0;
 		padding: .9rem 1rem .9rem 1.15rem;
 		overflow: hidden;
-		border: 1px solid rgba(133, 117, 255, .32);
+		border: 1px solid rgba(201, 143, 61, .32);
 		border-radius: .9rem;
 		background: linear-gradient(145deg, rgba(9, 18, 40, .96), rgba(4, 10, 25, .98));
 		box-shadow: inset 0 1px rgba(255, 255, 255, .04);
@@ -27,7 +27,7 @@
 		inline-size: 3px;
 		border-radius: 999px;
 		background: linear-gradient(var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
-		box-shadow: 0 0 .8rem rgba(80, 215, 255, .28);
+		box-shadow: 0 0 .8rem rgba(239, 210, 126, .28);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 900px) { :where(.heichel-os-document) .series-heading .series-label {

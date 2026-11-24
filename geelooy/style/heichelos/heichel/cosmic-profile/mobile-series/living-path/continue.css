@@ -13,7 +13,7 @@
 	align-items: center;
 	gap: .7rem;
 	padding: .78rem;
-	border: 1px solid rgba(91, 215, 255, .28);
+	border: 1px solid rgba(212, 169, 78, .28);
 	border-radius: .85rem;
 	background: linear-gradient(135deg, rgba(14, 42, 66, .88), rgba(14, 18, 47, .9));
 	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
@@ -24,9 +24,9 @@
 	inline-size: 2.45rem;
 	block-size: 2.45rem;
 	place-items: center;
-	border: 1px solid rgba(91, 215, 255, .42);
+	border: 1px solid rgba(212, 169, 78, .42);
 	border-radius: 50%;
-	background: rgba(91, 215, 255, .1);
+	background: rgba(212, 169, 78, .1);
 	color: #c5f6ff;
 }
 
@@ -67,7 +67,7 @@
 	min-block-size: 44px;
 	align-items: center;
 	padding: .55rem .72rem;
-	border: 1px solid rgba(91, 215, 255, .45);
+	border: 1px solid rgba(212, 169, 78, .45);
 	border-radius: .62rem;
 	background: rgba(7, 20, 39, .84);
 	color: #eafcff;

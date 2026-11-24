@@ -46,7 +46,7 @@
 :where(.heichel-os-document) .heichel-os-district-buttons button.active {
 	color: var(--heichel-cosmic-text);
 	border-color: var(--heichel-cosmic-violet-core);
-	background: rgba(150, 67, 195, .18);
+	background: rgba(160, 94, 36, .18);
 }
 .heichel-os-document .heichel-os-status-grid {
 	display: grid;
@@ -55,7 +55,7 @@
 }
 .heichel-os-document .heichel-os-status-card, .heichel-os-document .heichel-os-district-viewport {
 	color: var(--heichel-cosmic-text);
-	border: 1px solid rgba(80, 215, 255, .18);
+	border: 1px solid rgba(239, 210, 126, .18);
 	background: rgba(12, 20, 36, .68);
 	box-shadow: none;
 }

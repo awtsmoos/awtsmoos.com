@@ -17,7 +17,7 @@
 body[data-heichel-id="mittler-rebbe-novels"] .heichel-profile-cover {
 	background:
 		radial-gradient(circle at 50% 110%, rgba(232, 182, 76, .55), transparent 22%),
-		radial-gradient(circle at 21% 45%, rgba(84, 58, 165, .42), transparent 25%),
+		radial-gradient(circle at 21% 45%, rgba(150, 97, 42, .42), transparent 25%),
 		radial-gradient(circle at 79% 35%, rgba(232, 182, 76, .28), transparent 24%),
 		linear-gradient(135deg, #141024, #2C1F0C 46%, #1C1440 72%, #04040C);
 	border-bottom-color: rgba(232, 182, 76, .35);

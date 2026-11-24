@@ -11,7 +11,7 @@
 	min-height: 0;
 	padding: 0;
 	overflow: hidden;
-	border: 1px solid rgba(80, 215, 255, .48);
+	border: 1px solid rgba(239, 210, 126, .48);
 	border-radius: var(--heichel-cosmic-radius);
 	background: rgba(4, 12, 28, .91);
 	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgba(255, 255, 255, .06);
@@ -40,10 +40,10 @@
 	margin: 0;
 	border: 2px solid var(--heichel-cosmic-cyan-core);
 	border-radius: 50%;
-	background: radial-gradient(circle, #0C2C5C, #04040C 72%);
+	background: radial-gradient(circle, #2E2008, #04040C 72%);
 	color: var(--heichel-cosmic-text);
 	font-size: clamp(1.35rem, 4vw, 2rem);
-	box-shadow: 0 0 1.8rem rgba(80, 215, 255, .42);
+	box-shadow: 0 0 1.8rem rgba(239, 210, 126, .42);
 }
 .heichel-profile-copy {
 	min-width: 0;
@@ -52,8 +52,8 @@
 .heichel-os-document .hero-kicker {
 	margin: 0 0 .35rem;
 	color: var(--heichel-cosmic-cyan-core);
-	border-color: rgba(80, 215, 255, .26);
-	background: rgba(1, 161, 230, .1);
+	border-color: rgba(239, 210, 126, .26);
+	background: rgba(201, 162, 39, .1);
 }
 .heichel-profile-title-row {
 	display: flex;

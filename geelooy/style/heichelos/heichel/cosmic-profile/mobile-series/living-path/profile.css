@@ -9,7 +9,7 @@
  */
 .living-path-profile {
 	overflow: clip;
-	border: 1px solid rgba(91, 215, 255, .24);
+	border: 1px solid rgba(212, 169, 78, .24);
 	border-radius: 1rem;
 	background: rgba(4, 12, 28, .92);
 	box-shadow: 0 .9rem 2.3rem rgba(0, 0, 0, .3);
@@ -44,7 +44,7 @@
 }
 .heichel-profile-details {
 	margin: 0 .75rem .45rem;
-	border-block-start: 1px solid rgba(91, 215, 255, .12);
+	border-block-start: 1px solid rgba(212, 169, 78, .12);
 }
 .heichel-profile-details > summary {
 	display: flex;

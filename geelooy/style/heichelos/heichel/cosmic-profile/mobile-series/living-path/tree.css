@@ -26,7 +26,7 @@
 .living-tree-node[aria-level="8"] { margin-inline-start: 2rem; }
 
 .tree-card {
-	border-color: rgba(91, 215, 255, .2);
+	border-color: rgba(212, 169, 78, .2);
 }
 
 .tree-card::before {
@@ -34,8 +34,8 @@
 }
 
 .series-expand-toggle[aria-expanded="true"] {
-	border: 1px solid rgba(91, 215, 255, .44);
-	background: rgba(91, 215, 255, .12);
+	border: 1px solid rgba(212, 169, 78, .44);
+	background: rgba(212, 169, 78, .12);
 	color: var(--light-text-fff, #fff);
 	transform: rotate(180deg);
 }
@@ -46,7 +46,7 @@
 	gap: .55rem;
 	margin-block-start: .55rem;
 	padding-inline-start: .8rem;
-	border-inline-start: 1px solid rgba(91, 215, 255, .22);
+	border-inline-start: 1px solid rgba(212, 169, 78, .22);
 }
 
 .series-children-well[hidden] {

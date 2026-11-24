@@ -28,6 +28,6 @@ void main() {
 		discard;
 	}
 
-	outColor = vec4(vec3(0.38, 0.76, 1.0) * alpha, alpha);
+	outColor = vec4(vec3(0.98, 0.83, 0.50) * alpha, alpha);
 }
 `;
