@@ -3,6 +3,7 @@
 import { mountTabs, mountCopyButtons, mountGptText, mountStatus, mountMissions } from "./ui.js";
 import { mountHandoff } from "./handoff.js";
 import { BrowserPageTunnel } from "./browserPageTunnel.js";
+import { mountOnboarding } from "./onboarding.js";
 
 /**
  * B"H
@@ -15,6 +16,7 @@ function main() {
   mountStatus();
   mountMissions();
   mountHandoff();
+  mountOnboarding();
   BrowserPageTunnel.init();
 
   const ps = document.getElementById("cmdPowerShell");

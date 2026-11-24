@@ -9,7 +9,8 @@ const Handler = require("../agentRoomActions.js");
 const agentRoomRoutes = Object.freeze({
 	"agent-room": Handler.status,
 	"agent-room/join": Handler.join,
-	"agent-room/message": Handler.message
+	"agent-room/message": Handler.message,
+	"agent-room/bridge": Handler.bridge
 });
 
 module.exports = { agentRoomRoutes };

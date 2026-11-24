@@ -63,6 +63,19 @@ paths:
             schema: { $ref: "#/components/schemas/AgentRoomMessage" }
       responses:
         "201": { description: Posted, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/agent-room/bridge:
+    post:
+      operationId: awtsmoosAgentRoomBridge
+      summary: Bridge one agent mission-room record into the shared account room.
+      description: "Server-side translation via the canonical room bridge: the mission-room record identity is preserved as clientMessageId, so re-sending the same record is a safe no-op (replay dedupe). Requires the tunnel.mission scope."
+      security: [{ OAuth2: [profile, tunnel.mission] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentRoomMessage" }
+      responses:
+        "201": { description: Bridged, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/fs/awtsmoos-os:
     get:
       operationId: awtsmoosHostedSafeAction

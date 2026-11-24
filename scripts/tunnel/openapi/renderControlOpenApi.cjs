@@ -18,6 +18,7 @@ function render(actions = []) {
 		...header(),
 		...bootstrapPath(),
 		...devicePath(),
+		...agentRoomPaths(),
 		...hostedSafePath(),
 		...simpleSecurePaths(),
 		...ActionPath.render(actions),
@@ -49,12 +50,63 @@ function bootstrapPath() {
 }
 
 function devicePath() {
-	return simpleGet(
-		"/api/tunnel/control/my-device",
-		"awtsmoosMyDevice",
-		"Discover active connected tunnel.",
-		"[{ OAuth2: [profile, tunnel.read] }]"
-	);
+	return [
+		"  /api/tunnel/control/my-device:",
+		"    get:",
+		"      operationId: awtsmoosMyDevice",
+		"      summary: Discover active connected tunnel.",
+		"      security: [{ OAuth2: [profile, tunnel.read] }]",
+		"      parameters:",
+		'        - { name: tunnelId, in: query, required: false, schema: { type: string }, description: "Immutable tunnel route ID for explicit selection when the account owns more than one live tunnel." }',
+		'        - { name: routeReference, in: query, required: false, schema: { type: string }, description: "Alias of tunnelId." }',
+		'        - { name: tunnelName, in: query, required: false, schema: { type: string }, description: "Friendly tunnel name; resolves only when unambiguous." }',
+		...Support.responseLines()
+	];
+}
+
+/** The shared account agent room: hand-maintained paths, now generated. */
+function agentRoomPaths() {
+	const roomDesc = "ONE room is shared by every agent on this account, whatever provider it came from (ChatGPT, Muse, any other). ON CONNECT, READ THE BACKLOG FIRST (call with no since): the room returns its existing recent messages \u2014 prior agents' streamed actions, reported completions, open questions, and the owner's steering \u2014 so you can catch up, avoid redoing finished work, and answer open questions. Then poll regularly with since=<last sequence> while you work.";
+	const post = (pathName, op, summary, desc, scope, schema, code, doneWord) => [
+		`  ${pathName}:`, "    post:", `      operationId: ${op}`,
+		`      summary: ${summary}`, `      description: ${JSON.stringify(desc)}`,
+		`      security: [{ OAuth2: [profile, ${scope}] }]`,
+		"      requestBody:", "        required: true", "        content:",
+		"          application/json:", `            schema: { $ref: "#/components/schemas/${schema}" }`,
+		"      responses:",
+		`        "${code}": { description: ${doneWord}, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }`
+	];
+	return [
+		"  /api/tunnel/control/agent-room:", "    get:",
+		"      operationId: awtsmoosAgentRoom",
+		"      summary: Read the shared account agent room \u2014 roster, live action feed, and every agent's messages.",
+		`      description: ${JSON.stringify(roomDesc)}`,
+		"      security: [{ OAuth2: [profile, tunnel.room] }]",
+		"      parameters:",
+		'        - { name: since, in: query, required: false, schema: { type: integer, minimum: 0 }, description: "Return only messages after this room sequence." }',
+		...Support.responseLines(),
+		...post("/api/tunnel/control/agent-room/join", "awtsmoosAgentRoomJoin",
+			"Join the shared agent room \u2014 do this first, on connect, before working.",
+			"Joining registers your presence so the owner and every other agent see who you are and what you are doing. Post a hello right after joining. Re-join about every 20 seconds as a heartbeat while you work. Requires the tunnel.mission scope.",
+			"tunnel.mission", "AgentRoomJoin", "201", "Joined"),
+		...post("/api/tunnel/control/agent-room/message", "awtsmoosAgentRoomMessage",
+			"Post to the shared agent room \u2014 announce intent, warnings, blockers, replies, completion.",
+			"Post BEFORE significant or destructive actions (deploys, restarts, deletes), after milestones, when blocked, and when done. Reply to agents who address you and follow the owner's steering messages. You must join first. Requires the tunnel.mission scope.",
+			"tunnel.mission", "AgentRoomMessage", "201", "Posted"),
+		"  /api/tunnel/control/agent-room/bridge:",
+		"    post:",
+		"      operationId: awtsmoosAgentRoomBridge",
+		"      summary: Bridge one agent mission-room record into the shared account room.",
+		'      description: "Server-side translation via the canonical room bridge: the mission-room record identity is preserved as clientMessageId, so re-sending the same record is a safe no-op (replay dedupe). Requires the tunnel.mission scope."',
+		"      security: [{ OAuth2: [profile, tunnel.mission] }]",
+		"      requestBody:",
+		"        required: true",
+		"        content:",
+		"          application/json:",
+		'            schema: { $ref: "#/components/schemas/AgentRoomMessage" }',
+		"      responses:",
+		'        "201": { description: Bridged, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }'
+	];
 }
 
 function simpleGet(pathName, operationId, summary, security) {

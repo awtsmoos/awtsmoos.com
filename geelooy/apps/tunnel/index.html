@@ -8,8 +8,8 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 	<title>Awtsmoos Tunnel Console</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="dark light">
-	<link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=5b9602101a">
-	<link rel="stylesheet" href="./css/tunnel.css?v=6498f58c82">
+	<link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=a558ab696e">
+	<link rel="stylesheet" href="./css/tunnel.css?v=5e92ec619b">
 </head>
 <body>
 	<header class="topbar">
@@ -34,6 +34,26 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 				<a class="button secondary" href="#install">Install Native Tunnel</a>
 				<a class="button secondary" href="/geelooy/os/" target="_blank" rel="noreferrer">Open Virtual OS</a>
 			</div>
+		</section>
+		<section class="panel onboard" id="onboarding">
+			<div class="panel-head"><div><p class="eyebrow">First run</p><h2>Connect in seven honest steps</h2></div></div>
+			<ol class="steps">
+				<li><strong>Choose a connection method.</strong>
+					<div class="method-row" role="group" aria-label="Connection method">
+						<button class="button small method" data-method="native" aria-pressed="true">Native tunnel</button>
+						<button class="button small method" data-method="browser" aria-pressed="false">Browser tunnel</button>
+						<button class="button small method" data-method="virtual" aria-pressed="false">Virtual / existing remote</button>
+					</div>
+					<p class="note" id="onboardDetail"></p>
+					<p class="panel-actions"><a class="button primary small" id="onboardGo" href="#install">Continue</a></p></li>
+				<li><strong>Pick a device or a virtual workspace.</strong> Your own computer (native or browser), the hosted <a href="/geelooy/os/" target="_blank" rel="noreferrer">Virtual OS</a>, or a remote device you already connected.</li>
+				<li id="no-install"><strong>Install — or skip installing.</strong> Native: use the install panel below (inspectable scripts are linked there). No-install: <a href="/geelooy/os/" target="_blank" rel="noreferrer">Virtual OS</a>, the <a href="/apps/code/">browser code editor</a>, or account publishing — no local agent needed.</li>
+				<li><strong>Sign in.</strong> Every tunnel is guarded by your Awtsmoos login; nothing connects anonymously.</li>
+				<li><strong>Review permissions.</strong> Grant only the scopes the work needs — reading, writing, commands, browser, missions — and revoke a device any time in the Control Center.</li>
+				<li><strong>Select a project.</strong> Open the <a href="/apps/code/">code editor</a> or the mission board below and choose the project root the tunnel may touch.</li>
+				<li><strong>Run the harmless test, then open the Control Center.</strong> The <a href="#status">installer-endpoint check</a> on this page only reads status. Then continue in <a href="/apps/tunnel-control/">Tunnel Control</a>.</li>
+			</ol>
+			<p class="note" id="platformNote"></p>
 		</section>
 		<div class="deck">
 			<section class="panel" id="browser-mode">
@@ -75,6 +95,6 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 		<span class="flow"><span class="status-dot" id="footDot"></span><b id="footConn">Tunnel console</b><span>•</span><span id="footDetail">device and account capabilities</span></span>
 		<span>All connections encrypted with TLS 1.3</span>
 	</footer>
-	<script type="module" src="./js/main.js?v=4207d40f00"></script>
+	<script type="module" src="./js/main.js?v=2a6edba482"></script>
 </body>
 </html>

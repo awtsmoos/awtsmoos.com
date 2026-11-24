@@ -5,6 +5,7 @@ const { json } = require("../core/respond.js");
 const Request = require("../core/request.js");
 const Service = require("../core/accountRoom/service.js");
 const Authorize = require("../core/accountRoom/authorization.js");
+const Bridge = require("../core/revelation/roomBridge.js");
 
 /**
  * @file Each authenticated account has a common room across every tunnel.
@@ -72,4 +73,25 @@ async function message($i) {
 	}
 }
 
-module.exports = { join, message, status };
+/** Bridge one agent mission-room record into the shared account room.
+ * Identity is preserved as clientMessageId by the canonical bridge, so a
+ * replayed bridge call is deduped by the account room itself. */
+async function bridge($i) {
+	if (method($i) !== "POST") return failure($i, "method_not_allowed", 405);
+	const auth = authorized($i, true);
+	if (auth.error) return failure($i, auth.error, auth.status);
+	try {
+		const data = await Request.body($i);
+		const record = data.record || data;
+		const missionId = String(data.missionId || record.missionId || "");
+		const shared = Bridge.toShared(record, missionId);
+		Service.join(auth.identity.accountId, auth.identity, shared);
+		const sent = Service.send(auth.identity.accountId, auth.identity, shared);
+		return json($i, { BH: 'B"H', ok: true, bridged: true,
+			replayed: sent.replayed === true, message: sent.message }, 201);
+	} catch (error) {
+		return handleError($i, error);
+	}
+}
+
+module.exports = { bridge, join, message, status };
