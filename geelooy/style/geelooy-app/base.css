@@ -7,7 +7,7 @@
  * state, and accessibility without a permanent full-viewport animation.
  */
 
-@import "./base/structure.css?v=app-base-004";
+@import "./base/structure.css?v=app-base-005";
 @import "./base/elements.css?v=app-base-004";
 @import "./base/navigation.css?v=app-base-004";
 @import "./base/accessibility.css?v=app-base-004";

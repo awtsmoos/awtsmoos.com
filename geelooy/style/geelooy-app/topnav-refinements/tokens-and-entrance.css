@@ -10,7 +10,7 @@
  */
 :root {
 	--gnav-accent: var(--g-cyan, #70d5c8);
-	--gnav-accent-hot: var(--g-blue, #78a8d8);
+	--gnav-accent-hot: var(--g-blue, #c9a227);
 	--gnav-ink-glow: rgba(112, 213, 200, 0.55);
 	--gnav-rise-distance: 14px;
 	--gnav-ease-out: cubic-bezier(0.22, 1, 0.36, 1);

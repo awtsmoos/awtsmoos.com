@@ -21,7 +21,7 @@ body.geelooy-app-shell {
 	overflow-x: clip;
 	background:
 		radial-gradient(circle at 14% 8%, rgba(112, 213, 200, .075), transparent 29rem),
-		radial-gradient(circle at 88% 22%, rgba(120, 168, 216, .055), transparent 32rem),
+		radial-gradient(circle at 88% 22%, rgba(217, 164, 65, .06), transparent 32rem),
 		linear-gradient(150deg, var(--g-bg-deep), var(--g-bg-soft) 58%, #0b1017);
 	background-attachment: scroll;
 	color: var(--g-text);
