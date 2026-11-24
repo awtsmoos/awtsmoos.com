@@ -234,13 +234,10 @@ html[data-theme="light"] .living-path-profile .hero-description {
   color: #e9e2cf;
 }
 html[data-theme="light"] .heichel-profile-details > summary {
-  color: #6d5316;
+  color: #e9e2cf;
 }
 html[data-theme="light"] .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
   color: #e9e2cf;
-}
-html[data-theme="light"] .heichel-os-document .series-search-row input {
-  color: #1e293b;
 }
 html[data-theme="light"] .living-path-empty-action {
   color: #f3ead3;
@@ -250,9 +247,15 @@ html[data-theme="light"] .living-path-empty-action {
    light theme but its placeholder kept the dark-design grey (invisible);
    the living mobile dock stays a dark bar in light theme, so its labels
    take the light family (the generic slate recolor measured 1.21:1). */
+/* The white series-search variant exists only at <=900px (the scoped
+   rules above and civilization/heichel-content.css); wider viewports keep
+   the dark cosmic input, where this taupe is illegible — there the
+   visual-coherence placeholder ink rules instead. */
+@media (max-width: 900px) {
 html[data-theme="light"] .heichel-os-document .series-search-row input::placeholder {
   color: #6b5d43;
   opacity: 1;
+}
 }
 html[data-theme="light"] body[data-heichel-id^="heichal_"] .geelooy-social-shell .geelooy-bottom-nav :where(a, button) {
   color: #e9e2cf;
