@@ -1,0 +1,71 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Studio tempo-map editor fixture</title></head>
+<body><div id="result">RUNNING</div>
+<script type="module">
+const result = document.querySelector('#result');
+try {
+	const M = '../modules/workstation/song/multitrack/';
+	const { MultitrackStudioDaas } = await import(M + 'multitrackState.js');
+	const { createMultitrackProject, createMultitrackTrack } = await import(M + 'multitrackProject.js');
+	const { createMidiRegion } = await import(M + 'multitrackMidiRegion.js');
+	const { bindTempoControls } = await import(M + 'multitrackTempoControls.js');
+	const { encodeMidiFile } = await import(M + 'multitrackMidiFile.js');
+	const { beatsToSeconds } = await import(M + 'multitrackTempoMap.js');
+	// Minimal SMF scan: tick of the first note-on for pitch 69.
+	const noteTick = bytes => {
+		let i = 14; // past MThd header chunk
+		const u32 = at => (bytes[at] << 24) | (bytes[at + 1] << 16) | (bytes[at + 2] << 8) | bytes[at + 3];
+		while (i < bytes.length) {
+			const end = i + 8 + u32(i + 4);
+			i += 8;
+			let tick = 0, status = 0;
+			const vlq = () => { let v = 0; for (;;) { const b = bytes[i++]; v = (v << 7) | (b & 127); if (!(b & 128)) return v; } };
+			while (i < end) {
+				tick += vlq();
+				if (bytes[i] & 128) status = bytes[i++];
+				if (status === 0xff) { i++; i += vlq(); continue; }
+				if (status === 0xf0 || status === 0xf7) { i += vlq(); continue; }
+				const type = status & 0xf0, two = !(type === 0xc0 || type === 0xd0);
+				const d1 = bytes[i], d2 = two ? bytes[i + 1] : 0;
+				i += two ? 2 : 1;
+				if (type === 0x90 && d1 === 69 && d2 > 0) return tick;
+			}
+			i = end;
+		}
+		throw Error('note-on not found');
+	};
+	const state = new MultitrackStudioDaas();
+	const region = createMidiRegion({ name: 'Lead', timelineStart: 0, duration: 4, notes: [{ pitch: 69, start: 3, duration: .5, velocity: 100 }] });
+	state.setProject(createMultitrackProject({ tempo: 120, tracks: [createMultitrackTrack({ kind: 'midi', midiRegions: [region] })] }));
+	const panel = bindTempoControls(state);
+	document.body.appendChild(panel);
+	panel.open = true;
+	const q = s => panel.querySelector(s);
+	const set = (s, v) => { const el = q(s); el.value = String(v); el.dispatchEvent(new Event('change', { bubbles: true })); };
+	const baseTick = noteTick(encodeMidiFile(state.project));
+	if (baseTick !== 2880) throw Error(`Constant-tempo note tick ${baseTick} != 2880`);
+	// Add a 120 -> 60 point at beat 4 through the editor's own inputs.
+	q('.multitrack-tempo-new-beat').value = '4'; q('.multitrack-tempo-new-bpm').value = '60'; q('.multitrack-tempo-new-bars').value = '3';
+	q('.multitrack-tempo-add').click();
+	let map = state.project.tempoMap;
+	if (map.length !== 2 || map[1].beat !== 4 || map[1].bpm !== 60 || map[1].beatsPerBar !== 3) throw Error('Editor add failed: ' + JSON.stringify(map));
+	const shiftedTick = noteTick(encodeMidiFile(state.project));
+	if (shiftedTick !== 2400) throw Error(`Map-predicted note tick ${shiftedTick} != 2400`);
+	// Edit that point to 30 bpm through its row input; beat 6 then lands at 6 s.
+	set('.multitrack-tempo-row[data-beat="4"] .multitrack-tempo-bpm', 30);
+	map = state.project.tempoMap;
+	if (map[1].bpm !== 30) throw Error('Editor edit failed: ' + JSON.stringify(map));
+	if (beatsToSeconds(map, 6) !== 6) throw Error('Edited map conversion wrong');
+	// Undo restores 60 bpm; delete removes the point; undo restores it.
+	state.travelHistory('undo');
+	if (state.project.tempoMap[1].bpm !== 60) throw Error('Undo did not restore 60 bpm');
+	q('.multitrack-tempo-row[data-beat="4"] .multitrack-tempo-delete').click();
+	if (state.project.tempoMap.length !== 1) throw Error('Editor delete failed');
+	state.travelHistory('undo');
+	if (state.project.tempoMap.length !== 2) throw Error('Undo did not restore deleted point');
+	result.textContent = `PASS tempo-editor ticks ${baseTick} -> ${shiftedTick} edit/undo/delete-ok`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

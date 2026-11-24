@@ -78,3 +78,31 @@ export function barAtBeat(map, beat) {
 	const point = tempoPointAtBeat(map, beat);
 	return { beatsPerBar: point.beatsPerBar, bar: Math.floor(nonneg(beat) / point.beatsPerBar) };
 }
+
+/** Adds a point, replacing any point already sitting at the same beat. */
+export function upsertTempoPoint(map, point) {
+	const next = createTempoPoint(point);
+	const rest = normalizeTempoMap(map).filter(candidate => candidate.beat !== next.beat);
+	return normalizeTempoMap([...rest, next]);
+}
+
+/** Removes a point by beat; the beat-0 anchor is protected and stays. */
+export function removeTempoPoint(map, beat) {
+	const target = nonneg(beat);
+	if (target === 0) return normalizeTempoMap(map);
+	return normalizeTempoMap(normalizeTempoMap(map).filter(candidate => candidate.beat !== target));
+}
+
+/** Replaces the point at `oldBeat`; the anchor may change bpm/signature but never its beat. */
+export function replaceTempoPoint(map, oldBeat, patch = {}) {
+	const points = normalizeTempoMap(map);
+	const target = nonneg(oldBeat);
+	const current = points.find(candidate => candidate.beat === target) || points[0];
+	const next = createTempoPoint({
+		beat: target === 0 ? 0 : (patch.beat ?? current.beat),
+		bpm: patch.bpm ?? current.bpm,
+		beatsPerBar: patch.beatsPerBar ?? current.beatsPerBar
+	});
+	const rest = points.filter(candidate => candidate.beat !== target && candidate.beat !== next.beat);
+	return normalizeTempoMap([...rest, next]);
+}
