@@ -7,22 +7,22 @@
 	"modules": [],
 	"optionalModulesBundled": [],
 	"outputBytes": 8116,
-	"outputHash": "28d36c0cfc967292f290e5dfbf799a64e72dd9adc8f933554ad43311a01d1f11",
+	"outputHash": "91d2240c46f297f5c704302ac452c54ae16077a8cedf48be66d351fe011b97fa",
 	"representations": {
 		"brotli": {
-			"bytes": 2065,
+			"bytes": 2066,
 			"encoding": "br",
-			"sha256": "ec86a8d97cfbdf540bc991bdd48ae9afdb34997ae6737ed21f4c8693de169953"
+			"sha256": "e3311002499d42c977aaa9b4a915b355fd974dc299ab777a508ff87aff6883b7"
 		},
 		"gzip": {
 			"bytes": 2532,
 			"encoding": "gzip",
-			"sha256": "f8e67e5e3ed96a9a858ae860d3f7c75f1ed4898340a47712109bbf32019cbc18"
+			"sha256": "886a1e06eee6560415f19d5405761ae80979227c8d784c105fdd2d33f1e594aa"
 		},
 		"identity": {
 			"bytes": 8116,
 			"encoding": "identity",
-			"sha256": "28d36c0cfc967292f290e5dfbf799a64e72dd9adc8f933554ad43311a01d1f11"
+			"sha256": "91d2240c46f297f5c704302ac452c54ae16077a8cedf48be66d351fe011b97fa"
 		}
 	},
 	"sourceMap": false

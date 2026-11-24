@@ -2980,7 +2980,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_uq2im3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2993,7 +2993,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_uq2im3;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/app/CanonicalAnimatedMeshVisibility.js ----

@@ -1465,7 +1465,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_uq2im3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -1478,7 +1478,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_uq2im3;
 }
 
 // ---- games/mitzvah-world/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -3208,12 +3208,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1q5ts2f = {
+	const __awtsmoosDefault_qbmezu = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_1q5ts2f;
+	__exports.default = __awtsmoosDefault_qbmezu;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -6596,7 +6596,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
 	 */
 
-	const ACTIVE_APP_RELEASE_ID = '20261119-mitzvah-world-4g-01';
+	const ACTIVE_APP_RELEASE_ID = '20261125-mitzvah-world-wb-01';
 
 
 	__exports.ACTIVE_APP_RELEASE_ID = ACTIVE_APP_RELEASE_ID;

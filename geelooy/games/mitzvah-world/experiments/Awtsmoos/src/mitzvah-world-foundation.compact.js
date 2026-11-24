@@ -4003,7 +4003,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_53yabj = {
+	const __awtsmoosDefault_ahtg2 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4017,7 +4017,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_53yabj;
+	__exports.default = __awtsmoosDefault_ahtg2;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -9844,10 +9844,19 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createBootstrapImmediateMaterial = __awtsmoosModule_109.createBootstrapImmediateMaterial;
 	const getProceduralTexture = __awtsmoosModule_110.getProceduralTexture;
 
+	// Material tints multiply the bound procedural texture (glTF baseColorFactor
+	// convention — the same convention the promoted terrain honors with its
+	// neutral [1,1,1,1] tint). The previous values repeated the grass texture's
+	// own authored base color (36,112,46) in 0–1 form, so the field rendered
+	// that color squared — ≈(5,49,8), a near-black first-play meadow under a
+	// bright sky. Tints therefore stay near-neutral: the field is fully neutral
+	// so the authored grass renders at true brightness, hills sit slightly deep
+	// for silhouette separation, and far hills go faintly cool for aerial
+	// perspective. BootstrapVisibleWorldTint.test.js pins this contract.
 	const COLORS = Object.freeze({
-		farHill: [0.21, 0.32, 0.18, 1],
-		grass: [0.14, 0.44, 0.18, 1],
-		hill: [0.16, 0.38, 0.18, 1]
+		farHill: [0.97, 0.99, 1.0, 1],
+		grass: [1, 1, 1, 1],
+		hill: [0.88, 0.94, 0.87, 1]
 	});
 
 	const HILLS = Object.freeze([
@@ -20466,7 +20475,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_zjizhk = {
+	const __awtsmoosDefault_uq2im3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -20479,7 +20488,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_zjizhk;
+	__exports.default = __awtsmoosDefault_uq2im3;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/math/Vec3.js ----
