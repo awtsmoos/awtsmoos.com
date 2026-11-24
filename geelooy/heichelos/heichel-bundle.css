@@ -768,7 +768,7 @@ The Awtsmoos gives every social vessel one semantic palette; Awtsmoos.com keeps 
 	--g-shadow: 0 8px 26px rgba(15, 23, 42, .10);
 	--g-gold: #c68a1b;
 	--g-gold-2: #e6b34a;
-	--g-cyan: #0f766e;
+	/* --g-cyan removed Phase 2: sole shell definition lives in geelooy-app/tokens.css (gold). Internal usages migrated to --g-gold above. */
 	--g-dark-line: #dfe6ee;
 	--g-safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -4348,9 +4348,9 @@ a:focus-visible {
   --g-line: rgba(113, 143, 177, .25);
   --g-line-strong: rgba(113, 143, 177, .42);
   --g-gold: #d59a35;
-  --g-cyan: #40d8ef;
+  /* --g-cyan removed Phase 2: sole shell definition lives in geelooy-app/tokens.css (gold). Internal usages migrated to --g-gold above. */
   --g-blue: #5b8cff;
-  --g-violet: #9d7cff;
+  --g-violet: #5b8cff;
   --g-success: #33c587;
   --g-danger: #d94f5c;
   --g-radius-xs: 10px;
@@ -4368,14 +4368,14 @@ a:focus-visible {
   --g-dock-h: 76px;
   --g-shadow: 0 20px 60px rgba(4, 10, 20, .18);
   --g-shadow-dark: 0 24px 70px rgba(0, 0, 0, .42);
-  --g-focus: 0 0 0 4px rgba(64, 216, 239, .24);
+  --g-focus: 0 0 0 4px rgba(213, 154, 53, .24);
 }
 
 
 /* ==== style/geelooy-system/typography.css ==== */
 /* B"H — typography: the palace speaks with one measured breath. */
 :where(.g-kicker, .home-kicker) {
-  color: var(--g-cyan);
+  color: var(--g-gold);
   font-size: .78rem;
   font-weight: 800;
   letter-spacing: .16em;
@@ -4563,7 +4563,7 @@ a:focus-visible {
   touch-action: manipulation;
 }
 :where(.home-action-primary, .profile-primary-action, .spaces-create, .space-actions a:first-child, .awtsmoos-btn:not(.danger)) {
-  background: linear-gradient(135deg, var(--g-cyan), var(--g-blue));
+  background: linear-gradient(135deg, var(--g-gold), var(--g-blue));
   border-color: rgba(255, 255, 255, .22);
   color: #06101d;
 }
@@ -6083,7 +6083,7 @@ html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 31
 :where(.profile-hero-card) { padding: clamp(1.15rem, 3vw, 1.8rem); }
 :where(.profile-identity-row) { align-items: center; display: grid; gap: 1rem; grid-template-columns: auto minmax(0, 1fr) auto; }
 :where(.profile-avatar-orb) {
-  background: linear-gradient(135deg, var(--g-cyan), var(--g-violet));
+  background: linear-gradient(135deg, var(--g-gold), var(--g-blue));
   border-radius: 22px;
   color: #06101d;
   display: grid;
@@ -6237,7 +6237,7 @@ button:focus-visible {
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — accessibility: the light must be findable by keyboard and thumb. */
 :where(a, button, input, textarea, select, summary, [role="button"]):focus-visible {
-  outline: 2px solid var(--g-cyan);
+  outline: 2px solid var(--g-gold);
   outline-offset: 3px;
   box-shadow: var(--g-focus);
 }
