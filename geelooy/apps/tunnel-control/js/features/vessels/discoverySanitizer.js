@@ -51,10 +51,17 @@ export function sanitizeDiscoveryResponse(raw = {}) {
 		raw.routeReference ||
 		raw.tunnelId
 	);
+	// B"H — Run 07: the payload must not contradict itself. A source that
+	// demonstrably delivered a verified (possibly connected) device was not
+	// wholly failed, so sourceOk follows the evidence; a partial source
+	// failure is carried honestly in sourcePartial + warnings instead of
+	// sitting beside connected:true as sourceOk:false.
+	const sourceOk = raw.ok !== false || Boolean(recommended);
 	return Object.freeze({
 		BH: "B\"H",
 		ok: Boolean(recommended),
-		sourceOk: raw.ok !== false,
+		sourceOk,
+		sourcePartial: raw.ok === false && Boolean(recommended),
 		connected: recommended?.connected === true,
 		routeReference,
 		tunnelId: text(recommended?.tunnelId || raw.tunnelId),

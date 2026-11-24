@@ -76,3 +76,4 @@
 @import url("./views/sub-agents/responsive.css") layer(awt.responsive);
 @import url("./visual-polish.css") layer(awt.polish);
 @import url("./interaction/mobile-touch.css") layer(awt.polish);
+@import url("./views/run07-beauty.css") layer(awt.polish);

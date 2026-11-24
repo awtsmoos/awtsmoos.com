@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/bundle.css"></head><body data-run07="loading"><script type="module">
+// B"H — Run 07 click-level proof: real clicks, not module loads.
+import { mountLegacyFeatures } from "../js/boot/mountLegacyFeatures.js";
+import { mountShell } from "../js/shell/mountShell.js";
+import { PAGE_SPECS } from "../js/shell/pageSpecs.js";
+import { getActivePane } from "../js/router/paneRouter.js";
+import { registerRuntime, setActiveRuntime } from "../js/runtime/runtimeRegistry.js";
+const R = { nav: {}, navFails: [], search: {}, select: {}, details: {}, textarea: {}, mesh: {}, diag: {} };
+const vis = el => !!el && getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden";
+const effVisible = el => { if (!el) return false; const w = el.closest("label") || el; const s = getComputedStyle(w); return s.display !== "none" && Number(s.opacity) > 0.9; };
+try {
+	registerRuntime({ id: "rt-mac", mode: "native", activeRoot: "/Users/test/proj", tunnel: { name: "awt-awtsmoos-2184", connected: false }, mountedCapabilities: {} });
+	registerRuntime({ id: "rt-linux", mode: "native", activeRoot: ".", tunnel: { name: "awt-root-73967", connected: true }, mountedCapabilities: {} });
+	setActiveRuntime("rt-linux");
+	await mountLegacyFeatures(() => "smoke");
+	mountShell({ session: {}, runtime: {}, activityRuntime: {}, getTunnelName: () => "smoke", getProjectPath: () => "/tmp" });
+	// 5. NAV: click every sidebar destination button
+	for (const spec of PAGE_SPECS) {
+		const btn = document.querySelector(`.awt-app-navigation [data-awt-navigate="${spec.key}"]`);
+		if (!btn) { R.navFails.push(spec.key + ":no-button"); continue; }
+		btn.click();
+		const ok = getActivePane() === spec.key;
+		R.nav[spec.key] = ok;
+		if (!ok) R.navFails.push(spec.key + ":active=" + getActivePane());
+	}
+	// Sidebar rail must stay alive in workspace mode (it is the only way to switch apps)
+	R.railInWorkspace = getComputedStyle(document.querySelector(".awt-dashboard")).display;
+	R.navVisibleInWorkspace = vis(document.querySelector(".awt-app-navigation"));
+	const homeBtn = document.querySelector(".awt-app-navigation [data-awt-home]");
+	homeBtn?.click();
+	R.homeAfterNav = document.body.classList.contains("awt-home-mode") && !getActivePane();
+	document.querySelector(`.awt-app-navigation [data-awt-navigate="account"]`)?.click();
+	document.getElementById("awtBackDashboard")?.click();
+	R.homeViaBack = document.body.classList.contains("awt-home-mode") && !getActivePane();
+	// 1. SEARCH filter in Tool codex
+	document.querySelector(`.awt-app-navigation [data-awt-navigate="usage"]`)?.click();
+	const search = document.getElementById("actionCatalogSearch");
+	const cards = [...document.querySelectorAll(".awt-action-option")];
+	R.search.total = cards.length;
+	search.value = "doctor";
+	search.dispatchEvent(new InputEvent("input", { bubbles: true }));
+	const visibleCards = cards.filter(c => vis(c));
+	R.search.visible = visibleCards.length;
+	R.search.visibleNames = visibleCards.map(c => c.dataset.action);
+	R.search.allMatch = visibleCards.every(c => /doctor/i.test(c.dataset.search || ""));
+	search.value = "";
+	search.dispatchEvent(new InputEvent("input", { bubbles: true }));
+	R.search.restoredAfterClear = cards.filter(c => vis(c)).length;
+	// 2. SELECT actions: detail shows only their real params + Run
+	const pick = name => {
+		const card = document.querySelector(`.awt-action-option[data-action="${name}"]`);
+		card?.click();
+		return {
+			detailVisible: vis(document.getElementById("actionDetail")),
+			actionName: document.getElementById("actionName")?.value,
+			runVisible: vis(document.getElementById("runActionBtn")),
+			pathVisible: effVisible(document.getElementById("actionPath")),
+			websiteIdVisible: effVisible(document.getElementById("websiteMissionId")),
+			websitePromptVisible: effVisible(document.getElementById("websiteMissionPrompt")),
+			websiteMsgVisible: effVisible(document.getElementById("websiteMissionMessage"))
+		};
+	};
+	R.select.list = pick("list");
+	R.select.read = pick("read");
+	R.select.browserDoctor = pick("browserDoctor");
+	R.select.write = pick("write");
+	R.writeContentVisible = effVisible(document.getElementById("writeContent"));
+	// 4. DISCLOSURES
+	R.details.rows = [...document.querySelectorAll(".awt-output-details")].map(d => {
+		const sum = d.querySelector("summary");
+		const label = sum?.textContent?.trim();
+		sum?.click();
+		const opened = d.open;
+		sum?.click();
+		return { label, opened, closedAgain: !d.open };
+	});
+	// Load usage must visibly change the usage box
+	const before = document.getElementById("usageBox")?.textContent;
+	document.getElementById("loadUsageBtn")?.click();
+	await new Promise(r => setTimeout(r, 300));
+	R.details.usageBoxChanged = document.getElementById("usageBox")?.textContent !== before;
+	R.details.usageDetailsOpen = document.getElementById("usageBox")?.closest("details")?.open;
+	// 3. TEXTAREA: the write-content area, visible for the write action
+	const ta = document.getElementById("writeContent");
+	if (ta) { const s = getComputedStyle(ta); R.textarea = { color: s.color, background: s.backgroundColor, height: ta.clientHeight, fontSize: s.fontSize }; }
+	// 7. MESH tiles with real status + auto-opened detail
+	document.querySelector(`.awt-app-navigation [data-awt-navigate="mesh"]`)?.click();
+	R.mesh.tiles = [...document.querySelectorAll(".awt-runtime-entry")].map(b => b.textContent.trim().replace(/\s+/g, " "));
+	R.mesh.detailHidden = document.querySelector(".awt-runtime-detail")?.hidden;
+	R.mesh.cards = [...document.querySelectorAll(".awt-mesh-panel h3")].map(x => x.textContent.trim());
+	// 6. DIAGNOSTICS: nav entry opens the drawer with real entries
+	const diagBtn = document.querySelector(".awt-app-navigation [data-awt-diagnostics]");
+	R.diag.navEntry = !!diagBtn;
+	diagBtn?.click();
+	const drawer = document.querySelector(".awt-diagnostics-drawer");
+	R.diag.drawerOpen = !!drawer?.classList.contains("is-open");
+	R.diag.drawerVisible = vis(drawer);
+	R.diag.items = document.querySelectorAll(".awt-diagnostic-item").length;
+	R.diag.toggleVisible = vis(document.querySelector(".awt-diagnostics-toggle"));
+} catch (error) { R.error = String(error.stack || error); }
+const out = document.createElement("pre"); out.id = "audit"; out.textContent = JSON.stringify(R, null, 1);
+document.body.append(out);
+document.body.dataset.run07 = R.error ? "error" : "done";
+</script></body></html>

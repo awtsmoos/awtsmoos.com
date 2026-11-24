@@ -20,35 +20,50 @@ export function selectCatalogAction(name) {
   setText("actionDetailTitle", item.title);
   setText("actionDetailDesc", item.desc);
   setText("actionDetailBadge", `${item.group} · ${(item.badges || []).join(" · ")}`);
-  $("actionDetail")?.removeAttribute("hidden");
-  toggleAdvancedFields(item.defaults || {});
+  const detail = $("actionDetail");
+  detail?.removeAttribute("hidden");
+  applyActionFields(item);
+  detail?.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function setValue(id, value) { const node = $(id); if (node) node.value = value; }
 function setText(id, value) { const node = $(id); if (node) node.textContent = value; }
-function mute(id, muted = true) { $(id)?.closest("label")?.classList.toggle("is-muted", muted); }
-function toggleAdvancedFields(defaults) {
-  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer", "websiteMissionId", "websiteAgentCount", "websiteStartSpacing", "websiteMaxSubagentDepth", "websiteMaxSubagents", "websiteMaxTotalAgents", "websiteSubagentSpacing", "websiteRecursiveSpawn", "websiteMessageTarget", "websiteMissionPrompt", "websiteMissionMessage"]) mute(id, true);
-  if (defaults.needsContent) mute("writeContent", false);
-  if (defaults.needsBulk) mute("bulkPaths", false);
-  if (defaults.needsBulkWrite) mute("bulkWriteJson", false);
-  if (defaults.needsMissionGoal) mute("missionGoal", false);
-  if (defaults.needsMissionId) mute("missionId", false);
-  if (defaults.needsMissionAutopilot) { mute("missionRounds", false); mute("missionAnswer", false); }
-  if (defaults.needsMissionMail || defaults.needsMissionAutopilot || defaults.needsMissionGoal) mute("selfEmail", false);
-  if (defaults.needsWebsiteMissionId) mute("websiteMissionId", false);
+
+const OPTIONAL_FIELDS = ["actionPath", "maxChars", "writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer", "websiteMissionId", "websiteAgentCount", "websiteStartSpacing", "websiteMaxSubagentDepth", "websiteMaxSubagents", "websiteMaxTotalAgents", "websiteSubagentSpacing", "websiteRecursiveSpawn", "websiteMessageTarget", "websiteMissionPrompt", "websiteMissionMessage"];
+
+/**
+ * B"H — Run 07: the detail chamber shows ONLY the selected action's real
+ * parameters. Dimming (the old is-muted approach) left every field on screen,
+ * so a file action appeared to demand website-mission fields and its Run
+ * button drowned. Now irrelevant fields leave the layout entirely; the
+ * website-mission fields exist only for website-mission actions.
+ */
+export function visibleFieldsFor(item) {
+  const defaults = item?.defaults || {};
+  const show = new Set(["actionName"]);
+  if ("path" in defaults) { show.add("actionPath"); show.add("maxChars"); }
+  if (defaults.needsContent) show.add("writeContent");
+  if (defaults.needsBulk) show.add("bulkPaths");
+  if (defaults.needsBulkWrite) show.add("bulkWriteJson");
+  if (defaults.needsMissionGoal) { show.add("missionGoal"); show.add("selfEmail"); }
+  if (defaults.needsMissionId) show.add("missionId");
+  if (defaults.needsMissionAutopilot) { show.add("missionRounds"); show.add("missionAnswer"); show.add("selfEmail"); }
+  if (defaults.needsMissionNote) show.add("missionAnswer");
+  if (defaults.needsMissionMail) { show.add("selfEmail"); show.add("missionAnswer"); }
+  if (defaults.needsWebsiteMissionId) show.add("websiteMissionId");
   if (defaults.needsWebsiteMissionPrompt) {
-    mute("websiteMissionPrompt", false);
-    mute("websiteAgentCount", false);
-    mute("websiteStartSpacing", false);
-	 mute("websiteMaxSubagentDepth", false);
-	 mute("websiteMaxSubagents", false);
-	 mute("websiteMaxTotalAgents", false);
-	 mute("websiteSubagentSpacing", false);
-	 mute("websiteRecursiveSpawn", false);
+    for (const id of ["websiteMissionPrompt", "websiteAgentCount", "websiteStartSpacing", "websiteMaxSubagentDepth", "websiteMaxSubagents", "websiteMaxTotalAgents", "websiteSubagentSpacing", "websiteRecursiveSpawn"]) show.add(id);
   }
-  if (defaults.needsWebsiteMissionMessage) {
-    mute("websiteMissionMessage", false);
-    mute("websiteMessageTarget", false);
+  if (defaults.needsWebsiteMissionMessage) { show.add("websiteMissionMessage"); show.add("websiteMessageTarget"); }
+  return show;
+}
+
+function applyActionFields(item) {
+  const show = visibleFieldsFor(item);
+  for (const id of OPTIONAL_FIELDS) {
+    const label = $(id)?.closest("label");
+    if (!label) continue;
+    label.hidden = !show.has(id);
+    label.classList.remove("is-muted");
   }
 }

@@ -142,6 +142,30 @@ function render(state) {
 	}
 }
 
+/**
+ * B"H — Run 07: one cycle of a status sweep against an offline device used
+ * to print the same FAILED line every minute until the feed was all spam.
+ * Identical failed dispatches (same agent + same content) now fold into one
+ * counted row at their first position; single failures stay untouched and
+ * nothing is hidden — the count and time span stay on the row.
+ */
+export function groupRepeatedFailures(visible, outcomes) {
+	const rows = [];
+	const byKey = new Map();
+	for (const message of visible) {
+		const outcome = message.detail?.pending ? outcomes.get(message.clientMessageId) : null;
+		const failed = outcome ? outcome.detail?.ok === false : message.detail?.ok === false;
+		if (!failed) { rows.push({ message, count: 1, lastAt: message.at }); continue; }
+		const key = `${message.agentId}|${String(message.content || "").replace(/ — pending$/, "")}`;
+		const existing = byKey.get(key);
+		if (existing) { existing.count++; existing.lastAt = message.at; continue; }
+		const row = { message, count: 1, lastAt: message.at };
+		byKey.set(key, row);
+		rows.push(row);
+	}
+	return rows;
+}
+
 function renderFeed(feed, messages) {
 	const nearBottom = feed.scrollTop + feed.clientHeight >= feed.scrollHeight - 48;
 	// B"H - an outcome entry is the final word on its pending dispatch, not
@@ -151,7 +175,7 @@ function renderFeed(feed, messages) {
 		if (message.detail?.outcomeOf) outcomes.set(message.detail.outcomeOf, message);
 	}
 	const visible = messages.filter(message => !message.detail?.outcomeOf);
-	feed.replaceChildren(...visible.map(message => {
+	feed.replaceChildren(...groupRepeatedFailures(visible, outcomes).map(({ message, count, lastAt }) => {
 		const item = document.createElement("article");
 		if (message.kind === "action") item.className = "awt-room-action";
 		const outcome = message.detail?.pending
@@ -168,9 +192,16 @@ function renderFeed(feed, messages) {
 		body.textContent = outcome
 			? String(message.content || "").replace(/ — pending$/, failed ? " — FAILED" : "")
 			: message.content;
+		if (count > 1) {
+			const errorText = String(outcome?.detail?.error || message.detail?.error || "");
+			const offline = /offline|no live|not connected|unreachable|no heartbeat/i.test(errorText);
+			body.textContent += ` — repeated ${count}×${offline ? " · device appears offline" : ""}`;
+		}
 		const when = document.createElement("small");
 		when.className = "status";
-		when.textContent = new Date(message.at).toLocaleTimeString();
+		when.textContent = count > 1
+			? `${new Date(message.at).toLocaleTimeString()} – ${new Date(lastAt).toLocaleTimeString()}`
+			: new Date(message.at).toLocaleTimeString();
 		item.append(head, body, when);
 		return item;
 	}));

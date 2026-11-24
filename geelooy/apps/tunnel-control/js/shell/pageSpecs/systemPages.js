@@ -32,5 +32,5 @@ export const docsPage = {
 
 export const meshPage = {
 	key: "mesh", group: "system", badges: ["advanced"], icon: "mesh", emoji: "🕸️",
-	title: "Runtime mesh", desc: "Runtimes, mounts, graph, and timeline."
+	title: "Runtime mesh", desc: "Runtime grid with real status — graph, mounts, and timeline open with each runtime."
 };

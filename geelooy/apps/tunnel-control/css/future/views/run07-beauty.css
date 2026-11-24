@@ -1,0 +1,154 @@
+/* B"H */
+/**
+ * Run 07 beauty pass — INSANE GOLD.
+ * One family only: amber, honey, brass and champagne over deep espresso
+ * grounds. No cyan, no violet, no blue — nothing may clash with the gold.
+ * Pure CSS gradients and shadows (zero extra requests, zero images), so the
+ * page stays lightning fast while it blazes. Imported last in awt.polish.
+ */
+.awt-control-shell {
+	--r07-espresso-0: #070402;
+	--r07-espresso-1: #120a03;
+	--r07-espresso-2: #1f1204;
+	--r07-gold-50: #fff6d8;
+	--r07-gold-100: #ffeeb0;
+	--r07-gold-300: #ffd35e;
+	--r07-gold-400: #ffb64a;
+	--r07-gold-500: #f59e1b;
+	--r07-gold-700: #b96f06;
+	--r07-gold-900: #6e4303;
+	--r07-line: rgba(255, 182, 74, .34);
+	--r07-line-soft: rgba(255, 182, 74, .17);
+	background:
+		radial-gradient(1100px 520px at 12% -8%, rgba(255, 182, 74, .20), transparent 60%),
+		radial-gradient(900px 480px at 88% -10%, rgba(245, 158, 27, .14), transparent 55%),
+		radial-gradient(700px 500px at 50% 115%, rgba(255, 211, 94, .08), transparent 60%),
+		linear-gradient(160deg, var(--r07-espresso-2), var(--r07-espresso-0) 55%, #050302);
+	color: var(--r07-gold-50);
+}
+/* — Typography hierarchy: headings blaze, body stays calm ivory — */
+.awt-control-shell :where(h1, h2) {
+	background: linear-gradient(100deg, var(--r07-gold-50) 5%, var(--r07-gold-300) 38%, var(--r07-gold-500) 68%, var(--r07-gold-100) 95%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	text-shadow: none;
+	filter: drop-shadow(0 2px 14px rgba(255, 182, 74, .22));
+}
+.awt-control-shell :where(h3, h4) { color: var(--r07-gold-100); letter-spacing: -.01em; }
+.awt-control-shell .eyebrow, .awt-control-shell .awt-pane-kicker, .awt-control-shell .awt-mini-kicker {
+	color: var(--r07-gold-400); letter-spacing: .24em; font-weight: 900;
+}
+/* — Cards and panels: dark amber glass, lit from above, gold-rimmed — */
+.awt-control-shell :where(.panel, .card, .status-card, .awt-mesh-card, .awt-result-card, .saved-key-card) {
+	background:
+		linear-gradient(165deg, rgba(255, 211, 94, .10), rgba(255, 255, 255, .015) 42%, rgba(0, 0, 0, .28)),
+		linear-gradient(180deg, rgba(31, 18, 4, .92), rgba(10, 6, 2, .94));
+	border: 1px solid var(--r07-line-soft);
+	box-shadow: inset 0 1px 0 rgba(255, 238, 176, .14), inset 0 -18px 34px rgba(0, 0, 0, .35), 0 18px 44px rgba(0, 0, 0, .42);
+}
+/* — Buttons: brass by default, molten gold when primary — */
+.awt-control-shell :where(button):not(.awt-action-option):not(.awt-runtime-entry) {
+	border-color: var(--r07-line);
+	background: linear-gradient(150deg, rgba(255, 211, 94, .14), rgba(185, 111, 6, .10)), rgba(20, 12, 3, .72);
+	color: var(--r07-gold-50);
+	box-shadow: inset 0 1px 0 rgba(255, 238, 176, .16), 0 10px 24px rgba(0, 0, 0, .30);
+}
+.awt-control-shell :where(button):not(.awt-action-option):not(.awt-runtime-entry):hover {
+	border-color: rgba(255, 211, 94, .65);
+	box-shadow: inset 0 1px 0 rgba(255, 238, 176, .22), 0 0 26px rgba(255, 182, 74, .22), 0 12px 28px rgba(0, 0, 0, .34);
+}
+.awt-control-shell :where(.primary, button.primary) {
+	background: radial-gradient(circle at 30% 0%, rgba(255, 255, 255, .38), transparent 42%), linear-gradient(135deg, var(--r07-gold-100), var(--r07-gold-400) 45%, var(--r07-gold-700));
+	border-color: rgba(255, 238, 176, .75);
+	color: #2a1700;
+	box-shadow: 0 0 34px rgba(255, 182, 74, .38), inset 0 1px 0 rgba(255, 255, 255, .55), 0 14px 30px rgba(0, 0, 0, .38);
+}
+/* — Navigation: a brass rail; the active door burns gold — */
+.awt-control-shell .awt-navigation-button { border: 1px solid transparent; color: var(--r07-gold-100); }
+.awt-control-shell .awt-navigation-button:hover { border-color: var(--r07-line-soft); background: rgba(255, 182, 74, .08); }
+.awt-control-shell .awt-navigation-button.active, .awt-control-shell .awt-launcher-tile.is-active {
+	background: linear-gradient(140deg, var(--r07-gold-300), var(--r07-gold-500) 60%, var(--r07-gold-700));
+	color: #241300; border-color: rgba(255, 238, 176, .8);
+	box-shadow: 0 0 28px rgba(255, 182, 74, .40), inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+.awt-control-shell .awt-launcher-tile {
+	background: linear-gradient(160deg, rgba(255, 211, 94, .12), rgba(0, 0, 0, .30)), rgba(18, 10, 3, .85);
+	border: 1px solid var(--r07-line-soft); color: var(--r07-gold-50);
+	box-shadow: inset 0 1px 0 rgba(255, 238, 176, .13), 0 14px 30px rgba(0, 0, 0, .36);
+}
+.awt-control-shell .awt-launcher-tile:hover { border-color: rgba(255, 211, 94, .6); box-shadow: 0 0 24px rgba(255, 182, 74, .25), 0 16px 34px rgba(0, 0, 0, .4); }
+/* — Codex: action cards as gold tablets — */
+.awt-control-shell .awt-action-option {
+	background: linear-gradient(165deg, rgba(255, 211, 94, .10), rgba(0, 0, 0, .26)), rgba(16, 9, 2, .92);
+	border: 1px solid var(--r07-line-soft); color: var(--r07-gold-50);
+	box-shadow: inset 0 1px 0 rgba(255, 238, 176, .12), 0 12px 26px rgba(0, 0, 0, .34);
+}
+.awt-control-shell .awt-action-option strong { color: var(--r07-gold-100); }
+.awt-control-shell .awt-action-option:hover, .awt-control-shell .awt-action-option:focus-visible {
+	border-color: rgba(255, 211, 94, .66); background: linear-gradient(165deg, rgba(255, 211, 94, .20), rgba(0, 0, 0, .22)), rgba(24, 13, 3, .95);
+	box-shadow: 0 0 24px rgba(255, 182, 74, .24), 0 14px 30px rgba(0, 0, 0, .4);
+}
+.awt-control-shell .awt-action-option.active {
+	border-color: var(--r07-gold-300);
+	background: radial-gradient(circle at 25% 0%, rgba(255, 255, 255, .20), transparent 40%), linear-gradient(150deg, rgba(255, 182, 74, .34), rgba(185, 111, 6, .22));
+	box-shadow: 0 0 30px rgba(255, 182, 74, .32), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+.awt-control-shell .awt-output-details { border-color: var(--r07-line-soft); background: rgba(14, 8, 2, .72); }
+.awt-control-shell .awt-output-details summary { color: var(--r07-gold-300); }
+.awt-control-shell .awt-output-details summary:hover { color: var(--r07-gold-100); }
+/* — Fields: deep wells, champagne focus — */
+.awt-control-shell :where(input, select, textarea) {
+	background: rgba(5, 3, 1, .78); border-color: var(--r07-line-soft); color: var(--r07-gold-50);
+}
+.awt-control-shell :where(input, select, textarea):focus {
+	border-color: var(--r07-gold-300);
+	box-shadow: 0 0 0 4px rgba(255, 182, 74, .16), 0 0 22px rgba(255, 182, 74, .14), inset 0 1px 0 rgba(255, 238, 176, .12);
+	background: rgba(10, 6, 2, .9);
+}
+.awt-control-shell :where(pre, code) { color: #ffe9ad; }
+/* — Runtime mesh tiles: status burns in gold shades, never invented hues — */
+.awt-control-shell .awt-runtime-entry {
+	background: linear-gradient(160deg, rgba(255, 211, 94, .10), rgba(0, 0, 0, .28)), rgba(16, 9, 2, .92);
+	border: 1px solid var(--r07-line-soft); color: var(--r07-gold-50);
+}
+.awt-control-shell .awt-runtime-entry.is-online small { color: var(--r07-gold-300); text-shadow: 0 0 12px rgba(255, 211, 94, .55); font-weight: 900; }
+.awt-control-shell .awt-runtime-entry.is-offline small { color: #a68a5b; }
+.awt-control-shell .awt-runtime-entry.is-unknown small { color: #8a744e; font-style: italic; }
+.awt-control-shell .awt-metric strong {
+	background: linear-gradient(100deg, var(--r07-gold-100), var(--r07-gold-400));
+	-webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+/* — Diagnostics drawer: a brass instrument panel sliding over the dark — */
+.awt-diagnostics-drawer {
+	background: linear-gradient(200deg, rgba(38, 22, 5, .97), rgba(8, 5, 2, .98));
+	border-left: 1px solid rgba(255, 211, 94, .55);
+	box-shadow: -30px 0 80px rgba(0, 0, 0, .6), -2px 0 34px rgba(255, 182, 74, .18);
+	color: var(--r07-gold-50, #fff6d8);
+}
+.awt-diagnostics-drawer h2 { color: #ffd35e; }
+.awt-diagnostics-toggle {
+	background: linear-gradient(135deg, #ffeeb0, #ffb64a 55%, #b96f06); color: #2a1700;
+	border: 1px solid rgba(255, 238, 176, .8); box-shadow: 0 0 26px rgba(255, 182, 74, .4); font-weight: 950;
+}
+.awt-diagnostic-item { border: 1px solid rgba(255, 182, 74, .22); background: rgba(255, 211, 94, .05); }
+/* — Room feed + scrollbars — */
+.awt-control-shell .awt-room-failed { border-color: rgba(255, 120, 90, .45); }
+.awt-control-shell ::-webkit-scrollbar { width: 10px; height: 10px; }
+.awt-control-shell ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--r07-gold-500), var(--r07-gold-900)); border-radius: 8px; }
+.awt-control-shell ::-webkit-scrollbar-track { background: rgba(0, 0, 0, .35); }
+/* — Hidden means hidden, in the last layer too (Run 07 guard) — */
+.awt-control-shell [hidden], .awt-login-gate [hidden] { display: none !important; }
+/* — Mobile: same fire, smaller hearth — */
+@media (max-width: 760px) {
+	.awt-control-shell {
+		background:
+			radial-gradient(640px 300px at 15% -6%, rgba(255, 182, 74, .18), transparent 60%),
+			linear-gradient(160deg, var(--r07-espresso-2), var(--r07-espresso-0) 60%);
+	}
+}
+/* — Reduced motion: the gold rests — */
+@media (prefers-reduced-motion: reduce) {
+	.awt-control-shell *, .awt-diagnostics-drawer, .awt-diagnostics-toggle { transition: none !important; animation: none !important; }
+}

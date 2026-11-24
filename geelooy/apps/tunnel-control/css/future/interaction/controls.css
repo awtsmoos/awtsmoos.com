@@ -11,8 +11,13 @@
   outline: none;
   transition: border-color var(--awt-fast), box-shadow var(--awt-fast), background var(--awt-fast), transform var(--awt-fast);
 }
-.awt-control-shell textarea { min-height: 120px; resize: vertical; 
+.awt-control-shell textarea { min-height: 88px; resize: vertical;
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+/* B"H — Run 07: hidden means hidden. This layer (awt.controls) sits after
+   awt.views in the cascade, so its generic button display silently defeated
+   every [hidden] rule in the views layer — the codex search set hidden on
+   76 cards and all 77 stayed on screen. The guard restores the contract. */
+.awt-control-shell [hidden], .awt-login-gate [hidden] { display: none !important; }
 .awt-control-shell :where(input, select, textarea):focus, .awt-login-gate :where(input, select, textarea):focus {
   border-color: var(--awt-line-hot);
   box-shadow: 0 0 0 4px rgba(119,236,255,.11), inset 0 1px 0 rgba(255,255,255,.08);
@@ -20,7 +25,7 @@
 }
 .awt-control-shell label { display: grid; gap: 7px; font-weight: 800; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card),
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card):not(.awt-action-option):not(.awt-runtime-entry),
 .awt-login-gate :where(button, .button-link), .button-link {
   display: inline-grid;
   place-items: center;

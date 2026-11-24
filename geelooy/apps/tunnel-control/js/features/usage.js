@@ -69,6 +69,24 @@ export function mountUsage() {
   if (button) button.onclick = async () => { openDetails("usageBox"); $("usageBox").textContent = "Loading usage..."; show("usageBox", await readUsage()); };
   const search = $("actionCatalogSearch");
   if (search) search.addEventListener("input", filterCatalog);
+  bindDisclosureToggles();
+}
+
+/**
+ * B"H — Run 07: disclosures toggle deterministically. The native summary
+ * toggle was unreliable in the live shell (clicks landed without opening),
+ * so each summary now owns its details element's open state explicitly.
+ */
+function bindDisclosureToggles() {
+  for (const details of document.querySelectorAll(".awt-output-details")) {
+    const summary = details.querySelector("summary");
+    if (!summary || summary.dataset.awtToggleBound) continue;
+    summary.dataset.awtToggleBound = "true";
+    summary.addEventListener("click", event => {
+      event.preventDefault();
+      details.open = !details.open;
+    });
+  }
 }
 
 /**

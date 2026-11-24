@@ -11,6 +11,7 @@ import { measureRuntimeMeshHealth } from "./runtimeHealth.js";
 import { listVirtualFiles, readVirtualFile } from "./virtualFilesystem.js";
 import { routeIntent } from "./intentRouter.js";
 import { createJsonReveal } from "./meshJsonToggle.js";
+import { runtimeStatus } from "./runtimeStatus.js";
 import { createRuntimeHealthCard } from "./meshHealthCard.js";
 
 function card(title, children) {
@@ -73,16 +74,22 @@ export function createMeshPanel() {
   const health = measureRuntimeMeshHealth(runtimes);
   const detail = h("div", { classes: ["awt-runtime-detail"], attrs: { hidden: "hidden" } });
   const runtimeGrid = h("div", { classes: ["awt-runtime-entry-grid"], children: runtimes.map(runtime => runtimeButton(runtime, detail, graph, mounts, timeline, replayPlan, health, active)) });
-  return h("section", { classes: ["awt-mesh-panel", "stack"], attrs: { id: "awtRuntimeMeshPanel" }, children: [
+  const panel = h("section", { classes: ["awt-mesh-panel", "stack"], attrs: { id: "awtRuntimeMeshPanel" }, children: [
     h("div", { classes: ["page-head"], children: [h("p", { classes: ["eyebrow"], text: "Runtime Mesh" }), h("h2", { text: "Runtime control grid" })] }),
     h("div", { classes: ["awt-dashboard-metrics"], children: [mini("Runtimes", runtimes.length), mini("Nodes", graph.nodes.length), mini("Mounts", mounts.length), mini("Events", timeline.length)] }),
     card("Runtimes", [runtimeGrid]),
     detail
   ] });
+  // B"H — Run 07: graph, mounts and timeline are part of this surface, not a
+  // rumor behind a click: the active runtime's detail opens with the panel.
+  if (active) openRuntimeDetail(detail, active, graph, mounts, timeline, replayPlan, health, active);
+  return panel;
 }
 
 function runtimeButton(runtime, detail, graph, mounts, timeline, replayPlan, health, active) {
-  const button = h("button", { classes: ["awt-runtime-entry"], attrs: { type: "button" }, children: [h("strong", { text: runtime.tunnel?.name || runtime.id }), h("span", { text: runtime.mode || "runtime" }), h("small", { text: runtime.activeRoot || "." })] });
+  const status = runtimeStatus(runtime);
+  const root = runtime.activeRoot && runtime.activeRoot !== "." ? ` · ${runtime.activeRoot}` : "";
+  const button = h("button", { classes: ["awt-runtime-entry", `is-${status}`], attrs: { type: "button" }, children: [h("strong", { text: runtime.tunnel?.name || runtime.id }), h("span", { text: runtime.mode || "runtime" }), h("small", { text: `${status}${root}` })] });
   button.addEventListener("click", () => openRuntimeDetail(detail, runtime, graph, mounts, timeline, replayPlan, health, active));
   return button;
 }
