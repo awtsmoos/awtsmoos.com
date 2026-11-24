@@ -3,346 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ask — Awtsmoos</title>
-<style>
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b0b0d;color:#eceae6;display:flex;flex-direction:column}
-header{padding:16px 22px;border-bottom:1px solid #1c1c20;display:flex;align-items:baseline;gap:12px}
-header h1{margin:0;font-size:20px;font-weight:650;letter-spacing:-0.03em}
-header span{color:#6e6e74;font-size:13px}
-#srcbtn{margin-left:auto;background:#1d1d21;color:#eceae6;border:1px solid #33333a;border-radius:9px;padding:7px 13px;cursor:pointer;font-size:13.5px;align-self:center}
-#srcbtn:hover{border-color:#5a9a6e}
-#sources{display:none;border-bottom:1px solid #1c1c20;background:#101012;padding:14px 22px}
-#sources.open{display:block}
-#sources h3{margin:0 0 4px;font-size:14.5px}
-#sources p{margin:0 0 10px;color:#9a9aa2;font-size:13px;line-height:1.45;max-width:640px}
-#sources label{display:flex;gap:9px;align-items:baseline;padding:5px 0;font-size:14.5px;cursor:pointer}
-#sources input{accent-color:#5a9a6e}
-#sources .cnt{color:#6e6e74;font-size:12.5px}
-#sources .row{display:flex;gap:10px;margin-top:10px;align-items:center}
-#sources button{background:#1d1d21;color:#eceae6;border:1px solid #33333a;border-radius:9px;padding:6px 11px;cursor:pointer;font-size:13px}
-#sources button:hover{border-color:#5a9a6e}
-#sources .note{color:#6e6e74;font-size:12.5px}
-#log{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
-.msg{max-width:720px;padding:12px 16px;border-radius:16px;line-height:1.5;white-space:pre-wrap;font-size:15.5px}
-.user{align-self:flex-end;background:#1a3a2a;color:#e4f5ea}
-.ai{align-self:flex-start;background:#141416;border:1px solid #26262c}
-.turn{align-self:flex-start;max-width:760px;width:100%;display:flex;flex-direction:column;gap:10px}
-.explorer{background:#101012;border:1px solid #26262c;border-radius:16px;padding:14px;outline:none}
-.explorer:focus{border-color:#5a9a6e}
-.explorer .bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.explorer .count{font-weight:650;font-size:14px}
-.explorer .hint{color:#6e6e74;font-size:12.5px}
-.explorer button{background:#1d1d21;color:#eceae6;border:1px solid #33333a;border-radius:9px;padding:6px 11px;cursor:pointer;font-size:13px}
-.explorer button:hover:not(:disabled){border-color:#5a9a6e}
-.explorer button:disabled{opacity:.4;cursor:default}
-.opts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}
-.opts button{background:#17301f;color:#cdeeda;border:1px solid #2e5d3c;border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px}
-.opts button:hover{border-color:#5a9a6e;background:#1d3d27}
-.opts button.none{background:#1d1d21;color:#9a978f;border-color:#33333a}
-.explorer .pageinfo{color:#9a9aa2;font-size:13px;margin-left:auto}
-.rlist{display:flex;flex-direction:column;gap:6px}
-.ritem{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;background:#141416;border:1px solid #222228;border-radius:11px;padding:9px 12px;cursor:pointer;color:#eceae6;font:inherit}
-.ritem:hover{border-color:#3d5546}
-.ritem.sel{border-color:#5a9a6e;background:#16211a}
-.ritem .n{color:#6e6e74;font-size:12.5px;min-width:26px}
-.ritem .ref{font-weight:650;font-size:14.5px;white-space:nowrap}
-.ritem .snip{color:#a9a9b0;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.ritem .score{color:#8fce9f;font-size:12.5px;white-space:nowrap}
-.ritem .lit{color:#0b0b0d;background:#8fce9f;border-radius:6px;font-size:11px;font-weight:700;padding:1px 6px;white-space:nowrap}
-.detail{margin-top:12px;border-top:1px solid #222228;padding-top:12px}
-.detail .dref{font-size:17px;font-weight:700;margin-bottom:8px}
-.detail .he{font-size:17px;line-height:1.7;direction:rtl;text-align:right;color:#f2ead8;margin-bottom:8px}
-.detail .en{font-size:15.5px;line-height:1.6;margin-bottom:8px}
-.detail .why{color:#9a9aa2;font-size:13.5px;line-height:1.5;margin-bottom:10px}
-.detail .expl{font-size:14.5px;line-height:1.65;color:#ddd6c4;margin-bottom:8px}
-.detail .nav{display:flex;gap:8px;align-items:center}
-.detail .vcount{color:#6e6e74;font-size:12.5px;margin-left:auto}
-form{display:flex;padding:14px 22px;gap:8px;border-top:1px solid #1c1c20;background:#0b0b0d;align-items:flex-end}
-textarea{flex:1;padding:12px 16px;border-radius:12px;border:1px solid #2a2a30;background:#121214;color:#f0eee9;font-size:16px;font-family:inherit;outline:none;resize:none;min-height:48px;max-height:180px;line-height:1.4}
-textarea:focus{border-color:#5a9a6e}
-#go{padding:12px 18px;border-radius:12px;border:none;background:#5a9a6e;color:#fff;font-weight:650;font-size:15px;cursor:pointer;height:48px}
-#go:hover{background:#6aaa7e}
-#go:disabled{opacity:.5;cursor:default}
-</style>
+<title>Ask the Library — Awtsmoos</title>
+<!--
+	B"H — Boruch Hashem — Blessed is He.
+	The Awtsmoos creates every letter anew each instant;
+	this page is a vessel where a question meets its sources,
+	and every answer shows the evidence it stands on.
+-->
+<link rel="stylesheet" href="ask.css">
 </head>
 <body>
-<header>
-  <h1>Ask</h1>
-  <span>Awtsmoos — talk to the library, browse every match</span>
-  <button id="srcbtn" type="button">Sources</button>
+<header class="crown">
+	<a class="brand" href="/">
+		<span class="mark">✺</span>
+		<span class="brand-text">AWTSMOOS</span>
+		<span class="brand-sub">Ask the Library</span>
+	</a>
+	<nav class="crown-links" aria-label="Awtsmoos places">
+		<a href="/heichelos/ikar/series/root">Ikar Library</a>
+		<a href="/apps/code">Code</a>
+		<a href="/apps/tunnel-control/">Tunnel</a>
+		<button id="srcbtn" type="button">Sources</button>
+	</nav>
 </header>
-<div id="sources">
-  <h3>Where should I look?</h3>
-  <p>The engine learns from the whole Awtsmoos library on its own — each series below is knowledge it picked up from the main database. Tick the series you want your answers drawn from; your choice is remembered on this device.</p>
-  <div id="srclist"></div>
-  <div class="row">
-    <button id="relearn" type="button">Re-learn now</button>
-    <span class="note" id="srcnote"></span>
-  </div>
-</div>
-<div id="log"></div>
-<form id="f">
-  <textarea id="q" placeholder="Ask…" rows="1" autocomplete="off" autofocus></textarea>
-  <button id="go">Ask</button>
+
+<section id="sources" aria-label="Source collections">
+	<h3>Sources the engine may draw from</h3>
+	<p>Choose which collections answer you. The list comes from the live engine; when it is unavailable the engine answers from everything it can verify.</p>
+	<div id="srclist"></div>
+	<div class="row">
+		<button id="relearn" type="button">Relearn from the library</button>
+		<span class="note" id="srcnote"></span>
+	</div>
+</section>
+
+<section class="hero">
+	<h1>Ask, and the sources answer.</h1>
+	<p class="hero-sub">Hebrew or English — a verse, a person, an idea, an exact reference. Every answer carries its evidence, and the coverage below is always the truth, never a promise.</p>
+	<div class="chips" id="chips" aria-label="Example questions">
+		<button type="button">אדם</button>
+		<button type="button">the metal snake</button>
+		<button type="button">Oholot 1:1</button>
+		<button type="button">טומאת שבעה</button>
+	</div>
+</section>
+
+<section class="coverage" aria-label="Live library coverage">
+	<article class="stat" id="stat-archive">
+		<h2>Historical archive</h2>
+		<p class="stat-num">…</p>
+		<p class="stat-note">passages indexed</p>
+	</article>
+	<article class="stat" id="stat-midrash">
+		<h2>Midrash bodies</h2>
+		<p class="stat-num">…</p>
+		<p class="stat-note">posts · phrases indexed</p>
+	</article>
+	<article class="stat" id="stat-lineage">
+		<h2>Ikar lineage</h2>
+		<p class="stat-num">Live</p>
+		<p class="stat-note">public registration, verified per query</p>
+	</article>
+</section>
+
+<main id="log" aria-live="polite"></main>
+
+<section class="lineage" aria-label="Ikar lineage explorer">
+	<h2>Lineage explorer</h2>
+	<p>Trace a series to the public root through registered, versioned authority — never by guesswork.</p>
+	<form id="linform">
+		<label>Series <input id="lin-series" value="encyclopedia" autocomplete="off"></label>
+		<label>Parent <input id="lin-parent" value="root" autocomplete="off"></label>
+		<button type="submit">Trace lineage</button>
+	</form>
+	<div id="linout"></div>
+</section>
+
+<form id="askbar">
+	<textarea id="input" rows="1" placeholder="Ask the library… (Hebrew or English)" aria-label="Your question"></textarea>
+	<button id="go" type="submit">Ask ✺</button>
 </form>
-<script>
-const log = document.getElementById("log");
-const form = document.getElementById("f");
-const input = document.getElementById("q");
-const go = document.getElementById("go");
-const PAGE = 10;
 
-function scrollEnd(){ log.scrollTop = log.scrollHeight; }
-function addBubble(role, text){
-  const d = document.createElement("div");
-  d.className = "msg " + role;
-  d.textContent = text;
-  log.appendChild(d);
-  scrollEnd();
-  return d;
-}
-function cleanLines(lines){
-  return (lines || []).filter(function(l){
-    l = String(l || "");
-    if (!l.trim()) return false;
-    if (/^You asked:/.test(l.trim())) return false;
-    if (/^\d+\.\s/.test(l.trim()) && /match/.test(l)) return false;
-    if (/^\s+(Hebrew|English|Why):/.test(l)) return false;
-    if (/^…and \d+ more/.test(l.trim())) return false;
-    return true;
-  }).join("\n").trim();
-}
-function bubbleText(data){
-  if (data.talk && data.talk.length) return data.talk.join("\n");
-  return cleanLines(data.lines) || "(empty)";
-}
-
-function buildExplorer(results, total){
-  const wrap = document.createElement("div");
-  wrap.className = "explorer";
-  wrap.tabIndex = 0;
-  let page = 0, sel = 0;
-  const pages = Math.max(1, Math.ceil(results.length / PAGE));
-
-  const bar = document.createElement("div"); bar.className = "bar";
-  const count = document.createElement("span"); count.className = "count";
-  count.textContent = total + " result" + (total === 1 ? "" : "s") + (total > results.length ? " (showing first " + results.length + ")" : "");
-  const hint = document.createElement("span"); hint.className = "hint";
-  hint.textContent = "Click a verse to read it. ↑ ↓ move, PgUp/PgDn change page.";
-  const prev = document.createElement("button"); prev.textContent = "‹ Prev page";
-  const next = document.createElement("button"); next.textContent = "Next page ›";
-  const pinfo = document.createElement("span"); pinfo.className = "pageinfo";
-  bar.append(count, prev, next, pinfo, hint);
-
-  const list = document.createElement("div"); list.className = "rlist";
-  const detail = document.createElement("div"); detail.className = "detail";
-  wrap.append(bar, list, detail);
-
-  function renderDetail(){
-    const r = results[sel];
-    detail.innerHTML = "";
-    if (!r) return;
-    const dref = document.createElement("div"); dref.className = "dref";
-    dref.textContent = r.n + ". " + r.ref + " — " + r.score + "% match" + (r.literal ? " · words found in the verse" : "");
-    const he = document.createElement("div"); he.className = "he"; he.textContent = r.he || "";
-    const en = document.createElement("div"); en.className = "en"; en.textContent = r.en || "";
-    const why = document.createElement("div"); why.className = "why"; why.textContent = r.why || "";
-    const xh = document.createElement("div"); xh.className = "why"; xh.textContent = "Explanation — from the new translation:";
-    const expl = document.createElement("div"); expl.className = "expl"; expl.textContent = r.expl || "";
-    const nav = document.createElement("div"); nav.className = "nav";
-    const pv = document.createElement("button"); pv.textContent = "‹ Prev verse";
-    const nv = document.createElement("button"); nv.textContent = "Next verse ›";
-    const vc = document.createElement("span"); vc.className = "vcount";
-    vc.textContent = "Verse " + (sel + 1) + " of " + results.length;
-    pv.disabled = sel <= 0; nv.disabled = sel >= results.length - 1;
-    pv.onclick = function(){ select(sel - 1); };
-    nv.onclick = function(){ select(sel + 1); };
-    nav.append(pv, nv, vc);
-    detail.append(dref);
-    if (r.he) detail.append(he);
-    if (r.en) detail.append(en);
-    if (r.expl) { detail.append(xh); detail.append(expl); }
-    if (r.why) detail.append(why);
-    detail.append(nav);
-  }
-  function renderList(){
-    list.innerHTML = "";
-    const start = page * PAGE;
-    results.slice(start, start + PAGE).forEach(function(r, i){
-      const idx = start + i;
-      const b = document.createElement("button");
-      b.className = "ritem" + (idx === sel ? " sel" : "");
-      const n = document.createElement("span"); n.className = "n"; n.textContent = r.n + ".";
-      const ref = document.createElement("span"); ref.className = "ref"; ref.textContent = r.ref;
-      const snip = document.createElement("span"); snip.className = "snip"; snip.textContent = r.en || r.he || "";
-      const score = document.createElement("span"); score.className = "score"; score.textContent = r.score + "%";
-      b.append(n, ref, snip);
-      if (r.literal){ const lit = document.createElement("span"); lit.className = "lit"; lit.textContent = "IN VERSE"; b.append(lit); }
-      b.append(score);
-      b.onclick = function(){ select(idx); wrap.focus(); };
-      list.append(b);
-    });
-    pinfo.textContent = "Page " + (page + 1) + " of " + pages;
-    prev.disabled = page <= 0; next.disabled = page >= pages - 1;
-  }
-  function select(idx){
-    sel = Math.max(0, Math.min(results.length - 1, idx));
-    page = Math.floor(sel / PAGE);
-    renderList(); renderDetail();
-  }
-  prev.onclick = function(){ if (page > 0){ page--; sel = page * PAGE; renderList(); renderDetail(); } };
-  next.onclick = function(){ if (page < pages - 1){ page++; sel = page * PAGE; renderList(); renderDetail(); } };
-  wrap.addEventListener("keydown", function(e){
-    if (e.key === "ArrowDown"){ e.preventDefault(); select(sel + 1); }
-    else if (e.key === "ArrowUp"){ e.preventDefault(); select(sel - 1); }
-    else if (e.key === "PageDown"){ e.preventDefault(); next.onclick(); }
-    else if (e.key === "PageUp"){ e.preventDefault(); prev.onclick(); }
-  });
-  renderList(); renderDetail();
-  return wrap;
-}
-
-function addTurn(data){
-  const turn = document.createElement("div");
-  turn.className = "turn";
-  const bubble = document.createElement("div");
-  bubble.className = "msg ai";
-  bubble.textContent = bubbleText(data);
-  turn.append(bubble);
-  // The talker's own clarification candidates, as buttons:
-  // tapping one sends that word as the next message, exactly
-  // as if it were typed (same session, its pick protocol).
-  if (data.options && data.options.length){
-    const row = document.createElement("div");
-    row.className = "opts";
-    data.options.forEach(function(o){
-      const b = document.createElement("button");
-      b.textContent = o.word;
-      b.onclick = function(){
-        row.querySelectorAll("button").forEach(function(x){ x.disabled = true; });
-        input.value = o.word;
-        form.requestSubmit();
-      };
-      row.append(b);
-    });
-    const none = document.createElement("button");
-    none.className = "none";
-    none.textContent = "None of these";
-    none.onclick = function(){
-      row.querySelectorAll("button").forEach(function(x){ x.disabled = true; });
-      input.value = "none";
-      form.requestSubmit();
-    };
-    row.append(none);
-    turn.append(row);
-  }
-  if (data.results && data.results.length) turn.append(buildExplorer(data.results, data.total || data.results.length));
-  log.append(turn);
-  scrollEnd();
-}
-
-function autoSize(){
-  input.style.height = "auto";
-  input.style.height = Math.min(input.scrollHeight, 180) + "px";
-}
-input.addEventListener("input", autoSize);
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); }
-});
-// One chat session id per page load: the talker's per-session
-// memory (follow-ups, clarifications) keys on it.
-const SESSION = "s" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-
-// ---- sources (which series the engine draws from) ----
-// null = all sources. A saved choice lives in localStorage.
-let SOURCES = null;
-try {
-  const saved = JSON.parse(localStorage.getItem("askSources") || "null");
-  if (Array.isArray(saved)) SOURCES = saved;
-} catch (e) {}
-const srcbtn = document.getElementById("srcbtn");
-const sourcesEl = document.getElementById("sources");
-const srclist = document.getElementById("srclist");
-const srcnote = document.getElementById("srcnote");
-let sourcesLoaded = false;
-async function loadSources(){
-  try {
-    const r = await fetch("/ask/api", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({action: "collections"})
-    });
-    const data = await r.json();
-    srclist.innerHTML = "";
-    (data.collections || []).forEach(function(c){
-      const lab = document.createElement("label");
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.checked = !SOURCES || SOURCES.indexOf(c.id) >= 0;
-      cb.onchange = function(){
-        const boxes = srclist.querySelectorAll("input[type=checkbox]");
-        SOURCES = [];
-        boxes.forEach(function(b, i){
-          if (b.checked) SOURCES.push((data.collections || [])[i].id);
-        });
-        try { localStorage.setItem("askSources", JSON.stringify(SOURCES)); } catch (e) {}
-      };
-      const name = document.createElement("span");
-      name.textContent = c.name;
-      const cnt = document.createElement("span");
-      cnt.className = "cnt";
-      cnt.textContent = c.records ? c.records.toLocaleString() + " passages" : "";
-      lab.append(cb, name, cnt);
-      srclist.appendChild(lab);
-    });
-    if (data.indexer && data.indexer.lastPassAt)
-      srcnote.textContent = "Last learned from the library: " + new Date(data.indexer.lastPassAt).toLocaleString();
-    sourcesLoaded = true;
-  } catch (e) {
-    srcnote.textContent = "Could not load the source list.";
-  }
-}
-srcbtn.onclick = function(){
-  sourcesEl.classList.toggle("open");
-  if (sourcesEl.classList.contains("open") && !sourcesLoaded) loadSources();
-};
-document.getElementById("relearn").onclick = async function(){
-  srcnote.textContent = "Learning from the library… this runs in the background.";
-  try {
-    await fetch("/ask/api", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({action: "index"})
-    });
-  } catch (e) {}
-};
-form.onsubmit = async e => {
-  e.preventDefault();
-  const q = input.value.trim();
-  if (!q) return;
-  input.value = ""; autoSize();
-  go.disabled = true;
-  addBubble("user", q);
-  const pending = addBubble("ai", "Thinking…");
-  try {
-    const r = await fetch("/ask/api", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({query: q, session: SESSION, sources: SOURCES})
-    });
-    if (!r.ok) throw new Error("bad");
-    const data = await r.json();
-    pending.remove();
-    addTurn(data);
-  } catch (err) {
-    pending.textContent = "Could not reach the engine.";
-  }
-  go.disabled = false;
-  input.focus();
-};
-addBubble("ai", "Shalom! Talk to me, or ask me anything from the library — a person, a story, an idea. When I search, I'll bring you the whole list of matches to browse. Try \"the metal snake\".");
-</script>
+<script src="ask.js"></script>
+<script src="ask-panels.js"></script>
 </body>
 </html>
