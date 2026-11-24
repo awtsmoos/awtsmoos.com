@@ -30,13 +30,13 @@ export function normalizeMasterPeak(buffer, ceilingDb=-1, maxBoostDb=12) {
 }
 
 /** Mastering is explicit and bounded; ordinary WAV export remains unchanged. */
-export async function exportPeakNormalizedMix(state,ceilingDb=-1) {
+export async function exportPeakNormalizedMix(state,ceilingDb=-1,bitsPerSample=16) {
 	const project=state.project;
 	if(multitrackProjectDuration(project)>480)throw Error('Master export supports up to eight minutes.');
 	const buffer=await renderMultitrackProjectMix(project,{sampleRate:44100,onProgress:message=>state.setStatus(message)});
 	state.setStatus('Measuring and adjusting master sample peak…');
 	const report=normalizeMasterPeak(buffer,ceilingDb);
-	const bytes=encodeMultitrackWav(buffer);
+	const bytes=encodeMultitrackWav(buffer,{bitsPerSample});
 	const filename=downloadMultitrackBlob(new Blob([bytes],{type:'audio/wav'}),`${project.title} mastered`,'wav');
 	const peak=report.after.peak>0?(20*Math.log10(report.after.peak)).toFixed(2)+' dBFS':'silence';
 	const stats = measureMasterStats(buffer);
@@ -57,5 +57,15 @@ export function bindMasteringControls(container,state) {
 		try{await exportPeakNormalizedMix(state);}catch(error){state.setStatus(error.message||'Master export failed.');}
 		finally{busy=false;refresh();}
 	});
-	container.append(button);state.subscribe(refresh);refresh();
+	const button24=document.createElement('button');
+	button24.type='button';button24.className='multitrack-tool';button24.textContent='Master WAV 24-bit';
+	button24.title='Peak-normalized 24-bit PCM WAV export';
+	function refresh24(){button24.disabled=busy||!state.project.tracks.some(track=>track.clips.length||(track.midiRegions||[]).length);}
+	button24.addEventListener('click',async()=>{
+		if(busy)return;
+		busy=true;refresh();refresh24();
+		try{await exportPeakNormalizedMix(state,-1,24);}catch(error){state.setStatus(error.message||'Master export failed.');}
+		finally{busy=false;refresh();refresh24();}
+	});
+	container.append(button,button24);state.subscribe(refresh);state.subscribe(refresh24);refresh();refresh24();
 }

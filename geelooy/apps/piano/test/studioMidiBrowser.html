@@ -1,0 +1,44 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Studio MIDI fixture</title></head>
+<body><div id="result">RUNNING</div><div id="host"></div>
+<script type="module">
+const result = document.querySelector('#result');
+try {
+	const { createMultitrackProject, createMultitrackTrack } = await import('../modules/workstation/song/multitrack/multitrackProject.js');
+	const { createMidiRegion } = await import('../modules/workstation/song/multitrack/multitrackMidiRegion.js');
+	const { renderMultitrackOffline } = await import('../modules/workstation/song/multitrack/multitrackOfflineMix.js');
+	const { MultitrackStudioDaas } = await import('../modules/workstation/song/multitrack/multitrackState.js');
+	const { bindPianoRoll } = await import('../modules/workstation/song/multitrack/multitrackPianoRoll.js');
+	const region = createMidiRegion({ name: 'Lead', timelineStart: .5, duration: 2, notes: [
+		{ pitch: 69, start: 0, duration: .4, velocity: 110 },
+		{ pitch: 72, start: .5, duration: .4, velocity: 100 }
+	] });
+	const project = createMultitrackProject({ tempo: 120, tracks: [
+		createMultitrackTrack({ name: 'Keys', kind: 'midi', midiRegions: [region] })
+	] });
+	// 1. MIDI notes actually render to PCM through the offline mix (track output chain).
+	const rendered = await renderMultitrackOffline(project, { getBuffer: () => null }, 44100);
+	const data = rendered.getChannelData(0);
+	const peakAt = (from, to) => { let peak = 0; for (let i = Math.floor(from * 44100); i < to * 44100; i++) peak = Math.max(peak, Math.abs(data[i])); return peak; };
+	if (peakAt(0, .4) > .01) throw Error('Sound before the first note at 0.5s');
+	if (peakAt(.55, .85) < .05) throw Error('First MIDI note did not render to PCM');
+	if (peakAt(1.05, 1.35) < .05) throw Error('Second MIDI note did not render to PCM');
+	// 2. Piano roll draws real note elements and a grid click adds a note to the project.
+	const state = new MultitrackStudioDaas();
+	state.project = project;
+	const panel = bindPianoRoll(state);
+	document.querySelector('#host').appendChild(panel);
+	panel.open = true;
+	const notes = panel.querySelectorAll('.multitrack-piano-roll-note');
+	if (notes.length !== 2) throw Error(`Piano roll drew ${notes.length} notes, expected 2`);
+	const grid = panel.querySelector('.multitrack-piano-roll-grid');
+	const rect = grid.getBoundingClientRect();
+	grid.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: rect.left + 65, clientY: rect.top + 25 }));
+	const after = state.project.tracks[0].midiRegions[0];
+	if (after.notes.length !== 3) throw Error(`Grid click added no note (now ${after.notes.length})`);
+	result.textContent = `PASS midi-render peaks ${peakAt(.55, .85).toFixed(3)}/${peakAt(1.05, 1.35).toFixed(3)} piano-roll notes 2->3`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

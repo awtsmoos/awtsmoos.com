@@ -29,12 +29,15 @@ export function createMultitrackTimelineDom() {
 	const ruler = document.createElement('div');
 	ruler.className = 'multitrack-ruler';
 	ruler.setAttribute('aria-label', 'Tap timeline ruler to seek');
+	const markerLane = document.createElement('div');
+	markerLane.className = 'multitrack-marker-lane';
+	markerLane.setAttribute('aria-label', 'Timeline markers and arrangement sections');
 	const tracks = document.createElement('div');
 	tracks.className = 'multitrack-tracks';
 	const playhead = document.createElement('div');
 	playhead.className = 'multitrack-playhead';
 	playhead.setAttribute('aria-hidden', 'true');
-	timeline.append(ruler, tracks, playhead);
+	timeline.append(ruler, markerLane, tracks, playhead);
 	viewport.appendChild(timeline);
 	const status = document.createElement('output');
 	status.className = 'multitrack-status';
@@ -60,7 +63,7 @@ export function createMultitrackTimelineDom() {
 	inspector.append(summary, inspectorList);
 	root.append(heading, toolbar.root, status, navigation, viewport, inspector);
 	return {
-		root, viewport, timeline, ruler, tracks, playhead, status,
+		root, viewport, timeline, ruler, markerLane, tracks, playhead, status,
 		inspector, inspectorList, horizontalScroll,
 		buttons: toolbar.buttons, snapSelect: toolbar.snapSelect,
 		rippleCheckbox: toolbar.rippleCheckbox,

@@ -20,7 +20,8 @@ const MAX_SECONDS = 8 * 60;
  */
 export async function renderMultitrackOffline(project, audioStore = multitrackAudioStore, sampleRate = 44100) {
 	const clips = project?.tracks?.flatMap(track => track.clips || []) || [];
-	if (!clips.length) throw new Error('Add or record audio before downloading the finished song.');
+	const midiNotes = project?.tracks?.flatMap(track => (track.midiRegions || []).flatMap(region => region.notes || [])) || [];
+	if (!clips.length && !midiNotes.length) throw new Error('Add or record audio before downloading the finished song.');
 	const duration = multitrackProjectDuration(project);
 	if (!(duration > 0) || duration > MAX_SECONDS) {
 		throw new Error('Song must be between zero and eight minutes for mobile audio export.');
@@ -36,6 +37,6 @@ export async function renderMultitrackOffline(project, audioStore = multitrackAu
 	const { voices } = scheduleMultitrackProject({
 		project, context, destination: context.destination, offset: 0, audioStore
 	});
-	if (!voices.length) throw new Error('This song contains no playable audio clips.');
+	if (!voices.length) throw new Error('This song contains no playable audio clips or MIDI notes.');
 	return context.startRendering();
 }
