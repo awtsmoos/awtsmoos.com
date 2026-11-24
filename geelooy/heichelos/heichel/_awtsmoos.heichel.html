@@ -38,8 +38,8 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 	</style>
 	<?<script>
 		var core = [
-			'<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">',
-			'<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">'
+			'<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=72b23b4691">',
+			'<link rel="stylesheet" href="/style/civilization/core-base.css?v=2e7a54f2f2">'
 		];
 		var ikarParts = Array.from({ length: 7 }, function(_, index) {
 			var part = String(index + 1).padStart(2, "0");
@@ -50,23 +50,23 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 		// duplicated in the kept bundles (selector audit 2026-10-21), and heichel-spa.js adopts
 		// destination stylesheets before swapping fragments, so in-SPA travel re-acquires them.
 		var viewClusters = (typeof isSeriesPage === "boolean" && isSeriesPage) ? [] : ikarParts.concat([
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=ffbf3b16be">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=9d9fff3a6b">'
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=9d2fc63deb">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=3b6acf627f">'
 		]);
 		return [
-			'<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805">',
+			'<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=c17a591fe8">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=heichel-lazy-001">',
-			'<link rel="stylesheet" href="/style/social-system/index.css?v=b929f2bbcd">',
-			'<link rel="stylesheet" href="/style/geelooy-system/index.css?v=1d02635012">'
+			'<link rel="stylesheet" href="/style/social-system/index.css?v=8cb038d992">',
+			'<link rel="stylesheet" href="/style/geelooy-system/index.css?v=1b5684ada5">'
 		].concat(core, [
-			'<link rel="stylesheet" href="/style/civilization/core-components.css?v=867fa60298">',
-			'<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=aa8606d94f">',
-			'<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=add33a05e8">',
-			'<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=f44bfd7909">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=bfee00f999">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=a584131a84">'
+			'<link rel="stylesheet" href="/style/civilization/core-components.css?v=daab357947">',
+			'<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=f5cc1a0cea">',
+			'<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=3e84269243">',
+			'<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=1733c79b40">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=e9805d8bd1">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=f5011ca577">'
 		]).concat(viewClusters, [
-			'<link rel="stylesheet" href="/style/universal-ui.css?v=4ae04360fe" data-awtsmoos-ui-foundation="style">'
+			'<link rel="stylesheet" href="/style/universal-ui.css?v=aa51a77f20" data-awtsmoos-ui-foundation="style">'
 		]).join("\n");
 	</script>?>
 	<link rel="stylesheet" href="/style/heichelos/heichel/dream-fallback.css?v=7b81cd2e1e">
