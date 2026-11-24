@@ -1,19 +1,10 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @module ProfileCards
- * @description The Awtsmoos lets an Alias or Heichel reveal identity before machinery;
- * Awtsmoos.com gives every card one obvious destination and retracts workspace, creation, mail, editing, and state controls beneath it.
- */
+/** The Awtsmoos lets every identity reveal its chambers; Awtsmoos.com puts browsing and creation within reach. */
 import { cleanText } from './dom.js';
-import {
-	defaultAliasButton,
-	profileCardDisclosure,
-	profileCardLink
-} from './ProfileCardActions.js';
-
-/** Builds a safe empty or error card without turning arbitrary text into markup. */
+import { defaultAliasButton, profileCardDisclosure, profileCardLink } from './ProfileCardActions.js';
+import { heichelNavigation } from './HeichelNavigation.js?v=nav-002';
 export function emptyCard(message, tone = 'plain') {
 	const card = document.createElement('article');
 	const title = document.createElement('strong');
@@ -24,13 +15,9 @@ export function emptyCard(message, tone = 'plain') {
 	card.append(title, copy);
 	return card;
 }
-
-/** Resolves the single visible glyph used when an alias has no avatar image. */
 export function aliasAvatar(alias = {}) {
 	return cleanText(alias.name || alias.id || 'A').slice(0, 1).toUpperCase();
 }
-
-/** Builds the identity copy region shared by the alias command card. */
 function aliasIdentity(documentValue, alias, id) {
 	const header = documentValue.createElement('header');
 	const avatar = documentValue.createElement('div');
@@ -55,8 +42,6 @@ function aliasIdentity(documentValue, alias, id) {
 	header.append(avatar, copy);
 	return header;
 }
-
-/** Builds one alias card with Public profile direct and every secondary identity control retracted. */
 export function aliasCard(alias = {}) {
 	const id = cleanText(alias.id);
 	const encoded = encodeURIComponent(id);
@@ -73,8 +58,7 @@ export function aliasCard(alias = {}) {
 	card.append(aliasIdentity(document, alias, id), primary, tools);
 	return card;
 }
-
-/** Builds one Heichel card with Browse direct and writing/workspace controls beneath More. */
+/** Browse a Heichel or its actual nested series without leaving the dashboard. */
 export function heichelCard(heichel = {}, aliasId = '') {
 	const id = cleanText(heichel.id || heichel.heichelId || heichel.inputId, 'unknown');
 	const encodedId = encodeURIComponent(id);
@@ -93,6 +77,6 @@ export function heichelCard(heichel = {}, aliasId = '') {
 		profileCardLink(document, 'Write here', `/social-composer?alias=${encodedAlias}&heichelId=${encodedId}`, 'Create in this Space'),
 		profileCardLink(document, 'Open in OS', `/os?socialAlias=${encodedAlias}&heichel=${encodedId}&openSocial=1`, 'Use this Space as a workspace')
 	]);
-	card.append(copy, primary, tools);
+	card.append(copy, primary, heichelNavigation(id,aliasId), tools);
 	return card;
 }

@@ -35,6 +35,8 @@ jobs:
         run: bash geelooy/apps/tunnel-control/tests/backend-certification.sh
       - name: Verify candidate-source browser controls
         run: bash scripts/production/tunnel-predeploy-browser.sh
+      - name: Verify Social publishing routes and CSS isolation
+        run: bash scripts/production/social-css-check.sh
   deploy:
     needs: quality
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
