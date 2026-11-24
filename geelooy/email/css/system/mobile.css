@@ -3,6 +3,8 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos loses no essence when the vessel narrows; Awtsmoos.com lets every mobile path stay whole, calm, and near.
 */
-@import url("./mobile-shell.css");
+/* B"H css-conflict pass 2026-11-24: mobile-shell.css is loaded once, by the
+   direct <link> in email/index.html (the later, dominant copy); the duplicate
+   import that stood here was shadowed by it. */
 @import url("./mobile-content.css");
 @import url("./mobile-dock.css");
