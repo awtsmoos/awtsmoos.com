@@ -41,3 +41,7 @@ git checkout -- (nothing modified) ; delete untracked: geelooy/api/tunnel/contro
 
 ## Verification (post-change)
 - Core suite re-run: 34 tests, 33 pass in-suite; the 1 failure (apiKeyStoreAtomicExpiry) passes 3/3 standalone and passed in the 33/33 baseline — timing flake under suite load, unrelated (no shared code). Revelation test PASS standalone and in-suite.
+
+## Wiring run 2026-11-25 (fresh run)
+- All six revelation modules now wired into live code — see 01-wiring-2026-11-25.md for the full map, evidence, K1 proposed ruling, mission/shared-room audit (31/33 direct agent handlers; Continue* via continuation policy; server account-room is a separate real system), and the no-restart deploy decision (300+ other-session dirty server paths + mid-run commit afdca5bf7 + load ~12; wiring goes live at next coordinated restart).
+- Tests after wiring: core 35/35, relay 32/32; 4 wider-suite failures proven pre-existing via stash-baseline.

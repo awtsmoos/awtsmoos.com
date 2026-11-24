@@ -7,6 +7,7 @@ const Expectation = require("./expectation.js");
 const Lifecycle = require("./lifecycle.js");
 const Retry = require("./retryRequest.js");
 const State = require("./state.js");
+const JobLifecycle = require("../../../../../geelooy/api/tunnel/control/core/revelation/jobLifecycle.js");
 
 /**
  * @file Claims or observes one canonical relay deed before socket dispatch.
@@ -82,8 +83,12 @@ async function execute(options) {
 }
 
 function canRecoverUnaccepted(record, retry, options = {}) {
+	// Revelation job lifecycle: blind re-dispatch is permitted only for work
+	// that was never accepted; anything accepted must be reconciled, never rerun.
+	const revelationState = record?.acceptedAt ? "accepted" : "not_accepted";
 	return Boolean(
 		retry &&
+		JobLifecycle.mayRetryBlindly(revelationState) &&
 		record?.state === "pending" &&
 		!record.acceptedAt &&
 		options?.recoverableOriginal === true &&

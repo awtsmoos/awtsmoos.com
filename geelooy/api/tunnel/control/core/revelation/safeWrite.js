@@ -25,7 +25,7 @@ function currentHash(file) {
  * Atomically writes `content` to `file`.
  * @param {string} file Destination path (already passed through pathGuard).
  * @param {string|Buffer} content New content.
- * @param {{expectedHash?:string|null, backup?:boolean}} [opts] expectedHash:
+ * @param {{expectedHash?:string|null, backup?:boolean, mode?:number}} [opts] expectedHash:
  * the hash the caller based its edit on; `null` means "file must not exist".
  * @returns {{ok:boolean, reason?:string, hash?:string, backup?:string}}
  */
@@ -46,7 +46,7 @@ function atomicWrite(file, content, opts = {}) {
 	const tmp = path.join(dir, `.awt-tmp-${process.pid}-${crypto.randomBytes(6).toString("hex")}`);
 	try {
 		fs.writeFileSync(tmp, content);
-		const mode = fs.existsSync(file) ? fs.statSync(file).mode : 0o644;
+		const mode = fs.existsSync(file) ? fs.statSync(file).mode : (opts.mode || 0o644);
 		fs.chmodSync(tmp, mode);
 		fs.renameSync(tmp, file);
 	} finally {
