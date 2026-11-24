@@ -1,0 +1,8 @@
+# B"H — 07 Deployment evidence
+
+Commit: 3057b51c7 on main — 9 files, +373/-139, exactly the scoped set in 04 (package.json, content.js, settings.js, settingsToggle.js, HeichelNavigation.js, profile-heichel-nav-v4.css, profile-cards-v4.css, social-css-check.sh, visualizerRoundTrip.test.js). git diff --check clean before commit.
+Push: origin main a67fff8b0..3057b51c7 accepted (remote noted required status check "quality" expected). A concurrent piano session's commit a67fff8b0 landed immediately before; this commit sits on top.
+Effect: push triggers .github/workflows/main.yml quality job; IF the workflow file at HEAD includes the social gate it runs there too — at HEAD the workflow does NOT yet include social-css-check.sh (that step exists only as an uncommitted working-tree modification by an earlier session). The deploy job (needs quality) runs remote-deploy-entry.sh EXPECTED_SHA=3057b51c7 with 3 bounded attempts; with ~294 dirty working-tree files it is expected to refuse (canonical_repo_dirty) per deploy law. NOT independently verified from here — check GH Actions / AWTSMOOS_RELEASE_SHA (was 32901bb29) next session.
+BH.sh: NOT run (would destroy other sessions' uncommitted work; deploy law + directive forbid).
+Already live without deploy (static working-tree serving, verified by curl 200s in 06): settings.js, settingsToggle.js, HeichelNavigation.js?v=nav-002, profile-heichel-nav-v4.css, package.json, rewritten content.js.
+Rollback: git revert 3057b51c7 (single scoped commit). Logrotate: rm /etc/logrotate.d/awtsmoos-tunnel; archives agent.log.1.gz / recovery.log.1.gz retained under /root/.awtsmoos-tunnel/.
