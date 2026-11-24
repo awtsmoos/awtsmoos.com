@@ -8,6 +8,7 @@ const K = require('../mission/continuity.js');
 const PS = require('../mission/protocolSimulator.js');
 const P = require('./missionActionPayload.js');
 const SI = require('./missionSelfImproveActions.js');
+const BT = require('../continuation/boundedTick.js');
 const MISSION_LOCKS = new Map();
 function mid(p){return p.missionId||p.id||p.target||'';}
 async function use(config,payload,fn){const missionId=mid(payload);return withMissionLock(config,missionId,async()=>{const m=await M.load(config,missionId);if(!m)return {ok:false,action:payload.action,error:'mission_not_found',missionId};const out=await fn(m);await M.save(config,m);return out;});}
@@ -41,6 +42,8 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=P.mergedPaylo
   async missionSelfMailDraft(){return use(config,payload,m=>withNext({ok:true,action:'missionSelfMailDraft',mail:M.selfMailDraft(m,payload)},m,payload));},
   async missionBrainstorm(){return use(config,payload,m=>withNext({ok:true,action:'missionBrainstorm',brainstorm:M.brainstorm(m,payload),expansion:X.expand(m,payload)},m,payload));},
   async missionAutopilot(){return use(config,payload,m=>withNext({ok:true,action:'missionAutopilot',autopilot:M.autopilot(m,payload),expansion:X.expand(m,payload)},m,payload));},
+  async missionContinueOneHour(){return use(config,payload,m=>{const tick=BT.tick({next:()=>nxt(m,{...payload,auto:true})},payload,'oneHour');return withNext({ok:true,action:'missionContinueOneHour',tick,mustCallNext:tick.mustCallNext,mustContinue:tick.mustCallNext},m,payload);});},
+  async missionContinueUntilGate(){return use(config,payload,m=>{const tick=BT.tick({next:()=>nxt(m,{...payload,auto:true})},payload,'untilGate');return withNext({ok:true,action:'missionContinueUntilGate',tick,mustCallNext:tick.mustCallNext,mustContinue:tick.mustCallNext},m,payload);});},
   async missionDiscover(){return use(config,payload,m=>withNext({ok:true,action:'missionDiscover',discoveries:M.discover(m),expansion:X.expand(m,payload)},m,payload));},
   async missionExpand(){return use(config,payload,m=>withNext({ok:true,action:'missionExpand',expansion:X.expand(m,payload)},m,payload));},
   async missionEvidenceDebt(){return use(config,payload,m=>withNext({ok:true,action:'missionEvidenceDebt',evidenceDebt:X.evidenceDebt(m)},m,payload));},
