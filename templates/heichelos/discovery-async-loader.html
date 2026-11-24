@@ -1,0 +1,253 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+Phase 4 (Project Perfection): the discovery shell now emits immediately.
+This vessel carries a styled gold/navy loading skeleton into the grid and
+then loads the discovery collection client-side, rendering the identical
+end state the server render produced: same community cards (ported from
+heichelos/community-card.html), same empty state and featured split
+(ported from heichelos/discovery-results.html), same count label, same
+Ikar card metadata, and the same owner action when ownership checks out.
+-->
+<style>
+	.spaces-loading-note { grid-column: 1 / -1; color: var(--g-gold, #c68a1b); font-weight: 600; margin: 0; }
+	.spaces-skel-line { height: .8rem; border-radius: 99px; margin: .45rem 0; background: linear-gradient(90deg, rgba(213, 154, 53, .16), rgba(213, 154, 53, .38), rgba(213, 154, 53, .16)); background-size: 200% 100%; animation: spacesSkelPulse 1.4s ease-in-out infinite; }
+	.spaces-skel-title { height: 1.15rem; width: 55%; }
+	.spaces-skel-short { width: 40%; }
+	.spaces-skeleton .space-seal { background: linear-gradient(135deg, rgba(213, 154, 53, .35), rgba(15, 29, 49, .25)); }
+	@keyframes spacesSkelPulse { 0% { background-position: 0% 0; } 50% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
+	@media (prefers-reduced-motion: reduce) { .spaces-skel-line { animation: none; } }
+</style>
+<p class="spaces-loading-note" role="status" aria-live="polite">Loading community Heichelos…</p>
+<article class="social-space-card spaces-skeleton" aria-hidden="true"><div class="space-body"><div class="space-seal"></div><div class="space-copy"><div class="spaces-skel-line spaces-skel-title"></div><div class="spaces-skel-line"></div><div class="spaces-skel-line spaces-skel-short"></div></div></div></article>
+<article class="social-space-card spaces-skeleton" aria-hidden="true"><div class="space-body"><div class="space-seal"></div><div class="space-copy"><div class="spaces-skel-line spaces-skel-title"></div><div class="spaces-skel-line"></div><div class="spaces-skel-line spaces-skel-short"></div></div></div></article>
+<article class="social-space-card spaces-skeleton" aria-hidden="true"><div class="space-body"><div class="space-seal"></div><div class="space-copy"><div class="spaces-skel-line spaces-skel-title"></div><div class="spaces-skel-line"></div><div class="spaces-skel-line spaces-skel-short"></div></div></div></article>
+<script type="application/json" data-heichelos-discovery-config><?<script> return this.configJson; </script>?></script>
+<script>
+(function () {
+	'use strict';
+
+	var config = { alias: '', queryText: '' };
+	try {
+		config = JSON.parse(document.querySelector('[data-heichelos-discovery-config]').textContent) || config;
+	} catch (error) { /* keep defaults; the fetch below still runs */ }
+
+	var alias = String(config.alias || '').trim();
+	var queryText = String(config.queryText || '').trim();
+	var query = queryText.toLowerCase();
+	var safeAlias = encodeURIComponent(alias);
+	var invalidIds = ['undefined', 'null', '__missing__'];
+	var doesOwn = false;
+	var featuredLimit = 12;
+
+	var scriptEl = document.currentScript;
+	var grid = scriptEl && scriptEl.closest ? scriptEl.closest('section.spaces-grid') : document.querySelector('section.spaces-grid');
+	var summary = document.querySelector('.spaces-result-summary');
+	if (!grid) return;
+
+	/** Escapes visible values before they enter markup. */
+	function escapeHtml(value) {
+		return String(value || '')
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	}
+
+	/** Resolves one trustworthy Heichel route identity. */
+	function heichelId(heichel) {
+		var value = heichel && (heichel.id || heichel.heichelId || heichel.inputId);
+		var id = String(value || '').trim();
+		return !id || invalidIds.indexOf(id.toLowerCase()) !== -1 ? '' : id;
+	}
+
+	/** Unwraps supported API collection shapes without inventing records. */
+	function unwrapCollection(result) {
+		var list = [];
+		if (Array.isArray(result)) list = result;
+		else if (Array.isArray(result && result.success)) list = result.success;
+		else if (Array.isArray(result && result.data)) list = result.data;
+		else if (Array.isArray(result && result.items)) list = result.items;
+		return list.filter(function (heichel) { return Boolean(heichelId(heichel)); });
+	}
+
+	/** Recognizes Ikar only by its canonical route identity. */
+	function isIkar(heichel) {
+		return heichelId(heichel).toLowerCase() === 'ikar';
+	}
+
+	/** Applies the search term only to community Heichelos. */
+	function matchesQuery(heichel) {
+		if (!query) return true;
+		return [heichelId(heichel), heichel.name, heichel.title, heichel.description, heichel.author, heichel.aliasId]
+			.join(' ').toLowerCase().indexOf(query) !== -1;
+	}
+
+	/** Rewards existing useful metadata when ordering community cards. */
+	function score(heichel) {
+		var name = String(heichel.name || heichel.title || '').trim();
+		var description = String(heichel.description || '').trim();
+		var author = String(heichel.author || heichel.aliasId || '').trim();
+		return (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
+	}
+
+	/** Ported 1:1 from templates/heichelos/community-card.html. */
+	function renderCard(heichel, index, compact) {
+		var rawId = String(heichel.id || heichel.heichelId || heichel.inputId || '').trim();
+		var cardSafeId = encodeURIComponent(rawId);
+		var name = String(heichel.name || heichel.title || '').trim() || 'Unnamed community';
+		var description = String(heichel.description || '').trim() || 'A community space on Awtsmoos.com.';
+		var rawAuthor = String(heichel.author || heichel.aliasId || alias || '').trim();
+		var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
+		var badge = alias && doesOwn ? 'Owner' : 'Community';
+		var seal = String(index + 1).padStart(2, '0');
+		var manage = '';
+		if (doesOwn) {
+			manage = '<a class="p-button space-secondary-action" href="/heichelos/'
+				+ cardSafeId + '/?editingAlias=' + encodeURIComponent(alias) + '">Manage</a>';
+		}
+		var descriptionHtml = compact ? '' : '<p>' + escapeHtml(description) + '</p>';
+		var cardClass = compact ? 'social-space-card space-card-compact' : 'social-space-card';
+		return '<article class="' + cardClass + '" data-heichel-id="' + escapeHtml(rawId) + '" data-enter>'
+			+ '<a class="space-card-link" href="/heichelos/' + cardSafeId + '/" aria-label="Open ' + escapeHtml(name) + '">'
+			+ '<div class="space-body"><div class="space-seal" aria-hidden="true">' + seal + '</div>'
+			+ '<div class="space-copy"><div class="space-title-row"><h2>' + escapeHtml(name) + '</h2>'
+			+ '<span class="p-badge">' + badge + '</span></div>' + descriptionHtml
+			+ '<div class="space-meta-line"><span>' + author + '</span><span>Community · feed · series</span></div>'
+			+ '</div><span class="space-card-arrow" aria-hidden="true">↗</span></div></a>'
+			+ '<div class="space-secondary-actions">'
+			+ '<a class="p-button space-secondary-action" href="/heichelos/' + cardSafeId + '/submit">Contribute</a>'
+			+ manage + '</div></article>';
+	}
+
+	/** Ported 1:1 from templates/heichelos/discovery-results.html emptyState(). */
+	function emptyState() {
+		var message = 'No community Heichelos are visible yet.';
+		var action = '';
+		if (queryText) {
+			message = 'No community Heichelos matched “' + escapeHtml(queryText) + '”.';
+			action = '<a class="p-button" href="/heichelos">Clear search</a>';
+		} else if (alias) {
+			message = 'No community Heichelos found for @' + escapeHtml(alias) + '.';
+			action = '<a class="p-button" href="/heichelos">Browse all Heichelos</a>';
+		} else if (doesOwn) {
+			action = '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos">Create the first Heichel</a>';
+		}
+		return '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-empty-state data-enter>'
+			+ '<h2>No community spaces found</h2><p>' + message + '</p>' + action + '</article>';
+	}
+
+	/** Honest styled failure state; never a raw or silent grid. */
+	function errorState() {
+		if (summary) summary.textContent = 'Community Heichelos could not be loaded.';
+		grid.innerHTML = '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-error-state data-enter>'
+			+ '<h2>Community spaces could not load</h2>'
+			+ '<p>The discovery service did not answer. Please reload to try again.</p>'
+			+ '<a class="p-button p-button-primary" href="/heichelos">Reload</a></article>';
+	}
+
+	/** Patches the already-rendered Ikar card with the collection's record, as the server render did. */
+	function patchIkar(ikar) {
+		if (!ikar) return;
+		var card = document.querySelector('.torah-library-card');
+		if (!card) return;
+		var description = String(ikar.description || '').trim();
+		if (description) {
+			var paragraph = card.querySelector('.space-copy p');
+			if (paragraph) paragraph.textContent = description;
+		}
+		var rawCreator = String(ikar.author || ikar.aliasId || '').trim();
+		if (rawCreator) {
+			var spans = card.querySelectorAll('.space-meta-line span');
+			if (spans.length) spans[0].textContent = '@' + rawCreator;
+		}
+	}
+
+	/** Upgrades the hero action to the owner action, as the server render did. */
+	function patchPrimaryAction() {
+		var row = document.querySelector('.spaces-command-row');
+		if (row) {
+			row.innerHTML = '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias='
+				+ safeAlias + '">Create Heichel</a>';
+		}
+	}
+
+	function renderCollection(allHeichelos) {
+		if (!alias) {
+			// The packed Torah Heichelos never appear in the discovery
+			// collection; merge the canonical pair (same as server render).
+			var canonicalPackedHeichelos = [
+				{ id: 'bavli', name: 'Bavli', description: 'Talmud Bavli — every daf with Hebrew and English, plus Rashi and Tosafot.', author: 'awtsmoos' },
+				{ id: 'yerushalmi', name: 'Yerushalmi', description: 'Talmud Yerushalmi — the full Yerushalmi in Hebrew, masechta by masechta.', author: 'awtsmoos' }
+			];
+			canonicalPackedHeichelos.forEach(function (packed) {
+				var alreadyListed = allHeichelos.some(function (heichel) {
+					return heichelId(heichel).toLowerCase() === packed.id;
+				});
+				if (!alreadyListed) allHeichelos.push(packed);
+			});
+		}
+
+		patchIkar(allHeichelos.find(isIkar) || null);
+		if (alias && doesOwn) patchPrimaryAction();
+
+		var communityHeichelos = allHeichelos.filter(function (heichel) {
+			return !isIkar(heichel) && matchesQuery(heichel);
+		}).sort(function (first, second) { return score(second) - score(first); });
+
+		if (summary) {
+			summary.textContent = communityHeichelos.length
+				+ (communityHeichelos.length === 1 ? ' community Heichel' : ' community Heichelos');
+		}
+
+		if (!communityHeichelos.length) {
+			grid.innerHTML = emptyState();
+			return;
+		}
+
+		if (queryText || alias || communityHeichelos.length <= featuredLimit) {
+			grid.innerHTML = communityHeichelos.map(function (heichel, index) {
+				return renderCard(heichel, index, false);
+			}).join('');
+		} else {
+			var featured = communityHeichelos.slice(0, featuredLimit).map(function (heichel, index) {
+				return renderCard(heichel, index, false);
+			}).join('');
+			var remaining = communityHeichelos.slice(featuredLimit).map(function (heichel, index) {
+				return renderCard(heichel, featuredLimit + index, true);
+			}).join('');
+			grid.innerHTML = featured + '<details class="spaces-more"><summary>More community spaces <span>'
+				+ (communityHeichelos.length - featuredLimit)
+				+ ' additional</span></summary><div class="spaces-compact-list">'
+				+ remaining + '</div></details>';
+		}
+
+		// Let the live filter (discovery-live.js) recount the rendered cards.
+		var input = document.querySelector('form.spaces-search input[name="q"]');
+		if (input && input.value) {
+			input.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+	}
+
+	var route = alias
+		? '/api/social/heichelos/searchByAliasOwner/' + safeAlias
+		: '/api/social/heichelos/discover?limit=100';
+	var ownershipPromise = alias
+		? fetch('/api/social/alias/' + safeAlias + '/ownership', { headers: { Accept: 'application/json' } })
+			.then(function (response) { return response.json(); })
+			.catch(function () { return null; })
+		: Promise.resolve(null);
+
+	fetch(route, { headers: { Accept: 'application/json' } })
+		.then(function (response) { return response.json(); })
+		.then(function (result) {
+			return ownershipPromise.then(function (ownership) {
+				doesOwn = Boolean(ownership && ownership.yes);
+				renderCollection(unwrapCollection(result));
+			});
+		})
+		.catch(function () { errorState(); });
+})();
+</script>

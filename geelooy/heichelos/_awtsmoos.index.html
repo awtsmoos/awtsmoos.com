@@ -4,19 +4,17 @@ Blessed is He
 
 The Awtsmoos gathers many Heichel identities while Ikar remains the singular Torah door;
 Awtsmoos.com keeps discovery simple while focused templates carry the hidden depth.
+
+Phase 4 (Project Perfection): this template no longer awaits the discovery
+collection (or alias ownership) server-side. The shell HTML emits
+immediately; templates/heichelos/discovery-async-loader.html carries a
+styled skeleton and loads the collection client-side into the same grid,
+rendering the identical cards, empty state, and featured split.
 -->
 <?<script>
 	var alias = String($_GET['alias'] || '').trim();
 	var queryText = String($_GET['q'] || '').trim();
-	var query = queryText.toLowerCase();
 	var safeAlias = encodeURIComponent(alias);
-	var invalidIds = ['undefined', 'null', '__missing__'];
-	var doesOwn = false;
-
-	if (alias) {
-		var ownership = await fetchAwtsmoos('/api/social/alias/' + safeAlias + '/ownership');
-		doesOwn = Boolean(ownership && ownership.yes);
-	}
 
 	/** Escapes visible values before they enter markup. */
 	function escapeHtml(value) {
@@ -28,98 +26,32 @@ Awtsmoos.com keeps discovery simple while focused templates carry the hidden dep
 			.replace(/'/g, '&#39;');
 	}
 
-	/** Resolves one trustworthy Heichel route identity. */
-	function heichelId(heichel) {
-		var value = heichel && (heichel.id || heichel.heichelId || heichel.inputId);
-		var id = String(value || '').trim();
-		return !id || invalidIds.includes(id.toLowerCase()) ? '' : id;
-	}
-
-	/** Unwraps supported API collection shapes without inventing records. */
-	function unwrapCollection(result) {
-		var list = [];
-		if (Array.isArray(result)) list = result;
-		else if (Array.isArray(result && result.success)) list = result.success;
-		else if (Array.isArray(result && result.data)) list = result.data;
-		else if (Array.isArray(result && result.items)) list = result.items;
-		return list.filter(function(heichel) {
-			return Boolean(heichelId(heichel));
-		});
-	}
-
-	/** Recognizes Ikar only by its canonical route identity. */
-	function isIkar(heichel) {
-		return heichelId(heichel).toLowerCase() === 'ikar';
-	}
-
-	/** Applies the search term only to community Heichelos. */
-	function matchesQuery(heichel) {
-		if (!query) return true;
-		return [heichelId(heichel), heichel.name, heichel.title, heichel.description, heichel.author, heichel.aliasId]
-			.join(' ').toLowerCase().includes(query);
-	}
-
-	/** Rewards existing useful metadata when ordering community cards. */
-	function score(heichel) {
-		var name = String(heichel.name || heichel.title || '').trim();
-		var description = String(heichel.description || '').trim();
-		var author = String(heichel.author || heichel.aliasId || '').trim();
-		return (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
-	}
-
-	/** Fetches the public or alias-owned discovery collection. */
-	async function getHeichelos() {
-		var route = alias
-			? '/api/social/heichelos/searchByAliasOwner/' + safeAlias
-			: '/api/social/heichelos/discover?limit=100';
-		return unwrapCollection(await fetchAwtsmoos(route));
-	}
-
-	var allHeichelos = await getHeichelos();
-	if (!alias) {
-		// The discovery collection only carries registry Heichelos; the packed
-		// Torah Heichelos (Bavli, Yerushalmi) live in the packed store and never
-		// appear in it, though their pages are public. Merge the canonical pair
-		// so the listing is complete; dedupe keeps this harmless if the
-		// collection ever learns to carry them itself.
-		var canonicalPackedHeichelos = [
-			{ id: 'bavli', name: 'Bavli', description: 'Talmud Bavli — every daf with Hebrew and English, plus Rashi and Tosafot.', author: 'awtsmoos' },
-			{ id: 'yerushalmi', name: 'Yerushalmi', description: 'Talmud Yerushalmi — the full Yerushalmi in Hebrew, masechta by masechta.', author: 'awtsmoos' }
-		];
-		canonicalPackedHeichelos.forEach(function(packed) {
-			var alreadyListed = allHeichelos.some(function(heichel) {
-				return heichelId(heichel).toLowerCase() === packed.id;
-			});
-			if (!alreadyListed) allHeichelos.push(packed);
-		});
-	}
-	var ikar = allHeichelos.find(isIkar) || null;
-	var communityHeichelos = allHeichelos.filter(function(heichel) {
-		return !isIkar(heichel) && matchesQuery(heichel);
-	}).sort(function(first, second) {
-		return score(second) - score(first);
-	});
 	var isAliasView = Boolean(alias);
 	var pageTitle = isAliasView ? '@' + escapeHtml(alias) + ' Heichelos' : 'Heichelos';
-	var primaryAction = doesOwn
-		? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>'
-		: '<a class="p-button" href="/profile">My alias</a>';
+	// Default (non-owner) action; the async loader upgrades it in place
+	// when the client-side ownership check returns yes.
+	var primaryAction = '<a class="p-button" href="/profile">My alias</a>';
 	var aliasField = isAliasView
 		? '<input type="hidden" name="alias" value="' + escapeHtml(alias) + '">'
 		: '';
 	var ikarLibraryHtml = '';
 
 	if (!isAliasView) {
+		// Ikar renders immediately with its canonical defaults; the async
+		// loader patches description/creator if the collection's Ikar
+		// record carries its own, exactly as the server render did.
 		ikarLibraryHtml = '<section class="spaces-purpose-section" aria-labelledby="torah-library-title">'
 			+ '<header class="spaces-section-heading"><p class="field-label">The Torah Library</p>'
 			+ '<h2 id="torah-library-title">Ikar Heichel</h2>'
 			+ '<p>All Torah-library browsing begins here. Ikar is the single canonical Torah Library on Awtsmoos.com.</p>'
 			+ '<p><a class="p-button" href="/heichelos/parsha-index/">Browse by Parsha &amp; Date</a></p></header>'
-			+ '<div class="torah-library-grid">' + $a('heichelos/ikar-library.html', { ikar: ikar }) + '</div></section>';
+			+ '<div class="torah-library-grid">' + $a('heichelos/ikar-library.html', { ikar: null }) + '</div></section>';
 	}
 
-	var resultsHtml = $a('heichelos/discovery-results.html', {
-		heichelos: communityHeichelos, queryText: queryText, alias: alias, doesOwn: doesOwn, featuredLimit: 12
+	var configJson = JSON.stringify({ alias: alias, queryText: queryText })
+		.replace(/</g, '\\u003c');
+	var resultsHtml = $a('heichelos/discovery-async-loader.html', {
+		configJson: configJson
 	});
 	var shell = $a('heichelos/discovery-shell.html', {
 		pageTitle: pageTitle,
@@ -127,7 +59,7 @@ Awtsmoos.com keeps discovery simple while focused templates carry the hidden dep
 		heroTitle: isAliasView ? pageTitle : 'Ikar is the Torah Library.',
 		heroDescription: isAliasView ? 'Browse community Heichelos connected with this alias.' : 'Learn Torah in Ikar. Discover every other Heichel as a distinct community space.',
 		primaryAction: primaryAction, aliasField: aliasField, queryText: escapeHtml(queryText),
-		countLabel: communityHeichelos.length + (communityHeichelos.length === 1 ? ' community Heichel' : ' community Heichelos'),
+		countLabel: 'Loading community Heichelos…',
 		ikarLibraryHtml: ikarLibraryHtml, resultsHtml: resultsHtml
 	});
 	var documentHtml = $a('nav/page.html', { centered: false, tochen: shell });
