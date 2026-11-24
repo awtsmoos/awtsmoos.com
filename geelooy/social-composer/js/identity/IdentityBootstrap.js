@@ -10,7 +10,13 @@
  * A remembered alias is a hint, not ownership proved by night.
  */
 
-export const IDENTITY_BOOTSTRAP_TIMEOUT_MS = 12000;
+// B"H 2026-11-25 (Project Perfection Phase 6): was 12000 -- the
+// unified-social identity bootstrap assembles every alias detail
+// server-side (the same cold walk the profile boot gate budgets
+// 25s for), so a single 12s attempt timed out under load and the
+// identity chooser settled on "Choose an alias" for signed-in
+// users with a default alias. 30s per attempt, one warm retry.
+export const IDENTITY_BOOTSTRAP_TIMEOUT_MS = 30000;
 
 /**
  * Bounds a read-only identity request and aborts its network work on timeout.
@@ -24,6 +30,25 @@ export async function loadVerifiedIdentity(
 	preferredAlias = '',
 	timeoutMs = IDENTITY_BOOTSTRAP_TIMEOUT_MS
 ) {
+	// One warm retry: the server memoizes the identity assembly, so a
+	// second attempt after a cold first walk usually lands fast. A
+	// failed first read is not proof of a signed-out account.
+	let lastError;
+	for (let attempt = 0; attempt < 2; attempt += 1) {
+		try {
+			return await attemptVerifiedIdentity(api, preferredAlias, timeoutMs);
+		} catch (error) {
+			lastError = error;
+			if (attempt === 0) {
+				await new Promise(resolve => setTimeout(resolve, 1200));
+			}
+		}
+	}
+	throw lastError;
+}
+
+/** Runs one bounded identity verification attempt. */
+async function attemptVerifiedIdentity(api, preferredAlias, timeoutMs) {
 	const controller = new AbortController();
 	let timeoutId;
 	try {
