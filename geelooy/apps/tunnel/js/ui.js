@@ -97,8 +97,8 @@ export function mountStatus() {
       const firstLine = String(status).split("\n")[0] || "";
       setConn(true, firstLine.slice(0, 90));
     } catch (e) {
-      box.textContent = e.stack || e.message;
-      setConn(false);
+      box.textContent = e.message || "Installer endpoint unreachable.";
+      setConn(false, "status check failed");
     } finally {
       button.disabled = false;
       button.textContent = "Refresh";
@@ -141,18 +141,26 @@ export function mountMissions() {
       preview.innerHTML = '<div class="mission-row"><span class="t">Name your tunnel on the mission board page to preview missions here.</span></div>';
       return;
     }
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
     try {
       const res = await fetch("/api/tunnel/control/fs/" + encodeURIComponent(name), {
         method: "POST",
         credentials: "include",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "missionMarketplaceList" })
+        body: JSON.stringify({ action: "missionMarketplaceList" }),
+        signal: controller.signal
       });
       const data = await res.json();
       if (!res.ok || data.ok === false) throw new Error(data.error || ("http_" + res.status));
       renderRows(data.result || data.missions || []);
     } catch (e) {
-      preview.innerHTML = '<div class="mission-row"><span class="t">Could not reach the mission board (' + esc(e.message) + ").</span></div>";
+      const why = e && e.name === "AbortError"
+        ? "the mission board did not answer within 12s — the server may be busy; use Refresh to retry"
+        : esc(e.message);
+      preview.innerHTML = '<div class="mission-row"><span class="t">Could not reach the mission board (' + why + ").</span></div>";
+    } finally {
+      clearTimeout(timer);
     }
   };
 

@@ -38,9 +38,9 @@ export function vesselDetailCard(model, selected = false) {
 	});
 }
 
-export function cardShell(title, children) {
+export function cardShell(title, children, extraClass = "") {
 	return h("article", {
-		classes: ["mini-card", "is-success"],
+		classes: ["mini-card", "is-success", extraClass].filter(Boolean),
 		children: [
 			h("header", {
 				classes: ["mini-card__header"],

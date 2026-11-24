@@ -18,6 +18,16 @@
  * @param {object} device Sanitized native, browser, or Virtual OS device.
  * @returns {Readonly<object>} Frozen health classification and guidance.
  */
+export function hasHeartbeatProof(device = {}) {
+	const health = device.health || {};
+	if (device.presence === "connected") return true;
+	if (numericStamp(health.heartbeatAt || health.lastSeenAt)) return true;
+	if (numericStamp(device.heartbeatAt || device.lastSeenAt)) return true;
+	if (health.executionHealthFresh === true) return true;
+	if (health.livenessState === "alive") return true;
+	return false;
+}
+
 export function vesselHealth(device = {}) {
 	if (device.kind === "virtual-os" || device.vesselType === "virtual-os") {
 		return result("virtual", "Virtual OS ready", "Browser-hosted fallback with bounded capabilities.");
@@ -28,6 +38,9 @@ export function vesselHealth(device = {}) {
 	const health = device.health || {};
 	if (health.probing === true || health.livenessState === "probing") {
 		return result("probing", "Checking route", "Transport evidence exists while full route health is still being proven.");
+	}
+	if (!hasHeartbeatProof(device)) {
+		return result("unknown", "Connection unproven", "A connected flag was reported, but no heartbeat proof is available — treat this vessel as degraded until a heartbeat lands.");
 	}
 	if (
 		health.executionHealthSupported === true &&

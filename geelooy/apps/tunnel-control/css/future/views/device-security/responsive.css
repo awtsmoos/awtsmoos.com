@@ -36,7 +36,7 @@
 	}
 
 	.awt-vessel-table {
-		min-width: 34rem;
+		min-width: 0;
 	}
 
 	.awt-vessel-table th,

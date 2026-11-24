@@ -208,7 +208,7 @@ code {
 
 .copy-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   align-items: stretch;
 }
@@ -216,14 +216,15 @@ code {
 .copy-row code,
 .copy-row pre {
   display: block;
-  overflow: auto;
+  min-width: 0;
   margin: 0;
   padding: 14px;
   border-radius: 14px;
   background: rgba(0,0,0,0.34);
   border: 1px solid var(--line);
   color: #eaf3ff;
-  white-space: pre-wrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .copy-row.tall {
@@ -562,8 +563,8 @@ code {
     --text: #1d2733;
     --muted: #5a6b80;
     --line: rgba(29, 39, 51, 0.16);
-    --accent: #1f6fb2;
-    --accent2: #7a4fb5;
+    --accent: #8a6d1a;
+    --accent2: #b98a2f;
     --danger: #b23b3b;
     --shadow: 0 18px 50px rgba(29, 39, 51, 0.12);
     --aw-text: #1d2733;
@@ -571,8 +572,8 @@ code {
 
   body {
     background:
-      radial-gradient(circle at 20% 10%, rgba(31, 111, 178, 0.12), transparent 34%),
-      radial-gradient(circle at 90% 0%, rgba(122, 79, 181, 0.10), transparent 30%),
+      radial-gradient(circle at 20% 10%, rgba(217, 180, 92, 0.16), transparent 34%),
+      radial-gradient(circle at 90% 0%, rgba(185, 138, 47, 0.12), transparent 30%),
       linear-gradient(135deg, #f4f1ea, #e9e2d2 55%, #f4f1ea);
     color: var(--text);
   }

@@ -81,7 +81,7 @@ function renderAvailable(discovery, selected) {
 		vesselFamiliesCard(discovery),
 		selectedVesselCard(selected),
 		vesselTableCard(discovery, selected?.tunnelName),
-		deviceListCard(discovery.devices || []),
+		deviceListCard("Account devices", discovery.devices || []),
 		selected ? connectedDeviceCard(selected) : offlineDeviceCard(),
 		vesselPeerCards(discovery)
 	].filter(Boolean);

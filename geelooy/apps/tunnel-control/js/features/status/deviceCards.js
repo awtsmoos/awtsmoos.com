@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { $ } from "../../lib/dom.js";
+import { hasHeartbeatProof } from "../vessels/vesselHealth.js";
 import { safe, setPill, setText } from "./statusText.js";
 import {
 	accessBadge,
@@ -59,13 +60,19 @@ export function offlineDeviceCard() {
 	]);
 }
 
+export function cardState(device = {}) {
+	const state = deviceState(device);
+	if (state === "connected" && !hasHeartbeatProof(device)) return "unknown — no heartbeat proof";
+	return state;
+}
+
 export function connectedDeviceCard(device = {}) {
 	return miniCard(
 		"success",
 		`Recommended: ${safe(device.tunnelName, "Verified vessel")}`,
 		[
 			`Vessel: ${safe(device.vesselType || device.kind, "vessel")}`,
-			`State: ${deviceState(device)}`,
+			`State: ${cardState(device)}`,
 			`Platform: ${safe(device.platform, "not disclosed")}`,
 			`Version: ${safe(device.agentVersion, "not reported")}`
 		],
@@ -82,7 +89,7 @@ export function deviceListCard(title, devices = [], emptyLine = "None connected"
 		title,
 		devices.slice(0, 8).map((device) => {
 			const access = device.access === "shared" ? "shared" : "owned";
-			const state = deviceState(device);
+			const state = cardState(device);
 			return `${device.tunnelName} · ${access} · verified · ${state}`;
 		})
 	);

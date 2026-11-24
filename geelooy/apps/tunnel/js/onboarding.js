@@ -38,7 +38,8 @@ export function detectInstallTab() {
 /** Mounts the method chooser and the platform preselection. */
 export function mountOnboarding() {
   const root = document.getElementById("onboarding");
-  if (!root) return;
+  if (!root || root.dataset.onboardingMounted) return;
+  root.dataset.onboardingMounted = "1";
   const detail = document.getElementById("onboardDetail");
   const go = document.getElementById("onboardGo");
   const choose = (key) => {
@@ -63,4 +64,14 @@ export function mountOnboarding() {
     if (note) note.textContent = `Detected platform tab: ${tab === "powershell" ? "Windows PowerShell" : "Mac / Linux"} — choose another tab any time.`;
   }
   choose("native");
+}
+
+// B"H — Self-mount: index.html also loads this module directly, so the
+// chooser works even if the main module graph fails or serves stale.
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => mountOnboarding(), { once: true });
+  } else {
+    mountOnboarding();
+  }
 }

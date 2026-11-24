@@ -717,7 +717,7 @@ body.awt-preboot .awt-login-card {
 
 .awt-vessel-table {
 	width: 100%;
-	min-width: 42rem;
+	min-width: 0;
 	border-collapse: collapse;
 	font-size: 0.76rem;
 	font-variant-numeric: tabular-nums;
@@ -812,7 +812,7 @@ body.awt-preboot .awt-login-card {
 	}
 
 	.awt-vessel-table {
-		min-width: 34rem;
+		min-width: 0;
 	}
 
 	.awt-vessel-table th,
@@ -8152,12 +8152,18 @@ button:focus-visible {
 		height: auto;
 		clip: auto;
 		clip-path: none;
-		overflow: hidden;
+		overflow: visible;
 		font-size: .72rem;
 		font-weight: 750;
 		line-height: 1.15;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		white-space: normal;
+		word-break: normal;
+		overflow-wrap: break-word;
+	}
+
+	.awt-navigation-glyph {
+		flex: none;
+		overflow: hidden;
 	}
 }
 
@@ -8596,3 +8602,5 @@ a.button:focus-visible {
 		animation: none;
 	}
 }
+
+

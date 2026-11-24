@@ -9,15 +9,19 @@ import { mountOnboarding } from "./onboarding.js";
  * B"H
  * Starts the Awtsmoos Tunnel Console UI.
  */
+function safeMount(name, fn) {
+  try { fn(); } catch (e) { console.warn(`tunnel mount ${name} failed`, e); }
+}
+
 function main() {
-  mountTabs();
-  mountCopyButtons();
-  mountGptText();
-  mountStatus();
-  mountMissions();
-  mountHandoff();
-  mountOnboarding();
-  BrowserPageTunnel.init();
+  safeMount("tabs", mountTabs);
+  safeMount("copy", mountCopyButtons);
+  safeMount("gpt", mountGptText);
+  safeMount("status", mountStatus);
+  safeMount("missions", mountMissions);
+  safeMount("handoff", mountHandoff);
+  safeMount("onboarding", mountOnboarding);
+  safeMount("browserTunnel", () => BrowserPageTunnel.init());
 
   const ps = document.getElementById("cmdPowerShell");
   const cmd = document.getElementById("cmdCmd");

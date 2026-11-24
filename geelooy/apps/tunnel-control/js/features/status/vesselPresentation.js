@@ -11,7 +11,7 @@
  * The route remains the bond, while every button becomes only a doorway, never proof.
  */
 
-import { vesselHealth } from "../vessels/vesselHealth.js";
+import { hasHeartbeatProof, vesselHealth } from "../vessels/vesselHealth.js";
 
 export function vesselPresentation(device = {}) {
 	const category = vesselCategory(device);
@@ -81,8 +81,14 @@ function categoryLabel(category) {
 }
 
 function vesselStatus(device) {
+	if (["degraded", "offline"].includes(device.presence)) {
+		return device.presence === "degraded" ? "Degraded" : "Offline";
+	}
 	if (device.connected !== true || device.isAlive === false) {
 		return "Offline";
+	}
+	if (!hasHeartbeatProof(device)) {
+		return "Unproven — no heartbeat";
 	}
 	return device.shared === true ? "Connected · shared" : "Connected";
 }

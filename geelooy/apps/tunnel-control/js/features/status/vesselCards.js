@@ -73,7 +73,7 @@ export function vesselTableCard(discovery = {}, selectedName = "") {
 			classes: ["awt-vessel-table-scroll"],
 			children: [table]
 		})
-	]);
+	], "awt-vessel-table-card");
 }
 
 export function vesselPeerCards(discovery = {}) {

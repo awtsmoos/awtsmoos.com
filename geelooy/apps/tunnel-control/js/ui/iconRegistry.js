@@ -20,7 +20,10 @@ const paths = Object.freeze({
   install: "M12 3v12m0 0 5-5m-5 5-5-5M4 21h16",
   setup: "M4 17l6-6m4-4 3-3 3 3-3 3m-7 1 3 3-5 5H5v-3l5-5Z",
   terminal: "M4 5h16v14H4V5Zm4 5 3 3-3 3m5 0h4",
-  chrome: "M12 3a9 9 0 0 1 7.8 4.5H12a4.5 4.5 0 0 0-3.9 2.25L4.2 7.5A9 9 0 0 1 12 3Zm0 18a9 9 0 0 1-7.8-4.5L8.1 9.75A4.5 4.5 0 0 0 12 16.5h7.8A9 9 0 0 1 12 21Zm0-4.5A4.5 4.5 0 1 0 12 7.5a4.5 4.5 0 0 0 0 9Z"
+  chrome: "M12 3a9 9 0 0 1 7.8 4.5H12a4.5 4.5 0 0 0-3.9 2.25L4.2 7.5A9 9 0 0 1 12 3Zm0 18a9 9 0 0 1-7.8-4.5L8.1 9.75A4.5 4.5 0 0 0 12 16.5h7.8A9 9 0 0 1 12 21Zm0-4.5A4.5 4.5 0 1 0 12 7.5a4.5 4.5 0 0 0 0 9Z",
+  preview: "M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Zm10 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
+  speaker: "M4 10v4h3l5 4V6l-5 4H4Zm11.5-2.5a6 6 0 0 1 0 9m3-12a9.5 9.5 0 0 1 0 15",
+  compute: "M7 7h10v10H7V7Zm-2-2h14v14H5V5Zm4-4v3m6-3v3M9 23v-3m6 3v-3M1 10h3m-3 4h3m16-4h3m-3 4h3"
 });
 
 const aliases = Object.freeze({
@@ -63,7 +66,7 @@ const emojiFallback = Object.freeze({
  */
 export function createIcon(name, group = "core") {
   const key = aliases[name] || name;
-  if (!paths[key]) return h("span", { classes: ["awt-icon-emoji", `is-${group}`], text: emojiFallback[name] || name || "✦" });
+  if (!paths[key]) return h("span", { classes: ["awt-icon-emoji", `is-${group}`], text: emojiFallback[name] || "✦" });
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("aria-hidden", "true");
