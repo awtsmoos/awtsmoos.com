@@ -27,12 +27,84 @@ const METHODS = {
   }
 };
 
-/** Preselects the install tab matching the visitor's platform. */
-export function detectInstallTab() {
-  const ua = String(navigator.userAgent || "");
-  if (/Windows/i.test(ua)) return "powershell";
-  if (/Mac|Linux|X11/i.test(ua)) return "unix";
-  return null;
+/**
+ * The ONE platform detection for this page. A single result drives both
+ * the preselected install tab and the "Detected platform tab" label, so
+ * the two can never disagree (Run 11: previously the label came from a
+ * lumped Mac|Linux regex while the tab depended on a synthetic click
+ * that raced the tab wiring in ui.js — the label said "Mac / Linux"
+ * while the PowerShell tab stayed selected).
+ *
+ * @param {string} [ua] User agent to classify; defaults to the browser's.
+ * @returns {{id: string, platform: string|null, tab: string,
+ *   tabName: string, note: string}} Detection result. `tab` is the
+ *   data-tab id to preselect; `note` is the exact label to print.
+ */
+export function detectPlatform(ua) {
+  const text = String(ua != null ? ua
+    : (typeof navigator !== "undefined" ? navigator.userAgent || "" : ""));
+  if (/Windows/i.test(text)) {
+    return {
+      id: "windows", platform: "Windows", tab: "powershell",
+      tabName: "Windows PowerShell",
+      note: "Detected platform tab: Windows PowerShell (detected: Windows) — choose another tab any time."
+    };
+  }
+  if (/Macintosh|Mac OS X/i.test(text)) {
+    return {
+      id: "macos", platform: "macOS", tab: "unix",
+      tabName: "Mac / Linux",
+      note: "Detected platform tab: Mac / Linux (detected: macOS) — choose another tab any time."
+    };
+  }
+  if (/Linux|X11|Android/i.test(text)) {
+    return {
+      id: "linux", platform: "Linux", tab: "unix",
+      tabName: "Mac / Linux",
+      note: "Detected platform tab: Mac / Linux (detected: Linux) — choose another tab any time."
+    };
+  }
+  return {
+    id: "unknown", platform: null, tab: "powershell",
+    tabName: "Windows PowerShell",
+    note: "Platform not detected — Windows PowerShell tab shown by default; choose another tab any time."
+  };
+}
+
+/** Back-compat: the install tab id for a user agent. */
+export function detectInstallTab(ua) {
+  return detectPlatform(ua).tab;
+}
+
+/**
+ * Applies an install-tab selection directly to the DOM — the same class
+ * and ARIA changes activateTab() makes in ui.js — instead of a synthetic
+ * click. A click only works once main.js has wired the tab listeners,
+ * but this module self-mounts before main.js runs, so the click was a
+ * no-op and the hardcoded default tab survived. Direct application is
+ * order-independent; the later listener wiring preserves the state.
+ */
+function selectInstallTab(tab) {
+  const all = (sel) => {
+    try {
+      return document.querySelectorAll ? [...document.querySelectorAll(sel)] : [];
+    } catch (e) { return []; }
+  };
+  const tabs = all("[data-tab]");
+  if (!tabs.length) {
+    const btn = document.querySelector
+      ? document.querySelector(`[data-tab="${tab}"]`) : null;
+    if (btn && !btn.classList.contains("active")) btn.click();
+    return;
+  }
+  for (const one of tabs) {
+    const on = one.dataset.tab === tab;
+    one.classList.toggle("active", on);
+    one.setAttribute("aria-selected", on ? "true" : "false");
+  }
+  for (const pane of all("[data-pane]")) {
+    pane.classList.toggle("active", pane.dataset.pane === tab);
+  }
 }
 
 /** Mounts the method chooser and the platform preselection. */
@@ -56,13 +128,10 @@ export function mountOnboarding() {
   for (const btn of root.querySelectorAll("[data-method]")) {
     btn.addEventListener("click", () => choose(btn.dataset.method));
   }
-  const tab = detectInstallTab();
-  if (tab) {
-    const tabButton = document.querySelector(`[data-tab="${tab}"]`);
-    if (tabButton && !tabButton.classList.contains("active")) tabButton.click();
-    const note = document.getElementById("platformNote");
-    if (note) note.textContent = `Detected platform tab: ${tab === "powershell" ? "Windows PowerShell" : "Mac / Linux"} — choose another tab any time.`;
-  }
+  const detected = detectPlatform();
+  selectInstallTab(detected.tab);
+  const note = document.getElementById("platformNote");
+  if (note) note.textContent = detected.note;
   choose("native");
 }
 

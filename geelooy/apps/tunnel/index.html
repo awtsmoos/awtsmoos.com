@@ -95,7 +95,7 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 		<span class="flow"><span class="status-dot" id="footDot"></span><b id="footConn">Tunnel console</b><span>•</span><span id="footDetail">device and account capabilities</span></span>
 		<span>All connections encrypted with TLS 1.3</span>
 	</footer>
-	<script type="module" src="./js/onboarding.js?v=d77f6b4a0a"></script>
+	<script type="module" src="./js/onboarding.js?v=dadde35f95"></script>
 	<script type="module" src="./js/main.js?v=03e89a2b0d"></script>
 	<script>
 	// B"H — Run 10 chooser resilience. The method chooser must never depend
@@ -142,7 +142,7 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 			var root = document.getElementById("onboarding");
 			if (!root || root.dataset.onboardingMounted) return;
 			var tag = document.querySelector('script[src*="onboarding.js"]');
-			var src = tag ? tag.getAttribute("src") : "./js/onboarding.js?v=d77f6b4a0a";
+			var src = tag ? tag.getAttribute("src") : "./js/onboarding.js?v=dadde35f95";
 			try {
 				var url = new URL(src, window.location.href);
 				url.searchParams.set("r", Date.now().toString(36));
