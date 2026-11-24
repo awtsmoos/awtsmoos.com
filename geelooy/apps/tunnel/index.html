@@ -9,7 +9,7 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="dark light">
 	<link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=a558ab696e">
-	<link rel="stylesheet" href="./css/tunnel.css?v=0076b46303">
+	<link rel="stylesheet" href="./css/tunnel.css?v=0cd0e88431">
 </head>
 <body>
 	<header class="topbar">
@@ -44,8 +44,8 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 						<button class="button small method" data-method="browser" aria-pressed="false">Browser tunnel</button>
 						<button class="button small method" data-method="virtual" aria-pressed="false">Virtual / existing remote</button>
 					</div>
-					<p class="note" id="onboardDetail"></p>
-					<p class="panel-actions"><a class="button primary small" id="onboardGo" href="#install">Continue</a></p></li>
+					<p class="note" id="onboardDetail">Full local filesystem, shell, Chrome and servers. Pick your platform tab in the install panel — we preselected the likely one, change it freely.</p>
+					<p class="panel-actions"><a class="button primary small" id="onboardGo" href="#install">Continue: Native tunnel on your own computer</a></p></li>
 				<li><strong>Pick a device or a virtual workspace.</strong> Your own computer (native or browser), the hosted <a href="/geelooy/os/" target="_blank" rel="noreferrer">Virtual OS</a>, or a remote device you already connected.</li>
 				<li id="no-install"><strong>Install — or skip installing.</strong> Native: use the install panel below (inspectable scripts are linked there). No-install: <a href="/geelooy/os/" target="_blank" rel="noreferrer">Virtual OS</a>, the <a href="/apps/code/">browser code editor</a>, or account publishing — no local agent needed.</li>
 				<li><strong>Sign in.</strong> Every tunnel is guarded by your Awtsmoos login; nothing connects anonymously.</li>
@@ -97,5 +97,64 @@ Awtsmoos.com lets each account find where its deeds belong. -->
 	</footer>
 	<script type="module" src="./js/onboarding.js?v=d77f6b4a0a"></script>
 	<script type="module" src="./js/main.js?v=03e89a2b0d"></script>
+	<script>
+	// B"H — Run 10 chooser resilience. The method chooser must never depend
+	// on one module fetch: a returning browser whose onboarding.js request
+	// failed once (gateway error under load, a poisoned cache entry) showed
+	// an empty detail box and dead buttons, because the markup shipped
+	// empty and only that module could fill it. The markup now ships the
+	// native default, and this inline guard — part of the never-cached
+	// HTML, so every returning browser gets it fresh — checks after load
+	// whether the real module mounted; if not, it re-imports the pinned
+	// module with a cache-busting retry, and if that also fails it binds
+	// a minimal inline chooser so the buttons always work.
+	(function () {
+		var METHODS = {
+			native: { label: "Native tunnel on your own computer", next: "#install", detail: "Full local filesystem, shell, Chrome and servers. Pick your platform tab in the install panel — we preselected the likely one, change it freely." },
+			browser: { label: "Browser tunnel — no install", next: "#browser-mode", detail: "This tab registers as a tunnel with a small browser-local workspace. Sandboxed by the browser; no local filesystem beyond what you mount in the code editor." },
+			virtual: { label: "Virtual OS / existing remote — no install", next: "#no-install", detail: "Work in the hosted Virtual OS, the browser code editor, or an already-connected remote device. Nothing is installed and no local files move without your say." }
+		};
+		function bindFallback() {
+			var root = document.getElementById("onboarding");
+			if (!root || root.dataset.onboardingMounted) return;
+			root.dataset.onboardingMounted = "fallback";
+			var detail = document.getElementById("onboardDetail");
+			var go = document.getElementById("onboardGo");
+			function choose(key) {
+				var method = METHODS[key];
+				if (!method) return;
+				var btns = root.querySelectorAll("[data-method]");
+				for (var i = 0; i < btns.length; i++) {
+					var on = btns[i].getAttribute("data-method") === key;
+					btns[i].classList.toggle("active", on);
+					btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+				}
+				if (detail) detail.textContent = method.detail;
+				if (go) { go.textContent = "Continue: " + method.label; go.setAttribute("href", method.next); }
+			}
+			var btns = root.querySelectorAll("[data-method]");
+			for (var i = 0; i < btns.length; i++) {
+				(function (btn) { btn.addEventListener("click", function () { choose(btn.getAttribute("data-method")); }); })(btns[i]);
+			}
+			choose("native");
+		}
+		function recover() {
+			var root = document.getElementById("onboarding");
+			if (!root || root.dataset.onboardingMounted) return;
+			var tag = document.querySelector('script[src*="onboarding.js"]');
+			var src = tag ? tag.getAttribute("src") : "./js/onboarding.js?v=d77f6b4a0a";
+			try {
+				var url = new URL(src, window.location.href);
+				url.searchParams.set("r", Date.now().toString(36));
+				import(url.href).then(function (mod) {
+					if (mod && mod.mountOnboarding) mod.mountOnboarding();
+					if (!root.dataset.onboardingMounted) bindFallback();
+				}).catch(bindFallback);
+			} catch (e) { bindFallback(); }
+		}
+		if (document.readyState === "complete") setTimeout(recover, 2500);
+		else window.addEventListener("load", function () { setTimeout(recover, 2500); });
+	})();
+	</script>
 </body>
 </html>

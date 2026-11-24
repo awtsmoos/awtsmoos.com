@@ -962,3 +962,28 @@ h2 { color: var(--gold-50); letter-spacing: -0.03em; }
   .button, .panel, .tab { transition: none; }
   .button:hover, .button:active, .tab:active { transform: none; }
 }
+
+/* B"H — RUN 10 (Tunnel Revelation): buttons that live on dark surfaces.
+   The beauty layer made .command-card deep espresso in BOTH schemes, but
+   .button.small takes its color from --aw-text, which is near-black
+   (#2a1d05) in the light scheme — so the Copy buttons inside the install
+   panes rendered dark brown on dark brown, near-invisible. Buttons inside
+   a command card now always wear champagne-gold text on a visible
+   gold-glass ground with a gold border, in both schemes (this layer sits
+   after the light-scheme block so it wins there too). Disabled buttons
+   on dark surfaces stay honestly muted, but legible. */
+.command-card .button {
+  color: #ffedb3;
+  background: linear-gradient(160deg, rgba(255, 213, 74, 0.26), rgba(255, 213, 74, 0.12));
+  border: 1px solid rgba(255, 197, 66, 0.62);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+.command-card .button:focus-visible {
+  outline: 3px solid #ffd54a; outline-offset: 2px;
+}
+.command-card .button:disabled {
+  color: #e8cf8f;
+  background: linear-gradient(160deg, rgba(255, 213, 74, 0.14), rgba(255, 213, 74, 0.06));
+  border-color: rgba(255, 197, 66, 0.38);
+  opacity: 0.75;
+}
