@@ -8,11 +8,20 @@
 // staged the SERVED (already stamped) file, so the literal batch-52 SHA
 // 18e36a32a was committed and the served SW still reports the batch-52
 // build id. The placeholder is what the server stamps on deploy.
+// B"H e2 epoch (2026-11-25): CACHE_VERSION carries a manual '-e2' epoch
+// beside the build id. The build id only moves when the server process
+// restarts on a new HEAD, but static rounds (git push, no restart) can
+// change JS in place under unpinned or hand-tagged URLs — the cosmic
+// palette re-base e653e5839 did exactly that, and this worker's
+// cache-first law kept serving the old painter from the un-purged
+// heichel-reader-<build> caches. The epoch renames the caches once, so
+// the activate purge below deletes the stale ones and returning
+// browsers refetch the current code with no manual cache clearing.
 
 const AWTSMOOS_BUILD_ID = '__AWTSMOOS_BUILD_ID__';
 const CACHE_VERSION = AWTSMOOS_BUILD_ID.startsWith('__AWTSMOOS_BUILD')
-	? 'heichel-reader-v4'
-	: 'heichel-reader-' + AWTSMOOS_BUILD_ID;
+	? 'heichel-reader-v5'
+	: 'heichel-reader-' + AWTSMOOS_BUILD_ID + '-e2';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const PAGES_CACHE = CACHE_VERSION + '-pages';
 

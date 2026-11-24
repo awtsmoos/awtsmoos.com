@@ -12,5 +12,13 @@
    ran, and old heichel-reader-* caches lingered. The server stamps
    __AWTSMOOS_BUILD_ID__ in any file ending /heichel-sw.js, so the
    placeholder below makes this stub's bytes change on every deploy
-   and updates work exactly as ServiceWorkerVersioning.js documents. */
-importScripts('/heichelos/post/heichel-sw.js?v=reader-root-sw-__AWTSMOOS_BUILD_ID__');
+   and updates work exactly as ServiceWorkerVersioning.js documents.
+   B"H e2 epoch (2026-11-25): the import pin also carries a manual epoch.
+   The cosmic palette re-base (e653e5839) changed lib JS in place under
+   unpinned and hand-tagged URLs while the build id (HEAD at the last
+   process start) did not move, so the stamped stub stayed byte-identical,
+   no worker update was ever detected, and the old heichel-reader caches
+   kept serving the previous painter to returning browsers. The epoch
+   makes this stub differ exactly once, so every returning browser
+   installs the e2 worker and its activate purge retires those caches. */
+importScripts('/heichelos/post/heichel-sw.js?v=reader-root-sw-e2-__AWTSMOOS_BUILD_ID__');
