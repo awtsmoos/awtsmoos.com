@@ -29,6 +29,8 @@ function familyFor(seriesId = '') {
 	else if (/^BH-mishnah-פרקי-/i.test(seriesId)) family = { id: 'rashiAvot', type: 'corpus', alias: 'rashi', file: 'social.heichel.ikar.comments.corpus.rashiAvot.alias.rashi.v2.fs.awtsdb' };
 	else if (/^bavli/i.test(seriesId)) family = { id: 'talmudBavli', type: 'corpus', alias: 'bavli_translation_en', file: 'social.heichel.ikar.comments.corpus.talmudBavli.alias.bavli_translation_en.v2.fs.awtsdb', extraAliases: [{ alias: 'rashi', file: 'social.heichel.ikar.comments.corpus.talmudBavli.alias.rashi.v2.fs.awtsdb' }] };
 	else if (/^(midrash-|sefer-hayashar|aggadat-bereishit|yalkut-hamechiri|alfa-beta-|haggadah-divrei-chazal|beit-hamidrash|midrashim-ketanim)/i.test(seriesId)) family = { id: 'midrashim', type: 'corpus', alias: 'midrashim_translation_en', file: 'social.heichel.ikar.comments.corpus.midrashim.alias.midrashim_translation_en.v2.fs.awtsdb' };
+	else if (/^BH-torahOhr-/i.test(seriesId)) family = { id: 'torahOhr', type: 'corpus', alias: 'torahOhr_translation_en', file: 'social.heichel.ikar.comments.corpus.torahOhr.alias.torahOhr_translation_en.v2.fs.awtsdb' };
+	else if (/^(BH-likkuteiTorah-|likkutei-torah-v6$)/i.test(seriesId)) family = { id: 'likkuteiTorah', type: 'corpus', alias: 'likkuteiTorah_translation_en', file: 'social.heichel.ikar.comments.corpus.likkuteiTorah.alias.likkuteiTorah_translation_en.v2.fs.awtsdb' };
 	else if (/^sichosKodesh\d+$/i.test(seriesId)) family = { id: 'sichosKodesh', type: 'bundle', alias: 'sichos_kodesh_translation_en', bundle: 'sichosKodesh' };
 	else if (/meluket/i.test(seriesId)) family = { id: 'meluket', type: 'bundle', alias: 'meluket_translation_en', bundle: 'meluket' };
 	return family && enabled(family.id) ? family : null;
