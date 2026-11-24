@@ -182,7 +182,15 @@ module.exports = {
     });
     await $i.use("fs/:tunnelName", async (vars) => {
       const { protectedFs } = require("./routes/protectedFs.js");
-      return protectedFs($i, vars || {});
+      const result = await protectedFs($i, vars || {});
+      // Same status carry as fs/awtsmoos-os: a bare string would be
+      // normalized to HTTP 200 by the dynamic dispatcher, hiding the
+      // transport guard's 414 (and 401/429) from standards-based clients.
+      const statusCode = Number($i.response?.statusCode);
+      return typeof result === "string" && Number.isInteger(statusCode) &&
+        statusCode >= 100 && statusCode <= 599 && statusCode !== 200
+        ? { statusCode, response: result }
+        : result;
     });
     await $i.use("devices", async (vars) => {
       const { devices } = require("./routes/devices.js");
