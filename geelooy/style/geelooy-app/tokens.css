@@ -19,7 +19,7 @@ html.geelooy-route-ready {
 	--g-surface-3: #1a1f2b;
 	--g-surface-soft: rgba(146, 166, 188, .08);
 	--g-surface-hover: rgba(36, 49, 64, .84);
-	--g-surface-selected: rgba(39, 66, 75, .86);
+	--g-surface-selected: rgba(64, 50, 20, .86);
 	--g-line: rgba(196, 211, 226, .14);
 	--g-line-strong: rgba(213, 154, 53, .42);
 	--g-border: var(--g-line);
@@ -31,8 +31,8 @@ html.geelooy-route-ready {
 	/* --g-cyan is a legacy name kept for its ~70 shell usages; sole shell definition (Phase 2, 2026-11-25). Its value IS the canonical gold --g-gold #d59a35 from geelooy-system/tokens.css. */
 	--g-gold: #d59a35;
 	--g-cyan: #d59a35;
-	--g-blue: #78a8d8;
-	--g-violet: #78a8d8;
+	--g-blue: #c9a227; /* B"H beauty round 2026-11-25: legacy name kept; value re-based steel-blue -> antique gold */
+	--g-violet: #d89a4e; /* B"H beauty round 2026-11-25: legacy name kept; value re-based steel-blue -> copper gold */
 	--g-magenta: #d5a37c;
 	--g-orange: #d5a37c;
 	--g-green: #73cfa8;
@@ -40,18 +40,18 @@ html.geelooy-route-ready {
 	--g-danger: #e58693;
 	--g-warning: #d9bb72;
 	--g-gradient: linear-gradient(125deg, var(--g-cyan), var(--g-blue));
-	--g-gradient-hot: linear-gradient(115deg, #d59a35, #d9bb72 60%, #78a8d8);
-	--g-gradient-soft: linear-gradient(135deg, rgba(213, 154, 53, .11), rgba(120, 168, 216, .08));
+	--g-gradient-hot: linear-gradient(115deg, #d59a35, #e8bd68 55%, #f0d082);
+	--g-gradient-soft: linear-gradient(135deg, rgba(213, 154, 53, .13), rgba(217, 164, 65, .08));
 	--g-panel-gradient: linear-gradient(145deg, rgba(21, 30, 41, .97), rgba(10, 15, 22, .98) 68%);
 	--g-control-field: linear-gradient(145deg, rgba(27, 37, 49, .98), rgba(13, 19, 27, .99));
-	--g-control-energy: linear-gradient(115deg, rgba(213, 154, 53, .12), rgba(120, 168, 216, .08));
+	--g-control-energy: linear-gradient(115deg, rgba(213, 154, 53, .14), rgba(217, 164, 65, .08));
 	--g-shadow-xs: 0 .25rem .8rem rgba(0, 0, 0, .18);
 	--g-shadow-sm: 0 .8rem 2rem rgba(0, 0, 0, .24);
 	--g-shadow-lg: 0 1.8rem 5rem rgba(0, 0, 0, .4);
 	--g-shadow-card: var(--g-shadow-sm);
-	--g-shadow-float: 0 .75rem 2rem rgba(0, 0, 0, .32), 0 0 1.25rem rgba(213, 154, 53, .08);
-	--g-glow: 0 0 1.25rem rgba(213, 154, 53, .1);
-	--g-glow-hot: 0 0 1.5rem rgba(120, 168, 216, .12);
+	--g-shadow-float: 0 .75rem 2rem rgba(0, 0, 0, .32), 0 0 1.25rem rgba(213, 154, 53, .12);
+	--g-glow: 0 0 1.25rem rgba(213, 154, 53, .14);
+	--g-glow-hot: 0 0 1.5rem rgba(240, 208, 130, .16);
 	--g-control-shadow: 0 .55rem 1.4rem rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .055);
 	--g-control-hover: 0 .7rem 1.8rem rgba(0, 0, 0, .28), 0 0 1.25rem rgba(213, 154, 53, .1);
 	--g-control-active: 0 .22rem .7rem rgba(0, 0, 0, .34), inset 0 0 .9rem rgba(213, 154, 53, .08);
