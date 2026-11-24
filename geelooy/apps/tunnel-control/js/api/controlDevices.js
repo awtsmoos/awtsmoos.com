@@ -14,7 +14,20 @@ import { queryString } from "./query.js";
  * status cards, selectors, diagnostics, or actions can observe foreign metadata.
  */
 export async function me() {
-	return getJson("/api/tunnel/control/me", credentials());
+	// B"H — Run 05: /me had no deadline, so a hung session check left a
+	// reloading signed-in user staring at the preboot login landing
+	// forever. 15s bound; an abort throws and callers treat it as a
+	// transient failure, never as a sign-out.
+	const controller = new AbortController();
+	const timer = setTimeout(() => controller.abort(), 15000);
+	try {
+		return await getJson("/api/tunnel/control/me", {
+			...credentials(),
+			signal: controller.signal
+		});
+	} finally {
+		clearTimeout(timer);
+	}
 }
 
 export async function device(tunnelName = "") {

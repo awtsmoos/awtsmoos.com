@@ -3,6 +3,7 @@
 // Blessed is He
 
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 /**
  * @file Verifies truthful Tunnel Control mode availability and immutable doorways.
@@ -83,4 +84,40 @@ const cards = createModeCards(got);
 assert.equal(cards.children.length, 3);
 const links = createModeLinks();
 assert(links.children.map(link => link.attrs.href).includes(CANONICAL_OS_URL));
+
+// B"H — Run 05 regression: rendered tile text must contain real separators.
+// Fake-DOM innerText stand-in: container children are separated the way
+// block/grid/flex layout separates them visually; raw textContent of the
+// old unstyled markup concatenated them ("availableNative installed...").
+function renderedText(node) {
+	if (!node.children || !node.children.length) return String(node.textContent || "");
+	return node.children.map(renderedText).join(" ").replace(/\s+/g, " ").trim();
+}
+
+const renderedCards = renderedText(cards);
+assert(renderedCards.includes("available Native installed tunnel"), renderedCards);
+assert(renderedCards.includes("optional \u00b7 enable Code or OS Optional browser-hosted peers"), renderedCards);
+assert(renderedCards.includes("canonical OS One Awtsmoos Virtual OS"), renderedCards);
+assert(!renderedCards.includes("availableNative"), renderedCards);
+assert(!renderedCards.includes("OSOptional"), renderedCards);
+assert(!renderedCards.includes("OSOne"), renderedCards);
+
+const renderedLinks = renderedText(links);
+assert.equal(
+	renderedLinks,
+	"Native tunnel Code editor Awtsmoos OS Custom GPT Shliach",
+	renderedLinks
+);
+
+// The layout itself must exist: before Run 05 these classes had no CSS
+// anywhere, which is exactly why the tiles ran together.
+const layoutCss = readFileSync(
+	new URL("../../../../css/future/views/device-security/layout.css", import.meta.url),
+	"utf8"
+);
+assert(/\.awt-mode-card-grid\s*{[^}]*display:\s*grid/.test(layoutCss));
+assert(/\.awt-card-kicker\s*{[^}]*display:\s*block/.test(layoutCss));
+assert(/\.awt-mode-card > strong\s*{[^}]*display:\s*block/.test(layoutCss));
+assert(/\.awt-link-grid\s*{[^}]*display:\s*flex[^}]*gap:/.test(layoutCss));
+
 console.log("BHY mode cards tests passed");
