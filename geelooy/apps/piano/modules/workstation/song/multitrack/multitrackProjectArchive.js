@@ -7,7 +7,10 @@ const MAX_HEADER = 2 * 1024 * 1024;
 
 /** Packs metadata and lossless float PCM without base64 expansion. */
 export function packMultitrackProject(project, store) {
-	const ids = new Set(project.tracks.flatMap(track => track.clips.map(clip => clip.bufferId)));
+	const ids = new Set(project.tracks.flatMap(track => [
+		...track.clips.map(clip => clip.bufferId),
+		...((track.frozen?.snapshot?.clips || []).map(clip => clip.bufferId))
+	]));
 	const sources = [];
 	const parts = [];
 	let size = 0;
@@ -77,7 +80,17 @@ export async function unpackMultitrackProject(blob, context) {
 		metadata.set(id, { id, name: String(source.name || 'Audio'), duration: buffer.duration, channels: source.channels, sampleRate: source.rate });
 		source.newId = id;
 	}
-	for (const track of project.tracks) for (const clip of track.clips) clip.bufferId = descriptors.get(clip.bufferId).newId;
+	for (const track of project.tracks) {
+		for (const clip of track.clips) clip.bufferId = descriptors.get(clip.bufferId).newId;
+		if (track.frozen) {
+			if (track.frozen.bufferId && descriptors.has(track.frozen.bufferId))
+				track.frozen.bufferId = descriptors.get(track.frozen.bufferId).newId;
+			for (const clip of track.frozen.snapshot?.clips || []) {
+				if (!descriptors.has(clip.bufferId)) throw Error('Invalid frozen snapshot clip reference.');
+				clip.bufferId = descriptors.get(clip.bufferId).newId;
+			}
+		}
+	}
 	return { project, buffers, metadata };
 }
 

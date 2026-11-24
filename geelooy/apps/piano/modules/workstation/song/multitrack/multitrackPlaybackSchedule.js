@@ -4,17 +4,42 @@ import { startMultitrackClipVoice } from './multitrackPlaybackVoice.js';
 import { createMultitrackTrackOutput } from './multitrackTrackOutput.js';
 import { expandMidiRegionNotes } from './multitrackMidiRegion.js';
 import { startMultitrackMidiVoice } from './multitrackMidiVoice.js';
+import { effectivePlaybackTrack } from './multitrackFreeze.js';
+import { validateBusGraph } from './multitrackBus.js';
 
 /** Complete scheduling remains the offline rendering and small-project path. */
 export function scheduleMultitrackProject({project, context, destination, offset, audioStore}) {
 	const voices = [];
 	const outputs = [];
+	const graph = validateBusGraph(project);
+	if (!graph.ok) throw Error('Invalid bus routing: ' + graph.errors.join('; '));
+	const busNodes = new Map();
+	const busInput = (bus) => {
+		if (!busNodes.has(bus.id)) {
+			const node = context.createGain();
+			node.gain.value = bus.gain;
+			node.connect(destination);
+			busNodes.set(bus.id, node);
+		}
+		return busNodes.get(bus.id);
+	};
+	for (const bus of project.buses || []) busInput(bus);
+	for (const bus of project.buses || []) for (const send of bus.sends || []) {
+		const tap = context.createGain(); tap.gain.value = send.gain;
+		busNodes.get(bus.id).connect(tap); tap.connect(busInput(project.buses.find(b => b.id === send.busId)));
+	}
 	const anySolo = project.tracks.some(track => track.solo);
 	const origin = context.currentTime;
 	try {
-		for (const track of project.tracks) {
+		for (const rawTrack of project.tracks) {
+			const track = effectivePlaybackTrack(rawTrack);
 			const output = createMultitrackTrackOutput(context, destination, track, anySolo, offset, origin);
 			outputs.push(output);
+			for (const send of track.sends || []) {
+				const tap = context.createGain(); tap.gain.value = send.gain;
+				output.gain.connect(tap); tap.connect(busInput(project.buses.find(b => b.id === send.busId)));
+				outputs.push({ disconnect() { try { tap.disconnect(); } catch (_) {} } });
+			}
 			for (const clip of track.clips) {
 				if (clip.timelineStart + clip.duration <= offset) continue;
 				const voice = startMultitrackClipVoice({context, buffer:audioStore.getBuffer(clip.bufferId), clip, trackOutput:output.input, when:origin + Math.max(0, clip.timelineStart - offset), projectOffset:offset});

@@ -17,6 +17,7 @@ import { bindMultitrackLoopControls } from './multitrackLoopControls.js';
 import { registerMultitrackExportRoot } from './multitrackExportProgress.js';
 import { bindMultitrackMeters } from './multitrackMeterControls.js';
 import { bindPianoRoll } from './multitrackPianoRoll.js';
+import { bindFreezeBusControls } from './multitrackFreezeControls.js';
 import { bindMarkerControls } from './multitrackMarkerControls.js';
 
 let workstation = null;
@@ -47,6 +48,7 @@ export function initMultitrackWorkstation(songDom, songState) {
 	bindMultitrackMeters(dom, multitrackStudioState);
 	dom.root.insertBefore(bindMarkerControls(multitrackStudioState, time => multitrackStudioState.setPlayhead(time)), dom.inspector);
 	dom.root.insertBefore(bindPianoRoll(multitrackStudioState), dom.inspector);
+	dom.root.insertBefore(bindFreezeBusControls(multitrackStudioState), dom.inspector);
 	workstation = { dom, state: multitrackStudioState };
 	return workstation;
 }

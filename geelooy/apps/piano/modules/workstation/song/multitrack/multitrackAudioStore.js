@@ -50,6 +50,14 @@ export class MultitrackAudioStoreYesod {
 		return metadata;
 	}
 
+	/** Registers an already-decoded/rendered buffer under a fresh id. */
+	setBuffer(id, buffer, name = 'Rendered Audio') {
+		const metadata = { id, name, duration: buffer.duration, channels: buffer.numberOfChannels, sampleRate: buffer.sampleRate };
+		this.buffers.set(id, buffer);
+		this.metadata.set(id, metadata);
+		return metadata;
+	}
+
 	/** Returns one decoded AudioBuffer. @param {string} id Buffer id. @returns {AudioBuffer|null} Audio buffer. */
 	getBuffer(id) {
 		return this.buffers.get(id) || null;

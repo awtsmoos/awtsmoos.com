@@ -33,8 +33,34 @@ export function createMidiRegion(input = {}) {
 		timelineStart: nonneg(input.timelineStart),
 		duration: positive(input.duration, Math.max(.25, last)),
 		notes,
-		sustain: (input.sustain || []).map(createMidiSustain).sort((a, b) => a.start - b.start)
+		sustain: (input.sustain || []).map(createMidiSustain).sort((a, b) => a.start - b.start),
+		controllers: normalizeMidiControllers(input.controllers)
 	};
+}
+
+/** One controller-lane point (modulation/pitchBend), region-relative seconds. */
+export function createMidiControllerPoint(input = {}) {
+	const value = Number.isFinite(Number(input.value)) ? Math.max(0, Math.min(127, Math.round(Number(input.value)))) : 64;
+	return { time: nonneg(input.time), type: input.type === 'pitchBend' ? 'pitchBend' : 'modulation', value };
+}
+export function normalizeMidiControllers(input) {
+	return Array.isArray(input) ? input.map(createMidiControllerPoint).sort((a, b) => a.time - b.time) : [];
+}
+/** Adds or replaces a controller point at the same type+time. */
+export function addMidiControllerPoint(region, pointInput) {
+	const point = createMidiControllerPoint(pointInput);
+	const rest = (region.controllers || []).filter(p => !(p.type === point.type && Math.abs(p.time - point.time) < 1e-9));
+	return createMidiRegion({ ...region, controllers: [...rest, point] });
+}
+/** Step-held controller value at a region time (0 before the first point). */
+export function midiControllerValueAt(region, type, time) {
+	let value = 0;
+	for (const point of region.controllers || []) if (point.type === type && point.time <= time) value = point.value;
+	return value;
+}
+export function setMidiNotesVelocity(region, ids, velocity) {
+	const chosen = new Set(ids || []);
+	return createMidiRegion({ ...region, notes: region.notes.map(n => chosen.has(n.id) ? { ...n, velocity: clampVel(velocity) } : n) });
 }
 
 export function normalizeMidiRegions(input) {

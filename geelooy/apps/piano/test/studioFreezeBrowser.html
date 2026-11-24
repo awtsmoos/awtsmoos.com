@@ -1,0 +1,61 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Studio freeze/bus/limiter fixture</title></head>
+<body><div id="result">RUNNING</div>
+<script type="module">
+const result = document.querySelector('#result');
+try {
+	const M = '../modules/workstation/song/multitrack/';
+	const { createMultitrackProject, createMultitrackTrack } = await import(M + 'multitrackProject.js');
+	const { createMidiRegion } = await import(M + 'multitrackMidiRegion.js');
+	const { renderMultitrackOffline } = await import(M + 'multitrackOfflineMix.js');
+	const { renderTrackFreeze } = await import(M + 'multitrackFreezeRender.js');
+	const { unfreezeTrack } = await import(M + 'multitrackFreeze.js');
+	const { MultitrackAudioStoreYesod } = await import(M + 'multitrackAudioStore.js');
+	const { applyTruePeakLimiter, measureTruePeakLinear } = await import(M + 'multitrackTruePeakLimiter.js');
+	const region = createMidiRegion({ name: 'Lead', timelineStart: .25, duration: 1.5, notes: [
+		{ pitch: 69, start: 0, duration: .4, velocity: 110 }, { pitch: 76, start: .5, duration: .4, velocity: 100 }
+	] });
+	const track = createMultitrackTrack({ name: 'Keys', kind: 'midi', gain: .5, pan: -.3,
+		effects: { midGain: 5, midFrequency: 800 }, midiRegions: [region] });
+	const project = createMultitrackProject({ tempo: 120, tracks: [track] });
+	const store = new MultitrackAudioStoreYesod();
+	const emptyStore = { getBuffer: () => null };
+	const peak = b => { let p = 0; for (let c = 0; c < b.numberOfChannels; c++) for (const v of b.getChannelData(c)) p = Math.max(p, Math.abs(v)); return p; };
+	const maxDiff = (a, b) => { let d = 0; for (let c = 0; c < a.numberOfChannels; c++) { const x = a.getChannelData(c), y = b.getChannelData(c); for (let i = 0; i < x.length; i++) d = Math.max(d, Math.abs(x[i] - y[i])); } return d; };
+	// 1. Original render (gain/pan/EQ baked by the track chain).
+	const original = await renderMultitrackOffline(project, emptyStore, 44100);
+	if (peak(original) < .05) throw Error('Original MIDI render is silent');
+	// 2. Freeze, then render the frozen project: PCM must match the original.
+	const frozen = await renderTrackFreeze(project, track.id, store);
+	const frozenProject = createMultitrackProject({ tempo: 120, tracks: [frozen] });
+	const frozenRender = await renderMultitrackOffline(frozenProject, store, 44100);
+	const diff = maxDiff(original, frozenRender);
+	if (diff > 1e-4) throw Error(`Frozen PCM differs from original by ${diff}`);
+	// 3. Unfreeze restores the recipe exactly.
+	const restored = unfreezeTrack(frozen);
+	if (restored.midiRegions[0].notes.length !== 2 || restored.effects.midGain !== 5 || restored.gain !== .5)
+		throw Error('Unfreeze did not restore notes/effects/gain');
+	// 4. Bus send: a parallel .5 tap into a unity bus adds ~50% more signal.
+	const busProject = createMultitrackProject({ tempo: 120,
+		buses: [{ id: 'bus1', name: 'Echo', gain: 1 }],
+		tracks: [createMultitrackTrack({ name: 'Keys', kind: 'midi', midiRegions: [region], sends: [{ busId: 'bus1', gain: .5 }] })] });
+	const dryProject = createMultitrackProject({ tempo: 120,
+		tracks: [createMultitrackTrack({ name: 'Keys', kind: 'midi', midiRegions: [region] })] });
+	const dryPeak = peak(await renderMultitrackOffline(dryProject, emptyStore, 44100));
+	const busPeak = peak(await renderMultitrackOffline(busProject, emptyStore, 44100));
+	if (busPeak < dryPeak * 1.35) throw Error(`Bus send too quiet: dry ${dryPeak} bus ${busPeak}`);
+	// 5. Limiter on a real buffer with a hidden inter-sample peak (fs/8 sine, phase pi/8).
+	const ctx = new OfflineAudioContext(1, 44100, 44100);
+	const buffer = ctx.createBuffer(1, 11025, 44100);
+	const data = buffer.getChannelData(0);
+	for (let i = 0; i < data.length; i++) data[i] = .95 * Math.sin((Math.PI / 4) * i + Math.PI / 8);
+	const beforeTp = measureTruePeakLinear([data]);
+	const report = applyTruePeakLimiter(buffer, { ceilingDb: -1 });
+	if (beforeTp < .92) throw Error(`Fixture signal has no hidden peak (${beforeTp})`);
+	if (report.afterTruePeakDb > -0.99) throw Error(`Limiter left true peak at ${report.afterTruePeakDb} dBTP`);
+	result.textContent = `PASS freeze-diff ${diff.toExponential(2)} bus ${dryPeak.toFixed(3)}->${busPeak.toFixed(3)} limiter ${report.beforeTruePeakDb.toFixed(2)}->${report.afterTruePeakDb.toFixed(2)} dBTP`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

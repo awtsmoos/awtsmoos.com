@@ -2,9 +2,10 @@
 /** The Awtsmoos opens a piano roll where a melody can be drawn, heard and reshaped. */
 import { AudioState } from '../../../audio.js';
 import {
-	addMidiNote, createMidiRegion, duplicateMidiNotes, moveMidiNotes,
-	quantizeMidiNotes, removeMidiNotes, resizeMidiNote, setMidiNoteVelocity, transposeMidiRegion
+	addMidiControllerPoint, addMidiNote, createMidiRegion, duplicateMidiNotes, moveMidiNotes,
+	quantizeMidiNotes, removeMidiNotes, resizeMidiNote, setMidiNotesVelocity, transposeMidiRegion
 } from './multitrackMidiRegion.js';
+import { marqueeCorner, marqueeRect, notesInMarquee } from './multitrackPianoRollSelection.js';
 import { auditionMidiNote } from './multitrackMidiVoice.js';
 import { encodeMidiFile, midiFileToRegions } from './multitrackMidiFile.js';
 import { createMultitrackTrack, findMultitrackMidiRegion, replaceMultitrackMidiRegion } from './multitrackProject.js';
@@ -65,12 +66,14 @@ export function bindPianoRoll(state) {
 	gridSelect.value = '.5';
 	const quantize = buttonEl('Quantize', () => withRegion(region =>
 		replaceRegion(quantizeMidiNotes(region, gridSeconds()))));
-	const deleteSelected = buttonEl('Delete note', () => withRegion(region =>
-		ui.noteId && replaceRegion(removeMidiNotes(region, [ui.noteId]))));
-	const duplicate = buttonEl('Duplicate note', () => withRegion(region => {
-		if (!ui.noteId) return;
-		const { region: next, copies } = duplicateMidiNotes(region, [ui.noteId], gridSeconds() * 2);
-		replaceRegion(next); if (copies[0]) ui.noteId = copies[0].id;
+	const deleteSelected = buttonEl('Delete note(s)', () => withRegion(region => {
+		const ids = selectedIds(); if (!ids.length) return;
+		replaceRegion(removeMidiNotes(region, ids)); ui.noteIds.clear(); ui.noteId = null;
+	}));
+	const duplicate = buttonEl('Duplicate note(s)', () => withRegion(region => {
+		const ids = selectedIds(); if (!ids.length) return;
+		const { region: next, copies } = duplicateMidiNotes(region, ids, gridSeconds() * 2);
+		replaceRegion(next); ui.noteIds = new Set(copies.map(c => c.id)); if (copies[0]) ui.noteId = copies[0].id;
 	}));
 	const transposeDown = buttonEl('−1 semitone', () => withRegion(region => replaceRegion(transposeMidiRegion(region, -1))));
 	const transposeUp = buttonEl('+1 semitone', () => withRegion(region => replaceRegion(transposeMidiRegion(region, 1))));
@@ -79,8 +82,9 @@ export function bindPianoRoll(state) {
 	const velocity = document.createElement('input');
 	velocity.type = 'range'; velocity.min = '1'; velocity.max = '127'; velocity.value = '100';
 	velocity.setAttribute('aria-label', 'Selected note velocity');
-	velocity.addEventListener('change', () => withRegion(region =>
-		ui.noteId && replaceRegion(setMidiNoteVelocity(region, ui.noteId, Number(velocity.value)))));
+	velocity.addEventListener('change', () => withRegion(region => {
+		const ids = selectedIds(); if (ids.length) replaceRegion(setMidiNotesVelocity(region, ids, Number(velocity.value)));
+	}));
 	const exportMidi = buttonEl('Export .mid', () => {
 		const bytes = encodeMidiFile(state.project);
 		downloadMultitrackBlob(new Blob([bytes], { type: 'audio/midi' }), `${state.project.title} midi`, 'mid');
@@ -117,8 +121,20 @@ export function bindPianoRoll(state) {
 	grid.className = 'multitrack-piano-roll-grid';
 	grid.style.height = `${(PIANO_ROLL_HIGH - PIANO_ROLL_LOW + 1) * ROW}px`;
 	scroller.appendChild(grid);
-	body.append(bar, scroller);
-	const ui = { trackId: null, regionId: null, noteId: null };
+	const lane = document.createElement('div');
+	lane.className = 'multitrack-piano-roll-lane';
+	lane.title = 'Controller lane: sustain blocks shown; click to add a modulation point (height = value)';
+	lane.addEventListener('pointerdown', event => {
+		const region = currentRegion(); if (!region) return;
+		const rect = lane.getBoundingClientRect();
+		const time = Math.max(0, (event.clientX - rect.left) / PX_PER_SECOND);
+		const value = Math.max(0, Math.min(127, Math.round(127 * (1 - (event.clientY - rect.top) / Math.max(1, rect.height)))));
+		replaceRegion(addMidiControllerPoint(region, { time, type: 'modulation', value }));
+		state.setStatus(`Modulation ${value} at ${time.toFixed(2)}s (controller lane).`);
+	});
+	body.append(bar, scroller, lane);
+	const ui = { trackId: null, regionId: null, noteId: null, noteIds: new Set() };
+	const selectedIds = () => ui.noteIds.size ? [...ui.noteIds] : (ui.noteId ? [ui.noteId] : []);
 
 	function gridSeconds() { return (60 / state.project.tempo) * Number(gridSelect.value || .5); }
 	function currentTrack() {
@@ -139,6 +155,28 @@ export function bindPianoRoll(state) {
 
 	grid.addEventListener('pointerdown', event => {
 		if (event.target !== grid) return;
+		if (event.shiftKey) {
+			const region = currentRegion(); if (!region) return;
+			const rect0 = grid.getBoundingClientRect();
+			const from = marqueeCorner(event.clientX - rect0.left, event.clientY - rect0.top, PIANO_ROLL_HIGH, ROW, PX_PER_SECOND);
+			const box = document.createElement('div');
+			box.className = 'multitrack-piano-roll-marquee';
+			grid.appendChild(box);
+			const draw = moveEvent => {
+				const x = moveEvent.clientX - rect0.left, y = moveEvent.clientY - rect0.top;
+				Object.assign(box.style, { left: `${Math.min(x, from.start * PX_PER_SECOND)}px`, top: `${Math.min(y, (PIANO_ROLL_HIGH - from.pitch) * ROW)}px`, width: `${Math.abs(x - from.start * PX_PER_SECOND)}px`, height: `${Math.abs(y - (PIANO_ROLL_HIGH - from.pitch) * ROW)}px` });
+				box._to = marqueeCorner(x, y, PIANO_ROLL_HIGH, ROW, PX_PER_SECOND);
+			};
+			const finish = () => {
+				window.removeEventListener('pointermove', draw); window.removeEventListener('pointerup', finish);
+				const ids = notesInMarquee(region.notes, marqueeRect(from, box._to || from));
+				ui.noteIds = new Set(ids); ui.noteId = ids[0] || null;
+				state.setStatus(ids.length ? `Marquee selected ${ids.length} note(s).` : 'Marquee selected no notes.');
+				render();
+			};
+			window.addEventListener('pointermove', draw); window.addEventListener('pointerup', finish);
+			return;
+		}
 		const region = currentRegion();
 		if (!region) { state.setStatus('Add a MIDI region before drawing notes.'); return; }
 		const rect = grid.getBoundingClientRect();
@@ -177,7 +215,25 @@ export function bindPianoRoll(state) {
 			regionSelect.appendChild(option);
 		}
 		grid.replaceChildren();
+		lane.replaceChildren();
 		if (!region) return;
+		lane.style.width = `${Math.max(300, region.duration * PX_PER_SECOND)}px`;
+		for (const pedal of region.sustain || []) {
+			const block = document.createElement('div');
+			block.className = 'multitrack-piano-roll-lane-sustain';
+			block.style.left = `${pedal.start * PX_PER_SECOND}px`;
+			block.style.width = `${pedal.duration * PX_PER_SECOND}px`;
+			block.title = 'Sustain pedal';
+			lane.appendChild(block);
+		}
+		for (const point of region.controllers || []) {
+			const dot = document.createElement('div');
+			dot.className = 'multitrack-piano-roll-lane-point';
+			dot.style.left = `${point.time * PX_PER_SECOND}px`;
+			dot.style.bottom = `${(point.value / 127) * 100}%`;
+			dot.title = `${point.type} ${point.value} @ ${point.time.toFixed(2)}s`;
+			lane.appendChild(dot);
+		}
 		grid.style.width = `${Math.max(300, region.duration * PX_PER_SECOND)}px`;
 		for (const pedal of region.sustain || []) {
 			const band = document.createElement('div');
@@ -189,7 +245,7 @@ export function bindPianoRoll(state) {
 		}
 		for (const note of region.notes) {
 			const element = document.createElement('div');
-			element.className = 'multitrack-piano-roll-note' + (note.id === ui.noteId ? ' is-selected' : '');
+			element.className = 'multitrack-piano-roll-note' + (note.id === ui.noteId || ui.noteIds.has(note.id) ? ' is-selected' : '');
 			element.dataset.noteId = note.id;
 			const rect = pianoRollNoteRect(note);
 			Object.assign(element.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px` });
@@ -202,6 +258,7 @@ export function bindPianoRoll(state) {
 	function startNoteGesture(event, region, note, element) {
 		event.preventDefault(); event.stopPropagation();
 		ui.noteId = note.id;
+		if (!ui.noteIds.has(note.id)) ui.noteIds = new Set([note.id]);
 		const resizing = event.clientX - element.getBoundingClientRect().left > element.offsetWidth - 7;
 		const startX = event.clientX, startY = event.clientY;
 		const before = region;
@@ -220,7 +277,7 @@ export function bindPianoRoll(state) {
 			window.removeEventListener('pointerup', up);
 			const dx = element._dx || 0, dy = element._dy || 0;
 			if (resizing) replaceRegion(resizeMidiNote(before, note.id, Math.max(.05, note.duration + dx)));
-			else if (dx || dy) { replaceRegion(moveMidiNotes(before, [note.id], -dy, dx)); audition(note.pitch - dy); }
+			else if (dx || dy) { replaceRegion(moveMidiNotes(before, selectedIds(), -dy, dx)); audition(note.pitch - dy); }
 			else render();
 		}
 		window.addEventListener('pointermove', move);

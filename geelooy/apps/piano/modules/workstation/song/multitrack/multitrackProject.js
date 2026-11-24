@@ -7,6 +7,8 @@ import { normalizeAutomation } from './multitrackAutomation.js';
 import { normalizeTrackEffects } from './multitrackEffects.js';
 import { normalizeMidiRegions } from './multitrackMidiRegion.js';
 import { normalizeMarkers, normalizeSections } from './multitrackMarkers.js';
+import { normalizeBuses, normalizeSends } from './multitrackBus.js';
+import { normalizeFreeze } from './multitrackFreeze.js';
 
 /** Project model v2: v1 projects migrate by gaining empty MIDI/marker vessels. */
 export const MULTITRACK_PROJECT_VERSION = 2;
@@ -19,6 +21,7 @@ export function createMultitrackProject(input = {}) {
 		tempo: positive(input.tempo,120),
 		gridBeats: nonnegative(input.gridBeats,.25),
 		markers: normalizeMarkers(input.markers),
+		buses: normalizeBuses(input.buses),
 		sections: normalizeSections(input.sections),
 		tracks: (input.tracks || []).map(createMultitrackTrack)
 	};
@@ -39,7 +42,9 @@ export function createMultitrackTrack(input = {}) {
 		kind: input.kind === 'midi' ? 'midi' : 'audio',
 		midiInstrument: String(input.midiInstrument || 'triangle'),
 		clips: (input.clips || []).map(createMultitrackClip),
-		midiRegions: normalizeMidiRegions(input.midiRegions)
+		midiRegions: normalizeMidiRegions(input.midiRegions),
+		sends: normalizeSends(input.sends),
+		frozen: normalizeFreeze(input.frozen)
 	};
 }
 
