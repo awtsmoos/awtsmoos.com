@@ -1,5 +1,6 @@
 //B"H
 /** The Awtsmoos speaks Standard MIDI File — the lingua franca of editable music. */
+import { normalizeTempoMap, secondsToBeats } from './multitrackTempoMap.js';
 
 /** Seconds per quarter note from a tempo in beats per minute. */
 const spq = bpm => 60 / (Number(bpm) > 0 ? Number(bpm) : 120);
@@ -10,11 +11,18 @@ const PPQ = 480;
  * track that owns MIDI regions. Times convert seconds -> ticks at project tempo.
  */
 export function encodeMidiFile(project) {
-	const ticksPerSecond = PPQ / spq(project?.tempo);
+	const map = normalizeTempoMap(project?.tempoMap, project?.tempo);
+	const secondsToTicks = seconds => Math.round(secondsToBeats(map, seconds) * PPQ);
 	const tracks = [];
 	const conductor = [];
-	pushMeta(conductor, 0x51, [...u24(Math.round(1e6 * spq(project?.tempo)))]);
-	conductor.push(0xff, 0x2f, 0);
+	let lastTick = 0;
+	for (const point of map) {
+		const tick = Math.round(point.beat * PPQ);
+		conductor.push(...vlq(tick - lastTick)); lastTick = tick;
+		conductor.push(0xff, 0x51, 3, ...u24(Math.round(60e6 / point.bpm)));
+		conductor.push(0, 0xff, 0x58, 4, point.beatsPerBar, 2, 24, 8);
+	}
+	conductor.push(0, 0xff, 0x2f, 0);
 	tracks.push(conductor);
 	for (const track of project?.tracks || []) {
 		const notes = [];
@@ -25,8 +33,8 @@ export function encodeMidiFile(project) {
 		for (const note of notes) {
 			const pitch = Math.max(0, Math.min(127, Math.round(note.pitch)));
 			const velocity = Math.max(1, Math.min(127, Math.round(note.velocity ?? 100)));
-			events.push({ tick: Math.round(note.start * ticksPerSecond), bytes: [0x90, pitch, velocity] });
-			events.push({ tick: Math.round((note.start + note.duration) * ticksPerSecond), bytes: [0x80, pitch, 0] });
+			events.push({ tick: secondsToTicks(note.start), bytes: [0x90, pitch, velocity] });
+			events.push({ tick: secondsToTicks(note.start + note.duration), bytes: [0x80, pitch, 0] });
 		}
 		events.sort((a, b) => a.tick - b.tick || a.bytes[0] - b.bytes[0]);
 		const body = [];
@@ -72,7 +80,8 @@ export function decodeMidiFile(bytes) {
 			if (status === 0xff) {
 				const type = bytes[pos++];
 				let size = 0; do { byte = bytes[pos++]; size = size * 128 + (byte & 0x7f); } while (byte & 0x80);
-				if (type === 0x51 && size === 3) microsPerQuarter = (bytes[pos] << 16) | (bytes[pos + 1] << 8) | bytes[pos + 2];
+				if (type === 0x51 && size === 3) { microsPerQuarter = (bytes[pos] << 16) | (bytes[pos + 1] << 8) | bytes[pos + 2]; events.push({ tick, kind: 'tempo', micros: microsPerQuarter }); }
+				if (type === 0x58 && size >= 1) events.push({ tick, kind: 'sig', beatsPerBar: bytes[pos] });
 				if (type === 0x03) events.push({ tick, kind: 'name', text: new TextDecoder().decode(bytes.slice(pos, pos + size)) });
 				pos += size;
 			} else if (status === 0xf0 || status === 0xf7) {
@@ -88,7 +97,24 @@ export function decodeMidiFile(bytes) {
 		pos = end;
 		rawTracks.push(events);
 	}
-	const secondsPerTick = microsPerQuarter / 1e6 / ppq;
+	// Tempo map from every tempo/signature meta, in tick order.
+	const tempoEvents = rawTracks.flatMap(events => events.filter(e => e.kind === 'tempo')).sort((a, b) => a.tick - b.tick);
+	const sigEvents = rawTracks.flatMap(events => events.filter(e => e.kind === 'sig')).sort((a, b) => a.tick - b.tick);
+	const tempoMap = normalizeTempoMap(tempoEvents.map(e => ({
+		beat: e.tick / ppq, bpm: Math.round(60e6 / e.micros),
+		beatsPerBar: sigEvents.filter(s => s.tick <= e.tick).pop()?.beatsPerBar || 4
+	})), Math.round(60e6 / microsPerQuarter));
+	const tickSegments = [];
+	{ let seconds = 0, prev = null;
+	  for (const point of tempoMap) {
+		if (prev) seconds += (point.beat - prev.beat) * 60 / prev.bpm;
+		tickSegments.push({ tick: point.beat * ppq, seconds, bpm: point.bpm }); prev = point;
+	  } }
+	const tickToSeconds = tick => {
+		let seg = tickSegments[0];
+		for (const candidate of tickSegments) { if (candidate.tick <= tick) seg = candidate; else break; }
+		return seg.seconds + (tick - seg.tick) / ppq * 60 / seg.bpm;
+	};
 	const tracks = [];
 	for (const events of rawTracks) {
 		const open = new Map();
@@ -98,7 +124,7 @@ export function decodeMidiFile(bytes) {
 		let name = 'MIDI Track';
 		for (const event of events) {
 			if (event.kind === 'name') { name = event.text; continue; }
-			const time = event.tick * secondsPerTick;
+			const time = tickToSeconds(event.tick);
 			if (event.kind === 0x90 && event.data2 > 0) open.set(event.data1, { start: time, velocity: event.data2 });
 			else if (event.kind === 0x80 || (event.kind === 0x90 && event.data2 === 0)) {
 				const started = open.get(event.data1);
@@ -110,7 +136,7 @@ export function decodeMidiFile(bytes) {
 		}
 		if (notes.length) tracks.push({ name, notes, sustain });
 	}
-	return { tempo: Math.round(60e6 / microsPerQuarter), tracks };
+	return { tempo: tempoMap[0].bpm, tempoMap, tracks };
 }
 
 /** Builds project-ready MIDI regions (one per imported track) from SMF bytes. */
@@ -118,6 +144,7 @@ export function midiFileToRegions(bytes) {
 	const parsed = decodeMidiFile(bytes);
 	return {
 		tempo: parsed.tempo,
+		tempoMap: parsed.tempoMap,
 		regions: parsed.tracks.map(track => {
 			const start = Math.min(...track.notes.map(n => n.start));
 			return {

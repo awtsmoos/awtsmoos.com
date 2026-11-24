@@ -1,0 +1,83 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Studio asset wiring + full workflow smoke fixture</title></head>
+<body><div id="result">RUNNING</div>
+<script type="module">
+const result = document.querySelector('#result');
+try {
+	const M = '../modules/workstation/song/multitrack/';
+	const { createMultitrackProject, createMultitrackTrack } = await import(M + 'multitrackProject.js');
+	const { createMidiRegion, addMidiNote } = await import(M + 'multitrackMidiRegion.js');
+	const { MultitrackAudioStoreYesod } = await import(M + 'multitrackAudioStore.js');
+	const { MultitrackAssetStore } = await import(M + 'multitrackAssetStore.js');
+	const { dedupeProjectSources, hydrateProjectSources } = await import(M + 'multitrackAssetWiring.js');
+	const { packMultitrackProject, unpackMultitrackProject } = await import(M + 'multitrackProjectArchive.js');
+	const { saveLibraryProject, listLibraryProjects, loadLibraryProject, deleteLibraryProject } = await import(M + 'multitrackProjectLibrary.js');
+	const { renderMultitrackOffline } = await import(M + 'multitrackOfflineMix.js');
+	const { encodeMultitrackWav } = await import(M + 'multitrackWavEncoder.js');
+	const peak = b => { let p = 0; for (let c = 0; c < b.numberOfChannels; c++) for (const v of b.getChannelData(c)) p = Math.max(p, Math.abs(v)); return p; };
+
+	// 1. Play/record: a source buffer plus a MIDI region built note by note.
+	const ctx = new OfflineAudioContext(1, 44100, 44100);
+	const src = ctx.createBuffer(1, 44100, 44100);
+	const sd = src.getChannelData(0);
+	for (let i = 0; i < sd.length; i++) sd[i] = .4 * Math.sin(2 * Math.PI * 220 * i / 44100);
+	const audioStore = new MultitrackAudioStoreYesod();
+	audioStore.setBuffer('smoke-src', src, 'Smoke Source');
+	let region = createMidiRegion({ name: 'Melody', timelineStart: .5, duration: 2, notes: [] });
+	region = addMidiNote(region, { pitch: 69, start: 0, duration: .4, velocity: 110 }).region;
+	region = addMidiNote(region, { pitch: 76, start: .5, duration: .4, velocity: 100 }).region;
+
+	// 2. Arrange + mix + automate + bus insert + tempo map.
+	let project = createMultitrackProject({ title: 'Tranche4 Smoke', tempo: 120,
+		tempoMap: [{ beat: 0, bpm: 120 }, { beat: 8, bpm: 90 }],
+		buses: [{ id: 'bus1', name: 'Verb', gain: .9, effects: { highpass: 300 } }],
+		tracks: [
+			createMultitrackTrack({ name: 'Keys', kind: 'midi', gain: .8, pan: -.2, midiRegions: [region],
+				automation: { gain: [{ time: 0, value: .8 }, { time: 2, value: 1 }] }, sends: [{ busId: 'bus1', gain: .4 }] }),
+			createMultitrackTrack({ name: 'Pad', clips: [{ id: 'c1', bufferId: 'smoke-src', duration: 1, timelineStart: 0 }] })
+		] });
+
+	// 3. Asset wiring: dedupe, then forced reload (fresh runtime store, same IndexedDB) hydrates PCM.
+	const assets = new MultitrackAssetStore();
+	const deduped = await dedupeProjectSources(project, audioStore, assets);
+	if (!deduped.some(r => r.assetId)) throw Error('Asset dedupe stored nothing');
+	const freshStore = new MultitrackAudioStoreYesod();
+	const offlineCtx = new OfflineAudioContext(2, 441, 44100);
+	const hydrated = await hydrateProjectSources(freshStore, assets, offlineCtx);
+	if (!hydrated.restored.includes('smoke-src')) throw Error('Hydration did not restore the source after reload');
+	const restoredBuf = freshStore.getBuffer('smoke-src');
+	if (Math.abs(restoredBuf.getChannelData(0)[100] - sd[100]) > 1e-6) throw Error('Hydrated PCM differs');
+
+	// 4. Save named project to the library, reload it, restore from the blob.
+	const item = await saveLibraryProject(project, 'Tranche4 Smoke', audioStore);
+	const listed = await listLibraryProjects();
+	if (!listed.some(entry => entry.id === item.id)) throw Error('Saved project missing from library list');
+	const blob = await loadLibraryProject(item.id);
+	const archive = await unpackMultitrackProject(blob, offlineCtx);
+	if (archive.project.title !== 'Tranche4 Smoke') throw Error('Reloaded title mismatch');
+	if (archive.project.buses[0].effects.highpass !== 300) throw Error('Reloaded bus insert lost');
+	if (archive.project.tempoMap[1].bpm !== 90) throw Error('Reloaded tempo map lost');
+	await deleteLibraryProject(item.id);
+
+	// 5. Export 24-bit WAV from the restored project and inspect it programmatically.
+	const renderStore = { getBuffer: id => archive.buffers.get(id) || audioStore.getBuffer(id) };
+	const restoredProject = archive.project;
+	const mix = await renderMultitrackOffline(restoredProject, { getBuffer: id => renderStore.getBuffer(id) }, 44100);
+	const mixPeak = peak(mix);
+	if (!(mixPeak > .05)) throw Error('Rendered mix is silent');
+	const wav = encodeMultitrackWav(mix, { bitsPerSample: 24 });
+	const view = new DataView(wav);
+	const tag = (o, n) => String.fromCharCode(...new Uint8Array(wav, o, n));
+	if (tag(0, 4) !== 'RIFF' || tag(8, 4) !== 'WAVE') throw Error('WAV header is not RIFF/WAVE');
+	const bits = view.getUint16(34, true);
+	const rate = view.getUint32(24, true);
+	const channels = view.getUint16(22, true);
+	const duration = mix.duration;
+	if (bits !== 24 || rate !== 44100 || channels !== 2) throw Error(`WAV fmt wrong: ${bits}bit ${rate}Hz ${channels}ch`);
+	if (!(duration > 2 && duration < 3.5)) throw Error(`WAV duration wrong: ${duration}`);
+	result.textContent = `PASS smoke notes 2 hydrated 1 library-save/reload ok wav 24bit ${rate}Hz ${channels}ch dur ${duration.toFixed(2)}s peak ${mixPeak.toFixed(3)}`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

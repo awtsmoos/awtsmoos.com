@@ -49,7 +49,19 @@ export function bindFreezeBusControls(state, audioStore = multitrackAudioStore) 
 		state.setProject(next);
 		state.setStatus(`Send added on “${track.name}”.`);
 	});
-	body.append(trackSelect, freezeButton, unfreezeButton, busName, addBus, busSelect, sendGain, addSend);
+	const busHighpass = document.createElement('input');
+	busHighpass.type = 'range'; busHighpass.min = '0'; busHighpass.max = '2000'; busHighpass.step = '10'; busHighpass.value = '0';
+	busHighpass.setAttribute('aria-label', 'Bus highpass frequency');
+	const busEnabled = document.createElement('input');
+	busEnabled.type = 'checkbox'; busEnabled.checked = true; busEnabled.setAttribute('aria-label', 'Bus effects enabled');
+	const applyBusFx = buttonEl('Apply bus insert', () => {
+		const bus = (state.project.buses || []).find(b => b.id === busSelect.value); if (!bus) return;
+		const buses = state.project.buses.map(b => b.id === bus.id
+			? createMultitrackBus({ ...b, enabled: busEnabled.checked, effects: { ...b.effects, highpass: Number(busHighpass.value) } }) : b);
+		state.setProject({ ...state.project, buses });
+		state.setStatus(`Bus “${bus.name}” insert ${busEnabled.checked ? 'on' : 'bypassed'} · highpass ${busHighpass.value} Hz.`);
+	});
+	body.append(trackSelect, freezeButton, unfreezeButton, busName, addBus, busSelect, sendGain, addSend, busHighpass, busEnabled, applyBusFx);
 	let uiTrackId = null;
 	function current() { return state.project.tracks.find(t => t.id === uiTrackId) || state.project.tracks[0] || null; }
 	function replace(next) { state.setProject({ ...state.project, tracks: state.project.tracks.map(t => t.id === next.id ? next : t) }); }
@@ -71,8 +83,12 @@ export function bindFreezeBusControls(state, audioStore = multitrackAudioStore) 
 		freezeButton.disabled = !track || isTrackFrozen(track);
 		unfreezeButton.disabled = !track || !isTrackFrozen(track);
 		addSend.disabled = !track || !(state.project.buses || []).length;
+		applyBusFx.disabled = !(state.project.buses || []).length;
+		const selectedBus = (state.project.buses || []).find(b => b.id === busSelect.value);
+		if (selectedBus) { busHighpass.value = String(selectedBus.effects?.highpass || 0); busEnabled.checked = selectedBus.enabled !== false; }
 	}
 	trackSelect.addEventListener('change', () => { uiTrackId = trackSelect.value; render(); });
+	busSelect.addEventListener('change', render);
 	state.subscribe(render);
 	render();
 	return panel;

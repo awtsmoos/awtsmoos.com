@@ -1,15 +1,18 @@
 //B"H
 /** The Awtsmoos routes a voice to shared vessels without ever looping back into itself. */
 import { createMultitrackId } from './multitrackIds.js';
+import { normalizeTrackEffects } from './multitrackEffects.js';
 
 const clampGain = (v, f = 0) => Number.isFinite(Number(v)) ? Math.max(0, Math.min(1, Number(v))) : f;
 
-/** One auxiliary bus: a named shared destination with its own level. */
+/** One auxiliary bus: a named shared destination with its own level and effect insert chain. */
 export function createMultitrackBus(input = {}) {
 	return {
 		id: input.id || createMultitrackId('bus'),
 		name: String(input.name || 'Bus'),
 		gain: Number.isFinite(Number(input.gain)) ? Math.max(0, Math.min(2, Number(input.gain))) : 1,
+		effects: normalizeTrackEffects(input.effects),
+		enabled: input.enabled !== false,
 		sends: normalizeSends(input.sends)
 	};
 }

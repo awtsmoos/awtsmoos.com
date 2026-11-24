@@ -19,6 +19,9 @@ import { bindMultitrackMeters } from './multitrackMeterControls.js';
 import { bindPianoRoll } from './multitrackPianoRoll.js';
 import { bindFreezeBusControls } from './multitrackFreezeControls.js';
 import { bindMarkerControls } from './multitrackMarkerControls.js';
+import { bindAssetStoreWiring, hydrateProjectSources } from './multitrackAssetWiring.js';
+import { multitrackAudioStore } from './multitrackAudioStore.js';
+import { AudioState } from '../../../audio.js';
 
 let workstation = null;
 
@@ -49,7 +52,11 @@ export function initMultitrackWorkstation(songDom, songState) {
 	dom.root.insertBefore(bindMarkerControls(multitrackStudioState, time => multitrackStudioState.setPlayhead(time)), dom.inspector);
 	dom.root.insertBefore(bindPianoRoll(multitrackStudioState), dom.inspector);
 	dom.root.insertBefore(bindFreezeBusControls(multitrackStudioState), dom.inspector);
-	workstation = { dom, state: multitrackStudioState };
+	const assetWiring = bindAssetStoreWiring(multitrackStudioState, multitrackAudioStore, {
+		report: message => multitrackStudioState.setStatus(message)
+	});
+	if (AudioState.context) hydrateProjectSources(multitrackAudioStore, assetWiring.assetStore, AudioState.context).catch(() => {});
+	workstation = { dom, state: multitrackStudioState, assetWiring };
 	return workstation;
 }
 

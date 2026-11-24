@@ -9,6 +9,7 @@ import { normalizeMidiRegions } from './multitrackMidiRegion.js';
 import { normalizeMarkers, normalizeSections } from './multitrackMarkers.js';
 import { normalizeBuses, normalizeSends } from './multitrackBus.js';
 import { normalizeFreeze } from './multitrackFreeze.js';
+import { normalizeTempoMap } from './multitrackTempoMap.js';
 
 /** Project model v2: v1 projects migrate by gaining empty MIDI/marker vessels. */
 export const MULTITRACK_PROJECT_VERSION = 2;
@@ -19,6 +20,7 @@ export function createMultitrackProject(input = {}) {
 		id: input.id || createMultitrackId('project'),
 		title: String(input.title || 'Awtsmoos Mix'),
 		tempo: positive(input.tempo,120),
+		tempoMap: normalizeTempoMap(input.tempoMap, positive(input.tempo,120)),
 		gridBeats: nonnegative(input.gridBeats,.25),
 		markers: normalizeMarkers(input.markers),
 		buses: normalizeBuses(input.buses),

@@ -14,15 +14,21 @@ import {
 	trimMultitrackClipEnvelopeRight
 } from './multitrackClipEnvelopeSegments.js';
 import { createMultitrackClip } from './multitrackProject.js';
+import { beatsToSeconds, secondsToBeats } from './multitrackTempoMap.js';
 
 const MINIMUM_CLIP_SECONDS = 0.001;
 
-/** Snaps seconds to a musical beat grid. */
-export function snapMultitrackTime(seconds, tempo, gridBeats) {
+/** Snaps seconds to a musical beat grid; with a tempo map the grid is in beats, so it follows tempo changes. */
+export function snapMultitrackTime(seconds, tempo, gridBeats, tempoMap = null) {
 	const safe = Math.max(0, Number(seconds) || 0);
 	const grid = Number(gridBeats);
 	if (!(grid > 0)) {
 		return safe;
+	}
+	if (Array.isArray(tempoMap) && tempoMap.length) {
+		const beats = secondsToBeats(tempoMap, safe);
+		const snapped = Math.round(beats / grid) * grid;
+		return Math.max(0, Number(beatsToSeconds(tempoMap, snapped).toFixed(6)));
 	}
 	const beatSeconds = 60 / positive(tempo, 120);
 	const step = beatSeconds * grid;
@@ -33,13 +39,13 @@ export function snapMultitrackTime(seconds, tempo, gridBeats) {
 export function moveMultitrackClip(clip, timelineStart, timing = {}) {
 	return {
 		...clip,
-		timelineStart: snapMultitrackTime(timelineStart, timing.tempo, timing.gridBeats)
+		timelineStart: snapMultitrackTime(timelineStart, timing.tempo, timing.gridBeats, timing.tempoMap)
 	};
 }
 
 /** Trims or restores the left edge while preserving the inherited envelope segment. */
 export function trimMultitrackClipLeft(clip, newStart, timing = {}) {
-	const snapped = snapMultitrackTime(newStart, timing.tempo, timing.gridBeats);
+	const snapped = snapMultitrackTime(newStart, timing.tempo, timing.gridBeats, timing.tempoMap);
 	const earliestStart = Math.max(0, clip.timelineStart - clip.sourceOffset);
 	const latestStart = clip.timelineStart + clip.duration - MINIMUM_CLIP_SECONDS;
 	const start = clamp(snapped, earliestStart, latestStart);
@@ -55,7 +61,7 @@ export function trimMultitrackClipLeft(clip, newStart, timing = {}) {
 
 /** Trims or restores the right edge while preserving the inherited envelope segment. */
 export function trimMultitrackClipRight(clip, newEnd, timing = {}, sourceDuration = Infinity) {
-	const snapped = snapMultitrackTime(newEnd, timing.tempo, timing.gridBeats);
+	const snapped = snapMultitrackTime(newEnd, timing.tempo, timing.gridBeats, timing.tempoMap);
 	const available = Math.max(MINIMUM_CLIP_SECONDS, sourceDuration - clip.sourceOffset);
 	const requested = snapped - clip.timelineStart;
 	const duration = clamp(requested, MINIMUM_CLIP_SECONDS, available);

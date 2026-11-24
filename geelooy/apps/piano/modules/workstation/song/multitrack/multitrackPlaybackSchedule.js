@@ -6,6 +6,7 @@ import { expandMidiRegionNotes } from './multitrackMidiRegion.js';
 import { startMultitrackMidiVoice } from './multitrackMidiVoice.js';
 import { effectivePlaybackTrack } from './multitrackFreeze.js';
 import { validateBusGraph } from './multitrackBus.js';
+import { createBusChain } from './multitrackBusChain.js';
 
 /** Complete scheduling remains the offline rendering and small-project path. */
 export function scheduleMultitrackProject({project, context, destination, offset, audioStore}) {
@@ -13,20 +14,21 @@ export function scheduleMultitrackProject({project, context, destination, offset
 	const outputs = [];
 	const graph = validateBusGraph(project);
 	if (!graph.ok) throw Error('Invalid bus routing: ' + graph.errors.join('; '));
-	const busNodes = new Map();
-	const busInput = (bus) => {
-		if (!busNodes.has(bus.id)) {
-			const node = context.createGain();
-			node.gain.value = bus.gain;
-			node.connect(destination);
-			busNodes.set(bus.id, node);
+	const busChains = new Map();
+	const busChain = (bus) => {
+		if (!busChains.has(bus.id)) {
+			const chain = createBusChain(context, bus, destination);
+			busChains.set(bus.id, chain);
+			outputs.push(chain);
 		}
-		return busNodes.get(bus.id);
+		return busChains.get(bus.id);
 	};
+	const busInput = (bus) => busChain(bus).input;
 	for (const bus of project.buses || []) busInput(bus);
 	for (const bus of project.buses || []) for (const send of bus.sends || []) {
 		const tap = context.createGain(); tap.gain.value = send.gain;
-		busNodes.get(bus.id).connect(tap); tap.connect(busInput(project.buses.find(b => b.id === send.busId)));
+		busChain(bus).output.connect(tap); tap.connect(busInput(project.buses.find(b => b.id === send.busId)));
+		outputs.push({ disconnect() { try { tap.disconnect(); } catch (_) {} } });
 	}
 	const anySolo = project.tracks.some(track => track.solo);
 	const origin = context.currentTime;
