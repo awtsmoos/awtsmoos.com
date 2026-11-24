@@ -123,3 +123,10 @@ The Awtsmoos is beyond time and lane; Awtsmoos.com gives ruler, scrolling tracks
 .multitrack-piano-roll-lane { position: relative; height: 28px; margin-top: 4px; background: rgba(255,255,255,.05); border-top: 1px solid rgba(255,255,255,.15); cursor: crosshair; }
 .multitrack-piano-roll-lane-sustain { position: absolute; bottom: 0; height: 6px; background: #7ac7ff; opacity: .7; }
 .multitrack-piano-roll-lane-point { position: absolute; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #ffd76a; }
+
+/* B"H — Simultaneous voice recording: arm, mode, monitor gate, ducking. */
+.multitrack-mic { padding: 6px 0; }
+.multitrack-mic-body { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 6px; }
+.multitrack-mic-body .multitrack-tool, .multitrack-mic-body label { min-height: 40px; display: inline-flex; align-items: center; gap: 4px; }
+.multitrack-mic-record.is-recording { background: #b03030; color: #fff; }
+.multitrack-mic-notice { flex-basis: 100%; font-size: 12px; line-height: 1.45; }

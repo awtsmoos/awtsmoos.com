@@ -66,7 +66,8 @@ export function createMultitrackClip(input = {}) {
 		fadeOut: fades.fadeOut,
 		fadeInOffset: offsets.fadeInOffset,
 		fadeOutOffset: offsets.fadeOutOffset,
-		loop: Boolean(input.loop)
+		loop: Boolean(input.loop),
+		latencyCompensation: nonnegative(input.latencyCompensation,0)
 	};
 }
 

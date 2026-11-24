@@ -1,0 +1,56 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Main piano voice take fixture</title></head>
+<body><div id="result">RUNNING</div>
+<!-- The piano surface's own mic/record controls, with their real ids. -->
+<button id="record-audio-button">Record Audio</button>
+<button id="mic-button">Enable Mic</button>
+<input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
+<label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+<script type="module">
+const result = document.querySelector('#result');
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+try {
+	const { AudioState, initAudio } = await import('../modules/audio.js');
+	await initAudio();
+	const { cacheElements } = await import('../modules/ui.js');
+	try { cacheElements(); } catch (_) { /* Surface stub: registry is best-effort here. */ }
+	const { ensureMicSafetyControls, currentMicMode } = await import('../modules/app/microphone.js');
+	const { ensureVoiceTakeControl } = await import('../modules/app/voiceTakeControl.js');
+	ensureMicSafetyControls();
+	ensureVoiceTakeControl();
+	await wait(150);
+	if (!document.querySelector('#voice-take-controls .voice-take-record')) throw Error('Voice take control missing');
+	if (!document.querySelector('#mic-output-mode')) throw Error('Output mode selector missing');
+	if (document.querySelector('#mic-playback-checkbox').checked) throw Error('Monitoring was not forced off by default');
+	if (currentMicMode() !== 'speakers') throw Error('Default output mode is not the safe speakers mode');
+	// Tap the master output: notes must be audible while the take records.
+	const tap = AudioState.context.createAnalyser();
+	tap.fftSize = 2048;
+	AudioState.masterGain.connect(tap);
+	const samples = new Float32Array(2048);
+	const masterRms = () => { tap.getFloatTimeDomainData(samples); let s = 0; for (const v of samples) s += v * v; return Math.sqrt(s / samples.length); };
+	const { startExecutedNote, stopExecutedNote } = await import('../modules/performance/noteExecution.js');
+	// Start the voice take (explicit click), then play real notes through it.
+	document.querySelector('.voice-take-record').click();
+	await wait(600);
+	if (!document.querySelector('.voice-take-record').textContent.includes('Stop')) throw Error('Voice take did not start');
+	const note = startExecutedNote('A4', 'fixture-1', {}, { triggerChord: false });
+	if (!note) throw Error('Piano note did not start during capture');
+	await wait(500);
+	const duringRms = masterRms();
+	stopExecutedNote('fixture-1', { ignoreSustain: true });
+	const note2 = startExecutedNote('C5', 'fixture-2', {}, { triggerChord: false });
+	await wait(400);
+	stopExecutedNote('fixture-2', { ignoreSustain: true });
+	document.querySelector('.voice-take-record').click();
+	await wait(400);
+	const status = document.querySelector('.voice-take-status').textContent;
+	if (!status.includes('Voice take kept')) throw Error('Take not kept: ' + status);
+	if (document.querySelector('.voice-take-play').disabled) throw Error('Take playback not enabled');
+	if (duringRms < 0.005) throw Error(`Piano inaudible during capture (master rms ${duringRms})`);
+	result.textContent = `PASS piano-take master-rms=${duringRms.toFixed(3)} status="${status.slice(0, 60)}"`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>
