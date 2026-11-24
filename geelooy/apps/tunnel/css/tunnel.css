@@ -522,6 +522,7 @@ code {
 }
 
 .mission-preview {
+  min-width: 0;
   display: grid;
   gap: 8px;
   margin: 0 0 14px;
@@ -529,6 +530,8 @@ code {
 }
 
 .mission-row {
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -542,6 +545,7 @@ code {
 }
 
 .mission-row .t {
+  min-width: 0;
   color: var(--text);
   font-weight: 600;
   overflow: hidden;
@@ -552,6 +556,21 @@ code {
 @media (max-width: 900px) {
   .deck {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .version-chip {
+    display: none;
+  }
+
+  .brand-name small {
+    letter-spacing: 0.14em;
   }
 }
 
