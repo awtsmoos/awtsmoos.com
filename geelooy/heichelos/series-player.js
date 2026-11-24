@@ -1,16 +1,19 @@
 /* B"H
- * Series player — continuous playback for a series page.
- * Collects the series' posts in order, keeps those with an audio or video
- * attachment (the post's `media` field first, then its root assets), and
- * plays them one after the next. A post with both plays its video.
- * Plain script, no framework; it gates itself on the series URL so it can
+ * Series player — playback engine and lifecycle.
+ * The Awtsmoos renews the song at every moment; Awtsmoos.com plays a series
+ * one track after the next, advancing on end, skipping past a failed track
+ * at most once per track, and stopping cleanly when the reader leaves the
+ * series. Playlist construction lives in series-player/playlist.js and the
+ * launcher/panel in series-player/panel.js; this file owns state, the media
+ * element, and location sync. It gates itself on the series URL so it can
  * ride every heichel page without touching the SPA.
  */
 (function () {
 	'use strict';
 
-	var LAUNCHER_ID = 'awt-series-player-launcher';
-	var PANEL_ID = 'awt-series-player-panel';
+	var Playlist = window.AwtSeriesPlaylist;
+	var Panel = window.AwtSeriesPanel;
+	var PANEL_ID = Panel.PANEL_ID;
 	var state = {
 		key: '',
 		playlist: [],
@@ -20,130 +23,15 @@
 		errorStreak: 0
 	};
 
-	function seriesLocation() {
-		var match = /^\/heichelos\/([^/]+)\/series\/([^/]+)\/?$/.exec(location.pathname);
-		if (!match) return null;
-		var seriesId = decodeURIComponent(match[2]);
-		if (!seriesId || seriesId === 'root') return null;
-		return { heichelId: decodeURIComponent(match[1]), seriesId: seriesId };
-	}
+	function seriesLocation() { return Playlist.seriesLocation(location.pathname); }
+	function el(id) { return Panel.el(id); }
 
-	function kindOf(asset) {
-		var type = String((asset && (asset.type || asset.kind || asset.mime || asset.contentType)) || '').toLowerCase();
-		if (type.indexOf('audio') !== -1) return 'audio';
-		if (type.indexOf('video') !== -1) return 'video';
-		var url = String((asset && (asset.publicPath || asset.url || asset.src)) || '');
-		if (/\.(mp3|wav|ogg|m4a|aac|flac)(\?.*)?$/i.test(url)) return 'audio';
-		if (/\.(mp4|webm|mov|m4v|ogv)(\?.*)?$/i.test(url)) return 'video';
-		return '';
-	}
-
-	function assetUrl(asset) {
-		var raw = asset && (asset.publicPath || asset.url || asset.src);
-		if (!raw) return '';
-		try { return new URL(String(raw), location.origin).href; } catch (e) { return ''; }
-	}
-
-	function pickMedia(record) {
-		var byKind = {};
-		function consider(asset) {
-			var kind = kindOf(asset);
-			var url = assetUrl(asset);
-			if ((kind === 'audio' || kind === 'video') && url && !byKind[kind]) {
-				byKind[kind] = { kind: kind, url: url };
-			}
-		}
-		if (record.media && typeof record.media === 'object') {
-			consider(record.media.video);
-			consider(record.media.audio);
-		}
-		var assets = record.rootAssets || record.assets || [];
-		if (Array.isArray(assets)) assets.forEach(consider);
-		return byKind.video || byKind.audio || null;
-	}
-
-	function extractPosts(data) {
-		var s = (data && data.success !== undefined) ? data.success : data;
-		if (Array.isArray(s)) return s;
-		if (s && Array.isArray(s.posts)) return s.posts;
-		if (s && Array.isArray(s.details)) return s.details;
-		if (s && typeof s === 'object') {
-			return Object.values(s).filter(function (v) { return v && typeof v === 'object'; });
-		}
-		return [];
-	}
-
-	function buildPlaylist(posts) {
-		var list = [];
-		posts.forEach(function (entry) {
-			var record = (entry && entry.post) || entry || {};
-			var media = pickMedia(record);
-			if (!media) return;
-			list.push({
-				id: String(record.id || record.postId || ''),
-				title: String(record.title || record.name || 'Untitled post'),
-				kind: media.kind,
-				url: media.url
-			});
-		});
-		return list;
-	}
-
-	function el(id) { return document.getElementById(id); }
-
-	function ensureUi() {
-		if (!el(LAUNCHER_ID)) {
-			var launcher = document.createElement('button');
-			launcher.id = LAUNCHER_ID;
-			launcher.type = 'button';
-			launcher.className = 'awt-series-player-launcher';
-			launcher.textContent = '▶ Play series';
-			launcher.setAttribute('aria-label', 'Play this series in order');
-			launcher.addEventListener('click', startPlayback);
-			document.body.appendChild(launcher);
-		}
-		if (!el(PANEL_ID)) {
-			var panel = document.createElement('section');
-			panel.id = PANEL_ID;
-			panel.className = 'awt-series-player-panel';
-			panel.hidden = true;
-			panel.setAttribute('aria-label', 'Series player');
-			panel.innerHTML =
-				'<div class="awt-sp-head">' +
-					'<span class="awt-sp-kicker">Series player</span>' +
-					'<span class="awt-sp-position" data-role="position"></span>' +
-					'<button type="button" class="awt-sp-close" data-role="close" aria-label="Stop and close the series player">✕</button>' +
-				'</div>' +
-				'<p class="awt-sp-title" data-role="title" aria-live="polite"></p>' +
-				'<div class="awt-sp-stage" data-role="stage"></div>' +
-				'<div class="awt-sp-controls">' +
-					'<button type="button" class="awt-sp-btn" data-role="prev">⏮ Previous</button>' +
-					'<button type="button" class="awt-sp-btn" data-role="next">Next ⏭</button>' +
-				'</div>';
-			panel.querySelector('[data-role="close"]').addEventListener('click', stopPlayback);
-			panel.querySelector('[data-role="prev"]').addEventListener('click', function () { playAt(state.index - 1); });
-			panel.querySelector('[data-role="next"]').addEventListener('click', function () { playAt(state.index + 1); });
-			document.body.appendChild(panel);
-		}
-	}
-
-	function setLauncherVisible(visible) {
-		var launcher = el(LAUNCHER_ID);
-		if (launcher) launcher.hidden = !visible;
-	}
-
-	function highlightCurrent() {
-		document.querySelectorAll('.awt-series-player-current').forEach(function (node) {
-			node.classList.remove('awt-series-player-current');
-		});
-		var track = state.playlist[state.index];
-		if (!track || !track.id) return;
-		var link = document.querySelector('a[href*="/post/' + CSS.escape(track.id) + '"]');
-		if (link) {
-			link.classList.add('awt-series-player-current');
-			link.scrollIntoView({ block: 'nearest' });
-		}
-	}
+	var handlers = {
+		onStart: function () { startPlayback(); },
+		onStop: function () { stopPlayback(); },
+		onPrev: function () { playAt(state.index - 1); },
+		onNext: function () { playAt(state.index + 1); }
+	};
 
 	function playAt(index) {
 		var panel = el(PANEL_ID);
@@ -171,7 +59,7 @@
 		}, true);
 		state.mediaEl = media;
 		stage.appendChild(media);
-		highlightCurrent();
+		Panel.highlightCurrent(state.playlist, state.index);
 		var attempt = media.play();
 		if (attempt && attempt.catch) attempt.catch(function () { /* user can press play on the native controls */ });
 	}
@@ -200,18 +88,16 @@
 			panel.hidden = true;
 			panel.querySelector('[data-role="stage"]').innerHTML = '';
 		}
-		document.querySelectorAll('.awt-series-player-current').forEach(function (node) {
-			node.classList.remove('awt-series-player-current');
-		});
-		setLauncherVisible(Boolean(seriesLocation()));
+		Panel.clearHighlight();
+		Panel.setLauncherVisible(Boolean(seriesLocation()));
 	}
 
 	function startPlayback() {
 		var loc = seriesLocation();
 		if (!loc) return;
-		ensureUi();
+		Panel.ensureUi(handlers);
 		var panel = el(PANEL_ID);
-		var launcher = el(LAUNCHER_ID);
+		var launcher = el(Panel.LAUNCHER_ID);
 		if (launcher) launcher.hidden = true;
 		panel.hidden = false;
 		panel.querySelector('[data-role="title"]').textContent = 'Loading the series…';
@@ -225,7 +111,7 @@
 					state.playing = false;
 					return;
 				}
-				state.playlist = buildPlaylist(extractPosts(data));
+				state.playlist = Playlist.buildPlaylist(Playlist.extractPosts(data), location.origin);
 				state.playing = true;
 				if (!state.playlist.length) {
 					panel.querySelector('[data-role="title"]').textContent = 'No audio or video posts in this series yet.';
@@ -248,14 +134,14 @@
 		state.key = key;
 		if (!loc) {
 			if (wasPlaying || (el(PANEL_ID) && !el(PANEL_ID).hidden)) stopPlayback();
-			setLauncherVisible(false);
+			Panel.setLauncherVisible(false);
 			var panel = el(PANEL_ID);
 			if (panel) panel.hidden = true;
 			return;
 		}
 		if (wasPlaying) stopPlayback();
-		ensureUi();
-		setLauncherVisible(true);
+		Panel.ensureUi(handlers);
+		Panel.setLauncherVisible(true);
 	}
 
 	function boot() {
