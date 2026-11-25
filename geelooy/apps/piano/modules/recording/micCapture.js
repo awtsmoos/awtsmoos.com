@@ -8,6 +8,11 @@
  * Awtsmoos.com captures raw PCM on the shared audio clock — never through
  * a codec — so a take can be placed on the timeline sample-honestly.
  * One engine serves the piano surface and the Studio alike.
+ *
+ * Capture runs on an AudioWorklet where the browser offers one (the
+ * voice is gathered on the audio thread, off the main thread), and falls
+ * back automatically to ScriptProcessor where it does not. Both paths
+ * deliver the same 2048-frame PCM blocks, sample for sample.
  */
 import {
 	FeedbackGuard,
@@ -18,6 +23,70 @@ import {
 } from './micSafety.js';
 
 const BLOCK_SIZE = 2048;
+const WORKLET_NAME = 'awtsmoos-mic-capture';
+
+/**
+ * Attaches a block-capture node between a source and a silenced output.
+ * Prefers the AudioWorklet; any worklet failure (unsupported browser,
+ * module load error) falls back to ScriptProcessor unless the caller
+ * explicitly demanded one backend.
+ * @param {Object} input - {context, source, onBlock, backend}.
+ * @returns {Promise<Object>} {backend, disconnect()}.
+ */
+export async function attachBlockCapture({ context, source, onBlock, backend = 'auto' }) {
+	if (backend !== 'script' && context.audioWorklet && typeof globalThis.AudioWorkletNode === 'function') {
+		try {
+			await context.audioWorklet.addModule(new URL('./micWorkletProcessor.js', import.meta.url));
+			const node = new AudioWorkletNode(context, WORKLET_NAME, {
+				numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [2]
+			});
+			const silence = context.createGain();
+			silence.gain.value = 0;
+			node.connect(silence);
+			silence.connect(context.destination); // Node runs; its output is silenced.
+			source.connect(node);
+			node.port.onmessage = event => {
+				if (event.data?.type !== 'block') return;
+				onBlock(event.data.channels.map(buffer => new Float32Array(buffer)), event.data.frames);
+			};
+			return {
+				backend: 'worklet',
+				disconnect() {
+					node.port.onmessage = null;
+					try { node.disconnect(); } catch (_) { /* Already detached. */ }
+					try { silence.disconnect(); } catch (_) { /* Already detached. */ }
+				}
+			};
+		} catch (error) {
+			if (backend === 'worklet') throw error;
+			// Automatic fallback: ScriptProcessor below gathers the same PCM.
+		}
+	}
+	const processor = context.createScriptProcessor(BLOCK_SIZE, 2, 2);
+	const silence = context.createGain();
+	silence.gain.value = 0;
+	processor.connect(silence);
+	silence.connect(context.destination); // Processor runs; its passthrough is silenced.
+	source.connect(processor);
+	processor.onaudioprocess = event => {
+		const input = event.inputBuffer;
+		const block = [];
+		for (let channel = 0; channel < input.numberOfChannels; channel++) {
+			const data = new Float32Array(input.length);
+			input.copyFromChannel(data, channel);
+			block.push(data);
+		}
+		onBlock(block, input.length);
+	};
+	return {
+		backend: 'script',
+		disconnect() {
+			processor.onaudioprocess = null;
+			try { processor.disconnect(); } catch (_) { /* Already detached. */ }
+			try { silence.disconnect(); } catch (_) { /* Already detached. */ }
+		}
+	};
+}
 
 /**
  * A live microphone capture session. The input is analysed always and
@@ -29,18 +98,20 @@ export class MicCaptureSession {
 		this.onFeedbackCut = options.onFeedbackCut || (() => {});
 		this.onLevel = options.onLevel || (() => {});
 		this.guard = new FeedbackGuard(options.guardOptions);
+		this.backendPreference = options.backend || 'auto';
 		this.active = false;
 		this.monitoring = false;
 		this.feedbackCut = false;
 		this.chunks = [];
 		this.channels = 1;
+		this.backend = null;
 	}
 
 	/**
 	 * Requests the microphone (call only from an explicit user gesture)
 	 * and starts capturing on the given context.
-	 * @param {Object} input - {context, mode, monitor, monitorDestination, duckGainNode, duckDb}.
-	 * @returns {Promise<Object>} Session facts incl. latency parts.
+	 * @param {Object} input - {context, mode, monitor, monitorDestination, duckGainNode, duckDb, backend}.
+	 * @returns {Promise<Object>} Session facts incl. latency parts and capture backend.
 	 */
 	async start(input = {}) {
 		if (this.active) throw new Error('Microphone capture is already running.');
@@ -66,12 +137,13 @@ export class MicCaptureSession {
 		this.analyser = context.createAnalyser();
 		this.analyser.fftSize = BLOCK_SIZE;
 		this.inputGain.connect(this.analyser); // Analysis branch only — never reaches an output.
-		this.processor = context.createScriptProcessor(BLOCK_SIZE, 2, 2);
-		this.silence = context.createGain();
-		this.silence.gain.value = 0;
-		this.processor.connect(this.silence);
-		this.silence.connect(context.destination); // Processor runs; its passthrough is silenced.
-		this.inputGain.connect(this.processor);
+		this.captureNode = await attachBlockCapture({
+			context,
+			source: this.inputGain,
+			backend: input.backend || this.backendPreference,
+			onBlock: (block, frames) => this.captureBlock(block, frames)
+		});
+		this.backend = this.captureNode.backend;
 		if (input.recordDestination) {
 			// Recording tap: the live voice also feeds the app's main
 			// recording stream, so a Record Audio/Video capture made
@@ -104,37 +176,28 @@ export class MicCaptureSession {
 			inputLatency: Number(settings.latency) || 0
 		};
 		this.startContextTime = context.currentTime;
-		this.processor.onaudioprocess = event => this.captureBlock(event);
 		this.active = true;
 		return {
 			startContextTime: this.startContextTime,
 			latency: this.latency,
 			compensation: totalLatencyCompensation(this.latency),
-			monitoring: this.monitoring
+			monitoring: this.monitoring,
+			backend: this.backend
 		};
 	}
 
-	captureBlock(event) {
-		const input = event.inputBuffer;
-		this.channels = Math.max(this.channels, Math.min(2, input.numberOfChannels || 1));
-		const block = [];
+	/** One captured PCM block (either backend): store it, meter it, guard it. */
+	captureBlock(block) {
+		this.channels = Math.max(this.channels, Math.min(2, block.length || 1));
+		this.chunks.push(block);
+		const data = block[0] || new Float32Array(0);
 		let sum = 0;
 		let peak = 0;
-		let count = 0;
-		for (let channel = 0; channel < input.numberOfChannels; channel++) {
-			const data = new Float32Array(input.length);
-			input.copyFromChannel(data, channel);
-			block.push(data);
-			if (channel === 0) {
-				for (const value of data) {
-					sum += value * value;
-					peak = Math.max(peak, Math.abs(value));
-					count++;
-				}
-			}
+		for (const value of data) {
+			sum += value * value;
+			peak = Math.max(peak, Math.abs(value));
 		}
-		this.chunks.push(block);
-		const rms = count ? Math.sqrt(sum / count) : 0;
+		const rms = data.length ? Math.sqrt(sum / data.length) : 0;
 		this.onLevel({ rms, peak });
 		if (this.guard.feed({ rms, peak, monitoring: this.monitoring, nowMs: performance.now() }) === 'cut')
 			this.cutMonitor();
@@ -175,15 +238,16 @@ export class MicCaptureSession {
 	/**
 	 * Stops capture, releases the microphone immediately (device light
 	 * off) and returns the recorded PCM as an AudioBuffer.
-	 * @returns {Promise<Object>} {buffer, duration, startContextTime, latency, compensation, feedbackCut, monitoring}.
+	 * @returns {Promise<Object>} {buffer, duration, startContextTime, latency, compensation, feedbackCut, monitoring, backend}.
 	 */
 	async stop() {
 		if (!this.active) return null;
 		this.active = false;
-		if (this.processor) this.processor.onaudioprocess = null;
+		this.captureNode?.disconnect();
+		this.captureNode = null;
 		if (this.duckNode && this.context)
 			this.duckNode.gain.setTargetAtTime(this.duckPrior, this.context.currentTime, 0.05);
-		for (const node of [this.processor, this.silence, this.monitorGain, this.recordTap, this.analyser, this.inputGain, this.source]) {
+		for (const node of [this.monitorGain, this.recordTap, this.analyser, this.inputGain, this.source]) {
 			try { node?.disconnect(); } catch (_) { /* Already detached. */ }
 		}
 		this.stream?.getTracks().forEach(track => track.stop());
@@ -210,6 +274,7 @@ export class MicCaptureSession {
 			compensation: totalLatencyCompensation(this.latency),
 			feedbackCut: this.feedbackCut,
 			monitoring: this.monitoring,
+			backend: this.backend,
 			stream: releasedStream
 		};
 	}
@@ -221,45 +286,39 @@ export class MicCaptureSession {
  * simultaneous performance can be mixed with a mic take sample-honestly.
  */
 export class StreamPcmTap {
-	constructor(context, stream) {
+	constructor(context, stream, options = {}) {
 		this.context = context;
 		this.stream = stream;
 		this.chunks = [];
 		this.channels = 2;
 		this.active = false;
+		this.backendPreference = options.backend || 'auto';
+		this.backend = null;
 	}
 
-	/** Starts pulling PCM from the stream. */
-	start() {
+	/** Starts pulling PCM from the stream (worklet where supported). */
+	async start() {
 		if (this.active) return;
 		const context = this.context;
 		this.source = context.createMediaStreamSource(this.stream);
-		this.processor = context.createScriptProcessor(BLOCK_SIZE, 2, 2);
-		this.silence = context.createGain();
-		this.silence.gain.value = 0;
-		this.processor.connect(this.silence);
-		this.silence.connect(context.destination); // Processor runs; passthrough silenced.
-		this.source.connect(this.processor);
+		this.captureNode = await attachBlockCapture({
+			context,
+			source: this.source,
+			backend: this.backendPreference,
+			onBlock: block => { this.chunks.push(block); }
+		});
+		this.backend = this.captureNode.backend;
 		this.startContextTime = context.currentTime;
-		this.processor.onaudioprocess = event => {
-			const input = event.inputBuffer;
-			const block = [];
-			for (let channel = 0; channel < input.numberOfChannels; channel++) {
-				const data = new Float32Array(input.length);
-				input.copyFromChannel(data, channel);
-				block.push(data);
-			}
-			this.chunks.push(block);
-		};
 		this.active = true;
 	}
 
-	/** Stops and returns {buffer, startContextTime, duration}. */
+	/** Stops and returns {buffer, startContextTime, duration, backend}. */
 	async stop() {
 		if (!this.active) return null;
 		this.active = false;
-		if (this.processor) this.processor.onaudioprocess = null;
-		for (const node of [this.processor, this.silence, this.source]) {
+		this.captureNode?.disconnect();
+		this.captureNode = null;
+		for (const node of [this.source]) {
 			try { node?.disconnect(); } catch (_) { /* Already detached. */ }
 		}
 		const sampleRate = this.context.sampleRate;
@@ -275,6 +334,6 @@ export class StreamPcmTap {
 			}
 		}
 		this.chunks = [];
-		return { buffer, startContextTime: this.startContextTime, duration: frames / sampleRate };
+		return { buffer, startContextTime: this.startContextTime, duration: frames / sampleRate, backend: this.backend };
 	}
 }
