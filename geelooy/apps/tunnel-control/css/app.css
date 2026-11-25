@@ -105,3 +105,5 @@
 @import url("./run08-fixes.css");
 /* B"H — Run 09: last navy corners, codex head wrap, home card anchor; stays after run 08. */
 @import url("./run09-fixes.css");
+/* B"H — Run 10: full-room status bar un-clipped, home column layout; stays after run 09. */
+@import url("./run10-fixes.css");

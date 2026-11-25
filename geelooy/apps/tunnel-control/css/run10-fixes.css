@@ -1,0 +1,61 @@
+/* B"H — Run 10: the full room's clipped status bar, and the home overlap.
+ *
+ * Imported AFTER run09-fixes.css in app.css (unlayered, last word).
+ *
+ * 1. FULL LIVE ROOM — status bar half-clipped at the panel's top edge.
+ *    Measured root (live-context harness, 1919x998, 100-entry feed):
+ *    css/viewport/pages.css makes .awt-pane-content a card-deck GRID
+ *    (repeat(auto-fit, minmax(min(100%,260px),1fr))). The room panel is a
+ *    tall single panel, not a deck card: as a grid item its box was capped
+ *    at the pane-content height (628px) while its content needs ~995px.
+ *    Inside the panel's own .stack grid the shortage lands on the rows —
+ *    the first row computed to 42px and the status notice (glass
+ *    overflow:hidden, margin-bottom 16px) was squeezed to 42-16 = 26px,
+ *    half its 51px content height, so its own overflow clipped the text;
+ *    the panel's bottom (name/message/composer rows) was clipped the same
+ *    way and the pane-content never scrolled (scrollHeight == clientHeight:
+ *    the clipped content inside the panel is unreachable). Run 09 fixed the
+ *    HOME card's anchor; this is the full-room container path it never
+ *    touched. Fix: in the liveRoom pane the content is a plain block
+ *    scroller again — the panel sizes to its content, the pane scrolls,
+ *    and the notice keeps its natural height (belt: min-height max-content
+ *    so no future row squeeze can halve it again).
+ *
+ * 2. HOME — launcher tiles overlap the room card's controls.
+ *    Measured root (same harness): the dashboard grid sized its rows to
+ *    434px/400px while the room card paints 572px tall — the card overflows
+ *    its 434px row by ~138px onto the launcher grid's row, covering the
+ *    message input (tile overlap 4,410px2 at 1919x998). At 390px the
+ *    launcher grid's own max-height:100% + place-content:center +
+ *    overflow:hidden also centered its ~756px of tile rows into a 359px
+ *    box, spilling rows above the box (clipped, unreachable) and onto the
+ *    card (Send overlap 1,890px2). Fix: in home mode the dashboard is a
+ *    simple flex column — card and launcher size to their content
+ *    (flex: 0 0 auto), the launcher keeps its full height, and the
+ *    dashboard's existing overflow-y:auto scrolls to whatever does not
+ *    fit. Nothing can overlap because nothing is row-sized anymore.
+ */
+
+/* ---- 1. Full live room: block scroller, whole status bar ---- */
+.awt-pane-stack > [data-pane="liveRoom"] .awt-pane-content {
+	display: block;
+}
+.awt-room-panel > .notice {
+	min-height: max-content;
+}
+
+/* ---- 2. Home dashboard: a column, not a row-sized grid ---- */
+body.awt-home-mode .awt-dashboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 24px;
+}
+body.awt-home-mode .awt-dashboard > .awt-room-home,
+body.awt-home-mode .awt-dashboard > .awt-launcher-grid {
+	flex: 0 0 auto;
+}
+body.awt-home-mode .awt-launcher-grid {
+	max-height: none;
+	overflow: visible;
+}
