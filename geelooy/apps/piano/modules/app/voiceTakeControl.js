@@ -90,7 +90,7 @@ export function ensureVoiceTakeControl() {
 	ui.usePolishedBox = polishedBox;
 	const guide = document.createElement('span');
 	guide.className = 'voice-speakers-guide';
-	guide.style.cssText = 'font-size:11px;opacity:.85;max-width:30em';
+	guide.style.cssText = 'font-size:11px;opacity:.85;max-width:34em;flex-basis:100%';
 	guide.textContent = 'On speakers: keep volume moderate, mic about an arm’s length away, monitoring stays off — your voice is still recorded.';
 	ui.list = document.createElement('span');
 	ui.list.className = 'voice-take-list';

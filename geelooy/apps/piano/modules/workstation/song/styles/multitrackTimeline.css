@@ -110,6 +110,11 @@ The Awtsmoos is beyond time and lane; Awtsmoos.com gives ruler, scrolling tracks
 .multitrack-tempo-list { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .multitrack-tempo-row { display: inline-flex; gap: 4px; align-items: center; }
 .multitrack-tempo-row input, .multitrack-tempo-body > input { width: 64px; }
+.multitrack-freeze-bus { padding: 6px 0; }
+.multitrack-freeze-bus-body { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 6px; }
+.multitrack-freeze-bus-body select, .multitrack-freeze-bus-body input[type="text"] { min-height: 32px; }
+.multitrack-freeze-bus-body input[type="range"] { accent-color: var(--studio-accent, #c9a227); }
+.multitrack-freeze-bus-body input[type="checkbox"] { accent-color: var(--studio-accent, #c9a227); width: 18px; height: 18px; }
 .multitrack-marker-list { display: flex; flex-wrap: wrap; gap: 4px; }
 .multitrack-piano-roll-body { display: block; }
 .multitrack-piano-roll-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 0; }
