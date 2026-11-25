@@ -1,0 +1,70 @@
+/* B"H — Run 09: the last navy corners, the codex head, and the home card.
+ *
+ * Imported AFTER run08-fixes.css in app.css (unlayered, last word).
+ *
+ * 1. The glass surface (css/future/surfaces/glass.css) still painted every
+ *    .notice, .panel and .awt-mesh-node with a navy gradient
+ *    (rgba(13,29,50) -> rgba(5,13,26) with blue/violet radials). Run 07/08
+ *    re-based the shell chrome but never these surfaces, so the room status
+ *    bars, the mission-room banner and the runtime graph nodes stayed navy.
+ *    Pane-icon chips likewise kept their per-group tinted backgrounds
+ *    (blue core, pink ai, green files, violet system) under gold ink.
+ * 2. The codex detail head was a 2-column grid (minmax(0,1fr) auto): a long
+ *    category badge (group + badges) ate the whole row and squeezed the
+ *    title column to 0px, so long titles painted over the pill. It is now
+ *    a wrapping flex row: the title keeps min-width:0 and the pill drops
+ *    to its own line when the row cannot hold both.
+ * 3. The home dashboard (css/viewport/home.css) is place-items:center with
+ *    overflow hidden: a room card taller than its grid row overflowed the
+ *    row UPWARD past the dashboard's top edge, where it was clipped — the
+ *    room status bar sat half-cut at the card's top edge and the clipped
+ *    part could never be scrolled back (centered grid + scrollport).
+ *    Home rows now size to content and anchor at the top; the dashboard
+ *    scrolls to anything below instead of clipping anything above.
+ */
+
+/* ---- 1. Espresso + gold surfaces where navy glass survived ---- */
+.awt-control-shell .notice,
+.awt-control-shell .awt-mesh-node {
+	background:
+		radial-gradient(circle at 12% 0%, rgba(255, 182, 74, .10), transparent 34%),
+		linear-gradient(180deg, rgba(43, 26, 5, .92), rgba(16, 9, 1, .94));
+	border-color: rgba(255, 182, 74, .30);
+}
+.awt-control-shell .notice::before,
+.awt-control-shell .awt-mesh-node::before {
+	background:
+		linear-gradient(120deg, transparent 0 40%, rgba(255, 211, 94, .06) 50%, transparent 62% 100%),
+		linear-gradient(180deg, rgba(255, 255, 255, .05), transparent 28%);
+}
+/* Pane-icon chips: one gold family for every group, background included. */
+.awt-pane-icon.awt-pane-icon {
+	color: #ffcf5e;
+	background: rgba(255, 182, 74, .14);
+}
+
+/* ---- 2. Codex detail head: title and pill can never collide ---- */
+.awt-detail-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+.awt-detail-head h3 {
+	flex: 1 1 12rem;
+	min-width: 0;
+}
+.awt-detail-head #actionDetailBadge {
+	flex: 0 1 auto;
+	max-width: 100%;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+
+/* ---- 3. Home dashboard: anchor at the top, size rows to content ---- */
+body.awt-home-mode .awt-dashboard {
+	place-items: start center;
+	align-content: start;
+	grid-template-rows: none;
+	grid-auto-rows: auto;
+}

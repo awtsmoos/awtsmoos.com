@@ -9,10 +9,6 @@
  * keeps routing behavior separate from the shell that also carries external doors.
  */
 
-import {
-	activatePane,
-	showHome
-} from "../router/paneRouter.js";
 import { PANE_META } from "../router/paneMeta.js";
 import { h } from "../ui/core/html.js";
 import { createIcon } from "../ui/iconRegistry.js";
@@ -38,10 +34,9 @@ export function homeButton(navigation) {
 			})
 		]
 	});
-	button.addEventListener("click", () => {
-		showHome();
-		closeNavigation(navigation);
-	});
+	// B"H — Run 09: no own click listener. Navigation is owned solely by
+	// the delegated document handler in router/bindNavigation.js, which
+	// resolves this button via [data-awt-home] at click time.
 	return button;
 }
 
@@ -70,10 +65,9 @@ export function destinationButton(key, navigation) {
 			})
 		]
 	});
-	button.addEventListener("click", () => {
-		activatePane(key);
-		closeNavigation(navigation);
-	});
+	// B"H — Run 09: no own click listener (see homeButton). The delegated
+	// handler in router/bindNavigation.js activates this destination via
+	// [data-awt-navigate] and closes the navigation after the switch.
 	return button;
 }
 

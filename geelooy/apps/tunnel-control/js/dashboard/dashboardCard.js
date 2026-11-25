@@ -2,7 +2,6 @@
 // Boruch Hashem
 // Blessed is He
 
-import { activatePane } from "../router/paneRouter.js";
 import { h } from "../ui/core/html.js";
 import { createIcon } from "../ui/iconRegistry.js";
 
@@ -34,9 +33,8 @@ export function createDashboardCard(key, meta = {}) {
 			})
 		]
 	});
-	card.addEventListener("click", event => {
-		event.preventDefault();
-		activatePane(key);
-	});
+	// B"H — Run 09: no own click listener. The delegated document handler
+	// in router/bindNavigation.js owns every [data-awt-navigate] click, so
+	// a tile click activates its pane exactly once.
 	return card;
 }
