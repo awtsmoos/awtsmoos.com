@@ -58,14 +58,18 @@ test('B"H import scanner survives quoted semicolons and records conditions', () 
 	assert.equal(rules[1].condition, '');
 });
 
-test('B"H nested and repeated local imports remain ordered and readable', async () => {
+test('B"H nested and repeated local imports dedupe to the last expansion, ordered and readable', async () => {
 	const output = await compile({
 		'styles/main.css': '@charset "UTF-8";\n@import "./a.css";\n.root { color: white; }\n@import url("./a.css");',
 		'styles/a.css': '@import "./deep/b.css";\n.a { color: cyan; }',
 		'styles/deep/b.css': '.b { color: gold; }'
 	});
-	assert.equal((output.match(/CompactCSS source: \/styles\/a\.css/g) || []).length, 2);
-	assert.equal((output.match(/CompactCSS source: \/styles\/deep\/b\.css/g) || []).length, 2);
+	assert.equal((output.match(/CompactCSS source: \/styles\/a\.css/g) || []).length, 1);
+	assert.equal((output.match(/CompactCSS source: \/styles\/deep\/b\.css/g) || []).length, 1);
+	assert.equal((output.match(/CompactCSS duplicate omitted: \/styles\/a\.css/g) || []).length, 1);
+	assert.equal((output.match(/CompactCSS duplicate omitted: \/styles\/deep\/b\.css/g) || []).length, 1);
+	assert.equal((output.match(/\.a \{ color: cyan; \}/g) || []).length, 1);
+	assert.ok(output.indexOf(".root {") < output.indexOf(".a {"));
 	assert.equal(output.includes('@charset'), false);
 	assert.ok(output.indexOf('.b {') < output.indexOf('.a {'));
 });
