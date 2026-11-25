@@ -54,19 +54,39 @@ export function resolveMonitorEnabled(requested, mode) {
  * default: browser noise suppression is built for speech in noise and
  * can gate sustained sung notes to silence (a singer is not noise);
  * callers may opt in explicitly for spoken-word capture.
- * @param {*} mode - Output mode.
+ * @param {*} mode - Output mode ('headphones' or 'speakers').
  * @param {Object} [options] - autoGainControl defaults to true;
- * noiseSuppression defaults to false.
+ * noiseSuppression defaults to false. `captureMode` selects a named
+ * processing profile: 'music' (for singing) or 'speech'. Music mode
+ * turns noise suppression and automatic gain OFF — both are speech
+ * machinery that gates and pumps sustained sung notes — and turns echo
+ * cancellation off ONLY on headphones, where the mic cannot hear the
+ * output; on speakers echo cancellation stays on as the first line of
+ * defence against the room feeding back. Explicit per-option overrides
+ * always win over the profile. Speech mode keeps all three on.
  * @returns {Object} MediaStreamConstraints for audio capture.
  */
 export function buildMicConstraints(mode, options = {}) {
+	const profile = options.captureMode === 'music'
+		? { echoCancellation: normalizeOutputMode(mode) !== 'speakers', noiseSuppression: false, autoGainControl: false }
+		: options.captureMode === 'speech'
+			? { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+			: { echoCancellation: true, noiseSuppression: false, autoGainControl: true };
 	return {
 		audio: {
-			echoCancellation: true,
-			noiseSuppression: options.noiseSuppression === true,
-			autoGainControl: options.autoGainControl !== false
+			echoCancellation: options.echoCancellation !== undefined ? Boolean(options.echoCancellation) : profile.echoCancellation,
+			noiseSuppression: options.noiseSuppression !== undefined ? Boolean(options.noiseSuppression) : profile.noiseSuppression,
+			autoGainControl: options.autoGainControl !== undefined ? Boolean(options.autoGainControl) : profile.autoGainControl
 		}
 	};
+}
+
+/** Capture-mode storage key shared by the piano surface and the Studio. */
+export const MIC_CAPTURE_MODE_KEY = 'awtsmoos.micCaptureMode';
+
+/** Normalizes a stored capture mode; singing ('music') is the default on a piano. */
+export function normalizeCaptureMode(value) {
+	return value === 'speech' ? 'speech' : 'music';
 }
 
 /**

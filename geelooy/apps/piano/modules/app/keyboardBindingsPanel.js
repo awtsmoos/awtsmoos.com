@@ -8,8 +8,9 @@
  */
 
 import {
+	COLUMN_KEYS,
 	FULL_UNSHIFTED_KEYS,
-	LEFT_HAND_KEYS,
+	PIANO_ROW_KEYS,
 	RIGHT_HAND_KEYS,
 	getBindingKeys,
 	resetBindingKeys,
@@ -19,7 +20,8 @@ import { noteNames } from '../keyboard/noteData.js';
 import { generateKeyboard } from '../ui.js';
 
 const presets = {
-	left: LEFT_HAND_KEYS,
+	piano: PIANO_ROW_KEYS,
+	column: COLUMN_KEYS,
 	right: RIGHT_HAND_KEYS,
 	full: FULL_UNSHIFTED_KEYS
 };
@@ -47,7 +49,8 @@ function buildPanel() {
 		'<h4>Keyboard Bindings</h4>',
 		'<div style="font-size:12px;margin-bottom:8px;">No Shift needed. Bindings begin at the selected Start octave.</div>',
 		'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">',
-		'<button type="button" data-binding-preset="left">Left Hand</button>',
+		'<button type="button" data-binding-preset="piano">Piano Rows (default)</button>',
+		'<button type="button" data-binding-preset="column">Column Layout</button>',
 		'<button type="button" data-binding-preset="right">Right Hand</button>',
 		'<button type="button" data-binding-preset="full">Full Unshifted</button>',
 		'</div>',
@@ -56,7 +59,7 @@ function buildPanel() {
 		'style="width:100%;box-sizing:border-box;margin:6px 0;" />',
 		'<div style="display:flex;gap:6px;flex-wrap:wrap;">',
 		'<button type="button" data-binding-action="apply">Apply</button>',
-		'<button type="button" data-binding-action="reset">Reset Left Hand</button>',
+		'<button type="button" data-binding-action="reset">Reset to Piano Rows</button>',
 		'</div>'
 	].join('');
 	return panel;

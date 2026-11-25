@@ -123,7 +123,7 @@ export class MicCaptureSession {
 		let stream;
 		try {
 			stream = await navigator.mediaDevices.getUserMedia(
-				buildMicConstraints(input.mode, { autoGainControl: input.autoGainControl }));
+				buildMicConstraints(input.mode, { autoGainControl: input.autoGainControl, captureMode: input.captureMode, echoCancellation: input.echoCancellation, noiseSuppression: input.noiseSuppression }));
 		} catch (error) {
 			throw new Error(micErrorMessage(error));
 		}
@@ -170,6 +170,13 @@ export class MicCaptureSession {
 		}
 		const track = stream.getAudioTracks()[0];
 		const settings = track?.getSettings ? track.getSettings() : {};
+		this.appliedSettings = {
+			echoCancellation: settings.echoCancellation,
+			noiseSuppression: settings.noiseSuppression,
+			autoGainControl: settings.autoGainControl,
+			sampleRate: settings.sampleRate,
+			channelCount: settings.channelCount
+		};
 		this.latency = {
 			outputLatency: context.outputLatency || 0,
 			baseLatency: context.baseLatency || 0,
@@ -182,7 +189,8 @@ export class MicCaptureSession {
 			latency: this.latency,
 			compensation: totalLatencyCompensation(this.latency),
 			monitoring: this.monitoring,
-			backend: this.backend
+			backend: this.backend,
+			appliedSettings: this.appliedSettings
 		};
 	}
 
@@ -275,6 +283,7 @@ export class MicCaptureSession {
 			feedbackCut: this.feedbackCut,
 			monitoring: this.monitoring,
 			backend: this.backend,
+			appliedSettings: this.appliedSettings,
 			stream: releasedStream
 		};
 	}

@@ -57,6 +57,8 @@ export async function saveVoiceTake(take, options = {}) {
 		duration: take.duration,
 		voiceGain: take.voiceGain,
 		pianoGain: take.pianoGain,
+		duckAmount: take.duckAmount,
+		voiceCompression: take.voiceCompression,
 		voiceStart: take.voice?.startContextTime || 0,
 		pianoStart: take.piano?.startContextTime ?? null,
 		voice: await putStem(store, take.voice?.buffer, `Voice Take ${take.id}`),
@@ -65,6 +67,18 @@ export async function saveVoiceTake(take, options = {}) {
 	};
 	writeTakeManifest([...entries.filter(item => item.id !== take.id), entry], storage);
 	return entry;
+}
+
+export function updateVoiceTakeMix(id, mix = {}, storage = globalThis.localStorage) {
+	const entries = readTakeManifest(storage);
+	const entry = entries.find(item => item.id === id);
+	if (!entry) return false;
+	if (Number.isFinite(Number(mix.voiceGain))) entry.voiceGain = Number(mix.voiceGain);
+	if (Number.isFinite(Number(mix.pianoGain))) entry.pianoGain = Number(mix.pianoGain);
+	if (Number.isFinite(Number(mix.duckAmount))) entry.duckAmount = Number(mix.duckAmount);
+	if (Number.isFinite(Number(mix.voiceCompression))) entry.voiceCompression = Number(mix.voiceCompression);
+	writeTakeManifest(entries, storage);
+	return true;
 }
 
 /** Balance-only manifest update — no asset churn when the singer remixes. */
@@ -116,6 +130,8 @@ export async function restoreVoiceTakes(options = {}) {
 			duration: entry.duration,
 			voiceGain: entry.voiceGain,
 			pianoGain: entry.pianoGain,
+			duckAmount: entry.duckAmount,
+			voiceCompression: entry.voiceCompression,
 			voice: { buffer: voiceBuffer, startContextTime: entry.voiceStart || 0 },
 			piano: pianoBuffer ? { buffer: pianoBuffer, startContextTime: entry.pianoStart || 0 } : null,
 			polishedBuffer: await load(entry.polished),

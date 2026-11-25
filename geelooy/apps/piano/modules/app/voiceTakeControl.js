@@ -13,9 +13,9 @@
  */
 import { AudioState } from '../audio.js';
 import { MicCaptureSession, StreamPcmTap } from '../recording/micCapture.js';
-import { MIC_OUTPUT_MODE_KEY, normalizeOutputMode } from '../recording/micSafety.js';
-import { mixStemChannels, levelZone, classifyLevelCheck, countInBeats } from '../recording/voiceMix.js';
-import { saveVoiceTake, deleteVoiceTake, updateVoiceTakeBalance, restoreVoiceTakes } from '../recording/voiceTakeStore.js';
+import { MIC_CAPTURE_MODE_KEY, MIC_OUTPUT_MODE_KEY, normalizeCaptureMode, normalizeOutputMode } from '../recording/micSafety.js';
+import { amplitudeToDb, autoBalanceStems, measureStem, mixStemChannels, levelZone, classifyLevelCheck, countInBeats } from '../recording/voiceMix.js';
+import { saveVoiceTake, deleteVoiceTake, updateVoiceTakeBalance, updateVoiceTakeMix, restoreVoiceTakes } from '../recording/voiceTakeStore.js';
 
 let bound = false;
 let capture = null;
@@ -75,8 +75,24 @@ export function ensureVoiceTakeControl() {
 	ui.status.setAttribute('role', 'status');
 	ui.status.style.cssText = 'font-size:12px;max-width:34em';
 	ui.gain = slider('voice-mic-gain', 'Mic gain', 0, 200, 100);
-	ui.voiceMix = slider('voice-mix-voice', 'Voice', 0, 150, 100);
+	ui.voiceMix = slider('voice-mix-voice', 'Voice', 0, 300, 100);
 	ui.pianoMix = slider('voice-mix-piano', 'Piano', 0, 150, 85);
+	ui.duck = slider('voice-mix-duck', 'Duck piano', 0, 60, 25);
+	ui.comp = slider('voice-mix-comp', 'Vocal squeeze', 100, 400, 200);
+	ui.autoBalance = button('⚖ Auto Balance', 'voice-auto-balance');
+	ui.resetMix = button('↺ Reset Mix', 'voice-reset-mix');
+	ui.captureMode = document.createElement('select');
+	ui.captureMode.id = 'voice-capture-mode';
+	ui.captureMode.setAttribute('aria-label', 'Microphone processing mode');
+	ui.captureMode.append(new Option('🎵 Music (singing)', 'music'), new Option('🗣 Speech', 'speech'));
+	try { ui.captureMode.value = normalizeCaptureMode(localStorage.getItem(MIC_CAPTURE_MODE_KEY)); } catch (_) { ui.captureMode.value = 'music'; }
+	ui.captureMode.style.cssText = 'min-height:40px';
+	ui.captureMode.addEventListener('change', () => {
+		try { localStorage.setItem(MIC_CAPTURE_MODE_KEY, ui.captureMode.value); } catch (_) { /* Private mode. */ }
+		ui.status.textContent = ui.captureMode.value === 'music'
+			? 'Music mode: noise suppression and auto-gain off, so sustained notes are not gated. On speakers echo cancellation stays on — headphones give the cleanest take.'
+			: 'Speech mode: echo cancellation, noise suppression and auto-gain on — best for spoken words, not for singing.';
+	});
 	ui.countIn = document.createElement('label');
 	ui.countIn.style.cssText = 'font-size:12px;display:inline-flex;gap:4px;align-items:center;min-height:40px';
 	const countBox = document.createElement('input');
@@ -111,16 +127,26 @@ export function ensureVoiceTakeControl() {
 		if (!selected) return;
 		selected.voiceGain = Number(ui.voiceMix.input.value) / 100;
 		selected.pianoGain = Number(ui.pianoMix.input.value) / 100;
+		selected.duckAmount = Number(ui.duck.input.value) / 100;
+		selected.voiceCompression = Number(ui.comp.input.value) / 100;
 		selected.mixedCache = null;
 		updateVoiceTakeBalance(selected.id, selected.voiceGain, selected.pianoGain);
+		updateVoiceTakeMix(selected.id, selected);
 		ui.voiceMix.out.textContent = `${ui.voiceMix.input.value}%`;
 		ui.pianoMix.out.textContent = `${ui.pianoMix.input.value}%`;
+		ui.duck.out.textContent = `${ui.duck.input.value}%`;
+		ui.comp.out.textContent = `${(Number(ui.comp.input.value) / 100).toFixed(1)}:1`;
 	};
 	ui.voiceMix.input.addEventListener('input', remix);
 	ui.pianoMix.input.addEventListener('input', remix);
-	box.append(ui.record, ui.check, ui.meter, ui.clip, ui.elapsed, ui.wave,
+	ui.duck.input.addEventListener('input', remix);
+	ui.comp.input.addEventListener('input', remix);
+	ui.autoBalance.addEventListener('click', () => applyAutoBalance(true));
+	ui.resetMix.addEventListener('click', () => applyAutoBalance(true));
+	box.append(ui.record, ui.check, ui.captureMode, ui.meter, ui.clip, ui.elapsed, ui.wave,
 		ui.gain.wrap, ui.countIn, ui.play, ui.save, ui.studio,
-		ui.voiceMix.wrap, ui.pianoMix.wrap, ui.polish, ui.playPolished, ui.usePolished,
+		ui.voiceMix.wrap, ui.pianoMix.wrap, ui.duck.wrap, ui.comp.wrap,
+		ui.autoBalance, ui.resetMix, ui.polish, ui.playPolished, ui.usePolished,
 		guide, ui.status, ui.list);
 	anchor.after(box);
 	void restoreSavedTakes();
@@ -178,6 +204,30 @@ function setActionsEnabled(on) {
 	if (ui.playPolished) ui.playPolished.disabled = !(on && selected?.polishedBuffer);
 }
 
+function captureMode() {
+	try { return normalizeCaptureMode(localStorage.getItem(MIC_CAPTURE_MODE_KEY)); }
+	catch (_) { return 'music'; }
+}
+
+/** Recomputes the vocal-forward balance of the selected take from its stems. */
+function applyAutoBalance(announce) {
+	if (!selected) return;
+	const balance = autoBalanceStems({
+		voice: channelsOf(selected.voice.buffer),
+		piano: selected.piano?.buffer ? channelsOf(selected.piano.buffer) : []
+	});
+	selected.voiceGain = balance.voiceGain;
+	selected.pianoGain = balance.pianoGain;
+	selected.mixInfo = balance;
+	selected.mixedCache = null;
+	updateVoiceTakeMix(selected.id, selected);
+	selectTake(selected);
+	if (announce) {
+		ui.status.textContent = `Auto balance: voice ${amplitudeToDb(balance.voice.activeRms).toFixed(1)} dB → gain ${Math.round(balance.voiceGain * 100)}%, piano ${amplitudeToDb(balance.piano.activeRms).toFixed(1)} dB → ${Math.round(balance.pianoGain * 100)}%.`
+			+ (balance.warnings.includes('voice-too-quiet') ? ' ⚠ The voice stem has almost no singing in it — no safe gain can fix that; run the Level Check and re-record closer to the mic.' : '');
+	}
+}
+
 function mode() {
 	try { return normalizeOutputMode(localStorage.getItem(MIC_OUTPUT_MODE_KEY)); }
 	catch (_) { return 'speakers'; }
@@ -214,6 +264,8 @@ function renderMix(take) {
 		piano: piano?.buffer ? channelsOf(piano.buffer) : [],
 		voiceGain: take.voiceGain,
 		pianoGain: take.pianoGain,
+		voiceCompression: take.voiceCompression ?? 2,
+		duckAmount: take.duckAmount ?? 0.25,
 		voiceOffset: Math.round((voice.startContextTime - start) * sampleRate),
 		pianoOffset: piano?.buffer ? Math.round((piano.startContextTime - start) * sampleRate) : 0,
 		channels: Math.max(voice.buffer.numberOfChannels, piano?.buffer?.numberOfChannels || 0)
@@ -313,10 +365,10 @@ async function startTake() {
 	await capture.start({
 		context: AudioState.context,
 		mode: mode(),
+		captureMode: captureMode(),
 		monitor: monitorWanted(),
 		monitorDestination: AudioState.masterGain,
 		recordDestination: AudioState.mediaStreamDestination,
-		autoGainControl: true,
 		inputGain: Number(ui.gain.input.value) / 100,
 		duckGainNode: speakers ? AudioState.masterGain : null,
 		duckDb: speakers ? -6 : 0
@@ -354,13 +406,20 @@ async function stopTake() {
 		ui.status.textContent = 'That take was too short to keep.';
 		return;
 	}
+	const balance = autoBalanceStems({
+		voice: channelsOf(result.buffer),
+		piano: piano?.buffer ? channelsOf(piano.buffer) : []
+	});
 	const take = {
 		createdAt: Date.now(),
 		id: ++takeSeq,
 		voice: { buffer: result.buffer, startContextTime: result.startContextTime },
 		piano: piano?.buffer ? { buffer: piano.buffer, startContextTime: piano.startContextTime } : null,
-		voiceGain: Number(ui.voiceMix.input.value) / 100,
-		pianoGain: Number(ui.pianoMix.input.value) / 100,
+		voiceGain: balance.voiceGain,
+		pianoGain: balance.pianoGain,
+		duckAmount: Number(ui.duck.input.value) / 100,
+		voiceCompression: Number(ui.comp.input.value) / 100,
+		mixInfo: balance,
 		duration: result.duration,
 		mixedCache: null,
 		polishedBuffer: null
@@ -369,7 +428,10 @@ async function stopTake() {
 	void saveVoiceTake(take).catch(() => { /* Store full/blocked: the take stays in this session. */ });
 	selectTake(take);
 	const micRms = bufferRms(result.buffer);
-	ui.status.textContent = `Voice take kept — Take ${take.id} (${result.duration.toFixed(1)}s) — voice and piano stems saved: rebalance them, polish, play, save, or send to the Studio.`
+	const applied = result.appliedSettings || {};
+	ui.status.textContent = `Voice take kept — Take ${take.id} (${result.duration.toFixed(1)}s) — auto-balanced: voice ${amplitudeToDb(balance.voice.activeRms).toFixed(1)} dB → ${Math.round(balance.voiceGain * 100)}%, piano ${amplitudeToDb(balance.piano.activeRms).toFixed(1)} dB → ${Math.round(balance.pianoGain * 100)}%. Stems saved: rebalance them, polish, play, save, or send to the Studio.`
+		+ (balance.warnings.includes('voice-too-quiet') ? ' ⚠ WARNING: almost no singing was picked up — no safe gain can rescue this take; run the Level Check, move closer, and re-record.' : '')
+		+ (applied.echoCancellation !== undefined ? ` Mic processing applied: echoCancellation=${applied.echoCancellation}, noiseSuppression=${applied.noiseSuppression}, autoGainControl=${applied.autoGainControl}.` : '')
 		+ (micRms < 0.004 ? ` ⚠ WARNING: your voice was barely picked up (level ${micRms.toFixed(3)}). Run the Level Check, raise Mic gain, move closer — do not trust this take.` : '')
 		+ (clipLatched ? ' ⚠ The voice clipped during this take — lower Mic gain a little next time.' : '')
 		+ (result.feedbackCut ? ' Monitoring was cut by the feedback guard during the take.' : '');
@@ -383,6 +445,12 @@ function selectTake(take) {
 	ui.pianoMix.input.value = Math.round(take.pianoGain * 100);
 	ui.voiceMix.out.textContent = `${Math.round(take.voiceGain * 100)}%`;
 	ui.pianoMix.out.textContent = `${Math.round(take.pianoGain * 100)}%`;
+	if (ui.duck) {
+		ui.duck.input.value = Math.round((take.duckAmount ?? 0.25) * 100);
+		ui.duck.out.textContent = `${ui.duck.input.value}%`;
+		ui.comp.input.value = Math.round((take.voiceCompression ?? 2) * 100);
+		ui.comp.out.textContent = `${(Number(ui.comp.input.value) / 100).toFixed(1)}:1`;
+	}
 	setActionsEnabled(true);
 	renderTakeList();
 }
@@ -452,8 +520,8 @@ async function levelCheck() {
 	try {
 		ui.status.textContent = 'Level check: sing a note for 3 seconds…';
 		await probe.start({
-			context: AudioState.context, mode: mode(), monitor: false,
-			autoGainControl: true, inputGain: Number(ui.gain.input.value) / 100
+			context: AudioState.context, mode: mode(), captureMode: captureMode(), monitor: false,
+			inputGain: Number(ui.gain.input.value) / 100
 		});
 		await new Promise(resolve => setTimeout(resolve, 3000));
 		await probe.stop();

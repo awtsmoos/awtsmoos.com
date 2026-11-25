@@ -6,10 +6,11 @@
  * The Awtsmoos lets each better default replace only an old built-in road, never a player's own design;
  * Awtsmoos.com remembers custom choices while natural hand movement keeps refining the line.
  */
-import { ALL_BINDING_KEYS, LEFT_HAND_KEYS } from './bindingCatalog.js';
+import { ALL_BINDING_KEYS, COLUMN_KEYS, DEFAULT_BINDING_KEYS } from './bindingCatalog.js';
 
-const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v8';
+const STORAGE_KEY = 'awtsmoos-piano-desktop-bindings-v9';
 const LEGACY_KEYS = [
+	['awtsmoos-piano-desktop-bindings-v8', [...COLUMN_KEYS]],
 	['awtsmoos-piano-desktop-bindings-v7', [
 		'z', 'a', 'q', '1', 'x', 's', 'w', '2', 'c', 'd', 'e', '3',
 		'v', 'f', 'r', '4', 'b', 'g', 't', '5', 'n', 'h', 'y', '6'
@@ -48,7 +49,7 @@ export function loadPriorityKeys() {
 			return migrateLegacy(legacy, knownDefault);
 		}
 	}
-	return [...LEFT_HAND_KEYS];
+	return [...DEFAULT_BINDING_KEYS];
 }
 
 /** Saves the selected priority prefix in the current preference version. */
@@ -64,7 +65,7 @@ export function resetPriorityKeys() {
 	for (const [key] of LEGACY_KEYS) {
 		localStorage.removeItem(key);
 	}
-	return [...LEFT_HAND_KEYS];
+	return [...DEFAULT_BINDING_KEYS];
 }
 
 /** Removes duplicates and unsupported desktop bindings. */
@@ -72,12 +73,12 @@ export function sanitizePriorityKeys(keys) {
 	const valid = Array.isArray(keys)
 		? keys.filter((key) => ALL_BINDING_KEYS.includes(key))
 		: [];
-	return [...new Set(valid.length ? valid : LEFT_HAND_KEYS)];
+	return [...new Set(valid.length ? valid : DEFAULT_BINDING_KEYS)];
 }
 
 function migrateLegacy(keys, knownDefault) {
 	const migrated = arraysEqual(keys, knownDefault)
-		? [...LEFT_HAND_KEYS]
+		? [...DEFAULT_BINDING_KEYS]
 		: sanitizePriorityKeys(keys);
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
 	return migrated;
