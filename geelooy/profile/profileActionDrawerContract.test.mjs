@@ -36,7 +36,17 @@ const modules = [
 // profile-content.css manifest — the drawer lives in the dream sheet
 // (profile-dream.css), which must carry the drawer shell, header, and
 // list. The manifest itself is still guarded below as a split-vessel file.
-assert.match(page, /profile\/styles\/profile-dream\.css/);
+// B"H 2026-11-25 (Project Revelation run 4): the page now serves the dream
+// sheet through the CompactCSS bundle (bundling commit 64436a22e), where
+// its path rides URL-encoded inside the bundle manifest instead of as a
+// literal href. The guard's invariant is unchanged — the dream sheet must
+// be served with the profile page — so decode the bundle encoding before
+// matching. If the sheet is ever dropped from the bundle, this still fails.
+const servedPage = page
+	.replaceAll('%2F', '/')
+	.replaceAll('%3F', '?')
+	.replaceAll('%22', '"');
+assert.match(servedPage, /profile\/styles\/profile-dream\.css/);
 const dreamCss = read('geelooy/profile/styles/profile-dream.css');
 assert.match(dreamCss, /\.profile-dream \.pd-drawer \{/);
 assert.match(dreamCss, /\.profile-dream \.profile-action-head \{/);
