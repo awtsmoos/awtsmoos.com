@@ -63,3 +63,6 @@ production proof.
 
 Counts: LIVE-VERIFIED 11 · LOCALLY VERIFIED 15 · IMPLEMENTED BUT NOT VERIFIED 8 ·
 PARTIALLY IMPLEMENTED 9 · NOT IMPLEMENTED 4 · BLOCKED 3.
+
+## Run 3 addendum (2026-11-25)
+Moved to IMPLEMENTED AND LIVE-VERIFIED by run 3: Heichelos discovery design (ivory/gold redesign, screenshot-proven both widths); alias profile Posts tab (root-cause route fix, live DOM proof); series player autoplay-next + repeat + shuffle + per-post visualizer (headless regression on the real series + screenshot). Composer music upload (filename title, notes field, per-attachment visualizer) is IMPLEMENTED AND LOCALLY VERIFIED (suites 14/14; fixture journey blocked at server startup under load). Heichel doorway counts/band/tabs remain PARTIAL — bundle/doorway lane, restart-gated.

@@ -21,3 +21,10 @@ MUSIC HIERARCHY (read-only): GET /api/social/aliases/coby -> {"name":"Coby"}; GE
 - library-search.cjs standalone re-run failed only with Chrome timeout at Target.createTarget while the regression Chrome held the machine; it PASSed inside both gate runs.
 - Alias route curl matrix: bare 200, query 200, path 301->200 followed, path-slash 301, index.html direct 200, /@coby 200, /profile/ 200.
 - Full gate --live at default timeout: non-live suites PASS, live stage died at heichelos Page.navigate (12s) under load 18 — superseded by the 90s-timeout runs above.
+
+## Run 3 test evidence (2026-11-25)
+- Playlist contract: 7/7 PASS (was 4; +visualizer passthrough, +nextOnEnded matrix, +shuffledOrder).
+- Composer suites (schemaParity, aliasMemory, publicationPlan, quickDestination, quickRefinement, ComposerWorkflow, ComposerNavigationSafety): 14/14 PASS. quickDestinationFlow PASS. quickBrowserJourney FAIL at fixture-server startup ("Local Geelooy fixture server did not become ready", games harness, load 10+) — environment, before any composer code ran.
+- Headless player regression on live /heichelos/ohrHaNiggun/series/echoesOfTheInfinite/: launcher visible, panel opens, Almighty Master AUDIO readyState 4, duration 99.52s, position 1/1, prefs UI present (autoplay checked, repeat off, shuffle off). paused=true under headless autoplay policy; native controls available. fx host absent — correct: that post asset carries no stored visualizer preset.
+- Full gate social-css-check.sh: EXIT 1 at profileRepairContract — SAME stale assertion also fails profileActionDrawerContract: both expect a literal /profile/styles/profile-dream.css link, broken by concurrent commit 64436a22e (CompactCSS bundling of profile pages; that session has profileRepairContract.test.mjs dirty in-tree mid-fix). All other gate sections run individually: canonical 3/3, workflow 9/9, profileCardHierarchy PASS, profileSocialUxV4 PASS, isolation PASS, library-search PASS, audio-playback PASS, tunnel ingress 4/4, richSocial 6/6 incl visualizerRoundTrip PASS.
+- Live computed-style probes + screenshots: see 08 / v2 screenshot set.

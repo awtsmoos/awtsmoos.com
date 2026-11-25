@@ -55,3 +55,13 @@ single-process run still dies at heichelos under extreme load at the default
 12s CDP timeout — use AWT_CHROME_TIMEOUT_MS=90000 until load calms).
 Server load during run 2: 10–30 (Piano/Tunnel/Perfection/MW sessions active).
 Disks 92%/94%. No BH.sh. No restart. No fabricated posts.
+
+## Run 3 update (2026-11-25)
+DONE this run: heichelos discovery redesign LIVE (4b6aed51c); alias Posts root fix LIVE (731dac4c9); series player autoplay/repeat/shuffle/visualizer LIVE (c44676623); composer filename-title + notes LIVE (dde35ccc4).
+REMAINING, in order:
+1. Heichel doorway lane (Project Perfection / bundle owner): Ohr HaNiggun header counts (root posts API=3, series postsCount=1, header says 0/1 and 1/0 depending on view) + ~250px black band + tab row straddling the details bar — all in generated heichel-bundle.css / doorway data path; restart-gated server pieces per PP ledger.
+2. Profile contract pair (profileRepairContract, profileActionDrawerContract): update the profile-dream.css literal-link assertion to the CompactCSS bundle form — belongs to the 64436a22e session (their test file is dirty now).
+3. Coordinated restart still owed: activates run-2 search pagination (b518db817) and any server-side doorway fixes.
+4. Authenticated production publish proof still blocked on a controlled test account.
+5. quickBrowserJourney fixture server startup under load — retry in a calm window.
+6. Discovery nits (minor): desktop hero right-center still airy; mobile eyebrow carries a cyan shell bullet dot; search button sits below the input instead of inline.
