@@ -112,3 +112,287 @@ The Awtsmoos renews form and purpose together; Awtsmoos.com lets focus, touch, a
 		}
 	}
 </style>
+<!-- B"H — Project Revelation redesign (2026-11-25).
+	The shell runtime replaces this page's linked stylesheets with its own
+	bundle at render, so discovery.css / heichel-polish-law8.css never reach
+	the screen (proven by live computed-style probes; see ledger 06). This
+	inline vessel is the one delivery the render actually honors, so the
+	discovery redesign lives here, scoped to body.heichelos-discovery-page.
+	Design law: the /social/ language — ivory sefer cards, deep ink text,
+	one gold family — on the shell's dark ground. No gradient-clip text,
+	no lavender, no hot line, no card overlay band, no scroll cage.
+-->
+<style>
+	body.heichelos-discovery-page .social-spaces-shell {
+		gap: 1.1rem;
+		background: linear-gradient(180deg, #0d1420, #090d14);
+		border: 1px solid rgb(217 201 168 / 14%);
+		border-radius: 1.5rem;
+		padding-inline: clamp(.75rem, 2vw, 1.5rem);
+		padding-bottom: 3rem;
+	}
+	@media (min-width: 761px) {
+		body.heichelos-discovery-page .social-spaces-shell {
+			/* Clearance for the fixed shell header, which otherwise
+			   covers the hero's first line. */
+			padding-top: 6.2rem;
+		}
+	}
+
+	/* ===== Hero: an ivory doorway, not a navy void ===== */
+	body.heichelos-discovery-page .spaces-hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 1rem 1.5rem;
+		min-height: 0;
+		padding: clamp(1.3rem, 3vw, 2rem);
+		background: linear-gradient(150deg, #fffdf6, #f5ead0);
+		border: 1px solid #d9c9a8;
+		border-radius: 1.25rem;
+		box-shadow: 0 1.1rem 2.6rem rgb(0 0 0 / 38%), inset 0 1px 0 rgb(255 255 255 / 65%);
+		color: #2b2118;
+		overflow: hidden;
+		position: relative;
+	}
+	body.heichelos-discovery-page .spaces-hero::after {
+		content: none;
+	}
+	body.heichelos-discovery-page .spaces-hero .field-label {
+		color: #8a6d3b;
+		margin: 0 0 .5rem;
+	}
+	body.heichelos-discovery-page .spaces-hero h1 {
+		background: none;
+		-webkit-background-clip: initial;
+		background-clip: initial;
+		color: #1f1712;
+		-webkit-text-fill-color: #1f1712;
+		font-size: clamp(2rem, 5vw, 3.3rem);
+		line-height: 1.03;
+		letter-spacing: -.025em;
+		text-shadow: none;
+		margin: 0;
+		max-width: 15ch;
+	}
+	body.heichelos-discovery-page .spaces-hero > div > p {
+		color: #5a4c3d;
+		font-size: 1.02rem;
+		line-height: 1.5;
+		margin: .6rem 0 0;
+		max-width: 44ch;
+	}
+	body.heichelos-discovery-page .spaces-command-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .6rem;
+		justify-content: flex-end;
+	}
+	body.heichelos-discovery-page .spaces-hero .p-button {
+		background: #8a6d3b;
+		border: 1px solid #755c2f;
+		border-radius: .8rem;
+		color: #fffdf6;
+		font-weight: 700;
+		min-height: 2.9rem;
+		padding: .6rem 1.15rem;
+	}
+	body.heichelos-discovery-page .spaces-hero .p-button:hover {
+		background: #755c2f;
+	}
+
+	/* ===== Section headings: bright on the dark ground ===== */
+	body.heichelos-discovery-page .spaces-section-heading h2 {
+		color: #faf3e2;
+	}
+	body.heichelos-discovery-page .spaces-section-heading > p {
+		color: #c9c2ae;
+	}
+	body.heichelos-discovery-page .spaces-purpose-section > .spaces-section-heading .field-label,
+	body.heichelos-discovery-page .spaces-section-heading .field-label {
+		color: #e9c76f;
+	}
+	body.heichelos-discovery-page .spaces-hero .field-label {
+		color: #8a6d3b;
+	}
+
+	/* ===== Cards: ivory sefer cards, aligned, nothing clipped ===== */
+	body.heichelos-discovery-page .social-space-card {
+		background: linear-gradient(155deg, #fffdf6, #f8f0db);
+		border: 1px solid #d9c9a8;
+		border-radius: 1rem;
+		box-shadow: 0 .8rem 2rem rgb(0 0 0 / 32%);
+		color: #2b2118;
+		padding: 1.05rem 1.1rem;
+		overflow: visible;
+	}
+	body.heichelos-discovery-page .social-space-card::before,
+	body.heichelos-discovery-page .social-space-card::after {
+		content: none;
+	}
+	body.heichelos-discovery-page .space-body {
+		display: flex;
+		gap: .85rem;
+		align-items: flex-start;
+		min-width: 0;
+	}
+	body.heichelos-discovery-page .space-seal {
+		background: linear-gradient(135deg, #e6c56a, #a97e14);
+		border-radius: .8rem;
+		box-shadow: 0 .3rem .9rem rgb(169 126 20 / 40%), inset 0 1px 0 rgb(255 255 255 / 45%);
+		color: #fffdf6;
+		flex: 0 0 2.7rem;
+		font-size: 1.05rem;
+		font-weight: 800;
+		height: 2.7rem;
+	}
+	body.heichelos-discovery-page .space-title-row {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: .45rem .6rem;
+		justify-content: flex-start;
+	}
+	body.heichelos-discovery-page .space-title-row h2 {
+		color: #1f1712;
+		font-size: 1.28rem;
+		line-height: 1.15;
+		margin: 0;
+		overflow: visible;
+	}
+	body.heichelos-discovery-page .space-copy > p {
+		color: #5a4c3d;
+		line-height: 1.5;
+		-webkit-line-clamp: 3;
+	}
+	body.heichelos-discovery-page .space-meta-line {
+		color: #6f6242;
+		display: flex;
+		flex-wrap: wrap;
+		gap: .3rem .8rem;
+	}
+	body.heichelos-discovery-page .p-badge {
+		background: rgb(212 169 78 / 16%);
+		border: 1px solid #d9c9a8;
+		border-radius: 999px;
+		color: #8a6d3b;
+		font-size: .68rem;
+		font-weight: 800;
+		letter-spacing: .08em;
+		padding: .28rem .65rem;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+	body.heichelos-discovery-page .space-card-arrow {
+		color: #8a6d3b;
+	}
+	body.heichelos-discovery-page .space-secondary-actions .p-button {
+		background: #fffdf6;
+		border: 1px solid #d9c9a8;
+		border-radius: .7rem;
+		color: #2b2118;
+		font-weight: 700;
+	}
+	body.heichelos-discovery-page .space-secondary-actions .p-button:hover {
+		border-color: #8a6d3b;
+	}
+
+	/* ===== Ikar portal card ===== */
+	body.heichelos-discovery-page .torah-library-card {
+		padding: clamp(1.2rem, 3vw, 1.7rem);
+	}
+	body.heichelos-discovery-page .torah-library-card .space-seal {
+		border-radius: 1rem;
+		flex-basis: 3.5rem;
+		font-size: 1.8rem;
+		height: 3.5rem;
+	}
+	body.heichelos-discovery-page .torah-library-card h2 {
+		color: #1f1712;
+		font-size: clamp(1.65rem, 4vw, 2.15rem);
+		text-shadow: none;
+	}
+	body.heichelos-discovery-page .torah-library-parsha {
+		margin-top: .35rem;
+	}
+	body.heichelos-discovery-page .torah-library-parsha a {
+		color: #8a6d3b;
+		font-weight: 800;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* ===== Search + results: light field, page scrolls naturally ===== */
+	body.heichelos-discovery-page .spaces-search {
+		background: #fffdf6;
+		border: 1px solid #d9c9a8;
+		border-radius: 1rem;
+		box-shadow: 0 .8rem 2rem rgb(0 0 0 / 30%);
+	}
+	body.heichelos-discovery-page .spaces-search .field-label {
+		color: #8a6d3b;
+	}
+	body.heichelos-discovery-page .spaces-search input {
+		background: #fffdf6;
+		border: 1px solid #d9c9a8;
+		border-radius: .75rem;
+		color: #2b2118;
+		min-height: 3.1rem;
+		padding: .65rem .9rem;
+	}
+	body.heichelos-discovery-page .spaces-search .p-button-primary {
+		background: #8a6d3b;
+		border: 1px solid #755c2f;
+		color: #fffdf6;
+	}
+	body.heichelos-discovery-page .spaces-result-summary {
+		background: transparent;
+		border: 0;
+		color: #c9c2ae;
+		font-size: .9rem;
+		font-weight: 600;
+	}
+	body.heichelos-discovery-page .spaces-grid {
+		max-height: none;
+		overflow: visible;
+	}
+	body.heichelos-discovery-page .social-empty-card {
+		background: linear-gradient(155deg, #fffdf6, #f8f0db);
+		border: 1px solid #d9c9a8;
+		border-radius: 1rem;
+		color: #2b2118;
+		padding: 1.4rem;
+	}
+	body.heichelos-discovery-page .social-empty-card h2 {
+		color: #1f1712;
+		margin-top: 0;
+	}
+	body.heichelos-discovery-page .social-empty-card p {
+		color: #5a4c3d;
+	}
+
+	@media (max-width: 760px) {
+		body.heichelos-discovery-page .spaces-hero {
+			grid-template-columns: minmax(0, 1fr);
+			padding: 1.15rem;
+		}
+		body.heichelos-discovery-page .spaces-hero h1 {
+			font-size: 2rem;
+		}
+		body.heichelos-discovery-page .spaces-command-row {
+			justify-content: flex-start;
+		}
+		body.heichelos-discovery-page .social-space-card {
+			padding: .95rem;
+		}
+		body.heichelos-discovery-page .space-title-row {
+			flex-direction: row;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		body.heichelos-discovery-page .social-space-card {
+			transition: none;
+		}
+	}
+</style>

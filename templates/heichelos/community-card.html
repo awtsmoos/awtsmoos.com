@@ -35,7 +35,7 @@ Awtsmoos.com therefore makes the whole card the doorway while secondary actions 
 	var rawAuthor = String(heichel.author || heichel.aliasId || alias || '').trim();
 	var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
 	var badge = alias && doesOwn ? 'Owner' : 'Community';
-	var seal = String(index + 1).padStart(2, '0');
+	var seal = escapeHtml(name.charAt(0).toUpperCase() || '✦');
 	var manage = '';
 
 	if (doesOwn) {

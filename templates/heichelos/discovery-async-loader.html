@@ -102,7 +102,7 @@ Ikar card metadata, and the same owner action when ownership checks out.
 		var rawAuthor = String(heichel.author || heichel.aliasId || alias || '').trim();
 		var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
 		var badge = alias && doesOwn ? 'Owner' : 'Community';
-		var seal = String(index + 1).padStart(2, '0');
+		var seal = escapeHtml(name.charAt(0).toUpperCase() || '✦');
 		var manage = '';
 		if (doesOwn) {
 			manage = '<a class="p-button space-secondary-action" href="/heichelos/'
