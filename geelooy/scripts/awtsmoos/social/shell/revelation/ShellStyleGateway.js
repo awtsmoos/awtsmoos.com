@@ -12,6 +12,7 @@
  * NON-RESPONSIBILITY: This gateway does not mutate route state or render shell markup.
  */
 const STYLE_HREF = '/style/geelooy-app/index.css?v=f9448616a6';
+const STYLE_PATH = '/style/geelooy-app/index.css';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 
 export class YesodShellStyleGateway {
@@ -32,6 +33,10 @@ export class YesodShellStyleGateway {
 	ensureCovenant() {
 		const yesodExistingLink = this.malchusDocument.querySelector(STYLE_SELECTOR);
 		if (yesodExistingLink) {
+			if (this.isBundleCovenant(yesodExistingLink)) {
+				yesodExistingLink.dataset.geelooyAppStyle = 'true';
+				return yesodExistingLink;
+			}
 			return this.harmonizeExistingCovenant(yesodExistingLink);
 		}
 		const yesodLink = this.malchusDocument.createElement('link');
@@ -40,6 +45,31 @@ export class YesodShellStyleGateway {
 		yesodLink.dataset.geelooyAppStyle = 'true';
 		this.malchusDocument.head.append(yesodLink);
 		return yesodLink;
+	}
+
+	/**
+	 * Whether one existing link already delivers this covenant through the
+	 * CompactCSS bundle mechanism: its bundle list names the shared sheet,
+	 * so the single bundle request already carries the full cascade the raw
+	 * sheet would @import sheet by sheet. Rewriting such a link to the raw
+	 * href resurrects that cascade during hydration — measured on profile
+	 * at 147 of 186 CSS requests, every one duplicating a rule the bundle
+	 * had just delivered — so a bundle covenant is honored untouched.
+	 * @param {HTMLLinkElement} yesodLink Candidate shared stylesheet link.
+	 * @returns {boolean} True when the link is a bundle carrying this sheet.
+	 */
+	isBundleCovenant(yesodLink) {
+		const rawHref = yesodLink.getAttribute('href') || '';
+		if (!rawHref.includes('compact=true')) return false;
+		const bundleAt = rawHref.indexOf('bundle=');
+		if (bundleAt === -1) return false;
+		try {
+			const members = JSON.parse(decodeURIComponent(rawHref.slice(bundleAt + 'bundle='.length)));
+			return Array.isArray(members)
+				&& members.some(member => String(member).startsWith(STYLE_PATH));
+		} catch {
+			return false;
+		}
 	}
 
 	/**
