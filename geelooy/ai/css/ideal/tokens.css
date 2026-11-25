@@ -36,7 +36,7 @@
   --awt-main-min:0;
   --awt-main-radius:28px;
   --awt-panel-radius:28px;
-  --awt-shell-cols:var(--ai-left-col,var(--awt-left)) var(--awt-resizer) minmax(0,1fr) var(--awt-resizer) var(--ai-right-col,var(--awt-right));
+  --awt-shell-cols:minmax(0,var(--ai-left-col,var(--awt-left))) var(--awt-resizer) minmax(var(--awt-main-track-min,0px),1fr) var(--awt-resizer) minmax(0,var(--ai-right-col,var(--awt-right)));
   --awt-shell-areas:"left leftResize main rightResize right";
   --awt-panel-pos:relative;
   --awt-panel-top:auto;

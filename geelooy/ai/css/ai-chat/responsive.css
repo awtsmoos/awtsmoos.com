@@ -9,11 +9,11 @@
  */
 @media(min-width: 1100px) { .container {
 		grid-template-columns:
-			var(--ai-left-col,292px)
+			minmax(0,var(--ai-left-col,292px))
 			7px
 			minmax(560px,1fr)
 			7px
-			var(--ai-right-col,324px);
+			minmax(0,var(--ai-right-col,324px));
 		gap:10px;
 		padding:12px;
 	} }
@@ -23,35 +23,35 @@
 	} }
 @media(min-width: 1100px) and (max-width: 1100px) { .container {
 		grid-template-columns:
-			var(--ai-left-col,240px)
+			minmax(0,var(--ai-left-col,240px))
 			6px
 			minmax(520px,1fr)
 			6px
-			var(--ai-right-col,270px);
+			minmax(0,var(--ai-right-col,270px));
 		gap:8px;
 		padding:9px;
 	} }
 @media(min-width: 1100px) and (max-width: 1100px) { body[data-sidebar-collapsed="true"] .container {
-		grid-template-columns:58px 6px minmax(520px,1fr) 6px var(--ai-right-col,270px);
+		grid-template-columns:58px 6px minmax(520px,1fr) 6px minmax(0,var(--ai-right-col,270px));
 	} }
 @media(min-width: 1100px) and (max-width: 1100px) { body[data-automation-collapsed="true"] .container {
-		grid-template-columns:var(--ai-left-col,240px) 6px minmax(520px,1fr) 6px 58px;
+		grid-template-columns:minmax(0,var(--ai-left-col,240px)) 6px minmax(520px,1fr) 6px 58px;
 	} }
 @media(min-width: 900px) and (max-width:1100px) { .container {
 		grid-template-columns:
-			var(--ai-left-col,200px)
+			minmax(0,var(--ai-left-col,200px))
 			5px
 			minmax(430px,1fr)
 			5px
-			var(--ai-right-col,220px);
+			minmax(0,var(--ai-right-col,220px));
 		gap:6px;
 		padding:7px;
 	} }
 @media(min-width: 900px) and (max-width:1100px) { body[data-sidebar-collapsed="true"] .container {
-		grid-template-columns:58px 5px minmax(430px,1fr) 5px var(--ai-right-col,220px);
+		grid-template-columns:58px 5px minmax(430px,1fr) 5px minmax(0,var(--ai-right-col,220px));
 	} }
 @media(min-width: 900px) and (max-width:1100px) { body[data-automation-collapsed="true"] .container {
-		grid-template-columns:var(--ai-left-col,200px) 5px minmax(430px,1fr) 5px 58px;
+		grid-template-columns:minmax(0,var(--ai-left-col,200px)) 5px minmax(430px,1fr) 5px 58px;
 	} }
 @media(min-width: 900px) and (max-width:1100px) { .panel-title {
 		font-size:.84rem;
@@ -65,11 +65,11 @@
 	} }
 @media(min-width: 1100px) { .container {
 		grid-template-columns:
-			var(--ai-left-col,320px)
+			minmax(0,var(--ai-left-col,320px))
 			8px
 			minmax(680px,1fr)
 			8px
-			var(--ai-right-col,360px);
+			minmax(0,var(--ai-right-col,360px));
 		padding:14px;
 	} }
 @media(max-height:720px) and (min-width: 900px) { .panel-topbar, .sidebar-header {

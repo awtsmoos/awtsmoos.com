@@ -33,6 +33,22 @@
   font-weight:850;
   text-decoration:none;
 }
+.transport-commands {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  min-width:0;
+}
+.transport-commands a {white-space:nowrap}
+.transport-commands code {
+  padding:7px 10px;
+  border:1px solid var(--awt-line);
+  border-radius:11px;
+  background:rgba(8,19,33,.96);
+  color:var(--awt-soft);
+  white-space:nowrap;
+}
 .chat-box {
   min-height:0;
   overflow:auto;
