@@ -65,3 +65,18 @@ REMAINING, in order:
 4. Authenticated production publish proof still blocked on a controlled test account.
 5. quickBrowserJourney fixture server startup under load — retry in a calm window.
 6. Discovery nits (minor): desktop hero right-center still airy; mobile eyebrow carries a cyan shell bullet dot; search button sits below the input instead of inline.
+
+
+## Run 4 update (2026-11-25) — supersedes Run 3 remaining items 1, 2, 3, 5
+DONE this run (commits 1a0fef35b, 0485d0e56, both pushed):
+- Search pagination PROVEN LIVE post-restart (limit/page verified) — Run 3 item 3 closed for search; no restart performed or needed by this run.
+- Heichel doorway CLOSED (Run 3 item 1): counts fixed at the client totals layer (the "root posts API = 3" are stale IDs — records POST_NOT_FOUND; living total is 1, now rendered), black band fixed (nested-main double clearance + roof clearance), tabs verified inside the card by geometry + screenshots v3.
+- Profile contract pair (Run 3 item 2): profileActionDrawerContract fixed + committed by this run; profileRepairContract passes ONLY via the bundling session's uncommitted in-tree rewrite — that session should commit it, or HEAD's gate stays red on that one section.
+- quickBrowserJourney (Run 3 item 5): PASSED inside the full gate (EXIT 0) at load ~6–9.
+REMAINING, in order:
+1. Mobile series-search input placeholder invisibility at 390 (screenshot + crop proven, v3): theme-collision across controls-search.css / light-theme-complete.css / civilization heichel-content.css — trace with matched-styles in BOTH theme states, fix in the owning sheet.
+2. Series posts/details cold fill: 13.55s full walk for a 2,073-post series (warm 0.044s) + ikar series list 7.1s/12.9MB. Staged fix: loop-yielding cold fill, boot warming/longer TTL for large series, then pagination + incremental render. Server code — needs a coordinated restart window to activate.
+3. Stale root post IDs in ohrHaNiggun (3 IDs, records gone): data-layer cleanup decision — remove from the root series index or leave as harmless (details reads already exclude them; only the raw ID list endpoint shows them).
+4. Authenticated production publish proof — still blocked on a controlled test account (unchanged).
+5. Tunnel release packaging (unchanged, Tunnel session's lane).
+6. Run 3 item 6 nits (discovery hero airiness, cyan bullet, search button stacking) — minor, unaddressed.
