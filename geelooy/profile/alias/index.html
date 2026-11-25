@@ -157,10 +157,10 @@ async function loadAlias(){
     fb.after(msgBtn);
     // Posts
     try {
-      const p = await apiJson('/api/social/alias/' + encodeURIComponent(aliasId) + '/posts');
+      const p = await apiJson('/api/social/profile/' + encodeURIComponent(aliasId) + '/posts');
       const posts = listFrom(p);
       $('[data-alias-posts]').innerHTML = posts.length
-        ? posts.slice(0,20).map(x=>'<a class="pd-card" href="/heichelos/ikar/post/'+encodeURIComponent(x.id||x.postId||'')+'"><strong>'+(x.title||x.id||'Post')+'</strong></a>').join('')
+        ? posts.slice(0,20).map(x=>{const pid=x.id||x.postId||'';const href=(x.heichelId&&x.seriesId&&pid)?'/heichelos/'+encodeURIComponent(x.heichelId)+'/series/'+encodeURIComponent(x.seriesId)+'/post/'+encodeURIComponent(pid):'#';return '<a class="pd-card" href="'+href+'"><strong>'+(x.title||x.id||'Post')+'</strong>'+(x.heichelName?'<span>'+x.heichelName+'</span>':'')+'</a>';}).join('')
         : '<p class="pd-empty">No posts yet.</p>';
     } catch { $('[data-alias-posts]').innerHTML = '<p class="pd-empty">Could not load posts.</p>'; }
   } catch(e){ status.textContent = 'Could not load alias.'; }
