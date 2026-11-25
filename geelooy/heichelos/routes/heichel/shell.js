@@ -81,11 +81,31 @@ function createShellRenderer($i) {
 		}, context);
 	}
 
-	async function renderSemanticFragments(semantic, discovery, series, context) {
+	/**
+	 * B"H 2026-11-25 (series SSR streaming): discovery splits in two.
+	 * The local paths — the Ikar root table and the special Torah doors —
+	 * are pure data and still resolve inline before first byte. The
+	 * general path reads subSeries + post details over the internal API
+	 * (plus the window-post scan) and was the long pole in first byte:
+	 * measured cold TTFB 11.78s under load while the shell's own legs
+	 * answer in ~0.1s. It now returns null here, the shell emits at once
+	 * with a styled skeleton in the discovery list, and the client
+	 * loader fetches the identical bag from the shell-discovery API
+	 * door (see api/social/helper/routes/series/shellDiscovery.js),
+	 * which runs getShellDiscovery itself — one truth, two timings.
+	 */
+	async function getInlineDiscovery(heichelId, seriesId, context) {
+		return traceAsync('shell:discovery', async () => {
+			if (isFastIkarRoot(heichelId, seriesId)) return getIkarRootDiscovery();
+			return getSpecialTorahDiscovery($i, heichelId, seriesId);
+		}, context);
+	}
+
+	async function renderSemanticFragments(semantic, discovery, series, context, discoveryRequest) {
 		return traceAsync('shell:semantic-fragments', async () => {
 			const [semanticHead, semanticFallback] = await Promise.all([
 				$i.$ga('./heichel/semantic/head.html', { semantic }),
-				$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery, series })
+				$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery, series, ...discoveryRequest })
 			]);
 			return { semanticHead, semanticFallback };
 		}, context);
@@ -94,10 +114,9 @@ function createShellRenderer($i) {
 	async function renderHeichelShell(heichelId, seriesId = '') {
 		const context = { heichelId, seriesId: seriesId || 'root' };
 		return traceAsync('shell:total', async () => {
-			const [heichel, series, discovery] = await Promise.all([
+			const [heichel, series] = await Promise.all([
 				getHeichel(heichelId, seriesId, context),
-				getSeries(heichelId, seriesId, context),
-				getShellDiscovery(heichelId, seriesId, context)
+				getSeries(heichelId, seriesId, context)
 			]);
 			if (!heichel) return $i.$ga('_awtsmoos.heichelNotFound.html');
 			const semantic = await traceAsync(
@@ -105,12 +124,21 @@ function createShellRenderer($i) {
 				() => buildSemanticModel({ heichel, series, heichelId, seriesId }),
 				context
 			);
-			const fragments = await renderSemanticFragments(semantic, discovery, series, context);
+			const inlineDiscovery = await getInlineDiscovery(heichelId, seriesId, context);
+			const discoveryDeferred = !inlineDiscovery;
+			const discovery = inlineDiscovery || { links: [], deferred: true };
+			const discoveryRequest = {
+				discoveryDeferred,
+				discoveryHeichelId: heichelId,
+				discoverySeriesId: seriesId || 'root'
+			};
+			const fragments = await renderSemanticFragments(semantic, discovery, series, context, discoveryRequest);
 			return traceAsync('shell:final-template', () => $i.$ga('./heichel/_awtsmoos.heichel.html', {
 				heichel,
 				series,
 				semantic,
 				discovery,
+				...discoveryRequest,
 				isIkarRoot: isFastIkarRoot(heichelId, seriesId),
 				isSeriesPage: Boolean(seriesId && seriesId !== 'root'),
 				...fragments
@@ -118,7 +146,7 @@ function createShellRenderer($i) {
 		}, context);
 	}
 
-	return { getHeichel, getSeries, renderHeichelShell };
+	return { getHeichel, getSeries, getShellDiscovery, renderHeichelShell };
 }
 
 module.exports = createShellRenderer;

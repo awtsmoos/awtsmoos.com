@@ -21,6 +21,7 @@
 const { badRequest, methodNotAllowed, requireMethod } = require('../apiHttp.js');
 const { readSeriesDetailsPlain, readSeriesDetails, readSeriesPrateem } = require('./readRoutesDetails.js');
 const { readChildren, readChildrenLight, wantsDetails, wantsLight, seriesIds } = require('./readRoutesChildren.js');
+const { readShellDiscovery } = require('./shellDiscovery.js');
 
 /** Creates the stable read-only series route table for one request. */
 function createSeriesReadRoutes({ $i }) {
@@ -68,6 +69,14 @@ function createSeriesReadRoutes({ $i }) {
 			const bad = requireMethod($i, 'GET');
 			if (bad) return bad;
 			return readChildren($i, vars.heichel, vars.series, true);
+		},
+		// B"H 2026-11-25 (series SSR streaming): the emit-first Heichel
+		// shell defers its general discovery list to this door, which
+		// answers with the identical bag the server render produced.
+		'/heichelos/:heichel/series/:series/discovery': async vars => {
+			const bad = requireMethod($i, 'GET');
+			if (bad) return bad;
+			return readShellDiscovery($i, vars.heichel, vars.series);
 		}
 	};
 }

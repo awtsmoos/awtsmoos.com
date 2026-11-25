@@ -372,6 +372,16 @@ function enhanceFragment(node) {
 	if (isIkarRoot) node.setAttribute('data-ikar-root', 'true');
 	else node.removeAttribute('data-ikar-root');
 	node.setAttribute('aria-busy', 'false');
+	// B"H 2026-11-25 (series SSR streaming): a swapped fragment's inline
+	// discovery loader never executes (scripts inserted via innerHTML are
+	// inert), so re-arm it — a fresh script element with the same body is
+	// run by the browser, and the loader fills the deferred discovery list.
+	node.querySelectorAll('script[data-heichel-discovery-loader]').forEach(oldScript => {
+		const freshScript = document.createElement('script');
+		freshScript.setAttribute('data-heichel-discovery-loader', '');
+		freshScript.textContent = oldScript.textContent;
+		oldScript.replaceWith(freshScript);
+	});
 	const heichelId = currentHeichelId();
 	if (heichelId === 'ikar') {
 		import(IKAR_FIRST_SRC)

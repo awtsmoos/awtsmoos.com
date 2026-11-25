@@ -93,7 +93,10 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		// yet gets a real empty state instead of a bare hero sentence —
 		// the note keeps the discovery section (and its heading) alive,
 		// in the same vessel as the load-failure note.
-		if (!note) {
+		// B"H 2026-11-25 (series SSR streaming): a deferred bag carries no
+		// links yet — the empty-feed guess must wait for the client loader,
+		// which reproduces this exact note once the real bag arrives.
+		if (!note && !(bag && bag.deferred)) {
 			var feedModel = typeof semantic === "object" && semantic ? semantic : null;
 			var feedLinks = bag && Array.isArray(bag.links) ? bag.links : [];
 			var feedPath = feedModel && feedModel.canonicalPath ? String(feedModel.canonicalPath) : "";
@@ -110,6 +113,19 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		<ul id="heichel-discovery-list"><?<script>
 		var bag = typeof discovery === "object" && discovery ? discovery : null;
 		var links = bag && Array.isArray(bag.links) ? bag.links : [];
+		// B"H 2026-11-25 (series SSR streaming): a deferred bag renders
+		// styled skeleton items in the real item geometry; the client
+		// loader (below) swaps in the identical links once the
+		// shell-discovery door answers. The skeletons also keep this
+		// section alive for the reveal script, which removes a nav whose
+		// list is empty and noteless.
+		if (bag && bag.deferred) {
+			var skeletonItems = "";
+			for (var skelIndex = 0; skelIndex < 4; skelIndex++) {
+				skeletonItems += '<li class="heichel-discovery-item heichel-discovery-skeleton" aria-hidden="true"><span class="heichel-discovery-cover"><span class="heichel-discovery-cover-fallback"></span></span><span class="heichel-discovery-text"><span class="heichel-skel-line heichel-skel-title"></span><span class="heichel-skel-line"></span><span class="heichel-skel-line heichel-skel-short"></span></span></li>';
+			}
+			return skeletonItems;
+		}
 		function esc(value) {
 			// B"H 2026-10-29: decode any pre-escaped entities first so titles
 			// arriving with &#39; etc. are not double-escaped into visible text.
@@ -143,6 +159,131 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 		}).join("");
 		</script>?></ul>
 	</nav>
+	<?<script>
+	// B"H 2026-11-25 (series SSR streaming): a deferred bag carries its
+	// skeleton styling and its loader config inside the fragment itself,
+	// so SPA fragment swaps transport both. Non-deferred renders emit
+	// nothing here and stay identical to the server-first shell.
+	var bag = typeof discovery === "object" && discovery ? discovery : null;
+	if (!bag || !bag.deferred) return "";
+	var discoveryConfig = {
+		heichelId: typeof discoveryHeichelId === "string" ? discoveryHeichelId : "",
+		seriesId: typeof discoverySeriesId === "string" ? discoverySeriesId : "root"
+	};
+	var discoveryConfigJson = JSON.stringify(discoveryConfig)
+		.replace(/&/g, "\\u0026")
+		.replace(/</g, "\\u003c")
+		.replace(/>/g, "\\u003e");
+	var skeletonStyle = '<style data-heichel-discovery-skeleton>'
+		+ '.heichel-discovery-skeleton .heichel-discovery-cover{background:linear-gradient(135deg,rgba(213,154,53,.35),rgba(15,29,49,.25))}'
+		+ '.heichel-skel-line{display:block;height:.8rem;border-radius:99px;margin:.45rem 0;background:linear-gradient(90deg,rgba(213,154,53,.16),rgba(213,154,53,.38),rgba(213,154,53,.16));background-size:200% 100%;animation:heichelSkelPulse 1.4s ease-in-out infinite}'
+		+ '.heichel-skel-title{height:1.15rem;width:55%}'
+		+ '.heichel-skel-short{width:40%}'
+		+ '@keyframes heichelSkelPulse{0%{background-position:0% 0}50%{background-position:100% 0}100%{background-position:0% 0}}'
+		+ '@media (prefers-reduced-motion:reduce){.heichel-skel-line{animation:none}}'
+		+ '</style>';
+	return skeletonStyle + '<script type="application/json" data-heichel-discovery-config>' + discoveryConfigJson + "</scr" + "ipt>";
+	</script>?>
+	<script data-heichel-discovery-loader>
+	(function loadHeichelDiscovery() {
+		'use strict';
+		// B"H 2026-11-25 (series SSR streaming): fills a deferred discovery
+		// list with the identical markup the server render produced — the
+		// renderer below is a 1:1 port of this template's own link renderer
+		// (same decode-then-escape, same cover/count shapes, same notes).
+		// Inert without a config block. Inline scripts never execute in
+		// SPA-swapped fragments, so heichel-spa.js re-arms this script
+		// after every fragment swap.
+		var scriptEl = document.currentScript;
+		var root = scriptEl && scriptEl.closest ? scriptEl.closest('[data-heichel-semantic-fallback]') : null;
+		var scope = root || document;
+		var configEl = scope.querySelector ? scope.querySelector('[data-heichel-discovery-config]') : null;
+		if (!configEl) return;
+		var config = {};
+		try { config = JSON.parse(configEl.textContent) || {}; } catch (error) { /* keep defaults; the fetch below still runs */ }
+		var heichelId = String(config.heichelId || '').trim();
+		var seriesId = String(config.seriesId || 'root').trim() || 'root';
+		if (!heichelId) return;
+		var list = scope.querySelector('#heichel-discovery-list');
+		if (!list) return;
+		if (list.getAttribute('data-discovery-state')) return;
+		list.setAttribute('data-discovery-state', 'loading');
+		list.setAttribute('aria-busy', 'true');
+		var nav = list.closest ? list.closest('nav') : null;
+
+		function esc(value) {
+			return String(value || '').replace(/&quot;/g, '"').replace(/&#39;|&#x27;/gi, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+		}
+
+		function renderDiscoveryLink(item) {
+			if (!item || !item.path) return '';
+			var label = item.title || 'Open';
+			var description = item.description ? '<p class="heichel-discovery-description">' + esc(item.description) + '</p>' : '';
+			var count = item.count ? '<p class="heichel-discovery-count">' + esc(item.count) + '</p>' : '';
+			var cover = '';
+			if (item.kind === 'series') {
+				var heTitle = String(label).split(/\s*[·•|]\s*/)[0].trim() || label;
+				cover = '<span class="heichel-discovery-cover"><span class="heichel-discovery-cover-fallback" aria-hidden="true">' + esc(heTitle) + '</span>';
+				if (item.coverImage) {
+					cover += '<img src="' + esc(item.coverImage) + '" alt="' + esc(label) + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');">';
+				}
+				cover += '</span>';
+			}
+			return '<li class="heichel-discovery-item' + (item.kind === 'series' ? ' heichel-discovery-series' : '') + '">' + cover + '<span class="heichel-discovery-text"><a href="' + esc(item.path) + '">' + esc(label) + '</a>' + description + count + '</span></li>';
+		}
+
+		function setNote(text) {
+			if (!nav) return;
+			var existing = nav.querySelector('.heichel-discovery-note');
+			if (existing) { existing.textContent = text; return; }
+			var noteEl = document.createElement('p');
+			noteEl.className = 'heichel-discovery-note';
+			noteEl.textContent = text;
+			nav.insertBefore(noteEl, list);
+		}
+
+		function settle(state) {
+			list.removeAttribute('aria-busy');
+			list.setAttribute('data-discovery-state', state);
+		}
+
+		function fail() {
+			list.innerHTML = '';
+			settle('error');
+			setNote('This section could not be loaded just now — the library is under heavy load. Please reload the page in a moment.');
+		}
+
+		function finish(links, note) {
+			if (note) setNote(note);
+			if (!links.length) {
+				list.innerHTML = '';
+				settle('filled');
+				if (!note) {
+					if (/\/series\/feed\/?$/.test(location.pathname)) {
+						setNote('No posts yet — when this community shares, new posts will appear here.');
+					} else if (nav) {
+						nav.remove();
+					}
+				}
+				return;
+			}
+			list.innerHTML = links.map(renderDiscoveryLink).join('');
+			settle('filled');
+		}
+
+		var route = '/api/social/heichelos/' + encodeURIComponent(heichelId) + '/series/' + encodeURIComponent(seriesId) + '/discovery';
+		fetch(route, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+			.then(function (response) { return response.json(); })
+			.then(function (result) {
+				var bag = result && typeof result === 'object' ? result : {};
+				if (bag.success && typeof bag.success === 'object' && !Array.isArray(bag.success)) bag = bag.success;
+				else if (bag.data && typeof bag.data === 'object' && !Array.isArray(bag.data)) bag = bag.data;
+				if (bag.error) { fail(); return; }
+				finish(Array.isArray(bag.links) ? bag.links : [], typeof bag.note === 'string' ? bag.note : '');
+			})
+			.catch(function () { fail(); });
+	})();
+	</script>
 </div>
 <script>
 (function revealHeichelFallback() {
@@ -175,4 +316,4 @@ Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 	}
 })();
 </script>
-<script type="module" src="/heichelos/heichel/semantic/heichel-spa.js?v=heichel-spa-005"></script>
+<script type="module" src="/heichelos/heichel/semantic/heichel-spa.js?v=heichel-spa-006"></script>
