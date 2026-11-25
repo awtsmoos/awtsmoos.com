@@ -1,0 +1,54 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Freeze on the lookahead path fixture</title></head>
+<body><div id="result">RUNNING</div>
+<script type="module">
+const result = document.querySelector('#result');
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+try {
+	const { createMultitrackProject } = await import('../modules/workstation/song/multitrack/multitrackProject.js');
+	const { freezeTrackWithClip } = await import('../modules/workstation/song/multitrack/multitrackFreeze.js');
+	const { createLookahead, needsLookahead } = await import('../modules/workstation/song/multitrack/multitrackLookahead.js');
+	const context = new AudioContext();
+	await context.resume();
+	const sine = context.createBuffer(1, context.sampleRate * 2, context.sampleRate);
+	const data = sine.getChannelData(0);
+	for (let i = 0; i < data.length; i++) data[i] = Math.sin(2 * Math.PI * 220 * i / context.sampleRate) * 0.5;
+	const silence = context.createBuffer(1, context.sampleRate, context.sampleRate);
+	const buffers = { fb: sine, sil: silence };
+	const rawFrozen = {
+		id: 'vox', name: 'Vox', gain: 0.25, pan: -0.8,
+		effects: { midGain: 6, compressor: true },
+		clips: [{ id: 'orig', bufferId: 'fb', duration: 1, timelineStart: 0 }]
+	};
+	const frozen = freezeTrackWithClip(rawFrozen, { id: 'fc1', bufferId: 'fb', duration: 2, timelineStart: 0, gain: 1 });
+	const filler = {
+		id: 'filler', name: 'Filler', gain: 0.5, pan: 0,
+		clips: Array.from({ length: 200 }, (_, i) => ({ id: `f${i}`, bufferId: 'sil', timelineStart: i * 2, duration: 1 }))
+	};
+	const project = createMultitrackProject({ tracks: [frozen, filler] });
+	if (!needsLookahead(project, 0)) throw Error('Project did not take the lookahead path');
+	const analyser = context.createAnalyser();
+	analyser.fftSize = 2048;
+	analyser.connect(context.destination);
+	const runtime = createLookahead({
+		project, context, destination: analyser, offset: 0,
+		audioStore: { getBuffer: id => buffers[id] || null },
+		setTimer: (fn, ms) => setTimeout(fn, ms), clearTimer: id => clearTimeout(id),
+		onError: error => { throw error; }
+	});
+	if (runtime.outputs[0].gain.gain.value !== 1)
+		throw Error('Frozen track output gain is not unity on lookahead path: ' + runtime.outputs[0].gain.gain.value);
+	await wait(500);
+	const samples = new Float32Array(2048);
+	analyser.getFloatTimeDomainData(samples);
+	let sum = 0; for (const v of samples) sum += v * v;
+	const rms = Math.sqrt(sum / samples.length);
+	runtime.close();
+	// Unity path: 0.5-amplitude sine ≈ 0.35 RMS. Double-applied 0.25 gain ≈ 0.09.
+	if (rms < 0.2) throw Error(`Frozen render too quiet on lookahead path (rms ${rms.toFixed(3)}) — gain likely applied twice`);
+	result.textContent = `PASS freeze-lookahead unity-gain=1 rms=${rms.toFixed(3)} voices=${runtime.voices.length}`;
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<!--B"H-->
+<html><head><meta charset="utf-8"><title>Voice take persistence fixture</title></head>
+<body><div id="result">RUNNING</div>
+<button id="record-audio-button">Record Audio</button>
+<button id="mic-button">Enable Mic</button>
+<input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
+<label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+<script type="module">
+const result = document.querySelector('#result');
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const until = async (fn, label, tries = 80) => {
+	for (let i = 0; i < tries; i++) { const value = fn(); if (value) return value; await wait(200); }
+	throw Error('Timed out waiting for ' + label);
+};
+try {
+	const { AudioState, initAudio } = await import('../modules/audio.js');
+	await initAudio();
+	const { ensureVoiceTakeControl } = await import('../modules/app/voiceTakeControl.js');
+	ensureVoiceTakeControl();
+	await wait(200);
+	if (!document.querySelector('#voice-take-controls .voice-take-record')) throw Error('Voice take control missing');
+	const phase = sessionStorage.getItem('vt-persist-phase');
+	if (phase !== '2') {
+		// Phase 1: record a take, set a distinctive balance, let it persist, reload.
+		document.querySelector('.voice-take-record').click();
+		await until(() => document.querySelector('.voice-take-record').textContent.includes('Stop'), 'take start');
+		await wait(1100);
+		document.querySelector('.voice-take-record').click();
+		await until(() => document.querySelector('.voice-take-status')?.textContent.includes('Voice take kept'), 'take kept');
+		const vs = document.querySelector('.voice-mix-voice');
+		const ps = document.querySelector('.voice-mix-piano');
+		vs.value = 130; vs.dispatchEvent(new Event('input', { bubbles: true }));
+		ps.value = 60; ps.dispatchEvent(new Event('input', { bubbles: true }));
+		await wait(1500); // IndexedDB writes land.
+		const manifest = JSON.parse(localStorage.getItem('awtsmoos-voice-takes-v1') || '[]');
+		if (manifest.length !== 1) throw Error('Take was not persisted to the manifest: ' + manifest.length);
+		if (!manifest[0].voice?.assetId || !manifest[0].piano?.assetId) throw Error('Persisted take is missing a stem');
+		if (manifest[0].voice.length < 8000) throw Error('Persisted voice stem too short: ' + manifest[0].voice.length);
+		sessionStorage.setItem('vt-persist-phase', '2');
+		location.reload();
+	} else {
+		// Phase 2: after a real reload the take must return whole.
+		const status = await until(() => {
+			const text = document.querySelector('.voice-take-status')?.textContent || '';
+			return text.includes('Restored') ? text : null;
+		}, 'restore status');
+		const row = document.querySelector('.voice-take-row');
+		if (!row) throw Error('Restored take row missing');
+		if (document.querySelector('.voice-take-play').disabled) throw Error('Restored take is not playable');
+		const v = document.querySelector('.voice-mix-voice').value;
+		const p = document.querySelector('.voice-mix-piano').value;
+		if (v !== '130' || p !== '60') throw Error(`Balance not restored (voice=${v} piano=${p})`);
+		sessionStorage.removeItem('vt-persist-phase');
+		result.textContent = `PASS voice-persistence restored-after-reload balance=130/60 status="${status.slice(0, 60)}"`;
+	}
+} catch (error) {
+	result.textContent = 'FAIL ' + (error?.stack || error);
+}
+</script></body></html>
