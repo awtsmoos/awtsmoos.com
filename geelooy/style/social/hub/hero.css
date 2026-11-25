@@ -131,7 +131,7 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-hero) button[data-primary="true"]:is(:hover, :focus-visible) {
-	background: #7ad9e5;
+	background: #e8cf8a;
 }
 .hub-hero button:disabled, .hub-live-actions button:disabled {
 	cursor: not-allowed;

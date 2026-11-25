@@ -76,8 +76,8 @@
 }
 .hub-card[data-state="confirmed"] small {
 	border-color: rgba(212, 169, 78, .3);
-	background: #152a30; /* opaque: gate bg probe ignores alpha */
-	color: #a8e2ee;
+	background: #2a2113; /* opaque: gate bg probe ignores alpha */
+	color: #f0d48a;
 }
 .hub-live-card {
 	grid-column: 1 / -1;

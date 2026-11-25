@@ -21,6 +21,10 @@
 	inline-size: 100%;
 	min-inline-size: 0;
 	min-block-size: 100dvh;
+	/* B"H round 4: the root carries the vessel ground itself. Embedded in the
+	   light product page, the mode-section headings otherwise sit on white
+	   at 1.07:1 — the document gradient alone never reaches them. */
+	background: linear-gradient(145deg, var(--hub-bg), #0b1019 62%, #0d101a);
 }
 .hub-shell {
 	display: grid;
@@ -96,11 +100,11 @@ a:active {
 	--hub-line-strong: rgba(255, 255, 255, .22);
 	--hub-cyan: #d4a94e;
 	--hub-cyan-soft: rgba(212, 169, 78, .14);
-	--hub-magenta: #d36eaa;
+	--hub-magenta: #cd7f3e;
 	--hub-success: #65d6a2;
 	--hub-warning: #f0bd68;
 	--hub-danger: #ff7f9c;
-	--hub-focus: #82e2ed;
+	--hub-focus: #e8cf8a;
 	--hub-radius-s: .68rem;
 	--hub-radius-m: .88rem;
 	--hub-radius-l: 1.15rem;

@@ -99,7 +99,7 @@
 .hub-rail button.active, .hub-rail button[aria-pressed="true"] {
 	border-color: rgba(212, 169, 78, .5);
 	background: #1c2f3b; /* opaque: gate bg probe ignores alpha */
-	color: #a7edf4;
+	color: #e8cf8a;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-rail) :where(button.active)::before, :where(.hub-rail) :where(button[aria-pressed="true"])::before {

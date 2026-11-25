@@ -34,7 +34,7 @@
 }
 .hub-mode-badge[data-mode="read"] {
 	border-color: rgba(212, 169, 78, .36);
-	background: #152a30; /* opaque: gate bg probe ignores alpha */
+	background: #2a2113; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-focus);
 }
 .hub-mode-badge[data-mode="mutation"] {

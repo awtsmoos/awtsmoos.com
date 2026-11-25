@@ -37,7 +37,7 @@
 	min-block-size: 42px;
 	/* B"H css-loop 2026-11-11: this button carried white text with no
 	   background of its own — "Retry this read" was invisible white-on-white. */
-	background: rgba(140, 247, 255, .12);
+	background: rgba(212, 169, 78, .12);
 	border: 1px solid var(--hub-line);
 	border-radius: var(--hub-radius-m);
 	padding: .45rem .9rem;
