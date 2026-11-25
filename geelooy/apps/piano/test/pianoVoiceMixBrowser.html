@@ -73,7 +73,7 @@ try {
 	await wait(1500);
 	stopExecutedNote('probe-a', { ignoreSustain: true });
 	stopMediaRecorder();
-	await wait(900);
+	for (let i = 0; i < 20 && !captured.length; i++) await wait(400);
 	const saveBtn = document.querySelector('.awtsmoos-save-confirm');
 	if (saveBtn) { saveBtn.click(); await wait(400); }
 	const blobA = captured[captured.length - 1];
@@ -83,7 +83,7 @@ try {
 	// 3) FLOW B: Record Voice take while playing.
 	captured.length = 0;
 	document.querySelector('.voice-take-record').click();
-	await wait(600);
+	for (let i = 0; i < 16 && !document.querySelector('.voice-take-record').textContent.includes('Stop'); i++) await wait(400);
 	if (!document.querySelector('.voice-take-record').textContent.includes('Stop')) throw Error('Voice take did not start: ' + document.querySelector('.voice-take-status').textContent);
 	const noteB = startExecutedNote(pianoName, 'probe-b', {}, { triggerChord: false });
 	await wait(1300);
@@ -98,6 +98,32 @@ try {
 	const blobB = captured[captured.length - 1];
 	let flowB = null;
 	if (blobB) { const bufferB = await decode(blobB); flowB = energies(bufferB, micFreq, pianoFreq); }
+	// 3b) BALANCE: same take re-exported voice-only and piano-only.
+	async function saveWithBalance(v, p) {
+		captured.length = 0;
+		const vs = document.querySelector('.voice-mix-voice');
+		const ps = document.querySelector('.voice-mix-piano');
+		if (!vs || !ps) throw Error('Mix sliders missing');
+		vs.value = v; vs.dispatchEvent(new Event('input', { bubbles: true }));
+		ps.value = p; ps.dispatchEvent(new Event('input', { bubbles: true }));
+		document.querySelector('.voice-take-save').click();
+		await wait(400);
+		const confirmBtn = document.querySelector('.awtsmoos-save-confirm');
+		if (confirmBtn) { confirmBtn.click(); await wait(400); }
+		await wait(500);
+		const b = captured[captured.length - 1];
+		return b ? energies(await decode(b), micFreq, pianoFreq) : null;
+	}
+	const balVoice = await saveWithBalance(100, 0);
+	if (!balVoice) throw Error('Voice-only balance export produced no artifact');
+	if (balVoice.mic < 0.002) throw Error('Voice-only balance lost the voice micE=' + balVoice.mic);
+	if (balVoice.piano > 0.0025 || balVoice.piano > balVoice.mic / 3) throw Error('Voice-only balance still has piano pianoE=' + balVoice.piano);
+	const balPiano = await saveWithBalance(0, 100);
+	if (!balPiano) throw Error('Piano-only balance export produced no artifact');
+	if (balPiano.piano < 0.004) throw Error('Piano-only balance lost the piano pianoE=' + balPiano.piano);
+	if (balPiano.mic > 0.0025 || balPiano.mic > balPiano.piano / 3) throw Error('Piano-only balance still has voice micE=' + balPiano.mic);
+	await saveWithBalance(100, 85);
+	if (!document.querySelector('.voice-take-list')) throw Error('Take list missing');
 	// 4) FLOW C: Record Voice AND Record Audio together — final Record Audio must contain the voice too.
 	await toggleMic(elements).catch(() => {}); // ensure Enable-Mic path off; voice take is the mic source here
 	captured.length = 0;
@@ -122,11 +148,11 @@ try {
 	if (!flowB) throw Error('Voice take produced no artifact');
 	if (flowB.mic < 0.002) throw Error(`Voice missing from take (micE ${flowB.mic})`);
 	if (flowB.piano < 0.004) throw Error(`Piano missing from take (pianoE ${flowB.piano})`);
-	if (!statusB.includes('voice and piano together')) throw Error('Take status does not promise the mix: ' + statusB);
+	if (!statusB.includes('voice and piano stems saved')) throw Error('Take status does not promise the mix: ' + statusB);
 	if (!flowC) throw Error('Combined Record Audio produced no artifact');
 	if (flowC.mic < 0.0015) throw Error(`Voice missing from Record Audio during a voice take (micE ${flowC.mic})`);
 	if (flowC.piano < 0.003) throw Error(`Piano missing from combined Record Audio (pianoE ${flowC.piano})`);
-	result.textContent = `PASS voice-piano-mix micFreq=${micFreq.toFixed(0)} piano=${pianoName}(${pianoFreq}) meter=${meterSeen} `
+	result.textContent = `PASS voice-piano-mix balance voiceOnly micE=${balVoice.mic.toFixed(4)} pianoE=${balVoice.piano.toFixed(4)} pianoOnly micE=${balPiano.mic.toFixed(4)} pianoE=${balPiano.piano.toFixed(4)} micFreq=${micFreq.toFixed(0)} piano=${pianoName}(${pianoFreq}) meter=${meterSeen} `
 		+ `flowC-bothRecord ${flowC ? `rms=${flowC.rms.toFixed(4)} micE=${flowC.mic.toFixed(4)} pianoE=${flowC.piano.toFixed(4)}` : 'no-artifact'} `
 		+ `flowA-recordAudio rms=${flowA.rms.toFixed(4)} micE=${flowA.mic.toFixed(4)} pianoE=${flowA.piano.toFixed(4)} `
 		+ `flowB-voiceTake ${flowB ? `rms=${flowB.rms.toFixed(4)} micE=${flowB.mic.toFixed(4)} pianoE=${flowB.piano.toFixed(4)}` : 'no-artifact'} statusB="${statusB.slice(0, 70)}"`;

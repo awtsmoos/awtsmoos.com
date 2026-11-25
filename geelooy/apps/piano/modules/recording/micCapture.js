@@ -60,15 +60,18 @@ export class MicCaptureSession {
 		this.stream = stream;
 		this.mode = input.mode;
 		this.source = context.createMediaStreamSource(stream);
+		this.inputGain = context.createGain();
+		this.inputGain.gain.value = Number(input.inputGain) > 0 ? Number(input.inputGain) : 1;
+		this.source.connect(this.inputGain); // Singer-controlled input gain feeds every branch alike.
 		this.analyser = context.createAnalyser();
 		this.analyser.fftSize = BLOCK_SIZE;
-		this.source.connect(this.analyser); // Analysis branch only — never reaches an output.
+		this.inputGain.connect(this.analyser); // Analysis branch only — never reaches an output.
 		this.processor = context.createScriptProcessor(BLOCK_SIZE, 2, 2);
 		this.silence = context.createGain();
 		this.silence.gain.value = 0;
 		this.processor.connect(this.silence);
 		this.silence.connect(context.destination); // Processor runs; its passthrough is silenced.
-		this.source.connect(this.processor);
+		this.inputGain.connect(this.processor);
 		if (input.recordDestination) {
 			// Recording tap: the live voice also feeds the app's main
 			// recording stream, so a Record Audio/Video capture made
@@ -76,14 +79,14 @@ export class MicCaptureSession {
 			// recording destination, never a speaker — no feedback path.
 			this.recordTap = context.createGain();
 			this.recordTap.gain.value = 1;
-			this.source.connect(this.recordTap);
+			this.inputGain.connect(this.recordTap);
 			this.recordTap.connect(input.recordDestination);
 		}
 		this.monitorGain = context.createGain();
 		this.monitorGain.gain.value = 0;
 		this.monitorDestination = input.monitorDestination || null;
 		if (this.monitorDestination) {
-			this.source.connect(this.monitorGain);
+			this.inputGain.connect(this.monitorGain);
 			this.monitorGain.connect(this.monitorDestination);
 		}
 		this.setMonitor(Boolean(input.monitor));
@@ -137,6 +140,14 @@ export class MicCaptureSession {
 			this.cutMonitor();
 	}
 
+	/** Live input-gain change (the singer's mic slider) mid-capture. */
+	setInputGain(value) {
+		const gain = Math.min(3, Math.max(0, Number(value) || 0));
+		if (this.inputGain && this.context)
+			this.inputGain.gain.setTargetAtTime(gain, this.context.currentTime, 0.03);
+		return gain;
+	}
+
 	/** Enables or mutes the monitor path through the shared safety gate. */
 	setMonitor(requested) {
 		this.monitoring = resolveMonitorEnabled(requested, this.mode) && !this.feedbackCut;
@@ -172,7 +183,7 @@ export class MicCaptureSession {
 		if (this.processor) this.processor.onaudioprocess = null;
 		if (this.duckNode && this.context)
 			this.duckNode.gain.setTargetAtTime(this.duckPrior, this.context.currentTime, 0.05);
-		for (const node of [this.processor, this.silence, this.monitorGain, this.recordTap, this.analyser, this.source]) {
+		for (const node of [this.processor, this.silence, this.monitorGain, this.recordTap, this.analyser, this.inputGain, this.source]) {
 			try { node?.disconnect(); } catch (_) { /* Already detached. */ }
 		}
 		this.stream?.getTracks().forEach(track => track.stop());
