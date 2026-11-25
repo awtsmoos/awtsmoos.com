@@ -28,14 +28,20 @@ export function renderHeichelWorldState({
 	// record itself carries totals, the record wins over a misleading
 	// zero. (A series view that does hold posts keeps its own count —
 	// the larger of the two is the truthful floor either way.)
+	// B"H 2026-11-25 (run 4): at the root the loader's Heichel-wide totals
+	// (root posts + each top-level series' postsCount) join the max, so the
+	// stats row cannot read 0 over content held inside the Heichel's series.
+	const totals = currentSeries === 'root' ? content.totals : null;
 	const counts = {
 		posts: Math.max(
 			count(content.posts),
-			count(heichel.postCount ?? heichel.postsCount ?? heichel.teachingsCount)
+			count(heichel.postCount ?? heichel.postsCount ?? heichel.teachingsCount),
+			totals ? totals.teachings : 0
 		),
 		series: Math.max(
 			count(content.subSeries),
-			count(heichel.seriesCount ?? heichel.subSeriesCount)
+			count(heichel.seriesCount ?? heichel.subSeriesCount),
+			totals ? totals.series : 0
 		),
 		followers: count(heichel.followers || heichel.members || heichel.subscribers),
 		mode: ownsIt ? 'owner' : 'visitor',

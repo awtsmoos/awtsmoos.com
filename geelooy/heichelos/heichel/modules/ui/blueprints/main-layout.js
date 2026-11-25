@@ -43,8 +43,16 @@ export function getFullLayoutBlueprint(actions) {
 }
 
 function stage(actions) {
+	// B"H 2026-11-25 (run 4): the stage is a <div>, never a nested <main>.
+	// The app shell already wraps every page in its own <main class="main">,
+	// and the shell's universal header-clearance rule
+	// (main { padding-top: calc(var(--g-header-h) + 1.25rem) }) struck BOTH
+	// mains, stacking ~96px twice and opening a ~220px empty black band
+	// above the Heichel hero (measured live: hero top 308px under a ~93px
+	// header). One document, one main — the stage keeps its own class-based
+	// padding from the heichel bundle.
 	return {
-		tag: 'main',
+		tag: 'div',
 		attr: { class: 'geelooy-main-stage' },
 		children: [
 			hero(actions),

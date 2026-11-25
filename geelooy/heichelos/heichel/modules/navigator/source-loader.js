@@ -84,6 +84,28 @@ async function loadCollections(seriesId) {
 		posts,
 		subSeries,
 		groupings,
-		translationMeta: translations?.meta || null
+		translationMeta: translations?.meta || null,
+		totals: heichelTotals(seriesId, posts, subSeries)
 	};
+}
+
+/**
+ * B"H 2026-11-25 (Project Revelation run 4): at the Heichel root the header
+ * describes the whole Heichel, not only the root folder. A Heichel whose
+ * posts live inside its series showed "0 teachings" in the hero while its
+ * series visibly held published posts (proven live on Ohr HaNiggun: root
+ * details [], its one series postsCount 1). Totals therefore add the root
+ * posts to each top-level series' own post count (postsCount from the
+ * series record, falling back to its loaded posts list). Non-root views
+ * keep their own series counts, so totals stay null there.
+ */
+function heichelTotals(seriesId, posts, subSeries) {
+	if (seriesId !== 'root') return null;
+	const nested = subSeries.reduce((sum, entry) => {
+		const counted = Number.isFinite(entry?.postsCount)
+			? entry.postsCount
+			: (entry?.posts?.length || 0);
+		return sum + counted;
+	}, 0);
+	return { teachings: posts.length + nested, series: subSeries.length };
 }

@@ -7,7 +7,25 @@
  * Awtsmoos.com clears duplicate chrome and lets Tree spend the full width it was actually given.
  */
 :root {
-	--heichel-global-roof-clearance: 104px;
+	/* B"H 2026-11-25 (Project Revelation run 4): this clearance was sized
+	   when the stage had to clear the fixed header by itself. Inside the
+	   app shell the header is already cleared by the page and shell-main
+	   layers above the stage, so a full second roof clearance stacked into
+	   a ~220px empty black band above the hero (measured live: hero top
+	   316px under a ~93px header). Only breathing room remains here; the
+	   shell-main layer itself is released for this composition by the
+	   :has() rule below. */
+	--heichel-global-roof-clearance: 16px;
+}
+/* B"H 2026-11-25 (run 4): the shell's universal main clearance
+   (main { padding-top: calc(var(--g-header-h) + 1.25rem) }) is meant for
+   pages whose main IS the page. On Heichel-OS pages the shell main only
+   wraps the doorway SPA, whose stage carries its own roof clearance —
+   keeping both stacked three clearances over one header. Release the
+   shell main's padding exactly where it wraps the SPA shell, nowhere
+   else. */
+body.heichel-os-document .heichel-os-page > .main:has(> .geelooy-social-shell) {
+	padding-top: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-app-shell) .heichel-mobile-navigation .cosmic-heichel-topbar {
@@ -21,6 +39,14 @@
 	border: 0;
 }
 .heichel-os-document .geelooy-main-stage {
+	padding-block-start: var(--heichel-global-roof-clearance);
+}
+/* B"H 2026-11-25 (run 4): at narrow widths a stronger legacy rule
+   (html .heichel-os-document .geelooy-main-stage, padding from the old
+   header height) outranked the rule above and kept the band on mobile.
+   This selector carries the same single clearance with enough weight to
+   hold at every width. */
+body.heichel-os-document .heichel-os-page .geelooy-main-stage {
 	padding-block-start: var(--heichel-global-roof-clearance);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -67,7 +93,7 @@
 		min-inline-size: 0;
 	} }
 @media (max-width: 900px) { :root {
-		--heichel-global-roof-clearance: 82px;
+		--heichel-global-roof-clearance: 12px;
 	} }
 @media (max-width: 900px) { .heichel-os-document .geelooy-main-stage {
 		padding-block-start: var(--heichel-global-roof-clearance);

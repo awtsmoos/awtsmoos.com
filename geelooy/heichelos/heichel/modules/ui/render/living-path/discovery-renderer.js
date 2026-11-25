@@ -127,5 +127,14 @@ export function updateProfileContext(appState) {
 		DOMElements.profileCompactContext.textContent = `${series} Torah ${series === 1 ? 'section' : 'sections'}`;
 		return;
 	}
-	DOMElements.profileCompactContext.textContent = `${posts} teachings · ${series} series`;
+	// B"H 2026-11-25 (run 4): at the root, the loader's Heichel-wide totals
+	// win — the root folder alone can be empty while its series hold the
+	// teachings (Ohr HaNiggun rendered "0 teachings · 1 series" over a
+	// published song). Series views keep their own counts.
+	const totals = appState.currentSeries === 'root'
+		? appState.currentContent?.totals
+		: null;
+	const teachings = totals ? totals.teachings : posts;
+	const seriesCount = totals ? totals.series : series;
+	DOMElements.profileCompactContext.textContent = `${teachings} teachings · ${seriesCount} series`;
 }
