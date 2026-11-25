@@ -5,7 +5,7 @@
 const { currentIdentity } = require("../core/auth.js");
 const { enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
-const { json } = require("../core/respond.js");
+const { json, setHeader } = require("../core/respond.js");
 const { autoCreatePreviewResult } = require("../preview/previewAutoCreate.js");
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const Authorization = require("./protectedFsAuthorization.js");
@@ -23,6 +23,11 @@ const Wiring = require("../core/revelation/wiring.js");
  * authorization, vessel selection, execution, and accounting as separate witnesses.
  */
 async function protectedFs($i, variables = {}) {
+	// Tunnel responses carry file contents and command output: they must
+	// never be stored by browsers, proxies or prefetch caches, on either
+	// transport (a legacy GET response must not be replayable from cache).
+	setHeader($i, "Cache-Control", "no-store");
+	setHeader($i, "Pragma", "no-cache");
 	const identity = currentIdentity($i);
 	if (!identity.ok) return json($i, Authorization.unauthorized(identity), 401);
 	let payload;
@@ -38,7 +43,7 @@ async function protectedFs($i, variables = {}) {
 			action: payload.action
 		}), 400);
 	}
-	const transportVerdict = Wiring.guardFsTransport($i);
+	const transportVerdict = Wiring.guardFsTransport($i, identity);
 	if (transportVerdict) return json($i, transportVerdict.body, transportVerdict.status);
 	if (payload.action === "payloadEcho") {
 		return json($i, { BH: "B\"H", ok: true, action: "payloadEcho", payload });
