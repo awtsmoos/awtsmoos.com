@@ -8,12 +8,14 @@
  * Awtsmoos.com puts a small recording studio on the piano surface itself:
  * both stems (voice and piano) are kept for every take, so the singer can
  * rebalance, polish and re-export a take without ever re-recording it.
- * Session-only take list — nothing here touches the saved library.
+ * Every take is persisted to the device's asset store (both stems,
+ * balance and polish), so the list survives a reload whole.
  */
 import { AudioState } from '../audio.js';
 import { MicCaptureSession, StreamPcmTap } from '../recording/micCapture.js';
 import { MIC_OUTPUT_MODE_KEY, normalizeOutputMode } from '../recording/micSafety.js';
 import { mixStemChannels, levelZone, classifyLevelCheck, countInBeats } from '../recording/voiceMix.js';
+import { saveVoiceTake, deleteVoiceTake, updateVoiceTakeBalance, restoreVoiceTakes } from '../recording/voiceTakeStore.js';
 
 let bound = false;
 let capture = null;
@@ -40,6 +42,7 @@ export function ensureVoiceTakeControl() {
 	injectStyles();
 	const box = document.createElement('span');
 	box.id = 'voice-take-controls';
+	box.className = 'voice-take-panel';
 	box.style.cssText = 'display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:96vw';
 	ui.record = button('🎙 Record Voice', 'voice-take-record');
 	ui.check = button('🎚 Level Check', 'voice-level-check');
@@ -109,6 +112,7 @@ export function ensureVoiceTakeControl() {
 		selected.voiceGain = Number(ui.voiceMix.input.value) / 100;
 		selected.pianoGain = Number(ui.pianoMix.input.value) / 100;
 		selected.mixedCache = null;
+		updateVoiceTakeBalance(selected.id, selected.voiceGain, selected.pianoGain);
 		ui.voiceMix.out.textContent = `${ui.voiceMix.input.value}%`;
 		ui.pianoMix.out.textContent = `${ui.pianoMix.input.value}%`;
 	};
@@ -119,6 +123,7 @@ export function ensureVoiceTakeControl() {
 		ui.voiceMix.wrap, ui.pianoMix.wrap, ui.polish, ui.playPolished, ui.usePolished,
 		guide, ui.status, ui.list);
 	anchor.after(box);
+	void restoreSavedTakes();
 	return box;
 }
 
@@ -127,7 +132,22 @@ function injectStyles() {
 	const style = document.createElement('style');
 	style.id = 'voice-take-styles';
 	style.textContent = '@keyframes voicePulse{0%,100%{opacity:1}50%{opacity:.45}}'
-		+ '.voice-take-record.recording{animation:voicePulse 1s infinite;background:#d33;color:#fff}';
+		+ '.voice-take-panel{background:linear-gradient(160deg,#241b0d,#171106);border:1px solid #d59a35;'
+		+ 'border-radius:14px;padding:10px 12px;color:#f5eeda;box-shadow:0 4px 18px rgba(0,0,0,.35)}'
+		+ '.voice-take-panel button{background:#2a2113;color:#f0d48a;border:1px solid #d59a35;border-radius:9px;'
+		+ 'font:inherit;cursor:pointer}'
+		+ '.voice-take-panel button:hover:not(:disabled){background:#3a2c15;color:#ffe9a8}'
+		+ '.voice-take-panel button:disabled{opacity:.45;cursor:default}'
+		+ '.voice-take-panel button.voice-take-record{background:#d59a35;color:#241a05;font-weight:700}'
+		+ '.voice-take-panel button.voice-take-record.recording{animation:voicePulse 1s infinite;background:#d33;color:#fff;border-color:#d33}'
+		+ '.voice-take-panel input[type=range]{accent-color:#d59a35}'
+		+ '.voice-take-panel input[type=checkbox]{accent-color:#d59a35;width:20px;height:20px}'
+		+ '.voice-take-panel .voice-take-meter{border-color:#d59a35;background:rgba(0,0,0,.4)}'
+		+ '.voice-take-panel .voice-wave{border:1px solid rgba(213,154,53,.55)}'
+		+ '.voice-take-panel .voice-take-row{border-radius:8px;padding:3px 6px}'
+		+ '.voice-take-panel .voice-take-row[aria-current=true]{outline:2px solid #d59a35}'
+		+ '.voice-take-panel .voice-take-status{color:#f5eeda}'
+		+ '.voice-take-panel .voice-speakers-guide{color:#e8cf8a}';
 	document.head.append(style);
 }
 
@@ -225,7 +245,7 @@ function drawWave() {
 	if (!ctx) return;
 	const { width, height } = ui.wave;
 	ctx.clearRect(0, 0, width, height);
-	ctx.fillStyle = '#e33';
+	ctx.fillStyle = '#e8cf8a';
 	const bars = levelHistory.slice(-72);
 	bars.forEach((rms, i) => {
 		const h = Math.max(2, Math.min(1, rms * 4) * (height - 4));
@@ -288,7 +308,7 @@ async function startTake() {
 		masterTapDest = AudioState.context.createMediaStreamDestination();
 		AudioState.masterGain.connect(masterTapDest);
 		masterTap = new StreamPcmTap(AudioState.context, masterTapDest.stream);
-		masterTap.start();
+		await masterTap.start();
 	}
 	await capture.start({
 		context: AudioState.context,
@@ -335,6 +355,7 @@ async function stopTake() {
 		return;
 	}
 	const take = {
+		createdAt: Date.now(),
 		id: ++takeSeq,
 		voice: { buffer: result.buffer, startContextTime: result.startContextTime },
 		piano: piano?.buffer ? { buffer: piano.buffer, startContextTime: piano.startContextTime } : null,
@@ -345,9 +366,10 @@ async function stopTake() {
 		polishedBuffer: null
 	};
 	takes.push(take);
+	void saveVoiceTake(take).catch(() => { /* Store full/blocked: the take stays in this session. */ });
 	selectTake(take);
 	const micRms = bufferRms(result.buffer);
-	ui.status.textContent = `Take ${take.id} kept (${result.duration.toFixed(1)}s) — voice and piano stems saved: rebalance them, polish, play, save, or send to the Studio.`
+	ui.status.textContent = `Voice take kept — Take ${take.id} (${result.duration.toFixed(1)}s) — voice and piano stems saved: rebalance them, polish, play, save, or send to the Studio.`
 		+ (micRms < 0.004 ? ` ⚠ WARNING: your voice was barely picked up (level ${micRms.toFixed(3)}). Run the Level Check, raise Mic gain, move closer — do not trust this take.` : '')
 		+ (clipLatched ? ' ⚠ The voice clipped during this take — lower Mic gain a little next time.' : '')
 		+ (result.feedbackCut ? ' Monitoring was cut by the feedback guard during the take.' : '');
@@ -371,8 +393,8 @@ function renderTakeList() {
 	for (const take of takes) {
 		const row = document.createElement('span');
 		row.className = 'voice-take-row';
-		row.style.cssText = 'display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap'
-			+ (take === selected ? ';outline:2px solid currentColor;border-radius:6px;padding:2px' : '');
+		row.style.cssText = 'display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap';
+		row.toggleAttribute('aria-current', take === selected);
 		const name = document.createElement('strong');
 		name.style.fontSize = '12px';
 		name.textContent = `Take ${take.id} (${take.duration.toFixed(1)}s)${take.polishedBuffer ? ' ✨' : ''}`;
@@ -385,6 +407,7 @@ function renderTakeList() {
 		studio.addEventListener('click', () => { selectTake(take); void sendToStudio(); });
 		const del = button('🗑', 'voice-take-row-delete');
 		del.addEventListener('click', () => {
+			void deleteVoiceTake(take.id).catch(() => {});
 			const index = takes.indexOf(take);
 			if (index >= 0) takes.splice(index, 1);
 			if (selected === take) selectTake(takes[takes.length - 1] || null);
@@ -393,6 +416,22 @@ function renderTakeList() {
 		row.append(name, play, save, studio, del);
 		ui.list.append(row);
 	}
+}
+
+/** Restores takes persisted on this device (stems + balance + polish). */
+async function restoreSavedTakes() {
+	try {
+		const context = AudioState.context || new OfflineAudioContext(1, 1, 44100);
+		const restored = await restoreVoiceTakes({ context });
+		if (!restored.length) return;
+		for (const take of restored) {
+			takes.push(take);
+			takeSeq = Math.max(takeSeq, take.id);
+		}
+		selectTake(restored[restored.length - 1]);
+		ui.status.textContent = `Restored ${restored.length} saved take${restored.length === 1 ? '' : 's'} from this device — stems, balance and polish intact.`;
+		renderTakeList();
+	} catch (_) { /* No store on this browser: session-only takes, as before. */ }
 }
 
 async function levelCheck() {
@@ -477,6 +516,7 @@ async function polishSelected() {
 		}
 		voiceSrc.start();
 		take.polishedBuffer = await offline.startRendering();
+		void saveVoiceTake(take).catch(() => { /* Polish stays in this session if the store refuses. */ });
 		ui.playPolished.disabled = false;
 		ui.status.textContent = `Take ${take.id} polished — original untouched. ▶ Polished to A/B against ▶ Take; tick "Export polished" to save/send the polished version.`;
 		renderTakeList();
