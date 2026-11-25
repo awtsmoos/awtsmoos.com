@@ -46,6 +46,37 @@ test('buildPlaylist: media field outranks assets, video outranks audio, text ski
 	assert.equal(list[2].title, 'Wrapped');
 });
 
+test('buildPlaylist carries the author visualizer preset of the winning asset', () => {
+	const posts = [
+		{ id: 'a', title: 'Song', rootAssets: [{ url: '/a.mp3', visualizer: 'celestial' }] },
+		{ id: 'b', title: 'Track', rootAssets: [{ url: '/b.mp3', visualizer: 'bogus' }] },
+		{ id: 'c', title: 'Clip', media: { video: { url: '/c.mp4', visualizer: 'waveform' } } },
+	];
+	const list = P.buildPlaylist(posts, ORIGIN);
+	assert.deepEqual(J(list.map(t => t.visualizer)), ['celestial', '', 'waveform']);
+});
+
+test('nextOnEnded: autoplay, repeat-track, repeat-series, and rest', () => {
+	const natural = [0, 1, 2];
+	assert.equal(P.nextOnEnded(0, 3, { autoplayNext: true, repeat: 'off', order: natural }), 1);
+	assert.equal(P.nextOnEnded(2, 3, { autoplayNext: true, repeat: 'off', order: natural }), -1);
+	assert.equal(P.nextOnEnded(0, 3, { autoplayNext: false, repeat: 'off', order: natural }), -1);
+	assert.equal(P.nextOnEnded(1, 3, { autoplayNext: false, repeat: 'track', order: natural }), 1);
+	assert.equal(P.nextOnEnded(2, 3, { autoplayNext: true, repeat: 'series', order: natural }), 0);
+	assert.equal(P.nextOnEnded(2, 3, { autoplayNext: false, repeat: 'series', order: natural }), 0);
+	assert.equal(P.nextOnEnded(0, 0, { autoplayNext: true, repeat: 'off', order: [] }), -1);
+	const shuffled = [2, 0, 1];
+	assert.equal(P.nextOnEnded(2, 3, { autoplayNext: true, repeat: 'off', order: shuffled }), 0);
+	assert.equal(P.nextOnEnded(1, 3, { autoplayNext: true, repeat: 'off', order: shuffled }), -1);
+});
+
+test('shuffledOrder is a permutation that starts with the current track', () => {
+	const order = P.shuffledOrder(6, 3, () => 0.42);
+	assert.deepEqual(J([...order].sort((a, b) => a - b)), [0, 1, 2, 3, 4, 5]);
+	assert.equal(order[0], 3);
+	assert.deepEqual(J(P.naturalOrder(3)), [0, 1, 2]);
+});
+
 test('extractPosts unwraps success/posts/details/object-map shapes', () => {
 	assert.deepEqual(J(P.extractPosts({ success: [{ id: 1 }] })), [{ id: 1 }]);
 	assert.deepEqual(J(P.extractPosts({ posts: [{ id: 2 }] })), [{ id: 2 }]);

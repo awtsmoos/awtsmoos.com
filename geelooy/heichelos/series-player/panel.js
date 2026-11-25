@@ -46,10 +46,26 @@
 				'<div class="awt-sp-controls">' +
 					'<button type="button" class="awt-sp-btn" data-role="prev">⏮ Previous</button>' +
 					'<button type="button" class="awt-sp-btn" data-role="next">Next ⏭</button>' +
+				'</div>' +
+				'<div class="awt-sp-controls awt-sp-prefs">' +
+					'<label class="awt-sp-toggle"><input type="checkbox" data-role="autoplay" checked> Auto-play next</label>' +
+					'<label class="awt-sp-toggle">Repeat <select data-role="repeat" aria-label="Repeat mode">' +
+						'<option value="off">Off</option><option value="series">Series</option><option value="track">Track</option>' +
+					'</select></label>' +
+					'<button type="button" class="awt-sp-btn awt-sp-shuffle" data-role="shuffle" aria-pressed="false">🔀 Shuffle</button>' +
 				'</div>';
 			panel.querySelector('[data-role="close"]').addEventListener('click', handlers.onStop);
 			panel.querySelector('[data-role="prev"]').addEventListener('click', handlers.onPrev);
 			panel.querySelector('[data-role="next"]').addEventListener('click', handlers.onNext);
+			panel.querySelector('[data-role="autoplay"]').addEventListener('change', function (event) {
+				if (handlers.onAutoplay) handlers.onAutoplay(event.target.checked);
+			});
+			panel.querySelector('[data-role="repeat"]').addEventListener('change', function (event) {
+				if (handlers.onRepeat) handlers.onRepeat(event.target.value);
+			});
+			panel.querySelector('[data-role="shuffle"]').addEventListener('click', function () {
+				if (handlers.onShuffle) handlers.onShuffle();
+			});
 			document.body.appendChild(panel);
 		}
 	}
@@ -76,6 +92,18 @@
 		}
 	}
 
+	/** Reflects the engine's saved preferences in the panel controls. */
+	function setPrefs(prefs) {
+		var panel = el(PANEL_ID);
+		if (!panel || !prefs) return;
+		var autoplay = panel.querySelector('[data-role="autoplay"]');
+		if (autoplay) autoplay.checked = prefs.autoplayNext !== false;
+		var repeat = panel.querySelector('[data-role="repeat"]');
+		if (repeat) repeat.value = prefs.repeat || 'off';
+		var shuffle = panel.querySelector('[data-role="shuffle"]');
+		if (shuffle) shuffle.setAttribute('aria-pressed', prefs.shuffle ? 'true' : 'false');
+	}
+
 	window.AwtSeriesPanel = {
 		LAUNCHER_ID: LAUNCHER_ID,
 		PANEL_ID: PANEL_ID,
@@ -83,6 +111,7 @@
 		ensureUi: ensureUi,
 		setLauncherVisible: setLauncherVisible,
 		clearHighlight: clearHighlight,
-		highlightCurrent: highlightCurrent
+		highlightCurrent: highlightCurrent,
+		setPrefs: setPrefs
 	};
 })();

@@ -37,13 +37,16 @@
 		try { return new URL(String(raw), origin).href; } catch (e) { return ''; }
 	}
 
+	var VISUALIZERS = ['waveform', 'spectrum', 'celestial'];
+
 	function pickMedia(record, origin) {
 		var byKind = {};
 		function consider(asset) {
 			var kind = kindOf(asset);
 			var url = assetUrl(asset, origin);
 			if ((kind === 'audio' || kind === 'video') && url && !byKind[kind]) {
-				byKind[kind] = { kind: kind, url: url };
+				var visualizer = asset && VISUALIZERS.indexOf(asset.visualizer) !== -1 ? asset.visualizer : '';
+				byKind[kind] = { kind: kind, url: url, visualizer: visualizer };
 			}
 		}
 		if (record.media && typeof record.media === 'object') {
@@ -76,10 +79,52 @@
 				id: String(record.id || record.postId || ''),
 				title: String(record.title || record.name || 'Untitled post'),
 				kind: media.kind,
-				url: media.url
+				url: media.url,
+				visualizer: media.visualizer || ''
 			});
 		});
 		return list;
+	}
+
+	/** Natural play order: series order, untouched. */
+	function naturalOrder(length) {
+		var order = [];
+		for (var i = 0; i < length; i++) order.push(i);
+		return order;
+	}
+
+	/** Shuffled order that still begins with the track already playing. */
+	function shuffledOrder(length, startIndex, rng) {
+		var order = naturalOrder(length);
+		var random = typeof rng === 'function' ? rng : Math.random;
+		for (var i = order.length - 1; i > 0; i--) {
+			var j = Math.floor(random() * (i + 1));
+			var swap = order[i]; order[i] = order[j]; order[j] = swap;
+		}
+		var at = order.indexOf(startIndex);
+		if (at > 0) { order.splice(at, 1); order.unshift(startIndex); }
+		return order;
+	}
+
+	/**
+	 * Where playback goes when a track ends on its own.
+	 * Repeat-track replays; without autoplay-next (and without
+	 * repeat-series) the series rests; repeat-series wraps to the
+	 * first track of the current order. Returns -1 to finish.
+	 */
+	function nextOnEnded(index, length, opts) {
+		if (!length || index < 0 || index >= length) return -1;
+		var options = opts || {};
+		if (options.repeat === 'track') return index;
+		var order = Array.isArray(options.order) && options.order.length === length
+			? options.order : naturalOrder(length);
+		var position = order.indexOf(index);
+		if (position === -1) position = index;
+		if (position < length - 1) {
+			if (options.autoplayNext === false && options.repeat !== 'series') return -1;
+			return order[position + 1];
+		}
+		return options.repeat === 'series' ? order[0] : -1;
 	}
 
 	window.AwtSeriesPlaylist = {
@@ -88,6 +133,10 @@
 		assetUrl: assetUrl,
 		pickMedia: pickMedia,
 		extractPosts: extractPosts,
-		buildPlaylist: buildPlaylist
+		buildPlaylist: buildPlaylist,
+		naturalOrder: naturalOrder,
+		shuffledOrder: shuffledOrder,
+		nextOnEnded: nextOnEnded,
+		VISUALIZERS: VISUALIZERS
 	};
 })();

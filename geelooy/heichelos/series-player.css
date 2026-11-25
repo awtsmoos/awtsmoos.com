@@ -132,6 +132,54 @@ body.geelooy-app-shell .awt-sp-btn:hover {
 	box-shadow: 0 0 0 5px rgba(199, 164, 90, .18);
 }
 
+/* B"H — Run 3: playback preferences row (auto-play next, repeat, shuffle)
+   and the per-track visualizer host inside the stage. */
+.awt-sp-prefs {
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+body.geelooy-app-shell .awt-sp-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	flex: 1 1 auto;
+	font: 600 .88rem/1.2 system-ui, sans-serif;
+	color: #f7f1e3;
+	cursor: pointer;
+}
+
+body.geelooy-app-shell .awt-sp-toggle input[type="checkbox"] {
+	inline-size: 1.15rem;
+	block-size: 1.15rem;
+	accent-color: #c7a45a;
+	cursor: pointer;
+}
+
+body.geelooy-app-shell .awt-sp-toggle select {
+	min-block-size: 2.2rem;
+	border: 1px solid #8a6d3b;
+	border-radius: .6rem;
+	background: #20324e;
+	color: #f7f1e3;
+	font: 600 .88rem/1.2 system-ui, sans-serif;
+	padding: .3rem .5rem;
+	cursor: pointer;
+}
+
+body.geelooy-app-shell .awt-sp-shuffle {
+	flex: 0 1 auto;
+}
+
+body.geelooy-app-shell .awt-sp-shuffle[aria-pressed="true"] {
+	background: #8a6d3b;
+	border-color: #d9c9a8;
+}
+
+.awt-sp-fx {
+	margin-top: .6rem;
+}
+
 @media (max-width: 35rem) {
 	.awt-series-player-panel {
 		inset-inline: .6rem;
