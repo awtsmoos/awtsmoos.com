@@ -1,0 +1,28 @@
+{
+	"determinismVerification": "repeat-canonical-build",
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/MitzvahWorldLauncherBundle.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "launcher",
+	"outputBytes": 173143,
+	"outputHash": "48ba2658be77ecd66017a9455e71f91aaa7137a1ca6e2e6730f0f8d668337b5f",
+	"preserveDynamicImports": false,
+	"representations": {
+		"brotli": {
+			"bytes": 33546,
+			"encoding": "br",
+			"sha256": "387aab50178bfb8ba537f66e42c6d42621c83fa40b37d1f5010ffaa8a713d7b7"
+		},
+		"gzip": {
+			"bytes": 40316,
+			"encoding": "gzip",
+			"sha256": "e766afb8936724d70567b61fb1c409e41cbb9fa417aa4d5f410fab77685d998b"
+		},
+		"identity": {
+			"bytes": 173143,
+			"encoding": "identity",
+			"sha256": "48ba2658be77ecd66017a9455e71f91aaa7137a1ca6e2e6730f0f8d668337b5f"
+		}
+	}
+}

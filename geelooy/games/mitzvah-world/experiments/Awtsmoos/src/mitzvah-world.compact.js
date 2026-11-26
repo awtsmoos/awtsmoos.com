@@ -24,7 +24,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 		? new URL('./', SOURCE_URL)
 		: new URL('./launcher/', SOURCE_URL);
-	const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
+	const PAGE_BOOT_URL = new URL('../mitzvah-world-launcher.compact.js', LAUNCHER_BASE).href;
 	const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
 
 	markCompactScriptStart(globalThis);
@@ -49,7 +49,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.bootMinimalSharedMeadowRuntimePage = bootMinimalSharedMeadowRuntimePage;
 	/** Resolves the public route/session mode through the same compact launcher boundary. */
 	async function resolveMinimalSharedMeadowSessionMode(search = '') {
-		const module = await import(launcherModuleUrl('MitzvahWorldSessionMode.js'));
+		const module = await import(PAGE_BOOT_URL);
 		return module.resolveMitzvahWorldSessionMode(search);
 	}
 
@@ -68,7 +68,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/** Resolves one first-control launcher URL with compact and release-cache identities in canonical order. */
 	function launcherModuleUrl(fileName) {
-		return new URL(`${fileName}?compact=true&v=${BUILD_VERSION}`, LAUNCHER_BASE).href;
+		return new URL(fileName + '?compact=true&v=' + BUILD_VERSION, LAUNCHER_BASE).href;
 	}
 
 }

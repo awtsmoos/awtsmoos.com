@@ -94,6 +94,7 @@ function chunkConfigurations() {
 		chunk('core', 'BootstrapEssentialPrimeAssembly.js'),
 		chunk('post-control', 'BootstrapPostControlHydration.js'),
 		chunk('post-playable', 'EretzPostPlayableBundle.js'),
+		chunk('launcher', 'MitzvahWorldLauncherBundle.js'),
 		chunk('presentation', 'MinimalMeadowPresentationBundle.js'),
 		chunk('world', 'MinimalMeadowWorldBundle.js', { preserveDynamicImports: true }),
 		chunk('optional', 'MinimalMeadowOptionalBundle.js')

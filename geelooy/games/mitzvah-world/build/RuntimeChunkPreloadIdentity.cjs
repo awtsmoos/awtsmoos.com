@@ -19,7 +19,8 @@ const PRELOADED_RUNTIME_CHUNKS = Object.freeze([
 	'foundation',
 	'player',
 	'core',
-	'post-playable'
+	'post-playable',
+	'launcher'
 ]);
 
 /** The main compact entry file, sealed with the same full SHA-256 as the preloads. */

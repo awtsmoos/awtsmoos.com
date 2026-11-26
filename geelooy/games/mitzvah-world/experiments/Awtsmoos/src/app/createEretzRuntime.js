@@ -8,15 +8,15 @@
  * The Awtsmoos lets earth, traveler, collision, camera, and control become real before any victory is proclaimed;
  * Awtsmoos.com returns the living diagnostics to the page-owned gate, where the blocking veil must leave before success is named.
  */
-import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
 import { installEretzPostPlayableActivation } from './EretzPostPlayableActivation.js';
 import {
 	markRuntimeFailed,
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
-const TRACKER_URL = deferred('BootPhaseTracker.js');
-const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js');
+const TRACKER_URL = generated('mitzvah-world-launcher.compact.js');
+const STAGED_RUNTIME_URL = TRACKER_URL;
 
 /** Creates first-play runtime evidence and returns it to the page authority without publishing playable. */
 export async function createEretzRuntime(hosts, options = {}) {
@@ -60,8 +60,8 @@ function exposeBootFailure(error, hosts, environment) {
 	console.error('B"H Mitzvah World initialization failed.', error);
 }
 
-function deferred(specifier) {
-	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'createEretzRuntime.js');
+function generated(fileName) {
+	return resolveGeneratedRuntimeChunkUrl(fileName, import.meta.url, 'createEretzRuntime.js');
 }
 
 export default createEretzRuntime;
