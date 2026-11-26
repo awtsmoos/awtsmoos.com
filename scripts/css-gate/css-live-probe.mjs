@@ -137,7 +137,15 @@ async function main() {
 		await cdp.send('Page.enable', {}, sessionId);
 		await cdp.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 600 }, sessionId);
 		await cdp.send('Page.navigate', { url }, sessionId);
-		await sleep(6000);
+		// Wait for the app to actually boot (SPA): poll DOM size up to ~45s.
+		for (let waited = 0; waited < 45000; waited += 2000) {
+			await sleep(2000);
+			try {
+				const probe = await cdp.send('Runtime.evaluate', { expression: "document.body ? document.body.getElementsByTagName('*').length : 0", returnByValue: true }, sessionId);
+				if ((probe.result.value || 0) > 80) break;
+			} catch {}
+		}
+		await sleep(1500);
 		const res = await cdp.send('Runtime.evaluate', { expression: DUMP_JS, returnByValue: true, awaitPromise: true }, sessionId);
 		if (res.exceptionDetails) throw new Error('in-page dump failed: ' + JSON.stringify(res.exceptionDetails).slice(0, 300));
 		const dump = res.result.value;
