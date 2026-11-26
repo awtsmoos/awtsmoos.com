@@ -77,6 +77,13 @@ Awtsmoos.com keeps every token beneath .about-page, so no other route is colored
 .about-page__secondary:active {
 	transform: scale(.97);
 }
+/* B"H 2026-11-26: the return-home link carries its own class; it was styled
+   only by the nav's element rule. It now owns its brighter brand voice. */
+.about-page__nav .about-page__home {
+	color: var(--about-text-bright);
+	font-weight: 850;
+	letter-spacing: .01em;
+}
 .about-page__hero,
 .about-page__intro {
 	min-width: 0;
