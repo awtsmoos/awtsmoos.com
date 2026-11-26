@@ -61,7 +61,15 @@ export async function installQuickPostLayout() {
 		legacy.forEach(node=>node.inert=visible);
 		host.style.setProperty('display',visible?'block':'none','important');
 		document.documentElement.style.overflow=visible?'hidden':savedOverflow;
-		if(visible) {destination.clear();state.selectDestination(null);}
+		if(visible) {
+			// B"H 2026-11-26 (owner-aware upload): a deep link from a
+			// Heichel page (?heichel=…&series=…) has already named the
+			// destination — never discard it on show. The quick
+			// destination auto-confirms it against the verified alias
+			// (see quick/destination.js applyHint); the full panel's
+			// own restore owns the state destination meanwhile.
+			if(!context.heichelId) {destination.clear();state.selectDestination(null);}
+		}
 		else {applyComposerMode('advanced');controller.renderAll(state.snapshot());}
 	}
 	get('advanced').onclick=()=>setVisible(false);

@@ -25,6 +25,7 @@ export function profileBlueprint(actions) {
 		children: [
 			{ tag: 'div', attr: { class: 'heichel-profile-cover', 'aria-hidden': 'true' } },
 			identity(),
+			addAction(),
 			details(actions),
 			profileTabs()
 		]
@@ -44,6 +45,32 @@ function identity() {
 			{ tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }
 		])
 	]);
+}
+
+function addAction() {
+	// B"H 2026-11-26 (owner-aware upload): the add action stands OUTSIDE
+	// the details disclosure, visible at first light — never buried. It
+	// renders in a safe generic state that already carries the Heichel
+	// and the series the visitor is standing in; the living-path
+	// add-action resolver then upgrades it in place once verified
+	// identity + destination access resolve: owner (Add, posting as the
+	// Heichel's own alias), contributor (Submit for review), signed-out
+	// (Sign in, returning to this page). One composer, one entrance.
+	const heichelId = pendingHeichelIdentity().heichelId;
+	const openSeries = (location.pathname.match(/\/series\/([^/]+)/) || [])[1] || 'root';
+	const composerHref = heichelId
+		? `/social-composer/?heichel=${encodeURIComponent(heichelId)}&series=${encodeURIComponent(openSeries)}`
+		: '/social-composer/';
+	return {
+		tag: 'a',
+		attr: {
+			id: 'heichelAddAction',
+			class: 'heichel-add-action',
+			href: composerHref,
+			'data-state': 'generic'
+		},
+		children: ['＋ Create post']
+	};
 }
 
 function details(actions) {
@@ -78,20 +105,13 @@ function stat(key, label) {
 }
 
 function actionsRow(actions) {
-	const heichelId = pendingHeichelIdentity().heichelId;
-	// B"H 2026-11-26 (Revelation fix): preselect the series the visitor is
-	// actually standing in (named in the URL), not always the root -- the
-	// owner adds to the open series directly, everyone else lands in the
-	// same place framed as a submission for review by the publish plan.
-	const openSeries = (location.pathname.match(/\/series\/([^/]+)/) || [])[1] || 'root';
-	const composerHref = heichelId
-		? `/social-composer/?heichel=${encodeURIComponent(heichelId)}&series=${encodeURIComponent(openSeries)}`
-		: '/social-composer/';
+	// B"H 2026-11-26 (owner-aware upload): no second create entry hides
+	// in this row — the prominent add action above the disclosure is
+	// the single entrance to the one composer (see addAction()).
 	return box('heichel-profile-actions', [
 		button('Follow', 'Follow this Heichel', actions.toggleHeichelFollow, {
 			class: 'heichel-profile-action heichel-profile-action--primary'
 		}, 'heichelFollowButton'),
-		link(composerHref, 'Create post', 'heichel-profile-action'),
 		link('/email', 'Message', 'heichel-profile-action'),
 		button('•••', 'More Heichel actions', actions.openHeichelMenu, {
 			class: 'heichel-profile-action heichel-profile-action--more'

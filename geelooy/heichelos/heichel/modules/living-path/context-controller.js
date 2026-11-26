@@ -14,6 +14,7 @@ import { DOMElements } from '../dom.js';
 import { applyCustomPageMode } from '../ui/custom-page-mode.js?v=heichel-mobile-012';
 import { readProgress } from './progress-store.js';
 import { LivingPathContextFollowController } from './context-follow-controller.js?v=heichel-mobile-010';
+import { resolveHeichelAddAction } from './add-action.js?v=owner-upload-001';
 import { renderPathSurfaces } from '../ui/render/living-path/path-renderer.js?v=heichel-mobile-010';
 import {
 	renderContinue,
@@ -31,6 +32,10 @@ export class LivingPathContextController {
 	afterLoad(content) {
 		renderPathSurfaces(this.navigator, appState);
 		renderContinue(readProgress(this.gateway, appState.heichelId));
+		// B"H 2026-11-26 (owner-aware upload): every load re-aims the
+		// hero add action at the series now on stage, in the visitor's
+		// true state (owner / contributor / signed-out).
+		void resolveHeichelAddAction();
 		this.afterViewChange(content);
 		applyCustomPageMode(appState.currentSeriesData);
 		updateProfileContext(appState);

@@ -1345,9 +1345,15 @@ button:hover {
 /* ==== style/heichelos/heichel/future/series-heading.css ==== */
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .series-heading { align-items:end; background:linear-gradient(180deg,#101827,#0a1220); border:1px solid rgba(246,201,108,.18); border-radius:1.25rem; display:grid; gap:.65rem 1rem; grid-template-columns:minmax(0,1fr) auto; margin:.15rem 0 .25rem; padding:clamp(.95rem,2vw,1.25rem); position:relative; }
-.series-heading::before { background:linear-gradient(var(--heichel-gold),rgba(102,231,255,.6)); border-radius:999px; bottom:1rem; content:""; left:1.05rem; position:absolute; top:1rem; width:3px; }
+/* B"H 2026-11-26 (Visual Rescue): render-state.js hides this panel at
+   root by toggling the .hidden state class — but the base display:grid
+   above outranked the state, so at root the panel rendered as a big
+   empty slab carrying only its eyebrow. The state class wins: at root
+   the panel folds away entirely and the search block stands alone. */
+.series-heading.hidden { display: none; }
+.series-heading::before { background:linear-gradient(var(--heichel-gold, #e8c268),rgba(232,194,104,.3)); border-radius:999px; bottom:1rem; content:""; left:1.05rem; position:absolute; top:1rem; width:3px; }
 .series-heading .series-label { color:var(--heichel-gold); font-size:.72rem; font-weight:950; letter-spacing:.14em; margin:0 0 .1rem; padding-inline-start:.75rem; text-transform:uppercase; }
-.series-heading h2 { color:var(--light-text-fff, #fff); font-size:clamp(1.5rem,3vw,2.25rem); letter-spacing:-.055em; line-height:1; margin:0; padding-inline-start:.75rem; }
+.series-heading h2 { font-family:var(--dream-serif-font, "Source Serif 4", Georgia, serif); color:var(--light-text-fff, #fff); font-size:clamp(1.5rem,3vw,2.25rem); letter-spacing:-.055em; line-height:1; margin:0; padding-inline-start:.75rem; }
 .series-heading p:not(.series-label) { color:var(--light-text-b9c6dc, #b9c6dc); grid-column:1/-1; line-height:1.65; margin:.15rem 0 0; max-width:68ch; overflow-wrap:anywhere; padding-inline-start:.75rem; white-space:pre-wrap; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(#seriesControls) { justify-self:end; }
@@ -1355,19 +1361,22 @@ button:hover {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 560px) { :where(#seriesControls) {justify-self:start} }
 
-/* B"H Yaakov 2026-10-08: Light-theme branch for series-heading — dark text on light bg, no */
+/* B"H 2026-11-26 (Revelation CURRENT SERIES fix): this panel is an ink card on
+   the dark cosmic stage in every theme — the old light branch painted it
+   white while sweep sheets kept ivory text on it (white-on-white, title
+   invisible). The light branch now keeps the ink ground; text stays ivory. */
 html[data-theme="light"] .series-heading {
-  background: linear-gradient(180deg, #ffffff, #f5f7fa);
-  border-color: rgba(30, 41, 59, 0.12);
+  background: linear-gradient(180deg, #101827, #0a1220);
+  border-color: rgba(246, 201, 108, .18);
 }
 html[data-theme="light"] .series-heading h2 {
-  color: #1e293b;
+  color: #f6f8ff;
 }
 html[data-theme="light"] .series-heading p:not(.series-label) {
-  color: #475569;
+  color: #b9c6dc;
 }
 html[data-theme="light"] .series-heading .series-label {
-  color: #92400e;
+  color: #e8c268;
 }
 
 
@@ -7015,14 +7024,15 @@ a:focus-visible {
   color: #1e293b;
 }
 
-/* heichel/future/series-heading.css:5 — was #fff */
+/* heichel/future/series-heading.css:5 — CURRENT SERIES panel is an ink card
+   in every theme (2026-11-26 fix); title is ivory on ink */
 :root:not([data-theme="dark"]) .series-heading h2 {
-  color: #1e293b;
+  color: #f6f8ff;
 }
 
-/* heichel/future/series-heading.css:6 — was #b9c6dc */
+/* heichel/future/series-heading.css:6 — on-ink meta value */
 :root:not([data-theme="dark"]) .series-heading p:not(.series-label) {
-  color: #475569;
+  color: #b9c6dc;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -7108,17 +7118,17 @@ a:focus-visible {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading .series-label {
-    color: #8a6d1a;
+    color: #e8c268;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .series-heading h2 {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #475569;
+    color: #b9c6dc;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
@@ -7663,8 +7673,11 @@ body:not(.geelooy-app-shell) .cosmic-heichel-topbar {
 	clip-path: polygon(0 0, calc(100% - .6rem) 0, 100% .6rem, 100% 100%, .5rem 100%, 0 calc(100% - .5rem));
 }
 .heichel-profile-action--primary {
-	border-color: var(--heichel-cosmic-cyan-core);
-	background: linear-gradient(135deg, var(--heichel-cosmic-blue-core), var(--heichel-cosmic-cyan));
+	/* B"H 2026-11-26 (Visual Rescue): the hero's primary gate wore a
+	   blue-to-cyan gradient — off the one gold palette. Deep struck
+	   bronze-gold keeps the ivory label at full contrast. */
+	border-color: rgba(239, 210, 126, .55);
+	background: linear-gradient(135deg, #7a5c1c, #a37f27);
 	box-shadow: 0 0 1.2rem rgba(239, 210, 126, .3);
 }
 .heichel-profile-tabs {
@@ -7674,7 +7687,10 @@ body:not(.geelooy-app-shell) .cosmic-heichel-topbar {
 	background: rgba(4, 4, 12, .5);
 }
 .heichel-profile-tabs a:first-child {
-	color: var(--heichel-cosmic-cyan-core);
+	/* B"H 2026-11-26 (Visual Rescue): the active gate spoke cyan with
+	   a cyan-to-magenta underline — the last off-palette streak in
+	   the hero. It takes the gold of the medallions above it. */
+	color: #e8c268;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-profile-tabs) :where(a:first-child)::after {
@@ -7683,8 +7699,8 @@ body:not(.geelooy-app-shell) .cosmic-heichel-topbar {
 	bottom: 0;
 	left: 15%;
 	height: 2px;
-	background: linear-gradient(90deg, var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
-	box-shadow: 0 0 .7rem var(--heichel-cosmic-cyan-core);
+	background: linear-gradient(90deg, #e8c268, #b98a2f);
+	box-shadow: 0 0 .7rem rgba(232, 194, 104, .55);
 	content: "";
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
@@ -8263,11 +8279,24 @@ html .heichel-os-document .series-branch-empty,
 		min-width: 0;
 		min-height: 3.45rem;
 		padding: .25rem;
-		color: var(--heichel-cosmic-secondary);
+		/* B"H 2026-11-26 (Visual Rescue): the labels took the muted
+		   taupe token at .64rem and read muddy on the near-black bar —
+		   in light theme, stray --aw-text law rules could darken them
+		   further. A fixed pale-gold ink keeps them luminous in both
+		   themes (~11:1 on the dock ground). */
+		color: #e9dfc2;
+		font-weight: 700;
 		border: 0;
 		border-radius: .7rem;
 		background: transparent;
 		font-size: .64rem;
+	} }
+/* B"H 2026-11-26 (Visual Rescue): the fixed dock owns the floor, so
+   the render root carries the clearance the dock imposes — content
+   (cards, the last series row) scrolls fully clear of the bar instead
+   of sliding underneath it. */
+@media (max-width: 900px) { .heichel-os-document .heichel-os-page > .main {
+		padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 900px) { :where(.heichel-os-document) .geelooy-bottom-nav .is-create {
@@ -8549,6 +8578,25 @@ html .heichel-os-document .series-branch-empty,
  * The Awtsmoos contains Posts, Sources, Series, and About without competition;
  * Awtsmoos.com gives each one equal shrinking space and an honest touch target.
  */
+/* B"H 2026-11-26 (Visual Rescue): the gates sat half-under the
+   "View Heichel details" bar — the details element paints in the
+   hero's flow directly above them and the row rendered tucked
+   beneath its lower edge. The gates take their own stacking layer
+   and a breath of air below the bar, and each gate anchors its own
+   active underline, so all four labels stand fully in the open at
+   every width. */
+.heichel-profile-tabs {
+	position: relative;
+	z-index: 2;
+	margin-top: .45rem;
+}
+.heichel-profile-tabs a {
+	position: relative;
+}
+.heichel-profile-details {
+	position: relative;
+	z-index: 1;
+}
 @media (max-width: 900px) { .heichel-profile-tabs {
 		inline-size: 100%;
 		min-inline-size: 0;
@@ -8675,14 +8723,14 @@ html .heichel-os-document .series-branch-empty,
 		inset-inline-start: .65rem;
 		inline-size: 3px;
 		border-radius: 999px;
-		background: linear-gradient(var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
+		background: linear-gradient(var(--heichel-gold, #e8c268), rgba(232, 194, 104, .35));
 		box-shadow: 0 0 .8rem rgba(239, 210, 126, .28);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 900px) { :where(.heichel-os-document) .series-heading .series-label {
 		margin: 0;
 		padding-inline-start: .2rem;
-		color: var(--light-text-9ddff0, #9ddff0);
+		color: var(--heichel-gold, #e8c268);
 		font-size: .65rem;
 		letter-spacing: .13em;
 		line-height: 1.2;
@@ -8723,18 +8771,29 @@ html .heichel-os-document .series-branch-empty,
 		justify-self: start;
 	} }
 
-/* B"H Yaakov 2026-10-08: Series pages light-theme fix — no */
+/* B"H 2026-11-26 (Visual Rescue): render-state.js hides this panel at
+   root by toggling .hidden — the ≤900px grid above (0,2,0) outranked
+   the state class, so at root the panel rendered as an empty slab.
+   The state wins at every width: no slab, the search block stands
+   alone until a real series is open. */
+.heichel-os-document .series-heading.hidden {
+	display: none;
+}
+
+/* B"H 2026-11-26 (Revelation CURRENT SERIES fix): the panel stays an ink card
+   in the light theme too (see future/series-heading.css), so the light tail
+   carries the on-ink values — ivory title, pale meta, gold eyebrow. */
 :where(:root[data-theme="light"]) .series-heading .series-label,
 :where(.series-heading[data-theme="light"]) .series-label {
-  color: #8a6d1a;
+  color: #e8c268;
 }
 :where(:root[data-theme="light"]) .series-heading h2,
 :where(.series-heading[data-theme="light"]) h2 {
-  color: #21160a;
+  color: #f6f8ff;
 }
 :where(:root[data-theme="light"]) .series-heading p,
 :where(.series-heading[data-theme="light"]) p {
-  color: #6d5a43;
+  color: #b9c6dc;
 }
 
 
@@ -9088,7 +9147,44 @@ html .heichel-os-document .series-branch-empty,
 .heichel-profile-details .heichel-profile-stats, .heichel-profile-details .heichel-profile-actions {
 	margin-inline: 0;
 }
+/* B"H 2026-11-26 (owner-aware upload): the add action stands outside the
+   details disclosure — one gold entrance whose state (owner / submit /
+   sign-in) is resolved by living-path/add-action.js. Gold gradient for
+   the owner's direct add and for sign-in; a quiet gold outline for a
+   contributor's submission, so the framing is honest at a glance. */
+.heichel-add-action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	margin: .15rem .75rem .6rem;
+	padding: .8rem 1rem;
+	min-block-size: 48px;
+	border: 1px solid rgba(232, 194, 104, .55);
+	border-radius: .85rem;
+	background: linear-gradient(180deg, #e8c268, #b98a2e);
+	color: #241a05;
+	font-size: .95rem;
+	font-weight: 800;
+	letter-spacing: .01em;
+	text-decoration: none;
+	box-shadow: 0 .5rem 1.4rem rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 248, 220, .65);
+}
+.heichel-add-action[data-state="contributor"] {
+	background: rgba(232, 194, 104, .1);
+	color: #e8c268;
+	box-shadow: none;
+}
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
+.heichel-add-action:hover {
+	filter: brightness(1.06);
+}
+.heichel-add-action:active {
+	transform: scale(0.99);
+}
+.heichel-add-action:focus-visible {
+	outline: 2px solid #e8c268; outline-offset: 2px;
+}
 .heichel-profile-details > summary:hover {
 	filter: brightness(1.08);
 }
@@ -10967,9 +11063,10 @@ html[data-theme="light"] :where(.heichel-mobile-navigation) :where(.mini-mail-pa
   color: #1e293b;
 }
 
-/* heichel/future/series-heading.css:5 — was #fff */
+/* heichel/future/series-heading.css:5 — panel is an ink card in every theme
+   (2026-11-26 fix); the title takes ivory, not the old botched #fff-on-white */
 html[data-theme="light"] .series-heading h2 {
-  color: #fff;
+  color: #f6f8ff;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
@@ -11055,7 +11152,7 @@ html[data-theme="light"] .nav-card-translation-badge {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   html[data-theme="light"] :where(.heichel-os-document) .series-heading .series-label {
-    color: #8a6d1a;
+    color: #e8c268;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */

@@ -41,8 +41,17 @@ export function renderSeriesCreationControls(navigator, appState) {
  */
 export function renderPostCreationControls(appState) {
 	if (!DOMElements.postsControls) return;
-	const postButton = ScribeOfManifestation.manifest(createBtnPlan('Submit New Post', () => {
-		window.open(`/heichelos/${appState.heichelId}/submit?parentSeriesId=${appState.currentSeries}`, '_blank');
+	// B"H 2026-11-26 (owner-aware upload): the owner's add goes to the
+	// ONE composer — deep-linked into this exact series with the
+	// owner's own alias named — never the legacy submit page, and
+	// never framed as a "submission": the owner publishes directly.
+	const parameters = new URLSearchParams({
+		heichel: appState.heichelId,
+		series: appState.currentSeries || 'root'
+	});
+	if (window.curAlias) parameters.set('alias', window.curAlias);
+	const postButton = ScribeOfManifestation.manifest(createBtnPlan('＋ Add post to this series', () => {
+		window.location.href = `/social-composer/?${parameters}`;
 	}));
 	DOMElements.postsControls.appendChild(postButton);
 	DOMElements.postsControls.classList.remove('hidden');

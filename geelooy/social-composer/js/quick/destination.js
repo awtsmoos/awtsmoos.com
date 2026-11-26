@@ -11,7 +11,7 @@ export function connectDestination(root,composer,tell) {
 	const heichel=get('heichel'),series=get('series'),choose=get('choose'),search=get('searchDestination');
 	const query=new URLSearchParams(location.search);
 	const hint={h:query.get('heichelId')||query.get('heichel'),s:query.get('seriesId')||query.get('series')};
-	let selection=null,request=0,timer,usedHint=false;
+	let selection=null,request=0,timer,usedHint=false,hintAttemptedFor=null;
 	const currentAlias=()=>composer.state.snapshot().identity.aliasId;
 	function resetSeries() {
 		fill(series,'Choose a series');series.disabled=choose.disabled=true;
@@ -22,6 +22,35 @@ export function connectDestination(root,composer,tell) {
 	function clear() {
 		close();selection=null;get('destination').textContent=destinationPlaceholder;
 		fill(heichel,'Choose a Heichel');resetSeries();search.value='';
+		void applyHint();
+	}
+	/** B"H 2026-11-26 (owner-aware upload): a deep link from a Heichel
+	 * page (?heichel=…&series=…, e.g. the owner's Add action) has already
+	 * named the destination — confirm it against the verified alias
+	 * instead of making the writer hunt through the picker. Runs once
+	 * per alias: when identity resolution later moves the writer to the
+	 * Heichel's owner alias, clear() (fired on the alias change) lets
+	 * this run again for the new alias, so the confirmed destination
+	 * always belongs to the alias that will actually post. A hint the
+	 * alias may not write to (exactDetail fails) is left unconfirmed —
+	 * the picker remains, with the hint prefilled, exactly as before. */
+	async function applyHint() {
+		const alias=currentAlias();
+		if(!hint.h || !alias || hintAttemptedFor===alias) return false;
+		if(!get('picker').hidden) return false;
+		hintAttemptedFor=alias;
+		const target={h:hint.h,s:hint.s||'root'};
+		try {
+			const detail=await composer.api.destinationDetail(alias,target.h,target.s);
+			if(alias!==currentAlias()) return false;
+			if(selection && selection.alias!==alias) return false;
+			if(!exactDetail(detail,target.h,target.s)) return false;
+			selection={alias,heichelId:target.h,seriesId:target.s};
+			composer.state.selectDestination(detail);composer.destinationPanel.open(detail);
+			get('destination').textContent=`${detail.heichel.name || target.h} › ${target.s==='root'?'Heichel Home':detail.series.name || target.s}`;
+			tell('');
+			return true;
+		} catch {return false;}
 	}
 	async function loadChoices(searchText='') {
 		const alias=currentAlias(),token=++request;
@@ -87,5 +116,6 @@ export function connectDestination(root,composer,tell) {
 	search.oninput=()=>{clearTimeout(timer);request++;heichel.disabled=true;resetSeries();timer=setTimeout(()=>loadChoices(search.value.trim()),200);};
 	heichel.onchange=loadSeries;series.onchange=()=>{request++;choose.disabled=!series.value;};
 	choose.onclick=confirm;
-	return {clear,open,confirmed,verify};
+	void applyHint();
+	return {clear,open,confirmed,verify,applyHint};
 }
