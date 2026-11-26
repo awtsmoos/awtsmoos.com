@@ -21,6 +21,7 @@ const Setup = require("./bootstrapSetup.js");
 const { externalAgentFlow, grokFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
 const { missionPlanningBody } = require("./agentMissionPlanning.js");
+const ApiRegistry = require("../docs/apiRegistry.js");
 const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 
 /** Returns the complete discovery response for a generic or compatibility host. */
@@ -42,6 +43,8 @@ async function bootstrap($i) {
 		install: Setup.installer(),
 		oauthMetadata: agentLinks.oauthMetadata,
 		agentManifest: agentLinks.agentManifest,
+		apis: ApiRegistry.registryBody(),
+		apiInstructions: ApiRegistry.INJECTED_INSTRUCTIONS,
 		docsHuman: agentLinks.docs,
 		docsJson: agentLinks.docsJson,
 		openapi: agentLinks.openapi,

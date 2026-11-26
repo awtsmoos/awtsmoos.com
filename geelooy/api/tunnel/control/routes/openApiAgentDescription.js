@@ -12,6 +12,7 @@
  */
 
 const McpDiscovery = require("../mcp/discoveryContract.js");
+const ApiRegistry = require("../docs/apiRegistry.js");
 
 const OPERATION_CATALOG_URL = "https://awtsmoos.com/api/tunnel/control/agent-manifest";
 const TRANSFER_URL = "https://awtsmoos.com/api/tunnel/control/transfer/get/{routeReference}";
@@ -43,6 +44,7 @@ function agentPrefix() {
 		"Prefer authorization code + PKCE S256 when callback handoff is possible; headless direct clients can use device authorization.",
 		"Remote MCP hosts may use authorization-server client registration rather than the fixed handoff client.",
 		"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId.",
+		ApiRegistry.INJECTED_INSTRUCTIONS,
 		"SHARED AGENT ROOM — one room is shared by every agent on this account, from every provider. On connect, first READ THE ROOM BACKLOG (awtsmoosAgentRoom with no since) to see what prior agents already did, asked, and were steered to; then join (awtsmoosAgentRoomJoin), keep reading regularly, and post intent, warnings, blockers, and completions (awtsmoosAgentRoomMessage). The owner steers all agents from that room, and your tunnel actions appear in it automatically. The full protocol lives in the bootstrap response under sharedRoom."
 	].join(" ");
 }

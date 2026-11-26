@@ -21,6 +21,7 @@ const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 const { transferBody } = require("./agentManifestTransfer.js");
 const { roomProtocol } = require("../core/accountRoom/protocol.js");
 const Operations = require("./agentOperationCatalog.js");
+const ApiRegistry = require("../docs/apiRegistry.js");
 
 /**
  * Builds the complete public agent manifest without granting any authority.
@@ -35,6 +36,8 @@ function manifestBody() {
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		mcp: McpDiscovery.contract(),
+		apiInstructions: ApiRegistry.INJECTED_INSTRUCTIONS,
+		apis: ApiRegistry.registryBody(),
 		sharedRoom: roomProtocol(),
 		requiredClientCapabilities: Sections.REQUIRED_CALLBACK_CAPABILITIES,
 		requiredBaseCapabilities: Sections.REQUIRED_BASE_CAPABILITIES,

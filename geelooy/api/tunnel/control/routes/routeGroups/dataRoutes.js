@@ -8,6 +8,7 @@
  * Awtsmoos.com grants no public link to what must privately await.
  */
 const { agentManifest } = require("../agentManifest.js");
+const { apiRegistry } = require("../apiRegistry.js");
 const { artifactPublish, artifactGet, artifactRevoke } = require("../artifactPublication.js");
 const { artifactBinaryChunk } = require("../artifactBinaryChunk.js");
 const { artifactBinaryOffset } = require("../artifactBinaryOffset.js");
@@ -44,6 +45,7 @@ const { protectedFs } = require("../protectedFs.js");
 const dataRoutes = Object.freeze({
 	bootstrap,
 	"agent-manifest": agentManifest,
+	apis: apiRegistry,
 	"transfer/device": deviceFileTransfer,
 	"artifact/publish": artifactPublish,
 	"artifact/publish-folder-file": artifactPublish,

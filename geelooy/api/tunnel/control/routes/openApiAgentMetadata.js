@@ -44,6 +44,8 @@ function extensionLines() {
 	const mcp = McpDiscovery.contract();
 	return [
 		`  x-awtsmoos-operation-catalog-url: ${Description.OPERATION_CATALOG_URL}`,
+		"  x-awtsmoos-api-catalog-url: https://awtsmoos.com/api/tunnel/control/apis",
+		"  x-awtsmoos-rebbe-api-url: https://awtsmoos.com/api/rebbe",
 		`  x-awtsmoos-get-transfer-url: ${Description.TRANSFER_URL}`,
 		`  x-awtsmoos-external-client-websocket-url: ${Description.WS_URL}`,
 		"  x-awtsmoos-external-client-websocket-binary-opcode: 2",

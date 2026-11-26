@@ -30,6 +30,7 @@ const CHOCHMAH_API_FAMILIES = Object.freeze([
 	['portal', '/api/portal', 'Universal typed-resource discovery, schemas, capabilities, and compatibility adapters.'],
 	['projectHosting', '/api/projectHosting', 'Project hosting and publication operations.'],
 	['public', '/api/public', 'Publicly consumable platform operations.'],
+	['rebbe', '/api/rebbe', 'Rebbe sichos audio archive search by Hebrew month/day/year with agent bundle links.'],
 	['runtime', '/api/runtime', 'Runtime and execution support operations.'],
 	['sefarim', '/api/sefarim', 'Sefarim and Torah-text operations.'],
 	['social', '/api/social', 'Social graph, Heichel, communications, mail, notification, and identity operations.'],
