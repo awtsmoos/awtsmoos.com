@@ -213,8 +213,14 @@ html[data-theme="light"] .nav-card-translation-badge {
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-search.css:27 — was #f6f8ff */
+/* B"H run 5 (2026-11-26): the white ground above is only half the repair —
+   future/mobile-contrast.css paints -webkit-text-fill-color #f6fbff on this
+   input for its dark ground, and Chrome renders text AND placeholder with
+   the fill, not `color`. On the white light ground that stranded both at
+   ~1.1:1 (screenshot-proven, v3). Reset the fill to the same ink. */
   html[data-theme="light"] .heichel-os-document .series-search-row input {
     color: #1e293b;
+    -webkit-text-fill-color: #1e293b;
     background: #ffffff;
     border-color: var(--light-text-cbd5e1, #cbd5e1);
   }
@@ -254,6 +260,7 @@ html[data-theme="light"] .living-path-empty-action {
 @media (max-width: 900px) {
 html[data-theme="light"] .heichel-os-document .series-search-row input::placeholder {
   color: #6b5d43;
+  -webkit-text-fill-color: #6b5d43;
   opacity: 1;
 }
 }
