@@ -105,9 +105,10 @@ html[data-theme="light"] :where(.heichel-mobile-navigation) :where(.mini-mail-pa
   color: #1e293b;
 }
 
-/* heichel/future/series-heading.css:5 — was #fff */
+/* heichel/future/series-heading.css:5 — panel is an ink card in every theme
+   (2026-11-26 fix); the title takes ivory, not the old botched #fff-on-white */
 html[data-theme="light"] .series-heading h2 {
-  color: #fff;
+  color: #f6f8ff;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
@@ -193,7 +194,7 @@ html[data-theme="light"] .nav-card-translation-badge {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   html[data-theme="light"] :where(.heichel-os-document) .series-heading .series-label {
-    color: #8a6d1a;
+    color: #e8c268;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */

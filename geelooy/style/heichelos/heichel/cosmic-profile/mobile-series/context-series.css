@@ -26,14 +26,14 @@
 		inset-inline-start: .65rem;
 		inline-size: 3px;
 		border-radius: 999px;
-		background: linear-gradient(var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
+		background: linear-gradient(var(--heichel-gold, #e8c268), rgba(232, 194, 104, .35));
 		box-shadow: 0 0 .8rem rgba(239, 210, 126, .28);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 900px) { :where(.heichel-os-document) .series-heading .series-label {
 		margin: 0;
 		padding-inline-start: .2rem;
-		color: var(--light-text-9ddff0, #9ddff0);
+		color: var(--heichel-gold, #e8c268);
 		font-size: .65rem;
 		letter-spacing: .13em;
 		line-height: 1.2;
@@ -74,16 +74,18 @@
 		justify-self: start;
 	} }
 
-/* B"H Yaakov 2026-10-08: Series pages light-theme fix — no */
+/* B"H 2026-11-26 (Revelation CURRENT SERIES fix): the panel stays an ink card
+   in the light theme too (see future/series-heading.css), so the light tail
+   carries the on-ink values — ivory title, pale meta, gold eyebrow. */
 :where(:root[data-theme="light"]) .series-heading .series-label,
 :where(.series-heading[data-theme="light"]) .series-label {
-  color: #8a6d1a;
+  color: #e8c268;
 }
 :where(:root[data-theme="light"]) .series-heading h2,
 :where(.series-heading[data-theme="light"]) h2 {
-  color: #21160a;
+  color: #f6f8ff;
 }
 :where(:root[data-theme="light"]) .series-heading p,
 :where(.series-heading[data-theme="light"]) p {
-  color: #6d5a43;
+  color: #b9c6dc;
 }

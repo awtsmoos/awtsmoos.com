@@ -286,14 +286,15 @@ a:focus-visible {
   color: #1e293b;
 }
 
-/* heichel/future/series-heading.css:5 — was #fff */
+/* heichel/future/series-heading.css:5 — CURRENT SERIES panel is an ink card
+   in every theme (2026-11-26 fix); title is ivory on ink */
 :root:not([data-theme="dark"]) .series-heading h2 {
-  color: #1e293b;
+  color: #f6f8ff;
 }
 
-/* heichel/future/series-heading.css:6 — was #b9c6dc */
+/* heichel/future/series-heading.css:6 — on-ink meta value */
 :root:not([data-theme="dark"]) .series-heading p:not(.series-label) {
-  color: #475569;
+  color: #b9c6dc;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -379,17 +380,17 @@ a:focus-visible {
 @media (max-width: 900px) {
 /* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading .series-label {
-    color: #8a6d1a;
+    color: #e8c268;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .series-heading h2 {
-    color: #1e293b;
+    color: #f6f8ff;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #475569;
+    color: #b9c6dc;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
