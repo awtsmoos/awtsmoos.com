@@ -37,7 +37,23 @@ async function deletePostFromSeries({ $i, heichelId, seriesId, postId, userid })
         const authorAliasId = existingPost ? (existingPost.author || null) : null;
 
         // --- 1. FAST, USER-FACING ACTION: Unlink the post ---
-        await $i.db.deleteEntry(seriesPostsPath, postId);
+        // The unlink is the deletion the user is promised, so it is
+        // verified, never assumed: a store layer that reports failure --
+        // or that leaves the entry in place -- fails the whole request
+        // BEFORE any success is returned. (A silently ignored deleteEntry
+        // once left "deleted" posts listed forever while this API answered
+        // success; see the revelation ledger, file 08.)
+        const unlinkResult = await $i.db.deleteEntry(seriesPostsPath, postId);
+        const unlinkError = unlinkResult && typeof unlinkResult === "object" ? unlinkResult.error : null;
+        const unlinkRefused = unlinkResult === false
+            || (unlinkError && !/no key found/i.test(String(unlinkError.message || "")));
+        let stillLinked = null;
+        try {
+            stillLinked = await $i.db.getValue(seriesPostsPath, postId);
+        } catch (e1) { /* an unreadable store is not proof of presence */ }
+        if (unlinkRefused || stillLinked) {
+            return er({ code: "POST_DELETE_FAILED", details: "The post could not be unlinked from its series; nothing was deleted." });
+        }
 
         // --- 2. SLOW, BACKGROUND ACTION: Compile and schedule the cleanup job ---
         const tasks = await compileDeletionTasksForSinglePost({ $i, heichelId, seriesId, postId, authorAliasId });

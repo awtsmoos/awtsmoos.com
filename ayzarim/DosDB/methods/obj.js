@@ -72,9 +72,18 @@ module.exports = {
 		return this.appendToObj(objPath, { key, value: newValue });
 	},
 
-	async deleteEntry(id, opts = {}) {
-		if (!opts?.metadata) return false;
-		return this.deleteObjectKey(id, opts.property, opts);
+	async deleteEntry(id, keyOrOpts = {}) {
+		// The DosDB wrapper and every API-layer caller pass a plain string
+		// key: deleteEntry(path, key). The older options-object form
+		// ({ metadata, property }) is still honored, but a plain key must
+		// delete too -- returning false for it silently deleted nothing
+		// while callers reported success (the post-delete survival bug,
+		// revelation ledger file 08).
+		if (typeof keyOrOpts === "string") {
+			return this.deleteObjectKey(id, keyOrOpts);
+		}
+		if (!keyOrOpts?.metadata) return false;
+		return this.deleteObjectKey(id, keyOrOpts.property, keyOrOpts);
 	},
 
 	async deleteObjectKey(id, key, opts = {}) {
@@ -82,6 +91,18 @@ module.exports = {
 		const nullifyDeleted = opts?.nullifyDeleted;
 		if (typeof nullifyDeleted === "object" && nullifyDeleted?._awtsmoosOptions && !this.appendToArray) {
 			return awtsmoosJSON.deleteKeyFromObj(filePath, key);
+		}
+		// Plain (id, key) calls -- the only shape the wrapper and the API
+		// layer ever produce -- expect the key actually removed from the
+		// binary object, exactly as the DbFs family adapter removes it.
+		// Falling through to null here made every such delete a silent
+		// no-op. Directory-shaped collections keep the old behavior:
+		// their keys are child entries, not object keys in a file.
+		if (nullifyDeleted === undefined && key !== undefined && key !== null && !this.appendToArray) {
+			const directoryKeys = await directoryObjectKeys(filePath);
+			if (directoryKeys === null) {
+				return awtsmoosJSON.deleteKeyFromObj(filePath, key);
+			}
 		}
 		return null;
 	},

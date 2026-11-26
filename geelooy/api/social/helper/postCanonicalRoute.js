@@ -13,6 +13,7 @@
  */
 
 const { sp } = require('./_awtsmoos.constants.js');
+const { er } = require('./general.js');
 const {
 	appendCanonicalRecords,
 	canonicalRecord,
@@ -85,6 +86,17 @@ async function repairPackedEdit($i, values, result, baseHandler) {
 async function removeRichRecord($i, values, result) {
 	if (!result || result.error) return result;
 	await $i.db.delete(richPath(values)).catch(() => null);
+	// The rich record is the read-repair source: if it survived, the very
+	// next read resurrects the just-deleted post. Verify it is gone (or
+	// was never a record of this series) before the success is allowed
+	// to stand -- a swallowed delete error must not become false success.
+	const surviving = await richRecord($i, values).catch(() => null);
+	if (surviving && surviving.seriesId === values.series) {
+		return er({
+			code: "POST_DELETE_FAILED",
+			message: "The post could not be fully removed; please try again."
+		});
+	}
 	return result;
 }
 

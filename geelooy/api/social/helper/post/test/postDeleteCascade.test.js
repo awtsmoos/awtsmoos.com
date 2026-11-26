@@ -21,6 +21,12 @@
  *     injected dependencies).
  *  E. deleteSeriesFromHeichel end-to-end smoke: gates hold and the rich
  *     cascade is attempted for every post in the deleted subtree.
+ *  F. Real DosDB store: the public db.deleteEntry(path, key) shape must
+ *     actually remove the key (it once returned false and removed nothing
+ *     while deletePostFromSeries answered success), and a full
+ *     deletePostFromSeries against the real store must leave the post
+ *     gone -- including for a fresh DosDB instance over the same
+ *     directory, proving the removal is durable on disk.
  */
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -290,12 +296,67 @@ async function partE() {
 		!!res.success.richComments && res.success.richComments.posts === 1);
 }
 
+
+async function partF() {
+	console.log("F. real DosDB: deleteEntry durability + deletePostFromSeries");
+	const DosDB = require(path.join(repoRoot, "ayzarim/DosDB/index.js"));
+	const dbRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-post-delete-real-"));
+	const db = new DosDB(dbRoot);
+	await db.init();
+	const heichelId = "h_real";
+	const seriesId = "s1";
+	const postsPath = `${sp}/heichelos/${heichelId}/series/${seriesId}/posts`;
+	await db.write(`${sp}/heichelos/${heichelId}/editors`, ["editorEd"]);
+	await db.appendToObj(postsPath, { key: "p1", value: { author: "authorA", title: "Hello" } });
+	await db.appendToObj(postsPath, { key: "p2", value: { author: "authorA", title: "Stay" } });
+	ok("seeded posts readable on the real store", (await db.getValue(postsPath, "p1"))?.title === "Hello");
+
+	// The regression itself: the public (path, key) deleteEntry shape must
+	// remove the key. It used to return false and remove nothing.
+	const direct = await db.deleteEntry(postsPath, "p2");
+	ok("real deleteEntry no longer reports the old silent false",
+		direct !== false && direct !== null && !direct?.error);
+	ok("real deleteEntry removed the key", (await db.getValue(postsPath, "p2")) == null);
+	await db.appendToObj(postsPath, { key: "p2", value: { author: "authorA", title: "Stay" } });
+
+	const jobs = [];
+	const $i = {
+		$_POST: {},
+		$_DELETE: { aliasId: "editorEd" },
+		$_GET: {},
+		request: { headers: {} },
+		db,
+		async fetchAwtsmoos(url) {
+			if (url.includes("/ownership")) return {};
+			if (url.endsWith("/breadcrumb")) return [{ id: "root" }, { id: seriesId }];
+			throw new Error("unexpected fetch " + url);
+		},
+		async createJob(job) { jobs.push(job); return { jobId: "job-real" }; }
+	};
+	const res = await deletePostFromSeries({ $i, heichelId, seriesId, postId: "p1", userid: "u1" });
+	ok("real-store delete succeeds", !!res.success);
+	ok("post gone from the real store", (await db.getValue(postsPath, "p1")) == null);
+	ok("sibling post untouched", (await db.getValue(postsPath, "p2"))?.title === "Stay");
+	ok("cleanup job scheduled on the real store", jobs.length === 1);
+
+	// Durability: a fresh DosDB instance over the same directory, with the
+	// shared read cache disabled, must still see the post as gone -- the
+	// removal lives on disk, not in the first instance memory.
+	process.env.AWTSMOOS_DOSDB_CACHE_TTL_MS = "0";
+	const db2 = new DosDB(dbRoot);
+	await db2.init();
+	ok("fresh instance still sees the post deleted", (await db2.getValue(postsPath, "p1")) == null);
+	delete process.env.AWTSMOOS_DOSDB_CACHE_TTL_MS;
+	fs.rmSync(dbRoot, { recursive: true, force: true });
+}
+
 (async () => {
 	await partA();
 	await partB();
 	await partC();
 	await partD();
 	await partE();
+	await partF();
 	console.log(`\nPASS - ${passed} assertions`);
 })().catch(e => {
 	console.error("\nFAIL:", e);
