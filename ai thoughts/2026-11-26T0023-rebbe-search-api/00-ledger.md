@@ -134,3 +134,157 @@ B"H
   from this worker (no live-browser channel). The encoder is proven in
   node, the sniff on real corpus bytes, and the page loop mirrors the
   proven harness exactly.
+
+## 2026-11-26 (later) - CONVERSION FREEZE fixed + PROVEN in a real browser (Hai screenshot report; rollback backup/pre-rebbe-convert-stall-20261126)
+
+- Hai screenshot (Android, 5726 Kislev 19 bundle, ?action=merge): status stuck on
+  "Converting 1 of 25: BH_001_Nigun 1.mp3", progress bar empty, never advancing.
+- CDP diagnosis (headless Chrome 157, harness /tmp/rebbe-diag/drive.mjs adapted from the
+  mw-shliach r8-drive2.mjs rig; log convert-stall-fix-evidence/diag1.log):
+  all 25 tracks fetched in ~25s; all 25 are true MP3 (ID3) but the lossless join threw
+  (strict Xing/VBR rules) so the page fell back to conversion; track 1 DECODE took 7.3s -
+  then encodeTrack, a fully SYNCHRONOUS lamejs loop, blocked the main thread for ~114s
+  (Runtime.evaluate timed out 3x30s; zero repaint, zero progress). Per-track-only progress
+  made it indistinguishable from dead. ~5x realtime => a 6.1h bundle = over an hour of
+  frozen-looking screen on a phone.
+- Fix (commit 4ffb6c1b1, geelooy/api/rebbe/lib/page.js only): encodeTrack is now async -
+  yields every ~200ms and reports per-block progress ("Converting N of 25: name - 47% -
+  MP3 so far 3.2 MB"); fetch streams with byte progress + 60s inactivity watchdog
+  (AbortController, falls back to the alternate URL, then errors); format sniffing reads
+  only the first chunk of each file; conversion streams per track when the bundle is not
+  all-MP3 (no 181MB preload); stage timeouts (encoder load 30s, decode 180s, join 120s);
+  Skip-this-track button (decode/fetch/encode all interruptible); Retry button; global
+  error/unhandledrejection handlers surface failures in the status line. Tests 9/9 PASS.
+- Browser proof (same harness, live production):
+  * Hai exact bundle: fetch phase shows per-file MB progress; track 1 decoded in 4.8s and
+    its encode status climbed 1% -> 100% with the bar moving and ZERO CDP poll timeouts;
+    track 2 reached 68%+ with cumulative output growing to 12.4 MB before the run was
+    stopped (evidence: verify-big.log).
+  * Small bundle END-TO-END (5713 Iyar 18, Lag BOmer rally - 3 tracks that are really
+    Ogg/Opus under .mp3 names, 586s): converted fully in the browser, status
+    "Merged MP3 ready - 3 of 3 files converted and combined (586 seconds)", download
+    completed: 7,037,388 bytes; frame scan validates 22,450 MPEG frames, 0 bad, exactly
+    586.4s at 96 kbps mono 44.1kHz (evidence: verify-small.log, final.png,
+    small-bundle-merged-proof.mp3).
+
+## 2026-11-26 (later) - WEBCODECS media-encoder conversion path (Hai ruling: MP3 encoding should use the media encoder APIs; rollback backup/pre-rebbe-webcodecs-20261126, commit 9aea9f76c)
+
+- CODEC SUPPORT, probed live in headless Chrome 157.0.8103.78 on the real origin
+  (60 AudioEncoder mp3 combos: 6 sample rates x 2 channel counts x 5 bitrates):
+  AudioEncoder "mp3" is NOT supported in ANY combo. Encode support found: opus only
+  (aac/flac encode also unsupported). AudioDecoder IS supported: mp3, opus (44.1k
+  and 48k), aac. Per the ruling's own terms, the deliverable stays a single MP3 -
+  no silent AAC/Opus output - so on this browser the page falls back to lamejs,
+  and the WebCodecs path activates automatically on any browser that does offer
+  MP3 encoding.
+- Implementation (geelooy/api/rebbe/lib/page.js only; tests 10/10 incl. a new
+  WebCodecs-wiring test): convertToMp3 is now a dispatcher. probeWebCodecs()
+  feature-detects via AudioEncoder/AudioDecoder.isConfigSupported and publishes
+  the verdict on window.__rebbeConvert (engine + reason + full support matrix).
+  WebCodecs path: in-page demuxers (splitMp3Frames - ID3v2 skip + MPEG frame
+  walk; demuxOggOpus - page walk, packet stitching, OpusHead as decoder
+  description, TOC-derived packet timestamps) feed EncodedAudioChunks into
+  AudioDecoder; decoded AudioData streams straight into ONE shared
+  AudioEncoder (mp3, 128k stereo / 96k mono), recreated only on a rate/channel
+  change, with timestamp re-basing across tracks, queue backpressure, and the
+  same progress / watchdogs / Skip / Cancel / visible-error discipline as the
+  fallback. Any un-demuxable format or missing decoder throws FallbackToLamejs
+  and the bundle restarts cleanly through the unchanged async lamejs path
+  (renamed convertWithLamejs). Demuxers + probe are exposed on
+  window.__rebbeWebCodecs for browser-level proof.
+- Browser proof (CDP harness, live production; evidence in webcodecs-evidence/):
+  * WebCodecs DECODE half on real files, via the page's own demuxers:
+    5713 track 1 (Ogg/Opus misnamed .mp3): 3,899 packets demuxed = 78.0s vs
+    manifest 77.98s; AudioDecoder(opus) emitted 3,899 AudioData = 78.0s, 0 errors.
+    5726 Kislev 19 track 1 (true MP3, 577.66s): splitMp3Frames found 24,069
+    frames = 577.7s; AudioDecoder(mp3) emitted 24,069 outputs = 577.7s, 0 errors.
+    Fetch+demux+decode wall time ~11s per track incl. network - native decode
+    is not the bottleneck.
+  * Fallback END-TO-END on the new build (5713 Lag B'Omer, 3 Opus tracks):
+    marker engine=lamejs with the recorded reason; "Merged MP3 ready - 3 of 3
+    files converted and combined (586 seconds)"; download 7,037,388 bytes;
+    frame scan 22,450 frames, 0 bad, 586.4s implied - identical numbers to the
+    previous build's proof. Heap peaked ~94MB mid-convert, 10MB after.
+  * Hai's 5726 bundle on the fallback: join attempted then declined as before;
+    track 1 (577.7s) converted in ~36s (~16x realtime this run; the frozen-build
+    diagnosis measured ~5x under heavier contention), track 2 advancing with
+    output at 11.6MB before the observation window ended (verify-big.log).
+- UNPROVEN, stated plainly: the WebCodecs ENCODE half cannot be exercised in
+  this browser (no MP3 encoder exists in it), and codec support on Hai's
+  phone browser cannot be checked from here - the page probes his browser at
+  runtime and the status/marker report which engine ran. WebCodecs encode
+  speed (x realtime) is therefore unmeasured; only the decode half's speed
+  is proven.
+
+## 2026-11-26 (later) - BACKGROUND conversion: worker + wake lock + OPFS resume + notifications (Hai ruling: conversion must work in the background, with notifications; rollback backup/pre-rebbe-background-20261126, commit d5ff991b1)
+
+- Architecture (geelooy/api/rebbe only; tests 14/14 incl. 4 new): the whole
+  conversion pipeline moved off the main thread into a DEDICATED WORKER
+  (lib/convert-worker.js, served at /api/rebbe/bundle/worker.js). The shared
+  engine (demuxers, Ogg muxer, resampler, PCM packing) was extracted to
+  lib/engine.js as one source string evaluated in BOTH the page (where it
+  remains the window.__rebbeWebCodecs observability surface) and the worker -
+  no code duplication across the boundary. The worker pipeline is driven by
+  codec output callbacks and queue backpressure (ondequeue events with a
+  backstop poll), never by progress timers, so a hidden tab's timer
+  throttling cannot stall it. Fetch + demux + AudioDecoder -> resample ->
+  AudioEncoder(opus) -> muxer, all in the worker; the page only renders
+  progress and saves the final Blob.
+- WAKE LOCK: the page requests a screen wake lock at conversion start,
+  re-acquires on visibilitychange->visible while running, releases at the
+  end; state published in window.__rebbeBackground / __rebbeConvert.background
+  (headless Chrome reports wakeLock 'error' - no display to lock; the field
+  reports honestly on real devices).
+- RESUME: at every track boundary the worker drains the encoder, page-aligns
+  the muxer (new flushPage/takeParts), and persists that track's Ogg pages to
+  OPFS (sync access handles) as track-N.bin plus meta.json {done, skipped,
+  muxerState (serial/seq/granule), outFrames, totalSeconds}. The muxer learned
+  to resume from saved state WITHOUT rewriting OpusHead/OpusTags, continuing
+  the same Ogg stream. A fresh worker after reload/kill resumes at the next
+  unfinished track; finished tracks are never re-fetched or re-encoded. A
+  completed-but-unsaved conversion is offered as "Download ready file"
+  (worker 'assemble' from the stored parts). Store cleared on ack-saved and
+  on Cancel. Skip now rolls the muxer/encoder back to the track boundary, so
+  a skipped track contributes nothing (the main-thread build kept partial
+  audio). Worker heartbeats every 10s; the page watchdog (45s silence)
+  offers Retry, which respawns the worker and resumes from OPFS.
+- NOTIFICATIONS: service worker lib/service-worker.js at /api/rebbe/sw.js
+  (scope /api/rebbe/; notificationclick focuses or opens the bundle page; NO
+  fetch handler - downloads are never intercepted). Permission is requested
+  on the merge-button gesture; auto-started runs (?action=merge) instead get
+  an "Enable notifications" button. While hidden: a progress notification at
+  most once per track (tag-replaced), a completion notification, and an
+  error notification. Denial respected silently.
+- Browser proof (CDP harness, live production, Chrome 157; evidence in
+  webcodecs-background-evidence/):
+  * (a) Small bundle (5713 Lag B'Omer, 3 Opus tracks) END-TO-END THROUGH THE
+    WORKER: marker engine=webcodecs-opus, background {worker:true,
+    serviceWorker:true, resume doneTracks 3/3}, "Merged Opus ready - 3 of 3
+    (586 seconds, native media encoder in a background worker)"; download
+    7,118,862 bytes; decode-back 29,322 packets / 586.4s / 0 errors; Node Ogg
+    validation: 737 pages, 0 bad CRCs, seq OK, granule monotonic to exactly
+    586.4s, EOS present (small-bundle-merged-proof.opus).
+  * (b) BACKGROUND CONTINUATION: page hidden via decoy-target activation at
+    ~14s (document.hidden=true, visibilityState=hidden); while hidden the
+    status advanced 43% -> 60% -> 69% -> 82% -> 94% on track 2 (bar 48% ->
+    65%), then completed all tracks and reached READY at 35.2s, still
+    hidden; validation identical (run-bg.log).
+  * (c) RESUME: page reloaded at 119s with doneTracks=1 persisted; the new
+    page/worker resumed directly at "Converting 2 of 3" with "Opus so far
+    1.1 MB" (the saved track-1 bytes in the continued stream - track 1 NOT
+    redone), finished "resumed from progress saved on this device", final
+    file byte-size identical to the uninterrupted runs (7,118,862) and
+    validated (29,322 packets, 586.4s, 0 errors) (run-resume.log).
+  * (d) NOTIFICATIONS: with permission granted via CDP, the SW registration
+    (scope https://awtsmoos.com/api/rebbe/) is active and
+    registration.showNotification delivered (getNotifications -> 1);
+    __rebbeBackground.serviceWorker=true, notifications='granted'
+    (run-notify.log). One transient seen: showNotification before the SW
+    finished activating throws - the page's notify path is try/caught and
+    only fires during conversions, long after activation.
+- UNPROVEN from here, stated plainly: the real Android notification shade,
+  the OS wake-lock behavior on Hai's phone, and the exact OS tab-kill timing
+  on Android Chrome cannot be exercised headless; what is proven is that the
+  pipeline has no main-thread dependence, continues while the page is
+  hidden, and loses nothing on a full page reload. Hai's bundle (5726) was
+  not re-run this round; the 5713 proofs exercise the identical code path.
