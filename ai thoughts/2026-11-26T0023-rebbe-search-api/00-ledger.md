@@ -91,3 +91,46 @@ B"H
   worker (no live-browser channel); the page reuses the app's own production
   zip-store / mp3-join modules, and auto-start invokes the same handlers the
   buttons do.
+
+## 2026-11-26 (later still) - NO WAV: browser MP3 CONVERSION replaces it (Hai ruling; rollback backup/pre-rebbe-mp3-convert-20261126)
+- Crash report: Hai opened the 19 Kislev 5726 bundle page and used merged WAV:
+  25 tracks / ~6.1 hours decoded into ONE OfflineAudioContext PCM buffer
+  (gigabytes) - page crashed. Ruling: no WAV; convert to MP3 in the browser.
+- Key data fact: archive metadata LIES about format. The 5712 bundle file
+  BH_009_Sicha 8.mp3 is labelled "VBR MP3" but its bytes start with OggS
+  (Opus) - verified by range-fetch. So join-vs-convert is decided by
+  SNIFFING each fetched file real bytes (ID3 / MPEG frame sync), never by
+  the manifest format field alone.
+- Changes:
+  * lib/page.js: WAV button + downloadWav + encodeWav DELETED (served page
+    now contains zero "wav"). downloadMerge fetches + sniffs every file:
+    all-true-MP3 -> lossless mp3-join as before (a join failure now falls
+    back to conversion instead of erroring); otherwise convertToMp3 -
+    decodeAudioData ONE track at a time into a shared lamejs Mp3Encoder
+    (128 kbps stereo / 96 kbps mono), each compressed blob and each decoded
+    AudioBuffer released before the next track; encoded output accumulates
+    as Blob parts; per-track progress + a Cancel button. ?action=merge
+    auto-start uses the same join-vs-convert decision.
+  * Vendored lamejs 1.2.1 minified (LGPL-3.0) at
+    geelooy/apps/rebbe/modules/download/lame.min.js (156,043 bytes +
+    attribution header; sha256 with header 2321aadce5...), loaded LAZILY
+    via script injection only when a conversion actually runs.
+  * Wording scrubbed of WAV: lib/bundle.js comments, _awtsmoos.derech.js
+    descriptor + route comment, README, docs page section, and the tunnel
+    apiRegistry injected instructions + rebbe purpose.
+  * Test added: bundle page has no WAV option and converts in-browser
+    (rebbe suite now 9/9 PASS; apiRegistry test PASS).
+- Proof harness (node, /tmp/convert-proof.js): the page exact sniff on real
+  bytes - BH_009 -> not MP3 (OggS), BH_001 -> MP3 (ID3). The per-track
+  encode loop over 6 x 20s synthetic stereo tracks produced 1,920,522 bytes
+  with 4,595 valid MP3 frames = exactly 120.0 s implied; peak live PCM was
+  ONE track (6.7 MB) vs 40 MB if all tracks were held.
+- Live verification (after systemctl restart awtsmoos.service): bundle page
+  200 in 0.77 s, zero "wav" in served HTML, convert/sniff/cancel machinery
+  present; lame.min.js served 200; /api/rebbe/ descriptor zero "wav"; live
+  /api/tunnel/control/apis carries the new conversion wording; legacy
+  /bundle/merge still 302 -> page ?action=merge.
+- Honest limit: the in-browser conversion itself was not click-exercised
+  from this worker (no live-browser channel). The encoder is proven in
+  node, the sniff on real corpus bytes, and the page loop mirrors the
+  proven harness exactly.

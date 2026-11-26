@@ -8,7 +8,10 @@
  * hands to an end user, and the API documentation page. The bundle page
  * does the heavy lifting in the browser, reusing the front end's own
  * vessels: modules/zip-store.js (makeZip) for the ZIP and modules/download/
- * farbrengen/mp3-join.js (joinMp3Blobs) for the lossless merged MP3.
+ * farbrengen/mp3-join.js (joinMp3Blobs) for the lossless merged MP3. When a
+ * bundle is not all true MP3, the page converts instead: Web Audio decodes
+ * one track at a time into the vendored lamejs encoder
+ * (modules/download/lame.min.js, loaded lazily) - memory-bounded, no WAV.
  */
 
 const { API_VERSION } = require("./response.js");
@@ -70,11 +73,11 @@ function bundlePage(base) {
 		<div style="margin-top:14px">
 			<button class="btn" id="btn-zip" disabled>Download ZIP (in browser)</button>
 			<button class="btn" id="btn-merge" disabled>Download merged MP3 (in browser)</button>
-			<button class="btn secondary" id="btn-wav" disabled>Download merged WAV (in browser, re-encoded)</button>
+			<button class="btn secondary" id="btn-cancel" style="display:none">Cancel conversion</button>
 		</div>
 		<div class="progress" id="progress"><div></div></div>
 		<p class="status" id="status"></p>
-		<p class="status">ZIP and merged MP3 are assembled on your device from the original Archive.org files — nothing is re-encoded. The merged MP3 joins the original MP3 frames losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus), and mixed MP3 profiles cannot join losslessly; for those, <b>merged WAV</b> decodes everything with Web Audio and re-encodes one combined WAV, and the ZIP always keeps every original file unchanged.</p>
+		<p class="status">ZIP and merged MP3 are assembled on your device from the original Archive.org files. When every file is a true MP3, the merged MP3 joins the original frames losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus); for those, this page decodes each file and <b>converts it to MP3 right here in your browser</b>, one file at a time, so even a many-hour bundle stays light. The ZIP always keeps every original file unchanged.</p>
 	</div>
 	<div class="card">
 		<h2 style="margin-top:0">Contents</h2>
@@ -146,7 +149,6 @@ async function load() {
 		).join('');
 		document.getElementById('btn-zip').disabled = !manifest.files.length;
 		document.getElementById('btn-merge').disabled = !manifest.files.length;
-		document.getElementById('btn-wav').disabled = !manifest.files.length;
 		if (params.get('action') === 'merge') downloadMerge();
 		else if (params.get('action') === 'zip') downloadZip();
 	} catch (e) {
@@ -179,100 +181,142 @@ document.getElementById('btn-zip').addEventListener('click', downloadZip);
 async function downloadMerge() {
 	const btn = document.getElementById('btn-merge');
 	btn.disabled = true;
+	mergeCancelled = false;
 	try {
-		const nonMp3 = manifest.files.filter(f => f.format !== 'mp3');
-		if (nonMp3.length) throw new Error('Merged MP3 needs all-MP3 files; ' + nonMp3.length + ' file(s) are not MP3. Use merged WAV or the ZIP instead.');
-		const { joinMp3Blobs } = await import('/apps/rebbe/modules/download/farbrengen/mp3-join.js');
+		// Fetch every file once and sniff its real bytes: the lossless join
+		// is used only when EVERY file is truly MP3. Archive metadata lies -
+		// some .mp3 files are actually Ogg/Opus (proven on the 5712 bundle,
+		// whose BH_009 starts with OggS despite its MP3 label).
 		const blobs = [];
+		let allMp3 = manifest.files.every(f => f.format === 'mp3');
 		for (let i = 0; i < manifest.files.length; i++) {
-			blobs.push(await fetchBlob(manifest.files[i], i, manifest.files.length, 'Fetching for merge'));
+			const blob = await fetchBlob(manifest.files[i], i, manifest.files.length, 'Fetching for merge');
+			if (allMp3 && !(await blobIsMp3(blob))) allMp3 = false;
+			blobs.push(blob);
 		}
-		setProgress(1, 1, 'Joining MP3 frames (lossless, no re-encoding)…');
-		const joined = await joinMp3Blobs(blobs);
-		save(joined, 'rebbe-sichos-merged.mp3');
-		setStatus('Merged MP3 ready — ' + blobs.length + ' files joined.');
-	} catch (e) { setStatus('Browser merge failed: ' + e.message + ' \u2014 the merged WAV button decodes every format with Web Audio and combines them, and the ZIP always keeps every original file unchanged.', true); }
+		let joined = null;
+		if (allMp3) {
+			try {
+				const { joinMp3Blobs } = await import('/apps/rebbe/modules/download/farbrengen/mp3-join.js');
+				setProgress(1, 1, 'Joining MP3 frames (lossless, no re-encoding)...');
+				joined = await joinMp3Blobs(blobs);
+			} catch (joinError) {
+				setStatus('Lossless join not possible for these files (' + joinError.message + ') - converting to MP3 instead...');
+				joined = null;
+			}
+		}
+		if (joined) {
+			save(joined, 'rebbe-sichos-merged.mp3');
+			setStatus('Merged MP3 ready - ' + blobs.length + ' files joined losslessly.');
+		} else {
+			await convertToMp3(blobs);
+		}
+	} catch (e) { setStatus('Browser merge failed: ' + e.message + ' - the ZIP always keeps every original file unchanged.', true); }
 	btn.disabled = false;
 }
 document.getElementById('btn-merge').addEventListener('click', downloadMerge);
 
-/**
- * Mixed-format fallback: decode every file with Web Audio (the browser
- * decodes MP3 and the Opus-in-Ogg files this corpus contains), concatenate
- * in an OfflineAudioContext at 44100 Hz, and encode one 16-bit PCM WAV.
- * This re-encodes, so it is the fallback — the MP3 paths above stay lossless.
- */
-async function downloadWav() {
-	const btn = document.getElementById('btn-wav');
-	btn.disabled = true;
-	try {
-		if (manifest.totalBytes > 250 * 1024 * 1024) {
-			throw new Error('This bundle is ' + fmtBytes(manifest.totalBytes) + '; WAV re-encoding in the browser is capped at 250 MB of source audio. Use the ZIP, which has no such cap.');
-		}
-		const decodeCtx = new OfflineAudioContext(1, 1, 44100);
-		const decoded = [];
-		let totalSeconds = 0;
-		let channels = 1;
-		for (let i = 0; i < manifest.files.length; i++) {
-			const file = manifest.files[i];
-			setProgress(i, manifest.files.length, 'Decoding for WAV ' + (i + 1) + ' of ' + manifest.files.length + ': ' + file.name);
-			const blob = await fetchBlob(file, i, manifest.files.length, 'Fetching for WAV');
-			const buffer = await decodeCtx.decodeAudioData(await blob.arrayBuffer());
-			decoded.push(buffer);
-			totalSeconds += buffer.duration;
-			channels = Math.max(channels, buffer.numberOfChannels);
-		}
-		setProgress(1, 1, 'Rendering combined WAV (' + Math.round(totalSeconds) + 's)…');
-		const rate = 44100;
-		const offline = new OfflineAudioContext(channels, Math.ceil(totalSeconds * rate), rate);
-		let at = 0;
-		for (const buffer of decoded) {
-			const source = offline.createBufferSource();
-			source.buffer = buffer;
-			source.connect(offline.destination);
-			source.start(at);
-			at += buffer.duration;
-		}
-		const rendered = await offline.startRendering();
-		save(encodeWav(rendered), 'rebbe-sichos-merged.wav');
-		setStatus('Merged WAV ready — ' + decoded.length + ' files decoded and combined (' + Math.round(totalSeconds) + ' seconds).');
-	} catch (e) { setStatus('WAV merge failed: ' + e.message, true); }
-	btn.disabled = false;
-}
-document.getElementById('btn-wav').addEventListener('click', downloadWav);
+let mergeCancelled = false;
+document.getElementById('btn-cancel').addEventListener('click', () => { mergeCancelled = true; });
 
-/** Encodes an AudioBuffer as a 16-bit PCM WAV blob. */
-function encodeWav(buffer) {
-	const channels = buffer.numberOfChannels;
-	const rate = buffer.sampleRate;
-	const frames = buffer.length;
-	const bytesPerSample = 2;
-	const blockAlign = channels * bytesPerSample;
-	const data = new DataView(new ArrayBuffer(44 + frames * blockAlign));
-	const writeText = (offset, text) => { for (let i = 0; i < text.length; i++) data.setUint8(offset + i, text.charCodeAt(i)); };
-	writeText(0, 'RIFF');
-	data.setUint32(4, 36 + frames * blockAlign, true);
-	writeText(8, 'WAVEfmt ');
-	data.setUint32(16, 16, true);
-	data.setUint16(20, 1, true);
-	data.setUint16(22, channels, true);
-	data.setUint32(24, rate, true);
-	data.setUint32(28, rate * blockAlign, true);
-	data.setUint16(32, blockAlign, true);
-	data.setUint16(34, 16, true);
-	writeText(36, 'data');
-	data.setUint32(40, frames * blockAlign, true);
-	const channelData = [];
-	for (let c = 0; c < channels; c++) channelData.push(buffer.getChannelData(c));
-	let offset = 44;
-	for (let i = 0; i < frames; i++) {
-		for (let c = 0; c < channels; c++) {
-			const sample = Math.max(-1, Math.min(1, channelData[c][i]));
-			data.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7fff, true);
-			offset += 2;
-		}
+/** Sniffs MP3 magic: an ID3 tag, or an MPEG frame sync with a real layer. */
+function sniffIsMp3(bytes) {
+	if (bytes.length >= 3 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) return true;
+	if (bytes.length >= 2 && bytes[0] === 0xff && (bytes[1] & 0xe0) === 0xe0) return ((bytes[1] >> 1) & 0x03) !== 0;
+	return false;
+}
+async function blobIsMp3(blob) {
+	const head = new Uint8Array(await blob.slice(0, 4).arrayBuffer());
+	return sniffIsMp3(head);
+}
+
+let encoderPromise = null;
+/** Loads the vendored lamejs MP3 encoder (LGPL-3.0) - lazily, only when a conversion is actually needed. */
+function loadMp3Encoder() {
+	if (window.lamejs && window.lamejs.Mp3Encoder) return Promise.resolve(window.lamejs);
+	if (!encoderPromise) {
+		encoderPromise = new Promise((resolve, reject) => {
+			const s = document.createElement('script');
+			s.src = '/apps/rebbe/modules/download/lame.min.js';
+			s.onload = () => (window.lamejs && window.lamejs.Mp3Encoder)
+				? resolve(window.lamejs)
+				: reject(new Error('MP3 encoder failed to initialize'));
+			s.onerror = () => reject(new Error('Could not load the MP3 encoder'));
+			document.head.appendChild(s);
+		});
 	}
-	return new Blob([data.buffer], { type: 'audio/wav' });
+	return encoderPromise;
+}
+
+/**
+ * Mixed-format path: decode ONE track at a time with Web Audio and encode
+ * it to MP3 incrementally with lamejs (128 kbps stereo / 96 kbps mono -
+ * speech-appropriate). Memory stays bounded: at most one decoded
+ * AudioBuffer plus the encoded MP3 chunks are ever alive; each compressed
+ * blob and each decoded buffer is released before the next track starts.
+ * (The old uncompressed path decoded EVERYTHING into one giant PCM
+ * buffer and crashed the page on long bundles - Hai's ruling,
+ * 2026-11-26: convert to MP3 in the browser instead.)
+ */
+async function convertToMp3(blobs) {
+	const lamejs = await loadMp3Encoder();
+	const cancelBtn = document.getElementById('btn-cancel');
+	cancelBtn.style.display = 'inline-block';
+	const decodeCtx = new OfflineAudioContext(1, 1, 44100);
+	const chunks = [];
+	let encoder = null;
+	let channels = 2;
+	let totalSeconds = 0;
+	try {
+		for (let i = 0; i < blobs.length; i++) {
+			if (mergeCancelled) throw new Error('Conversion cancelled.');
+			const file = manifest.files[i];
+			setProgress(i, blobs.length, 'Converting ' + (i + 1) + ' of ' + blobs.length + ': ' + file.name);
+			let buffer = await decodeCtx.decodeAudioData(await blobs[i].arrayBuffer());
+			blobs[i] = null; // release the compressed blob before encoding
+			if (!encoder) {
+				channels = Math.min(2, Math.max(1, buffer.numberOfChannels));
+				encoder = new lamejs.Mp3Encoder(channels, buffer.sampleRate, channels === 2 ? 128 : 96);
+			}
+			encodeTrack(encoder, buffer, channels, chunks);
+			totalSeconds += buffer.duration;
+			buffer = null; // release the decoded PCM before the next track
+		}
+		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		setProgress(1, 1, 'Finishing MP3...');
+		const tail = encoder.flush();
+		if (tail.length) chunks.push(new Blob([tail]));
+		save(new Blob(chunks, { type: 'audio/mpeg' }), 'rebbe-sichos-merged.mp3');
+		setStatus('Merged MP3 ready - ' + manifest.files.length + ' files converted and combined (' + Math.round(totalSeconds) + ' seconds).');
+	} finally {
+		cancelBtn.style.display = 'none';
+	}
+}
+
+/** Encodes one decoded AudioBuffer into the shared encoder, in small blocks. */
+function encodeTrack(encoder, buffer, channels, chunks) {
+	const left = buffer.getChannelData(0);
+	const right = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : left;
+	const BLOCK = 1152 * 32;
+	for (let off = 0; off < left.length; off += BLOCK) {
+		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		const end = Math.min(off + BLOCK, left.length);
+		const l16 = floatTo16(left, off, end);
+		let data;
+		if (channels === 2) data = encoder.encodeBuffer(l16, floatTo16(right, off, end));
+		else data = encoder.encodeBuffer(l16);
+		if (data.length) chunks.push(new Blob([data]));
+	}
+}
+
+/** Converts a slice of Float32 samples to Int16 PCM. */
+function floatTo16(data, off, end) {
+	const out = new Int16Array(end - off);
+	for (let i = off; i < end; i++) {
+		const s = Math.max(-1, Math.min(1, data[i]));
+		out[i - off] = s < 0 ? s * 0x8000 : s * 0x7fff;
+	}
+	return out;
 }
 
 load();
@@ -338,7 +382,7 @@ curl "${base}/search?monthFrom=3&amp;monthTo=4&amp;dayFrom=15&amp;dayTo=19&amp;q
   "manifestUrl": "${base}/bundle/data?id=…",
   "eventCount": 12, "trackCount": 14, "totalBytes": 81234567
 }</pre>
-		<p>Give the user <b>pageUrl</b> \u2014 it is THE download link. The page lists the bundle and offers <b>Download ZIP</b>, <b>Download merged MP3</b> and <b>Download merged WAV</b>, all assembled in the user's own browser from the original Archive.org files (ZIP via the app's own zip-store; merged MP3 = lossless frame join, no re-encoding; merged WAV = Web Audio decode for mixed formats). <b>zipUrl</b> and <b>mergeUrl</b> are the same page focused on that action, and opening one starts that download in the browser. The server never downloads the audio: the legacy <code>${base}/bundle/zip</code> and <code>${base}/bundle/merge</code> endpoints only answer 302 redirects to the page, so links already handed out keep working. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
+		<p>Give the user <b>pageUrl</b> \u2014 it is THE download link. The page lists the bundle and offers <b>Download ZIP</b> and <b>Download merged MP3</b>, all assembled in the user's own browser from the original Archive.org files (ZIP via the app's own zip-store; merged MP3 = lossless frame join when every file is true MP3; when a bundle contains other formats under an .mp3 name, e.g. Opus, the page converts instead - Web Audio decodes one track at a time into a vendored lamejs MP3 encoder, so memory stays bounded even on many-hour bundles). <b>zipUrl</b> and <b>mergeUrl</b> are the same page focused on that action, and opening one starts that download in the browser. The server never downloads the audio: the legacy <code>${base}/bundle/zip</code> and <code>${base}/bundle/merge</code> endpoints only answer 302 redirects to the page, so links already handed out keep working. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
 		<pre>curl "${base}/bundle?month=3&amp;day=19&amp;title=Yud%20Tes%20Kislev"</pre>
 	</div>
 

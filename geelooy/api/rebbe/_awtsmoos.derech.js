@@ -22,7 +22,7 @@ function descriptor() {
 	return {
 		name: "Awtsmoos Rebbe Sichos Search API",
 		version: API_VERSION,
-		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links to hand to end users \u2014 the bundle page is the download link: ZIP, merged MP3 and merged WAV are all assembled in the user's browser from the original Archive.org files, and the server never downloads the audio.",
+		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links to hand to end users \u2014 the bundle page is the download link: ZIP and merged MP3 are all assembled in the user's browser from the original Archive.org files, and the server never downloads the audio.",
 		frontend: "/apps/rebbe/",
 		endpoints: {
 			"GET /api/rebbe/search": "Params: month(s), monthFrom/monthTo, day(s), dayFrom/dayTo, year(s), yearFrom/yearTo, q, limit (1-200, default 50), offset, include=tracks. Returns {total,count,limit,offset,hasMore,results}.",
@@ -118,7 +118,7 @@ async function bundleService(params) {
  * Legacy download routes: the server does NO heavy work (Hai's ruling,
  * 2026-11-26). /bundle/zip and /bundle/merge only 302-redirect to the
  * bundle page, whose browser code fetches the tracks straight from
- * Archive.org and assembles the ZIP / merged MP3 / merged WAV on the
+ * Archive.org and assembles the ZIP / merged MP3 on the
  * user's own device. The endpoints stay mounted so every link already
  * handed out keeps working.
  */
