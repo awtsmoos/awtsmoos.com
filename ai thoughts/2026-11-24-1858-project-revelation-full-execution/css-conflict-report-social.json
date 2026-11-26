@@ -1,0 +1,146 @@
+{
+ "title": "css-conflict-report-social",
+ "mode": "served (page load order, bundle-expanded, real served bytes; no browser)",
+ "source": "http://127.0.0.1:8080/social/",
+ "generatedAt": "2026-11-26T02:46:22.674Z",
+ "files": [
+  {
+   "file": "/style/universal-ui.css",
+   "bytes": 44013,
+   "rules": 186,
+   "declarations": 550,
+   "wins": 542,
+   "losses": 8,
+   "shadowed": 8
+  },
+  {
+   "file": "/css/golden-icons.css",
+   "bytes": 28981,
+   "rules": 206,
+   "declarations": 545,
+   "wins": 545,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/animations/micro-interactions.css",
+   "bytes": 18968,
+   "rules": 125,
+   "declarations": 233,
+   "wins": 233,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/social/feed-river.css",
+   "bytes": 11826,
+   "rules": 73,
+   "declarations": 289,
+   "wins": 287,
+   "losses": 2,
+   "shadowed": 2
+  },
+  {
+   "file": "/style/geelooy-app/home/feed/qa-media.css",
+   "bytes": 8597,
+   "rules": 75,
+   "declarations": 311,
+   "wins": 311,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/css/awtsmoos-visual-assets.css",
+   "bytes": 7591,
+   "rules": 33,
+   "declarations": 115,
+   "wins": 115,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/social/experience.css",
+   "bytes": 3373,
+   "rules": 27,
+   "declarations": 108,
+   "wins": 108,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/social/live/presence.css",
+   "bytes": 2300,
+   "rules": 15,
+   "declarations": 79,
+   "wins": 77,
+   "losses": 2,
+   "shadowed": 2
+  },
+  {
+   "file": "/style/social/hub/index.css",
+   "bytes": 613,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  }
+ ],
+ "totalBytes": 126262,
+ "totalDeclarations": 2230,
+ "totalRules": 740,
+ "conflicts": [
+  {
+   "context": "(top level)",
+   "selector": ".feed-mode-btn:active",
+   "property": "transform",
+   "kind": "conflict-different-values",
+   "winner": {
+    "file": "/style/animations/micro-interactions.css",
+    "value": "scale(.94)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/social/feed-river.css",
+     "value": "scale(0.96)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/social/feed-river.css",
+    "/style/animations/micro-interactions.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".feed-empty__cta",
+   "property": "transition",
+   "kind": "conflict-different-values",
+   "winner": {
+    "file": "/style/animations/micro-interactions.css",
+    "value": "transform var(--mi-dur-xs) var(--mi-ease-out), box-shadow var(--mi-dur-sm) var(--mi-ease-out)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/social/feed-river.css",
+     "value": "transform 0.12s ease, box-shadow 0.12s ease",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/social/feed-river.css",
+    "/style/animations/micro-interactions.css"
+   ]
+  }
+ ],
+ "crossFileConflicts": 2,
+ "differentValueConflicts": 2,
+ "sameValueDuplicates": 0,
+ "exactDuplicateRules": 0,
+ "shadowedDeclarations": 12,
+ "zeroWinFiles": [
+  "/style/social/hub/index.css"
+ ]
+}
