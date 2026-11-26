@@ -1,5 +1,5 @@
 {
-	"certified": false,
+	"certified": true,
 	"custody": {
 		"artifacts": {
 			"index.html": {
@@ -95,35 +95,32 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": false,
-		"commit": "7065b55a5c2665e86a04e19d59327ccd896cd97a",
-		"dirtyEntries": [
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzPostPlayableScheduling.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/EretzPostPlayableScheduling.test.js"
-		],
-		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+		"certified": true,
+		"commit": "4f9743beb50d2c80b25a844415ae7eb896da7910",
+		"dirtyEntries": [],
+		"failureCode": null,
 		"graphSha256": "6882e6e376f2bfd657165bfb8f85872321a0710b240e3174765e57c1adfe1cf0",
 		"releaseId": "6882e6e376f2bfd657165bfb8f85872321a0710b240e3174765e57c1adfe1cf0",
 		"version": 1
 	},
-	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 3496,
+			"elapsedMilliseconds": 965,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 242532,
+			"elapsedMilliseconds": 371851,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 3962,
+			"elapsedMilliseconds": 2166,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-26T03:58:39.645Z"
+	"generatedAt": "2026-11-26T04:06:30.828Z"
 }
