@@ -61,9 +61,6 @@ body[data-geelooy-route="home"] .omnibox-badge {
 	font-weight: 800;
 	white-space: nowrap;
 }
-@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .omnibox-option {
-		transition: none;
-	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-option:hover, :where(body[data-geelooy-route="home"]) .omnibox-option.is-active, :where(body[data-geelooy-route="home"]) .omnibox-option:active {
 		transform: none;

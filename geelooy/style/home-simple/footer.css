@@ -29,7 +29,7 @@ body[data-geelooy-route="home"] .site-footer {
 	gap: .3rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .site-footer a {
+:where(body[data-geelooy-route="home"]) .site-footer a.site-footer-link {
 	display: inline-flex;
 	align-items: center;
 	white-space: nowrap;
@@ -40,24 +40,24 @@ body[data-geelooy-route="home"] .site-footer {
 	transition: background .18s ease, color .18s ease, transform .18s ease;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .site-footer a:hover {
+:where(body[data-geelooy-route="home"]) .site-footer a.site-footer-link:hover {
 	background: var(--home-accent-soft);
 	color: var(--text-primary);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .site-footer a:focus-visible {
+:where(body[data-geelooy-route="home"]) .site-footer a.site-footer-link:focus-visible {
 	background: var(--home-accent-soft);
 	color: var(--text-primary);
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .site-footer a:active {
+:where(body[data-geelooy-route="home"]) .site-footer a.site-footer-link:active {
 	background: var(--home-accent-soft);
 	transform: scale(.97);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .site-footer a {
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .site-footer a.site-footer-link {
 		transition: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

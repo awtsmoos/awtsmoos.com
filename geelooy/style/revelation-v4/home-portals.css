@@ -15,32 +15,7 @@ body[data-geelooy-route="home"] .search-shell {
 	border-radius: 1.35rem;
 	box-shadow: var(--home-card-shadow);
 }
-body[data-geelooy-route="home"] .search {
-	border: 1px solid var(--home-line-soft);
-	background:
-		radial-gradient(circle at 10% 50%, var(--home-glow), transparent 16rem),
-		linear-gradient(135deg, var(--panel-background), var(--panel-raised));
-	box-shadow: inset 0 1px var(--home-inset-hi);
-	backdrop-filter: blur(20px) saturate(1.05);
-}
-body[data-geelooy-route="home"] .portal-shortcuts {
-	gap: .78rem;
-	margin-top: 1rem;
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .portal-shortcuts a {
-	--portal-accent: 138, 109, 59;
-	position: relative;
-	isolation: isolate;
-	overflow: hidden;
-	min-height: 5.7rem;
-	border-color: rgba(var(--portal-accent), .3);
-	background:
-		radial-gradient(circle at 14% 18%, rgba(var(--portal-accent), .17), transparent 8rem),
-		linear-gradient(145deg, var(--panel-background), var(--panel-raised));
-	box-shadow: var(--home-card-shadow), 0 0 32px rgba(var(--portal-accent), .06), inset 0 1px var(--home-inset-hi);
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a { --portal-accent: 138, 109, 59; position: relative; isolation: isolate; overflow: hidden; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .portal-shortcuts a[href="/heichelos/ikar"] {
 	--portal-accent: 255, 196, 82;
@@ -75,30 +50,8 @@ body[data-geelooy-route="home"] .portal-shortcuts {
 	transition: transform var(--g4-normal) var(--g4-ease), opacity var(--g4-normal) var(--g4-ease);
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(.portal-shortcuts) :where(a) span {
-	border-color: rgba(var(--portal-accent), .46);
-	background: linear-gradient(145deg, rgba(var(--portal-accent), .2), var(--home-inset-hi));
-	box-shadow: 0 0 28px rgba(var(--portal-accent), .15), inset 0 1px var(--home-inset-hi);
-	color: rgb(var(--portal-accent));
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .portal-shortcuts strong {
-	color: var(--text-primary);
-	font-size: .92rem;
-	letter-spacing: -.015em;
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .portal-shortcuts small {
-	color: var(--text-muted);
-	font-size: .65rem;
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a:hover {
-		border-color: rgba(var(--portal-accent), .62);
-		box-shadow: var(--home-card-shadow), 0 0 48px rgba(var(--portal-accent), .15);
-		transform: translateY(-6px) scale(1.008);
-	} }
+:where(body[data-geelooy-route="home"]) :where(.portal-shortcuts) :where(a) span { border-color: rgba(var(--portal-accent), .46); box-shadow: 0 0 28px rgba(var(--portal-accent), .15), inset 0 1px var(--home-inset-hi); }
+:where(body[data-geelooy-route="home"]) .portal-shortcuts strong { letter-spacing: -.015em; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) :where(.portal-shortcuts) :where(a:hover)::after {
 		transform: scale(1.18);

@@ -72,22 +72,6 @@ body[data-geelooy-route="home"] :where( .primary-nav a, .profile-link, .creation
 .search button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(main.home) .creation-field button:active {
-	transform: scale(0.98);
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(main.home) .creation-field button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(main.home) .search button:active {
-	transform: scale(0.98);
-}
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(main.home) .search button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
 button:active {
 	transform: scale(0.98);
 }

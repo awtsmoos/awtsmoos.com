@@ -17,20 +17,8 @@ html[data-geelooy-route="home"] {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
 }
-body[data-geelooy-route="home"] {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	grid-template-rows: auto minmax(0, 1fr) auto;
-	inline-size: 100%;
-	min-inline-size: 0;
-	min-block-size: 100vh;
-	min-block-size: 100dvh;
-	margin: 0;
-	background: var(--page-background);
-}
-body[data-geelooy-route="home"].explore-open, body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
-	overflow: hidden;
-}
+body[data-geelooy-route="home"] { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; inline-size: 100%; min-inline-size: 0; min-block-size: 100dvh; margin: 0; background: var(--page-background); }
+body[data-geelooy-route="home"].explore-open { overflow: hidden; }
 body[data-geelooy-route="home"] .home-skip-link {
 	position: fixed;
 	z-index: calc(var(--home-layer-header) + 10);

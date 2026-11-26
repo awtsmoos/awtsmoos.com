@@ -1,32 +1,10 @@
-/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
-/* B"H
-Boruch Hashem
-Blessed is He
-Each featured card is a small keli: distinct light, shared structure, and one honest
-path deeper into Awtsmoos.com. Hover may invite, while a press returns the vessel to earth.
-*/
-body[data-geelooy-route="home"] .featured-card {
-	--featured-accent: 213, 154, 53;
-	position: relative;
-	isolation: isolate;
-	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto;
-	align-content: space-between;
-	gap: .9rem;
-	min-height: 220px;
-	padding: 1rem;
-	overflow: hidden;
-	border: 1px solid rgba(var(--featured-accent), .34);
-	border-radius: 1.2rem;
-	background: var(--panel-background);
-	box-shadow: var(--home-card-shadow);
-	transition:
+
+body[data-geelooy-route="home"] .featured-card { --featured-accent: 213, 154, 53; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-content: space-between; gap: .9rem; min-height: 220px; padding: 1rem; overflow: hidden; border: 1px solid rgba(var(--featured-accent), .34); border-radius: 1.2rem; background: var(--panel-background); box-shadow: var(--home-card-shadow); transition:
 		border-color 180ms ease,
 		background 180ms ease,
 		box-shadow 180ms ease,
 		filter 120ms ease,
-		transform 200ms cubic-bezier(.2, .8, .2, 1);
-}
+		transform 200ms cubic-bezier(.2, .8, .2, 1); }
 body[data-geelooy-route="home"] .featured-card > * {
 	position: relative;
 	z-index: var(--home-local-content);
@@ -96,9 +74,6 @@ body[data-geelooy-route="home"] .featured-symbol {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
-@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .featured-card {
-		transition: none;
-	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .featured-card:hover, :where(body[data-geelooy-route="home"]) .featured-card:active, :where(body[data-geelooy-route="home"]) .featured-card:focus-visible {
 		transform: none;

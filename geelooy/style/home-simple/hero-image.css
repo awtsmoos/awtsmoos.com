@@ -1,20 +1,5 @@
-/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gives the Home world enough horizon to invite without swallowing the learner's screen; Awtsmoos.com makes this late route-owned rule more specific than inherited Revelation geometry so one square legacy vessel cannot consume a phone viewport.
-*/
-body[data-geelooy-route="home"] .dance-frame {
-	position: relative;
-	isolation: isolate;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	overflow: hidden;
-	border: 1px solid var(--panel-border);
-	border-radius: 1.65rem;
-	background: var(--panel-background);
-	box-shadow: var(--home-card-shadow);
-}
+
+body[data-geelooy-route="home"] .dance-frame { isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; border: 1px solid var(--panel-border); border-radius: 1.65rem; background: var(--panel-background); box-shadow: var(--home-card-shadow); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .dance-frame::after {
 	position: absolute;

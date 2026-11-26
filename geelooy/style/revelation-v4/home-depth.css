@@ -25,11 +25,7 @@ body[data-geelooy-route="home"] .hero, body[data-geelooy-route="home"] .action-p
 	filter: blur(34px);
 	pointer-events: none;
 }
-body[data-geelooy-route="home"] .featured-worlds {
-	width: min(1280px, calc(100% - 32px));
-	margin: 3.2rem auto 5.4rem;
-	padding-top: 2rem;
-}
+body[data-geelooy-route="home"] .featured-worlds { margin: 3.2rem auto 5.4rem; padding-top: 2rem; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .featured-worlds::before {
 	position: absolute;
@@ -43,29 +39,6 @@ body[data-geelooy-route="home"] .featured-worlds {
 	filter: blur(40px);
 	pointer-events: none;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-/* B"H 2026-10-09 — Dream audit: gradient text rebuilt from theme tokens so it
-   stays legible on the warm cream paper (the old white/violet stops were
-   invisible on light backgrounds). */
-:where(body[data-geelooy-route="home"]) .featured-heading h2 {
-	max-width: 16ch;
-	background: linear-gradient(110deg, var(--sefer-title-ink) 0%, var(--home-accent) 48%, var(--home-accent-strong) 100%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-	font-size: clamp(2.2rem, 4.4vw, 4.5rem);
-	line-height: .95;
-	letter-spacing: -.055em;
-	text-wrap: balance;
-}
-body[data-geelooy-route="home"] .featured-grid {
-	gap: 1.05rem;
-	perspective: 1200px;
-}
-body[data-geelooy-route="home"] .featured-card {
-	transform-style: preserve-3d;
-	box-shadow:
-		var(--home-card-shadow),
-		0 0 0 1px var(--home-line-soft),
-		inset 0 1px var(--home-inset-hi);
-}
+:where(body[data-geelooy-route="home"]) .featured-heading h2 { max-width: 16ch; background: linear-gradient(110deg, var(--sefer-title-ink) 0%, var(--home-accent) 48%, var(--home-accent-strong) 100%); -webkit-background-clip: text; background-clip: text; text-wrap: balance; }
+body[data-geelooy-route="home"] .featured-grid { perspective: 1200px; }
+body[data-geelooy-route="home"] .featured-card { transform-style: preserve-3d; }

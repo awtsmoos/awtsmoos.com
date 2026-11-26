@@ -1,18 +1,5 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos sets its Shliach as the doorway of the Home world; Awtsmoos.com keeps the living artwork whole behind one scrim while the search vessel rests inside the hero itself, so no void and no clipped crown can stand between the visitor and the door.
-*/
-body[data-geelooy-route="home"] .shliach-hero-card {
-	position: relative;
-	isolation: isolate;
-	display: grid;
-	min-height: clamp(22rem, 44vw, 32rem);
-	border: 1px solid var(--panel-border);
-	border-radius: 1.65rem;
-	background: var(--panel-background);
-	box-shadow: var(--home-card-shadow);
-}
+
+body[data-geelooy-route="home"] .shliach-hero-card { position: relative; isolation: isolate; display: grid; min-height: clamp(22rem, 44vw, 32rem); border: 1px solid var(--panel-border); border-radius: 1.65rem; }
 body[data-geelooy-route="home"] .shliach-hero-media {
 	position: absolute;
 	inset: 0;

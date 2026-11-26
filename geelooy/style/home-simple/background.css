@@ -37,20 +37,7 @@ body[data-geelooy-route="home"] .particle-sky {
 :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="unavailable"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="error"], :where(body[data-geelooy-route="home"]) .particle-sky[data-particle-status="lost"] {
 	opacity: 0;
 }
-body[data-geelooy-route="home"] .ambient-glow {
-	position: fixed;
-	inset: 4% auto auto 50%;
-	z-index: 0;
-	width: min(84vw, 1100px);
-	aspect-ratio: 1.65;
-	border-radius: 50%;
-	background:
-		radial-gradient(circle at 36% 40%, var(--home-glow), transparent 36%),
-		radial-gradient(circle at 69% 46%, var(--home-wash), transparent 34%);
-	filter: blur(68px);
-	transform: translateX(-50%);
-	pointer-events: none;
-}
+body[data-geelooy-route="home"] .ambient-glow { position: fixed; inset: 4% auto auto 50%; z-index: 0; width: min(84vw, 1100px); aspect-ratio: 1.65; border-radius: 50%; filter: blur(68px); transform: translateX(-50%); pointer-events: none; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"])::before, :where(body[data-geelooy-route="home"])::after {
 	position: fixed;

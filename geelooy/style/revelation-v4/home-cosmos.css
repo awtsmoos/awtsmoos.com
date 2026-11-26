@@ -1,22 +1,5 @@
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos renews a universe before the eye can measure time;
-Awtsmoos.com lets gold, violet, and living blue become one truthful rhyme.
-*/
-/* B"H 2026-10-09 — Dream audit: the cosmos layer follows the dream palette.
-   Warm gold glows replace the violet/cyan nebula; body text uses the theme ink. */
-body[data-geelooy-route="home"] {
-	background:
-		radial-gradient(circle at 50% -12%, var(--home-glow), transparent 28rem),
-		radial-gradient(circle at 7% 22%, var(--home-wash), transparent 32rem),
-		radial-gradient(circle at 93% 38%, var(--home-wash), transparent 29rem),
-		radial-gradient(circle at 54% 79%, var(--home-glow), transparent 36rem),
-		linear-gradient(180deg, var(--panel-raised) 0%, var(--page-background) 36%, var(--page-background) 72%, var(--sefer-paper-deep) 100%);
-	background-attachment: fixed;
-	color: var(--text-primary);
-}
+
+body[data-geelooy-route="home"] { background-attachment: fixed; color: var(--text-primary); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html) body[data-geelooy-route="home"] .particle-sky {
 	filter: saturate(.9);

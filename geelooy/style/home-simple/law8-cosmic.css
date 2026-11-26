@@ -145,6 +145,13 @@ body[data-geelooy-route="home"] .header-rail {
    the wordmark out of the background; the artwork itself stays untouched. */
 body[data-geelooy-route="home"] .home-hero-title {
 	color: var(--law8-gold-hi);
+	/* B"H beauty pass 2026-11-26: the wordmark carries a struck-gold gradient
+	   (bright crown, deep gold foot) clipped to the glyphs; the dark stroke and
+	   halo shadows below still carve it out of the artwork for legibility. */
+	background: linear-gradient(178deg, #fff8e1 0%, var(--law8-gold-hi) 38%, #caa14a 74%, var(--law8-gold-hi) 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 	-webkit-text-stroke: 1.5px rgba(26, 16, 4, 0.9);
 	paint-order: stroke fill;
 	text-shadow:
@@ -166,7 +173,7 @@ body[data-geelooy-route="home"] .home-hero-sub {
 body[data-geelooy-route="home"] .shliach-hero-card {
 	background: transparent;
 	border-color: var(--law8-glass-border);
-	box-shadow: 0 24px 70px var(--law8-card-shadow), 0 0 60px var(--law8-gold-glow);
+	box-shadow: 0 24px 70px var(--law8-card-shadow), 0 0 60px var(--law8-gold-glow), inset 0 0 0 1px var(--law8-gold-glow), inset 0 1px 0 var(--law8-glass-hi);
 }
 /* ============ LUMINOUS SEARCH VESSEL ============ */
 body[data-geelooy-route="home"] .search {
@@ -174,7 +181,7 @@ body[data-geelooy-route="home"] .search {
 	background: var(--law8-glass);
 	box-shadow:
 		0 0 0 1px var(--law8-search-ring),
-		0 0 34px var(--law8-gold-glow),
+		0 0 46px var(--law8-gold-glow),
 		0 18px 46px var(--law8-card-shadow),
 		inset 0 1px 0 var(--law8-glass-hi);
 	backdrop-filter: blur(20px) saturate(1.2);
@@ -184,6 +191,11 @@ body[data-geelooy-route="home"] .search {
 /* @tunnel-specificity: :where() reduced to (0,1,1) budget — later import order wins ties */
 :where(body[data-geelooy-route="home"]) .portal-shortcuts a {
 	background: var(--law8-glass);
+	/* B"H beauty pass 2026-11-26: a struck-gold sheen lies over the glass —
+	   light gathered at the crown of each portal, gold dust settling at its top edge. */
+	background-image:
+		linear-gradient(168deg, rgba(255, 240, 200, 0.16), transparent 46%),
+		radial-gradient(130% 100% at 50% 0%, var(--law8-gold-glow), transparent 62%);
 	border-color: var(--law8-glass-border);
 	color: var(--law8-card-ink);
 	box-shadow:
@@ -198,8 +210,8 @@ body[data-geelooy-route="home"] .search {
 		border-color: var(--law8-gold-soft);
 		color: var(--law8-card-ink);
 		box-shadow:
-			0 16px 44px var(--law8-card-shadow),
-			0 0 30px var(--law8-gold-glow),
+			0 18px 48px var(--law8-card-shadow),
+			0 0 38px var(--law8-gold-glow),
 			inset 0 1px 0 var(--law8-glass-hi);
 		transform: translateY(-3px);
 	}
@@ -305,14 +317,8 @@ body[data-geelooy-route="home"] .portal-shortcuts-label {
 	gap: .9rem;
 	color: var(--law8-gold-soft);
 }
-:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::before,
-:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::after {
-	content: "";
-	width: 3.2rem;
-	height: 1px;
-	color: var(--law8-gold-soft);
-	background: linear-gradient(90deg, transparent, var(--law8-glass-border));
-}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::before { content: ""; width: 3.2rem; height: 1px; color: var(--law8-gold-soft); background: linear-gradient(90deg, transparent, var(--law8-glass-border)); }
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::after { content: ""; width: 3.2rem; height: 1px; }
 :where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::after {
 	color: var(--law8-gold-soft);
 	background: linear-gradient(90deg, var(--law8-glass-border), transparent);

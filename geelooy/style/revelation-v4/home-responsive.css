@@ -34,10 +34,8 @@ Awtsmoos.com keeps the revelation immense on a phone without making the learner 
 		border-radius: 1.45rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) main.home .hero-media {
-		aspect-ratio: 1 / 1;
-		min-height: 0;
-	} }
+@media (max-width: 760px) {
+:where(body[data-geelooy-route="home"]) main.home .hero-media { min-height: 0; } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 760px) { :where(body[data-geelooy-route="home"]) :where(main.home) .hero-media::after {
 		background: linear-gradient(180deg, transparent 62%, rgba(4, 4, 14, .9));

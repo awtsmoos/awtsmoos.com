@@ -103,9 +103,6 @@ body[data-geelooy-route="home"] .omnibox-beta {
 		transform: translateY(-5px) scale(.992);
 	}
 }
-@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .omnibox-panel {
-		animation: none;
-	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-heading button {
 		transition: none;

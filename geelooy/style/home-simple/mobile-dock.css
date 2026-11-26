@@ -16,24 +16,10 @@ body[data-geelooy-route="home"] .mobile-dock {
 		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
-@media (max-width: 760px) { body[data-geelooy-route="home"] .mobile-dock {
-		position: fixed;
-		right: .5rem;
-		bottom: max(.5rem, env(safe-area-inset-bottom));
-		left: .5rem;
-		z-index: var(--home-layer-dock);
-		display: grid;
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-		gap: .18rem;
-		padding: .34rem;
-		border: 1px solid var(--panel-border);
-		border-radius: 1.12rem;
-		background: var(--panel-background);
-		box-shadow: var(--home-card-shadow);
-		transition: opacity .2s ease, transform .2s ease;
-	} }
+@media (max-width: 760px) {
+body[data-geelooy-route="home"] .mobile-dock { position: fixed; right: .5rem; left: .5rem; z-index: var(--home-layer-dock); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .18rem; padding: .34rem; border: 1px solid var(--panel-border); border-radius: 1.12rem; transition: opacity .2s ease, transform .2s ease; } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link {
 		display: grid;
 		place-items: center;
 		gap: .13rem;
@@ -50,27 +36,27 @@ body[data-geelooy-route="home"] .mobile-dock {
 			transform 160ms cubic-bezier(.2, .8, .2, 1);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a[aria-current="page"] {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link[aria-current="page"] {
 		border-color: var(--panel-border-strong);
 		background: var(--home-accent-soft);
 		color: var(--home-accent-strong);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .mobile-dock a:hover {
+@media (max-width: 760px) { @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:hover {
 			border-color: var(--panel-border-strong);
 			background: var(--home-accent-soft);
 			color: var(--home-accent-strong);
 			transform: translateY(-1px);
 		} } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:active {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:active {
 		border-color: var(--home-accent);
 		background: var(--panel-raised);
 		filter: brightness(.96);
 		transform: translateY(1px) scale(.97);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:focus-visible {
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:focus-visible {
 		outline: 3px solid var(--focus-ring);
 		outline-offset: 2px;
 	} }
@@ -107,15 +93,15 @@ body[data-geelooy-route="home"] .mobile-dock {
 	transform: translateY(1rem);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .mobile-dock, :where(body[data-geelooy-route="home"]) .mobile-dock a {
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .mobile-dock, :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link {
 		transition: none;
 	
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .mobile-dock a:hover, :where(body[data-geelooy-route="home"]) .mobile-dock a:active {
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:hover, :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:active {
 		transform: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .mobile-dock a:focus-visible {
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .mobile-dock a.mobile-dock-link:focus-visible {
 		transform: none;
 	} }

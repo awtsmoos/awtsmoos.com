@@ -45,11 +45,8 @@ body[data-geelooy-route="home"] .dance-frame, body[data-geelooy-route="home"] .f
 	filter: none;
 	transform: none;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .portal-shortcuts a, :where(body[data-geelooy-route="home"]) .direct-navigation a, body[data-geelooy-route="home"] .featured-card {
-	will-change: transform;
-
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a { will-change: transform; }
+:where(body[data-geelooy-route="home"]) .direct-navigation a, body[data-geelooy-route="home"] .featured-card { will-change: transform; color: var(--aw-text); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .dance-frame::before, :where(body[data-geelooy-route="home"]) .featured-card::before {
 		display: none;
