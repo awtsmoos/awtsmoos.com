@@ -28,7 +28,7 @@ html .heichel-os-document .nav-card-chevron {
 	font-size: 1.25rem;
 }
 
-.heichel-os-document .nav-card-body > p {
+.heichel-os-document .nav-card-body > p:not(.nav-card-kicker) {
 	margin: .38rem 0;
 	color: var(--heichel-cosmic-secondary);
 	font-size: .79rem;
