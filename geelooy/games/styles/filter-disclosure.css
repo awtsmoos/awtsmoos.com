@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps disclosure geometry, hover, focus, press, touch, and motion complete without owning the tags inside.
  */
 .filterDisclosure {
-	margin-top: 10px;
+	margin-top: 0.4rem;
 	overflow: clip;
 	border: 1px solid var(--games-line-soft);
 	border-radius: 14px;

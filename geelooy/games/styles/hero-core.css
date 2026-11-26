@@ -10,7 +10,10 @@
 .heroPanel {
 	position: relative;
 	overflow: hidden;
-	padding: clamp(24px, 4vw, 42px);
+	/* B"H — tight padding owned here since 2026-11-26 (value transplanted from
+	   game-covers.css, Yaakov's "too much paddings" ruling, so this sheet is
+	   the single owner and no late sheet needs to override it). */
+	padding: 1rem 0.9rem;
 	border: 1px solid var(--games-line);
 	border-radius: var(--games-radius-xl);
 	background:
@@ -49,8 +52,8 @@
 .heroActions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
-	margin-top: 22px;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
 }
 
 .primaryCta,

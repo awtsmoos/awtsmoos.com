@@ -8,7 +8,7 @@
  */
 .quickLaunch {
 	display: grid;
-	gap: 10px;
+	gap: 0.4rem;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	margin-top: 12px;
 }
@@ -24,7 +24,7 @@
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	min-height: 66px;
 	min-width: 0;
-	padding: 11px 14px;
+	padding: 0.5rem 0.6rem;
 	text-decoration: none;
 	touch-action: manipulation;
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;

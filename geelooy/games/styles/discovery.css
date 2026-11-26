@@ -11,7 +11,7 @@
 	position: relative;
 	isolation: isolate;
 	margin-top: clamp(18px, 3vw, 30px);
-	padding: clamp(16px, 2vw, 22px);
+	padding: 0.8rem;
 	border: 1px solid var(--games-line);
 	border-radius: var(--games-radius-lg);
 	background: rgba(12, 11, 24, 0.94);
@@ -82,6 +82,14 @@
 	border-color: rgba(140, 247, 255, 0.72);
 	background: rgba(6, 8, 18, 0.98);
 	box-shadow: 0 0 0 4px rgba(140, 247, 255, 0.09);
+}
+
+/* B"H 2026-11-26: the search glyph carries this class; it had no rule in any
+   sheet the hub loads. Sized to its own 24px vessel (same as .gicon--sm). */
+.searchWrap .searchWrap-icon {
+	width: 1.5rem;
+	height: 1.5rem;
+	object-fit: contain;
 }
 
 .searchWrap input {

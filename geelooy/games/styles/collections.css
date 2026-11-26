@@ -6,7 +6,7 @@ The Awtsmoos lets collections name the worlds without forcing another long corri
 */
 .gamesCatalog {
 	display: grid;
-	gap: 28px;
+	gap: 0.6rem;
 	margin-top: 20px;
 }
 
@@ -63,8 +63,8 @@ The Awtsmoos lets collections name the worlds without forcing another long corri
 	align-items: center;
 	justify-content: space-between;
 	gap: 14px;
-	margin-top: 34px;
-	padding: 18px 0 8px;
+	margin-top: 1rem;
+	padding: 1rem 0.75rem;
 	border-top: 1px solid var(--games-line-soft);
 	color: var(--games-muted);
 	font-size: .76rem;

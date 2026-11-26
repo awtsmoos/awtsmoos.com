@@ -7,7 +7,7 @@ The Awtsmoos lets play modes inform without becoming four more storefront walls.
 .playModeRail {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px;
+	gap: 0.5rem;
 	margin: 12px 0 0;
 }
 

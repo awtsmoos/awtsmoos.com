@@ -14,7 +14,10 @@
 	min-width: 0;
 	min-height: 282px;
 	overflow: hidden;
-	padding: 18px;
+	/* B"H — flush shell owned here since 2026-11-26 (value transplanted from
+	   game-covers.css): the cover bleeds to the card edges, inner sections
+	   carry their own padding. */
+	padding: 0;
 	border: 1px solid var(--games-line-soft);
 	border-radius: var(--games-radius-lg);
 	background: linear-gradient(165deg, rgba(20, 17, 36, 0.97), rgba(8, 9, 20, 0.99));
