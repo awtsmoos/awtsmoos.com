@@ -1,0 +1,353 @@
+{
+ "title": "css-conflict-report-composer",
+ "mode": "served (page load order, bundle-expanded, real served bytes; no browser)",
+ "source": "http://127.0.0.1:8080/social-composer/",
+ "generatedAt": "2026-11-26T02:46:21.134Z",
+ "files": [
+  {
+   "file": "/social-composer/style.css",
+   "bytes": 332238,
+   "rules": 1830,
+   "declarations": 5733,
+   "wins": 5427,
+   "losses": 306,
+   "shadowed": 306
+  },
+  {
+   "file": "/style/universal-ui.css",
+   "bytes": 44013,
+   "rules": 186,
+   "declarations": 550,
+   "wins": 542,
+   "losses": 8,
+   "shadowed": 8
+  }
+ ],
+ "totalBytes": 376251,
+ "totalDeclarations": 6283,
+ "totalRules": 2016,
+ "conflicts": [
+  {
+   "context": "(top level)",
+   "selector": "button:active",
+   "property": "transform",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "scale(0.98)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/universal-ui.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:focus-visible",
+   "property": "outline",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "2px solid currentColor",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/universal-ui.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:focus-visible",
+   "property": "outline-offset",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "2px",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/universal-ui.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:hover",
+   "property": "filter",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "brightness(1.08)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/universal-ui.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:active",
+   "property": "transform",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "scale(0.98)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "scale(0.98)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:hover",
+   "property": "filter",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "brightness(1.08)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    },
+    {
+     "file": "/social-composer/style.css",
+     "value": "brightness(1.08)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:focus-visible",
+   "property": "outline",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "2px solid currentColor",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px solid currentColor",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:focus-visible",
+   "property": "outline-offset",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/universal-ui.css",
+    "value": "2px",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/social-composer/style.css",
+     "value": "2px",
+     "important": false
+    }
+   ],
+   "files": [
+    "/social-composer/style.css",
+    "/style/universal-ui.css"
+   ]
+  }
+ ],
+ "crossFileConflicts": 8,
+ "differentValueConflicts": 0,
+ "sameValueDuplicates": 8,
+ "exactDuplicateRules": 1,
+ "shadowedDeclarations": 314,
+ "zeroWinFiles": []
+}

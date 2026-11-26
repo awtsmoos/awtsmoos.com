@@ -1,0 +1,683 @@
+{
+ "title": "css-conflict-report-heichel",
+ "mode": "served (page load order, bundle-expanded, real served bytes; no browser)",
+ "source": "http://127.0.0.1:8080/heichelos/ohrHaNiggun/",
+ "generatedAt": "2026-11-26T02:46:15.538Z",
+ "files": [
+  {
+   "file": "/style/heichelos/heichel/dream-fallback.css",
+   "bytes": 23738,
+   "rules": 86,
+   "declarations": 366,
+   "wins": 360,
+   "losses": 6,
+   "shadowed": 6
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/dream-heichel.css",
+   "bytes": 15884,
+   "rules": 50,
+   "declarations": 256,
+   "wins": 255,
+   "losses": 1,
+   "shadowed": 1
+  },
+  {
+   "file": "/style/civilization/heichel-content.css",
+   "bytes": 14819,
+   "rules": 109,
+   "declarations": 274,
+   "wins": 274,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css",
+   "bytes": 11534,
+   "rules": 64,
+   "declarations": 279,
+   "wins": 279,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/awtsmoos-scroll-sovereignty.css",
+   "bytes": 6281,
+   "rules": 42,
+   "declarations": 91,
+   "wins": 83,
+   "losses": 8,
+   "shadowed": 8
+  },
+  {
+   "file": "/style/civilization/heichel-institution.css",
+   "bytes": 6158,
+   "rules": 32,
+   "declarations": 120,
+   "wins": 119,
+   "losses": 1,
+   "shadowed": 1
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-04.css",
+   "bytes": 5691,
+   "rules": 21,
+   "declarations": 62,
+   "wins": 62,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/heichelos/series-player.css",
+   "bytes": 4743,
+   "rules": 23,
+   "declarations": 103,
+   "wins": 103,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/civilization/core-components.css",
+   "bytes": 3367,
+   "rules": 17,
+   "declarations": 75,
+   "wins": 75,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-06.css",
+   "bytes": 2758,
+   "rules": 14,
+   "declarations": 30,
+   "wins": 30,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+   "bytes": 2201,
+   "rules": 7,
+   "declarations": 30,
+   "wins": 21,
+   "losses": 9,
+   "shadowed": 9
+  },
+  {
+   "file": "/style/heichelos/heichel/index.css",
+   "bytes": 1967,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/civilization/core-base.css",
+   "bytes": 1951,
+   "rules": 38,
+   "declarations": 67,
+   "wins": 57,
+   "losses": 10,
+   "shadowed": 10
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-03.css",
+   "bytes": 1842,
+   "rules": 7,
+   "declarations": 19,
+   "wins": 19,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-07.css",
+   "bytes": 1824,
+   "rules": 7,
+   "declarations": 15,
+   "wins": 15,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/civilization/core-tokens.css",
+   "bytes": 1814,
+   "rules": 1,
+   "declarations": 26,
+   "wins": 26,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/civilization/heichel-responsive.css",
+   "bytes": 1673,
+   "rules": 16,
+   "declarations": 29,
+   "wins": 29,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-05.css",
+   "bytes": 1292,
+   "rules": 4,
+   "declarations": 18,
+   "wins": 18,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/social-system/index.css",
+   "bytes": 1228,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/universal-ui.css",
+   "bytes": 1182,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/cosmic-profile/index.css",
+   "bytes": 988,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/authority.css",
+   "bytes": 775,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/geelooy-system/index.css",
+   "bytes": 707,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/heichelos-ikar-redesign.css",
+   "bytes": 690,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "<inline style #2 on page>",
+   "bytes": 652,
+   "rules": 5,
+   "declarations": 12,
+   "wins": 12,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "<inline style #1 on page>",
+   "bytes": 626,
+   "rules": 6,
+   "declarations": 12,
+   "wins": 12,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-02.css",
+   "bytes": 580,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/heichel/ikar-product-shell.css",
+   "bytes": 257,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  }
+ ],
+ "totalBytes": 117222,
+ "totalDeclarations": 1884,
+ "totalRules": 549,
+ "conflicts": [
+  {
+   "context": "(top level)",
+   "selector": "a:active",
+   "property": "transform",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/heichel-content.css",
+    "value": "scale(0.98)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/civilization/core-base.css",
+     "value": "scale(0.98)",
+     "important": false
+    },
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "scale(0.98)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css",
+    "/style/civilization/heichel-content.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:hover",
+   "property": "filter",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/core-base.css",
+    "value": "brightness(1.08)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "brightness(1.08)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:active",
+   "property": "transform",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/core-base.css",
+    "value": "scale(0.98)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "scale(0.98)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:focus-visible",
+   "property": "outline",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/core-base.css",
+    "value": "2px solid currentColor",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "2px solid currentColor",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "button:focus-visible",
+   "property": "outline-offset",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/core-base.css",
+    "value": "2px",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "2px",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:hover",
+   "property": "filter",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/core-base.css",
+    "value": "brightness(1.08)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "brightness(1.08)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/core-base.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:focus-visible",
+   "property": "outline",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/heichel-content.css",
+    "value": "2px solid currentColor",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "2px solid currentColor",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/heichel-content.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": "a:focus-visible",
+   "property": "outline-offset",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "/style/civilization/heichel-content.css",
+    "value": "2px",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/awtsmoos-scroll-sovereignty.css",
+     "value": "2px",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/awtsmoos-scroll-sovereignty.css",
+    "/style/civilization/heichel-content.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-os-document",
+   "property": "background",
+   "kind": "conflict-different-values",
+   "winner": {
+    "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "value": "radial-gradient(circle at 12% 8%, rgba(77, 233, 255, .13), transparent 28rem), radial-gradient(circle at 88% 14%, rgba(150, 100, 255, .13), transparent 30rem), radial-gradient(circle at 52% 88%, rgba(76, 141, 255, .08), transparent 34rem), linear-gradient(165deg, #01030a 0%, #020713 48%, #030818 100%)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/civilization/heichel-institution.css",
+     "value": "radial-gradient(circle at 50% 0, rgba(213, 174, 100, .11), transparent 34rem), var(--civil-bg)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/civilization/heichel-institution.css",
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-os-document body",
+   "property": "background",
+   "kind": "conflict-different-values",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "#040c1c",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "transparent",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-os-document body",
+   "property": "min-height",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "100svh",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "100svh",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-os-page",
+   "property": "min-height",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "100svh",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "100svh",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-os-page > .main",
+   "property": "min-height",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "100svh",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "100svh",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-semantic-fallback",
+   "property": "box-sizing",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "border-box",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "border-box",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-semantic-fallback",
+   "property": "margin-inline",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "auto",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "auto",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-semantic-fallback",
+   "property": "max-width",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "78rem",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "78rem",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-semantic-fallback",
+   "property": "padding",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "clamp(1rem, 3vw, 2.75rem)",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "clamp(1rem, 3vw, 2.75rem)",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  },
+  {
+   "context": "(top level)",
+   "selector": ".heichel-semantic-fallback",
+   "property": "width",
+   "kind": "duplicate-same-value",
+   "winner": {
+    "file": "<inline style #1 on page>",
+    "value": "100%",
+    "important": false
+   },
+   "losers": [
+    {
+     "file": "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+     "value": "100%",
+     "important": false
+    }
+   ],
+   "files": [
+    "/style/heichelos/heichel/premium/ikar-first-parts/part-01.css",
+    "<inline style #1 on page>"
+   ]
+  }
+ ],
+ "crossFileConflicts": 18,
+ "differentValueConflicts": 2,
+ "sameValueDuplicates": 16,
+ "exactDuplicateRules": 6,
+ "shadowedDeclarations": 35,
+ "zeroWinFiles": [
+  "/style/heichelos/heichel/index.css",
+  "/style/social-system/index.css",
+  "/style/universal-ui.css",
+  "/style/heichelos/heichel/cosmic-profile/index.css",
+  "/style/heichelos/heichel/premium/authority.css",
+  "/style/geelooy-system/index.css",
+  "/style/heichelos/heichel/heichelos-ikar-redesign.css",
+  "/style/heichelos/heichel/premium/ikar-first-parts/part-02.css",
+  "/style/heichelos/heichel/ikar-product-shell.css"
+ ]
+}
