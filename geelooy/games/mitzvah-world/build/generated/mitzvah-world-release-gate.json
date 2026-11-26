@@ -1,5 +1,5 @@
 {
-	"certified": false,
+	"certified": true,
 	"custody": {
 		"artifacts": {
 			"index.html": {
@@ -95,46 +95,32 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": false,
-		"commit": "f772a4ba6ffbfa212fc67129d5cb699cc6370136",
-		"dirtyEntries": [
-			"M geelooy/games/mitzvah-world/build/RuntimeChunkPreloadIdentity.cjs",
-			"M geelooy/games/mitzvah-world/build/build-js.cjs",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-js.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-release-gate.json",
-			"M geelooy/games/mitzvah-world/build/generated/mitzvah-world-release.json",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/createEretzRuntime.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world.compact.js",
-			"M geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world.compact.js.br",
-			"M geelooy/games/mitzvah-world/index.html",
-			"?? geelooy/games/mitzvah-world/build/generated/mitzvah-world-launcher.json",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/app/MitzvahWorldLauncherBundle.js",
-			"?? geelooy/games/mitzvah-world/experiments/Awtsmoos/src/mitzvah-world-launcher.compact.js"
-		],
-		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+		"certified": true,
+		"commit": "c3bc5ef3340c08d8076e6c488700395d9c88b9e5",
+		"dirtyEntries": [],
+		"failureCode": null,
 		"graphSha256": "9b80513389e10149ada6dc0ee00fb8aa9d35e78d671f4a23c5331feff161ace9",
 		"releaseId": "9b80513389e10149ada6dc0ee00fb8aa9d35e78d671f4a23c5331feff161ace9",
 		"version": 1
 	},
-	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
+	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 1097,
+			"elapsedMilliseconds": 1224,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 156678,
+			"elapsedMilliseconds": 155619,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 4331,
+			"elapsedMilliseconds": 5631,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-26T02:36:25.287Z"
+	"generatedAt": "2026-11-26T02:40:09.240Z"
 }
