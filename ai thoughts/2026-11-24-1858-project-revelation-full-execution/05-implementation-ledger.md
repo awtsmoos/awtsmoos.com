@@ -192,3 +192,21 @@ REMAINING AFTER RUN 5 (genuinely external only):
   the ingress fix release.
 - Root disk at 100% (144MB free) — ops cleanup owed by whoever owns the
   root-volume growth; flagged, not touched (other sessions' data).
+
+## Run 5 ADDENDUM (2026-11-26, minutes later) — item 2 activation corrected
+The "ACTIVATION BLOCKED" verdict above was overtaken by events: another
+session restarted awtsmoos.service at 2026-11-26 01:35:50 UTC (MainPID
+1501818) with this run's cold-fill code in the working tree. The code is
+therefore LIVE, and its two mechanisms are now LIVE-VERIFIED:
+- Details memo: after a priming fill, GET ikar/series/encyclopedia/
+  posts/details returned all 2,073 records (4,441,834 bytes, count
+  verified) in 0.266s — vs 13.55s cold (run 4) and 60s+ client timeouts
+  earlier this run. A later call after the 60s memo lapsed re-filled in
+  13.93s (the raw per-record fill cost is unchanged, by design) and
+  re-primed the memo.
+- Cooperative yield: during this run's fills, a neighbor GET /social/
+  answered in 0.064s (run 4 measured a 17s neighbor stall mid-fill).
+Remaining lever (recorded, not shipped): boot-time warming or a longer
+details TTL so first-hit-after-idle avoids the ~14s fill entirely.
+Item 3's stale-ID procedure can now ride the NEXT restart window as
+planned; nothing else in the run-5 remaining list changes.
