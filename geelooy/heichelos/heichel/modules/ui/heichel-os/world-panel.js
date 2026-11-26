@@ -65,7 +65,49 @@ export function activateDistrict(name = 'overview') {
 	});
 	setText(root, '[data-heichel-district-title]', districtTitle(name));
 	const body = root.querySelector('[data-heichel-district-body]');
-	if (body) body.replaceChildren(...districtCopy(name).map(paragraph));
+	if (!body) return;
+	body.replaceChildren(...districtCopy(name).map(paragraph));
+	// B"H 2026-11-26 (Revelation fix, sections C+H): the Moderation
+	// district was a copy-only stub -- its button opened no queue, so an
+	// owner could never see submissions waiting for review. It now loads
+	// the real Review Center queue for this Heichel.
+	if (name === 'moderation') void paintModerationQueue(body);
+}
+
+/** Loads the owner's live submission queue into the Moderation district. */
+async function paintModerationQueue(body) {
+	const heichelId = (location.pathname.match(/\/heichelos\/([^/]+)/) || [])[1] || '';
+	const aliasId = window.curAlias || '';
+	const status = paragraph('Loading the review queue…');
+	body.append(status);
+	if (!heichelId || !aliasId) {
+		status.textContent = 'Sign in as the Heichel owner to see submissions waiting for review.';
+		return;
+	}
+	try {
+		const response = await fetch(
+			`/api/social/unified-social/heichelos/${encodeURIComponent(heichelId)}/review?aliasId=${encodeURIComponent(aliasId)}`,
+			{ credentials: 'include' }
+		);
+		const data = await response.json().catch(() => null);
+		const payload = data?.success ?? data;
+		const items = Array.isArray(payload) ? payload
+			: (payload?.submissions || payload?.queue || payload?.items || []);
+		if (data?.error) throw new Error(data.error.message || data.error.code || 'queue unavailable');
+		if (!items.length) {
+			status.textContent = 'No submissions are waiting for review.';
+			return;
+		}
+		status.textContent = `${items.length} submission${items.length === 1 ? '' : 's'} waiting for review:`;
+		for (const item of items) {
+			const line = paragraph(
+				`• ${item.title || item.contentTitle || item.id || 'Submission'} — ${item.state || item.status || 'pending'}${item.submitterAliasId || item.aliasId ? ` · by ${item.submitterAliasId || item.aliasId}` : ''}`
+			);
+			body.append(line);
+		}
+	} catch (error) {
+		status.textContent = `The review queue could not be loaded (${error.message}). Only the Heichel owner can see it.`;
+	}
 }
 
 function paintProfileCounts(counts) {

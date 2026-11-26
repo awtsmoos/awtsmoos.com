@@ -30,17 +30,29 @@ export async function handleDelete(navigator, itemsInput, clear = false) {
         : (!clear && items.some(i => i.type === 'series')
             ? ' Everything inside it — posts and their comments — will be removed too.'
             : '');
-    if (!confirm(`Are you certain you wish to ${label} ${named}?${cascadeNote} This cannot be undone.`)) return;
-    
+    // B"H 2026-11-26 (Revelation fix, section H): the native confirm()
+    // gate was a silent dead end -- inside the shell stage / automated
+    // surfaces it resolves as a dismissal with no dialog, no toast and no
+    // deletion, so owner Delete looked inert (proven in the publish-proof
+    // run: 5 owner attempts, nothing). Confirmation is now an in-page
+    // sheet the owner actually sees and taps.
+    if (!await confirmAction(`Are you certain you wish to ${label} ${named}?${cascadeNote} This cannot be undone.`, label)) return;
+
     ui.notify(`Processing ${label}...`, 'info');
 
     const ritual = clear ? api.clearSeries : api.deleteContent;
-    
-    const results = await ritual({
-        heichelId: appState.heichelId,
-        aliasId: window.curAlias,
-        itemsToDelete: items,
-    });
+
+    let results;
+    try {
+        results = await ritual({
+            heichelId: appState.heichelId,
+            aliasId: window.curAlias,
+            itemsToDelete: items,
+        });
+    } catch (error) {
+        ui.notify(`The removal could not reach the server. Nothing was deleted. (${error?.message || 'network error'})`, 'error');
+        return;
+    }
 
     const brokenSparks = results.filter(r => !r.success);
     if (brokenSparks.length > 0) {
@@ -77,4 +89,39 @@ export function handleShare(item) {
     } else {
         window.prompt("Copy this path to share the Revelation:", url);
     }
+}
+
+/**
+ * B"H 2026-11-26 (Revelation fix, section H): in-page confirmation sheet.
+ * Resolves true only when the owner taps the danger button; the veil,
+ * Escape, and Cancel all resolve false. Never a native dialog.
+ */
+export function confirmAction(message, confirmLabel = 'Delete') {
+    return new Promise(resolve => {
+        const layer = document.createElement('div');
+        layer.className = 'awtsmoos-confirm-layer';
+        layer.innerHTML =
+            '<button type="button" class="awtsmoos-confirm-veil" aria-label="Cancel"></button>' +
+            '<div class="awtsmoos-confirm-card" role="alertdialog" aria-modal="true" aria-label="Confirm removal">' +
+                '<p class="awtsmoos-confirm-text"></p>' +
+                '<div class="awtsmoos-confirm-actions">' +
+                    '<button type="button" class="awtsmoos-confirm-cancel">Cancel</button>' +
+                    '<button type="button" class="awtsmoos-confirm-danger"></button>' +
+                '</div>' +
+            '</div>';
+        layer.querySelector('.awtsmoos-confirm-text').textContent = message;
+        layer.querySelector('.awtsmoos-confirm-danger').textContent = confirmLabel;
+        const finish = value => {
+            document.removeEventListener('keydown', onKey);
+            layer.remove();
+            resolve(value);
+        };
+        const onKey = event => { if (event.key === 'Escape') finish(false); };
+        layer.querySelector('.awtsmoos-confirm-veil').addEventListener('click', () => finish(false));
+        layer.querySelector('.awtsmoos-confirm-cancel').addEventListener('click', () => finish(false));
+        layer.querySelector('.awtsmoos-confirm-danger').addEventListener('click', () => finish(true));
+        document.addEventListener('keydown', onKey);
+        document.body.appendChild(layer);
+        layer.querySelector('.awtsmoos-confirm-danger').focus({ preventScroll: true });
+    });
 }
