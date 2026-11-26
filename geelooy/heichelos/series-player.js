@@ -201,7 +201,17 @@
 		var controller = ('AbortController' in window) ? new AbortController() : null;
 		var killer = controller ? setTimeout(function () { controller.abort(); }, 30000) : null;
 		fetch('/api/social/heichelos/' + encodeURIComponent(loc.heichelId) + '/series/' + encodeURIComponent(loc.seriesId) + '/posts/details', { credentials: 'include', signal: controller ? controller.signal : undefined })
-			.then(function (res) { return res.json().catch(function () { return null; }); })
+			.then(function (res) {
+				return res.json().catch(function () { return null; }).then(function (data) {
+					// B"H 2026-11-26: a shed/502 answer parses as null (the
+					// error page is HTML, not JSON) — never mistake that
+					// for an empty series. Route every non-OK or
+					// unparseable answer into the same busy/Retry state
+					// as an explicit data.error below.
+					if (data && !data.error && res.ok) return data;
+					return { error: (data && data.error) || ('HTTP ' + res.status) };
+				});
+			})
 			.then(function (data) {
 				if (killer) clearTimeout(killer);
 				if (data && data.error) {
