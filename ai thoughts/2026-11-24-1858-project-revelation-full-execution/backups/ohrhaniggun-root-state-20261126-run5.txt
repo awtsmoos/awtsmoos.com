@@ -1,0 +1,30 @@
+B"H backup exported 2026-11-26 run 5 — ohrHaNiggun root state BEFORE any stale-ID cleanup
+== GET /api/social/heichelos/ohrHaNiggun/posts
+[
+  "post_1794364379034_ikihjkqbvmf",
+  "post_1794363158834_rm5osi5gr08",
+  "post_1793681648915_pn77g4v6b8a"
+]
+== GET /api/social/heichelos/ohrHaNiggun/posts/details
+[]
+== GET /api/social/heichelos/ohrHaNiggun/series
+[
+  {
+    "id": "echoesOfTheInfinite",
+    "name": "Echoes of the Infinite",
+    "description": "A living collection of tracks with audio, artwork, titles, descriptions, and notes.",
+    "author": "coby",
+    "parentSeriesId": "root",
+    "createdAt": 1795494089894,
+    "posts": [
+      "post_1795501462601_kelwcgqeh5f"
+    ],
+    "subSeries": [],
+    "postsCount": 1,
+    "subSeriesCount": 0
+  }
+]
+== GET series posts (echoesOfTheInfinite)
+[
+  "post_1795501462601_kelwcgqeh5f"
+]
