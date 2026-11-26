@@ -1,0 +1,5 @@
+[2026-11-26T03:49:24.294Z] Chrome: Chrome/157.0.8103.78
+[2026-11-26T03:51:01.247Z] Navigated https://awtsmoos.com/api/rebbe/bundle/page?id=eyJ2IjoxLCJxIjp7InllYXJzIjpbIjU3MTMiXSwibW9udGhzIjpbOF0sImRheXMiOlsxOF0sImtleXdvcmQiOiIifSwidGl0bGUiOiIifQ mode=notify
+[2026-11-26T03:51:07.359Z] notify poll: eval exception: {"exceptionId":1,"text":"Uncaught (in promise) TypeError: Failed to execute 'showNotification' on 'ServiceWorkerRegistration': No active registration available on the ServiceWorkerRegistration.","lineNumber":7,"columnNumber":18,"scriptId":"7","stackTrace":{"callFrames":[{"functionName":"","scriptId":"7","url":"","lineNumber":6,"columnNumber":17}]},"exception":{"type":"object","subtype":"error","cl
+[2026-11-26T03:51:10.473Z] NOTIFY {"permission":"granted","bg":{"worker":false,"wakeLock":"unknown","notifications":"granted","serviceWorker":true,"resume":null},"sw":{"scope":"https://awtsmoos.com/api/rebbe/","active":true},"shown":1}
+[2026-11-26T03:51:10.486Z] DONE

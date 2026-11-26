@@ -1,0 +1,19 @@
+[2026-11-26T03:44:20.345Z] Chrome: Chrome/157.0.8103.78
+[2026-11-26T03:44:23.838Z] Navigated https://awtsmoos.com/api/rebbe/bundle/page?id=eyJ2IjoxLCJxIjp7InllYXJzIjpbIjU3MTMiXSwibW9udGhzIjpbOF0sImRheXMiOlsxOF0sImtleXdvcmQiOiIifSwidGl0bGUiOiIifQ&action=merge
+[2026-11-26T03:44:27.854Z] [8.7s] STATUS: "Converting 1 of 3: BH_001_Ani Ma’amin.mp3 - 91% - Opus so far 0.9 MB (native media encoder)" bar=30% heapMB=1
+[2026-11-26T03:44:27.854Z] poll error: Cannot access 'markerLogged' before initialization
+[2026-11-26T03:44:31.926Z] [12.7s] STATUS: "Converting 2 of 3: BH_002_Sicha.mp3 - 19% - Opus so far 2.1 MB (native media encoder)" bar=40% heapMB=1
+[2026-11-26T03:44:31.937Z] poll error: Cannot access 'markerLogged' before initialization
+[2026-11-26T03:44:35.957Z] [16.8s] STATUS: "Converting 2 of 3: BH_002_Sicha.mp3 - 34% - Opus so far 3.0 MB (native media encoder)" bar=45% heapMB=1
+[2026-11-26T03:44:35.959Z] poll error: Cannot access 'markerLogged' before initialization
+[2026-11-26T03:44:39.971Z] [20.8s] STATUS: "Converting 2 of 3: BH_002_Sicha.mp3 - 64% - Opus so far 4.8 MB (native media encoder)" bar=55% heapMB=1
+[2026-11-26T03:44:39.973Z] poll error: Cannot access 'markerLogged' before initialization
+[2026-11-26T03:44:43.990Z] [24.8s] STATUS: "Converting 2 of 3: BH_002_Sicha.mp3 - 93% - Opus so far 6.5 MB (native media encoder)" bar=64% heapMB=1
+[2026-11-26T03:44:43.990Z] poll error: Cannot access 'markerLogged' before initialization
+[2026-11-26T03:44:47.992Z] DOWNLOAD COMPLETED d14c56d8-3cac-4370-a944-9af03f2e62da
+[2026-11-26T03:44:47.995Z] [28.8s] STATUS: "Merged Opus ready - 3 of 3 files converted and combined (586 seconds, native media encoder in a background worker, converted in your browser)." bar=100% heapMB=1
+[2026-11-26T03:44:47.995Z] [28.8s] READY marker={"engine":"webcodecs-opus","reason":"","webCodecs":{"available":true,"opusEncode":true,"decoders":{"opus":true,"mp3":true},"reason":""},"background":{"worker":true,"wakeLock":"released","notifications":"default","serviceWorker":true,"resume":{"available":true,"doneTracks":3,"total":3}},"startedAt":"2026-11-26T03:44:25.413Z","workerProbe":{"available":true,"opusEncode":true,"decoders":{"opus":true,"mp3":true},"reason":""},"done":true} blobs=["audio/ogg:7118862"]
+[2026-11-26T03:44:47.995Z] NETWORK hosts={"awtsmoos.com":16,"ia802809.us.archive.org":1} totalRequests=17
+[2026-11-26T03:44:47.995Z] TRANSITIONS [{"at":8.7,"status":"Converting 1 of 3: BH_001_Ani Ma’amin.mp3 - 91% - Opus so far 0.9 MB (native media encoder)"},{"at":12.7,"status":"Converting 2 of 3: BH_002_Sicha.mp3 - 19% - Opus so far 2.1 MB (native media encoder)"},{"at":16.8,"status":"Converting 2 of 3: BH_002_Sicha.mp3 - 34% - Opus so far 3.0 MB (native media encoder)"},{"at":20.8,"status":"Converting 2 of 3: BH_002_Sicha.mp3 - 64% - Opus so far 4.8 MB (native media encoder)"},{"at":24.8,"status":"Converting 2 of 3: BH_002_Sicha.mp3 - 93% - Opus so far 6.5 MB (native media encoder)"},{"at":28.8,"status":"Merged Opus ready - 3 of 3 files converted and combined (586 seconds, native media encoder in a background worker, converted in your browser)."}]
+[2026-11-26T03:44:50.305Z] VALIDATION {"blobType":"audio/ogg","blobSize":7118862,"first4":"OggS","packets":29322,"durationSec":586.4,"channels":1,"decodeOutputs":29322,"decodeErrors":0}
+[2026-11-26T03:44:50.308Z] DONE
