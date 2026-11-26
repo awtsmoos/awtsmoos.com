@@ -41,10 +41,12 @@
 	pointer-events: none;
 }
 .g-header-action:is(:hover, :focus-visible), .g-header-action[aria-current="true"], .g-header-action[aria-current="page"] {
-	border-color: color-mix(in srgb, var(--g-cyan) 72%, var(--g-line));
-	background: linear-gradient(145deg, color-mix(in srgb, var(--g-cyan) 12%, var(--g-surface-3)), var(--g-bg-2));
-	color: var(--g-cyan);
-	box-shadow: 0 0 0 3px rgba(60, 236, 255, .11), 0 12px 28px rgba(0, 0, 0, .3);
+	/* B"H 2026-11-26 (Visual Rescue): hover/current spoke cyan; the
+	   header family speaks gold. */
+	border-color: color-mix(in srgb, var(--g-gold, #c9a227) 72%, var(--g-line));
+	background: linear-gradient(145deg, color-mix(in srgb, var(--g-gold, #c9a227) 12%, var(--g-surface-3)), var(--g-bg-2));
+	color: #e8cf8a;
+	box-shadow: 0 0 0 3px rgba(212, 169, 78, .14), 0 12px 28px rgba(0, 0, 0, .3);
 }
 .g-header-action:active {
 	transform: translateY(1px) scale(.96);
@@ -59,14 +61,15 @@
 	box-shadow: none;
 }
 .g-header-action:focus-visible {
-	outline: 3px solid color-mix(in srgb, var(--g-cyan) 82%, white);
+	outline: 3px solid color-mix(in srgb, var(--g-gold, #c9a227) 82%, white);
 	outline-offset: 3px;
 }
 .g-mail-portal {
-	color: color-mix(in srgb, var(--g-cyan) 80%, var(--g-text));
+	color: color-mix(in srgb, var(--g-gold, #c9a227) 80%, var(--g-text));
 }
 .g-notification-portal {
-	color: color-mix(in srgb, var(--g-pink) 68%, var(--g-text));
+	/* B"H 2026-11-26 (Visual Rescue): was pink; gold like its family. */
+	color: color-mix(in srgb, var(--g-gold, #c9a227) 68%, var(--g-text));
 }
 .g-header-profile {
 	position: relative;
@@ -79,15 +82,18 @@
 .g-header-profile .profile-trigger {
 	inline-size: 100%;
 	min-block-size: 46px;
-	border-color: color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
-	background: linear-gradient(125deg, rgba(60, 236, 255, .13), rgba(10, 19, 42, .96) 42%, rgba(255, 72, 203, .11));
-	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 26px rgba(60, 236, 255, .1);
+	border-color: color-mix(in srgb, var(--g-gold, #c9a227) 48%, var(--g-line));
+	/* B"H 2026-11-26 (Visual Rescue): the identity doorway wore a
+	   cyan-to-pink wash — the retired rainbow. A gold breath over the
+	   deep ground, matching the crown halo in profile-crown.css. */
+	background: linear-gradient(125deg, rgba(212, 169, 78, .16), rgba(10, 19, 42, .96) 45%, rgba(212, 169, 78, .07));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 26px rgba(212, 169, 78, .12);
 	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), box-shadow var(--g-motion-fast);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-header-profile) .profile-trigger:is(:hover, :focus-visible) {
-	border-color: color-mix(in srgb, var(--g-pink) 58%, var(--g-line));
-	box-shadow: 0 0 0 3px rgba(139, 92, 255, .12), 0 0 34px rgba(60, 236, 255, .16);
+	border-color: color-mix(in srgb, var(--g-gold, #c9a227) 58%, var(--g-line));
+	box-shadow: 0 0 0 3px rgba(212, 169, 78, .14), 0 0 34px rgba(212, 169, 78, .18);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-header-profile) .profile-trigger:active {
@@ -146,6 +152,12 @@
 	text-shadow: none;
 }
 @media (min-width: 760px) { .universal-chat-header-launcher {
+		/* B"H 2026-11-26 (Visual Rescue): the pill is a flex child and
+		   could be compressed by the actions track, clipping its
+		   truthful "N online" text mid-word ("1 onli"). It now holds
+		   its natural width; the search track absorbs the squeeze. */
+		flex: 0 0 auto;
+		white-space: nowrap;
 		inline-size: auto;
 		min-inline-size: 44px;
 		max-inline-size: none;
@@ -170,7 +182,12 @@
 		max-inline-size: 46px;
 	}
 
-	.g-header-profile .profile-trigger {
+	/* B"H 2026-11-26 (Visual Rescue): raised specificity (0,3,0) —
+	   the dropdown sheet (profile-dropdown/base.css, (0,2,0)) loads
+	   later at hydration and its .62rem inline padding otherwise
+	   defeats the compaction, pushing the 2.35rem crest outside the
+	   46px button so the medallion overlapped its neighbours. */
+	.g-header-actions .g-header-profile .profile-trigger {
 		justify-content: center;
 		inline-size: 46px;
 		min-inline-size: 46px;
