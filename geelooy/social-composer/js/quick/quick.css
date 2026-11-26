@@ -1,0 +1,72 @@
+/* B"H — The Awtsmoos gives the canvas light; Awtsmoos.com keeps the vessel calm.
+ * Reset the inherited typography INSIDE the shadow boundary: the outer host
+ * can inherit site-wide important rules, but the inner screen must not. */
+:host {
+	all:initial;
+	display:block;
+	color:#17202b;
+	color-scheme:light;
+	font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+	background:#fff;
+}
+*,*::before,*::after {box-sizing:border-box}
+[hidden] {display:none!important}
+.screen {
+	min-height:100dvh;
+	max-width:640px;
+	margin:auto;
+	display:flex;
+	flex-direction:column;
+	background:#fff;
+	color:#17202b;
+	color-scheme:light;
+	font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+	text-align:start;
+	letter-spacing:normal;
+	text-transform:none;
+	text-shadow:none;
+	word-spacing:normal;
+}
+header {
+	position:sticky;top:0;z-index:2;display:grid;
+	grid-template-columns:90px 1fr 90px;align-items:center;
+	min-height:60px;padding:6px 12px;background:#fff;
+	border-bottom:1px solid #e4e7eb;text-align:center;
+}
+h1 {font-size:19px;font-weight:750;line-height:1.2;margin:0;color:#17202b;white-space:nowrap}
+button,input,textarea,select {font:inherit;color:inherit;min-width:0}
+button,a,label:has(input[type=file]) {touch-action:manipulation}
+button {cursor:pointer;background:#fff;border:1px solid #dce1e6;border-radius:12px;padding:9px 14px;min-height:44px}
+button:disabled {opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,label:focus-within {outline:2px solid #2464d5;outline-offset:3px}
+.close {justify-self:start;text-decoration:none;color:#17202b;font-size:32px;line-height:44px;text-align:center;width:44px}
+.link {border:0;color:#2464d5;background:transparent;padding:5px;font-size:14px;font-weight:650}
+main {flex:1;display:flex;flex-direction:column;gap:14px;padding:18px 16px 20px;min-width:0}
+.identity {display:flex;gap:12px;align-items:center;min-width:0}
+#avatar {flex:0 0 48px;height:48px;background:#e9eef5;color:#355477;border-radius:50%;display:grid;place-items:center;font-size:19px;font-weight:700}
+.identity>div {min-width:0;flex:1}
+.identity label {display:block;font-size:11px;color:#677382;letter-spacing:.05em;text-transform:uppercase}
+#alias {border:0;background:white;padding:4px 0;font-size:18px;font-weight:700;width:100%;min-height:36px}
+#login {color:#2464d5;font-size:14px;display:inline-block}
+.destination {align-self:flex-start;text-align:left;border-radius:999px;font-size:14px;font-weight:650;color:#354962;max-width:100%;overflow-wrap:anywhere}
+.picker {display:grid;gap:8px;padding:14px;background:#f5f7fa;border:1px solid #e0e5ec;border-radius:14px}
+.picker label {font-size:13px;font-weight:650}
+.picker select {min-height:46px;background:#fff;border:1px solid #cfd7e2;border-radius:8px;padding:8px;width:100%}
+.picker-actions {display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+#title {font-size:20px;font-weight:650;background:white;border:0;border-bottom:1px solid #e9edf2;padding:12px 0;outline-offset:2px;width:100%}
+#body {flex:1;min-height:clamp(190px,34dvh,440px);width:100%;background:white;border:0;resize:vertical;padding:4px 0;font-size:18px;line-height:1.6}
+#title::placeholder,#body::placeholder {color:#687381;opacity:1}
+#status,#complex {margin:0;padding:10px 12px;color:#354962;background:#f1f5fa;border-radius:10px;font-size:14px;overflow-wrap:anywhere}
+.tools {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:auto}
+.tools label {position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;min-height:64px;border:1px solid #dce1e6;border-radius:12px;font-size:14px;font-weight:650;cursor:pointer;box-shadow:0 2px 5px #18202b0a}
+.tools span {font-size:25px;line-height:1;color:#2464d5}
+.tools input {position:absolute;opacity:0;width:1px;height:1px}
+footer {position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px max(12px,env(safe-area-inset-bottom));border-top:1px solid #e4e7eb;background:#fff;z-index:2}
+.audience {background:#edf0f4;color:#354962;border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600}
+.primary {background:#2464d5;color:#fff;border-color:#2464d5;font-weight:700;min-width:106px}
+.attachments {display:grid;gap:10px}
+.attachment {display:grid;gap:8px;padding:12px;background:#f7f9fc;border:1px solid #e2e6ec;border-radius:12px;overflow-wrap:anywhere}
+.attachment img,.attachment video {width:100%;max-height:220px;object-fit:contain;border-radius:8px}
+.attachment audio {width:100%}
+.attachment small {color:#586475}
+.attachment button {justify-self:start;font-size:13px;padding:5px 10px}

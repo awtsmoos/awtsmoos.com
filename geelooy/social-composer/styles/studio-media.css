@@ -1,0 +1,97 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos lets each image and sound find its place;
+ * Awtsmoos.com clothes every attachment in a truthful grace. */
+html .composer-civilization-document .scoped-media-panel {
+	min-width: 0;
+	padding: .65rem 0;
+	color: var(--studio-ink);
+}
+html .composer-civilization-document .scoped-media-picker {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .55rem;
+}
+html .composer-civilization-document .scoped-media-picker label {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .35rem;
+	min-block-size: 68px;
+	padding: .6rem .2rem;
+	border: 1px solid var(--studio-line);
+	border-radius: 14px;
+	background: #2c2237;
+	color: var(--studio-ink);
+	cursor: pointer;
+}
+html .composer-civilization-document .scoped-media-picker label > span {
+	font-size: 1.4rem;
+	line-height: 1;
+	color: var(--studio-accent);
+}
+html .composer-civilization-document .scoped-media-picker label > strong {
+	font-size: .8rem;
+	color: inherit;
+}
+html .composer-civilization-document .scoped-media-picker input[type=file],
+html .composer-civilization-document .mediaDrop input[type=file] {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	min-height: 0;
+	padding: 0;
+	opacity: 0;
+}
+html .composer-civilization-document .scoped-media-picker label:hover,
+html .composer-civilization-document .mediaDrop:hover {
+	background: #3c2d4c;
+	border-color: var(--studio-accent);
+}
+html .composer-civilization-document .scoped-media-picker label:focus-within,
+html .composer-civilization-document .mediaDrop:focus-within {
+	outline: 2px solid var(--studio-accent);
+	outline-offset: 3px;
+}
+html .composer-civilization-document .mediaDrop {
+	position: relative;
+	min-block-size: 54px;
+	margin-top: .6rem;
+	padding: .6rem;
+	border: 1px dashed var(--studio-line);
+	background: transparent;
+	color: var(--studio-muted);
+	font-size: .8rem;
+}
+html .composer-civilization-document .mediaGrid {
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+	gap: .7rem;
+}
+html .composer-civilization-document .mediaCard {
+	min-width: 0;
+	padding: .8rem;
+	border-radius: 16px;
+	background: #17131f;
+	color: var(--studio-ink);
+}
+html .composer-civilization-document .mediaCard audio {
+	width: 100%;
+	min-width: 0;
+	background: transparent;
+}
+html .composer-civilization-document .mediaCard img {
+	max-height: 260px;
+	border-radius: 12px;
+}
+html .composer-civilization-document .mediaMeta span {
+	color: var(--studio-muted);
+}
+html .composer-civilization-document .mediaActions button {
+	min-height: 44px;
+}
+@media (max-width: 360px) {
+	html .composer-civilization-document .scoped-media-picker {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

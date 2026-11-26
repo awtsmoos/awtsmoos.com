@@ -1,0 +1,16 @@
+/* B"H — Boruch Hashem — Blessed is He. Awtsmoos.com gives sound and image a simple doorway. */
+.quick-post-ready[data-composer-mode="simple"] .quick-media {display:block!important;border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important;margin:0!important}
+.quick-post-ready[data-composer-mode="simple"] .quick-media > summary {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia {display:block!important;padding:0!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .scoped-media-picker {display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .scoped-media-picker label {display:flex!important;min-height:62px!important;flex-direction:column;align-items:center;justify-content:center;border:1px solid #e1e5eb!important;border-radius:14px;background:#fff!important;color:#18202c!important;box-shadow:0 2px 5px #18202c0c;padding:8px 2px!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .scoped-media-picker label > span {color:#2765db;font-size:1.35rem}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .scoped-media-picker label > strong {color:#18202c;font-size:.78rem}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaDrop {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaGrid {display:grid!important;grid-template-columns:1fr;gap:8px;margin-top:8px}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaCard {background:#f6f8fb!important;border:1px solid #e1e5eb;color:#18202c!important;box-shadow:none;padding:12px;border-radius:12px}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaMeta :is(strong,span,label,select,input) {color:#18202c!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaMeta input,.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaMeta select {background:#fff!important;border-color:#e1e5eb!important}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaCard :is(audio,video,img) {max-width:100%;width:100%;border-radius:8px}
+.quick-post-ready[data-composer-mode="simple"] #rootMedia .mediaActions button {background:#fff!important;color:#334e72!important;border:1px solid #e1e5eb;min-height:44px}
+.quick-post-ready[data-composer-mode="simple"] .publicationReviewDialog .publicationReviewGrid {grid-template-columns:1fr!important}

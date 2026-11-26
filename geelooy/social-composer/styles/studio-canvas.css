@@ -1,0 +1,75 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * The Awtsmoos lets the written word and melody breathe;
+ * Awtsmoos.com gives the creator a calm and luminous sheath. */
+html body.composer-civilization-document {
+	background: radial-gradient(ellipse at 20% 0%, #292039 0%, transparent 46%), #100f17;
+	color: #f2edf7;
+	--studio-ink: #f2edf7;
+	--studio-muted: #c6b9d0;
+	--studio-line: #493d56;
+	--studio-accent: #e7c8fc;
+	--studio-surface: #201a29;
+}
+html .composer-civilization-document .majorPanel,
+html .composer-civilization-document .previewSticky {
+	border: 1px solid var(--studio-line);
+	border-radius: 20px;
+	background: var(--studio-surface);
+	color: var(--studio-ink);
+	box-shadow: 0 10px 30px #0002;
+}
+html .composer-civilization-document .majorPanel > summary {
+	color: var(--studio-ink);
+}
+html .composer-civilization-document .civilization-kicker {
+	color: var(--studio-accent);
+	letter-spacing: .09em;
+}
+html .composer-civilization-document #title {
+	font-size: clamp(1.15rem, 3vw, 1.7rem);
+	font-weight: 650;
+	line-height: 1.4;
+	padding: .85rem;
+}
+html .composer-civilization-document #summary {
+	min-height: 5rem;
+	line-height: 1.65;
+}
+html .composer-civilization-document #rootBlocks {
+	min-block-size: 8rem;
+	border-color: var(--studio-line);
+}
+html .composer-civilization-document :is(input, textarea, select):not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+	color: var(--studio-ink);
+	border-color: var(--studio-line);
+}
+html .composer-civilization-document :is(input, textarea)::placeholder {
+	color: var(--studio-muted);
+	opacity: .8;
+}
+html .composer-civilization-document .publishButton {
+	background: var(--studio-accent);
+	color: #23152d;
+	border-radius: 999px;
+	min-height: 48px;
+	font-weight: 750;
+}
+html .composer-civilization-document .publishButton:focus-visible {
+	outline: 2px solid var(--studio-accent);
+	outline-offset: 3px;
+}
+@media (max-width: 600px) {
+	html .composer-civilization-document .composerLayout {
+		inline-size: calc(100% - 20px);
+		gap: 10px;
+	}
+	html .composer-civilization-document .majorPanel {
+		border-radius: 16px;
+	}
+	html .composer-civilization-document .majorPanelBody {
+		padding: 12px;
+	}
+	html .composer-civilization-document .actionBar {
+		padding-bottom: max(8px, env(safe-area-inset-bottom));
+	}
+}
