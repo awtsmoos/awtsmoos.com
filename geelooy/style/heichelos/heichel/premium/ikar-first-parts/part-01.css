@@ -28,9 +28,14 @@ html.heichel-os-document:has(> body[data-heichel-id="ikar"]) {
 	--g-bg: #020713;
 }
 .heichel-os-document body {
-	background: transparent;
 	min-height: 100svh;
 	position: relative;
+}
+/* B"H 2026-11-26: transparent body only on ikar, where the scoped html
+   gradient above is the backdrop; elsewhere the template critical paint
+   owns the body background (was the last true conflict in the tracer). */
+.heichel-os-document body[data-heichel-id="ikar"] {
+	background: transparent;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-os-document) :where(body[data-heichel-id="ikar"])::before {

@@ -11,7 +11,7 @@
 :where(button, summary, [role="button"]) {
 	min-block-size: 44px;
 
-  : explicit theme-safe text color */}
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 summary {
 	display: flex;

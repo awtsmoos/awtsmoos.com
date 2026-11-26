@@ -9,10 +9,8 @@
 
 .composer-civilization-document {
 	min-block-size: 100dvh;
-	background:
-		radial-gradient(circle at 50% -10%, rgba(185, 120, 239, .08), transparent 28rem),
-		var(--composer-bg);
-	color: var(--composer-text);
+	
+	
 }
 
 .composer-civilization-header {
@@ -63,11 +61,11 @@
 
 .composer-civilization-document .majorPanel {
 	position: relative;
-	border: 1px solid var(--composer-border);
-	border-radius: var(--composer-radius-lg);
-	background: linear-gradient(145deg, var(--composer-surface-1), #0c1118);
-	box-shadow: var(--composer-shadow-soft), inset 0 1px rgba(255, 255, 255, .02);
-	overflow: hidden;
+	
+	
+	
+	
+	
 }
 
 .composer-civilization-document .contentPanel {
@@ -77,13 +75,3 @@
 		var(--composer-surface-1);
 }
 
-.composer-civilization-document .previewSticky {
-	border: 1px solid var(--composer-border);
-	border-radius: var(--composer-radius-lg);
-	background: linear-gradient(145deg, #111821, var(--composer-surface-1));
-	box-shadow: var(--composer-shadow-soft);
-}
-
-.composer-civilization-document .previewColumn {
-	min-inline-size: 0;
-}

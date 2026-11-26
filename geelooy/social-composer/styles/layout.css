@@ -88,9 +88,9 @@
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .panelHeading {
-	
-	
-	
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
 	gap: var(--space-4);
 }
 .panelHeading p,
@@ -105,7 +105,10 @@
 	border-radius: var(--radius-m);
 	background: color-mix(in srgb, var(--awt-gold) 7%, var(--awt-surface));
 }
-ed .composerLayout {
+.previewFocused .composerColumn {
+	display: none;
+}
+.previewFocused .composerLayout {
 	grid-template-columns: minmax(0, 56rem);
 	justify-content: center;
 }

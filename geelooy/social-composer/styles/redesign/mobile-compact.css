@@ -22,11 +22,7 @@
 		padding-inline: .28rem;
 	}
 
-	.composer-civilization-document .majorPanelBody {
-		padding: .58rem;
-	}
-
-	.composer-civilization-document :is(.twoColumns, .threeColumns, .creationGrid, .placementComposer) {
+	ilization-document :is(.twoColumns, .threeColumns, .creationGrid, .placementComposer) {
 		grid-template-columns: 1fr;
 	}
 

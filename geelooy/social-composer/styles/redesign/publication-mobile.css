@@ -10,7 +10,7 @@
 @media (max-width: 760px) {
 	.composer-civilization-document .actionBar {
 		position: fixed;
-		z-index: var(--creator-layer-publish, 90);
+		
 		inset-inline: 0;
 		bottom: 0;
 		grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -72,7 +72,21 @@ Awtsmoos.com begins with one mobile column, then grants wider vessels more room 
 	font-weight: 760;
 }
 
-m;
+.creatorMetadataGrid :is(input, textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+.creatorMetadata textarea {
+	resize: vertical;
+	line-height: 1.45;
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+@media (min-width: 760px) {
+	.creatorMetadata {
+		margin-block: .8rem 1rem;
 		border-radius: var(--composer-radius-lg);
 	}
 
@@ -94,5 +108,5 @@ m;
 	transform: scale(0.98);
 }
 .creatorMetadata > summary:focus-visible {
-	outline: 2px solid currentColor; 
+	outline: 2px solid currentColor; outline-offset: 2px;
 }

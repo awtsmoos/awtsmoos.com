@@ -56,7 +56,7 @@ Awtsmoos.com removes spectacle when requested while keeping intent, recovery, re
 	.publicationReviewDialog,
 	.publicationReviewActions {
 		background: var(--composer-bg);
-		
+		backdrop-filter: none;
 	}
 
 	.draftRecoveryDialog::backdrop,

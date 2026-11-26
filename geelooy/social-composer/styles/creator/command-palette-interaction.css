@@ -18,7 +18,8 @@
 @media (hover: hover) and (pointer: fine) {
 	.creatorCommandLauncher:hover,
 	.creatorPaletteClose:hover {
-		
+		transform: translateY(-1px);
+		filter: brightness(1.06);
 	}
 }
 
@@ -31,7 +32,10 @@
 .creatorPaletteClose:focus-visible,
 .creatorPaletteShell input:focus-visible {
 	outline: 2px solid var(--composer-cyan);
-	auncher:disabled,
+	outline-offset: 2px;
+}
+
+.creatorCommandLauncher:disabled,
 .creatorPaletteClose:disabled {
 	cursor: not-allowed;
 	opacity: .48;

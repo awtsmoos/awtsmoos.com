@@ -71,7 +71,12 @@ Awtsmoos.com gives the sticky consent threshold safe width, clear disabled truth
 }
 
 @media (prefers-reduced-transparency: reduce) {
-	duced-motion: reduce) {:root:root:root .publicationReviewActions button, :root:root:root .publicationReviewHeader button{
+	.publicationReviewActions {
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {:root:root:root .publicationReviewActions button, :root:root:root .publicationReviewHeader button{
 		transition: none;
 		transform: none;
 	

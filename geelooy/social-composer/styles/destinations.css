@@ -69,7 +69,10 @@
 .publicationPlanResult {
 	white-space: pre-wrap;
 	overflow-x: auto;
-	
+	overflow-wrap: anywhere;
+}
+
+.placementComposer {
 	display: grid;
 	grid-template-columns: minmax(8rem, 0.35fr) minmax(12rem, 1fr);
 	gap: 0.75rem;

@@ -10,8 +10,8 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 .creatorMetadata,
 .creatorPlatform {
 	inline-size: 100%;
-	
-	
+	max-inline-size: 100%;
+	min-inline-size: 0;
 }
 
 .creatorMetadata,
@@ -88,4 +88,7 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 }
 
 @media (prefers-reduced-motion: reduce) {
-	
+	.creatorDock {
+		transition: none;
+	}
+}

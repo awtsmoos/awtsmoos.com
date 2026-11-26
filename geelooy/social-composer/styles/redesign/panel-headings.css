@@ -37,15 +37,15 @@
 	justify-content: space-between;
 	gap: .75rem;
 	min-block-size: 3.4rem;
-	padding: .65rem .85rem;
+	
 	
 	
 }
 
 vilization-document .majorPanel > summary::after {
-	color: var(--composer-text-faint);
-	font-size: 1rem;
-	content: '›';
+	
+	
+	
 	transform: rotate(90deg);
 	transition: transform var(--composer-transition), color var(--composer-transition);
 }

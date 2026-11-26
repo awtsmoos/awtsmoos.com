@@ -10,7 +10,7 @@
 .composer-civilization-document .majorPanelBody {
 	display: grid;
 	gap: .8rem;
-	padding: .85rem;
+	
 }
 
 .composer-civilization-document label {
@@ -23,7 +23,7 @@
 
 .composer-civilization-document :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
 	inline-size: 100%;
-	
+	min-inline-size: 0;
 	min-block-size: var(--composer-control);
 	padding: .55rem .68rem;
 	border: 1px solid var(--composer-border);

@@ -23,7 +23,7 @@ The Awtsmoos lets a universe begin with one word; Awtsmoos.com keeps writing nea
 	--g4-shadow-float: 0 24px 64px rgba(0, 0, 0, .50);
 	--g4-gold: #ffc24e;
 	--g4-on-gold: #100b03;
-	--g4-accent: #d59a35;
+	--g4-accent: #4cd4ff;
 	--g4-on-accent: #060711;
 	--g4-blur: 22px;
 	--g4-safe-top: env(safe-area-inset-top, 0px);
@@ -46,7 +46,7 @@ The Awtsmoos lets a universe begin with one word; Awtsmoos.com keeps writing nea
 	--g4-shadow-float: 0 24px 64px rgba(0, 0, 0, .50);
 	--g4-gold: #ffc24e;
 	--g4-on-gold: #100b03;
-	--g4-accent: #d59a35;
+	--g4-accent: #4cd4ff;
 	--g4-on-accent: #060711;
 	--g4-blur: 22px;
 	--g4-safe-top: env(safe-area-inset-top, 0px);
@@ -118,7 +118,7 @@ html #rootBlocks,
 html textarea,
 html input,
 html select { border-radius: var(--g4-radius-sm); 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+   /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #summary,
 html #rootBlocks,
 html textarea,
