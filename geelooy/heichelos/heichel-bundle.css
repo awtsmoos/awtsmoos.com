@@ -7017,12 +7017,12 @@ a:focus-visible {
 
 /* heichel/future/series-heading.css:5 — was #fff */
 :root:not([data-theme="dark"]) .series-heading h2 {
-  color: #fff;
+  color: #1e293b;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
 :root:not([data-theme="dark"]) .series-heading p:not(.series-label) {
-  color: #b9c6dc;
+  color: #475569;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -7113,12 +7113,12 @@ a:focus-visible {
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .series-heading h2 {
-    color: #f6f8ff;
+    color: #1e293b;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #aebed3;
+    color: #475569;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
@@ -7160,6 +7160,17 @@ a:focus-visible {
 }
 :root[data-theme="light"] :where(.heichel-semantic-fallback) :where(#heichel-boot-description) { color: #475569; }
 :root[data-theme="light"] :where(#heichel-discovery-title) { color: #1e293b; }
+
+/* B"H 2026-11-26 (Revelation fix, section H): in-page delete confirmation
+   sheet (the SPA route loads this sheet; the classes are unique to the
+   confirmation layer, so no other rule contests them). */
+.awtsmoos-confirm-layer{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center}
+.awtsmoos-confirm-veil{position:absolute;inset:0;background:rgba(2,6,16,.66);border:0}
+.awtsmoos-confirm-card{position:relative;background:#0d1524;color:#f3ead2;border:1px solid rgba(246,201,108,.4);border-radius:1rem;padding:1.1rem;max-width:min(92vw,26rem);box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.awtsmoos-confirm-text{margin:0 0 1rem;line-height:1.5}
+.awtsmoos-confirm-actions{display:flex;gap:.6rem;justify-content:flex-end}
+.awtsmoos-confirm-actions button{min-height:44px;padding:.55rem 1.1rem;border-radius:999px;border:1px solid rgba(246,201,108,.4);background:transparent;color:#f3ead2;font-weight:700;cursor:pointer}
+.awtsmoos-confirm-actions .awtsmoos-confirm-danger{background:#b3261e;border-color:#b3261e;color:#fff}
 
 
 /* ==== style/civilization/heichel-responsive.css ==== */
@@ -9750,47 +9761,90 @@ body.living-filter-open {
 .living-path-browser .nav-card {
 	position: relative;
 	display: grid;
-	grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+	grid-template-columns: 3.4rem minmax(0, 1fr) auto;
 	min-inline-size: 0;
-	min-block-size: 6.4rem;
+	min-block-size: 6.8rem;
 	align-items: start;
-	gap: .7rem;
-	padding: .78rem;
+	gap: .85rem;
+	padding: .95rem 1rem;
 	overflow: visible;
-	border: 1px solid rgba(212, 169, 78, .18);
-	border-radius: .82rem;
-	background: linear-gradient(145deg, rgba(8, 20, 39, .96), rgba(4, 10, 24, .97));
-	box-shadow: 0 .65rem 1.5rem rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .035);
+	border: 1px solid rgba(216, 170, 81, .34);
+	border-radius: 1rem;
+	background:
+		radial-gradient(120% 90% at 12% 0%, rgba(216, 170, 81, .13), transparent 55%),
+		linear-gradient(160deg, rgba(19, 30, 52, .98), rgba(6, 11, 24, .98) 62%, rgba(10, 14, 30, .98));
+	box-shadow:
+		0 1rem 2.2rem rgba(0, 0, 0, .38),
+		0 .15rem .5rem rgba(0, 0, 0, .3),
+		inset 0 1px 0 rgba(255, 236, 190, .09),
+		inset 0 0 0 1px rgba(216, 170, 81, .05);
 	color: #f4f8fc;
 	cursor: pointer;
 	clip-path: none;
 }
 .living-path-browser .nav-card::before {
 	position: absolute;
-	inset-block: .65rem;
+	inset-block: .8rem;
 	inset-inline-start: 0;
-	inline-size: 2px;
+	inline-size: 3px;
 	border-radius: 999px;
-	background: linear-gradient(#58ddff, #8279ff);
+	background: linear-gradient(180deg, #f0d48a, #d8aa51 45%, rgba(168, 116, 26, .25));
+	box-shadow: 0 0 .65rem rgba(216, 170, 81, .45);
 	content: "";
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.living-path-browser) .nav-card:is(:hover, :focus-within) {
-	border-color: rgba(212, 169, 78, .5);
-	box-shadow: 0 .85rem 2rem rgba(0, 0, 0, .28), 0 0 0 3px rgba(212, 169, 78, .08);
+	border-color: rgba(232, 190, 96, .65);
+	box-shadow:
+		0 1.25rem 2.6rem rgba(0, 0, 0, .45),
+		0 0 0 3px rgba(216, 170, 81, .1),
+		0 0 1.4rem rgba(216, 170, 81, .12),
+		inset 0 1px 0 rgba(255, 236, 190, .14);
 }
 .living-path-browser .nav-card-media {
+	position: relative;
 	display: grid;
-	inline-size: 3.25rem;
-	block-size: 3.25rem;
+	inline-size: 3.4rem;
+	block-size: 3.4rem;
+	min-block-size: 0;
+	aspect-ratio: 1;
 	place-items: center;
-	border: 1px solid rgba(212, 169, 78, .32);
-	border-radius: .72rem;
-	background: linear-gradient(145deg, rgba(23, 67, 101, .9), rgba(33, 30, 87, .9));
+	overflow: hidden;
+	border: 1px solid rgba(240, 212, 138, .55);
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 32% 26%, rgba(255, 240, 200, .34), transparent 52%),
+		radial-gradient(circle at 50% 42%, #8a6a2f, #54401c 58%, #2c2110 100%);
 	background-position: center;
 	background-size: cover;
-	color: #c9f7ff;
-	font-weight: 900;
+	box-shadow:
+		0 0 0 3px rgba(216, 170, 81, .14),
+		0 0 .9rem rgba(216, 170, 81, .28),
+		inset 0 0 0 1px rgba(0, 0, 0, .35),
+		inset 0 -.35rem .7rem rgba(0, 0, 0, .35);
+	color: #ffeec4;
+	font-family: var(--font-serif, "Cardo", Georgia, serif);
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+.living-path-browser .nav-card-media span {
+	display: grid;
+	place-items: center;
+	inline-size: 100%;
+	block-size: 100%;
+	border-radius: 50%;
+	background: transparent;
+	color: #ffeec4;
+	font-size: 1.3rem;
+	line-height: 1;
+	text-shadow: 0 1px .35rem rgba(0, 0, 0, .45);
+}
+.living-path-browser .series-nav-card,
+.living-path-browser .grouping-nav-card {
+	border-color: rgba(216, 170, 81, .45);
+	background:
+		radial-gradient(130% 100% at 8% 0%, rgba(216, 170, 81, .17), transparent 55%),
+		linear-gradient(160deg, rgba(24, 34, 58, .98), rgba(7, 12, 26, .98) 60%, rgba(14, 16, 34, .98));
 }
 .nav-card-actions {
 	display: flex;
@@ -9800,10 +9854,10 @@ body.living-filter-open {
 .card-menu-trigger, .series-expand-toggle {
 	inline-size: 44px;
 	block-size: 44px;
-	border: 0;
-	border-radius: .58rem;
-	background: rgba(255, 255, 255, .035);
-	color: #b7c9da;
+	border: 1px solid rgba(216, 170, 81, .16);
+	border-radius: .65rem;
+	background: rgba(216, 170, 81, .05);
+	color: #d6c491;
 	font-size: 1.05rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -9840,28 +9894,44 @@ body.living-filter-open {
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nav-card-kicker {
-	color: #62dff8;
-	font-size: .59rem;
-	font-weight: 900;
-	letter-spacing: .12em;
+	color: #d8aa51;
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .16em;
 	text-transform: uppercase;
+}
+.nav-card-kicker::before {
+	content: "";
+	display: inline-block;
+	inline-size: 1.1rem;
+	block-size: 1px;
+	margin-inline-end: .45rem;
+	vertical-align: middle;
+	background: linear-gradient(90deg, rgba(216, 170, 81, 0), #d8aa51);
 }
 
 .nav-card-body h3 {
-	margin-block-start: .2rem;
-	color: var(--light-text-f8fbff, #f8fbff);
-	font-size: 1rem;
-	line-height: 1.22;
+	margin-block-start: .3rem;
+	color: #f8efdb;
+	font-family: var(--font-serif, "Cardo", Georgia, serif);
+	font-size: 1.14rem;
+	font-weight: 600;
+	line-height: 1.24;
+	letter-spacing: .005em;
 	text-wrap: balance;
+}
+.series-nav-card .nav-card-body h3,
+.grouping-nav-card .nav-card-body h3 {
+	font-size: 1.26rem;
 }
 
 .nav-card-description {
 	display: -webkit-box;
-	margin-block-start: .28rem;
+	margin-block-start: .35rem;
 	overflow: hidden;
-	color: #aebed0;
-	font-size: .77rem;
-	line-height: 1.4;
+	color: #adb9c8;
+	font-size: .8rem;
+	line-height: 1.45;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
@@ -9869,11 +9939,19 @@ body.living-filter-open {
 .nav-card-meta {
 	display: flex;
 	flex-wrap: wrap;
-	gap: .35rem .7rem;
-	margin-block-start: .45rem;
-	color: #8295ac;
-	font-size: .64rem;
+	align-items: center;
+	gap: .35rem .5rem;
+	margin-block-start: .6rem;
+	color: #a68f5c;
+	font-size: .62rem;
 	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.nav-card-meta span + span::before {
+	content: "\00B7";
+	margin-inline-end: .5rem;
+	color: rgba(216, 170, 81, .55);
 }
 
 
@@ -9968,9 +10046,9 @@ body.living-filter-open {
 	inset-block-start: calc(var(--g-header-h, 4.1rem) + 3.5rem);
 	margin: 0;
 	padding: .38rem .55rem;
-	border-inline-start: 2px solid #59ddff;
+	border-inline-start: 2px solid #d8aa51;
 	background: rgba(4, 11, 25, .9);
-	color: #bdd0e2;
+	color: #e8dcc0;
 	font-size: .7rem;
 	font-weight: 900;
 	letter-spacing: .1em;
@@ -9984,7 +10062,7 @@ body.living-filter-open {
 }
 
 .timeline-card::before {
-	background: linear-gradient(#55e4ff, #6e7dff);
+	background: linear-gradient(180deg, #f0d48a, #d8aa51 45%, rgba(168, 116, 26, .25));
 }
 
 
@@ -11751,7 +11829,6 @@ body.heichelos-discovery-page::after {
 
 .heichelos-discovery-page .spaces-section-heading h2 {
 	color: var(--law8-gold-ink);
-	letter-spacing: -0.02em;
 }
 
 .heichelos-discovery-page .spaces-section-heading > p {
@@ -12260,10 +12337,13 @@ body.heichel-os-page[data-heichel-page]::after {
 	.heichel-os-page .heichel-shell-boot__seal,
 	.heichel-os-page .heichel-shell-boot__progress > *,
 	.heichelos-discovery-page .social-space-card,
-	.heichelos-discovery-page .p-button,
-	.heichelos-discovery-page .space-card-link {
+	.heichelos-discovery-page .p-button {
 		animation: none;
 		transition: none;
+	}
+
+	.heichelos-discovery-page .space-card-link {
+		animation: none;
 	}
 }
 

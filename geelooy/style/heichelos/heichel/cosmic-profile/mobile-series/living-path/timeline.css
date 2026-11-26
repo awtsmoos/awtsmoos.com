@@ -22,9 +22,9 @@
 	inset-block-start: calc(var(--g-header-h, 4.1rem) + 3.5rem);
 	margin: 0;
 	padding: .38rem .55rem;
-	border-inline-start: 2px solid #59ddff;
+	border-inline-start: 2px solid #d8aa51;
 	background: rgba(4, 11, 25, .9);
-	color: #bdd0e2;
+	color: #e8dcc0;
 	font-size: .7rem;
 	font-weight: 900;
 	letter-spacing: .1em;
@@ -38,5 +38,5 @@
 }
 
 .timeline-card::before {
-	background: linear-gradient(#55e4ff, #6e7dff);
+	background: linear-gradient(180deg, #f0d48a, #d8aa51 45%, rgba(168, 116, 26, .25));
 }

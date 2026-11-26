@@ -20,28 +20,44 @@
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nav-card-kicker {
-	color: #62dff8;
-	font-size: .59rem;
-	font-weight: 900;
-	letter-spacing: .12em;
+	color: #d8aa51;
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .16em;
 	text-transform: uppercase;
+}
+.nav-card-kicker::before {
+	content: "";
+	display: inline-block;
+	inline-size: 1.1rem;
+	block-size: 1px;
+	margin-inline-end: .45rem;
+	vertical-align: middle;
+	background: linear-gradient(90deg, rgba(216, 170, 81, 0), #d8aa51);
 }
 
 .nav-card-body h3 {
-	margin-block-start: .2rem;
-	color: var(--light-text-f8fbff, #f8fbff);
-	font-size: 1rem;
-	line-height: 1.22;
+	margin-block-start: .3rem;
+	color: #f8efdb;
+	font-family: var(--font-serif, "Cardo", Georgia, serif);
+	font-size: 1.14rem;
+	font-weight: 600;
+	line-height: 1.24;
+	letter-spacing: .005em;
 	text-wrap: balance;
+}
+.series-nav-card .nav-card-body h3,
+.grouping-nav-card .nav-card-body h3 {
+	font-size: 1.26rem;
 }
 
 .nav-card-description {
 	display: -webkit-box;
-	margin-block-start: .28rem;
+	margin-block-start: .35rem;
 	overflow: hidden;
-	color: #aebed0;
-	font-size: .77rem;
-	line-height: 1.4;
+	color: #adb9c8;
+	font-size: .8rem;
+	line-height: 1.45;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
@@ -49,9 +65,17 @@
 .nav-card-meta {
 	display: flex;
 	flex-wrap: wrap;
-	gap: .35rem .7rem;
-	margin-block-start: .45rem;
-	color: #8295ac;
-	font-size: .64rem;
+	align-items: center;
+	gap: .35rem .5rem;
+	margin-block-start: .6rem;
+	color: #a68f5c;
+	font-size: .62rem;
 	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.nav-card-meta span + span::before {
+	content: "\00B7";
+	margin-inline-end: .5rem;
+	color: rgba(216, 170, 81, .55);
 }
