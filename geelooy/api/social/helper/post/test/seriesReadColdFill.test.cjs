@@ -39,6 +39,10 @@ test('details memo refuses oversize pages', () => {
 	assert.equal(cache.getCachedSeriesDetails('h', 's', '1:big'), null);
 });
 
+test('details TTL default is the raised 300s constant', () => {
+	assert.equal(cache.DETAILS_TTL_MS, 300 * 1000);
+});
+
 test('identity TTL default is the raised 300s constant', () => {
 	assert.equal(cache.IDS_TTL_MS, 300 * 1000);
 	cache.invalidateAll();

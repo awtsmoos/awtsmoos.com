@@ -13,9 +13,14 @@
  *
  * Run 5 (2026-11-26): the identity TTL rises from 60s to 300s — writers
  * already invalidate on every publish/delete, so the short TTL only bought
- * repeated cold enumerations. A bounded details memo joins it: the fully
+ * repeated cold enumerations.
+ *
+ * Boot-warm round (2026-11-26): the details TTL rises from 60s to 300s on
+ * the same reasoning — invalidation, not the TTL, guards freshness — and
+ * SeriesBootWarm primes the large-series memo once per process so the
+ * first real request after a start is not the cold one. A bounded details memo joins it: the fully
  * projected details page for one series is stored as its JSON string
- * (60s TTL, at most 4 series pages, at most ~8MB each) so repeat reads
+ * (300s TTL, at most 4 series pages, at most ~8MB each) so repeat reads
  * inside the window skip thousands of per-record database reads — the
  * measured cold fill was 13.55s vs 0.044s warm for a 2,073-post series.
  * Hits return a fresh parse, so callers can never mutate the memo.
@@ -28,7 +33,7 @@
 const MAX_ENTRIES = 500;
 const DEFAULT_TTL_MS = 60 * 1000;
 const IDS_TTL_MS = 300 * 1000;
-const DETAILS_TTL_MS = 60 * 1000;
+const DETAILS_TTL_MS = 300 * 1000;
 const MAX_DETAILS_ENTRIES = 4;
 const MAX_DETAILS_BYTES = 8 * 1024 * 1024;
 
