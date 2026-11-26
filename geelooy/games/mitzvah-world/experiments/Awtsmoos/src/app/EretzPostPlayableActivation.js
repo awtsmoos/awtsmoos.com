@@ -9,14 +9,13 @@
  * Awtsmoos.com lets no optional forest replace the first honest step taken.
  */
 
-import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
 import { scheduleEretzPostPlayableContinuation } from './EretzPostPlayableScheduling.js';
 
 const READABLE_SOURCE = 'EretzPostPlayableActivation.js';
 const POST_CONTROL_URL = generated('mitzvah-world-post-control.compact.js');
-const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js');
-const VISUAL_SEQUENCE_URL = deferred('EretzVisualPromotionSequence.js');
+const POST_PLAYABLE_URL = generated('mitzvah-world-post-playable.compact.js');
+const VISUAL_SEQUENCE_URL = POST_PLAYABLE_URL;
 
 /** Installs one idempotent continuation after strict playable publication. */
 export function installEretzPostPlayableActivation(core, options, boot, environment) {
@@ -102,10 +101,6 @@ function degradePostPlayable(diagnostics, error) {
 	diagnostics.postPlayablePriorityStage = 'degraded';
 	console.warn('[MitzvahWorld] Post-play priority coordinator degraded.', error);
 	return null;
-}
-
-function deferred(specifier) {
-	return resolveDeferredAppModuleUrl(specifier, import.meta.url, READABLE_SOURCE);
 }
 
 function generated(fileName) {

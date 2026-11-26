@@ -18,7 +18,8 @@ const path = require('node:path');
 const PRELOADED_RUNTIME_CHUNKS = Object.freeze([
 	'foundation',
 	'player',
-	'core'
+	'core',
+	'post-playable'
 ]);
 
 /** The main compact entry file, sealed with the same full SHA-256 as the preloads. */

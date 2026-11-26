@@ -9,7 +9,7 @@
  * child on one playable-meadow covenant so a phone cannot mix repaired readiness with older cached modules.
  */
 
-const BUILD_VERSION = '20261125-mitzvah-world-wb-01';
+const BUILD_VERSION = '20261126-mitzvah-world-loadfix-01';
 const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 const SOURCE_URL = new URL(import.meta.url);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')

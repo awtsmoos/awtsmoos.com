@@ -9,7 +9,7 @@
  * the same finite name, so stale code cannot masquerade as the freshly grounded world that eye and foot agree to see.
  */
 
-export const MITZVAH_WORLD_RELEASE_ID = '20261125-mitzvah-world-wb-01';
+export const MITZVAH_WORLD_RELEASE_ID = '20261126-mitzvah-world-loadfix-01';
 export const MITZVAH_WORLD_SOURCE_VERSION = MITZVAH_WORLD_RELEASE_ID;
 export const MITZVAH_WORLD_BUNDLE_VERSION = MITZVAH_WORLD_RELEASE_ID;
 
