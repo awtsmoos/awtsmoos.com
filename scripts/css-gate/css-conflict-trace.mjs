@@ -16,6 +16,10 @@
 // CASCADE: winner per (media-context, selector, property) = !important first,
 //   then specificity, then later load order. Declarations that never win are
 //   "shadowed"; files with zero winning declarations are EXTRA candidates.
+// UNSTYLED LEG (served mode): classes/ids used in the page HTML that no loaded
+//   stylesheet defines are reported as unstyled suspects (shared engine:
+//   cssTraceCore.cjs — the same core the Tunnel css.trace operation calls).
+//   The computed-style LIVE leg lives in css-live-probe.mjs.
 // Output: <name>.md (human) + <name>.json (machine) in --out dir (default .).
 
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'node:fs';
@@ -230,6 +234,7 @@ async function servedFiles(pageUrl) {
   // inline <style> blocks
   const styleRe = /<style[^>]*>([\s\S]*?)<\/style>/gi; let k = 0;
   while ((m = styleRe.exec(html))) { const css = m[1]; if (css.trim().length > 20) files.push({ label: '<inline style #' + (++k) + ' on page>', bytes: Buffer.byteLength(css), css }); }
+  files.pageHtml = html; // carried for the unstyled-elements leg; ignored by analyze()
   return files;
 }
 
@@ -253,7 +258,28 @@ if (has('url')) {
 }
 
 const r = analyze(files);
+
+// ---------- unstyled-elements leg (static; served mode only) ----------
+// Classes/ids used in the page HTML that no loaded stylesheet defines.
+// Additive and guarded: any failure leaves the conflict report untouched.
+let unstyled = null;
+if (mode.startsWith('served') && files.pageHtml) {
+  try {
+    const { createRequire } = await import('node:module');
+    const core = createRequire(import.meta.url)('./cssTraceCore.cjs');
+    let o2 = 0; const parsed = [];
+    for (const f of files) { const p = core.parseCss(f.css, f.label, o2); o2 = p.nextOrder; parsed.push({ label: f.label, bytes: f.bytes, parsed: p }); }
+    const { definedClasses, definedIds } = core.analyzeParsed(parsed);
+    unstyled = { leg: 'static', ...core.findUnstyledSuspects([{ name: sourceDesc, html: files.pageHtml }], definedClasses, definedIds) };
+  } catch (e) { unstyled = { leg: 'static', error: String((e && e.message) || e) }; }
+}
+
 mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, name + '.md'), renderMd(title, mode, sourceDesc, r));
-writeFileSync(join(outDir, name + '.json'), JSON.stringify({ title, mode, source: sourceDesc, generatedAt: new Date().toISOString(), ...r }, null, 1));
+let mdOut = renderMd(title, mode, sourceDesc, r);
+if (unstyled && unstyled.suspects) {
+  mdOut += '\n## Unstyled elements (static leg)\n\nClasses/ids used in the page HTML that no loaded stylesheet defines: **' + unstyled.totalSuspects + '** suspect(s).\n\n';
+  for (const s of unstyled.suspects.slice(0, 40)) mdOut += '- `' + s.element + '` ' + s.kind + ' `' + s.name + '` — ×' + s.occurrences + ' on ' + s.page + '\n';
+}
+writeFileSync(join(outDir, name + '.md'), mdOut);
+writeFileSync(join(outDir, name + '.json'), JSON.stringify({ title, mode, source: sourceDesc, generatedAt: new Date().toISOString(), ...r, ...(unstyled ? { unstyledElements: unstyled } : {}) }, null, 1));
 console.log(JSON.stringify({ name, files: r.files.length, bytes: r.totalBytes, conflicts: r.crossFileConflicts, diffValue: r.differentValueConflicts, sameValue: r.sameValueDuplicates, exactDupRules: r.exactDuplicateRules, shadowed: r.shadowedDeclarations, zeroWinFiles: r.zeroWinFiles }, null, 1));

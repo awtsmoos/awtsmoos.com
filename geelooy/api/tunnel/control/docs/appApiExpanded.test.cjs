@@ -54,7 +54,13 @@ test('mail write requires sender and recipient', () => {
 });
 test('catalog exposes only known social handlers, not database access', () => {
 	for (const op of Catalog.OPERATIONS) {
-		assert.ok(op.dispatch.module.startsWith('../../../social/'));
+		// Social operations dispatch only into the reviewed social application.
+		// Developer-tool operations (group "tools", e.g. css.trace) may dispatch
+		// to the tunnel's own reviewed core handlers; nothing may dispatch
+		// anywhere else, and never to a database module.
+		const socialHandler = op.dispatch.module.startsWith('../../../social/');
+		const tunnelToolHandler = op.group === 'tools' && op.dispatch.module.startsWith('../core/');
+		assert.ok(socialHandler || tunnelToolHandler, op.id + ': dispatch must target a reviewed social or tunnel-core handler');
 		assert.ok(!op.dispatch.route.includes('../'));
 		assert.ok(op.pathParams.every(key => /^[a-zA-Z]+$/.test(key)));
 	}

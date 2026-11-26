@@ -105,6 +105,58 @@ The Awtsmoos renews form and purpose together; Awtsmoos.com lets focus, touch, a
 		}
 	}
 
+	/* "More community spaces" disclosure: until now this <details> and its
+	   list had no rule anywhere and rendered as raw browser chrome. The
+	   summary is now an ivory/gold pill in the page's own language and the
+	   compact list mirrors the spaces grid exactly. */
+	.heichelos-discovery-page .spaces-more {
+		grid-column: 1 / -1;
+		display: grid;
+		gap: 1rem;
+	}
+
+	.heichelos-discovery-page .spaces-more > summary {
+		list-style: none;
+		cursor: pointer;
+		justify-self: start;
+		display: inline-flex;
+		align-items: center;
+		gap: .45rem;
+		padding: .6rem 1.05rem;
+		border: 1px solid #d9c9a8;
+		border-radius: 999px;
+		background: linear-gradient(155deg, #fffdf6, #f8f0db);
+		color: #2b2118;
+		font-weight: 700;
+	}
+
+	.heichelos-discovery-page .spaces-more > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.heichelos-discovery-page .spaces-more > summary span {
+		color: var(--g-gold, #c68a1b);
+		font-weight: 800;
+	}
+
+	.heichelos-discovery-page .spaces-more > summary:hover,
+	.heichelos-discovery-page .spaces-more > summary:focus-visible {
+		border-color: var(--g-gold, #c68a1b);
+	}
+
+	.heichelos-discovery-page .spaces-compact-list {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 1rem;
+	}
+
+	@media (min-width: 760px) {
+		.heichelos-discovery-page .spaces-compact-list {
+			grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+			gap: 1.25rem;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.heichelos-discovery-page .space-card-link,
 		.heichelos-discovery-page .space-card-arrow {
@@ -130,13 +182,10 @@ The Awtsmoos renews form and purpose together; Awtsmoos.com lets focus, touch, a
 		border-radius: 1.5rem;
 		padding-inline: clamp(.75rem, 2vw, 1.5rem);
 		padding-bottom: 3rem;
-	}
-	@media (min-width: 761px) {
-		body.heichelos-discovery-page .social-spaces-shell {
-			/* Clearance for the fixed shell header, which otherwise
-			   covers the hero's first line. */
-			padding-top: 6.2rem;
-		}
+		/* Clearance for the fixed shell header at EVERY width; it
+		   otherwise covers the hero's first line (on phones it did,
+		   back when this applied only above 761px). */
+		padding-top: 6.2rem;
 	}
 
 	/* ===== Hero: an ivory doorway, not a navy void ===== */

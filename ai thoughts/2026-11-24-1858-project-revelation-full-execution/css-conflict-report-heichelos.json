@@ -1,0 +1,93 @@
+{
+ "title": "css-conflict-report-heichelos-final",
+ "mode": "served (page load order, bundle-expanded, real served bytes; no browser)",
+ "source": "http://127.0.0.1:8080/heichelos/",
+ "generatedAt": "2026-11-26T03:18:48.277Z",
+ "files": [
+  {
+   "file": "/style/universal-ui.css",
+   "bytes": 44013,
+   "rules": 186,
+   "declarations": 550,
+   "wins": 542,
+   "losses": 8,
+   "shadowed": 8
+  },
+  {
+   "file": "/heichelos/heichel-polish-law8.css",
+   "bytes": 23723,
+   "rules": 106,
+   "declarations": 422,
+   "wins": 422,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "<inline style #2 on page>",
+   "bytes": 7282,
+   "rules": 48,
+   "declarations": 160,
+   "wins": 159,
+   "losses": 1,
+   "shadowed": 1
+  },
+  {
+   "file": "<inline style #1 on page>",
+   "bytes": 3946,
+   "rules": 29,
+   "declarations": 74,
+   "wins": 74,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/geelooy-app/index.css",
+   "bytes": 1419,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/heichelos/discovery.css",
+   "bytes": 1300,
+   "rules": 2,
+   "declarations": 3,
+   "wins": 3,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "/style/social-system/index.css",
+   "bytes": 1228,
+   "rules": 0,
+   "declarations": 0,
+   "wins": 0,
+   "losses": 0,
+   "shadowed": 0
+  },
+  {
+   "file": "<inline style #3 on page>",
+   "bytes": 809,
+   "rules": 6,
+   "declarations": 15,
+   "wins": 15,
+   "losses": 0,
+   "shadowed": 0
+  }
+ ],
+ "totalBytes": 83720,
+ "totalDeclarations": 1224,
+ "totalRules": 377,
+ "conflicts": [],
+ "crossFileConflicts": 0,
+ "differentValueConflicts": 0,
+ "sameValueDuplicates": 0,
+ "exactDuplicateRules": 0,
+ "shadowedDeclarations": 9,
+ "zeroWinFiles": [
+  "/style/geelooy-app/index.css",
+  "/style/social-system/index.css"
+ ]
+}

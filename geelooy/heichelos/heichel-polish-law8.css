@@ -174,7 +174,6 @@ body.heichelos-discovery-page::after {
 
 .heichelos-discovery-page .spaces-section-heading h2 {
 	color: var(--law8-gold-ink);
-	letter-spacing: -0.02em;
 }
 
 .heichelos-discovery-page .spaces-section-heading > p {
@@ -683,10 +682,13 @@ body.heichel-os-page[data-heichel-page]::after {
 	.heichel-os-page .heichel-shell-boot__seal,
 	.heichel-os-page .heichel-shell-boot__progress > *,
 	.heichelos-discovery-page .social-space-card,
-	.heichelos-discovery-page .p-button,
-	.heichelos-discovery-page .space-card-link {
+	.heichelos-discovery-page .p-button {
 		animation: none;
 		transition: none;
+	}
+
+	.heichelos-discovery-page .space-card-link {
+		animation: none;
 	}
 }
 
