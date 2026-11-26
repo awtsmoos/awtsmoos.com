@@ -50,7 +50,8 @@ body[data-geelooy-route="apps"] :where(.g-button, .awp-cta, .apps-result-pill, .
 	box-shadow: none;
 }
 body[data-geelooy-route="apps"] :where(.g-button-primary, .g-button.g-button-primary) {
-	background: #d9b779;
+	/* B"H beauty pass 2026-11-26: struck-gold gradient instead of flat gold. */
+	background: linear-gradient(180deg, #f0d9a0 0%, #d9b779 55%, #c8a45e 100%);
 	color: #19140e;
 	border-color: #d9b779;
 }

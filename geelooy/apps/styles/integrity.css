@@ -11,20 +11,17 @@ CSS-law compliant rewrite (2026-10-09):
 - /apps/ is a dark-surface page by design; tokens carry the dark palette
   explicitly so the intent is readable and themeable.
 */
+/* B"H — palette ownership (2026-11-26 conflict pass): the warm gold
+   --apps-* tokens, the body background and the body ink are owned solely by
+   clarity-palette.css. This sheet used to restate them in the old navy
+   palette; those declarations never won the cascade and are removed so each
+   property has exactly one owner. This sheet keeps layout + integrity. */
 html,
 body[data-geelooy-route="apps"] {
-	background: var(--apps-surface);
-	color: var(--apps-ink);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body[data-geelooy-route="apps"] {
-	--apps-surface: #050914;
-	--apps-ink: #f4f7ff;
-	--apps-ink-bright: #f8fbff;
-	--apps-ink-dim: #aebbd0;
-	--apps-header-bg: rgba(5, 13, 27, .97);
-	--apps-header-border: rgba(103, 174, 232, .28);
 	margin: 0;
 	min-height: 100dvh;
 	overflow-x: clip;
@@ -57,7 +54,7 @@ body[data-geelooy-route="apps"] .apps-section-heading > p { color: var(--apps-in
 body[data-geelooy-route="apps"] :where(.g-unusual-header, .g-dock) {
 	background: var(--apps-header-bg);
 	border: 1px solid var(--apps-header-border);
-	color: var(--apps-ink);
+	/* color owned by clarity-palette.css (warm ink #f6f1e8) */
 }
 
 body[data-geelooy-route="apps"] :where(.g-unusual-header, .g-dock) a {
