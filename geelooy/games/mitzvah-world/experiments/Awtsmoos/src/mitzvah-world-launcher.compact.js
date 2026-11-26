@@ -243,7 +243,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the same finite name, so stale code cannot masquerade as the freshly grounded world that eye and foot agree to see.
 	 */
 
-	const MITZVAH_WORLD_RELEASE_ID = '20261126-mitzvah-world-loadfix-01';
+	const MITZVAH_WORLD_RELEASE_ID = '20261126-mitzvah-world-15s-01';
 
 	__exports.MITZVAH_WORLD_RELEASE_ID = MITZVAH_WORLD_RELEASE_ID;
 	const MITZVAH_WORLD_SOURCE_VERSION = MITZVAH_WORLD_RELEASE_ID;
@@ -4107,7 +4107,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
 	 */
 
-	const ACTIVE_APP_RELEASE_ID = '20261126-mitzvah-world-loadfix-01';
+	const ACTIVE_APP_RELEASE_ID = '20261126-mitzvah-world-15s-01';
 
 
 	__exports.ACTIVE_APP_RELEASE_ID = ACTIVE_APP_RELEASE_ID;

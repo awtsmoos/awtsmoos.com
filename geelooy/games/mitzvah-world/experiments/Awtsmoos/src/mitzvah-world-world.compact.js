@@ -54568,12 +54568,12 @@ const __awtsmoosModule_2893 = __awtsmoosSharedModules[2893];
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_arybxl = {
+	const __awtsmoosDefault_s00svt = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_arybxl;
+	__exports.default = __awtsmoosDefault_s00svt;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -54853,7 +54853,7 @@ const __awtsmoosModule_2893 = __awtsmoosSharedModules[2893];
 	const MODEL_BYTES = 2027368;
 	const GLB_MAGIC = 0x46546c67;
 	const CACHE_WAIT_MS = 1200;
-	const FETCH_WAIT_MS = 30000;
+	const FETCH_WAIT_MS = 120000;
 
 	/** Starts one canonical warmup without blocking the renderer or player-chunk import. */
 	function startCanonicalChossidWarmup(url, dependencies = {}) {
@@ -54901,8 +54901,13 @@ const __awtsmoosModule_2893 = __awtsmoosSharedModules[2893];
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), FETCH_WAIT_MS);
 		try {
+			// B"H (15s pass): the canonical URL is content-addressed and served
+			// immutable, so the warmup now writes through the HTTP cache too.
+			// With 'no-store', a warmup that merely timed out under load forced
+			// the real loader to download the same 2 MB a second time; with the
+			// default cache the second crossing is served locally instead.
 			const response = await fetchFunction(url, {
-				cache: 'no-store', credentials: 'omit', mode: 'cors', signal: controller.signal
+				cache: 'default', credentials: 'omit', mode: 'cors', signal: controller.signal
 			});
 			return await verifiedGlbBytes(response);
 		} finally {

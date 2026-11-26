@@ -4335,7 +4335,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_g0q53l = {
+	const __awtsmoosDefault_1do57s1 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4349,7 +4349,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_g0q53l;
+	__exports.default = __awtsmoosDefault_1do57s1;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -14529,7 +14529,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1agau9m = {
+	const __awtsmoosDefault_92luyy = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -14542,7 +14542,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1agau9m;
+	__exports.default = __awtsmoosDefault_92luyy;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/world/nature/LiveTerrainSampler.js ----
@@ -16623,12 +16623,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_arybxl = {
+	const __awtsmoosDefault_s00svt = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_arybxl;
+	__exports.default = __awtsmoosDefault_s00svt;
 }
 
 // ---- games/mitzvah-world/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -16908,7 +16908,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const MODEL_BYTES = 2027368;
 	const GLB_MAGIC = 0x46546c67;
 	const CACHE_WAIT_MS = 1200;
-	const FETCH_WAIT_MS = 30000;
+	const FETCH_WAIT_MS = 120000;
 
 	/** Starts one canonical warmup without blocking the renderer or player-chunk import. */
 	function startCanonicalChossidWarmup(url, dependencies = {}) {
@@ -16956,8 +16956,13 @@ const __awtsmoosModule_0 = Object.create(null);
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), FETCH_WAIT_MS);
 		try {
+			// B"H (15s pass): the canonical URL is content-addressed and served
+			// immutable, so the warmup now writes through the HTTP cache too.
+			// With 'no-store', a warmup that merely timed out under load forced
+			// the real loader to download the same 2 MB a second time; with the
+			// default cache the second crossing is served locally instead.
 			const response = await fetchFunction(url, {
-				cache: 'no-store', credentials: 'omit', mode: 'cors', signal: controller.signal
+				cache: 'default', credentials: 'omit', mode: 'cors', signal: controller.signal
 			});
 			return await verifiedGlbBytes(response);
 		} finally {
@@ -56969,7 +56974,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
 	 */
 
-	const ACTIVE_APP_RELEASE_ID = '20261126-mitzvah-world-loadfix-01';
+	const ACTIVE_APP_RELEASE_ID = '20261126-mitzvah-world-15s-01';
 
 
 	__exports.ACTIVE_APP_RELEASE_ID = ACTIVE_APP_RELEASE_ID;

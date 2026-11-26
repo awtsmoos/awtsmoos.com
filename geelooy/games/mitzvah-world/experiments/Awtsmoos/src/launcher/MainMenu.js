@@ -86,6 +86,13 @@ async function chooseMode(context) {
 			timeoutMs: options.launchTimeoutMs
 		});
 		if (launchSerial !== state.launchSerial || controller.signal.aborted) return null;
+		// B"H (15s pass): "loaded" now means EVERYTHING loaded. For the
+		// simple meadow the veil stays truthful through the friendly-NPC
+		// install instead of vanishing at first playability, naming the
+		// stage while it runs; the wait is bounded and a failed or absent
+		// friendly stage never traps the traveler.
+		await waitForFriendlyNeighbors(options.environment || globalThis, transition, controller.signal);
+		if (launchSerial !== state.launchSerial || controller.signal.aborted) return null;
 		publishMainMenuRuntime(options.environment || globalThis, result);
 		options.onWorldLaunchComplete?.(result);
 		transition.complete();
@@ -97,6 +104,49 @@ async function chooseMode(context) {
 		setGameHostsVisible(hosts, false);
 		transition.fail(error, restore);
 		return null;
+	}
+}
+
+
+/** @description Bounded, abort-aware wait until the simple world's friendly neighbors settle, keeping the launch veil truthful. */
+async function waitForFriendlyNeighbors(environment, transition, signal) {
+	const startedAt = Date.now();
+	const deadline = startedAt + 150000;
+	let simpleWorld = false;
+	for (;;) {
+		if (signal?.aborted) return;
+		const diagnostics = environment?.AwtsmoosDiagnostics || null;
+		if (!diagnostics) return;
+		const policy = diagnostics.worldExperience;
+		if (policy) {
+			// Only the simple meadow owns the friendly-actors stage; richer
+			// worlds keep their existing completion law untouched.
+			if (policy.canonicalPromotion !== false) return;
+			simpleWorld = true;
+		}
+		if (!simpleWorld) {
+			// The post-playable policy may need a breath to appear after
+			// first playability; without it there is nothing to wait for.
+			if (Date.now() - startedAt > 10000) return;
+		} else {
+			const stage = diagnostics.simpleWorldFriendlyActorsStage;
+			if (stage === 'ready') {
+				transition.update({ message: 'Your neighbors have arrived.', stage: 'neighbors-arriving', progress: 0.97 });
+				return;
+			}
+			if (stage === 'failed') {
+				transition.update({ message: 'The world is ready; the neighbors could not arrive.', stage: 'neighbors-arriving', progress: 0.97 });
+				return;
+			}
+			const sub = diagnostics.postPlayablePriorityStage;
+			transition.update({
+				message: sub && sub !== 'launched' ? `Your neighbors are arriving… (${sub})` : 'Your neighbors are arriving…',
+				stage: 'neighbors-arriving',
+				progress: 0.9
+			});
+		}
+		if (Date.now() > deadline) return;
+		await new Promise(resolve => setTimeout(resolve, 400));
 	}
 }
 

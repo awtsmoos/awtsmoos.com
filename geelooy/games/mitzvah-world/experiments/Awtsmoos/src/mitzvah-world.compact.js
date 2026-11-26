@@ -18,7 +18,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * child on one playable-meadow covenant so a phone cannot mix repaired readiness with older cached modules.
 	 */
 
-	const BUILD_VERSION = '20261126-mitzvah-world-loadfix-01';
+	const BUILD_VERSION = '20261126-mitzvah-world-15s-01';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 	const SOURCE_URL = new URL((( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvah-world/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvah-world/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvah-world/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
