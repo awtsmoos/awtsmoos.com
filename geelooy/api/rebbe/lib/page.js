@@ -9,9 +9,12 @@
  * does the heavy lifting in the browser, reusing the front end's own
  * vessels: modules/zip-store.js (makeZip) for the ZIP and modules/download/
  * farbrengen/mp3-join.js (joinMp3Blobs) for the lossless merged MP3. When a
- * bundle is not all true MP3, the page converts instead: Web Audio decodes
- * one track at a time into the vendored lamejs encoder
- * (modules/download/lame.min.js, loaded lazily) - memory-bounded, no WAV.
+ * bundle is not all true MP3, the page converts instead: primarily with the
+ * browser's native media encoder (WebCodecs AudioDecoder -> AudioEncoder,
+ * feature-detected - near-instant, streamed chunk by chunk), falling back
+ * to Web Audio decoding one track at a time into the vendored lamejs
+ * encoder (modules/download/lame.min.js, loaded lazily) on browsers whose
+ * media encoder has no MP3 - memory-bounded either way, no WAV.
  */
 
 const { API_VERSION } = require("./response.js");
@@ -79,7 +82,7 @@ function bundlePage(base) {
 		</div>
 		<div class="progress" id="progress"><div></div></div>
 		<p class="status" id="status"></p>
-		<p class="status">ZIP and merged MP3 are assembled on your device from the original Archive.org files. When every file is a true MP3, the merged MP3 joins the original frames losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus); for those, this page decodes each file and <b>converts it to MP3 right here in your browser</b>, one file at a time, so even a many-hour bundle stays light. The ZIP always keeps every original file unchanged.</p>
+		<p class="status">ZIP and merged MP3 are assembled on your device from the original Archive.org files. When every file is a true MP3, the merged MP3 joins the original frames losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus); for those, this page decodes each file and <b>converts it to MP3 right here in your browser</b> - with your browser's native media encoder when it offers one, one file at a time either way, so even a many-hour bundle stays light. The ZIP always keeps every original file unchanged.</p>
 	</div>
 	<div class="card">
 		<h2 style="margin-top:0">Contents</h2>
@@ -338,8 +341,409 @@ function loadMp3Encoder() {
 }
 
 /**
- * Mixed-format path: decode ONE track at a time with Web Audio and encode
- * it to MP3 incrementally with lamejs (128 kbps stereo / 96 kbps mono -
+ * Signals that the WebCodecs path cannot handle this bundle (unknown
+ * container, missing decoder) and the whole conversion should restart
+ * through the lamejs fallback instead. Thrown only before any track of
+ * the WebCodecs attempt has been committed, or the dispatcher treats it
+ * as a fresh restart - encoded chunks are per-attempt locals, so a
+ * restart never mixes output from two engines.
+ */
+class FallbackToLamejs extends Error {}
+
+/**
+ * Feature-detects the browser's native media-encoder path (WebCodecs).
+ * The native path is used ONLY when AudioEncoder.isConfigSupported
+ * confirms MP3 encoding in THIS browser; support varies wildly (Chrome
+ * ships WebCodecs MP3 *decoding* but, as probed on Chrome 157, no MP3
+ * *encoding* - only Opus encode). Never assume - always ask.
+ */
+let webCodecsProbePromise = null;
+function probeWebCodecs() {
+	if (!webCodecsProbePromise) {
+		webCodecsProbePromise = (async () => {
+			const support = { available: false, mp3Encode: false, decoders: {}, reason: '' };
+			try {
+				if (!window.isSecureContext) { support.reason = 'page is not a secure context'; return support; }
+				if (typeof AudioEncoder === 'undefined' || typeof AudioDecoder === 'undefined') {
+					support.reason = 'WebCodecs (AudioEncoder/AudioDecoder) is not available in this browser';
+					return support;
+				}
+				support.available = true;
+				const combos = [
+					{ codec: 'mp3', sampleRate: 44100, numberOfChannels: 2, bitrate: 128000 },
+					{ codec: 'mp3', sampleRate: 48000, numberOfChannels: 2, bitrate: 128000 },
+					{ codec: 'mp3', sampleRate: 44100, numberOfChannels: 1, bitrate: 96000 }
+				];
+				for (const cfg of combos) {
+					try { if ((await AudioEncoder.isConfigSupported(cfg)).supported) { support.mp3Encode = true; break; } } catch (e) {}
+				}
+				for (const codec of ['opus', 'mp3']) {
+					try {
+						support.decoders[codec] = !!(await AudioDecoder.isConfigSupported({
+							codec, sampleRate: codec === 'opus' ? 48000 : 44100, numberOfChannels: 2
+						})).supported;
+					} catch (e) { support.decoders[codec] = false; }
+				}
+				if (!support.mp3Encode) support.reason = 'AudioEncoder has no MP3 encoder in this browser';
+			} catch (e) { support.reason = 'WebCodecs probe failed: ' + e.message; }
+			return support;
+		})();
+	}
+	return webCodecsProbePromise;
+}
+
+/** Parses one MPEG audio frame header; returns frame geometry or null. */
+function parseMp3Header(b, off) {
+	if (off + 4 > b.length) return null;
+	if (b[off] !== 0xff || (b[off + 1] & 0xe0) !== 0xe0) return null;
+	const verBits = (b[off + 1] >> 3) & 3;
+	if (verBits === 1) return null;
+	const layerBits = (b[off + 1] >> 1) & 3;
+	if (layerBits === 0) return null;
+	const layer = 4 - layerBits;
+	const brIdx = (b[off + 2] >> 4) & 15;
+	if (brIdx === 0 || brIdx === 15) return null;
+	const srIdx = (b[off + 2] >> 2) & 3;
+	if (srIdx === 3) return null;
+	const pad = (b[off + 2] >> 1) & 1;
+	const chanMode = (b[off + 3] >> 6) & 3;
+	const sampleRate = (verBits === 3 ? [44100, 48000, 32000] : verBits === 2 ? [22050, 24000, 16000] : [11025, 12000, 8000])[srIdx];
+	let kbps;
+	if (verBits === 3) kbps = [null,
+		[32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448],
+		[32, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384],
+		[32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320]][layer][brIdx - 1];
+	else kbps = (layer === 1
+		? [32, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256]
+		: [8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160])[brIdx - 1];
+	const br = kbps * 1000;
+	const samples = layer === 1 ? 384 : layer === 2 ? 1152 : (verBits === 3 ? 1152 : 576);
+	let len;
+	if (layer === 1) len = Math.floor(12 * br / sampleRate + pad) * 4;
+	else if (layer === 2) len = Math.floor(144 * br / sampleRate) + pad;
+	else len = Math.floor((verBits === 3 ? 144 : 72) * br / sampleRate) + pad;
+	if (len < 4) return null;
+	return { len, sampleRate, samples, channels: chanMode === 3 ? 1 : 2, durationUs: Math.round(samples / sampleRate * 1e6) };
+}
+
+/**
+ * Splits raw MP3 bytes into frames for AudioDecoder: skips an ID3v2 tag,
+ * then walks frame headers. Timestamps are cumulative frame durations -
+ * the elementary stream WebCodecs expects (it does not demux files).
+ */
+function splitMp3Frames(bytes) {
+	let off = 0;
+	if (bytes.length >= 10 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+		const size = ((bytes[6] & 0x7f) << 21) | ((bytes[7] & 0x7f) << 14) | ((bytes[8] & 0x7f) << 7) | (bytes[9] & 0x7f);
+		off = 10 + size + ((bytes[5] & 0x10) ? 10 : 0);
+	}
+	const frames = [];
+	let ts = 0, sampleRate = 0, channels = 2;
+	while (off + 4 <= bytes.length) {
+		const h = parseMp3Header(bytes, off);
+		if (!h || off + h.len > bytes.length) break;
+		if (!sampleRate) { sampleRate = h.sampleRate; channels = h.channels; }
+		frames.push({ data: bytes.subarray(off, off + h.len), timestamp: ts, duration: h.durationUs });
+		ts += h.durationUs;
+		off += h.len;
+	}
+	return { packets: frames, sampleRate, channels, durationUs: ts };
+}
+
+/** Duration of one Opus frame for a TOC byte (RFC 6716, Table 2). */
+function opusFrameDurationUs(toc) {
+	const config = (toc >> 3) & 31;
+	if (config < 12) return [10000, 20000, 40000, 60000][config & 3];
+	if (config < 16) return (config & 1) ? 20000 : 10000;
+	return [2500, 5000, 10000, 20000][config & 3];
+}
+function opusPacketDurationUs(p) {
+	if (!p.length) return 0;
+	const code = p[0] & 3;
+	let frames = 1;
+	if (code === 1 || code === 2) frames = 2;
+	else if (code === 3) frames = p.length > 1 ? (p[1] & 0x3f) : 1;
+	if (!frames) frames = 1;
+	return Math.min(120000, opusFrameDurationUs(p[0]) * frames);
+}
+
+/**
+ * Minimal Ogg demuxer for the archive's Opus-in-Ogg files (the ones
+ * misnamed .mp3): walks Ogg pages of the first logical stream, stitches
+ * packets across page boundaries, and returns the OpusHead (the decoder
+ * description) plus audio packets with TOC-derived timestamps.
+ */
+function demuxOggOpus(bytes) {
+	const packets = [];
+	let parts = [];
+	let serial = null;
+	let off = 0;
+	const flushPacket = () => {
+		if (!parts.length) return;
+		let totalLen = 0;
+		for (const part of parts) totalLen += part.length;
+		const pkt = new Uint8Array(totalLen);
+		let o = 0;
+		for (const part of parts) { pkt.set(part, o); o += part.length; }
+		packets.push(pkt);
+		parts = [];
+	};
+	while (off + 27 <= bytes.length) {
+		if (!(bytes[off] === 0x4f && bytes[off + 1] === 0x67 && bytes[off + 2] === 0x67 && bytes[off + 3] === 0x53)) { off++; continue; }
+		const segCount = bytes[off + 26];
+		if (off + 27 + segCount > bytes.length) break;
+		const pageSerial = (bytes[off + 14] | (bytes[off + 15] << 8) | (bytes[off + 16] << 16) | (bytes[off + 17] << 24)) >>> 0;
+		if (serial === null) serial = pageSerial;
+		let p = off + 27 + segCount;
+		for (let s = 0; s < segCount; s++) {
+			const segLen = bytes[off + 27 + s];
+			if (pageSerial === serial) {
+				parts.push(bytes.subarray(p, Math.min(p + segLen, bytes.length)));
+				if (segLen < 255) flushPacket();
+			}
+			p += segLen;
+		}
+		off = p;
+	}
+	flushPacket();
+	const isOpusHead = pkt => pkt && pkt.length >= 19 &&
+		pkt[0] === 0x4f && pkt[1] === 0x70 && pkt[2] === 0x75 && pkt[3] === 0x73 &&
+		pkt[4] === 0x48 && pkt[5] === 0x65 && pkt[6] === 0x61 && pkt[7] === 0x64;
+	if (!isOpusHead(packets[0])) return { head: null, channels: 2, packets: [], durationUs: 0 };
+	const head = packets[0];
+	const audio = [];
+	let ts = 0;
+	for (let i = 1; i < packets.length; i++) {
+		const pkt = packets[i];
+		if (pkt.length >= 8 && pkt[0] === 0x4f && pkt[1] === 0x70 && pkt[2] === 0x75 && pkt[3] === 0x73 &&
+			pkt[4] === 0x54 && pkt[5] === 0x61 && pkt[6] === 0x67 && pkt[7] === 0x73) continue; // OpusTags
+		const d = opusPacketDurationUs(pkt);
+		audio.push({ data: pkt, timestamp: ts, duration: d });
+		ts += d;
+	}
+	return { head, channels: head[9] || 2, packets: audio, durationUs: ts };
+}
+
+/** Clones an AudioData with a shifted timestamp (tracks restart at 0; the shared encoder needs one continuous timeline). */
+function cloneAudioDataWithTimestamp(ad, ts) {
+	const planes = ad.format && ad.format.indexOf('planar') !== -1 ? ad.numberOfChannels : 1;
+	const sizes = [];
+	let totalLen = 0;
+	for (let p = 0; p < planes; p++) { const s = ad.allocationSize({ planeIndex: p }); sizes.push(s); totalLen += s; }
+	const buf = new ArrayBuffer(totalLen);
+	let o = 0;
+	for (let p = 0; p < planes; p++) { ad.copyTo(new Uint8Array(buf, o, sizes[p]), { planeIndex: p }); o += sizes[p]; }
+	return new AudioData({ format: ad.format, sampleRate: ad.sampleRate, numberOfFrames: ad.numberOfFrames, numberOfChannels: ad.numberOfChannels, timestamp: ts, data: buf });
+}
+
+/**
+ * WebCodecs conversion path (used only when this browser's media encoder
+ * truly encodes MP3): per track, demux the container in-page, stream the
+ * packets through AudioDecoder, and feed each decoded AudioData straight
+ * into AudioEncoder as it arrives - decoded chunks flow through, no
+ * whole-track PCM is ever held. One shared encoder across tracks (it is
+ * flushed and recreated only if a track decodes at a different rate or
+ * channel count). Same discipline as the fallback: per-stage progress,
+ * watchdogs, Skip / Cancel, visible errors.
+ */
+async function convertWithWebCodecs(getBlob, support) {
+	const cancelBtn = document.getElementById('btn-cancel');
+	const skipBtn = document.getElementById('btn-skip');
+	cancelBtn.style.display = 'inline-block';
+	skipBtn.style.display = 'inline-block';
+	const chunks = [];
+	const total = manifest.files.length;
+	let encodedBytes = 0;
+	let totalSeconds = 0;
+	let skipped = 0;
+	let encoder = null;
+	let encKey = '';
+	let encError = null;
+	let feedError = null;
+	let feedChain = Promise.resolve();
+	let timelineBase = 0;
+	let lastEndUs = -1;
+	const checkInterrupt = () => {
+		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		if (skipRequested) throw new SkipTrack('skipped');
+	};
+	const closeEncoder = async flushIt => {
+		if (!encoder) return;
+		const enc = encoder;
+		encoder = null;
+		encKey = '';
+		if (flushIt) { try { await enc.flush(); } catch (e) {} }
+		try { enc.close(); } catch (e) {}
+	};
+	const ensureEncoder = async (sampleRate, channels) => {
+		const key = sampleRate + '/' + channels;
+		if (encoder && encKey === key) return;
+		await closeEncoder(true);
+		timelineBase = 0;
+		lastEndUs = -1;
+		encError = null;
+		encoder = new AudioEncoder({
+			output: chunk => {
+				const buf = new ArrayBuffer(chunk.byteLength);
+				chunk.copyTo(buf);
+				chunks.push(new Blob([buf]));
+				encodedBytes += chunk.byteLength;
+			},
+			error: e => { encError = e; }
+		});
+		encoder.configure({ codec: 'mp3', sampleRate, numberOfChannels: channels, bitrate: channels === 2 ? 128000 : 96000 });
+		encKey = key;
+	};
+	const feedAudio = ad => {
+		feedChain = feedChain.then(async () => {
+			if (feedError) { try { ad.close(); } catch (e) {} return; }
+			try {
+				checkInterrupt();
+				await ensureEncoder(ad.sampleRate, ad.numberOfChannels);
+				while (encoder.encodeQueueSize > 8) { checkInterrupt(); await new Promise(r => setTimeout(r, 5)); }
+				if (encError) throw encError;
+				let ts = ad.timestamp + timelineBase;
+				if (lastEndUs >= 0 && ts < lastEndUs) {
+					timelineBase += lastEndUs - ts;
+					ts = ad.timestamp + timelineBase;
+				}
+				if (ts !== ad.timestamp) {
+					const clone = cloneAudioDataWithTimestamp(ad, ts);
+					try { ad.close(); } catch (e) {}
+					ad = clone;
+				}
+				lastEndUs = ts + (ad.duration || 0);
+				encoder.encode(ad);
+			} catch (e) { feedError = e; try { ad.close(); } catch (err) {} }
+		});
+	};
+	try {
+		for (let i = 0; i < total; i++) {
+			if (mergeCancelled) throw new Error('Conversion cancelled.');
+			skipRequested = false;
+			const file = manifest.files[i];
+			let decoder = null;
+			try {
+				const blob = await raceInterrupt(Promise.resolve(getBlob(i)));
+				setProgress(i, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - decoding (media encoder)...');
+				const bytes = new Uint8Array(await blob.arrayBuffer());
+				let demuxed, decConfig, codec;
+				if (bytes.length >= 4 && bytes[0] === 0x4f && bytes[1] === 0x67 && bytes[2] === 0x67 && bytes[3] === 0x53) {
+					const d = demuxOggOpus(bytes);
+					if (!d.head || !d.packets.length) throw new FallbackToLamejs('could not demux the Ogg/Opus file ' + file.name);
+					demuxed = d;
+					codec = 'opus';
+					decConfig = { codec: 'opus', sampleRate: 48000, numberOfChannels: d.channels, description: d.head };
+				} else if (sniffIsMp3(bytes.subarray(0, 4))) {
+					const d = splitMp3Frames(bytes);
+					if (!d.packets.length) throw new FallbackToLamejs('could not split the MP3 file ' + file.name + ' into frames');
+					demuxed = d;
+					codec = 'mp3';
+					decConfig = { codec: 'mp3', sampleRate: d.sampleRate, numberOfChannels: d.channels };
+				} else {
+					throw new FallbackToLamejs('format of ' + file.name + ' needs the fallback decoder');
+				}
+				if (support.decoders[codec] === false) throw new FallbackToLamejs('no WebCodecs decoder for ' + codec + ' in this browser');
+				const expectedUs = file.duration ? file.duration * 1e6 : demuxed.durationUs;
+				const before = encodedBytes;
+				let decodedUs = 0;
+				let decError = null;
+				decoder = new AudioDecoder({
+					output: ad => {
+						decodedUs = Math.max(decodedUs, ad.timestamp + (ad.duration || 0));
+						const frac = expectedUs ? Math.min(1, decodedUs / expectedUs) : 0;
+						setProgress(i + frac, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - ' + Math.round(frac * 100) + '% - MP3 so far ' + fmtBytes(encodedBytes) + ' (media encoder)');
+						feedAudio(ad);
+					},
+					error: e => { decError = e; }
+				});
+				decoder.configure(decConfig);
+				const feedAll = (async () => {
+					for (const pkt of demuxed.packets) {
+						checkInterrupt();
+						if (decError) throw decError;
+						while (decoder.decodeQueueSize > 16) { checkInterrupt(); await new Promise(r => setTimeout(r, 5)); }
+						decoder.decode(new EncodedAudioChunk({ type: 'key', timestamp: pkt.timestamp, duration: pkt.duration, data: pkt.data }));
+					}
+					await withTimeout(decoder.flush(), 180000, 'Decoding ' + file.name);
+					await feedChain;
+					if (decError) throw decError;
+					if (feedError) throw feedError;
+					if (encError) throw encError;
+				})();
+				await raceInterrupt(feedAll);
+				totalSeconds += decodedUs / 1e6;
+				if (encodedBytes === before && decodedUs === 0) throw new Error('Decoding ' + file.name + ' produced no audio');
+			} catch (trackError) {
+				if (trackError instanceof SkipTrack) {
+					skipped++;
+					feedError = null;
+					feedChain = Promise.resolve();
+					setStatus('Skipped ' + file.name + ' - continuing with the next track...');
+					await yieldToUi();
+					continue;
+				}
+				throw trackError;
+			} finally {
+				if (decoder) { try { decoder.close(); } catch (e) {} }
+			}
+		}
+		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		if (!encoder && !chunks.length) throw new Error('Every track was skipped - nothing to save.');
+		setProgress(1, 1, 'Finishing MP3...');
+		await closeEncoder(true);
+		if (encError) throw encError;
+		save(new Blob(chunks, { type: 'audio/mpeg' }), 'rebbe-sichos-merged.mp3');
+		setStatus('Merged MP3 ready - ' + (total - skipped) + ' of ' + total + ' files converted and combined (' + Math.round(totalSeconds) + ' seconds' + (skipped ? ', ' + skipped + ' skipped' : '') + ', native media encoder).');
+	} finally {
+		await closeEncoder(false);
+		cancelBtn.style.display = 'none';
+		skipBtn.style.display = 'none';
+	}
+}
+
+/**
+ * Conversion dispatcher: the native WebCodecs media-encoder path when
+ * this browser truly supports MP3 encoding, otherwise the lamejs
+ * fallback below - never a silent format change, always one merged MP3.
+ * The chosen engine is published on window.__rebbeConvert so the page's
+ * behavior is observable (support probes, browser tests, support).
+ */
+async function convertToMp3(getBlob) {
+	const support = await probeWebCodecs();
+	window.__rebbeConvert = {
+		engine: support.mp3Encode ? 'webcodecs' : 'lamejs',
+		reason: support.reason || '',
+		webCodecs: support,
+		startedAt: new Date().toISOString()
+	};
+	if (support.mp3Encode) {
+		try {
+			await convertWithWebCodecs(getBlob, support);
+			window.__rebbeConvert.done = true;
+			return;
+		} catch (e) {
+			if (e instanceof FallbackToLamejs) {
+				window.__rebbeConvert.engine = 'lamejs';
+				window.__rebbeConvert.reason = 'media-encoder path declined: ' + e.message;
+				setStatus('The native media encoder cannot take this bundle (' + e.message + ') - switching to the built-in converter...');
+				await yieldToUi();
+			} else throw e;
+		}
+	}
+	await convertWithLamejs(getBlob);
+	window.__rebbeConvert.done = true;
+}
+
+// Test/observability surface: the demuxers and the support probe, so a
+// browser harness can prove the WebCodecs decode half on real files even
+// in browsers whose encoder lacks MP3.
+window.__rebbeWebCodecs = { probe: probeWebCodecs, splitMp3Frames, demuxOggOpus, parseMp3Header };
+
+/**
+ * Fallback mixed-format path (browsers whose media encoder has no MP3):
+ * decode ONE track at a time with Web Audio and encode it to MP3
+ * incrementally with lamejs (128 kbps stereo / 96 kbps mono -
  * speech-appropriate). Memory stays bounded: at most one decoded
  * AudioBuffer plus the encoded MP3 chunks are ever alive; each compressed
  * blob and each decoded buffer is released before the next track starts.
@@ -347,7 +751,7 @@ function loadMp3Encoder() {
  * buffer and crashed the page on long bundles - Hai's ruling,
  * 2026-11-26: convert to MP3 in the browser instead.)
  */
-async function convertToMp3(getBlob) {
+async function convertWithLamejs(getBlob) {
 	const lamejs = await withTimeout(loadMp3Encoder(), 30000, 'MP3 encoder load');
 	const cancelBtn = document.getElementById('btn-cancel');
 	const skipBtn = document.getElementById('btn-skip');
@@ -516,7 +920,7 @@ curl "${base}/search?monthFrom=3&amp;monthTo=4&amp;dayFrom=15&amp;dayTo=19&amp;q
   "manifestUrl": "${base}/bundle/data?id=…",
   "eventCount": 12, "trackCount": 14, "totalBytes": 81234567
 }</pre>
-		<p>Give the user <b>pageUrl</b> \u2014 it is THE download link. The page lists the bundle and offers <b>Download ZIP</b> and <b>Download merged MP3</b>, all assembled in the user's own browser from the original Archive.org files (ZIP via the app's own zip-store; merged MP3 = lossless frame join when every file is true MP3; when a bundle contains other formats under an .mp3 name, e.g. Opus, the page converts instead - Web Audio decodes one track at a time into a vendored lamejs MP3 encoder, so memory stays bounded even on many-hour bundles). <b>zipUrl</b> and <b>mergeUrl</b> are the same page focused on that action, and opening one starts that download in the browser. The server never downloads the audio: the legacy <code>${base}/bundle/zip</code> and <code>${base}/bundle/merge</code> endpoints only answer 302 redirects to the page, so links already handed out keep working. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
+		<p>Give the user <b>pageUrl</b> \u2014 it is THE download link. The page lists the bundle and offers <b>Download ZIP</b> and <b>Download merged MP3</b>, all assembled in the user's own browser from the original Archive.org files (ZIP via the app's own zip-store; merged MP3 = lossless frame join when every file is true MP3; when a bundle contains other formats under an .mp3 name, e.g. Opus, the page converts instead - with the browser's native media encoder (WebCodecs, feature-detected) when that browser can encode MP3, and otherwise by decoding one track at a time with Web Audio into a vendored lamejs MP3 encoder, so memory stays bounded even on many-hour bundles). <b>zipUrl</b> and <b>mergeUrl</b> are the same page focused on that action, and opening one starts that download in the browser. The server never downloads the audio: the legacy <code>${base}/bundle/zip</code> and <code>${base}/bundle/merge</code> endpoints only answer 302 redirects to the page, so links already handed out keep working. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
 		<pre>curl "${base}/bundle?month=3&amp;day=19&amp;title=Yud%20Tes%20Kislev"</pre>
 	</div>
 

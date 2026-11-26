@@ -89,3 +89,18 @@ test("bundle page has no WAV option and converts to MP3 in the browser", () => {
 	assert.ok(html.includes("sniffIsMp3"), "byte sniffing must decide join vs convert");
 	assert.ok(!/<script[^>]*lame/.test(html), "encoder must load lazily, not via a script tag");
 });
+
+test("bundle page wires the WebCodecs media-encoder path with feature detection and lamejs fallback", () => {
+	const html = bundlePage("/api/rebbe");
+	assert.ok(html.includes("probeWebCodecs"), "WebCodecs support probe must exist");
+	assert.ok(html.includes("AudioEncoder.isConfigSupported"), "MP3 encode support must be feature-detected, never assumed");
+	assert.ok(html.includes("AudioDecoder.isConfigSupported"), "decoder support must be feature-detected");
+	assert.ok(html.includes("convertWithWebCodecs"), "WebCodecs conversion path must exist");
+	assert.ok(html.includes("convertWithLamejs"), "lamejs fallback path must remain");
+	assert.ok(html.includes("FallbackToLamejs"), "WebCodecs path must be able to decline into the fallback");
+	assert.ok(html.includes("splitMp3Frames"), "MP3 elementary-stream splitter must feed AudioDecoder");
+	assert.ok(html.includes("demuxOggOpus"), "Ogg/Opus demuxer must feed AudioDecoder");
+	assert.ok(html.includes("EncodedAudioChunk"), "decoder input must be WebCodecs chunks");
+	assert.ok(html.includes("__rebbeConvert"), "chosen engine must be published for observability");
+	assert.ok(html.includes("codec: 'mp3'") || html.includes('codec: "mp3"') || html.includes("codec: 'mp3'"), "encoder must be configured for MP3 - never a silent format change");
+});
