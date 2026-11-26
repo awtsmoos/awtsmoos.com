@@ -71,8 +71,6 @@ function bundlePage(base) {
 			<button class="btn" id="btn-zip" disabled>Download ZIP (in browser)</button>
 			<button class="btn" id="btn-merge" disabled>Download merged MP3 (in browser)</button>
 			<button class="btn secondary" id="btn-wav" disabled>Download merged WAV (in browser, re-encoded)</button>
-			<a class="btn secondary" id="btn-server-zip" href="#" style="display:none">Download ZIP (server)</a>
-			<a class="btn secondary" id="btn-server-merge" href="#" style="display:none">Download merged MP3 (server)</a>
 		</div>
 		<div class="progress" id="progress"><div></div></div>
 		<p class="status" id="status"></p>
@@ -149,14 +147,8 @@ async function load() {
 		document.getElementById('btn-zip').disabled = !manifest.files.length;
 		document.getElementById('btn-merge').disabled = !manifest.files.length;
 		document.getElementById('btn-wav').disabled = !manifest.files.length;
-		const serverZip = document.getElementById('btn-server-zip');
-		serverZip.href = manifest.links.zipUrl;
-		serverZip.style.display = 'inline-block';
-		const serverMerge = document.getElementById('btn-server-merge');
-		serverMerge.href = manifest.links.mergeDownloadUrl;
-		serverMerge.style.display = 'inline-block';
-		if (params.get('action') === 'merge') document.getElementById('btn-merge').focus();
-		if (params.get('action') === 'zip') document.getElementById('btn-zip').focus();
+		if (params.get('action') === 'merge') downloadMerge();
+		else if (params.get('action') === 'zip') downloadZip();
 	} catch (e) {
 		document.getElementById('title').textContent = 'Bundle unavailable';
 		setStatus(e.message, true);
@@ -166,7 +158,7 @@ function escapeHtml(s) {
 	return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
-document.getElementById('btn-zip').addEventListener('click', async () => {
+async function downloadZip() {
 	const btn = document.getElementById('btn-zip');
 	btn.disabled = true;
 	try {
@@ -181,14 +173,15 @@ document.getElementById('btn-zip').addEventListener('click', async () => {
 		setStatus('ZIP ready — ' + files.length + ' files.');
 	} catch (e) { setStatus(e.message, true); }
 	btn.disabled = false;
-});
+}
+document.getElementById('btn-zip').addEventListener('click', downloadZip);
 
-document.getElementById('btn-merge').addEventListener('click', async () => {
+async function downloadMerge() {
 	const btn = document.getElementById('btn-merge');
 	btn.disabled = true;
 	try {
 		const nonMp3 = manifest.files.filter(f => f.format !== 'mp3');
-		if (nonMp3.length) throw new Error('Merged MP3 needs all-MP3 files; ' + nonMp3.length + ' file(s) are not MP3. Use the ZIP instead.');
+		if (nonMp3.length) throw new Error('Merged MP3 needs all-MP3 files; ' + nonMp3.length + ' file(s) are not MP3. Use merged WAV or the ZIP instead.');
 		const { joinMp3Blobs } = await import('/apps/rebbe/modules/download/farbrengen/mp3-join.js');
 		const blobs = [];
 		for (let i = 0; i < manifest.files.length; i++) {
@@ -198,9 +191,10 @@ document.getElementById('btn-merge').addEventListener('click', async () => {
 		const joined = await joinMp3Blobs(blobs);
 		save(joined, 'rebbe-sichos-merged.mp3');
 		setStatus('Merged MP3 ready — ' + blobs.length + ' files joined.');
-	} catch (e) { setStatus('Browser merge failed: ' + e.message + ' — try "Download merged MP3 (server)", whose joiner resyncs past isolated corrupt frames; the ZIP always keeps every original file unchanged.', true); }
+	} catch (e) { setStatus('Browser merge failed: ' + e.message + ' \u2014 the merged WAV button decodes every format with Web Audio and combines them, and the ZIP always keeps every original file unchanged.', true); }
 	btn.disabled = false;
-});
+}
+document.getElementById('btn-merge').addEventListener('click', downloadMerge);
 
 /**
  * Mixed-format fallback: decode every file with Web Audio (the browser
@@ -208,7 +202,7 @@ document.getElementById('btn-merge').addEventListener('click', async () => {
  * in an OfflineAudioContext at 44100 Hz, and encode one 16-bit PCM WAV.
  * This re-encodes, so it is the fallback — the MP3 paths above stay lossless.
  */
-document.getElementById('btn-wav').addEventListener('click', async () => {
+async function downloadWav() {
 	const btn = document.getElementById('btn-wav');
 	btn.disabled = true;
 	try {
@@ -244,7 +238,8 @@ document.getElementById('btn-wav').addEventListener('click', async () => {
 		setStatus('Merged WAV ready — ' + decoded.length + ' files decoded and combined (' + Math.round(totalSeconds) + ' seconds).');
 	} catch (e) { setStatus('WAV merge failed: ' + e.message, true); }
 	btn.disabled = false;
-});
+}
+document.getElementById('btn-wav').addEventListener('click', downloadWav);
 
 /** Encodes an AudioBuffer as a 16-bit PCM WAV blob. */
 function encodeWav(buffer) {
@@ -338,12 +333,12 @@ curl "${base}/search?monthFrom=3&amp;monthTo=4&amp;dayFrom=15&amp;dayTo=19&amp;q
 		<pre>{
   "bundleId": "…",
   "pageUrl":  "${base}/bundle/page?id=…",
-  "zipUrl":   "${base}/bundle/zip?id=…",
+  "zipUrl":   "${base}/bundle/page?id=\u2026&amp;action=zip",
   "mergeUrl": "${base}/bundle/page?id=…&amp;action=merge",
   "manifestUrl": "${base}/bundle/data?id=…",
   "eventCount": 12, "trackCount": 14, "totalBytes": 81234567
 }</pre>
-		<p>Give the user <b>pageUrl</b>: it lists the bundle and offers <b>Download ZIP</b> and <b>Download merged MP3</b>, both assembled in the browser from the original files (ZIP via the app's own zip-store; merged MP3 = lossless frame join, no re-encoding). <b>zipUrl</b> is a direct server-assembled ZIP download (capped at 300 files / 400 MB; larger bundles return HTTP 413 pointing back to the browser page). <b>mergeDownloadUrl</b> is a direct server-merged MP3: a tolerant lossless frame join that resyncs past isolated corrupt headers the strict browser joiner rejects; it returns HTTP 422 when a segment is not really MP3 (the corpus contains a few Opus files misnamed .mp3) or profiles differ — the ZIP is then the faithful path. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
+		<p>Give the user <b>pageUrl</b> \u2014 it is THE download link. The page lists the bundle and offers <b>Download ZIP</b>, <b>Download merged MP3</b> and <b>Download merged WAV</b>, all assembled in the user's own browser from the original Archive.org files (ZIP via the app's own zip-store; merged MP3 = lossless frame join, no re-encoding; merged WAV = Web Audio decode for mixed formats). <b>zipUrl</b> and <b>mergeUrl</b> are the same page focused on that action, and opening one starts that download in the browser. The server never downloads the audio: the legacy <code>${base}/bundle/zip</code> and <code>${base}/bundle/merge</code> endpoints only answer 302 redirects to the page, so links already handed out keep working. Bundles are stateless and permanent: the id encodes the search itself. Caps are explicit: search reports <code>total</code>; bundles cap at 120 events and say so via <code>truncated</code>.</p>
 		<pre>curl "${base}/bundle?month=3&amp;day=19&amp;title=Yud%20Tes%20Kislev"</pre>
 	</div>
 
