@@ -18,9 +18,18 @@
  * Web Audio decoding one track at a time into the vendored lamejs MP3
  * encoder (modules/download/lame.min.js, loaded lazily) on browsers with
  * no WebCodecs - memory-bounded either way, no WAV.
+ *
+ * Conversion runs in a dedicated background worker (lib/convert-worker.js,
+ * served at /bundle/worker.js) so it survives the tab being hidden: the
+ * pipeline is driven by codec callbacks, a screen wake lock is held, each
+ * finished track is persisted to OPFS for resume after a reload or tab
+ * kill, and a service worker (lib/service-worker.js, /sw.js) carries
+ * progress / completion notifications. The shared conversion engine
+ * itself lives in lib/engine.js and is evaluated in both contexts.
  */
 
 const { API_VERSION } = require("./response.js");
+const { ENGINE_JS } = require("./engine.js");
 
 const STYLE = `
 :root{--gold:#d59a35;--gold-soft:#f3d489;--bg:#171008;--panel:#241708;--panel2:#2e1e0b;--text:#f7ead0;--muted:#c9ab72;--line:#5a3d14}
@@ -82,10 +91,13 @@ function bundlePage(base) {
 			<button class="btn secondary" id="btn-cancel" style="display:none">Cancel conversion</button>
 			<button class="btn secondary" id="btn-skip" style="display:none">Skip this track</button>
 			<button class="btn secondary" id="btn-retry" style="display:none">Retry</button>
+			<button class="btn secondary" id="btn-resume" style="display:none">Resume conversion</button>
+			<button class="btn secondary" id="btn-ready" style="display:none">Download ready file</button>
+			<button class="btn secondary" id="btn-notify" style="display:none">Enable notifications</button>
 		</div>
 		<div class="progress" id="progress"><div></div></div>
 		<p class="status" id="status"></p>
-		<p class="status">ZIP and the merged file are assembled on your device from the original Archive.org files - the server never downloads or converts anything. When every file is a true MP3, the merged file is an <b>MP3</b>: the original frames joined losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus); those bundles are <b>converted right here in your browser</b> into one merged <b>Opus</b> file (.opus) with your browser's native media encoder - near-instant, one file at a time, so even a many-hour bundle stays light. (Browsers without the native encoder fall back to a slower built-in MP3 conversion.) The ZIP always keeps every original file unchanged.</p>
+		<p class="status">ZIP and the merged file are assembled on your device from the original Archive.org files - the server never downloads or converts anything. When every file is a true MP3, the merged file is an <b>MP3</b>: the original frames joined losslessly, exactly like the Rebbe app itself. Some files in this archive are other formats carrying an .mp3 name (e.g. Opus); those bundles are <b>converted right here in your browser</b> into one merged <b>Opus</b> file (.opus) with your browser's native media encoder - near-instant, one file at a time, so even a many-hour bundle stays light. (Browsers without the native encoder fall back to a slower built-in MP3 conversion.) The ZIP always keeps every original file unchanged. Conversion runs in a background worker and holds a screen wake lock, so you can leave this tab while it works; progress is saved on your device track by track, and if the page is closed mid-conversion, reopening it offers to resume where it stopped. Allow notifications and you will be told as the work finishes and when your merged file is ready.</p>
 	</div>
 	<div class="card">
 		<h2 style="margin-top:0">Contents</h2>
@@ -232,6 +244,19 @@ async function load() {
 		).join('');
 		document.getElementById('btn-zip').disabled = !manifest.files.length;
 		document.getElementById('btn-merge').disabled = !manifest.files.length;
+		registerServiceWorker();
+		partialMeta = await readPartialMeta(bundleKey());
+		if (partialMeta && partialMeta.engine === 'webcodecs-opus' && partialMeta.total === manifest.files.length) {
+			const doneCount = (partialMeta.done || []).length;
+			bgState.resume = { available: true, doneTracks: doneCount, total: partialMeta.total, complete: !!partialMeta.complete };
+			if (partialMeta.complete) {
+				document.getElementById('btn-ready').style.display = 'inline-block';
+				setStatus('Your merged Opus file from an earlier conversion is saved on this device - tap "Download ready file".');
+			} else if (doneCount > 0 || (partialMeta.skipped || []).length) {
+				document.getElementById('btn-resume').style.display = 'inline-block';
+				setStatus('An earlier conversion of this bundle stopped after ' + doneCount + ' of ' + partialMeta.total + ' tracks. Resume keeps every finished track - nothing is downloaded or converted twice.');
+			}
+		}
 		if (params.get('action') === 'merge') downloadMerge();
 		else if (params.get('action') === 'zip') downloadZip();
 	} catch (e) {
@@ -311,10 +336,13 @@ async function downloadMerge() {
 	} catch (e) { showFailure('Browser merge failed: ' + e.message + ' - the ZIP always keeps every original file unchanged.'); }
 	btn.disabled = false;
 }
-document.getElementById('btn-merge').addEventListener('click', downloadMerge);
+document.getElementById('btn-merge').addEventListener('click', () => { mergeFromGesture = true; maybeRequestNotifications(); downloadMerge(); });
 
 let mergeCancelled = false;
-document.getElementById('btn-cancel').addEventListener('click', () => { mergeCancelled = true; });
+document.getElementById('btn-cancel').addEventListener('click', () => {
+	if (workerRun) workerRun.worker.postMessage({ type: 'cancel', key: workerRun.key });
+	else mergeCancelled = true;
+});
 
 /** Sniffs MP3 magic: an ID3 tag, or an MPEG frame sync with a real layer. */
 function sniffIsMp3(bytes) {
@@ -344,16 +372,6 @@ function loadMp3Encoder() {
 	}
 	return encoderPromise;
 }
-
-/**
- * Signals that the WebCodecs path cannot handle this bundle (unknown
- * container, missing decoder) and the whole conversion should restart
- * through the lamejs fallback instead. Thrown only before any track of
- * the WebCodecs attempt has been committed, or the dispatcher treats it
- * as a fresh restart - encoded chunks are per-attempt locals, so a
- * restart never mixes output from two engines.
- */
-class FallbackEngine extends Error {}
 
 /**
  * Feature-detects the browser's native media-encoder path (WebCodecs).
@@ -399,521 +417,230 @@ function probeWebCodecs() {
 	return webCodecsProbePromise;
 }
 
-/** Parses one MPEG audio frame header; returns frame geometry or null. */
-function parseMp3Header(b, off) {
-	if (off + 4 > b.length) return null;
-	if (b[off] !== 0xff || (b[off + 1] & 0xe0) !== 0xe0) return null;
-	const verBits = (b[off + 1] >> 3) & 3;
-	if (verBits === 1) return null;
-	const layerBits = (b[off + 1] >> 1) & 3;
-	if (layerBits === 0) return null;
-	const layer = 4 - layerBits;
-	const brIdx = (b[off + 2] >> 4) & 15;
-	if (brIdx === 0 || brIdx === 15) return null;
-	const srIdx = (b[off + 2] >> 2) & 3;
-	if (srIdx === 3) return null;
-	const pad = (b[off + 2] >> 1) & 1;
-	const chanMode = (b[off + 3] >> 6) & 3;
-	const sampleRate = (verBits === 3 ? [44100, 48000, 32000] : verBits === 2 ? [22050, 24000, 16000] : [11025, 12000, 8000])[srIdx];
-	let kbps;
-	if (verBits === 3) kbps = [null,
-		[32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448],
-		[32, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384],
-		[32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320]][layer][brIdx - 1];
-	else kbps = (layer === 1
-		? [32, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256]
-		: [8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160])[brIdx - 1];
-	const br = kbps * 1000;
-	const samples = layer === 1 ? 384 : layer === 2 ? 1152 : (verBits === 3 ? 1152 : 576);
-	let len;
-	if (layer === 1) len = Math.floor(12 * br / sampleRate + pad) * 4;
-	else if (layer === 2) len = Math.floor(144 * br / sampleRate) + pad;
-	else len = Math.floor((verBits === 3 ? 144 : 72) * br / sampleRate) + pad;
-	if (len < 4) return null;
-	return { len, sampleRate, samples, channels: chanMode === 3 ? 1 : 2, durationUs: Math.round(samples / sampleRate * 1e6) };
-}
+${ENGINE_JS}
+
+/* ============ Background conversion: worker, wake lock, notifications, resume ============ */
 
 /**
- * Splits raw MP3 bytes into frames for AudioDecoder: skips an ID3v2 tag,
- * then walks frame headers. Timestamps are cumulative frame durations -
- * the elementary stream WebCodecs expects (it does not demux files).
+ * Background state for the worker conversion, published on
+ * window.__rebbeBackground and inside window.__rebbeConvert: which
+ * pieces are active (worker, wake lock, notifications, service worker)
+ * and what resume state exists. The conversion itself runs in a
+ * dedicated worker (BASE + '/bundle/worker.js') whose pipeline is
+ * driven by codec callbacks - a hidden tab throttles main-thread
+ * timers, but the worker keeps converting, and every finished track is
+ * persisted to OPFS so a killed or reloaded page resumes instead of
+ * starting over.
  */
-function splitMp3Frames(bytes) {
-	let off = 0;
-	if (bytes.length >= 10 && bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
-		const size = ((bytes[6] & 0x7f) << 21) | ((bytes[7] & 0x7f) << 14) | ((bytes[8] & 0x7f) << 7) | (bytes[9] & 0x7f);
-		off = 10 + size + ((bytes[5] & 0x10) ? 10 : 0);
-	}
-	const frames = [];
-	let ts = 0, sampleRate = 0, channels = 2;
-	while (off + 4 <= bytes.length) {
-		const h = parseMp3Header(bytes, off);
-		if (!h || off + h.len > bytes.length) break;
-		if (!sampleRate) { sampleRate = h.sampleRate; channels = h.channels; }
-		frames.push({ data: bytes.subarray(off, off + h.len), timestamp: ts, duration: h.durationUs });
-		ts += h.durationUs;
-		off += h.len;
-	}
-	return { packets: frames, sampleRate, channels, durationUs: ts };
-}
+const bgState = {
+	worker: false,
+	wakeLock: 'unknown',
+	notifications: (typeof Notification !== 'undefined') ? Notification.permission : 'unsupported',
+	serviceWorker: false,
+	resume: null
+};
+window.__rebbeBackground = bgState;
+let swRegistration = null;
+let wakeLock = null;
+let conversionRunning = false;
+let workerRun = null;
+let workerDeclineReason = '';
+let mergeFromGesture = false;
+let partialMeta = null;
 
-/** Duration of one Opus frame for a TOC byte (RFC 6716, Table 2). */
-function opusFrameDurationUs(toc) {
-	const config = (toc >> 3) & 31;
-	if (config < 12) return [10000, 20000, 40000, 60000][config & 3];
-	if (config < 16) return (config & 1) ? 20000 : 10000;
-	return [2500, 5000, 10000, 20000][config & 3];
-}
-function opusPacketDurationUs(p) {
-	if (!p.length) return 0;
-	const code = p[0] & 3;
-	let frames = 1;
-	if (code === 1 || code === 2) frames = 2;
-	else if (code === 3) frames = p.length > 1 ? (p[1] & 0x3f) : 1;
-	if (!frames) frames = 1;
-	return Math.min(120000, opusFrameDurationUs(p[0]) * frames);
-}
-
-/**
- * Minimal Ogg demuxer for the archive's Opus-in-Ogg files (the ones
- * misnamed .mp3): walks Ogg pages of the first logical stream, stitches
- * packets across page boundaries, and returns the OpusHead (the decoder
- * description) plus audio packets with TOC-derived timestamps.
- */
-function demuxOggOpus(bytes) {
-	const packets = [];
-	let parts = [];
-	let serial = null;
-	let off = 0;
-	const flushPacket = () => {
-		if (!parts.length) return;
-		let totalLen = 0;
-		for (const part of parts) totalLen += part.length;
-		const pkt = new Uint8Array(totalLen);
-		let o = 0;
-		for (const part of parts) { pkt.set(part, o); o += part.length; }
-		packets.push(pkt);
-		parts = [];
-	};
-	while (off + 27 <= bytes.length) {
-		if (!(bytes[off] === 0x4f && bytes[off + 1] === 0x67 && bytes[off + 2] === 0x67 && bytes[off + 3] === 0x53)) { off++; continue; }
-		const segCount = bytes[off + 26];
-		if (off + 27 + segCount > bytes.length) break;
-		const pageSerial = (bytes[off + 14] | (bytes[off + 15] << 8) | (bytes[off + 16] << 16) | (bytes[off + 17] << 24)) >>> 0;
-		if (serial === null) serial = pageSerial;
-		let p = off + 27 + segCount;
-		for (let s = 0; s < segCount; s++) {
-			const segLen = bytes[off + 27 + s];
-			if (pageSerial === serial) {
-				parts.push(bytes.subarray(p, Math.min(p + segLen, bytes.length)));
-				if (segLen < 255) flushPacket();
-			}
-			p += segLen;
-		}
-		off = p;
-	}
-	flushPacket();
-	const isOpusHead = pkt => pkt && pkt.length >= 19 &&
-		pkt[0] === 0x4f && pkt[1] === 0x70 && pkt[2] === 0x75 && pkt[3] === 0x73 &&
-		pkt[4] === 0x48 && pkt[5] === 0x65 && pkt[6] === 0x61 && pkt[7] === 0x64;
-	if (!isOpusHead(packets[0])) return { head: null, channels: 2, packets: [], durationUs: 0 };
-	const head = packets[0];
-	const audio = [];
-	let ts = 0;
-	for (let i = 1; i < packets.length; i++) {
-		const pkt = packets[i];
-		if (pkt.length >= 8 && pkt[0] === 0x4f && pkt[1] === 0x70 && pkt[2] === 0x75 && pkt[3] === 0x73 &&
-			pkt[4] === 0x54 && pkt[5] === 0x61 && pkt[6] === 0x67 && pkt[7] === 0x73) continue; // OpusTags
-		const d = opusPacketDurationUs(pkt);
-		audio.push({ data: pkt, timestamp: ts, duration: d });
-		ts += d;
-	}
-	return { head, channels: head[9] || 2, packets: audio, durationUs: ts };
-}
-
-/* ================= Ogg/Opus muxer (client-side) ================= */
-
-const OGG_CRC_TABLE = (() => {
-	const table = new Uint32Array(256);
-	for (let n = 0; n < 256; n++) {
-		let r = n << 24;
-		for (let k = 0; k < 8; k++) r = (r & 0x80000000) ? ((r << 1) ^ 0x04c11db7) : (r << 1);
-		table[n] = r >>> 0;
-	}
-	return table;
-})();
-function oggCrc(bytes) {
-	let crc = 0;
-	for (let i = 0; i < bytes.length; i++) crc = ((crc << 8) ^ OGG_CRC_TABLE[((crc >>> 24) ^ bytes[i]) & 0xff]) >>> 0;
-	return crc;
-}
-
-/**
- * Minimal Ogg muxer for Opus: writes a standard .opus stream - OpusHead
- * alone on the BOS page, OpusTags next, then audio pages with correct
- * segment tables, page sequence numbers, 48 kHz granule positions and
- * CRC32 checksums. Packets are grouped (~16 KB per page) and the final
- * page carries EOS. Pure byte work - no server, no library.
- */
-function createOggOpusMuxer(channels) {
-	const serial = (Math.random() * 0xffffffff) >>> 0;
-	const parts = [];
-	let seq = 0;
-	let totalSamples = 0;
-	let pending = [];
-	let pendingBytes = 0;
-	let pendingSamples = 0;
-	function writePage(packets, flags, granule) {
-		const segs = [];
-		let bodyLen = 0;
-		for (const pkt of packets) {
-			bodyLen += pkt.length;
-			let n = pkt.length;
-			while (n >= 255) { segs.push(255); n -= 255; }
-			segs.push(n);
-		}
-		const page = new Uint8Array(27 + segs.length + bodyLen);
-		page.set([0x4f, 0x67, 0x67, 0x53, 0, flags], 0); // 'OggS', version 0
-		const view = new DataView(page.buffer);
-		view.setUint32(6, granule >>> 0, true);
-		view.setUint32(10, Math.floor(granule / 0x100000000), true);
-		view.setUint32(14, serial, true);
-		view.setUint32(18, seq++, true);
-		page[26] = segs.length;
-		page.set(segs, 27);
-		let o = 27 + segs.length;
-		for (const pkt of packets) { page.set(pkt, o); o += pkt.length; }
-		view.setUint32(22, oggCrc(page), true);
-		parts.push(page);
-	}
-	const head = new Uint8Array(19);
-	head.set([0x4f, 0x70, 0x75, 0x73, 0x48, 0x65, 0x61, 0x64], 0); // 'OpusHead'
-	head[8] = 1; // version
-	head[9] = channels;
-	new DataView(head.buffer).setUint16(10, 0, true); // pre-skip
-	new DataView(head.buffer).setUint32(12, 48000, true); // input sample rate (informational)
-	head[16] = 0; head[17] = 0; // output gain
-	head[18] = 0; // channel mapping family 0
-	writePage([head], 0x02, 0); // BOS
-	const vendor = 'Awtsmoos Rebbe Archive';
-	const tags = new Uint8Array(8 + 4 + vendor.length + 4);
-	tags.set([0x4f, 0x70, 0x75, 0x73, 0x54, 0x61, 0x67, 0x73], 0); // 'OpusTags'
-	new DataView(tags.buffer).setUint32(8, vendor.length, true);
-	tags.set(new TextEncoder().encode(vendor), 12);
-	writePage([tags], 0x00, 0);
-	return {
-		writePacket(data, durationUs) {
-			const samples = Math.max(0, Math.round((durationUs || 0) * 48000 / 1e6));
-			pending.push(data);
-			pendingBytes += data.length;
-			pendingSamples += samples;
-			if (pendingBytes >= 16384 || pending.length >= 40) {
-				totalSamples += pendingSamples;
-				writePage(pending, 0x00, totalSamples);
-				pending = []; pendingBytes = 0; pendingSamples = 0;
-			}
-		},
-		finish() {
-			totalSamples += pendingSamples;
-			writePage(pending, 0x01, totalSamples); // EOS
-			pending = []; pendingBytes = 0; pendingSamples = 0;
-			return parts;
-		},
-		get bytesWritten() { return parts.reduce((n, p) => n + p.length, 0); }
-	};
-}
-
-/** Decodes one plane/sample buffer of an AudioData into Float32 samples. */
-function webCodecsSamplesToFloat(buf, type, count) {
-	const out = new Float32Array(count);
-	if (type === 'f32') { out.set(new Float32Array(buf, 0, count)); return out; }
-	if (type === 's16') { const v = new Int16Array(buf, 0, count); for (let i = 0; i < count; i++) out[i] = v[i] / 32768; return out; }
-	if (type === 's32') { const v = new Int32Array(buf, 0, count); for (let i = 0; i < count; i++) out[i] = v[i] / 2147483648; return out; }
-	if (type === 'u8') { const v = new Uint8Array(buf, 0, count); for (let i = 0; i < count; i++) out[i] = (v[i] - 128) / 128; return out; }
-	return out;
-}
-
-/** Extracts an AudioData's samples as per-channel Float32Arrays, whatever its format. */
-function audioDataToPlanar(ad) {
-	const fmt = ad.format || 'f32-planar';
-	const type = fmt.split('-')[0];
-	const frames = ad.numberOfFrames;
-	const nch = ad.numberOfChannels;
-	const channels = [];
-	if (fmt.indexOf('planar') !== -1) {
-		for (let c = 0; c < nch; c++) {
-			const buf = new ArrayBuffer(ad.allocationSize({ planeIndex: c }));
-			ad.copyTo(buf, { planeIndex: c });
-			channels.push(webCodecsSamplesToFloat(buf, type, frames));
-		}
-	} else {
-		const buf = new ArrayBuffer(ad.allocationSize({ planeIndex: 0 }));
-		ad.copyTo(buf, { planeIndex: 0 });
-		const all = webCodecsSamplesToFloat(buf, type, frames * nch);
-		for (let c = 0; c < nch; c++) {
-			const ch = new Float32Array(frames);
-			for (let i = 0; i < frames; i++) ch[i] = all[i * nch + c];
-			channels.push(ch);
-		}
-	}
-	return channels;
-}
-
-/**
- * Streaming linear-interpolation resampler to 48000 Hz with channel
- * mapping (mono<->stereo). Holds only a couple of unconsumed input
- * samples between chunks, so it streams tracks of any length. Speech
- * makes linear interpolation entirely adequate, and it keeps the whole
- * pipeline native-speed. Emits blocks of up to 4800 output frames.
- */
-function createResampler48000(inRate, inChannels, outChannels) {
-	const step = inRate / 48000;
-	let pend = null; // per-input-channel Float32Array leftovers
-	let frac = 0;
-	let block = null; // per-out-channel Float32Array(4800)
-	let blockLen = 0;
-	function newBlock() { return Array.from({ length: outChannels }, () => new Float32Array(4800)); }
-	/** Interpolated sample for output channel oc at input position i0+f. */
-	function sampleAt(merged, oc, i0, f) {
-		const at = c => merged[c][i0] * (1 - f) + merged[c][i0 + 1] * f;
-		if (inChannels === 1) return at(0);
-		if (outChannels === 1) return (at(0) + at(1)) / 2;
-		return at(Math.min(oc, inChannels - 1));
-	}
-	function emit(out, oc, v) {
-		block[oc][blockLen] = v;
-	}
-	function push(planar, frames, out) {
-		const merged = [];
-		for (let c = 0; c < inChannels; c++) {
-			const prev = pend ? pend[c] : null;
-			const m = new Float32Array((prev ? prev.length : 0) + frames);
-			if (prev) m.set(prev, 0);
-			m.set(planar[c], prev ? prev.length : 0);
-			merged.push(m);
-		}
-		const len = merged[0].length;
-		if (!block) block = newBlock();
-		while (Math.floor(frac) + 1 < len) {
-			const i0 = Math.floor(frac);
-			const f = frac - i0;
-			for (let oc = 0; oc < outChannels; oc++) emit(out, oc, sampleAt(merged, oc, i0, f));
-			blockLen++;
-			frac += step;
-			if (blockLen === 4800) { out.push({ channels: block, frames: 4800 }); block = newBlock(); blockLen = 0; }
-		}
-		const drop = Math.min(Math.floor(frac), len);
-		pend = merged.map(ch => ch.subarray(drop));
-		frac -= drop;
-	}
-	function flush(out) {
-		if (pend && pend[0].length) {
-			// Extend the tail virtually with the last sample so the final
-			// fractional outputs are produced, then stop.
-			const ext = pend.map(ch => {
-				const m = new Float32Array(ch.length + 1);
-				m.set(ch, 0);
-				m[ch.length] = ch[ch.length - 1];
-				return m;
-			});
-			const len = ext[0].length;
-			if (!block) block = newBlock();
-			while (Math.floor(frac) + 1 < len) {
-				const i0 = Math.floor(frac);
-				const f = frac - i0;
-				for (let oc = 0; oc < outChannels; oc++) emit(out, oc, sampleAt(ext, oc, i0, f));
-				blockLen++;
-				frac += step;
-				if (blockLen === 4800) { out.push({ channels: block, frames: 4800 }); block = newBlock(); blockLen = 0; }
-			}
-		}
-		if (block && blockLen) out.push({ channels: block.map(ch => ch.subarray(0, blockLen)), frames: blockLen });
-		block = null; blockLen = 0; pend = null; frac = 0;
-	}
-	return { push, flush };
-}
-
-/** Packs one resampled block into an f32-planar AudioData at a timeline timestamp. */
-function blockToAudioData(block, timestampUs) {
-	const frames = block.frames;
-	const nch = block.channels.length;
-	const buf = new ArrayBuffer(frames * 4 * nch);
-	const view = new Uint8Array(buf);
-	for (let c = 0; c < nch; c++) view.set(new Uint8Array(block.channels[c].buffer, block.channels[c].byteOffset, frames * 4), c * frames * 4);
-	return new AudioData({ format: 'f32-planar', sampleRate: 48000, numberOfFrames: frames, numberOfChannels: nch, timestamp: timestampUs, data: buf });
-}
-
-/**
- * WebCodecs conversion path - the primary converter (used when this
- * browser's AudioEncoder offers Opus, which is the only encode codec
- * Chrome ships): per track, demux the container in-page, stream packets
- * through AudioDecoder, resample the decoded PCM to 48 kHz as it flows,
- * and feed it straight into ONE shared AudioEncoder; its Opus chunks are
- * muxed into a standard Ogg .opus file in-page. No whole-track PCM is
- * ever held, and the encode itself runs at native speed - many times
- * faster than any JS encoder. Same discipline as everywhere on this
- * page: per-stage progress, watchdogs, Skip / Cancel, visible errors.
- */
-async function convertWithWebCodecsOpus(getBlob, support) {
-	const cancelBtn = document.getElementById('btn-cancel');
-	const skipBtn = document.getElementById('btn-skip');
-	cancelBtn.style.display = 'inline-block';
-	skipBtn.style.display = 'inline-block';
-	const total = manifest.files.length;
-	let encoder = null;
-	let muxer = null;
-	let encChannels = 0;
-	let encError = null;
-	let feedError = null;
-	let feedChain = Promise.resolve();
-	let outFrames = 0;
-	let encodedBytes = 0;
-	let totalSeconds = 0;
-	let skipped = 0;
-	const checkInterrupt = () => {
-		if (mergeCancelled) throw new Error('Conversion cancelled.');
-		if (skipRequested) throw new SkipTrack('skipped');
-	};
-	const closeEncoder = async flushIt => {
-		if (!encoder) return;
-		const enc = encoder;
-		encoder = null;
-		if (flushIt) { try { await enc.flush(); } catch (e) {} }
-		try { enc.close(); } catch (e) {}
-	};
-	const ensurePipeline = channels => {
-		if (encoder) return;
-		encChannels = channels;
-		muxer = createOggOpusMuxer(channels);
-		encError = null;
-		encoder = new AudioEncoder({
-			output: chunk => {
-				const buf = new ArrayBuffer(chunk.byteLength);
-				chunk.copyTo(buf);
-				muxer.writePacket(new Uint8Array(buf), chunk.duration || 0);
-				encodedBytes = muxer.bytesWritten;
-			},
-			error: e => { encError = e; }
-		});
-		encoder.configure({ codec: 'opus', sampleRate: 48000, numberOfChannels: channels, bitrate: channels === 2 ? 128000 : 96000 });
-	};
-	const feedBlock = async block => {
-		while (encoder && encoder.encodeQueueSize > 8) { checkInterrupt(); await new Promise(r => setTimeout(r, 5)); }
-		if (encError) throw encError;
-		const ad = blockToAudioData(block, Math.round(outFrames * 1e6 / 48000));
-		outFrames += block.frames;
-		encoder.encode(ad);
-	};
+/** Registers the notification service worker (scope: this API). */
+async function registerServiceWorker() {
+	if (!('serviceWorker' in navigator)) { bgState.serviceWorker = false; return; }
 	try {
-		for (let i = 0; i < total; i++) {
-			if (mergeCancelled) throw new Error('Conversion cancelled.');
-			skipRequested = false;
-			const file = manifest.files[i];
-			let decoder = null;
-			try {
-				const blob = await raceInterrupt(Promise.resolve(getBlob(i)));
-				setProgress(i, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - decoding (native media encoder)...');
-				const bytes = new Uint8Array(await blob.arrayBuffer());
-				let demuxed, decConfig, codec;
-				if (bytes.length >= 4 && bytes[0] === 0x4f && bytes[1] === 0x67 && bytes[2] === 0x67 && bytes[3] === 0x53) {
-					const d = demuxOggOpus(bytes);
-					if (!d.head || !d.packets.length) throw new FallbackEngine('could not demux the Ogg/Opus file ' + file.name);
-					demuxed = d;
-					codec = 'opus';
-					decConfig = { codec: 'opus', sampleRate: 48000, numberOfChannels: d.channels, description: d.head };
-				} else if (sniffIsMp3(bytes.subarray(0, 4))) {
-					const d = splitMp3Frames(bytes);
-					if (!d.packets.length) throw new FallbackEngine('could not split the MP3 file ' + file.name + ' into frames');
-					demuxed = d;
-					codec = 'mp3';
-					decConfig = { codec: 'mp3', sampleRate: d.sampleRate, numberOfChannels: d.channels };
-				} else {
-					throw new FallbackEngine('format of ' + file.name + ' needs the fallback converter');
-				}
-				if (support.decoders[codec] === false) throw new FallbackEngine('no WebCodecs decoder for ' + codec + ' in this browser');
-				const expectedUs = file.duration ? file.duration * 1e6 : demuxed.durationUs;
-				let decodedUs = 0;
-				let decError = null;
-				let resampler = null;
-				decoder = new AudioDecoder({
-					output: ad => {
-						decodedUs = Math.max(decodedUs, ad.timestamp + (ad.duration || 0));
-						const frac = expectedUs ? Math.min(1, decodedUs / expectedUs) : 0;
-						setProgress(i + frac, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - ' + Math.round(frac * 100) + '% - Opus so far ' + fmtBytes(encodedBytes) + ' (native media encoder)');
-						feedChain = feedChain.then(async () => {
-							if (feedError) { try { ad.close(); } catch (e) {} return; }
-							try {
-								checkInterrupt();
-								ensurePipeline(Math.min(2, Math.max(1, ad.numberOfChannels)));
-								if (!resampler) resampler = createResampler48000(ad.sampleRate, ad.numberOfChannels, encChannels);
-								const blocks = [];
-								resampler.push(audioDataToPlanar(ad), ad.numberOfFrames, blocks);
-								for (const block of blocks) await feedBlock(block);
-							} catch (e) { feedError = e; }
-							try { ad.close(); } catch (e) {}
-						});
-					},
-					error: e => { decError = e; }
-				});
-				decoder.configure(decConfig);
-				const feedAll = (async () => {
-					for (const pkt of demuxed.packets) {
-						checkInterrupt();
-						if (decError) throw decError;
-						while (decoder.decodeQueueSize > 16) { checkInterrupt(); await new Promise(r => setTimeout(r, 5)); }
-						decoder.decode(new EncodedAudioChunk({ type: 'key', timestamp: pkt.timestamp, duration: pkt.duration, data: pkt.data }));
-					}
-					await withTimeout(decoder.flush(), 180000, 'Decoding ' + file.name);
-					await feedChain;
-					if (decError) throw decError;
-					if (feedError) throw feedError;
-					if (encError) throw encError;
-					if (resampler) {
-						const tail = [];
-						resampler.flush(tail);
-						for (const block of tail) await feedBlock(block);
-						if (encError) throw encError;
-					}
-				})();
-				await raceInterrupt(feedAll);
-				totalSeconds += decodedUs / 1e6;
-				if (decodedUs === 0) throw new Error('Decoding ' + file.name + ' produced no audio');
-			} catch (trackError) {
-				if (trackError instanceof SkipTrack) {
-					skipped++;
-					feedError = null;
-					feedChain = Promise.resolve();
-					setStatus('Skipped ' + file.name + ' - continuing with the next track...');
-					await yieldToUi();
-					continue;
-				}
-				throw trackError;
-			} finally {
-				if (decoder) { try { decoder.close(); } catch (e) {} }
-			}
-		}
-		if (mergeCancelled) throw new Error('Conversion cancelled.');
-		if (!encoder && !skipped) throw new Error('Nothing was converted.');
-		if (!encoder) throw new Error('Every track was skipped - nothing to save.');
-		setProgress(1, 1, 'Finishing Opus file...');
-		await closeEncoder(true);
-		if (encError) throw encError;
-		save(new Blob(muxer.finish(), { type: 'audio/ogg' }), 'rebbe-sichos-merged.opus');
-		setStatus('Merged Opus ready - ' + (total - skipped) + ' of ' + total + ' files converted and combined (' + Math.round(totalSeconds) + ' seconds' + (skipped ? ', ' + skipped + ' skipped' : '') + ', native media encoder, converted in your browser).');
-	} finally {
-		await closeEncoder(false);
-		cancelBtn.style.display = 'none';
-		skipBtn.style.display = 'none';
-	}
+		swRegistration = await navigator.serviceWorker.register(BASE + '/sw.js');
+		bgState.serviceWorker = true;
+	} catch (e) { bgState.serviceWorker = false; }
 }
 
 /**
- * Conversion dispatcher: the native WebCodecs Opus path first (near-
- * instant, fully in the browser), the async lamejs MP3 path only when
- * the browser has no WebCodecs Opus encoder or the native path declines
- * this bundle's formats - the user always sees which file they are
- * getting (Opus vs MP3) in the status line and the saved filename. The
- * chosen engine is published on window.__rebbeConvert so the page's
+ * Asks for notification permission when there is a user gesture to ride
+ * on; without one (auto-started runs) it surfaces the Enable
+ * notifications button instead of prompting cold. Denial is respected
+ * silently - status line only.
+ */
+async function maybeRequestNotifications() {
+	if (typeof Notification === 'undefined') { bgState.notifications = 'unsupported'; return; }
+	bgState.notifications = Notification.permission;
+	if (Notification.permission !== 'default') return;
+	if (mergeFromGesture) {
+		try { bgState.notifications = await Notification.requestPermission(); } catch (e) {}
+		if (bgState.notifications !== 'default') document.getElementById('btn-notify').style.display = 'none';
+	} else {
+		document.getElementById('btn-notify').style.display = 'inline-block';
+	}
+}
+
+/** Shows a notification through the service worker - only while hidden. */
+function notifyUser(title, body, tag) {
+	try {
+		if (!swRegistration || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+		if (!document.hidden) return;
+		swRegistration.showNotification(title, { body, tag: tag || 'rebbe-convert', data: { url: location.href } });
+	} catch (e) {}
+}
+
+/** Holds a screen wake lock for the length of a conversion. */
+async function acquireWakeLock() {
+	if (!('wakeLock' in navigator)) { bgState.wakeLock = 'unsupported'; return; }
+	try {
+		wakeLock = await navigator.wakeLock.request('screen');
+		bgState.wakeLock = 'held';
+		wakeLock.addEventListener('release', () => {
+			bgState.wakeLock = 'released';
+			wakeLock = null;
+			if (conversionRunning && !document.hidden) acquireWakeLock();
+		});
+	} catch (e) { bgState.wakeLock = 'error'; }
+}
+function releaseWakeLock() {
+	if (wakeLock) { try { wakeLock.release(); } catch (e) {} wakeLock = null; }
+	bgState.wakeLock = 'released';
+}
+document.addEventListener('visibilitychange', () => {
+	if (!document.hidden && conversionRunning && !wakeLock) acquireWakeLock();
+});
+
+/** FNV-1a key over the bundle id + track list - the OPFS store key. */
+function bundleKey() {
+	if (!manifest) return '';
+	let h = 0x811c9dc5;
+	const s = id + '|' + manifest.files.map(f => f.name + ':' + (f.size || 0)).join('|');
+	for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+	return (h >>> 0).toString(16);
+}
+
+/** Reads a previous conversion's saved state (OPFS) for this bundle, if any. */
+async function readPartialMeta(key) {
+	try {
+		if (!key || !navigator.storage || !navigator.storage.getDirectory) return null;
+		const root = await navigator.storage.getDirectory();
+		const dir = await root.getDirectoryHandle('rebbe-convert-' + key, { create: false });
+		const fh = await dir.getFileHandle('meta.json', { create: false });
+		const file = await fh.getFile();
+		return JSON.parse(await file.text());
+	} catch (e) { return null; }
+}
+
+/**
+ * Runs the conversion in the dedicated worker and renders its progress.
+ * Resolves 'done' when the merged file was saved, 'declined' when the
+ * worker cannot take this bundle (the dispatcher then falls back to
+ * lamejs), and rejects on error / cancel / a dead worker (the watchdog:
+ * no worker message for 45s while running - Retry then resumes from
+ * the last persisted track, because the worker stores every track).
+ */
+function runWorkerConversion() {
+	return new Promise((resolveRun, rejectRun) => {
+		const key = bundleKey();
+		const worker = new Worker(BASE + '/bundle/worker.js');
+		bgState.worker = true;
+		conversionRunning = true;
+		acquireWakeLock();
+		maybeRequestNotifications();
+		const cancelBtn = document.getElementById('btn-cancel');
+		const skipBtn = document.getElementById('btn-skip');
+		cancelBtn.style.display = 'inline-block';
+		skipBtn.style.display = 'inline-block';
+		let lastMsgAt = Date.now();
+		let settled = false;
+		const finish = (fn, val, delay) => {
+			if (settled) return;
+			settled = true;
+			clearInterval(watchdog);
+			workerRun = null;
+			conversionRunning = false;
+			releaseWakeLock();
+			cancelBtn.style.display = 'none';
+			skipBtn.style.display = 'none';
+			setTimeout(() => { try { worker.terminate(); } catch (e) {} }, delay || 0);
+			fn(val);
+		};
+		workerRun = { worker, key };
+		const watchdog = setInterval(() => {
+			if (Date.now() - lastMsgAt > 45000) {
+				finish(rejectRun, new Error('The conversion worker stopped responding - press Retry to resume from the last finished track.'));
+			}
+		}, 5000);
+		worker.onerror = e => finish(rejectRun, new Error('Conversion worker failed: ' + (e.message || 'unknown error')));
+		worker.onmessage = e => {
+			const msg = e.data || {};
+			lastMsgAt = Date.now();
+			if (msg.type === 'progress') {
+				setProgress(msg.done, msg.total, msg.label);
+			} else if (msg.type === 'probe') {
+				if (window.__rebbeConvert) window.__rebbeConvert.workerProbe = msg.support;
+			} else if (msg.type === 'started') {
+				bgState.resume = { available: msg.resumed, doneTracks: msg.doneTracks, total: msg.total };
+				if (msg.resumed) setStatus('Resuming conversion - ' + msg.doneTracks + ' of ' + msg.total + ' tracks were saved on this device and are not being redone...');
+			} else if (msg.type === 'track-done') {
+				bgState.resume = { available: true, doneTracks: msg.index + 1, total: msg.total };
+				notifyUser(manifest.title, 'Track ' + (msg.index + 1) + ' of ' + msg.total + ' - ' + Math.round((msg.index + 1) / msg.total * 100) + '% converted', 'rebbe-convert-progress');
+			} else if (msg.type === 'done') {
+				save(msg.blob, 'rebbe-sichos-merged.opus');
+				setStatus('Merged Opus ready - ' + msg.converted + ' of ' + msg.total + ' files converted and combined (' + Math.round(msg.totalSeconds) + ' seconds' + (msg.skipped ? ', ' + msg.skipped + ' skipped' : '') + (msg.resumed ? ', resumed from progress saved on this device' : '') + ', native media encoder in a background worker, converted in your browser).');
+				notifyUser(manifest.title, 'Merged file ready - tap to open the page and save it', 'rebbe-convert-done');
+				worker.postMessage({ type: 'ack-saved', key });
+				finish(resolveRun, 'done', 500);
+			} else if (msg.type === 'declined') {
+				workerDeclineReason = msg.reason || '';
+				finish(resolveRun, 'declined');
+			} else if (msg.type === 'cancelled') {
+				finish(rejectRun, new Error('Conversion cancelled.'));
+			} else if (msg.type === 'error') {
+				notifyUser(manifest.title, 'Conversion hit a problem: ' + msg.message, 'rebbe-convert-error');
+				finish(rejectRun, new Error(msg.message));
+			}
+		};
+		worker.postMessage({ type: 'start', files: manifest.files, key, title: manifest.title });
+	});
+}
+
+/** Assembles and saves a merged file a previous visit already completed. */
+async function assembleReadyFile() {
+	const btn = document.getElementById('btn-ready');
+	btn.disabled = true;
+	try {
+		const key = bundleKey();
+		const blob = await new Promise((resolveP, rejectP) => {
+			const w = new Worker(BASE + '/bundle/worker.js');
+			const to = setTimeout(() => { try { w.terminate(); } catch (e) {} rejectP(new Error('The stored conversion could not be assembled in time.')); }, 120000);
+			w.onmessage = e => {
+				const m = e.data || {};
+				if (m.type === 'done') {
+					clearTimeout(to);
+					w.postMessage({ type: 'ack-saved', key });
+					setTimeout(() => { try { w.terminate(); } catch (err) {} }, 500);
+					resolveP(m.blob);
+				} else if (m.type === 'error') {
+					clearTimeout(to);
+					try { w.terminate(); } catch (err) {}
+					rejectP(new Error(m.message));
+				}
+			};
+			w.onerror = () => { clearTimeout(to); rejectP(new Error('Conversion worker failed to start.')); };
+			w.postMessage({ type: 'assemble', key, total: manifest.files.length });
+		});
+		save(blob, 'rebbe-sichos-merged.opus');
+		setStatus('Merged Opus ready - assembled from the conversion saved on this device.');
+		btn.style.display = 'none';
+		bgState.resume = null;
+	} catch (e) { showFailure(e.message); }
+	btn.disabled = false;
+}
+
+/**
+ * Conversion dispatcher: the native WebCodecs Opus path first, running
+ * in the background worker (near-instant, fully in the browser,
+ * resumable), the async lamejs MP3 path only when the browser has no
+ * WebCodecs Opus encoder or the worker declines this bundle's formats -
+ * the user always sees which file they are getting (Opus vs MP3) in the
+ * status line and the saved filename. The chosen engine and the
+ * background state are published on window.__rebbeConvert so the page's
  * behavior is observable (support probes, browser tests, support).
  */
 async function convertMergedAudio(getBlob) {
@@ -922,21 +649,16 @@ async function convertMergedAudio(getBlob) {
 		engine: support.opusEncode ? 'webcodecs-opus' : 'lamejs',
 		reason: support.reason || '',
 		webCodecs: support,
+		background: bgState,
 		startedAt: new Date().toISOString()
 	};
 	if (support.opusEncode) {
-		try {
-			await convertWithWebCodecsOpus(getBlob, support);
-			window.__rebbeConvert.done = true;
-			return;
-		} catch (e) {
-			if (e instanceof FallbackEngine) {
-				window.__rebbeConvert.engine = 'lamejs';
-				window.__rebbeConvert.reason = 'media-encoder path declined: ' + e.message;
-				setStatus('The native media encoder cannot take this bundle (' + e.message + ') - switching to the built-in MP3 converter...');
-				await yieldToUi();
-			} else throw e;
-		}
+		const outcome = await runWorkerConversion();
+		if (outcome === 'done') { window.__rebbeConvert.done = true; return; }
+		window.__rebbeConvert.engine = 'lamejs';
+		window.__rebbeConvert.reason = 'media-encoder worker declined: ' + workerDeclineReason;
+		setStatus('The background media-encoder conversion cannot take this bundle (' + workerDeclineReason + ') - switching to the built-in MP3 converter...');
+		await yieldToUi();
 	}
 	await convertWithLamejs(getBlob);
 	window.__rebbeConvert.done = true;
@@ -1058,7 +780,17 @@ function floatTo16(data, off, end) {
 	return out;
 }
 
-document.getElementById('btn-skip').addEventListener('click', () => { skipRequested = true; });
+document.getElementById('btn-skip').addEventListener('click', () => {
+	if (workerRun) workerRun.worker.postMessage({ type: 'skip' });
+	else skipRequested = true;
+});
+document.getElementById('btn-resume').addEventListener('click', () => { mergeFromGesture = true; maybeRequestNotifications(); downloadMerge(); });
+document.getElementById('btn-ready').addEventListener('click', assembleReadyFile);
+document.getElementById('btn-notify').addEventListener('click', async () => {
+	mergeFromGesture = true;
+	await maybeRequestNotifications();
+	if (bgState.notifications !== 'default') document.getElementById('btn-notify').style.display = 'none';
+});
 document.getElementById('btn-retry').addEventListener('click', () => {
 	document.getElementById('btn-retry').style.display = 'none';
 	if (lastAction) lastAction();

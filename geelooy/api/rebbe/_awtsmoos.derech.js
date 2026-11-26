@@ -13,6 +13,8 @@ const { tracksForEvent } = require("./lib/archive.js");
 const { normalizeQuery, searchEvents, serializeEvent } = require("./lib/search.js");
 const { createBundleId, buildManifest, bundleLinks } = require("./lib/bundle.js");
 const { bundlePage, docsPage } = require("./lib/page.js");
+const { CONVERT_WORKER_JS } = require("./lib/convert-worker.js");
+const { SERVICE_WORKER_JS } = require("./lib/service-worker.js");
 const { API_VERSION, applyPublicHeaders, runJson, errorResponse } = require("./lib/response.js");
 
 const BASE = "/api/rebbe";
@@ -29,7 +31,7 @@ function descriptor() {
 			"GET /api/rebbe/event": "Params: bucket (Archive.org item) or year, plus folder. Returns the event and its tracks with downloadUrl, size, duration, md5.",
 			"GET|POST /api/rebbe/bundle": "Same search params + optional title. Returns {bundleId,pageUrl,zipUrl,mergeUrl,manifestUrl,eventCount,trackCount,totalBytes,truncated}.",
 			"GET /api/rebbe/bundle/data": "?id= — full bundle manifest JSON (events, files, totals).",
-			"GET /api/rebbe/bundle/page": "?id= — human bundle page; ZIP and merged audio are assembled in the browser from the original files. &action=merge|zip focuses that action.",
+			"GET /api/rebbe/bundle/page": "?id= — human bundle page; ZIP and merged audio are assembled in the browser from the original files. &action=merge|zip focuses that action. Conversion runs in a background worker (/api/rebbe/bundle/worker.js) with a wake lock, per-track OPFS persistence for resume, and service-worker notifications (/api/rebbe/sw.js).",
 			"GET /api/rebbe/bundle/zip": "?id= \u2014 legacy link: 302 redirect to the bundle page, which assembles the ZIP in the user's browser. The server does no downloading.",
 			"GET /api/rebbe/bundle/merge": "?id= \u2014 legacy link: 302 redirect to the bundle page with action=merge, which assembles the merged audio in the user's browser. The server does no downloading.",
 			"GET /api/rebbe/options": "Years, months and days known to the archive.",
@@ -141,6 +143,17 @@ function htmlRoute(info, render) {
 	return { mimeType: "text/html", response: render(BASE) };
 }
 
+/**
+ * JavaScript asset route helper (conversion worker, service worker).
+ * Served uncached-by-default so a deploy takes effect on the next page
+ * load: a stale conversion worker would silently keep old behavior.
+ */
+function jsRoute(info, source) {
+	applyPublicHeaders(info, 0);
+	info.setHeader("Cache-Control", "no-cache");
+	return { mimeType: "text/javascript", response: source };
+}
+
 /** Mounts the complete public Rebbe sichos API beneath the owning derech. */
 async function dynamicRoutes(info) {
 	await info.use({
@@ -169,6 +182,8 @@ async function dynamicRoutes(info) {
 			return { bundle: await buildManifest(params.id, BASE) };
 		}),
 		"/bundle/page": async () => htmlRoute(info, bundlePage),
+		"/bundle/worker.js": async () => jsRoute(info, CONVERT_WORKER_JS),
+		"/sw.js": async () => jsRoute(info, SERVICE_WORKER_JS),
 		"/bundle/zip": async () => pageRedirectRoute(info),
 		"/bundle/merge": async () => pageRedirectRoute(info, "merge")
 	});
