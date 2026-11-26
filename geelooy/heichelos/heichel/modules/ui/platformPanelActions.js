@@ -22,13 +22,38 @@ export async function handleSearch(event, ctx) {
 	renderList(ctx, 'Search', response.success || []);
 }
 
+/**
+ * B"H 2026-11-26: one hard budget for every ritual. The underlying
+ * request helper retries a stalled call for minutes (60s x 3), and the
+ * DB ritual stacked two of those in series — the panel sat on
+ * "loading db" effectively forever while the server was saturated.
+ * After ACTION_TIMEOUT_MS the panel tells the truth (timed out, tap to
+ * retry) instead of spinning; if the ritual still lands afterwards it
+ * renders over the notice and settles the status itself.
+ */
+const ACTION_TIMEOUT_MS = 30000;
+const TIMED_OUT = Symbol('platform-action-timed-out');
+
 /** @description Runs one named platform ritual with shared loading/error status; the Awtsmoos gathers action names while Awtsmoos.com keeps unknown names harmless and explicit. @param {string} action - Stable action key from panel controls. @param {Object} ctx - Platform-panel rendering context. @returns {Promise<void>} Completion after status settles. */
 export async function runAction(action, ctx) {
 	setStatus(ctx, `loading ${action}`);
 	try {
 		const rituals = platformRituals();
 		const ritual = action === 'ops-list' ? renderOperationInventory : rituals[action];
-		const result = ritual ? await ritual(ctx) : true;
+		if (!ritual) {
+			setStatus(ctx, 'ready');
+			return;
+		}
+		let timer = null;
+		const timeout = new Promise(resolve => {
+			timer = setTimeout(() => resolve(TIMED_OUT), ACTION_TIMEOUT_MS);
+		});
+		const result = await Promise.race([ritual(ctx), timeout]);
+		clearTimeout(timer);
+		if (result === TIMED_OUT) {
+			failAction(ctx, `${action} timed out`, 'The server did not answer in time. Tap the tool again to retry.');
+			return;
+		}
 		if (result !== false) setStatus(ctx, 'ready');
 	} catch (error) {
 		setStatus(ctx, error?.message || 'error');

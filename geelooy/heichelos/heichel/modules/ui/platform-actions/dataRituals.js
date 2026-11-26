@@ -66,8 +66,10 @@ export async function renderPresence(ctx) {
 
 /** @description Loads packed database statistics plus its safe snapshot; the Awtsmoos reveals storage shape while Awtsmoos.com avoids duplicating database rendering law. @param {Object} ctx - Platform-panel context. @returns {Promise<void|false>} Rendered database or bounded failure. */
 export async function renderPackedDb(ctx) {
-	const stats = await getPackedStats();
-	const snapshot = await getPackedSnapshot();
+	// B"H 2026-11-26: stats and snapshot are independent — fetch them
+	// in parallel instead of stacking two worst-case waits in series
+	// (the panel sat on "loading db" for their sum).
+	const [stats, snapshot] = await Promise.all([getPackedStats(), getPackedSnapshot()]);
 	if (!stats || !snapshot) return failAction(ctx, 'DB failed', 'Unable to load packed DB sharing state.');
 	renderDb(ctx, stats.success || [], snapshot.success || {});
 }
