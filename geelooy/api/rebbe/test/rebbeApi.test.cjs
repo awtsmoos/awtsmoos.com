@@ -7,6 +7,7 @@ const assert = require("node:assert/strict");
 const { normalizeQuery } = require("../lib/search.js");
 const { createBundleId, decodeBundleId, makeStoredZip } = require("../lib/bundle.js");
 const { joinMp3Buffers } = require("../lib/mp3join.js");
+const { bundlePage } = require("../lib/page.js");
 
 /** Builds one synthetic MPEG1 Layer III frame: 64 kbps, 48000 Hz, 192 bytes. */
 function syntheticFrame() {
@@ -76,4 +77,15 @@ test("makeStoredZip produces a parseable stored zip", () => {
 	assert.equal(end.readUInt16LE(10), 2);
 	assert.ok(zip.includes(Buffer.from("hello")));
 	assert.ok(zip.includes(Buffer.from("a/one.mp3")));
+});
+
+test("bundle page has no WAV option and converts to MP3 in the browser", () => {
+	const html = bundlePage("/api/rebbe");
+	assert.ok(!html.includes("btn-wav"), "WAV button must be gone");
+	assert.ok(!html.includes("merged WAV"), "WAV wording must be gone");
+	assert.ok(!html.includes("downloadWav"), "WAV handler must be gone");
+	assert.ok(html.includes("convertToMp3"), "MP3 conversion path must exist");
+	assert.ok(html.includes("Mp3Encoder"), "lamejs encoder must be wired");
+	assert.ok(html.includes("sniffIsMp3"), "byte sniffing must decide join vs convert");
+	assert.ok(!/<script[^>]*lame/.test(html), "encoder must load lazily, not via a script tag");
 });

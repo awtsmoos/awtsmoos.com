@@ -7,18 +7,18 @@
  * Bundles are stateless, self-describing vessels: the bundle id is a
  * base64url encoding of the normalized search request, so any bundle link
  * an agent hands to a user works forever with no server-side storage.
- * The manifest re-runs the search and expands every event into its tracks;
- * the server ZIP route assembles the same manifest into one stored ZIP
- * (MP3 does not compress, matching the front end's own zip-store writer).
+ * The manifest re-runs the search and expands every event into its tracks.
+ * The server NEVER downloads the audio: the bundle page assembles the ZIP
+ * and the merged MP3 in the user's own browser, fetching the
+ * originals straight from Archive.org (Hai's ruling, 2026-11-26). The old
+ * server ZIP / merge routes only redirect to that page.
  */
 
 const { normalizeQuery, searchEvents, serializeEvent, eventKey } = require("./search.js");
-const { tracksForEvent, fetchBuffer, strictEncode } = require("./archive.js");
+const { tracksForEvent } = require("./archive.js");
 
-/** Hard caps: bundles stay honest instead of silently truncating. */
+/** Hard cap: bundles stay honest instead of silently truncating. */
 const MAX_BUNDLE_EVENTS = 120;
-const MAX_ZIP_TRACKS = 300;
-const MAX_ZIP_BYTES = 400 * 1024 * 1024;
 
 /**
  * Creates a bundle id from raw search params.
@@ -137,95 +137,27 @@ async function buildManifest(id, base) {
 	};
 }
 
-/** All public links for one bundle id. */
+/**
+ * All public links for one bundle id. Every download link lands on the
+ * bundle page: the page is THE download link, and the ZIP and the merged
+ * MP3 are both assembled there in the user's browser.
+ * zipUrl and mergeUrl simply focus the page on that action; there is no
+ * server download URL anymore (the legacy /bundle/zip and /bundle/merge
+ * routes only 302-redirect to this page).
+ */
 function bundleLinks(id, base) {
 	const q = `id=${encodeURIComponent(id)}`;
 	return {
 		pageUrl: `${base}/bundle/page?${q}`,
-		zipUrl: `${base}/bundle/zip?${q}`,
+		zipUrl: `${base}/bundle/page?${q}&action=zip`,
 		mergeUrl: `${base}/bundle/page?${q}&action=merge`,
-		mergeDownloadUrl: `${base}/bundle/merge?${q}`,
 		manifestUrl: `${base}/bundle/data?${q}`
 	};
-}
-
-/**
- * Assembles the bundle as one merged MP3 on the server: every file is
- * fetched, then frames are joined losslessly by the tolerant joiner
- * (lib/mp3join.js), which resyncs past isolated corrupt headers that the
- * front end's strict joiner rejects outright.
- * @param {object} manifest Manifest from buildManifest.
- * @returns {Promise<{buffer: Buffer, profile: string, frameCount: number, skippedBytes: number}>}
- * @throws {Error} 413 over caps; 422 when a segment is not MP3 or profiles differ.
- */
-async function buildMergedBuffer(manifest) {
-	if (manifest.trackCount > MAX_ZIP_TRACKS || manifest.totalBytes > MAX_ZIP_BYTES) {
-		const err = new Error(
-			`Bundle is ${manifest.trackCount} files / ${manifest.totalBytes} bytes; ` +
-			`server merge is capped at ${MAX_ZIP_TRACKS} files / ${MAX_ZIP_BYTES} bytes. ` +
-			`Use the bundle page: ${manifest.links.pageUrl}`
-		);
-		err.status = 413;
-		err.code = "BUNDLE_TOO_LARGE_FOR_SERVER_MERGE";
-		throw err;
-	}
-	const { joinMp3Buffers } = require("./mp3join.js");
-	const segments = [];
-	for (const file of manifest.files) {
-		let data = null;
-		let lastError = null;
-		for (const url of [file.directUrl, file.downloadUrl].filter(Boolean)) {
-			try { data = await fetchBuffer(url); break; } catch (error) { lastError = error; }
-		}
-		if (!data) throw lastError || new Error(`Could not fetch ${file.entryName}`);
-		segments.push(data);
-	}
-	return joinMp3Buffers(segments);
 }
 
 /** Filesystem-safe folder name for ZIP entries. */
 function safeFolder(name) {
 	return String(name || "event").replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim().slice(0, 140) || "event";
-}
-
-/**
- * Assembles the bundle ZIP on the server (stored, no compression).
- * @param {object} manifest Manifest from buildManifest.
- * @returns {Promise<Buffer>} ZIP bytes.
- * @throws {Error} With .status 413 when the bundle exceeds server ZIP caps.
- */
-async function buildZipBuffer(manifest) {
-	if (manifest.trackCount > MAX_ZIP_TRACKS || manifest.totalBytes > MAX_ZIP_BYTES) {
-		const err = new Error(
-			`Bundle is ${manifest.trackCount} files / ${manifest.totalBytes} bytes; ` +
-			`server ZIP is capped at ${MAX_ZIP_TRACKS} files / ${MAX_ZIP_BYTES} bytes. ` +
-			`Use the bundle page, which zips in the browser: ${manifest.links.pageUrl}`
-		);
-		err.status = 413;
-		err.code = "BUNDLE_TOO_LARGE_FOR_SERVER_ZIP";
-		throw err;
-	}
-	const entries = [];
-	entries.push({
-		name: "manifest.json",
-		data: Buffer.from(JSON.stringify({
-			title: manifest.title,
-			generatedAt: new Date().toISOString(),
-			eventCount: manifest.eventCount,
-			trackCount: manifest.trackCount,
-			files: manifest.files.map(f => ({ name: f.entryName, event: f.eventTitle, size: f.size, source: f.downloadUrl }))
-		}, null, 2), "utf8")
-	});
-	for (const file of manifest.files) {
-		let data = null;
-		let lastError = null;
-		for (const url of [file.directUrl, file.downloadUrl].filter(Boolean)) {
-			try { data = await fetchBuffer(url); break; } catch (error) { lastError = error; }
-		}
-		if (!data) throw lastError || new Error(`Could not fetch ${file.entryName}`);
-		entries.push({ name: file.entryName, data });
-	}
-	return makeStoredZip(entries);
 }
 
 /** Minimal stored-ZIP writer (Node port of the front end's zip-store). */
@@ -283,13 +215,9 @@ function crc32(buffer) {
 
 module.exports = {
 	MAX_BUNDLE_EVENTS,
-	MAX_ZIP_TRACKS,
-	MAX_ZIP_BYTES,
 	createBundleId,
 	decodeBundleId,
 	buildManifest,
 	bundleLinks,
-	buildZipBuffer,
-	buildMergedBuffer,
 	makeStoredZip
 };

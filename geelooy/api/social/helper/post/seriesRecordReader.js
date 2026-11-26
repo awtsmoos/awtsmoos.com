@@ -10,6 +10,7 @@
  */
 
 const MAX_PARALLEL_READS = 6;
+const YIELD_EVERY = 24;
 
 /** Returns the canonical series-post collection path for one Heichel. */
 function postsPath(heichelId, seriesId) {
@@ -142,12 +143,23 @@ async function readRecordsByIds(context, postIds, existing = []) {
 	const ids = [...new Set((postIds || []).map(String))];
 	const records = new Array(ids.length);
 	let cursor = 0;
+	let completed = 0;
 	async function worker() {
 		while (cursor < ids.length) {
 			const index = cursor++;
 			const postId = ids[index];
 			const existingRecord = byId.get(postId);
 			records[index] = existingRecord || await readSeriesPost(context, postId);
+			completed += 1;
+			// B"H run 5 (2026-11-26): every record read can end in a large
+			// synchronous parse inside the database layer; without a breath,
+			// a 2,073-record cold fill starved every neighboring request
+			// (measured: a heichel shell hit stalled 17s). Yielding to the
+			// event loop every YIELD_EVERY completions keeps the fill fast
+			// while letting the rest of the site live between bursts.
+			if (completed % YIELD_EVERY === 0) {
+				await new Promise(resolve => setImmediate(resolve));
+			}
 		}
 	}
 	const workers = Math.min(MAX_PARALLEL_READS, ids.length);
@@ -157,6 +169,7 @@ async function readRecordsByIds(context, postIds, existing = []) {
 
 module.exports = {
 	MAX_PARALLEL_READS,
+	YIELD_EVERY,
 	fillImportedFields,
 	missingPost,
 	postsPath,

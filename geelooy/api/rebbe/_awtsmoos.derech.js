@@ -11,7 +11,7 @@
 const { MONTHS, yearList } = require("./lib/catalog.js");
 const { tracksForEvent } = require("./lib/archive.js");
 const { normalizeQuery, searchEvents, serializeEvent } = require("./lib/search.js");
-const { createBundleId, buildManifest, bundleLinks, buildZipBuffer, buildMergedBuffer } = require("./lib/bundle.js");
+const { createBundleId, buildManifest, bundleLinks } = require("./lib/bundle.js");
 const { bundlePage, docsPage } = require("./lib/page.js");
 const { API_VERSION, applyPublicHeaders, runJson, errorResponse } = require("./lib/response.js");
 
@@ -22,7 +22,7 @@ function descriptor() {
 	return {
 		name: "Awtsmoos Rebbe Sichos Search API",
 		version: API_VERSION,
-		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links (browser ZIP / merged MP3 page, or direct server ZIP) to hand to end users.",
+		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links to hand to end users \u2014 the bundle page is the download link: ZIP and merged MP3 are all assembled in the user's browser from the original Archive.org files, and the server never downloads the audio.",
 		frontend: "/apps/rebbe/",
 		endpoints: {
 			"GET /api/rebbe/search": "Params: month(s), monthFrom/monthTo, day(s), dayFrom/dayTo, year(s), yearFrom/yearTo, q, limit (1-200, default 50), offset, include=tracks. Returns {total,count,limit,offset,hasMore,results}.",
@@ -30,8 +30,8 @@ function descriptor() {
 			"GET|POST /api/rebbe/bundle": "Same search params + optional title. Returns {bundleId,pageUrl,zipUrl,mergeUrl,manifestUrl,eventCount,trackCount,totalBytes,truncated}.",
 			"GET /api/rebbe/bundle/data": "?id= — full bundle manifest JSON (events, files, totals).",
 			"GET /api/rebbe/bundle/page": "?id= — human bundle page; ZIP and merged MP3 are assembled in the browser from the original files. &action=merge|zip focuses that action.",
-			"GET /api/rebbe/bundle/zip": "?id= — direct server-assembled ZIP download (cap: 300 files / 400 MB, else HTTP 413 pointing to the page).",
-			"GET /api/rebbe/bundle/merge": "?id= — direct server-merged MP3 download: lossless frame join tolerant of isolated corrupt headers (cap: 300 files / 400 MB). HTTP 422 when a segment is not really MP3 or MP3 profiles differ — use the ZIP then.",
+			"GET /api/rebbe/bundle/zip": "?id= \u2014 legacy link: 302 redirect to the bundle page, which assembles the ZIP in the user's browser. The server does no downloading.",
+			"GET /api/rebbe/bundle/merge": "?id= \u2014 legacy link: 302 redirect to the bundle page with action=merge, which assembles the merged MP3 in the user's browser. The server does no downloading.",
 			"GET /api/rebbe/options": "Years, months and days known to the archive.",
 			"GET /api/rebbe/health": "Health check.",
 			"GET /api/rebbe/docs": "Human documentation page."
@@ -114,44 +114,25 @@ async function bundleService(params) {
 	};
 }
 
-/** Direct server ZIP download route (binary packet, not runJson). */
-async function zipRoute(info) {
+/**
+ * Legacy download routes: the server does NO heavy work (Hai's ruling,
+ * 2026-11-26). /bundle/zip and /bundle/merge only 302-redirect to the
+ * bundle page, whose browser code fetches the tracks straight from
+ * Archive.org and assembles the ZIP / merged MP3 on the
+ * user's own device. The endpoints stay mounted so every link already
+ * handed out keeps working.
+ */
+function pageRedirectRoute(info, action) {
 	applyPublicHeaders(info, 0);
-	try {
-		const id = (info.$_GET || {}).id || "";
-		const manifest = await buildManifest(id, BASE);
-		const zip = await buildZipBuffer(manifest);
-		info.response.statusCode = 200;
-		info.response.setHeader("Content-Type", "application/zip");
-		info.response.setHeader("Content-Disposition", `attachment; filename="rebbe-sichos-bundle.zip"`);
-		info.response.setHeader("Content-Length", String(zip.length));
-		return { mimeType: "application/zip", response: zip };
-	} catch (error) {
-		if (error && error.status) return errorResponse(error.status, error.code || "INVALID_REQUEST", error.message);
-		console.error("Rebbe API zip error:", error);
-		return errorResponse(500, "INTERNAL_ERROR", "ZIP assembly failed.");
-	}
-}
-
-/** Direct server merged-MP3 download route (binary packet, not runJson). */
-async function mergeRoute(info) {
-	applyPublicHeaders(info, 0);
-	try {
-		const id = (info.$_GET || {}).id || "";
-		const manifest = await buildManifest(id, BASE);
-		const merged = await buildMergedBuffer(manifest);
-		info.response.statusCode = 200;
-		info.response.setHeader("Content-Type", "audio/mpeg");
-		info.response.setHeader("Content-Disposition", `attachment; filename="rebbe-sichos-merged.mp3"`);
-		info.response.setHeader("Content-Length", String(merged.buffer.length));
-		info.response.setHeader("X-Rebbe-Merge-Frames", String(merged.frameCount));
-		info.response.setHeader("X-Rebbe-Merge-Skipped-Bytes", String(merged.skippedBytes));
-		return { mimeType: "audio/mpeg", response: merged.buffer };
-	} catch (error) {
-		if (error && error.status) return errorResponse(error.status, error.code || "INVALID_REQUEST", error.message);
-		console.error("Rebbe API merge error:", error);
-		return errorResponse(500, "INTERNAL_ERROR", "Merge assembly failed.");
-	}
+	const id = (info.$_GET || {}).id || "";
+	const query = id ? `?id=${encodeURIComponent(id)}${action ? `&action=${action}` : ""}` : "";
+	const target = `${BASE}/bundle/page${query}`;
+	return {
+		statusCode: 302,
+		headers: { Location: target, "Cache-Control": "no-store" },
+		mimeType: "text/html",
+		response: `<!DOCTYPE html><html><body><p>Downloads happen in your browser now: <a href="${target}">${target}</a></p></body></html>`
+	};
 }
 
 /** HTML page route helper. */
@@ -188,8 +169,8 @@ async function dynamicRoutes(info) {
 			return { bundle: await buildManifest(params.id, BASE) };
 		}),
 		"/bundle/page": async () => htmlRoute(info, bundlePage),
-		"/bundle/zip": async () => zipRoute(info),
-		"/bundle/merge": async () => mergeRoute(info)
+		"/bundle/zip": async () => pageRedirectRoute(info),
+		"/bundle/merge": async () => pageRedirectRoute(info, "merge")
 	});
 	return null;
 }

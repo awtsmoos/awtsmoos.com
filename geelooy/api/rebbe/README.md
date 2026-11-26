@@ -21,11 +21,9 @@ Base: `/api/rebbe` · No auth · JSON · CORS `*`
   (or `year=` instead of `bucket=`)
 - `GET|POST /api/rebbe/bundle` — create a bundle from search params
 - `GET /api/rebbe/bundle/data?id=` — bundle manifest JSON
-- `GET /api/rebbe/bundle/page?id=` — user page: ZIP + merged MP3 in browser
-- `GET /api/rebbe/bundle/zip?id=` — direct server ZIP (cap 300 files / 400 MB)
-- `GET /api/rebbe/bundle/merge?id=` — direct server merged MP3 (tolerant
-  lossless frame join; 422 when a segment is not really MP3 — some corpus
-  files are Opus misnamed .mp3 — or MP3 profiles differ)
+- `GET /api/rebbe/bundle/page?id=` — THE download page: ZIP + merged MP3, all assembled in the browser
+- `GET /api/rebbe/bundle/zip?id=` — legacy link: 302 redirect to the bundle page (the server does no downloading)
+- `GET /api/rebbe/bundle/merge?id=` — legacy link: 302 redirect to the bundle page with `action=merge`
 
 ## Search params
 
@@ -41,12 +39,17 @@ Example: `/api/rebbe/search?month=3&day=19` — all sichos of 19 Kislev.
 mergeUrl, manifestUrl, eventCount, trackCount, totalBytes, truncated }`.
 Give the user `pageUrl`: ZIP and merged MP3 are assembled **in the browser**
 from the original Archive.org files, reusing the app's own `zip-store.js`
-and lossless MP3 frame join (`mp3-join.js`) — nothing is re-encoded. For
-mixed-format bundles the page also offers a **merged WAV** button (Web
-Audio decode + re-encode), and `mergeDownloadUrl` is a server merged MP3
-whose tolerant frame joiner resyncs past isolated corrupt headers that the
-strict browser joiner rejects. `zipUrl` is the server-assembled fallback
-for smaller bundles. Bundle ids
+and lossless MP3 frame join (`mp3-join.js`) — nothing is re-encoded when
+every file is true MP3. For mixed-format bundles (some files are really
+Opus under an .mp3 name; the page sniffs the actual bytes) the page
+**converts to MP3 in the browser**: Web Audio decodes one track at a time
+into the vendored lamejs encoder (`apps/rebbe/modules/download/lame.min.js`,
+loaded lazily, 128 kbps stereo / 96 kbps mono), so memory stays bounded
+even on many-hour bundles. There is no WAV option. `zipUrl` and
+`mergeUrl` are the same page
+focused on that action; opening one starts that download in the browser.
+The server never downloads the audio — the legacy `/bundle/zip` and
+`/bundle/merge` endpoints only 302-redirect to the page. Bundle ids
 are stateless (the id encodes the search), permanent, and capped honestly
 at 120 events with a `truncated` flag — never silent.
 
