@@ -69,13 +69,24 @@ incl. the 55-file aggregator @import chains resolved from disk)
   exactDupRules 0 (report: css-conflict-report-heichelos.json/.md in this dir).
 - Full social-css-check gate: EXIT 0, zero "not ok" (profile contracts,
   composer journey, tunnel + richSocial suites all passed).
-- End-phase rendered screenshots (390 + 1280, both themes) read by the
-  worker: see 07-deployment-evidence / run report — hero contrast, card
-  grid, search legibility confirmed; "More community spaces" pill renders
-  in the page's ivory/gold language when the grid overflows the featured
-  limit (state-dependent).
+- End-phase rendered screenshots (390 + 1280) read by the worker: hero
+  contrast, card grid, search legibility confirmed in the frames. The
+  "More community spaces" pill sits below the captured frames (it renders
+  only after the featured cards when the grid overflows) — its styling is
+  proven by the rules + class audit above, not by a screenshot.
 
 Files changed: `geelooy/heichelos/heichel-polish-law8.css`,
 `templates/heichelos/discovery-interaction-style.html`, this file + tracer
 reports. NOTE for the single-heichel lane: the two law8 edits touch only
 `.heichelos-discovery-page`-scoped selectors — inert on heichel pages.
+
+## Addendum (end-phase screenshot catch, same run)
+
+The final 390px screenshot showed the hero eyebrow clipped under the fixed
+shell header: the vessel's 6.2rem clearance on `.social-spaces-shell`
+applied only above 761px. Moved into the base rule (all widths); the
+now-redundant media block was deleted. Tracer after: still 0 / 0 / 0,
+83,703 bytes. Also noted in the same shot: the small cyan dot before the
+gold section eyebrows comes from a shell/shared rule (the --g-accent teal
+token), NOT from any file in this surface — no eyebrow/::before rule exists
+in law8 or the vessel; shell lane remainder, named here for them.

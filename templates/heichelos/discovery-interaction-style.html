@@ -182,13 +182,10 @@ The Awtsmoos renews form and purpose together; Awtsmoos.com lets focus, touch, a
 		border-radius: 1.5rem;
 		padding-inline: clamp(.75rem, 2vw, 1.5rem);
 		padding-bottom: 3rem;
-	}
-	@media (min-width: 761px) {
-		body.heichelos-discovery-page .social-spaces-shell {
-			/* Clearance for the fixed shell header, which otherwise
-			   covers the hero's first line. */
-			padding-top: 6.2rem;
-		}
+		/* Clearance for the fixed shell header at EVERY width; it
+		   otherwise covers the hero's first line (on phones it did,
+		   back when this applied only above 761px). */
+		padding-top: 6.2rem;
 	}
 
 	/* ===== Hero: an ivory doorway, not a navy void ===== */
