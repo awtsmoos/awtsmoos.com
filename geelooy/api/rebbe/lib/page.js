@@ -74,6 +74,8 @@ function bundlePage(base) {
 			<button class="btn" id="btn-zip" disabled>Download ZIP (in browser)</button>
 			<button class="btn" id="btn-merge" disabled>Download merged MP3 (in browser)</button>
 			<button class="btn secondary" id="btn-cancel" style="display:none">Cancel conversion</button>
+			<button class="btn secondary" id="btn-skip" style="display:none">Skip this track</button>
+			<button class="btn secondary" id="btn-retry" style="display:none">Retry</button>
 		</div>
 		<div class="progress" id="progress"><div></div></div>
 		<p class="status" id="status"></p>
@@ -93,10 +95,39 @@ const statusEl = document.getElementById('status');
 const progressEl = document.getElementById('progress');
 const barEl = progressEl.querySelector('div');
 let manifest = null;
+let lastAction = null;
 
 function setStatus(text, isError) {
 	statusEl.textContent = text || '';
 	statusEl.className = 'status' + (isError ? ' err' : '');
+}
+/** Surfaces any failure as a visible error with a Retry path - never a frozen status. */
+function showFailure(text) {
+	setStatus(text, true);
+	if (lastAction) document.getElementById('btn-retry').style.display = 'inline-block';
+}
+window.addEventListener('error', e => { if (e && e.message) showFailure('Something went wrong: ' + e.message); });
+window.addEventListener('unhandledrejection', e => {
+	showFailure('Something went wrong: ' + ((e.reason && e.reason.message) || 'unknown error'));
+});
+/** Lets the browser repaint (progress bar, status) during long CPU work. */
+function yieldToUi() { return new Promise(r => setTimeout(r, 0)); }
+/** Rejects if a stage runs longer than ms - a stall becomes an error, not a freeze. */
+function withTimeout(promise, ms, label) {
+	return Promise.race([promise, new Promise((_, reject) =>
+		setTimeout(() => reject(new Error(label + ' timed out after ' + Math.round(ms / 1000) + 's - the device or network may be very slow')), ms))]);
+}
+class SkipTrack extends Error {}
+let skipRequested = false;
+/** Races a stage promise against the Skip / Cancel buttons. */
+function raceInterrupt(promise) {
+	return Promise.race([promise, new Promise((_, reject) => {
+		const iv = setInterval(() => {
+			if (skipRequested) { clearInterval(iv); reject(new SkipTrack('skipped')); }
+			else if (mergeCancelled) { clearInterval(iv); reject(new Error('Conversion cancelled.')); }
+		}, 250);
+		promise.then(() => clearInterval(iv), () => clearInterval(iv));
+	})]);
 }
 function setProgress(done, total, label) {
 	progressEl.style.display = 'block';
@@ -116,18 +147,64 @@ function save(blob, name) {
 	a.remove();
 	setTimeout(() => URL.revokeObjectURL(a.href), 5000);
 }
+const FETCH_IDLE_MS = 60000;
 async function fetchBlob(file, i, total, verb) {
-	setProgress(i, total, verb + ' ' + (i + 1) + ' of ' + total + ': ' + file.name);
 	const urls = [file.directUrl, file.downloadUrl].filter(Boolean);
 	let lastError = null;
 	for (const url of urls) {
-		try {
-			const res = await fetch(url);
-			if (!res.ok) throw new Error('HTTP ' + res.status);
-			return await res.blob();
-		} catch (e) { lastError = e; }
+		try { return await fetchBlobFrom(url, file, i, total, verb); }
+		catch (e) { lastError = e; }
 	}
 	throw new Error('Could not fetch ' + file.name + ' (' + (lastError && lastError.message) + ')');
+}
+/**
+ * Fetches one file with live byte progress and an inactivity watchdog:
+ * if no data arrives for FETCH_IDLE_MS the attempt aborts and the next
+ * URL is tried, so a stalled download surfaces as an error instead of
+ * sitting silent forever.
+ */
+async function fetchBlobFrom(url, file, i, total, verb) {
+	const ctrl = new AbortController();
+	let idle = setTimeout(() => ctrl.abort(), FETCH_IDLE_MS);
+	try {
+		const res = await fetch(url, { signal: ctrl.signal });
+		if (!res.ok) throw new Error('HTTP ' + res.status);
+		if (!res.body || !res.body.getReader) return await res.blob();
+		const reader = res.body.getReader();
+		const parts = [];
+		let received = 0;
+		for (;;) {
+			const { done, value } = await reader.read();
+			if (done) break;
+			clearTimeout(idle); idle = setTimeout(() => ctrl.abort(), FETCH_IDLE_MS);
+			parts.push(value); received += value.length;
+			const frac = file.size ? Math.min(1, received / file.size) : 0;
+			setProgress(i + frac, total, verb + ' ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - ' + fmtBytes(received) + (file.size ? ' of ' + fmtBytes(file.size) : ''));
+			await yieldToUi();
+		}
+		return new Blob(parts);
+	} catch (e) {
+		if (e && e.name === 'AbortError') throw new Error('download stalled (no data for ' + Math.round(FETCH_IDLE_MS / 1000) + 's)');
+		throw e;
+	} finally { clearTimeout(idle); }
+}
+/** Sniffs a file's real format from its first chunk only - no full download. */
+async function sniffFile(file) {
+	const urls = [file.directUrl, file.downloadUrl].filter(Boolean);
+	for (const url of urls) {
+		try {
+			const res = await fetch(url);
+			if (!res.ok) continue;
+			if (res.body && res.body.getReader) {
+				const reader = res.body.getReader();
+				const { value } = await reader.read();
+				try { await reader.cancel(); } catch (e) {}
+				if (value && value.length) return sniffIsMp3(value.subarray(0, 4));
+			}
+			return await blobIsMp3(await res.blob());
+		} catch (e) { /* try the next URL */ }
+	}
+	return false;
 }
 
 async function load() {
@@ -163,6 +240,7 @@ function escapeHtml(s) {
 async function downloadZip() {
 	const btn = document.getElementById('btn-zip');
 	btn.disabled = true;
+	lastAction = downloadZip;
 	try {
 		const { makeZip } = await import('/apps/rebbe/modules/zip-store.js');
 		const files = [];
@@ -173,7 +251,7 @@ async function downloadZip() {
 		setProgress(1, 1, 'Building ZIP…');
 		save(await makeZip(files), 'rebbe-sichos-bundle.zip');
 		setStatus('ZIP ready — ' + files.length + ' files.');
-	} catch (e) { setStatus(e.message, true); }
+	} catch (e) { showFailure(e.message); }
 	btn.disabled = false;
 }
 document.getElementById('btn-zip').addEventListener('click', downloadZip);
@@ -181,37 +259,48 @@ document.getElementById('btn-zip').addEventListener('click', downloadZip);
 async function downloadMerge() {
 	const btn = document.getElementById('btn-merge');
 	btn.disabled = true;
+	lastAction = downloadMerge;
 	mergeCancelled = false;
+	skipRequested = false;
 	try {
-		// Fetch every file once and sniff its real bytes: the lossless join
-		// is used only when EVERY file is truly MP3. Archive metadata lies -
-		// some .mp3 files are actually Ogg/Opus (proven on the 5712 bundle,
-		// whose BH_009 starts with OggS despite its MP3 label).
-		const blobs = [];
+		// Sniff each file's real first bytes cheaply (first chunk only):
+		// the lossless join is used only when EVERY file is truly MP3.
+		// Archive metadata lies - some .mp3 files are actually Ogg/Opus
+		// (proven on the 5712 bundle, whose BH_009 starts with OggS
+		// despite its MP3 label).
 		let allMp3 = manifest.files.every(f => f.format === 'mp3');
-		for (let i = 0; i < manifest.files.length; i++) {
-			const blob = await fetchBlob(manifest.files[i], i, manifest.files.length, 'Fetching for merge');
-			if (allMp3 && !(await blobIsMp3(blob))) allMp3 = false;
-			blobs.push(blob);
-		}
-		let joined = null;
 		if (allMp3) {
+			for (let i = 0; i < manifest.files.length; i++) {
+				setProgress(i, manifest.files.length, 'Checking file formats ' + (i + 1) + ' of ' + manifest.files.length + ': ' + manifest.files[i].name);
+				if (!(await sniffFile(manifest.files[i]))) { allMp3 = false; break; }
+			}
+		}
+		if (allMp3) {
+			const blobs = [];
+			for (let i = 0; i < manifest.files.length; i++) {
+				blobs.push(await fetchBlob(manifest.files[i], i, manifest.files.length, 'Fetching for merge'));
+			}
+			let joined = null;
 			try {
 				const { joinMp3Blobs } = await import('/apps/rebbe/modules/download/farbrengen/mp3-join.js');
 				setProgress(1, 1, 'Joining MP3 frames (lossless, no re-encoding)...');
-				joined = await joinMp3Blobs(blobs);
+				joined = await withTimeout(joinMp3Blobs(blobs), 120000, 'Lossless join');
 			} catch (joinError) {
 				setStatus('Lossless join not possible for these files (' + joinError.message + ') - converting to MP3 instead...');
 				joined = null;
 			}
-		}
-		if (joined) {
-			save(joined, 'rebbe-sichos-merged.mp3');
-			setStatus('Merged MP3 ready - ' + blobs.length + ' files joined losslessly.');
+			if (joined) {
+				save(joined, 'rebbe-sichos-merged.mp3');
+				setStatus('Merged MP3 ready - ' + blobs.length + ' files joined losslessly.');
+			} else {
+				await convertToMp3(async i => blobs[i]);
+			}
 		} else {
-			await convertToMp3(blobs);
+			// Stream the conversion: fetch each track only when its turn
+			// comes, so a many-hour bundle never sits fully in memory.
+			await convertToMp3(async i => await fetchBlob(manifest.files[i], i, manifest.files.length, 'Fetching for conversion'));
 		}
-	} catch (e) { setStatus('Browser merge failed: ' + e.message + ' - the ZIP always keeps every original file unchanged.', true); }
+	} catch (e) { showFailure('Browser merge failed: ' + e.message + ' - the ZIP always keeps every original file unchanged.'); }
 	btn.disabled = false;
 }
 document.getElementById('btn-merge').addEventListener('click', downloadMerge);
@@ -258,55 +347,94 @@ function loadMp3Encoder() {
  * buffer and crashed the page on long bundles - Hai's ruling,
  * 2026-11-26: convert to MP3 in the browser instead.)
  */
-async function convertToMp3(blobs) {
-	const lamejs = await loadMp3Encoder();
+async function convertToMp3(getBlob) {
+	const lamejs = await withTimeout(loadMp3Encoder(), 30000, 'MP3 encoder load');
 	const cancelBtn = document.getElementById('btn-cancel');
+	const skipBtn = document.getElementById('btn-skip');
 	cancelBtn.style.display = 'inline-block';
+	skipBtn.style.display = 'inline-block';
 	const decodeCtx = new OfflineAudioContext(1, 1, 44100);
 	const chunks = [];
 	let encoder = null;
 	let channels = 2;
 	let totalSeconds = 0;
+	let encodedBytes = 0;
+	let skipped = 0;
+	const total = manifest.files.length;
 	try {
-		for (let i = 0; i < blobs.length; i++) {
+		for (let i = 0; i < total; i++) {
 			if (mergeCancelled) throw new Error('Conversion cancelled.');
+			skipRequested = false;
 			const file = manifest.files[i];
-			setProgress(i, blobs.length, 'Converting ' + (i + 1) + ' of ' + blobs.length + ': ' + file.name);
-			let buffer = await decodeCtx.decodeAudioData(await blobs[i].arrayBuffer());
-			blobs[i] = null; // release the compressed blob before encoding
-			if (!encoder) {
-				channels = Math.min(2, Math.max(1, buffer.numberOfChannels));
-				encoder = new lamejs.Mp3Encoder(channels, buffer.sampleRate, channels === 2 ? 128 : 96);
+			try {
+				const blob = await raceInterrupt(Promise.resolve(getBlob(i)));
+				setProgress(i, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - decoding...');
+				let buffer = await raceInterrupt(withTimeout(
+					decodeCtx.decodeAudioData(await blob.arrayBuffer()), 180000, 'Decoding ' + file.name));
+				if (!encoder) {
+					channels = Math.min(2, Math.max(1, buffer.numberOfChannels));
+					encoder = new lamejs.Mp3Encoder(channels, buffer.sampleRate, channels === 2 ? 128 : 96);
+				}
+				const before = encodedBytes;
+				encodedBytes += await encodeTrack(encoder, buffer, channels, chunks, (frac, trackBytes) => {
+					setProgress(i + frac, total, 'Converting ' + (i + 1) + ' of ' + total + ': ' + file.name + ' - ' + Math.round(frac * 100) + '% - MP3 so far ' + fmtBytes(before + trackBytes));
+				});
+				totalSeconds += buffer.duration;
+				buffer = null; // release the decoded PCM before the next track
+			} catch (trackError) {
+				if (trackError instanceof SkipTrack) {
+					skipped++;
+					setStatus('Skipped ' + file.name + ' - continuing with the next track...');
+					await yieldToUi();
+					continue;
+				}
+				throw trackError;
 			}
-			encodeTrack(encoder, buffer, channels, chunks);
-			totalSeconds += buffer.duration;
-			buffer = null; // release the decoded PCM before the next track
 		}
 		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		if (!encoder) throw new Error('Every track was skipped - nothing to save.');
 		setProgress(1, 1, 'Finishing MP3...');
 		const tail = encoder.flush();
-		if (tail.length) chunks.push(new Blob([tail]));
+		if (tail.length) { chunks.push(new Blob([tail])); encodedBytes += tail.length; }
 		save(new Blob(chunks, { type: 'audio/mpeg' }), 'rebbe-sichos-merged.mp3');
-		setStatus('Merged MP3 ready - ' + manifest.files.length + ' files converted and combined (' + Math.round(totalSeconds) + ' seconds).');
+		setStatus('Merged MP3 ready - ' + (total - skipped) + ' of ' + total + ' files converted and combined (' + Math.round(totalSeconds) + ' seconds' + (skipped ? ', ' + skipped + ' skipped' : '') + ').');
 	} finally {
 		cancelBtn.style.display = 'none';
+		skipBtn.style.display = 'none';
 	}
 }
 
-/** Encodes one decoded AudioBuffer into the shared encoder, in small blocks. */
-function encodeTrack(encoder, buffer, channels, chunks) {
+/**
+ * Encodes one decoded AudioBuffer into the shared encoder, in small
+ * blocks. ASYNC on purpose: it yields to the browser every ~200ms and
+ * reports progress per block-group. The previous synchronous version
+ * blocked the main thread for the whole track (~2 minutes for a
+ * 10-minute track on a busy CPU), so the status and progress bar froze
+ * on "Converting 1 of N" and the page looked dead - Hai's bug report,
+ * 2026-11-26, proven by CDP trace (decode 7s, then 114s of solid
+ * main-thread encode with Runtime.evaluate timing out).
+ */
+async function encodeTrack(encoder, buffer, channels, chunks, onProgress) {
 	const left = buffer.getChannelData(0);
 	const right = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : left;
 	const BLOCK = 1152 * 32;
+	let bytes = 0;
+	let lastYield = performance.now();
+	let lastReport = 0;
 	for (let off = 0; off < left.length; off += BLOCK) {
 		if (mergeCancelled) throw new Error('Conversion cancelled.');
+		if (skipRequested) throw new SkipTrack('skipped');
 		const end = Math.min(off + BLOCK, left.length);
 		const l16 = floatTo16(left, off, end);
 		let data;
 		if (channels === 2) data = encoder.encodeBuffer(l16, floatTo16(right, off, end));
 		else data = encoder.encodeBuffer(l16);
-		if (data.length) chunks.push(new Blob([data]));
+		if (data.length) { chunks.push(new Blob([data])); bytes += data.length; }
+		const frac = end / left.length;
+		if (onProgress && (frac - lastReport >= 0.01 || frac === 1)) { lastReport = frac; onProgress(frac, bytes); }
+		if (performance.now() - lastYield > 200) { await yieldToUi(); lastYield = performance.now(); }
 	}
+	return bytes;
 }
 
 /** Converts a slice of Float32 samples to Int16 PCM. */
@@ -318,6 +446,12 @@ function floatTo16(data, off, end) {
 	}
 	return out;
 }
+
+document.getElementById('btn-skip').addEventListener('click', () => { skipRequested = true; });
+document.getElementById('btn-retry').addEventListener('click', () => {
+	document.getElementById('btn-retry').style.display = 'none';
+	if (lastAction) lastAction();
+});
 
 load();
 </script>

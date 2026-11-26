@@ -1,0 +1,36 @@
+/* B"H — Boruch Hashem — Blessed is He.
+ * Awtsmoos.com gives every thought a quiet canvas. */
+.quick-post-ready[data-composer-mode="simple"] .contentPanel > summary {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] .contentPanel > .majorPanelBody {
+	display:flex!important;flex-direction:column;gap:10px!important;padding:16px!important;background:#fff!important;
+}
+.quick-post-ready[data-composer-mode="simple"] .contentPanel .majorPanelBody > :is(.sectionHeading,h3,#titleHelp,.quick-optional,.structured-verses-panel) {
+	display:none!important;
+}
+.quick-post-ready[data-composer-mode="simple"] .composer-mobile-identity {
+	display:flex!important;align-items:center;width:100%;background:#fff!important;color:#18202c;border:0;box-shadow:none;text-align:left;padding:6px 0;
+}
+.quick-post-ready[data-composer-mode="simple"] .composer-mobile-avatar {
+	background:#e8edf5;color:#334e72;border-radius:50%;width:44px;height:44px;display:grid;place-items:center;
+}
+.quick-post-ready[data-composer-mode="simple"] .composer-mobile-identity-copy small {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] .composer-mobile-identity-copy strong {color:#18202c;font-size:1.05rem}
+.quick-post-ready[data-composer-mode="simple"] .quick-post-bar {display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.quick-post-ready[data-composer-mode="simple"] .quick-destination {
+	border:1px solid #e1e5eb;border-radius:999px;background:#fff;color:#334e72;padding:8px 14px;min-height:42px;max-width:100%;overflow-wrap:anywhere;font-size:.9rem;
+}
+.quick-post-ready[data-composer-mode="simple"] label[for="title"] {font-size:0;gap:0;margin:0}
+.quick-post-ready[data-composer-mode="simple"] #title {
+	border:0!important;border-bottom:1px solid #edf0f3!important;border-radius:0!important;background:#fff!important;color:#18202c!important;padding:10px 0!important;font:650 1.18rem/1.4 system-ui!important;box-shadow:none!important;
+}
+.quick-post-ready[data-composer-mode="simple"] #rootBlocks {border:0!important;padding:0!important;background:transparent!important;box-shadow:none!important}
+.quick-post-ready[data-composer-mode="simple"] #rootBlocks.quick-single-block > button {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] #rootBlocks.quick-single-block .blockEditor {
+	border:0!important;background:transparent!important;padding:0!important;box-shadow:none!important;
+}
+.quick-post-ready[data-composer-mode="simple"] #rootBlocks.quick-single-block .blockEditor > :not(textarea) {display:none!important}
+.quick-post-ready[data-composer-mode="simple"] #rootBlocks.quick-single-block textarea {
+	width:100%;min-height:clamp(180px,34dvh,380px)!important;background:#fff!important;color:#18202c!important;border:0!important;box-shadow:none!important;resize:vertical;font:400 1.12rem/1.55 system-ui!important;padding:8px 0!important;
+}
+.quick-post-ready[data-composer-mode="simple"] :is(#title,#rootBlocks textarea)::placeholder {color:#66717e!important;opacity:1}
+.quick-post-ready[data-composer-mode="simple"] :is(#title,#rootBlocks textarea):focus-visible {outline:2px solid #2765db;outline-offset:2px}

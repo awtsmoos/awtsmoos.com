@@ -38,3 +38,50 @@ MUSIC HIERARCHY (read-only): GET /api/social/aliases/coby -> {"name":"Coby"}; GE
 - FULL GATE: `bash scripts/production/social-css-check.sh` **EXIT 0** — canonical 3/3, workflow 9/9, profile contracts ×4 (repair cascade in-tree form, drawer, cardHierarchyV4, socialUxV4), CSS isolation, library search, audio playback, composer suites (schemaParity, aliasMemory, publicationPlan, quickDestination ×2, quickRefinement), quickBrowserJourney PASS (audio upload, effect metadata, review, canonical redirect — the run-3 load casualty now passes), tunnel ingress 4/4, richSocial 6/6 incl. visualizerRoundTrip.
 - Latency: series shell TTFB local 0.068–0.082s / public 0.12–0.37s; encyclopedia posts/details cold 13.55s (295KB) → warm 0.044s; ikar series list 7.11s / 12.9MB; one heichel shell hit 17.09s under load 8.9 (loop stall), repeats 0.073s.
 - Screenshots v3 (~/workspace/awtsmoos-social-screenshots/v3/, read by the run-4 agent): ohrhaniggun-1280 (582,208B — band gone, counts correct, tabs inside card), ohrhaniggun-390 (250,174B — same; mobile search-input placeholder defect visible, crop-verified), heichelos-1280 (685,979B — run-3 redesign intact), social-1280 (244,997B — feed intact).
+
+## Run 5 evidence (2026-11-26)
+- Working-tree gate: /tmp/gate-wt-run5.log — every section printed pass;
+  set -e script reached its final section (richSocial visualizerRoundTrip).
+- Clean worktree (sparse, full geelooy) at HEAD 16812d2c1: logs
+  /tmp/gate-clean-run5{,b,c,d}.log + /tmp/gate-clean-rest{,2,3,4,5}.log.
+  Green at HEAD: CanonicalPostRoute 3/3, profileRepairContract,
+  profileCardHierarchyV4, profileSocialUxV4, library-search,
+  audio-playback, schemaParity, aliasMemory, publicationPlan,
+  quickRefinement, richSocial 5/6. Red at HEAD (foreign uncommitted
+  files, detailed in 05): ComposerNavigationSafety, quickDestination,
+  quickDestinationFlow, quickBrowserJourney, profileActionDrawerContract,
+  isolation-contract, tunnel ingress evidence, richSocial
+  visualizerRoundTrip.
+- Cold-fill tests: seriesReadColdFill 4/4 (local + server);
+  seriesReadCompatibility + singular + seriesKeyCompleteness 6/6;
+  seriesReadSingleEnumeration 1/1.
+- Live measurements: ikar encyclopedia details (old code, load ~13):
+  60.0s timeout (size 0), then 23.87s. Search-input probes: before
+  fill rgb(246,251,255) on rgb(255,255,255); after fill rgb(30,41,59);
+  dark state fill rgb(246,251,255) on dark ground, placeholder
+  rgb(170,187,208) — screenshots v4 read by the agent.
+- Screenshots v4 (~/workspace/awtsmoos-social-screenshots/v4/):
+  social-1280.png (245,573 — hero + live feed, Almighty Master by coby),
+  heichelos-1280.png (680,955 — run-3 redesign intact),
+  composer-390.png (29,531 — clean signed-out quick form),
+  ohrhaniggun-390.png (243,636 — light, placeholder FIXED, read),
+  ohrhaniggun-390-dark.png (243,354 — dark, placeholder readable, read),
+  ohrhaniggun-390-before.png (241,628 — the defect, for comparison).
+
+## Run 5 court update (2026-11-26) — supersedes run 4 scores where noted
+Moved to IMPLEMENTED AND LIVE-VERIFIED: #22 server-backed search and
+#23 search pagination (run 4 live proof); #27 series player continuous
+playback (run 3 headless regression on the real series + v4/v3 shots);
+heichel doorway (already in run 4). #8 light/dark themes -> LOCALLY
+VERIFIED (run 5: both states measured + screenshot-read at 390 for the
+search surface that failed). #29 repeat -> LOCALLY VERIFIED (series
+player repeat modes, run 3). #30 shuffle/queue -> LOCALLY VERIFIED
+(shuffle shipped run 3; queue remains series order). #47 performance ->
+PARTIALLY IMPLEMENTED (cold-fill remedy committed + tested; activation
+awaits a coordinated restart; live old-code pain re-measured 60s/23.9s).
+#5 publish proof stays BLOCKED (browser/credential step for the parent
+agent's session; zero residue — nothing was published). #45 tunnel
+packaging stays BLOCKED, narrowed: the agent subtree's only dirty file
+is the fix itself (parent-consumer-ingress.js).
+New counts: LIVE-VERIFIED 15 · LOCALLY VERIFIED 16 · IMPLEMENTED BUT
+NOT VERIFIED 5 · PARTIALLY IMPLEMENTED 9 · NOT IMPLEMENTED 2 · BLOCKED 3.
