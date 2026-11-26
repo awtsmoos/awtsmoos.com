@@ -13,16 +13,18 @@ const creates = require("./appApiExtraCreate.js").operations;
 const mail = require("./appApiExtraMail.js").operations;
 const identity = require("./appApiSocialAccount.js");
 const comments = require("./appApiSocialComments.js");
+const cssTrace = require("./appApiCssTrace.js").operations;
 
 const OPERATIONS = Object.freeze([
 	...heichelos, ...series, ...postsRead, ...postsWrite,
-	...creates, ...mail, ...identity, ...comments
+	...creates, ...mail, ...identity, ...comments, ...cssTrace
 ]);
 const GROUPS = Object.freeze([
 	...preserved.groups,
 	{ id: "mail", title: "Awtsmoos Mail", summary: "Owner-checked inbox, messages and sending." },
 	{ id: "identity", title: "My account", summary: "Discover and create owned publishing aliases." },
-	{ id: "comments", title: "Comments", summary: "Create comments and replies as an owned alias." }
+	{ id: "comments", title: "Comments", summary: "Create comments and replies as an owned alias." },
+	{ id: "tools", title: "Developer tools", summary: "CSS conflict tracing for any public page or supplied code." }
 ]);
 
 /** Find the exact reviewed operation. */
