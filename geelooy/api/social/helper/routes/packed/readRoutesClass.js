@@ -11,6 +11,11 @@ const { exportPackedSnapshot } = require('../../packed/snapshot.js');
 const { scanPackedIntegrity } = require('../../packed/repairScanner.js');
 const { badRequest, notFound, requireMethod, serverError } = require('../apiHttp.js');
 
+// B"H 2026-11-26: shared shard-stats memo (see stats() below).
+const STATS_TTL_MS = 5 * 60 * 1000;
+let statsMemo = null;
+let statsInFlight = null;
+
 class PackedReadRoutes {
 
 	/**
@@ -27,8 +32,26 @@ class PackedReadRoutes {
 		if (bad) return bad;
 		// B"H 2026-10-11: async streaming scan — the core shard exceeds 2 GiB
 		// and a sync readFileSync throws ERR_FS_FILE_TOO_LARGE (was 500).
+		// B"H 2026-11-26: the scan streams every shard (core alone > 2 GiB),
+		// so on a busy disk one answer costs minutes — and the platform
+		// panel's DB tool sat on "loading db" while every click started
+		// ANOTHER full scan. The route now shares a single in-flight scan
+		// across concurrent callers and serves the last completed answer
+		// for STATS_TTL_MS. Shard stats are store-global (never per-user),
+		// so the shared answer is the same truth every reader would scan.
 		try {
-			return { success: await allShardStatsAsync({ $i: this.$i }) };
+			if (statsMemo && (Date.now() - statsMemo.at) < STATS_TTL_MS) {
+				return { success: statsMemo.value };
+			}
+			if (!statsInFlight) {
+				statsInFlight = allShardStatsAsync({ $i: this.$i })
+					.then(value => {
+						statsMemo = { at: Date.now(), value };
+						return value;
+					})
+					.finally(() => { statsInFlight = null; });
+			}
+			return { success: await statsInFlight };
 		} catch (e) {
 			return serverError('STATS_FAILED', e);
 		}
