@@ -32,7 +32,7 @@
 	--clarity-layer-drawer: 40;
 	--clarity-layer-popover: 50;
 	--clarity-layer-modal: 60;
-	background: var(--clarity-bg);
+	
 	color: var(--clarity-text);
 	color-scheme: dark;
 }

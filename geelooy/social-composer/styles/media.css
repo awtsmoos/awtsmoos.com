@@ -90,8 +90,8 @@
 	border-color: rgba(255, 132, 152, 0.58);
 }
 .documentIcon {
-	display: grid;
-	place-items: center;
+	
+	
 	min-height: 9rem;
 	border-radius: 0.65rem;
 	background: linear-gradient(145deg, #29375f, #151b31);

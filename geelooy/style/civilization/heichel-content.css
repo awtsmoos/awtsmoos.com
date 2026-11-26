@@ -288,12 +288,12 @@ a:focus-visible {
 
 /* heichel/future/series-heading.css:5 — was #fff */
 :root:not([data-theme="dark"]) .series-heading h2 {
-  color: #fff;
+  color: #1e293b;
 }
 
 /* heichel/future/series-heading.css:6 — was #b9c6dc */
 :root:not([data-theme="dark"]) .series-heading p:not(.series-label) {
-  color: #b9c6dc;
+  color: #475569;
 }
 
 /* heichel/premium/atmosphere.css:49 — was #fff */
@@ -384,12 +384,12 @@ a:focus-visible {
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
   :root:not([data-theme="dark"]) .heichel-os-document .series-heading h2 {
-    color: #f6f8ff;
+    color: #1e293b;
   }
 
 /* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
   :root:not([data-theme="dark"]) :where(.heichel-os-document) .series-heading p:not(.series-label) {
-    color: #aebed3;
+    color: #475569;
   }
 
 /* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
@@ -431,3 +431,14 @@ a:focus-visible {
 }
 :root[data-theme="light"] :where(.heichel-semantic-fallback) :where(#heichel-boot-description) { color: #475569; }
 :root[data-theme="light"] :where(#heichel-discovery-title) { color: #1e293b; }
+
+/* B"H 2026-11-26 (Revelation fix, section H): in-page delete confirmation
+   sheet (the SPA route loads this sheet; the classes are unique to the
+   confirmation layer, so no other rule contests them). */
+.awtsmoos-confirm-layer{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center}
+.awtsmoos-confirm-veil{position:absolute;inset:0;background:rgba(2,6,16,.66);border:0}
+.awtsmoos-confirm-card{position:relative;background:#0d1524;color:#f3ead2;border:1px solid rgba(246,201,108,.4);border-radius:1rem;padding:1.1rem;max-width:min(92vw,26rem);box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.awtsmoos-confirm-text{margin:0 0 1rem;line-height:1.5}
+.awtsmoos-confirm-actions{display:flex;gap:.6rem;justify-content:flex-end}
+.awtsmoos-confirm-actions button{min-height:44px;padding:.55rem 1.1rem;border-radius:999px;border:1px solid rgba(246,201,108,.4);background:transparent;color:#f3ead2;font-weight:700;cursor:pointer}
+.awtsmoos-confirm-actions .awtsmoos-confirm-danger{background:#b3261e;border-color:#b3261e;color:#fff}

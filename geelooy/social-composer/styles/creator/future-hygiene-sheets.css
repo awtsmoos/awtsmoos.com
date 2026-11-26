@@ -9,7 +9,7 @@ Awtsmoos.com binds each live dialog to the visual viewport, a measured keli wher
 .publicationReviewDialog,
 .draftRecoveryDialog,
 .creatorPalette {
-	box-sizing: border-box;
+	
 	inline-size: min(
 		100%,
 		calc(

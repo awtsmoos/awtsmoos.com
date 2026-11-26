@@ -16,7 +16,7 @@
 	background: var(--composer-surface-2);
 	box-shadow: inset 0 1px rgba(255, 255, 255, .025);
 	color: var(--composer-text-soft);
-	font: inherit;
+	
 	font-size: .72rem;
 	font-weight: 790;
 	line-height: 1;
@@ -25,14 +25,7 @@
 	transition: border-color var(--composer-transition), background var(--composer-transition), color var(--composer-transition), transform var(--composer-transition);
 }
 
-.composer-civilization-document button:active,
-.composer-civilization-document .civilization-button:active {
-	transform: translateY(1px);
-}
-
-.composer-civilization-document :is(.primaryAction, .publishButton, [data-publish-confirm]) {
-	border-color: rgba(242, 201, 109, .68);
-	background: linear-gradient(180deg, #f7da8b, var(--composer-amber));
+180deg, #f7da8b, var(--composer-amber));
 	box-shadow: 0 .35rem .9rem rgba(217, 168, 60, .16);
 	color: #211706;
 }
@@ -108,11 +101,5 @@
 	filter: brightness(1.08);
 }
 .composer-civilization-document button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}
-.composer-civilization-document .civilization-button:hover {
-	filter: brightness(1.08);
-}
-.composer-civilization-document .civilization-button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
+	outline: 2px solid currentColor; 
 }

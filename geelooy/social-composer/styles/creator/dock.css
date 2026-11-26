@@ -74,7 +74,7 @@ Awtsmoos.com keeps this Malchus dock internally scrollable, visibly focused, sof
 .creatorDockButton:focus-visible {
 	border-color: color-mix(in srgb, var(--composer-cyan) 44%, var(--composer-border));
 	outline: 3px solid color-mix(in srgb, var(--composer-cyan) 18%, transparent);
-	outline-offset: 2px;
+	
 }
 
 .creatorDockButton:active {
@@ -112,7 +112,4 @@ Awtsmoos.com keeps this Malchus dock internally scrollable, visibly focused, sof
 		transform: none;
 	}
 
-	.creatorDockButton[data-recording="true"] .creatorDockIcon {
-		animation: none;
-	}
-}
+	

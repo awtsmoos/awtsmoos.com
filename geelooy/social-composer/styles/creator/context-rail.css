@@ -81,7 +81,7 @@ Awtsmoos.com keeps each contextual action inside its own scrollable keli, where 
 .creatorContextAction:focus-visible {
 	border-color: var(--composer-cyan);
 	outline: 3px solid color-mix(in srgb, var(--composer-cyan) 20%, transparent);
-	outline-offset: 2px;
+	
 }
 
 .creatorContextAction:active {
@@ -111,6 +111,6 @@ Awtsmoos.com keeps each contextual action inside its own scrollable keli, where 
 @media (prefers-reduced-motion: reduce) {:root:root:root .creatorContextAction{
 		animation: none;
 		transition: none;
-		transform: none;
+		
 	}
 }

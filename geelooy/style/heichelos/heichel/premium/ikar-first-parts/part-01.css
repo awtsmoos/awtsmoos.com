@@ -13,7 +13,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
  * Native CSS gives server-rendered Torah a luminous, futuristic vessel before
  * JavaScript wakes. The page stays fast, readable, accessible, and dependency-free.
  */
-.heichel-os-document {
+html.heichel-os-document:has(> body[data-heichel-id="ikar"]) {
 	background:
 		radial-gradient(circle at 12% 8%, rgba(77, 233, 255, .13), transparent 28rem),
 		radial-gradient(circle at 88% 14%, rgba(150, 100, 255, .13), transparent 30rem),
@@ -24,7 +24,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 }
 /* B"H: Ikar is a dark vessel; anchor the shared bg token here so light-theme
    systems (e.g. social) cannot bleach the Torah library through --civil-bg. */
-html.heichel-os-document {
+html.heichel-os-document:has(> body[data-heichel-id="ikar"]) {
 	--g-bg: #020713;
 }
 .heichel-os-document body {
@@ -33,7 +33,7 @@ html.heichel-os-document {
 	position: relative;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.heichel-os-document) :where(body)::before {
+:where(.heichel-os-document) :where(body[data-heichel-id="ikar"])::before {
 	background-image:
 		linear-gradient(rgba(92, 213, 255, .032) 1px, transparent 1px),
 		linear-gradient(90deg, rgba(92, 213, 255, .032) 1px, transparent 1px);

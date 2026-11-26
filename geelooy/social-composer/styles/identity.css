@@ -73,8 +73,4 @@
 		grid-template-columns: 1fr;
 	}
 
-	.panelHeading {
-		align-items: stretch;
-		flex-direction: column;
-	}
-}
+	

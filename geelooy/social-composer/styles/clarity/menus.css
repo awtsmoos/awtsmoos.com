@@ -135,12 +135,3 @@
 .composer-civilization-document .composer-action-menu > summary:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.composer-civilization-document .composer-action-menu-panel button:hover {
-	filter: brightness(1.08);
-}
-.composer-civilization-document .composer-action-menu-panel button:active {
-	transform: scale(0.98);
-}
-.composer-civilization-document .composer-action-menu-panel button:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
-}

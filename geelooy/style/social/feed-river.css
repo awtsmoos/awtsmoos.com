@@ -62,9 +62,8 @@
 	color: var(--feed-river-text-hover);
 }
 
-.feed-mode-btn:active {
-	transform: scale(0.96);
-}
+/* transform on :active is owned by animations/micro-interactions.css
+   (css-conflict-trace 2026-11-26: one owner per property). */
 
 .feed-mode-btn[aria-selected="true"] {
 	background: linear-gradient(135deg, #c9971f, #a67c0a);
@@ -419,7 +418,7 @@
 	cursor: pointer;
 	min-height: 44px;
 	box-shadow: 0 3px 14px rgba(166, 124, 10, 0.4);
-	transition: transform 0.12s ease, box-shadow 0.12s ease;
+	/* transition owned by animations/micro-interactions.css (one owner per property). */
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
 }
