@@ -44,19 +44,21 @@ test('opted-in lush meadow begins after one frame despite pending visual promoti
 	visual.resolve();
 });
 
-test('blank meadow preserves visual-promotion ordering unchanged', async () => {
+test('blank meadow begins after one frame despite pending visual promotion', async () => {
 	const visual = deferred();
+	const frame = deferred();
 	let calls = 0;
 	const continuation = scheduleEretzPostPlayableContinuation(
 		options({ cinematicBotany: false, canonicalPromotion: false }, visual.promise,
 			() => { calls++; return 'blank'; }),
-		{ afterFirstFrame: () => { throw Error('EARLY_FRAME_FOR_BLANK'); } }
+		{ afterFirstFrame: () => frame.promise }
 	);
 	await Promise.resolve();
 	assert.equal(calls, 0);
-	visual.resolve();
+	frame.resolve();
 	assert.equal(await continuation, 'blank');
 	assert.equal(calls, 1);
+	visual.resolve();
 });
 
 test('canonical promotion still requires visual completion even with botany elected', async () => {

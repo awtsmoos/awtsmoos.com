@@ -11,10 +11,18 @@
 
 /** Selects one legitimate world-specific readiness barrier before postplay begins. */
 export function scheduleEretzPostPlayableContinuation(options, dependencies = {}) {
-	const lush = options.worldExperience?.cinematicBotany === true
-		&& options.worldExperience?.canonicalPromotion === false;
+	// B"H (15s pass): EVERY simple world (canonicalPromotion === false —
+	// blank meadow included, not only elected Lush) now begins post-play
+	// after one frame instead of awaiting the whole visual-promotion
+	// settlement. Measured on production, that settlement chains two
+	// runtime-compiled module fetches, a 2.5s quiet window, and the full
+	// rich-renderer hydration, so the friendly neighbors — who depend on
+	// none of it — arrived minutes after playability under load. Visual
+	// promotion continues independently in parallel; only canonical
+	// promotion keeps the strict visual-completion barrier.
+	const simple = options.worldExperience?.canonicalPromotion === false;
 	const afterFrame = dependencies.afterFirstFrame || afterEretzFirstFrame;
-	const barrier = lush ? afterFrame(options.environment) : Promise.resolve(options.visualPromise);
+	const barrier = simple ? afterFrame(options.environment) : Promise.resolve(options.visualPromise);
 	return Promise.resolve(barrier).then(options.start);
 }
 
