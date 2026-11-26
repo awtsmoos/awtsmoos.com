@@ -42,6 +42,7 @@ const SERIES_ROUTES = [
 	'/heichelos/:heichel/series/:series/breadcrumb',
 	'/heichelos/:heichel/series/:series/changeSubSeriesInSeries',
 	'/heichelos/:heichel/series/:series/details',
+	'/heichelos/:heichel/series/:series/discovery',
 	'/heichelos/:heichel/series/:series/editSeriesDetails',
 	'/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal',
 	'/heichelos/:heichel/series/:series/parent',
