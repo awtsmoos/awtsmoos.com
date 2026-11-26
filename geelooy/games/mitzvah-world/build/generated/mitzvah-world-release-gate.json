@@ -3,8 +3,8 @@
 	"custody": {
 		"artifacts": {
 			"index.html": {
-				"bytes": 8825,
-				"sha256": "1279ebe89e3d1ec43c6709f6b9e0bd4851e0c3b09eb553e46a6a2ed796ed1157"
+				"bytes": 11562,
+				"sha256": "f69643d04c5be20ec1edf1f2ad5a2da0df4864de4a52f5eaff57a30eaecafd02"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 119283,
@@ -96,31 +96,31 @@
 			}
 		},
 		"certified": true,
-		"commit": "9962d862cb338f9fdd45461bc6d4162893cdde3f",
+		"commit": "5d8ec227f8fb1b202c3fec6ed6102b8edcbd3f40",
 		"dirtyEntries": [],
 		"failureCode": null,
-		"graphSha256": "b101d721036634b5339c27bf60390beff46825a202c3eaedadf49dafc86016e6",
-		"releaseId": "b101d721036634b5339c27bf60390beff46825a202c3eaedadf49dafc86016e6",
+		"graphSha256": "7918ec1287fc43b17ed1f2dc4f8fde778a70b9b330626b2efb1f0e378b46ebfe",
+		"releaseId": "7918ec1287fc43b17ed1f2dc4f8fde778a70b9b330626b2efb1f0e378b46ebfe",
 		"version": 1
 	},
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 3491,
+			"elapsedMilliseconds": 3685,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 359686,
+			"elapsedMilliseconds": 318823,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 8732,
+			"elapsedMilliseconds": 9860,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-11-26T01:04:22.999Z"
+	"generatedAt": "2026-11-26T01:23:53.405Z"
 }
