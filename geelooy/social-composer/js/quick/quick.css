@@ -70,3 +70,11 @@ footer {position:sticky;bottom:0;display:flex;align-items:center;justify-content
 .attachment audio {width:100%}
 .attachment small {color:#586475}
 .attachment button {justify-self:start;font-size:13px;padding:5px 10px}
+
+/* B"H 2026-11-26 (Revelation fix): identity states in the quick composer.
+   Signed-out is a clear sign-in button, never a dead alias dropdown. */
+.identity .signin-cta{display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.1rem;border-radius:999px;background:var(--gold,#d59a35);color:#1a1206;font-weight:700;text-decoration:none}
+.identity.signed-out select{display:none}
+.identity .identity-help{margin:.4rem 0 0;font-size:.92rem}
+.identity .identity-help .link{font-weight:700;text-decoration:underline}
+select#alias:disabled{opacity:.65}

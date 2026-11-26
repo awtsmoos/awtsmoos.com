@@ -14,7 +14,7 @@ export const markup = `
 <div class="screen">
 <header><a class="close" aria-label="Close composer" href="/">×</a><h1>New post</h1><button id="advanced" class="link" type="button">Advanced</button></header>
 <main>
-<div class="identity"><span id="avatar" aria-hidden="true">●</span><div><label for="alias">Posting as</label><select id="alias" aria-label="Choose posting alias"><option value="">Choose an alias</option></select><a id="login" hidden>Sign in to Awtsmoos</a></div></div>
+<div class="identity"><span id="avatar" aria-hidden="true">●</span><div><label for="alias">Posting as</label><select id="alias" aria-label="Choose posting alias"><option value="">Choose an alias</option></select><a id="login" class="signin-cta" hidden>Sign in to Awtsmoos</a><p id="identityHelp" class="identity-help" hidden>We could not load your aliases. <button id="identityRetry" type="button" class="link">Retry</button></p></div></div>
 <button type="button" id="destination" class="destination" aria-controls="picker">＋ Choose Heichel / series</button>
 <section id="picker" class="picker" hidden aria-label="Choose posting destination">
 <label for="searchDestination">Find a Heichel</label><input type="search" id="searchDestination" placeholder="Search by name…" autocomplete="off">
