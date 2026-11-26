@@ -67,6 +67,7 @@
 	var handlers = {
 		onStart: function () { startPlayback(); },
 		onStop: function () { stopPlayback(); },
+		onRetry: function () { startPlayback(); },
 		onPrev: function () {
 			var position = orderPosition();
 			if (position > 0) playAt(state.order[position - 1]);
@@ -191,12 +192,23 @@
 		panel.hidden = false;
 		panel.querySelector('[data-role="title"]').textContent = 'Loading the series…';
 		panel.querySelector('[data-role="position"]').textContent = '';
-		fetch('/api/social/heichelos/' + encodeURIComponent(loc.heichelId) + '/series/' + encodeURIComponent(loc.seriesId) + '/posts/details', { credentials: 'include' })
+		var retryBtn = panel.querySelector('[data-role="retry"]');
+		if (retryBtn) retryBtn.hidden = true;
+		// B"H 2026-11-26 (Revelation fix): the playlist fetch had no bound,
+		// so a stalled server left "Loading the series…" on screen forever
+		// (Hai's phone). Bound it at 30s; every failure path below shows the
+		// Retry button instead of a silent hang.
+		var controller = ('AbortController' in window) ? new AbortController() : null;
+		var killer = controller ? setTimeout(function () { controller.abort(); }, 30000) : null;
+		fetch('/api/social/heichelos/' + encodeURIComponent(loc.heichelId) + '/series/' + encodeURIComponent(loc.seriesId) + '/posts/details', { credentials: 'include', signal: controller ? controller.signal : undefined })
 			.then(function (res) { return res.json().catch(function () { return null; }); })
 			.then(function (data) {
+				if (killer) clearTimeout(killer);
 				if (data && data.error) {
 					// e.g. READ_SHED_OVERLOAD while the server sheds heavy reads.
-					panel.querySelector('[data-role="title"]').textContent = 'The server is busy right now — close and tap Play series to retry in a moment.';
+					panel.querySelector('[data-role="title"]').textContent = 'The server is busy right now — tap Retry in a moment.';
+					var rb2 = panel.querySelector('[data-role="retry"]');
+					if (rb2) rb2.hidden = false;
 					state.playing = false;
 					return;
 				}
@@ -212,7 +224,10 @@
 				playAt(state.order[0]);
 			})
 			.catch(function () {
-				panel.querySelector('[data-role="title"]').textContent = 'Could not load this series. Please try again.';
+				if (killer) clearTimeout(killer);
+				panel.querySelector('[data-role="title"]').textContent = 'Could not load this series. Check your connection, then retry.';
+				var rb = panel.querySelector('[data-role="retry"]');
+				if (rb) rb.hidden = false;
 				state.playing = false;
 			});
 	}

@@ -42,6 +42,7 @@
 					'<button type="button" class="awt-sp-close" data-role="close" aria-label="Stop and close the series player">✕</button>' +
 				'</div>' +
 				'<p class="awt-sp-title" data-role="title" aria-live="polite"></p>' +
+				'<button type="button" class="awt-sp-btn awt-sp-retry" data-role="retry" hidden>Retry</button>' +
 				'<div class="awt-sp-stage" data-role="stage"></div>' +
 				'<div class="awt-sp-controls">' +
 					'<button type="button" class="awt-sp-btn" data-role="prev">⏮ Previous</button>' +
@@ -55,6 +56,9 @@
 					'<button type="button" class="awt-sp-btn awt-sp-shuffle" data-role="shuffle" aria-pressed="false">🔀 Shuffle</button>' +
 				'</div>';
 			panel.querySelector('[data-role="close"]').addEventListener('click', handlers.onStop);
+			panel.querySelector('[data-role="retry"]').addEventListener('click', function () {
+				if (handlers.onRetry) handlers.onRetry();
+			});
 			panel.querySelector('[data-role="prev"]').addEventListener('click', handlers.onPrev);
 			panel.querySelector('[data-role="next"]').addEventListener('click', handlers.onNext);
 			panel.querySelector('[data-role="autoplay"]').addEventListener('change', function (event) {
