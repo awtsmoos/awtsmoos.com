@@ -79,8 +79,13 @@ function stat(key, label) {
 
 function actionsRow(actions) {
 	const heichelId = pendingHeichelIdentity().heichelId;
+	// B"H 2026-11-26 (Revelation fix): preselect the series the visitor is
+	// actually standing in (named in the URL), not always the root -- the
+	// owner adds to the open series directly, everyone else lands in the
+	// same place framed as a submission for review by the publish plan.
+	const openSeries = (location.pathname.match(/\/series\/([^/]+)/) || [])[1] || 'root';
 	const composerHref = heichelId
-		? `/social-composer/?heichel=${encodeURIComponent(heichelId)}&series=root`
+		? `/social-composer/?heichel=${encodeURIComponent(heichelId)}&series=${encodeURIComponent(openSeries)}`
 		: '/social-composer/';
 	return box('heichel-profile-actions', [
 		button('Follow', 'Follow this Heichel', actions.toggleHeichelFollow, {

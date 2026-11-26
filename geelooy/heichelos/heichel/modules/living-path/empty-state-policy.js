@@ -49,6 +49,17 @@ export function describeEmptyState({ view, state, sourceContent }) {
 			action: 'view-series'
 		};
 	}
+	// B"H 2026-11-26 (Revelation fix): a branch whose teachings live inside
+	// its series is not empty -- never claim nothing is published above a
+	// series card that itself reports posts.
+	if (sourceContent?.subSeries?.length) {
+		return {
+			icon: '⌁',
+			title: 'No teachings at this branch itself',
+			message: 'This branch’s teachings live inside its series below.',
+			action: 'view-series'
+		};
+	}
 	return {
 		icon: '✦',
 		title: 'Nothing has been published here yet',

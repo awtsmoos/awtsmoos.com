@@ -73,6 +73,13 @@ async function loadCollections(seriesId) {
 	if (postsRaw === null || postsRaw === undefined) {
 		throw new Error('The post list could not be loaded -- the server is busy. Please try again in a moment.');
 	}
+	// B"H 2026-11-26 (Revelation fix): a failed sub-series read is the same
+	// load failure. Silently treating it as [] painted "0 series" in the
+	// header and a false "Nothing has been published here yet" card over a
+	// Heichel whose series visibly hold posts (Ohr HaNiggun on Hai's phone).
+	if (subSeriesRaw === null || subSeriesRaw === undefined) {
+		throw new Error('The series list could not be loaded -- the server is busy. Please try again in a moment.');
+	}
 	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
 	const subSeries = augmentSubSeries(normalizeCollection(subSeriesRaw), seriesId);
 	const groupings = injectChitasGrouping(

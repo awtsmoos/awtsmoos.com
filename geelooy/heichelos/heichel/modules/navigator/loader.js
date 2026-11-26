@@ -13,7 +13,7 @@
 import { appState } from '../state.js';
 import * as ui from '../ui.js?v=heichel-mobile-010';
 import * as DND from '../dragdrop.js';
-import { loadSource } from './source-loader.js?v=heichel-mobile-014';
+import { loadSource } from './source-loader.js?v=heichel-mobile-015';
 import { chooseContentView } from './view-policy.js?v=torah-library-001';
 
 let loadToken = 0;
