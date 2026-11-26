@@ -9,7 +9,7 @@
  * an agent hands to a user works forever with no server-side storage.
  * The manifest re-runs the search and expands every event into its tracks.
  * The server NEVER downloads the audio: the bundle page assembles the ZIP
- * and the merged MP3 in the user's own browser, fetching the
+ * and the merged audio in the user's own browser, fetching the
  * originals straight from Archive.org (Hai's ruling, 2026-11-26). The old
  * server ZIP / merge routes only redirect to that page.
  */
@@ -140,7 +140,7 @@ async function buildManifest(id, base) {
 /**
  * All public links for one bundle id. Every download link lands on the
  * bundle page: the page is THE download link, and the ZIP and the merged
- * MP3 are both assembled there in the user's browser.
+ * audio are both assembled there in the user's browser.
  * zipUrl and mergeUrl simply focus the page on that action; there is no
  * server download URL anymore (the legacy /bundle/zip and /bundle/merge
  * routes only 302-redirect to this page).

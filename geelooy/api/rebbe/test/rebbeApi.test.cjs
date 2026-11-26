@@ -79,13 +79,33 @@ test("makeStoredZip produces a parseable stored zip", () => {
 	assert.ok(zip.includes(Buffer.from("a/one.mp3")));
 });
 
-test("bundle page has no WAV option and converts to MP3 in the browser", () => {
+test("bundle page has no WAV option and converts in the browser", () => {
 	const html = bundlePage("/api/rebbe");
 	assert.ok(!html.includes("btn-wav"), "WAV button must be gone");
 	assert.ok(!html.includes("merged WAV"), "WAV wording must be gone");
 	assert.ok(!html.includes("downloadWav"), "WAV handler must be gone");
-	assert.ok(html.includes("convertToMp3"), "MP3 conversion path must exist");
+	assert.ok(html.includes("convertMergedAudio"), "merged-audio conversion dispatcher must exist");
 	assert.ok(html.includes("Mp3Encoder"), "lamejs encoder must be wired");
 	assert.ok(html.includes("sniffIsMp3"), "byte sniffing must decide join vs convert");
 	assert.ok(!/<script[^>]*lame/.test(html), "encoder must load lazily, not via a script tag");
+});
+
+test("bundle page wires the WebCodecs Opus conversion path with feature detection and lamejs fallback", () => {
+	const html = bundlePage("/api/rebbe");
+	assert.ok(html.includes("probeWebCodecs"), "WebCodecs support probe must exist");
+	assert.ok(html.includes("AudioEncoder.isConfigSupported"), "encode support must be feature-detected, never assumed");
+	assert.ok(html.includes("AudioDecoder.isConfigSupported"), "decoder support must be feature-detected");
+	assert.ok(html.includes("convertWithWebCodecsOpus"), "WebCodecs Opus conversion path must exist");
+	assert.ok(html.includes("convertWithLamejs"), "lamejs fallback path must remain");
+	assert.ok(html.includes("FallbackEngine"), "WebCodecs path must be able to decline into the fallback");
+	assert.ok(html.includes("splitMp3Frames"), "MP3 elementary-stream splitter must feed AudioDecoder");
+	assert.ok(html.includes("demuxOggOpus"), "Ogg/Opus demuxer must feed AudioDecoder");
+	assert.ok(html.includes("EncodedAudioChunk"), "decoder input must be WebCodecs chunks");
+	assert.ok(html.includes("__rebbeConvert"), "chosen engine must be published for observability");
+	assert.ok(html.includes("webcodecs-opus"), "engine must be published as webcodecs-opus when the native path runs");
+	assert.ok(html.includes("codec: 'opus'"), "native encoder must be configured for Opus (Chrome has no MP3 encoder)");
+	assert.ok(html.includes("createOggOpusMuxer"), "encoded Opus chunks must be muxed into an Ogg file in-page");
+	assert.ok(html.includes("OpusHead"), "muxer must write the OpusHead header");
+	assert.ok(html.includes("rebbe-sichos-merged.opus"), "converted output must be saved as a .opus file");
+	assert.ok(html.includes("createResampler48000"), "decoded audio must be resampled to the Opus encoder's 48 kHz while streaming");
 });

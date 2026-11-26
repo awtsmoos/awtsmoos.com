@@ -21,7 +21,7 @@ Base: `/api/rebbe` · No auth · JSON · CORS `*`
   (or `year=` instead of `bucket=`)
 - `GET|POST /api/rebbe/bundle` — create a bundle from search params
 - `GET /api/rebbe/bundle/data?id=` — bundle manifest JSON
-- `GET /api/rebbe/bundle/page?id=` — THE download page: ZIP + merged MP3, all assembled in the browser
+- `GET /api/rebbe/bundle/page?id=` — THE download page: ZIP + merged audio (MP3 join, or Opus conversion), all assembled in the browser
 - `GET /api/rebbe/bundle/zip?id=` — legacy link: 302 redirect to the bundle page (the server does no downloading)
 - `GET /api/rebbe/bundle/merge?id=` — legacy link: 302 redirect to the bundle page with `action=merge`
 
@@ -37,15 +37,21 @@ Example: `/api/rebbe/search?month=3&day=19` — all sichos of 19 Kislev.
 
 `GET /api/rebbe/bundle?month=3&day=19` returns `{ bundleId, pageUrl, zipUrl,
 mergeUrl, manifestUrl, eventCount, trackCount, totalBytes, truncated }`.
-Give the user `pageUrl`: ZIP and merged MP3 are assembled **in the browser**
-from the original Archive.org files, reusing the app's own `zip-store.js`
-and lossless MP3 frame join (`mp3-join.js`) — nothing is re-encoded when
-every file is true MP3. For mixed-format bundles (some files are really
-Opus under an .mp3 name; the page sniffs the actual bytes) the page
-**converts to MP3 in the browser**: Web Audio decodes one track at a time
-into the vendored lamejs encoder (`apps/rebbe/modules/download/lame.min.js`,
-loaded lazily, 128 kbps stereo / 96 kbps mono), so memory stays bounded
-even on many-hour bundles. There is no WAV option. `zipUrl` and
+Give the user `pageUrl`: ZIP and the merged file are assembled **in the
+browser** from the original Archive.org files, reusing the app's own
+`zip-store.js` and lossless MP3 frame join (`mp3-join.js`) — nothing is
+re-encoded when every file is true MP3, and the result is a merged MP3.
+For bundles that need conversion (some files are really Opus under an
+.mp3 name; the page sniffs the actual bytes) the page **converts in the
+browser with the native media encoder** (WebCodecs AudioDecoder ->
+AudioEncoder, feature-detected): Chrome's media encoder has no MP3
+encoder at all, so converted bundles become one merged **Opus** file
+(.opus, muxed into Ogg in-page, 128 kbps stereo / 96 kbps mono) —
+near-instant and fully client-side. On browsers without WebCodecs the
+fallback decodes one track at a time with Web Audio into the vendored
+lamejs MP3 encoder (`apps/rebbe/modules/download/lame.min.js`, loaded
+lazily), so memory stays bounded even on many-hour bundles. There is
+no WAV option, and the server never encodes or downloads anything. `zipUrl` and
 `mergeUrl` are the same page
 focused on that action; opening one starts that download in the browser.
 The server never downloads the audio — the legacy `/bundle/zip` and

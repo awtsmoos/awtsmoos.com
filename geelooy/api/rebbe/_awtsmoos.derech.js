@@ -22,16 +22,16 @@ function descriptor() {
 	return {
 		name: "Awtsmoos Rebbe Sichos Search API",
 		version: API_VERSION,
-		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links to hand to end users \u2014 the bundle page is the download link: ZIP and merged MP3 are all assembled in the user's browser from the original Archive.org files, and the server never downloads the audio.",
+		description: "Search the Rebbe archive (Archive.org) by Hebrew month/day/year with ranges and keyword; expand events into downloadable audio tracks; create bundle links to hand to end users \u2014 the bundle page is the download link: ZIP and merged audio (MP3 join for all-MP3 bundles, Opus conversion via the browser's native media encoder otherwise) are all assembled in the user's browser from the original Archive.org files, and the server never downloads or encodes the audio.",
 		frontend: "/apps/rebbe/",
 		endpoints: {
 			"GET /api/rebbe/search": "Params: month(s), monthFrom/monthTo, day(s), dayFrom/dayTo, year(s), yearFrom/yearTo, q, limit (1-200, default 50), offset, include=tracks. Returns {total,count,limit,offset,hasMore,results}.",
 			"GET /api/rebbe/event": "Params: bucket (Archive.org item) or year, plus folder. Returns the event and its tracks with downloadUrl, size, duration, md5.",
 			"GET|POST /api/rebbe/bundle": "Same search params + optional title. Returns {bundleId,pageUrl,zipUrl,mergeUrl,manifestUrl,eventCount,trackCount,totalBytes,truncated}.",
 			"GET /api/rebbe/bundle/data": "?id= — full bundle manifest JSON (events, files, totals).",
-			"GET /api/rebbe/bundle/page": "?id= — human bundle page; ZIP and merged MP3 are assembled in the browser from the original files. &action=merge|zip focuses that action.",
+			"GET /api/rebbe/bundle/page": "?id= — human bundle page; ZIP and merged audio are assembled in the browser from the original files. &action=merge|zip focuses that action.",
 			"GET /api/rebbe/bundle/zip": "?id= \u2014 legacy link: 302 redirect to the bundle page, which assembles the ZIP in the user's browser. The server does no downloading.",
-			"GET /api/rebbe/bundle/merge": "?id= \u2014 legacy link: 302 redirect to the bundle page with action=merge, which assembles the merged MP3 in the user's browser. The server does no downloading.",
+			"GET /api/rebbe/bundle/merge": "?id= \u2014 legacy link: 302 redirect to the bundle page with action=merge, which assembles the merged audio in the user's browser. The server does no downloading.",
 			"GET /api/rebbe/options": "Years, months and days known to the archive.",
 			"GET /api/rebbe/health": "Health check.",
 			"GET /api/rebbe/docs": "Human documentation page."
@@ -118,7 +118,7 @@ async function bundleService(params) {
  * Legacy download routes: the server does NO heavy work (Hai's ruling,
  * 2026-11-26). /bundle/zip and /bundle/merge only 302-redirect to the
  * bundle page, whose browser code fetches the tracks straight from
- * Archive.org and assembles the ZIP / merged MP3 on the
+ * Archive.org and assembles the ZIP / merged audio on the
  * user's own device. The endpoints stay mounted so every link already
  * handed out keeps working.
  */
