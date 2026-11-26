@@ -103,6 +103,18 @@
 :root.heichel-os-document .heichel-semantic-discovery h2 {
 	color: var(--sefer-title-ink);
 }
+/* B"H 2026-11-26 (Visual Rescue): on every NON-ikar doorway the vessel
+   ground is the dark cosmic stage in BOTH themes (the critical geometry
+   paints the body #040c1c and the institution backdrop is dark), so the
+   sefer title ink — designed for ikar's cream paper — landed dark-on-dark
+   (measured 1.13:1 on Ohr HaNiggun's "Explore"). Ikar stamps
+   html[data-heichel-experience="torah-first"] via ikar-first.js and
+   keeps its sefer ink; every other doorway takes the cream ink the
+   css-loop repair designed for dark vessels, with a gold breath. */
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-discovery h2#heichel-discovery-title {
+	color: #faf3e2;
+	text-shadow: 0 2px 22px rgba(0, 0, 0, .55), 0 0 34px rgba(212, 169, 78, .22);
+}
 /* B"H 2026-11-25 (Project Perfection Phase 6): on the Ikar root the
    vessel itself is DARK by default (dream-heichel.css paints the
    near-black sanctuary ground; only [data-theme="light"] lifts it to
@@ -574,6 +586,38 @@
 }
 :root.heichel-os-document .heichel-semantic-fallback[data-family="yeshiva"] .heichel-discovery-item {
 	border-left: 3px solid var(--sefer-accent);
+}
+
+/* B"H 2026-11-26 (Visual Rescue): classic NON-ikar doorways (Ohr
+   HaNiggun, BH Media Test, and their kin) sit on the dark cosmic
+   vessel, but their discovery cards inherited the ikar product paper
+   (#fffdf6) — pale pastel slabs glowing under a dark hero, their
+   skeleton covers muddy translucent tan. On classic fallbacks the
+   cards take the living-path plaque language instead: deep ink, a
+   gold hairline, ivory serif titles, pale-gold meta — one language
+   with the hero above them and the SPA within. Ikar (torah-first)
+   and the named corpus families keep their own designs above. */
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-item {
+	background: linear-gradient(155deg, rgba(19, 32, 54, .96), rgba(7, 13, 26, .97));
+	border-color: rgba(212, 169, 78, .34);
+	box-shadow: 0 14px 34px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 244, 214, .06);
+}
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-item:hover {
+	border-color: rgba(212, 169, 78, .62);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, .45), 0 0 22px rgba(212, 169, 78, .14), inset 0 1px rgba(255, 244, 214, .08);
+}
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-text > a {
+	color: #f7ecd2;
+	font-family: var(--dream-serif-font);
+}
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-text > a:hover {
+	color: #e8c268;
+}
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-description {
+	color: #c9b992;
+}
+:root:not([data-heichel-experience="torah-first"]).heichel-os-document .heichel-semantic-fallback[data-family="classic"] .heichel-discovery-count {
+	color: #d4a94e;
 }
 
 /* A failed section list says so, in the open, where the list belongs. */

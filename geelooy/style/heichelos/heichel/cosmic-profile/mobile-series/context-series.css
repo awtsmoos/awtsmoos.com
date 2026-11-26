@@ -74,6 +74,15 @@
 		justify-self: start;
 	} }
 
+/* B"H 2026-11-26 (Visual Rescue): render-state.js hides this panel at
+   root by toggling .hidden — the ≤900px grid above (0,2,0) outranked
+   the state class, so at root the panel rendered as an empty slab.
+   The state wins at every width: no slab, the search block stands
+   alone until a real series is open. */
+.heichel-os-document .series-heading.hidden {
+	display: none;
+}
+
 /* B"H 2026-11-26 (Revelation CURRENT SERIES fix): the panel stays an ink card
    in the light theme too (see future/series-heading.css), so the light tail
    carries the on-ink values — ivory title, pale meta, gold eyebrow. */

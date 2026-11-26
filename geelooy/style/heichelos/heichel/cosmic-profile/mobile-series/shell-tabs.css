@@ -6,6 +6,25 @@
  * The Awtsmoos contains Posts, Sources, Series, and About without competition;
  * Awtsmoos.com gives each one equal shrinking space and an honest touch target.
  */
+/* B"H 2026-11-26 (Visual Rescue): the gates sat half-under the
+   "View Heichel details" bar — the details element paints in the
+   hero's flow directly above them and the row rendered tucked
+   beneath its lower edge. The gates take their own stacking layer
+   and a breath of air below the bar, and each gate anchors its own
+   active underline, so all four labels stand fully in the open at
+   every width. */
+.heichel-profile-tabs {
+	position: relative;
+	z-index: 2;
+	margin-top: .45rem;
+}
+.heichel-profile-tabs a {
+	position: relative;
+}
+.heichel-profile-details {
+	position: relative;
+	z-index: 1;
+}
 @media (max-width: 900px) { .heichel-profile-tabs {
 		inline-size: 100%;
 		min-inline-size: 0;

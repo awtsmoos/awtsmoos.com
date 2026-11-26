@@ -16,17 +16,17 @@ body.geelooy-app-shell .awt-series-player-launcher {
 	bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 	z-index: 90;
 	padding: .65rem 1.1rem;
-	border: 1px solid #8a6d3b;
+	border: 1px solid #c7a45a;
 	border-radius: 999px;
-	background: #17253a;
+	background: linear-gradient(160deg, #22385c, #17253a);
 	color: #f7f1e3;
 	font: 600 .95rem/1.2 system-ui, sans-serif;
-	box-shadow: 0 .8rem 2rem rgb(7 26 43 / 35%);
+	box-shadow: 0 .8rem 2rem rgb(7 26 43 / 35%), 0 0 1.1rem rgba(199, 164, 90, .22);
 	cursor: pointer;
 }
 
 body.geelooy-app-shell .awt-series-player-launcher:hover {
-	background: #20324e;
+	background: linear-gradient(160deg, #2a4066, #1d2f4d);
 }
 
 .awt-series-player-panel {
@@ -188,5 +188,20 @@ body.geelooy-app-shell .awt-sp-shuffle[aria-pressed="true"] {
 	body.geelooy-app-shell .awt-series-player-launcher {
 		inset-inline-end: .6rem;
 		bottom: calc(.6rem + env(safe-area-inset-bottom, 0px));
+	}
+}
+
+/* B"H 2026-11-26 (Visual Rescue): at ≤900px the Heichel bottom nav
+   (cosmic-profile/mobile-dock.css, ~4.25rem tall at the bottom edge)
+   owns the floor — the launcher and the open panel used to sit at
+   bottom:1rem directly on top of it, colliding with the dock's
+   Profile end. Both float above the dock instead. This block follows
+   the 35rem block so it wins where they overlap. */
+@media (max-width: 900px) {
+	body.geelooy-app-shell .awt-series-player-launcher {
+		bottom: calc(5.9rem + env(safe-area-inset-bottom, 0px));
+	}
+	.awt-series-player-panel {
+		bottom: calc(5.9rem + env(safe-area-inset-bottom, 0px));
 	}
 }

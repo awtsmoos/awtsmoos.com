@@ -32,11 +32,24 @@
 		min-width: 0;
 		min-height: 3.45rem;
 		padding: .25rem;
-		color: var(--heichel-cosmic-secondary);
+		/* B"H 2026-11-26 (Visual Rescue): the labels took the muted
+		   taupe token at .64rem and read muddy on the near-black bar —
+		   in light theme, stray --aw-text law rules could darken them
+		   further. A fixed pale-gold ink keeps them luminous in both
+		   themes (~11:1 on the dock ground). */
+		color: #e9dfc2;
+		font-weight: 700;
 		border: 0;
 		border-radius: .7rem;
 		background: transparent;
 		font-size: .64rem;
+	} }
+/* B"H 2026-11-26 (Visual Rescue): the fixed dock owns the floor, so
+   the render root carries the clearance the dock imposes — content
+   (cards, the last series row) scrolls fully clear of the bar instead
+   of sliding underneath it. */
+@media (max-width: 900px) { .heichel-os-document .heichel-os-page > .main {
+		padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 900px) { :where(.heichel-os-document) .geelooy-bottom-nav .is-create {

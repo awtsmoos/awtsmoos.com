@@ -54,8 +54,11 @@
 	clip-path: polygon(0 0, calc(100% - .6rem) 0, 100% .6rem, 100% 100%, .5rem 100%, 0 calc(100% - .5rem));
 }
 .heichel-profile-action--primary {
-	border-color: var(--heichel-cosmic-cyan-core);
-	background: linear-gradient(135deg, var(--heichel-cosmic-blue-core), var(--heichel-cosmic-cyan));
+	/* B"H 2026-11-26 (Visual Rescue): the hero's primary gate wore a
+	   blue-to-cyan gradient — off the one gold palette. Deep struck
+	   bronze-gold keeps the ivory label at full contrast. */
+	border-color: rgba(239, 210, 126, .55);
+	background: linear-gradient(135deg, #7a5c1c, #a37f27);
 	box-shadow: 0 0 1.2rem rgba(239, 210, 126, .3);
 }
 .heichel-profile-tabs {
@@ -65,7 +68,10 @@
 	background: rgba(4, 4, 12, .5);
 }
 .heichel-profile-tabs a:first-child {
-	color: var(--heichel-cosmic-cyan-core);
+	/* B"H 2026-11-26 (Visual Rescue): the active gate spoke cyan with
+	   a cyan-to-magenta underline — the last off-palette streak in
+	   the hero. It takes the gold of the medallions above it. */
+	color: #e8c268;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-profile-tabs) :where(a:first-child)::after {
@@ -74,8 +80,8 @@
 	bottom: 0;
 	left: 15%;
 	height: 2px;
-	background: linear-gradient(90deg, var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
-	box-shadow: 0 0 .7rem var(--heichel-cosmic-cyan-core);
+	background: linear-gradient(90deg, #e8c268, #b98a2f);
+	box-shadow: 0 0 .7rem rgba(232, 194, 104, .55);
 	content: "";
 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
