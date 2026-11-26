@@ -47,3 +47,47 @@ B"H
   production zip/join modules, and the identical algorithms were verified server-side.
 - Front end /apps/rebbe/ still 200, untouched (git status: only pre-existing other-session changes).
 - Unit tests: node --test geelooy/api/rebbe/test -> 8/8 PASS.
+
+## 2026-11-26 (later) — downloads are CLIENT-SIDE ONLY (Hai's ruling; commit 37bb768fe)
+- Hai used the server merge link for 19 Kislev 5726 (25 tracks, 181,601,226 bytes):
+  it took far too long because the server itself downloaded all of it from
+  Archive.org, joined it, and streamed it back. Ruling: the server must do NO
+  heavy work for downloads; it serves the fancy bundle page and ALL
+  downloading/zipping/merging happens in the user's browser.
+- Before evidence: bounded probe of that exact /bundle/merge URL — no response
+  at all within 20 s (HTTP 000, curl timeout); in real use it ran for minutes.
+- Changes (5 files, rollback ref backup/pre-rebbe-client-downloads-20261126):
+  * _awtsmoos.derech.js: zipRoute/mergeRoute deleted; one pageRedirectRoute —
+    /bundle/zip -> 302 to the bundle page, /bundle/merge -> 302 to the page
+    with action=merge. Endpoints stay mounted, so handed-out links keep working.
+  * lib/bundle.js: bundleLinks — mergeDownloadUrl REMOVED; zipUrl is now the
+    page with action=zip; mergeUrl unchanged (page action=merge); pageUrl is
+    THE download link. buildZipBuffer/buildMergedBuffer and the server caps
+    deleted — the server no longer fetches audio at all. makeStoredZip kept
+    (pure writer, unit-tested; the page uses the app zip-store in-browser).
+  * lib/page.js: the two "(server)" buttons and their wiring removed; the
+    handlers became named downloadZip/downloadMerge/downloadWav functions and
+    ?action=merge / ?action=zip now AUTO-START that assembly in the browser on
+    load; merge-failure copy points at merged WAV / ZIP instead of a server.
+    Docs section rewritten to match.
+  * README.md + api/tunnel/control/docs/apiRegistry.js: injected instructions
+    and the rebbe registry purpose now teach pageUrl as THE download link
+    ("the server does no downloading"); descriptor text updated likewise.
+- Tests: node --test geelooy/api/rebbe/test 8/8 PASS; apiRegistry.test.cjs PASS.
+- Live verification (after systemctl restart awtsmoos.service):
+  * Hai's exact merge URL: 302 Found, Location = bundle page &action=merge
+    (2.83 s measured server-local on the saturated box; the handler itself is
+    now a bare redirect — no manifest build, no fetch, no join). ZIP URL: 302
+    to the plain bundle page. Following the merge redirect: 200 page in 0.8 s.
+  * Bundle JSON for 5726/3/19: pageUrl + zipUrl (page&action=zip) +
+    mergeUrl (page&action=merge) + manifestUrl; mergeDownloadUrl absent.
+    Manifest endpoint unchanged: 25 tracks / 181,601,226 bytes.
+  * Bundle page: 200 in 0.43 s, 12,464 bytes, gold design as before; served
+    HTML contains zero server buttons and the client machinery — zip-store.js
+    (ZIP), mp3-join.js (merged MP3), decodeAudioData (merged WAV) — all
+    fetching Archive.org directly from the browser.
+  * Live /api/tunnel/control/apis carries the new instruction text.
+- Honest limit: actual in-browser click assembly still not exercised from this
+  worker (no live-browser channel); the page reuses the app's own production
+  zip-store / mp3-join modules, and auto-start invokes the same handlers the
+  buttons do.
