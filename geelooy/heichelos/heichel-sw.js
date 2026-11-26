@@ -20,5 +20,10 @@
    no worker update was ever detected, and the old heichel-reader caches
    kept serving the previous painter to returning browsers. The epoch
    makes this stub differ exactly once, so every returning browser
-   installs the e2 worker and its activate purge retires those caches. */
-importScripts('/heichelos/post/heichel-sw.js?v=reader-root-sw-e2-__AWTSMOOS_BUILD_ID__');
+   installs the e2 worker and its activate purge retires those caches.
+   B"H e3 epoch (2026-11-26): the e2 fetch handler could resolve
+   respondWith() with undefined and killed live fetches (see the e3
+   note in the imported worker). The import pin moves to e3 so this
+   stub's bytes differ exactly once more, every returning browser
+   installs the e3 worker, and its activate purge retires e2 caches. */
+importScripts('/heichelos/post/heichel-sw.js?v=reader-root-sw-e3-__AWTSMOOS_BUILD_ID__');

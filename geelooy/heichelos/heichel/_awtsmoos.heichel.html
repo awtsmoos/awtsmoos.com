@@ -77,7 +77,7 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 	<script>
 		if ('serviceWorker' in navigator) {
 			window.addEventListener('load', function registerHeichelWorker() {
-				navigator.serviceWorker.register('/heichelos/heichel-sw.js?v=reader-root-sw-20261028-1', { scope: '/heichelos/' })
+				navigator.serviceWorker.register('/heichelos/heichel-sw.js?v=reader-root-sw-20261126-1', { scope: '/heichelos/' })
 					.then(function updateWorker(registration) { registration.update(); })
 					.catch(function ignoreWorkerFailure() {});
 			});
@@ -103,6 +103,6 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 	<link rel="stylesheet" href="/heichelos/series-player.css?v=fd89c78d29">
 	<script defer src="/heichelos/series-player/playlist.js?v=3c97e894b0"></script>
 	<script defer src="/heichelos/series-player/panel.js?v=a77822f687"></script>
-	<script defer src="/heichelos/series-player.js?v=cfda1ace93"></script>
+	<script defer src="/heichelos/series-player.js?v=0a208a2baa"></script>
 </body>
 </html>
