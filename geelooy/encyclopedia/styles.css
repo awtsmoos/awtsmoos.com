@@ -49,7 +49,6 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
 .ency-cat-card strong{display:block;font-size:1.15rem;font-family:var(--ency-serif);margin:.4rem 0 .1rem;color:var(--ency-ink)}
 .ency-cat-card small{color:var(--ency-gold-deep);font-size:.85rem;font-weight:600}
 .ency-cat-blurb{display:block;color:var(--ency-ink-soft);font-size:.92rem;margin-top:.5rem}
-.ency-cat-he{font-size:1.5rem;color:var(--ency-gold-deep);font-family:var(--ency-serif)}
 .ency-list{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
 .ency-list li{background:var(--ency-card);border:1px solid var(--ency-line);border-radius:10px;padding:.75rem 1rem;color:var(--ency-ink)}
 .ency-list li a{font-weight:600;font-size:1.02rem;text-decoration:none;color:var(--ency-gold-deep)}
@@ -62,7 +61,7 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
 .ency-crumbs a{color:var(--ency-gold-deep);text-decoration:none}
 .ency-article{background:var(--ency-card);border:1px solid var(--ency-line);border-radius:16px;padding:clamp(1.4rem,4vw,3rem);margin-top:.6rem}
 .ency-article h1{font-family:var(--ency-serif);font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:0 0 1.4rem;color:var(--ency-ink)}
-.ency-article h2{font-family:var(--ency-serif);font-size:1.35rem;color:var(--ency-gold-deep);margin:2.2rem 0 .8rem;border-bottom:1px solid var(--ency-gold-soft);padding-bottom:.35rem}
+.ency-article h2{font-family:var(--ency-serif);font-size:1.35rem;margin:2.2rem 0 .8rem;border-bottom:1px solid var(--ency-gold-soft);padding-bottom:.35rem}
 .ency-article p{margin:0 0 1.1rem;max-width:68ch;color:var(--ency-ink)}
 .ency-article ul{margin:0 0 1.1rem;padding-left:1.4rem;max-width:68ch}
 .ency-article li{margin-bottom:.45rem;color:var(--ency-ink)}
@@ -164,4 +163,14 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
 	.ency-nav-link:active {
 		transform: none;
 	}
+}
+
+/* B"H 2026-11-26: category sections carry the .ency-cat-section class, which
+   no sheet defined. They now sit as gold-edged panels so the long article
+   lists read as crafted chambers, not plain document flow. */
+.ency-cat-section {
+	background: var(--ency-card);
+	border: 1px solid var(--ency-line);
+	border-radius: 16px;
+	padding: 1.4rem 1.5rem;
 }
